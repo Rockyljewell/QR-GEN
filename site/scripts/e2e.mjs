@@ -4,19 +4,26 @@
 //   CHROMIUM_PATH=/path/to/chrome                 use a specific browser binary
 import { spawn } from "node:child_process";
 import { mkdtempSync } from "node:fs";
+import { createRequire } from "node:module";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { chromium } from "playwright";
 import { writeFakeCamera } from "./fake-camera.mjs";
 
 const BASE = process.env.E2E_BASE_URL ?? "http://127.0.0.1:4329/QR-GEN/";
 const tmp = mkdtempSync(join(tmpdir(), "qrgen-e2e-"));
 let server;
+let serverLog = "";
 let failures = 0;
 
 async function startServer() {
   if (process.env.E2E_BASE_URL) return;
-  server = spawn("npx", ["astro", "preview", "--port", "4329", "--host", "127.0.0.1"], { stdio: ["ignore", "pipe", "pipe"] });
+  // Run astro's CLI with node directly (not through npx) so kill() stops the server
+  // itself; a surviving grandchild would keep this process alive after the tests.
+  const pkg = createRequire(import.meta.url).resolve("astro/package.json");
+  const bin = join(dirname(pkg), "bin", "astro.mjs");
+  server = spawn(process.execPath, [bin, "preview", "--port", "4329", "--host", "127.0.0.1", "--ignore-lock"], { stdio: ["ignore", "pipe", "pipe"] });
+  for (const stream of [server.stdout, server.stderr]) stream.on("data", (d) => (serverLog = (serverLog + d).slice(-4000)));
   for (let i = 0; i < 60; i++) {
     try {
       const r = await fetch(BASE);
@@ -26,7 +33,7 @@ async function startServer() {
     }
     await new Promise((r) => setTimeout(r, 500));
   }
-  throw new Error("preview server did not start");
+  throw new Error(`preview server did not start\n${serverLog}`);
 }
 
 const IGNORED_CONSOLE = /ERR_CERT|ERR_TOO_MANY_RETRIES|fonts\.g(oogleapis|static)|ERR_NAME_NOT_RESOLVED|ERR_INTERNET_DISCONNECTED|ERR_TUNNEL|ERR_PROXY/;
@@ -65,6 +72,7 @@ function assert(cond, message) {
 
 const u = (path) => new URL(path, BASE).href;
 
+process.on("exit", () => server?.kill());
 await startServer();
 const qrVideo = join(tmp, "qr.y4m");
 const multiVideo = join(tmp, "multi.y4m");
@@ -272,9 +280,9 @@ await test("CDN IIFE build works from a plain script tag", async () => {
   });
 });
 
-server?.kill();
 if (failures) {
   console.log(`\n${failures} test(s) failed`);
   process.exit(1);
 }
 console.log("\nAll e2e tests passed");
+process.exit(0);
