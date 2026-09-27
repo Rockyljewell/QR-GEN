@@ -279,4 +279,4 @@ Be realistic about the trade-offs:
 - **Features.** QRGen doesn't include OCR, MRZ reading, AR overlays beyond highlights, or item counting and search workflows as ready-made products. You can build some of these on batch mode and your own UI.
 - **Support.** QRGen is community supported through [GitHub](https://github.com/Rockyljewell/QR-GEN/issues). There is no SLA.
 
-In return you get an MIT-licensed SDK with no license keys, per-device fees or telemetry, on-device processing, and the same API across the web, Node.js, Python and native platforms.
+In return you get an Apache-2.0 licensed SDK with no license keys, per-device fees or telemetry, on-device processing, and the same API across the web, Node.js, Python and native platforms.

@@ -219,6 +219,46 @@ await test("embed page talks to its host through postMessage", async () => {
   });
 });
 
+await test("share dialog links every network, copies the link and shows a scannable QR", async () => {
+  await withBrowser(null, async (page, errors) => {
+    await page.context().grantPermissions(["clipboard-read", "clipboard-write"]);
+    await page.goto(u("pricing/"));
+    await page.click(".header-actions [data-share-open]");
+    await page.waitForSelector("[data-share][open]");
+    const info = await page.evaluate(() => {
+      const d = document.querySelector("[data-share]");
+      return { url: d.dataset.shareUrl, targets: [...d.querySelectorAll("[data-share-target]")].map((a) => [a.dataset.shareTarget, a.getAttribute("href")]) };
+    });
+    assert(info.url.endsWith("/pricing/"), `share url ${info.url}`);
+    const ids = info.targets.map(([id]) => id).join(",");
+    assert(ids === "x,linkedin,facebook,reddit,hackernews,bluesky,mastodon,threads,whatsapp,telegram,email,sms", `targets ${ids}`);
+    for (const [id, href] of info.targets) assert(href.includes(encodeURIComponent(info.url)), `${id} link lacks the page URL: ${href}`);
+    await page.click("[data-share] [data-copy]");
+    const clip = await page.evaluate(() => navigator.clipboard.readText());
+    assert(clip === info.url, `clipboard was "${clip}"`);
+    await page.click('[data-share] [data-share-target="mastodon"]');
+    assert(await page.locator("[data-mastodon]").isVisible(), "Mastodon server form not shown");
+    const decoded = await page.evaluate(async (sdk) => {
+      const { scanImage } = await import(sdk);
+      const svg = document.querySelector("[data-share-qr] svg").cloneNode(true);
+      svg.setAttribute("width", "400");
+      svg.setAttribute("height", "400");
+      const img = new Image();
+      img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(new XMLSerializer().serializeToString(svg));
+      await img.decode();
+      return (await scanImage(img, { symbologies: ["qr"] }))[0]?.data;
+    }, u("sdk/qrgen.js"));
+    assert(decoded === info.url, `QR decoded to ${decoded}`);
+    await page.keyboard.press("Escape");
+    assert(!(await page.locator("[data-share]").evaluate((d) => d.open)), "dialog did not close");
+    // Footer strip: inline networks, copy link and "More" re-opens the dialog.
+    const footer = await page.locator(".footer-share-list [data-share-target]").count();
+    assert(footer === 8, `footer has ${footer} networks`);
+    await page.click(".footer-share-list [data-share-open]");
+    assert(await page.locator("[data-share]").evaluate((d) => d.open), "footer More did not open the dialog");
+    assert(errors.length === 0, errors.join("; "));
+  });
+});
 await test("search finds docs", async () => {
   await withBrowser(null, async (page) => {
     await page.goto(u("docs/"));

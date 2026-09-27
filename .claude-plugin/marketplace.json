@@ -1,8 +1,8 @@
 {
   "name": "qrgen-plugins",
   "owner": {
-    "name": "QRGen contributors",
-    "url": "https://github.com/Rockyljewell/QR-GEN"
+    "name": "Rockyljewell",
+    "url": "https://github.com/Rockyljewell"
   },
   "metadata": {
     "description": "Agent Skills for QRGen, the open-source barcode, QR code and ID scanning SDK for web, iOS, Android, React Native, Flutter, .NET, Node.js and Python.",
@@ -25,12 +25,12 @@
         "./skills/qrgen-testing"
       ],
       "author": {
-        "name": "QRGen contributors",
-        "url": "https://github.com/Rockyljewell/QR-GEN"
+        "name": "Rockyljewell",
+        "url": "https://github.com/Rockyljewell"
       },
       "homepage": "https://rockyljewell.github.io/QR-GEN/agent-skills/",
       "repository": "https://github.com/Rockyljewell/QR-GEN",
-      "license": "MIT",
+      "license": "Apache-2.0",
       "keywords": ["barcode", "qr-code", "scanner", "gs1", "aamva", "pdf417", "sdk", "camera"],
       "category": "development"
     }

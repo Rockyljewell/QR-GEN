@@ -10,8 +10,8 @@ Pod::Spec.new do |s|
     and common QR payloads (Wi-Fi, vCard, payments, ...).
   DESC
   s.homepage         = 'https://github.com/Rockyljewell/QR-GEN'
-  s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = 'QRGen contributors'
+  s.license          = { :type => 'Apache-2.0', :file => 'LICENSE' }
+  s.author           = 'Rockyljewell'
   s.source           = { :git => 'https://github.com/Rockyljewell/QR-GEN.git', :tag => "v#{s.version}" }
   s.documentation_url = 'https://github.com/Rockyljewell/QR-GEN/tree/main/packages/ios'
 

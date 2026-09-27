@@ -7,7 +7,7 @@ export const GET: APIRoute = async () => {
   const parts = [
     "# QRGen documentation (full text)",
     "",
-    `Source: ${SITE_URL}docs/ · Repository: https://github.com/Rockyljewell/QR-GEN · License: MIT`,
+    `Source: ${SITE_URL}docs/ · Repository: https://github.com/Rockyljewell/QR-GEN · License: Apache-2.0 (created by Rockyljewell; keep NOTICE when redistributing)`,
     "",
   ];
   for (const d of docs) {

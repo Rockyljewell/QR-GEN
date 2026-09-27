@@ -13,7 +13,7 @@ const PAGES = [
   { title: "ID Scanning", description: "Driver licenses and age verification.", url: "/products/id-scanning/" },
   { title: "Barcode Generator product", description: "Print-ready barcodes everywhere.", url: "/products/barcode-generator/" },
   { title: "Solutions", description: "Retail, logistics, healthcare, manufacturing, events.", url: "/solutions/" },
-  { title: "Pricing", description: "Free and MIT licensed.", url: "/pricing/" },
+  { title: "Pricing", description: "Free and open source (Apache-2.0).", url: "/pricing/" },
   { title: "About", description: "Mission, open source and privacy.", url: "/about/" },
 ];
 

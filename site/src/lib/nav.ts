@@ -42,7 +42,7 @@ export const NAV: NavItem[] = [
         links: [
           { label: "Live demo", href: "/demo/", desc: "Scan with your camera right now" },
           { label: "Generate a code", href: "/demo/#generate", desc: "QR, Data Matrix, EAN, GS1…" },
-          { label: "Pricing", href: "/pricing/", desc: "Free and MIT-licensed" },
+          { label: "Pricing", href: "/pricing/", desc: "Free and open source" },
         ],
       },
     ],
@@ -164,7 +164,7 @@ export const NAV: NavItem[] = [
       },
     ],
     feature: {
-      title: "MIT licensed, forever",
+      title: "Open source, forever",
       text: "No license keys, no per-scan fees, no telemetry. Fork it, ship it, sell it.",
       href: "/pricing/",
       cta: "See pricing",
@@ -229,6 +229,7 @@ export const FOOTER: NavColumn[] = [
       { label: "Discussions", href: GITHUB.discussions, external: true },
       { label: "Issues", href: GITHUB.issues, external: true },
       { label: "About", href: "/about/" },
+      { label: "Credit QRGen", href: "/docs/credit/" },
     ],
   },
 ];

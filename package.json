@@ -2,7 +2,8 @@
   "name": "qrgen-monorepo",
   "private": true,
   "description": "QRGen: open-source barcode, QR and ID scanning SDK for every platform, plus Agent Skills for coding agents.",
-  "license": "MIT",
+  "license": "Apache-2.0",
+  "author": "Rockyljewell (https://github.com/Rockyljewell)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Rockyljewell/QR-GEN.git"

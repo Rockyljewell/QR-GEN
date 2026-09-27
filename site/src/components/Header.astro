@@ -55,6 +55,9 @@ const href = (h: string) => (h.startsWith("http") ? h : url(h));
       <button class="icon-btn" type="button" data-search-open aria-label="Search the docs (Ctrl K)">
         <Icon name="search" size={22} />
       </button>
+      <button class="icon-btn" type="button" data-share-open aria-label="Share this page" title="Share this page">
+        <Icon name="share" size={21} />
+      </button>
       <a class="header-link hide-md" href={GITHUB.url} target="_blank" rel="noopener">GitHub <Icon name="external" size={14} /></a>
       <a class="btn btn-outline hide-md hide-sm" href={GITHUB.discussions} target="_blank" rel="noopener">Contact us</a>
       <a class="btn btn-primary hide-sm" href={url("/demo/")}>Try for free</a>
@@ -86,6 +89,7 @@ const href = (h: string) => (h.startsWith("http") ? h : url(h));
       <a class="btn btn-primary" href={url("/demo/")}>Try for free</a>
       <a class="btn btn-light" href={url("/agent-skills/")}>Agent Skills</a>
       <a class="btn btn-light" href={GITHUB.url}>GitHub</a>
+      <button class="btn btn-light" type="button" data-share-open><Icon name="share" size={18} /> Share</button>
     </div>
   </div>
 </header>
@@ -130,7 +134,7 @@ const href = (h: string) => (h.startsWith("http") ? h : url(h));
     toggle.setAttribute("aria-expanded", String(open));
     document.body.style.overflow = open ? "hidden" : "";
   });
-  menu?.querySelectorAll("a").forEach((a) =>
+  menu?.querySelectorAll("a, [data-share-open]").forEach((a) =>
     a.addEventListener("click", () => {
       menu.classList.remove("open");
       document.body.style.overflow = "";

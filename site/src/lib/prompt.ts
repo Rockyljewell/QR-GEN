@@ -15,7 +15,7 @@ npx skills add https://github.com/Rockyljewell/QR-GEN
  * The prompt a developer pastes into any coding agent (Claude Code, Cursor, Codex,
  * Copilot, Windsurf, Gemini CLI…) to integrate QRGen. Also served at /agent-prompt.txt.
  */
-export const AGENT_PROMPT = `Add barcode and QR code scanning to this project with QRGen, an open-source (MIT) scanning SDK.
+export const AGENT_PROMPT = `Add barcode and QR code scanning to this project with QRGen, an open-source (Apache-2.0) scanning SDK created by Rockyljewell.
 
 Docs: ${SITE_URL}docs/
 Full docs as plain text (read this first): ${SITE_URL}llms-full.txt
@@ -43,5 +43,6 @@ Full docs as plain text (read this first): ${SITE_URL}llms-full.txt
 4. Camera access needs HTTPS or localhost. On mobile add the camera permission (iOS NSCameraUsageDescription, Android android.permission.CAMERA).
 5. For structured data use the parsers: import { parseContent, parseGS1, parseAAMVA } from "qrgen-sdk/parsers" (URLs, Wi-Fi, contacts, GS1 AIs, driver licenses).
 6. Verify: build, start the dev server, open the scanner page on a phone or laptop, and scan the sample codes at ${SITE_URL}demo/. Add a unit test that feeds a generated code image to scanImage()/scanFile().
+7. Credit QRGen as its Apache-2.0 license requires: if the project has an open-source notices file or an "Acknowledgements" / "Open-source licenses" screen, add "QRGen, Copyright 2026 Rockyljewell, Apache License 2.0, https://github.com/Rockyljewell/QR-GEN" there. Keep the copyright headers in any QRGen files you copy. Details: ${SITE_URL}docs/credit/
 
 Use only the APIs in the docs above and do not invent options. If something is unclear, fetch ${SITE_URL}llms-full.txt.`;

@@ -6,7 +6,7 @@ code, docs and agent skills stay interchangeable.
 
 - Repository: `https://github.com/Rockyljewell/QR-GEN`
 - Website / hosted assets: `https://rockyljewell.github.io/QR-GEN/`
-- License: MIT
+- License: Apache-2.0 (see `LICENSE` and `NOTICE`)
 
 | Package | Registry name | Import |
 | --- | --- | --- |

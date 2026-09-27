@@ -1,0 +1,132 @@
+---
+// "Share this page" dialog, rendered once per page by Base.astro. Opened by any [data-share-open].
+import { barcodeSvg } from "../lib/barcodes";
+import { shareTargets } from "../lib/share";
+import { GITHUB, url as siteUrl } from "../lib/site";
+import Icon from "./Icon.astro";
+
+interface Props {
+  url: string;
+  title: string;
+}
+const { url, title } = Astro.props;
+const targets = shareTargets(url, title);
+const qr = await barcodeSvg(url, { symbology: "qr", ecLevel: "M", scale: 6 });
+const qrFile = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(`<?xml version="1.0" encoding="UTF-8"?>\n${qr.replace("<svg ", '<svg width="600" height="600" ')}`)}`;
+const external = (href: string) => (href.startsWith("http") ? { target: "_blank", rel: "noopener" } : {});
+---
+
+<dialog class="share-dialog" data-share aria-labelledby="share-title" data-share-title={title} data-share-url={url}>
+  <div class="share-head">
+    <div>
+      <h2 id="share-title">Share this page</h2>
+      <p>{title}</p>
+    </div>
+    <button type="button" class="icon-btn" data-share-close aria-label="Close">
+      <Icon name="close" size={20} />
+    </button>
+  </div>
+  <div class="share-body">
+    <div class="share-main">
+      <label class="share-label" for="share-link">Page link</label>
+      <div class="share-link">
+        <input id="share-link" type="text" readonly value={url} data-share-link />
+        <button type="button" class="btn btn-primary btn-sm" data-copy={url}>
+          <Icon name="link" size={16} /> <span>Copy link</span>
+        </button>
+      </div>
+      <button type="button" class="btn btn-outline btn-sm share-native" data-share-native hidden>
+        <Icon name="share" size={16} /> Share with an app on this device
+      </button>
+      <ul class="share-grid" aria-label="Share to">
+        {
+          targets.map((t) => (
+            <li>
+              <a class="share-target" href={t.href} data-share-target={t.id} style={`--brand:${t.color}`} {...external(t.href)}>
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+                  <path d={t.path} />
+                </svg>
+                <span>{t.label}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <form class="share-mastodon" data-mastodon hidden>
+        <label for="mastodon-server">Your Mastodon server</label>
+        <div class="share-link">
+          <input id="mastodon-server" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="mastodon.social" data-mastodon-server />
+          <button type="submit" class="btn btn-primary btn-sm">Share</button>
+        </div>
+      </form>
+    </div>
+    <aside class="share-qr">
+      <div class="share-qr-code" set:html={qr} data-share-qr role="img" aria-label={`QR code for ${url}`} />
+      <div class="share-qr-text">
+        <p>Scan to open this page on another device</p>
+        <a href={qrFile} download="qrgen-share-qr.svg"><Icon name="download" size={15} /> Download QR code</a>
+      </div>
+    </aside>
+  </div>
+  <div class="share-foot">
+    <a href={GITHUB.url} target="_blank" rel="noopener"><Icon name="star" size={16} /> Star QRGen on GitHub</a>
+    <a href={siteUrl("/docs/credit/")}><Icon name="heart" size={16} /> Add a "Powered by QRGen" badge</a>
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>("[data-share]");
+  if (dialog) {
+    const pageUrl = dialog.dataset.shareUrl!;
+    const pageTitle = dialog.dataset.shareTitle!;
+    const mastodon = dialog.querySelector<HTMLFormElement>("[data-mastodon]")!;
+    const server = dialog.querySelector<HTMLInputElement>("[data-mastodon-server]")!;
+    const native = dialog.querySelector<HTMLButtonElement>("[data-share-native]")!;
+
+    document.addEventListener("click", (e) => {
+      const opener = (e.target as Element).closest("[data-share-open]");
+      if (!opener) return;
+      e.preventDefault();
+      dialog.showModal();
+    });
+    const linkInput = dialog.querySelector<HTMLInputElement>("[data-share-link]")!;
+    linkInput.addEventListener("focus", () => linkInput.select());
+    dialog.querySelector("[data-share-close]")?.addEventListener("click", () => dialog.close());
+    // Clicking the backdrop (outside the dialog box) closes it.
+    dialog.addEventListener("click", (e) => {
+      const r = dialog.getBoundingClientRect();
+      const inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+      if (e.target === dialog && !inside) dialog.close();
+    });
+
+    const shareData = { title: pageTitle, text: pageTitle, url: pageUrl };
+    if (typeof navigator.share === "function" && (!navigator.canShare || navigator.canShare(shareData))) {
+      native.hidden = false;
+      native.addEventListener("click", () => navigator.share(shareData).catch(() => undefined));
+    }
+
+    // Mastodon has no central share URL: ask for the user's server once and remember it.
+    try {
+      server.value = localStorage.getItem("qrgen-mastodon") ?? "";
+    } catch {
+      // storage unavailable
+    }
+    document.addEventListener("click", (e) => {
+      const link = (e.target as Element).closest<HTMLAnchorElement>('[data-share-target="mastodon"]');
+      if (!link || !dialog.contains(link)) return;
+      e.preventDefault();
+      mastodon.hidden = false;
+      server.focus();
+    });
+    mastodon.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const host = (server.value.trim() || "mastodon.social").replace(/^https?:\/\//, "").replace(/\/.*$/, "");
+      try {
+        localStorage.setItem("qrgen-mastodon", host);
+      } catch {
+        // storage unavailable
+      }
+      window.open(`https://${host}/share?text=${encodeURIComponent(`${pageTitle} ${pageUrl}`)}`, "_blank", "noopener");
+    });
+  }
+</script>

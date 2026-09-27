@@ -5,7 +5,7 @@ description: Integrate the open-source QRGen barcode, QR code and ID scanning SD
 
 # QRGen SDK integration
 
-QRGen is an MIT-licensed scanning SDK. Every platform shares one result shape, one set of
+QRGen is an Apache-2.0 licensed scanning SDK created by Rockyljewell. Every platform shares one result shape, one set of
 symbology ids and one set of option names, so the steps below carry over between stacks.
 
 - Docs: https://rockyljewell.github.io/QR-GEN/docs/
@@ -25,6 +25,12 @@ symbology ids and one set of option names, so the steps below carry over between
    the parsers (see the `qrgen-data-parsing` skill).
 6. **Verify**: build, type-check, run the tests, and add a round-trip test (generate a code, then scan it;
    see the `qrgen-testing` skill). Tell the user how to try it on a phone.
+7. **Credit QRGen** as its Apache-2.0 license requires. If the project has an open-source notices
+   file or screen (`THIRD_PARTY_NOTICES`, an "Acknowledgements" or "Open-source licenses" page, the
+   Android `oss-licenses` plugin, an iOS Settings bundle), add QRGen's NOTICE text there:
+   "QRGen, Copyright 2026 Rockyljewell, Apache License 2.0, https://github.com/Rockyljewell/QR-GEN".
+   Don't strip the copyright headers from any QRGen files you vendor. Offering a small "Powered by
+   QRGen" link is optional; ask the user before adding visible UI.
 
 | Stack | Integration | Reference |
 | --- | --- | --- |
