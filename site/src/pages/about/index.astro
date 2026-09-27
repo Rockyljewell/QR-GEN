@@ -1,0 +1,146 @@
+---
+import Icon from "../../components/Icon.astro";
+import Base from "../../layouts/Base.astro";
+import { GITHUB, url } from "../../lib/site";
+
+const principles = [
+  { icon: "lock", title: "Private by default", text: "Camera frames, images and ID data are processed on the device. QRGen has no analytics, no telemetry and no phone-home license checks." },
+  { icon: "code", title: "Open all the way down", text: "SDKs, UI components, parsers, docs, Agent Skills and this website live in one MIT-licensed repository." },
+  { icon: "layers", title: "One contract", text: "Every platform follows the same specification for symbology ids, options, results, parsers and the REST API." },
+  { icon: "bot", title: "Built for agents", text: "Agent Skills, llms.txt and a copy-paste prompt help coding agents integrate QRGen on the first try." },
+  { icon: "check", title: "Honest about limits", text: "Beta packages are labelled beta, and the docs say what has been tested on devices and what hasn't." },
+  { icon: "globe", title: "Standards first", text: "GS1, AAMVA, ISO/IEC symbologies. We implement the standards instead of inventing formats." },
+];
+---
+
+<Base title="About" description="QRGen is an open-source project that makes professional barcode, QR and ID scanning available to every developer for free.">
+  <section class="ab-hero hero-bg dark">
+    <div class="container">
+      <span class="tag">About</span>
+      <h1>Smart data capture should be a commodity</h1>
+      <p>
+        Scanning a barcode is a solved problem, yet shipping a scanner that is fast, polished and cross-platform still takes weeks or an expensive license. QRGen packages
+        the best open engines (zxing-cpp, Apple Vision, ML Kit) behind one consistent, well-documented API with a real UI, so anyone can ship it in an afternoon.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" id="open-source">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Principles</span>
+        <h2>What we believe</h2>
+      </div>
+      <div class="grid grid-3">
+        {
+          principles.map((p) => (
+            <div class="card">
+              <span class="icon-tile">
+                <Icon name={p.icon} size={22} />
+              </span>
+              <h3>{p.title}</h3>
+              <p>{p.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section soft" id="privacy">
+    <div class="container two">
+      <div>
+        <span class="eyebrow">Privacy & security</span>
+        <h2>Your camera feed stays yours</h2>
+        <p class="muted-lead">The web SDK decodes frames in a Web Worker inside the page. Native SDKs use the operating system's on-device vision frameworks. Nothing is uploaded unless your app sends it somewhere.</p>
+      </div>
+      <ul class="facts">
+        <li><Icon name="check" size={18} /> No network requests besides loading the SDK and its wasm (which you can self-host)</li>
+        <li><Icon name="check" size={18} /> No cookies, analytics or fingerprinting in the SDK</li>
+        <li><Icon name="check" size={18} /> Strict CSP compatible (worker-src blob: or main-thread fallback)</li>
+        <li><Icon name="check" size={18} /> Report vulnerabilities privately through GitHub security advisories</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container two">
+      <div>
+        <span class="eyebrow">Credits</span>
+        <h2>Standing on great shoulders</h2>
+        <p class="muted-lead">
+          QRGen builds on <a href="https://github.com/zxing-cpp/zxing-cpp">zxing-cpp</a> and <a href="https://github.com/Sec-ant/zxing-wasm">zxing-wasm</a>, Apple Vision,
+          Google ML Kit, CameraX, VisionCamera, mobile_scanner and ZXing.Net. QRGen is independent and not affiliated with any commercial scanning vendor.
+        </p>
+      </div>
+      <div class="ctas">
+        <a class="btn btn-dark" href={GITHUB.url} target="_blank" rel="noopener"><Icon name="github" size={18} /> Star on GitHub</a>
+        <a class="btn btn-light" href={`${GITHUB.url}/blob/main/CONTRIBUTING.md`} target="_blank" rel="noopener">Contribute</a>
+        <a class="btn btn-light" href={url("/docs/")}>Read the docs</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ab-hero {
+    padding: 88px 0 96px;
+  }
+  .ab-hero h1 {
+    margin: 26px 0 18px;
+    font-size: clamp(36px, 5vw, 58px);
+    font-weight: 800;
+    color: #fff;
+    max-width: 16em;
+  }
+  .ab-hero p {
+    font-size: 19px;
+    max-width: 44em;
+  }
+  .two {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 48px;
+    align-items: center;
+  }
+  .two h2 {
+    font-size: clamp(28px, 3.6vw, 40px);
+  }
+  .muted-lead {
+    font-size: 18px;
+    color: var(--muted);
+  }
+  .muted-lead a {
+    color: var(--teal-600);
+  }
+  .facts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 12px;
+  }
+  .facts li {
+    display: flex;
+    gap: 10px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: #fff;
+    border: 1px solid var(--line);
+  }
+  .facts :global(svg) {
+    flex: none;
+    margin-top: 3px;
+    color: var(--teal-600);
+  }
+  .ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  @media (max-width: 900px) {
+    .two {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

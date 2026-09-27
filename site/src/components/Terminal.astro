@@ -1,0 +1,78 @@
+---
+import Icon from "./Icon.astro";
+
+interface Tab {
+  label: string;
+  text: string;
+  /** shell: highlight comments + commands. prompt: plain wrapped text. */
+  kind?: "shell" | "prompt";
+}
+interface Props {
+  tabs: Tab[];
+  id?: string;
+  class?: string;
+  /** Hide the tab strip when there is a single tab. */
+  showTabs?: boolean;
+}
+const { tabs, id = `term-${Math.random().toString(36).slice(2, 8)}`, class: className, showTabs = tabs.length > 1 } = Astro.props;
+
+const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const CMDS = /^(npx|npm|pnpm|yarn|bun|pip|pip3|python|docker|curl|brew|git|flutter|dotnet|swift|\/plugin|qrgen|cd)\b/;
+function highlight(text: string): string {
+  return text
+    .split("\n")
+    .map((line) => {
+      if (/^\s*#/.test(line)) return `<span class="c">${esc(line)}</span>`;
+      const m = CMDS.exec(line);
+      if (m) return `<span class="k">${esc(m[0])}</span>${esc(line.slice(m[0].length))}`;
+      return esc(line);
+    })
+    .join("\n");
+}
+---
+
+<div class:list={["terminal", className]} data-terminal id={id}>
+  <div class="chrome">
+    <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    {
+      showTabs && (
+        <div class="tabs" role="tablist">
+          {tabs.map((t, i) => (
+            <button type="button" role="tab" id={`${id}-tab-${i}`} aria-controls={`${id}-panel-${i}`} aria-selected={i === 0 ? "true" : "false"} data-tab={i}>
+              {t.label}
+            </button>
+          ))}
+        </div>
+      )
+    }
+  </div>
+  {
+    tabs.map((t, i) => (
+      <div class="panel" role={showTabs ? "tabpanel" : undefined} id={`${id}-panel-${i}`} aria-labelledby={showTabs ? `${id}-tab-${i}` : undefined} hidden={i !== 0}>
+        <button class="copy-btn" type="button" data-copy-target={`#${id}-code-${i}`} aria-label={`Copy ${t.label}`}>
+          <Icon name="copy" size={14} />
+          <span>Copy</span>
+        </button>
+        {t.kind === "prompt" ? (
+          <pre id={`${id}-code-${i}`} class="p">{t.text}</pre>
+        ) : (
+          <pre id={`${id}-code-${i}`}><code set:html={highlight(t.text)} /></pre>
+        )}
+      </div>
+    ))
+  }
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-terminal]").forEach((term) => {
+    const tabs = term.querySelectorAll<HTMLButtonElement>("[data-tab]");
+    const panels = term.querySelectorAll<HTMLElement>(".panel");
+    tabs.forEach((tab) =>
+      tab.addEventListener("click", () => {
+        const idx = Number(tab.dataset.tab);
+        tabs.forEach((t, i) => t.setAttribute("aria-selected", String(i === idx)));
+        panels.forEach((p, i) => (p.hidden = i !== idx));
+      }),
+    );
+  });
+</script>

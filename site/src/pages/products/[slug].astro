@@ -1,0 +1,562 @@
+---
+import { parseAAMVA } from "qrgen-sdk/parsers";
+import CodeTabs from "../../components/CodeTabs.astro";
+import Icon from "../../components/Icon.astro";
+import Base from "../../layouts/Base.astro";
+import { barcodeSvg } from "../../lib/barcodes";
+import { PRODUCTS, type Product } from "../../lib/products";
+import { url } from "../../lib/site";
+
+const AAMVA_SAMPLE =
+  "@\n\u001e\rANSI 636014100002DL00410279ZC03200024DLDAQD1234567\nDCSSAMPLE\nDACJANE\nDADQ\nDBB01311990\nDBA01312028\nDBD02012020\nDBC2\nDAYBRO\nDAU065 IN\nDAG123 MAIN ST\nDAISACRAMENTO\nDAJCA\nDAK958140000\nDCGUSA\n\rZCZCAA\r";
+
+export function getStaticPaths() {
+  return PRODUCTS.map((p) => ({ params: { slug: p.slug }, props: { product: p } }));
+}
+
+const { product: p } = Astro.props as { product: Product };
+
+let visualSvgs: string[] = [];
+if (p.visual === "batch") {
+  const codes: [string, string, number][] = [
+    ["5901234123457", "ean13", 2],
+    ["4006381333931", "ean13", 2],
+    ["036000291452", "upca", 2],
+    ["96385074", "ean8", 2],
+    ["9780306406157", "ean13", 2],
+    ["5012345678900", "ean13", 2],
+  ];
+  visualSvgs = await Promise.all(codes.map(([d, s, sc]) => barcodeSvg(d, { symbology: s, scale: sc, margin: false })));
+} else if (p.visual === "id") {
+  visualSvgs = [await barcodeSvg(AAMVA_SAMPLE, { symbology: "pdf417", scale: 2, margin: false })];
+} else if (p.visual === "generator") {
+  visualSvgs = [await barcodeSvg("https://rockyljewell.github.io/QR-GEN/", { symbology: "qr", scale: 6 })];
+}
+const license = parseAAMVA(AAMVA_SAMPLE, { now: new Date("2026-06-01") })!;
+---
+
+<Base title={p.tag} description={p.lead}>
+  <section class="p-hero hero-bg dark">
+    <div class="container p-grid">
+      <div>
+        <span class="tag">{p.tag}</span>
+        <h1>{p.title}</h1>
+        <p class="lead">{p.lead}</p>
+        <div class="ctas">
+          <a class="btn btn-primary" href={url(p.demo)}>Try it in the demo</a>
+          <a class="btn btn-outline" href={url(p.docs)}>Read the docs</a>
+        </div>
+      </div>
+      <div class="visual">
+        {
+          p.visual === "scanner" && (
+            <div class="device">
+              <qrgen-scanner autostart="false" mode="continuous" symbologies="all" />
+            </div>
+          )
+        }
+        {
+          p.visual === "batch" && (
+            <div class="shelf-shot" aria-hidden="true">
+              {visualSvgs.map((svg, i) => (
+                <div class="can" style={`--i:${i}`}>
+                  <span class="bars" set:html={svg} />
+                  <span class="hl" />
+                  {i === 2 && <span class="chk"><Icon name="check" size={14} /></span>}
+                </div>
+              ))}
+              <div class="pill">6 items in view · 1 selected</div>
+            </div>
+          )
+        }
+        {
+          p.visual === "id" && (
+            <div class="id-shot">
+              <div class="card-back" aria-hidden="true">
+                <span class="warn">SAMPLE · NOT A REAL DOCUMENT</span>
+                <span class="pdf" set:html={visualSvgs[0]} />
+              </div>
+              <div class="parsed">
+                <strong>{license.fullName}</strong>
+                <span class="badges"><span class="badge ok">21+ verified</span><span class="badge ok">Not expired</span></span>
+                <dl>
+                  <dt>Born</dt><dd>{license.dateOfBirth} (age {license.age})</dd>
+                  <dt>Expires</dt><dd>{license.expiryDate}</dd>
+                  <dt>License</dt><dd>{license.documentNumber} · {license.state}</dd>
+                </dl>
+              </div>
+            </div>
+          )
+        }
+        {
+          p.visual === "generator" && (
+            <div class="gen-shot">
+              <label>
+                <span>Type anything</span>
+                <input type="text" value="https://rockyljewell.github.io/QR-GEN/" data-gen-input spellcheck="false" />
+              </label>
+              <div class="gen-out" data-gen-out set:html={visualSvgs[0]} />
+              <div class="gen-syms" role="radiogroup" aria-label="Symbology">
+                {["qr", "data-matrix", "aztec", "pdf417"].map((s, i) => (
+                  <button type="button" role="radio" aria-checked={i === 0 ? "true" : "false"} data-gen-sym={s}>
+                    {s}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-3">
+        {
+          p.features.map((f) => (
+            <div class="feature">
+              <span class="icon-tile">
+                <Icon name={f.icon} size={22} />
+              </span>
+              <h3>{f.title}</h3>
+              <p>{f.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section soft">
+    <div class="container code-grid">
+      <div>
+        <span class="eyebrow">For developers</span>
+        <h2>A few lines of code</h2>
+        <p class="muted-lead">Drop in the pre-built component or build your own UI on the same engine.</p>
+        <h3 class="spec-title">{p.specTitle}</h3>
+        <dl class="specs">
+          {
+            p.specs.map(([k, v]) => (
+              <>
+                <dt>{k}</dt>
+                <dd>{v}</dd>
+              </>
+            ))
+          }
+        </dl>
+      </div>
+      <CodeTabs id={`code-${p.slug}`} tabs={p.code} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Use cases</span>
+        <h2>Where teams use {p.tag.toLowerCase()}</h2>
+      </div>
+      <ul class="uses">
+        {
+          p.uses.map((u) => (
+            <li>
+              <Icon name="check" size={18} />
+              {u}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="cta-band hero-bg dark">
+    <div class="container cta-inner">
+      <div>
+        <h2>Try {p.tag.toLowerCase()} now</h2>
+        <p>Open the demo on your phone, or let your coding agent add it to your app.</p>
+      </div>
+      <div class="ctas">
+        <a class="btn btn-primary" href={url(p.demo)}>Open the demo</a>
+        <a class="btn btn-outline" href={url("/agent-skills/")}>Agent Skills</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import "qrgen-sdk/elements";
+  import { generate } from "qrgen-sdk";
+
+  const input = document.querySelector<HTMLInputElement>("[data-gen-input]");
+  const out = document.querySelector<HTMLElement>("[data-gen-out]");
+  let sym = "qr";
+  let seq = 0;
+  async function render() {
+    if (!input || !out) return;
+    const n = ++seq;
+    try {
+      const r = await generate(input.value || " ", { symbology: sym, scale: 6 });
+      if (n === seq) out.innerHTML = r.svg;
+    } catch {
+      // keep the previous code while typing invalid input
+    }
+  }
+  input?.addEventListener("input", () => void render());
+  document.querySelectorAll<HTMLButtonElement>("[data-gen-sym]").forEach((b) =>
+    b.addEventListener("click", () => {
+      sym = b.dataset.genSym!;
+      document.querySelectorAll("[data-gen-sym]").forEach((x) => x.setAttribute("aria-checked", String(x === b)));
+      void render();
+    }),
+  );
+</script>
+
+<style>
+  .p-hero {
+    padding: 88px 0 96px;
+    overflow: hidden;
+  }
+  .p-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 56px;
+    align-items: center;
+  }
+  .p-hero h1 {
+    margin: 28px 0 20px;
+    font-size: clamp(36px, 4.8vw, 58px);
+    font-weight: 800;
+    line-height: 1.03;
+    letter-spacing: -0.03em;
+    color: #fff;
+  }
+  .lead {
+    font-size: 19px;
+    color: #e4eaf2 !important;
+  }
+  .ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 30px;
+  }
+  .device {
+    border-radius: 28px;
+    padding: 10px;
+    background: linear-gradient(145deg, #262c36, #0b0e13);
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.45);
+  }
+  .device qrgen-scanner {
+    height: 440px;
+    --qrgen-radius: 20px;
+  }
+  .shelf-shot {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    padding: 28px;
+    border-radius: 24px;
+    background: linear-gradient(180deg, #3a3f48, #1c1f25);
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.45);
+  }
+  .can {
+    position: relative;
+    padding: 18px 14px;
+    border-radius: 14px;
+    background: #f6f5ef;
+  }
+  .can .bars {
+    display: block;
+    height: 70px;
+  }
+  .can .bars :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+  .can .hl {
+    position: absolute;
+    inset: 8px 6px;
+    border-radius: 10px;
+    border: 3px solid var(--teal-500);
+    background: rgba(92, 201, 214, 0.2);
+    animation: pop 5s calc(var(--i) * 0.25s) infinite;
+  }
+  .can .chk {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--teal-500);
+    color: var(--teal-ink);
+  }
+  @keyframes pop {
+    0% {
+      opacity: 0;
+      transform: scale(1.1);
+    }
+    8%,
+    88% {
+      opacity: 1;
+      transform: none;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  .shelf-shot .pill {
+    grid-column: 1 / -1;
+    justify-self: center;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: var(--teal-500);
+    color: var(--teal-ink);
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .id-shot {
+    position: relative;
+    display: grid;
+    gap: 18px;
+  }
+  .card-back {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 26px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #f4f1e8, #e8e3d3);
+    color: #3b3526;
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.45);
+    transform: rotate(-2deg);
+  }
+  .card-back .warn {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    color: #8a5300;
+  }
+  .card-back .pdf {
+    display: block;
+  }
+  .card-back .pdf :global(svg) {
+    width: 100%;
+    height: auto;
+  }
+  .parsed {
+    justify-self: end;
+    width: min(360px, 100%);
+    margin-top: -40px;
+    padding: 18px 20px;
+    border-radius: 16px;
+    background: #fff;
+    color: var(--ink);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+    position: relative;
+  }
+  .parsed strong {
+    font-size: 18px;
+  }
+  .parsed .badges {
+    display: flex;
+    gap: 6px;
+    margin: 8px 0 10px;
+  }
+  .parsed .ok {
+    background: #e7f7ee;
+    color: #146c3c;
+    border-color: #c4ebd4;
+  }
+  .parsed dl {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 4px 12px;
+    margin: 0;
+    font-size: 14px;
+  }
+  .parsed dt {
+    color: var(--muted);
+  }
+  .parsed dd {
+    margin: 0;
+  }
+  .gen-shot {
+    display: grid;
+    gap: 16px;
+    padding: 24px;
+    border-radius: 22px;
+    background: #fff;
+    color: var(--ink);
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.45);
+  }
+  .gen-shot label {
+    display: grid;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+  .gen-shot input {
+    font: inherit;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid #cfd7e2;
+    color: var(--ink);
+  }
+  .gen-out {
+    display: grid;
+    place-items: center;
+    height: 300px;
+    border-radius: 14px;
+    background: var(--bg-softer);
+  }
+  .gen-out :global(svg) {
+    max-width: 90%;
+    max-height: 270px;
+    width: auto;
+    height: 100%;
+  }
+  .gen-syms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .gen-syms button {
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: #fff;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    cursor: pointer;
+  }
+  .gen-syms button[aria-checked="true"] {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: #fff;
+  }
+  @media (max-width: 1000px) {
+    .p-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  .feature {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .feature h3 {
+    font-size: 20px;
+    margin: 6px 0 0;
+  }
+  .feature p {
+    margin: 0;
+    color: var(--muted);
+  }
+  .feature .icon-tile {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #e7f8fa, #eef0ff);
+    color: #1f7f8c;
+  }
+  .code-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: 48px;
+    align-items: start;
+  }
+  .code-grid h2 {
+    font-size: clamp(28px, 3.6vw, 40px);
+  }
+  .muted-lead {
+    font-size: 18px;
+    color: var(--muted);
+  }
+  .spec-title {
+    font-size: 17px;
+    margin-top: 28px;
+  }
+  .specs {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 10px 18px;
+    margin: 0;
+    font-size: 15px;
+  }
+  .specs dt {
+    font-weight: 650;
+  }
+  .specs dd {
+    margin: 0;
+    color: var(--muted);
+  }
+  @media (max-width: 1000px) {
+    .code-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  @media (max-width: 520px) {
+    .specs {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2px 0;
+    }
+    .specs dd {
+      margin-bottom: 8px;
+    }
+  }
+  .uses {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .uses li {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 16px 18px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    font-weight: 600;
+  }
+  .uses :global(svg) {
+    color: var(--teal-600);
+    flex: none;
+  }
+  @media (max-width: 900px) {
+    .uses {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  .cta-band {
+    padding: 80px 0;
+  }
+  .cta-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .cta-inner h2 {
+    font-size: clamp(30px, 4vw, 46px);
+    color: #fff;
+  }
+  .cta-inner p {
+    margin: 0;
+    font-size: 18px;
+  }
+</style>

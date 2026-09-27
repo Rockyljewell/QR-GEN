@@ -1,0 +1,38 @@
+{
+  "name": "qrgen-plugins",
+  "owner": {
+    "name": "QRGen contributors",
+    "url": "https://github.com/Rockyljewell/QR-GEN"
+  },
+  "metadata": {
+    "description": "Agent Skills for QRGen, the open-source barcode, QR code and ID scanning SDK for web, iOS, Android, React Native, Flutter, .NET, Node.js and Python.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "qrgen-sdk",
+      "description": "Skills that teach coding agents to integrate QRGen scanning into any app: camera scanners, batch scanning, ID scanning, barcode generation, GS1/AAMVA parsing, migrations from other scanner libraries, and camera-free testing.",
+      "version": "1.0.0",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/qrgen-sdk",
+        "./skills/qrgen-barcode-generation",
+        "./skills/qrgen-data-parsing",
+        "./skills/qrgen-batch-scanning",
+        "./skills/qrgen-id-scanning",
+        "./skills/qrgen-migration",
+        "./skills/qrgen-testing"
+      ],
+      "author": {
+        "name": "QRGen contributors",
+        "url": "https://github.com/Rockyljewell/QR-GEN"
+      },
+      "homepage": "https://rockyljewell.github.io/QR-GEN/agent-skills/",
+      "repository": "https://github.com/Rockyljewell/QR-GEN",
+      "license": "MIT",
+      "keywords": ["barcode", "qr-code", "scanner", "gs1", "aamva", "pdf417", "sdk", "camera"],
+      "category": "development"
+    }
+  ]
+}

@@ -1,0 +1,889 @@
+---
+import Icon from "../../components/Icon.astro";
+import Base from "../../layouts/Base.astro";
+import { barcodeSvg } from "../../lib/barcodes";
+import { url } from "../../lib/site";
+
+const AAMVA_SAMPLE =
+  "@\n\u001e\rANSI 636014100002DL00410279ZC03200024DLDAQD1234567\nDCSSAMPLE\nDACJANE\nDADQ\nDBB01311990\nDBA01312028\nDBD02012020\nDBC2\nDAYBRO\nDAU065 IN\nDAG123 MAIN ST\nDAISACRAMENTO\nDAJCA\nDAK958140000\nDCGUSA\n\rZCZCAA\r";
+
+const samples = [
+  { label: "QR Code · URL", data: "https://rockyljewell.github.io/QR-GEN/", symbology: "qr", scale: 3 },
+  { label: "EAN-13 · product", data: "5901234123457", symbology: "ean13", scale: 2 },
+  { label: "GS1 Data Matrix", data: "(01)09501101530003(17)271231(10)LOT4815", symbology: "data-matrix", gs1: true, scale: 4 },
+  { label: "Code 128", data: "QRGEN-DEMO-128", symbology: "code128", scale: 2 },
+  { label: "QR Code · Wi-Fi", data: "WIFI:T:WPA;S:QRGen Cafe;P:scan-me-2026;;", symbology: "qr", scale: 3 },
+  { label: "PDF417 · sample license", data: AAMVA_SAMPLE, symbology: "pdf417", scale: 2 },
+];
+const sampleSvgs = await Promise.all(samples.map((s) => barcodeSvg(s.data, { symbology: s.symbology, gs1: s.gs1, scale: s.scale })));
+---
+
+<Base title="Live demo" description="Scan barcodes, QR codes and driver licenses with your camera, right in the browser. Try single, continuous, batch and ID scanning, scan images, and generate codes.">
+  <section class="demo-hero hero-bg dark">
+    <div class="container">
+      <span class="tag">Live demo</span>
+      <h1>Scan with your camera, right in the browser</h1>
+      <p>Everything runs on this device and nothing is uploaded. Pick a mode, allow camera access and point at any barcode. No camera? Scan an image or use the samples.</p>
+      <div class="demo-tabs" role="tablist" aria-label="Demo">
+        <a role="tab" href="#camera" data-panel="camera" aria-selected="true"><Icon name="camera" size={18} /> Camera</a>
+        <a role="tab" href="#image" data-panel="image" aria-selected="false"><Icon name="image" size={18} /> Scan an image</a>
+        <a role="tab" href="#generate" data-panel="generate" aria-selected="false"><Icon name="wand" size={18} /> Generate</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Camera -->
+  <section class="demo-panel" id="camera" data-panel-id="camera" role="tabpanel">
+    <div class="container demo-grid">
+      <div class="demo-left">
+        <div class="modebar" role="radiogroup" aria-label="Scan mode">
+          <button type="button" role="radio" aria-checked="false" data-mode="single"><strong>Single</strong><span>One code, then stop</span></button>
+          <button type="button" role="radio" aria-checked="true" data-mode="continuous"><strong>Continuous</strong><span>Keep scanning</span></button>
+          <button type="button" role="radio" aria-checked="false" data-mode="batch"><strong>Batch</strong><span>Many codes at once</span></button>
+          <button type="button" role="radio" aria-checked="false" data-mode="id"><strong>ID</strong><span>Driver licenses</span></button>
+        </div>
+        <div class="device">
+          <qrgen-scanner id="demo-scanner" autostart="false" mode="continuous" symbologies="all"></qrgen-scanner>
+        </div>
+        <div class="engine-line" data-engine-line>Engine idle · 26 symbologies enabled</div>
+        <details class="settings" data-settings>
+          <summary><Icon name="settings" size={18} /> Scanner settings</summary>
+          <div class="settings-body">
+            <fieldset>
+              <legend>Symbologies</legend>
+              <div class="sym-presets">
+                <button type="button" data-preset="all">All</button>
+                <button type="button" data-preset="2d">2D only</button>
+                <button type="button" data-preset="retail">Retail</button>
+                <button type="button" data-preset="industrial">Industrial</button>
+                <button type="button" data-preset="qr">QR only</button>
+              </div>
+              <div class="sym-grid" data-sym-grid></div>
+            </fieldset>
+            <div class="settings-row">
+              <label><input type="checkbox" data-opt="beep" checked /> Beep</label>
+              <label><input type="checkbox" data-opt="vibrate" checked /> Vibrate</label>
+              <label
+                >Duplicates
+                <select data-opt="duplicate-filter">
+                  <option value="0">Report every frame</option>
+                  <option value="1000" selected>Ignore for 1 s</option>
+                  <option value="3000">Ignore for 3 s</option>
+                  <option value="-1">Report once</option>
+                </select>
+              </label>
+              <label
+                >Resolution
+                <select data-opt="resolution">
+                  <option value="hd" selected>HD (1280×720)</option>
+                  <option value="fhd">Full HD (1920×1080)</option>
+                  <option value="sd">SD (640×480)</option>
+                </select>
+              </label>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <aside class="results" aria-label="Scan results">
+        <div class="results-head">
+          <h2>Results <span class="count" data-count>0</span></h2>
+          <div class="results-actions">
+            <button type="button" class="btn btn-light btn-sm" data-action="copy-all" disabled><Icon name="copy" size={16} /> <span>Copy</span></button>
+            <button type="button" class="btn btn-light btn-sm" data-action="csv" disabled><Icon name="download" size={16} /> CSV</button>
+            <button type="button" class="btn btn-light btn-sm" data-action="clear" disabled><Icon name="trash" size={16} /> Clear</button>
+          </div>
+        </div>
+        <ol class="result-list" data-results aria-live="polite"></ol>
+        <div class="results-empty" data-empty>
+          <p><strong>Nothing scanned yet.</strong> Start the camera and point it at a code. On a laptop? Scan these from your screen with your phone, or open this page on your phone.</p>
+          <div class="sample-grid">
+            {
+              samples.map((s, i) => (
+                <figure>
+                  <div class="sample-code" set:html={sampleSvgs[i]} />
+                  <figcaption>{s.label}</figcaption>
+                </figure>
+              ))
+            }
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Image -->
+  <section class="demo-panel" id="image" data-panel-id="image" role="tabpanel" hidden>
+    <div class="container image-grid">
+      <div>
+        <label class="dropzone" data-dropzone>
+          <input type="file" accept="image/*" data-file hidden />
+          <Icon name="upload" size={28} />
+          <strong>Drop an image, paste from the clipboard, or click to choose a file</strong>
+          <span>PNG, JPEG, GIF, BMP or WebP. Processed locally.</span>
+        </label>
+        <div class="sample-buttons">
+          <span>Or try a sample:</span>
+          <button type="button" class="btn btn-light btn-sm" data-sample="label">Product label</button>
+          <button type="button" class="btn btn-light btn-sm" data-sample="parcel">Parcel label</button>
+          <button type="button" class="btn btn-light btn-sm" data-sample="license">Driver license (sample)</button>
+          <button type="button" class="btn btn-light btn-sm" data-sample="many">12 codes at once</button>
+        </div>
+        <div class="image-stage" data-stage hidden>
+          <canvas data-stage-canvas></canvas>
+        </div>
+      </div>
+      <aside class="results">
+        <div class="results-head">
+          <h2>Found <span class="count" data-img-count>0</span></h2>
+          <span class="muted" data-img-time></span>
+        </div>
+        <ol class="result-list" data-img-results></ol>
+        <div class="results-empty" data-img-empty><p>Results for the image appear here.</p></div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Generate -->
+  <section class="demo-panel" id="generate" data-panel-id="generate" role="tabpanel" hidden>
+    <div class="container gen-grid">
+      <form class="gen-form" data-gen-form onsubmit="return false">
+        <label class="field">
+          <span>Symbology</span>
+          <select name="symbology" data-gen-symbology></select>
+        </label>
+        <label class="field">
+          <span>Data</span>
+          <textarea name="data" rows="4" spellcheck="false" data-gen-data>https://rockyljewell.github.io/QR-GEN/</textarea>
+        </label>
+        <div class="field-row">
+          <label class="field">
+            <span>Error correction</span>
+            <select name="ecLevel">
+              <option value="">Default</option>
+              <option value="L">L · 7%</option>
+              <option value="M">M · 15%</option>
+              <option value="Q">Q · 25%</option>
+              <option value="H">H · 30%</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Module size</span>
+            <input type="number" name="scale" min="1" max="20" value="6" />
+          </label>
+        </div>
+        <div class="field-row">
+          <label class="field color">
+            <span>Foreground</span>
+            <input type="color" name="foreground" value="#0e1726" />
+          </label>
+          <label class="field color">
+            <span>Background</span>
+            <input type="color" name="background" value="#ffffff" />
+          </label>
+        </div>
+        <div class="checks-row">
+          <label><input type="checkbox" name="margin" checked /> Quiet zone</label>
+          <label><input type="checkbox" name="hrt" /> Human-readable text</label>
+          <label><input type="checkbox" name="gs1" /> GS1 data</label>
+          <label><input type="checkbox" name="transparent" /> Transparent</label>
+        </div>
+        <p class="gen-error" data-gen-error role="alert" hidden></p>
+      </form>
+      <div class="gen-preview">
+        <div class="preview-box" data-gen-preview></div>
+        <div class="gen-meta" data-gen-meta></div>
+        <div class="gen-actions">
+          <button type="button" class="btn btn-dark btn-sm" data-gen="svg"><Icon name="download" size={16} /> SVG</button>
+          <button type="button" class="btn btn-dark btn-sm" data-gen="png"><Icon name="download" size={16} /> PNG</button>
+          <button type="button" class="btn btn-light btn-sm" data-gen="copy-svg"><Icon name="copy" size={16} /> <span>Copy SVG</span></button>
+          <button type="button" class="btn btn-light btn-sm" data-gen="test"><Icon name="scan" size={16} /> Scan it back</button>
+        </div>
+        <div class="gen-code">
+          <div class="gen-code-tabs" role="tablist">
+            <button type="button" aria-selected="true" data-snippet="js">JavaScript</button>
+            <button type="button" aria-selected="false" data-snippet="html">HTML</button>
+            <button type="button" aria-selected="false" data-snippet="cli">CLI</button>
+            <button type="button" aria-selected="false" data-snippet="rest">REST</button>
+          </div>
+          <div class="code-wrap">
+            <pre data-gen-snippet id="gen-snippet"></pre>
+            <button type="button" class="copy-btn" data-copy-target="#gen-snippet" aria-label="Copy code"><Icon name="copy" size={14} /><span>Copy</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm soft">
+    <div class="container next-steps">
+      <div>
+        <h2>Like what you see?</h2>
+        <p>Add the same scanner to your app in a few lines, or let your coding agent do it.</p>
+      </div>
+      <div class="hero-ctas">
+        <a class="btn btn-dark" href={url("/docs/quick-start/")}>Quick start</a>
+        <a class="btn btn-light" href={url("/agent-skills/")}>Agent Skills</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import "../../scripts/demo";
+</script>
+
+<style>
+  .demo-hero {
+    padding: 64px 0 0;
+  }
+  .demo-hero h1 {
+    margin: 26px 0 14px;
+    font-size: clamp(34px, 4.6vw, 54px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: #fff;
+    max-width: 18em;
+  }
+  .demo-hero p {
+    font-size: 18px;
+    max-width: 46em;
+  }
+  .demo-tabs {
+    display: flex;
+    gap: 4px;
+    margin-top: 36px;
+    overflow-x: auto;
+  }
+  .demo-tabs a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 20px;
+    border-radius: 12px 12px 0 0;
+    color: #cfd8e3;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .demo-tabs a:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+  }
+  .demo-tabs a[aria-selected="true"] {
+    background: #fff;
+    color: var(--ink);
+  }
+  .demo-panel {
+    padding: 36px 0 72px;
+  }
+  .demo-panel[hidden] {
+    display: none;
+  }
+  .demo-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    gap: 32px;
+    align-items: start;
+  }
+  .modebar {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+    padding: 6px;
+    border-radius: 14px;
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    margin-bottom: 14px;
+  }
+  .modebar button {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    color: var(--ink-2);
+  }
+  .modebar button strong {
+    font-size: 15px;
+  }
+  .modebar button span {
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  .modebar button[aria-checked="true"] {
+    background: #fff;
+    border-color: var(--line);
+    box-shadow: var(--shadow-soft);
+    color: var(--ink);
+  }
+  .modebar button[aria-checked="true"] strong {
+    color: #147482;
+  }
+  .device {
+    border-radius: 24px;
+    padding: 8px;
+    background: linear-gradient(145deg, #1f252e, #0b0e13);
+    box-shadow: 0 30px 60px rgba(10, 20, 35, 0.22);
+  }
+  .device qrgen-scanner {
+    height: min(68vh, 560px);
+    --qrgen-radius: 18px;
+  }
+  .engine-line {
+    margin: 10px 4px 0;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  .settings {
+    margin-top: 18px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: #fff;
+  }
+  .settings summary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px;
+    font-weight: 650;
+    cursor: pointer;
+    list-style: none;
+  }
+  .settings summary::-webkit-details-marker {
+    display: none;
+  }
+  .settings-body {
+    padding: 0 18px 18px;
+  }
+  .settings fieldset {
+    border: 0;
+    padding: 0;
+    margin: 0 0 16px;
+  }
+  .settings legend {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .sym-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  .sym-presets button {
+    height: 30px;
+    padding: 0 12px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--bg-softer);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .sym-presets button:hover {
+    border-color: #b9c4d2;
+  }
+  .sym-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 6px 12px;
+    font-size: 14px;
+  }
+  .sym-grid label,
+  .settings-row label,
+  .checks-row label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+  .settings-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 22px;
+    align-items: center;
+    font-size: 14px;
+  }
+  .settings-row select {
+    margin-left: 6px;
+  }
+  select,
+  input[type="number"],
+  textarea {
+    font: inherit;
+    font-size: 14.5px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid #cfd7e2;
+    background: #fff;
+    color: var(--ink);
+  }
+  input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--teal-600);
+  }
+
+  .results {
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: #fff;
+    padding: 18px;
+    min-height: 420px;
+    position: sticky;
+    top: calc(var(--header-h) + 20px);
+    max-height: calc(100vh - var(--header-h) - 40px);
+    display: flex;
+    flex-direction: column;
+  }
+  .results-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .results-head h2 {
+    font-size: 20px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .results-head .count {
+    display: inline-grid;
+    place-items: center;
+    min-width: 26px;
+    height: 24px;
+    padding: 0 8px;
+    border-radius: 999px;
+    background: var(--bg-soft);
+    font-size: 13px;
+    font-family: var(--font-sans);
+  }
+  .results-actions {
+    display: flex;
+    gap: 6px;
+  }
+  .results-actions .btn {
+    height: 34px;
+    padding: 0 10px;
+    font-size: 13.5px;
+  }
+  .results-actions .btn:disabled {
+    opacity: 0.45;
+    cursor: default;
+  }
+  .result-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    flex: 1;
+  }
+  .results-empty {
+    padding: 14px 2px 4px;
+    color: var(--muted);
+    font-size: 14.5px;
+  }
+  .results-empty[hidden] {
+    display: none;
+  }
+  .sample-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 14px;
+  }
+  .sample-grid figure {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+  }
+  .sample-code {
+    width: 100%;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: #fff;
+  }
+  .sample-code :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+  .sample-grid figcaption {
+    font-size: 12px;
+    text-align: center;
+  }
+  @media (max-width: 1000px) {
+    .demo-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .results {
+      position: static;
+      max-height: none;
+    }
+  }
+  @media (max-width: 560px) {
+    .modebar {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .device qrgen-scanner {
+      height: 70vh;
+    }
+    .sample-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* Image */
+  .image-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    gap: 32px;
+    align-items: start;
+  }
+  .dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 220px;
+    padding: 28px;
+    border: 2px dashed #c9d3df;
+    border-radius: 18px;
+    background: var(--bg-softer);
+    text-align: center;
+    cursor: pointer;
+    color: var(--muted);
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .dropzone strong {
+    color: var(--ink);
+    font-size: 16px;
+  }
+  .dropzone.over,
+  .dropzone:hover {
+    border-color: var(--teal-500);
+    background: #f0fbfc;
+  }
+  .sample-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 16px 0;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .image-stage {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: repeating-conic-gradient(#f3f5f8 0% 25%, #fff 0% 50%) 50% / 20px 20px;
+  }
+  .image-stage[hidden] {
+    display: none;
+  }
+  .image-stage canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  @media (max-width: 1000px) {
+    .image-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  /* Generate */
+  .gen-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 32px;
+    align-items: start;
+  }
+  .gen-form {
+    display: grid;
+    gap: 16px;
+    padding: 24px;
+    border-radius: 18px;
+    border: 1px solid var(--line);
+    background: #fff;
+  }
+  .field {
+    display: grid;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .field textarea {
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    resize: vertical;
+  }
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .field.color input {
+    width: 100%;
+    height: 40px;
+    padding: 2px;
+    border-radius: 8px;
+    border: 1px solid #cfd7e2;
+    background: #fff;
+  }
+  .checks-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+    font-size: 14px;
+  }
+  .gen-error {
+    margin: 0;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: #fff1f0;
+    color: #a3261e;
+    font-size: 14px;
+  }
+  .gen-error[hidden] {
+    display: none;
+  }
+  .preview-box {
+    display: grid;
+    place-items: center;
+    min-height: 340px;
+    padding: 28px;
+    border-radius: 18px;
+    border: 1px solid var(--line);
+    background: repeating-conic-gradient(#f3f5f8 0% 25%, #fff 0% 50%) 50% / 20px 20px;
+  }
+  .preview-box :global(svg) {
+    max-width: 100%;
+    max-height: 420px;
+    height: auto;
+    image-rendering: pixelated;
+  }
+  .gen-meta {
+    margin: 10px 4px 0;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  .gen-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0;
+  }
+  .gen-code-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+  .gen-code-tabs button {
+    height: 30px;
+    padding: 0 12px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    background: none;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+  }
+  .gen-code-tabs button[aria-selected="true"] {
+    background: var(--bg-soft);
+    border-color: var(--line);
+    color: var(--ink);
+  }
+  .gen-code pre {
+    margin: 0;
+    padding: 16px 18px;
+    border-radius: 12px;
+    background: #22272e;
+    color: #cdd9e5;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  @media (max-width: 1000px) {
+    .gen-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  .next-steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .next-steps h2 {
+    font-size: 30px;
+    margin-bottom: 6px;
+  }
+  .next-steps p {
+    margin: 0;
+    color: var(--muted);
+  }
+  .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+</style>
+
+<style is:global>
+  /* Result cards are created by the demo script. */
+  .result-item {
+    padding: 14px 4px;
+    border-bottom: 1px solid var(--line);
+    animation: result-in 0.25s ease;
+  }
+  @keyframes result-in {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+  }
+  .result-item .r-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  .result-item .r-sym {
+    font-weight: 700;
+    font-size: 11.5px;
+    letter-spacing: 0.03em;
+    color: #147482;
+    background: #e6f7f9;
+    border: 1px solid #c9eef2;
+    padding: 2px 7px;
+    border-radius: 6px;
+  }
+  .result-item .r-time {
+    margin-left: auto;
+  }
+  .result-item .r-data {
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    color: var(--ink);
+    word-break: break-all;
+    white-space: pre-wrap;
+    margin: 0;
+  }
+  .result-item .r-parsed {
+    margin-top: 8px;
+    font-size: 13.5px;
+  }
+  .result-item .r-parsed dl {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 4px 12px;
+    margin: 0;
+  }
+  .result-item .r-parsed dt {
+    color: var(--muted);
+  }
+  .result-item .r-parsed dd {
+    margin: 0;
+    color: var(--ink);
+    word-break: break-word;
+  }
+  .result-item .r-kind {
+    display: inline-block;
+    margin-bottom: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #5443b8;
+  }
+  .result-item .r-actions {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .result-item .r-actions a,
+  .result-item .r-actions button {
+    display: inline-flex;
+    align-items: center;
+    height: 28px;
+    padding: 0 10px;
+    border-radius: 7px;
+    border: 1px solid var(--line);
+    background: #fff;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .result-item .r-raw {
+    margin-top: 8px;
+    font-size: 13px;
+  }
+  .result-item .r-raw summary {
+    cursor: pointer;
+    color: var(--muted);
+  }
+  .result-item .r-raw pre {
+    margin-top: 6px;
+    max-height: 180px;
+    overflow: auto;
+  }
+  .id-card {
+    margin-top: 8px;
+    padding: 14px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #eef7ff, #f6f0ff);
+    border: 1px solid #dfe6f5;
+  }
+  .id-card .id-name {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .id-card .id-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 8px 0;
+  }
+  .id-card .ok {
+    background: #e7f7ee;
+    color: #146c3c;
+    border-color: #c4ebd4;
+  }
+  .id-card .warn {
+    background: #fff1f0;
+    color: #a3261e;
+    border-color: #ffd5d1;
+  }
+</style>

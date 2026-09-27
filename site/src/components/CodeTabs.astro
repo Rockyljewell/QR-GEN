@@ -1,0 +1,111 @@
+---
+import { Code } from "astro:components";
+import Icon from "./Icon.astro";
+
+interface Tab {
+  label: string;
+  lang: string;
+  code: string;
+  icon?: string;
+}
+interface Props {
+  tabs: Tab[];
+  id?: string;
+  class?: string;
+}
+const { tabs, id = `ct-${Math.random().toString(36).slice(2, 8)}`, class: className } = Astro.props;
+---
+
+<div class:list={["code-tabs", className]} data-code-tabs id={id}>
+  <div class="ct-bar" role="tablist">
+    {
+      tabs.map((t, i) => (
+        <button type="button" role="tab" aria-selected={i === 0 ? "true" : "false"} aria-controls={`${id}-p${i}`} id={`${id}-t${i}`} data-i={i}>
+          {t.icon && <Icon name={t.icon} size={16} />}
+          {t.label}
+        </button>
+      ))
+    }
+  </div>
+  {
+    tabs.map((t, i) => (
+      <div class="ct-panel code-wrap" role="tabpanel" id={`${id}-p${i}`} aria-labelledby={`${id}-t${i}`} hidden={i !== 0}>
+        <div id={`${id}-c${i}`}>
+          <Code code={t.code} lang={t.lang as never} theme="github-dark-dimmed" />
+        </div>
+        <button class="copy-btn" type="button" data-copy-target={`#${id}-c${i}`} aria-label={`Copy ${t.label} code`}>
+          <Icon name="copy" size={14} />
+          <span>Copy</span>
+        </button>
+      </div>
+    ))
+  }
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-code-tabs]").forEach((root) => {
+    const tabs = root.querySelectorAll<HTMLButtonElement>(".ct-bar [role=tab]");
+    const panels = root.querySelectorAll<HTMLElement>(".ct-panel");
+    tabs.forEach((t) =>
+      t.addEventListener("click", () => {
+        const i = Number(t.dataset.i);
+        tabs.forEach((x, j) => x.setAttribute("aria-selected", String(i === j)));
+        panels.forEach((p, j) => (p.hidden = i !== j));
+      }),
+    );
+  });
+</script>
+
+<style>
+  .code-tabs {
+    border-radius: 16px;
+    background: #22272e;
+    border: 1px solid #30363d;
+    overflow: hidden;
+  }
+  .ct-bar {
+    display: flex;
+    gap: 2px;
+    padding: 8px;
+    border-bottom: 1px solid #30363d;
+    overflow-x: auto;
+    background: #1c2128;
+  }
+  .ct-bar button {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 8px;
+    border: 0;
+    background: none;
+    color: #8b949e;
+    font-size: 13.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .ct-bar button:hover {
+    color: #cdd9e5;
+  }
+  .ct-bar button[aria-selected="true"] {
+    background: #2d333b;
+    color: #fff;
+  }
+  .ct-panel[hidden] {
+    display: none;
+  }
+  .ct-panel :global(pre) {
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    padding: 20px 22px !important;
+    font-size: 13.8px;
+    line-height: 1.65;
+    max-height: 520px;
+  }
+  .ct-panel .copy-btn {
+    opacity: 1;
+  }
+</style>

@@ -1,0 +1,12 @@
+**/node_modules
+**/dist
+**/.astro
+site/public/sdk
+site/public/downloads
+packages/python
+packages/dotnet
+packages/android
+packages/ios
+packages/flutter
+packages/react-native
+.git

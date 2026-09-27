@@ -1,0 +1,1003 @@
+---
+import { parseGS1 } from "qrgen-sdk/parsers";
+import Icon from "../components/Icon.astro";
+import SdkHero from "../components/SdkHero.astro";
+import Base from "../layouts/Base.astro";
+import { barcodeSvg } from "../lib/barcodes";
+import { PLATFORMS } from "../lib/platforms";
+import { GITHUB, url } from "../lib/site";
+
+const labels = [
+  { name: "Oat Milk 1L", code: "5901234123457", sym: "ean13", price: "$2.49" },
+  { name: "Espresso Beans", code: "4006381333931", sym: "ean13", price: "$11.90" },
+  { name: "Sparkling Water", code: "036000291452", sym: "upca", price: "$0.99" },
+  { name: "Dark Chocolate", code: "96385074", sym: "ean8", price: "$3.20" },
+];
+const labelSvgs = await Promise.all(labels.map((l) => barcodeSvg(l.code, { symbology: l.sym, scale: 2, margin: false })));
+const heroQr = await barcodeSvg("https://rockyljewell.github.io/QR-GEN/demo/", { symbology: "qr", scale: 3, margin: false });
+
+const capabilities = [
+  {
+    icon: "barcode",
+    title: "Barcode Scanning",
+    text: "Read 26 symbologies, from QR and Data Matrix to EAN, UPC, Code 128 and GS1 DataBar, with a pre-built scanner UI or a low-level API.",
+    href: "/products/barcode-scanning/",
+  },
+  {
+    icon: "grid",
+    title: "Batch Scanning",
+    text: "Track dozens of barcodes at once with AR highlights. Count shelves, receive pallets and pick orders in a single sweep.",
+    href: "/products/batch-scanning/",
+  },
+  {
+    icon: "id",
+    title: "ID Scanning",
+    text: "Read North American driver licenses and ID cards on-device. Names, dates and age checks parsed from the PDF417 barcode.",
+    href: "/products/id-scanning/",
+  },
+  {
+    icon: "wand",
+    title: "Barcode Generator",
+    text: "Create print-ready QR, Data Matrix, GS1-128, EAN and 20 more formats as SVG or PNG, in the browser, on servers or via REST.",
+    href: "/products/barcode-generator/",
+  },
+];
+
+const gs1Sample = "(01)09501101530003(17)271231(10)LOT4815(21)SN0042";
+const gs1Parsed = parseGS1(gs1Sample)!;
+const gs1Svg = await barcodeSvg(gs1Sample, { symbology: "data-matrix", gs1: true, scale: 5 });
+const sscc = "(00)095011015300000018(420)10001";
+const ssccSvg = await barcodeSvg(sscc, { symbology: "code128", gs1: true, scale: 2, hrt: false });
+const ticketSvg = await barcodeSvg("TICKET:QRG-2026-00481;SEAT:B12;GATE:3", { symbology: "aztec", scale: 4 });
+const retailSvg = await barcodeSvg("https://id.gs1.org/01/09506000134352/10/ABC123", { symbology: "qr", scale: 4 });
+const assetSvg = await barcodeSvg("ASSET-7731-PUMP-03", { symbology: "data-matrix", scale: 6 });
+
+const industries = [
+  {
+    id: "retail",
+    icon: "cart",
+    title: "Retail",
+    lead: "Price checks, shelf audits, click & collect and self-checkout on any phone or kiosk.",
+    points: ["EAN/UPC, ISBN and GS1 DataBar coupons", "GS1 Digital Link QR codes parsed into product data", "Batch mode counts a whole shelf at once", "Runs on employee and customer devices alike"],
+    visual: retailSvg,
+    caption: "GS1 Digital Link → GTIN 09506000134352, lot ABC123",
+  },
+  {
+    id: "logistics",
+    icon: "truck",
+    title: "Logistics & Post",
+    lead: "Receive, sort and deliver faster with scanning that keeps up with the belt.",
+    points: ["Code 128, ITF-14 and GS1-128 with SSCC parsing", "Several parcel labels in one frame", "Duplicate filtering for conveyor scanning", "Works offline, with no server round trips"],
+    visual: ssccSvg,
+    caption: "GS1-128 → SSCC 095011015300000018, ship-to 10001",
+  },
+  {
+    id: "healthcare",
+    icon: "heart",
+    title: "Healthcare",
+    lead: "Verify medication, track specimens and read wristbands without sending patient data anywhere.",
+    points: ["GS1 Data Matrix with GTIN, expiry, lot and serial", "Code 128 and Data Matrix specimen labels", "Expiry dates decoded to ISO dates automatically", "100% on-device processing"],
+    visual: gs1Svg,
+    caption: `GS1 Data Matrix → ${gs1Parsed.elements.map((e) => `${e.title} ${e.date ?? e.value}`).join(" · ")}`,
+  },
+  {
+    id: "manufacturing",
+    icon: "factory",
+    title: "Manufacturing",
+    lead: "Trace parts and assets from the line to the field with rugged, headless options.",
+    points: ["Data Matrix and QR part labels", "Linux, Raspberry Pi and Docker deployments", "REST API for PLCs, MES and legacy apps", "Python + OpenCV for fixed-mount cameras"],
+    visual: assetSvg,
+    caption: "Data Matrix asset tag → ASSET-7731-PUMP-03",
+  },
+  {
+    id: "events",
+    icon: "ticket",
+    title: "Events & Ticketing",
+    lead: "Get people through the door in a second, with or without connectivity.",
+    points: ["QR, Aztec and PDF417 tickets and boarding passes", "Continuous mode with instant feedback", "Age checks from driver licenses", "Embed the scanner in any existing app via WebView"],
+    visual: ticketSvg,
+    caption: "Aztec ticket → QRG-2026-00481, seat B12, gate 3",
+  },
+];
+
+const marquee = PLATFORMS.filter((p) => !["xamarin", "nextjs"].includes(p.id));
+---
+
+<Base
+  title="Open-source barcode, QR & ID scanning SDK"
+  fullTitle="QRGen: open-source barcode, QR & ID scanning SDK for every platform"
+  description="Scan barcodes, QR codes and IDs with any camera. Open-source SDKs for web, iOS, Android, React Native, Flutter, .NET, Node.js and Python, plus Agent Skills that get your coding agent to working code in minutes."
+>
+  <!-- Hero -->
+  <section class="home-hero hero-bg dark">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <span class="tag">Open-source smart data capture</span>
+        <h1>Turn any camera into a barcode, QR and ID scanner</h1>
+        <p class="lead">
+          Fast, accurate scanning for web, iOS, Android and every framework in between. It runs on-device, ships with a pre-built UI, and it's free under the MIT
+          license.
+        </p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href={url("/demo/")}>Try for free</a>
+          <a class="btn btn-outline" href={url("/sdk/")}>Get the SDK</a>
+        </div>
+        <ul class="hero-proof">
+          <li><Icon name="check" size={18} /> No license keys</li>
+          <li><Icon name="check" size={18} /> No images leave the device</li>
+          <li><Icon name="check" size={18} /> 26 symbologies</li>
+        </ul>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="phone">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="shelf">
+              {
+                labels.map((l, i) => (
+                  <div class="label" style={`--i:${i}`}>
+                    <span class="name">{l.name}</span>
+                    <span class="price">{l.price}</span>
+                    <span class="bars" set:html={labelSvgs[i]} />
+                    <span class="ring" />
+                    <span class="tick">
+                      <Icon name="check" size={12} />
+                    </span>
+                  </div>
+                ))
+              }
+            </div>
+            <div class="phone-toast"><span class="ok"><Icon name="check" size={13} /></span> <span><small>EAN-13</small>5901234123457</span></div>
+            <div class="sheet">
+              <div class="grab"></div>
+              <div class="sheet-head"><strong>4 items</strong><span>Batch scan</span></div>
+              {
+                labels.slice(0, 3).map((l, i) => (
+                  <div class="row" style={`--i:${i}`}>
+                    <span class="sym">{l.sym.toUpperCase()}</span>
+                    <span class="nm">{l.name}</span>
+                    <span class="pr">{l.price}</span>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+        <div class="float-card">
+          <span class="qr" set:html={heroQr}></span>
+          <span><strong>Scan to try it</strong>Open the demo on your phone</span>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="runs-on">
+        <span>Runs on</span>
+        <div class="marquee">
+          <div class="marquee-track">
+            {
+              [...marquee, ...marquee].map((p) => (
+                <span class="mq-item">
+                  <Icon name={p.icon} size={20} />
+                  {p.label}
+                </span>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section class="section soft">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Core capabilities</span>
+        <h2>Everything you need to capture data from barcodes and IDs</h2>
+        <p>One engine and one result format across every platform, with the UI, parsing and tracking already done.</p>
+      </div>
+      <div class="grid grid-4">
+        {
+          capabilities.map((c) => (
+            <a class="card cap-card" href={url(c.href)}>
+              <span class="icon-tile">
+                <Icon name={c.icon} size={24} />
+              </span>
+              <h3>{c.title}</h3>
+              <p>{c.text}</p>
+              <span class="link-arrow">
+                Explore <Icon name="arrowRight" size={16} />
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Live demo teaser -->
+  <section class="section">
+    <div class="container demo-teaser">
+      <div>
+        <span class="eyebrow">See it in action</span>
+        <h2>Scan something right now</h2>
+        <p class="muted-lead">
+          This is the real <code>&lt;qrgen-scanner&gt;</code> component, the same one you drop into your app. Point your camera at a product, a label or the QR code on
+          this page.
+        </p>
+        <ul class="checks">
+          <li><Icon name="check" size={18} /> Decodes in a Web Worker at up to 24 frames per second</li>
+          <li><Icon name="check" size={18} /> Beep, vibration, torch, zoom and camera switching included</li>
+          <li><Icon name="check" size={18} /> The viewfinder, colors and every control can be customized</li>
+        </ul>
+        <div class="hero-ctas">
+          <a class="btn btn-dark" href={url("/demo/")}>Open the full demo</a>
+          <a class="btn btn-light" href={url("/docs/web-components/")}>Component docs</a>
+        </div>
+      </div>
+      <div class="teaser-device">
+        <qrgen-scanner autostart="false" mode="continuous" symbologies="all" data-home-scanner></qrgen-scanner>
+        <div class="teaser-result" data-home-result hidden></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SDK & Frameworks (Agent Skills) -->
+  <SdkHero id="agent-skills" />
+
+  <!-- Industries -->
+  <section class="section soft">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Solutions</span>
+        <h2>Built for the way your industry works</h2>
+        <p>Real formats, real parsing. Every code below was generated by QRGen, and you can scan them with the demo.</p>
+      </div>
+      <div class="industries" data-tabs>
+        <div class="ind-tabs" role="tablist" aria-label="Industries">
+          {
+            industries.map((ind, i) => (
+              <button type="button" role="tab" aria-selected={i === 0 ? "true" : "false"} aria-controls={`ind-${ind.id}`} id={`ind-tab-${ind.id}`} data-tab={i}>
+                <Icon name={ind.icon} size={20} />
+                {ind.title}
+              </button>
+            ))
+          }
+        </div>
+        {
+          industries.map((ind, i) => (
+            <div class="ind-panel" role="tabpanel" id={`ind-${ind.id}`} aria-labelledby={`ind-tab-${ind.id}`} hidden={i !== 0}>
+              <div>
+                <h3>{ind.title}</h3>
+                <p class="ind-lead">{ind.lead}</p>
+                <ul class="checks">
+                  {ind.points.map((pt) => (
+                    <li>
+                      <Icon name="check" size={18} />
+                      {pt}
+                    </li>
+                  ))}
+                </ul>
+                <a class="link-arrow" href={url(`/solutions/#${ind.id}`)}>
+                  Explore {ind.title.toLowerCase()} <Icon name="arrowRight" size={16} />
+                </a>
+              </div>
+              <figure class="ind-visual">
+                <div class="code-tile" set:html={ind.visual} />
+                <figcaption>{ind.caption}</figcaption>
+              </figure>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="section-sm dark stats-band">
+    <div class="container">
+      <div class="stats">
+        <div class="stat"><strong>26</strong><span>symbologies, from QR to GS1 DataBar Expanded</span></div>
+        <div class="stat"><strong>20+</strong><span>platforms, frameworks and runtimes</span></div>
+        <div class="stat"><strong>0</strong><span>camera frames sent to a server</span></div>
+        <div class="stat"><strong>$0</strong><span>MIT licensed, with no per-device or per-scan fees</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Open source -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow">Open by default</span>
+        <h2>Own your scanning stack</h2>
+        <p>Enterprise-grade features with none of the lock-in. Read every line, run it anywhere, change what you need.</p>
+      </div>
+      <div class="grid grid-3">
+        <div class="card">
+          <span class="icon-tile"><Icon name="code" size={24} /></span>
+          <h3>Audit every line</h3>
+          <p>The SDKs, the scanner UI, the parsers and this website are all in one public repository under the MIT license.</p>
+          <a class="link-arrow" href={GITHUB.url} target="_blank" rel="noopener">View on GitHub <Icon name="arrowRight" size={16} /></a>
+        </div>
+        <div class="card">
+          <span class="icon-tile"><Icon name="server" size={24} /></span>
+          <h3>Self-host everything</h3>
+          <p>Serve the wasm engine from your own CDN, run the REST API in Docker, and work fully offline on air-gapped networks.</p>
+          <a class="link-arrow" href={url("/docs/installation/")}>Self-hosting guide <Icon name="arrowRight" size={16} /></a>
+        </div>
+        <div class="card">
+          <span class="icon-tile"><Icon name="bot" size={24} /></span>
+          <h3>Made for coding agents</h3>
+          <p>Agent Skills, a copy-paste prompt and llms.txt docs mean Claude Code, Cursor or Codex can integrate QRGen on the first try.</p>
+          <a class="link-arrow" href={url("/agent-skills/")}>Agent Skills <Icon name="arrowRight" size={16} /></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-band hero-bg dark">
+    <div class="container cta-inner">
+      <div>
+        <h2>Smart data capture starts here</h2>
+        <p>Open the demo on your phone, or hand the prompt to your coding agent and have scanning in your app before lunch.</p>
+      </div>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href={url("/demo/")}>Open the live demo</a>
+        <a class="btn btn-outline" href={url("/docs/quick-start/")}>Read the quick start</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import "qrgen-sdk/elements";
+
+  // Industry tabs
+  document.querySelectorAll<HTMLElement>("[data-tabs]").forEach((root) => {
+    const tabs = root.querySelectorAll<HTMLButtonElement>("[role=tab]");
+    const panels = root.querySelectorAll<HTMLElement>("[role=tabpanel]");
+    const select = (i: number) => {
+      tabs.forEach((t, j) => t.setAttribute("aria-selected", String(i === j)));
+      panels.forEach((p, j) => (p.hidden = i !== j));
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener("click", () => select(i));
+      t.addEventListener("keydown", (e) => {
+        if (e.key !== "ArrowDown" && e.key !== "ArrowUp" && e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+        e.preventDefault();
+        const next = (i + (e.key === "ArrowDown" || e.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length;
+        select(next);
+        tabs[next]!.focus();
+      });
+    });
+  });
+
+  // Home scanner teaser: show the last result under the device.
+  const scanner = document.querySelector("[data-home-scanner]");
+  const out = document.querySelector<HTMLElement>("[data-home-result]");
+  scanner?.addEventListener("scan", (e) => {
+    const b = (e as CustomEvent).detail.barcode;
+    if (!out || !b) return;
+    out.hidden = false;
+    out.textContent = "";
+    const sym = document.createElement("span");
+    sym.textContent = b.symbologyName;
+    const data = document.createElement("strong");
+    data.textContent = b.data;
+    out.append(sym, data);
+  });
+</script>
+
+<style>
+  .home-hero {
+    padding: 84px 0 40px;
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: 48px;
+    align-items: center;
+  }
+  .hero-copy h1 {
+    margin: 30px 0 22px;
+    font-size: clamp(40px, 5.4vw, 66px);
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    color: #fff;
+  }
+  .lead {
+    font-size: 20px;
+    line-height: 1.5;
+    color: #e4eaf2 !important;
+    max-width: 34em;
+  }
+  .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+  }
+  .hero-ctas .btn {
+    min-width: 160px;
+  }
+  .hero-proof {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+    list-style: none;
+    padding: 0;
+    margin: 30px 0 0;
+    font-size: 15px;
+    color: #cdd6e2;
+  }
+  .hero-proof li {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .hero-proof :global(svg) {
+    color: var(--teal-400);
+  }
+
+  /* Phone mockup */
+  .hero-visual {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    padding: 12px 0 24px;
+  }
+  .phone {
+    position: relative;
+    width: 330px;
+    height: 660px;
+    border-radius: 52px;
+    padding: 12px;
+    background: linear-gradient(145deg, #2a2f38, #0c0f14);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+      0 50px 100px rgba(0, 0, 0, 0.55),
+      0 0 0 10px rgba(255, 255, 255, 0.02);
+    transform: rotate(-2deg);
+  }
+  .notch {
+    position: absolute;
+    top: 22px;
+    left: 50%;
+    width: 96px;
+    height: 26px;
+    transform: translateX(-50%);
+    border-radius: 20px;
+    background: #05070a;
+    z-index: 3;
+  }
+  .screen {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 42px;
+    overflow: hidden;
+    background: radial-gradient(120% 70% at 50% 20%, #3b3f47 0%, #1b1e24 60%, #101216 100%);
+  }
+  .shelf {
+    position: absolute;
+    inset: 70px 18px 230px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-content: start;
+    gap: 16px;
+    transform: perspective(700px) rotateX(8deg);
+  }
+  .label {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px 10px 8px;
+    border-radius: 10px;
+    background: #f7f7f2;
+    color: #1a1d22;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+  }
+  .label .name {
+    font-size: 11px;
+    font-weight: 700;
+    padding-right: 40px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .label .price {
+    position: absolute;
+    top: 8px;
+    right: 9px;
+    font-size: 11px;
+    font-weight: 800;
+    color: #b0271f;
+  }
+  .label .bars {
+    display: block;
+    height: 92px;
+    margin-top: 4px;
+  }
+  .label .bars :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+  .label .ring {
+    position: absolute;
+    inset: -5px;
+    border-radius: 13px;
+    border: 3px solid var(--teal-500);
+    background: rgba(92, 201, 214, 0.18);
+    opacity: 0;
+    animation: ring 6s calc(var(--i) * 0.55s + 0.6s) infinite;
+  }
+  .label .tick {
+    position: absolute;
+    right: -8px;
+    bottom: -8px;
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--teal-500);
+    color: var(--teal-ink);
+    opacity: 0;
+    transform: scale(0.4);
+    animation: tick 6s calc(var(--i) * 0.55s + 0.6s) infinite;
+  }
+  @keyframes ring {
+    0% {
+      opacity: 0;
+      transform: scale(1.12);
+    }
+    6%,
+    80% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    92%,
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes tick {
+    0%,
+    5% {
+      opacity: 0;
+      transform: scale(0.4);
+    }
+    10%,
+    80% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    92%,
+    100% {
+      opacity: 0;
+    }
+  }
+  .phone-toast {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px 6px 6px;
+    border-radius: 999px;
+    background: rgba(12, 16, 22, 0.86);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    transform: translate(-50%, -12px);
+    opacity: 0;
+    animation: toast 6s 0.7s infinite;
+    z-index: 2;
+  }
+  .phone-toast small {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .phone-toast .ok {
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--teal-500);
+    color: var(--teal-ink);
+  }
+  @keyframes toast {
+    0%,
+    4% {
+      opacity: 0;
+      transform: translate(-50%, -12px);
+    }
+    8%,
+    40% {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+    46%,
+    100% {
+      opacity: 0;
+      transform: translate(-50%, -12px);
+    }
+  }
+  .sheet {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 10px 16px 26px;
+    border-radius: 26px 26px 0 0;
+    background: #fff;
+    color: var(--ink);
+  }
+  .grab {
+    width: 38px;
+    height: 4px;
+    margin: 0 auto 12px;
+    border-radius: 4px;
+    background: #d5dae1;
+  }
+  .sheet-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+    font-size: 15px;
+  }
+  .sheet-head span {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 10px;
+    align-items: center;
+    padding: 9px 0;
+    border-top: 1px solid var(--line);
+    font-size: 13px;
+    opacity: 0;
+    animation: row 6s calc(var(--i) * 0.55s + 0.9s) infinite;
+  }
+  .row .sym {
+    font-size: 10px;
+    font-weight: 700;
+    color: #16707c;
+    background: #e6f7f9;
+    padding: 2px 6px;
+    border-radius: 5px;
+  }
+  .row .pr {
+    font-weight: 700;
+  }
+  @keyframes row {
+    0%,
+    3% {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    8%,
+    84% {
+      opacity: 1;
+      transform: none;
+    }
+    94%,
+    100% {
+      opacity: 0;
+    }
+  }
+  .float-card {
+    position: absolute;
+    left: 0;
+    bottom: 150px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px 12px 12px;
+    border-radius: 14px;
+    background: #fff;
+    color: var(--ink);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+    font-size: 13px;
+    line-height: 1.35;
+  }
+  .float-card strong {
+    display: block;
+    font-size: 14px;
+  }
+  .float-card .qr {
+    display: block;
+    width: 64px;
+    height: 64px;
+  }
+  .float-card .qr :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+  .runs-on {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    margin-top: 56px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .runs-on > span {
+    flex: none;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #8ea0b6;
+  }
+  .runs-on .marquee {
+    flex: 1;
+    min-width: 0;
+  }
+  .mq-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 17px;
+    font-weight: 600;
+    color: #c8d2de;
+    white-space: nowrap;
+  }
+  @media (max-width: 1000px) {
+    .hero-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .hero-visual {
+      margin-top: 12px;
+    }
+    .float-card {
+      left: 2%;
+    }
+  }
+  @media (max-width: 520px) {
+    .phone {
+      width: 280px;
+      height: 560px;
+    }
+    .shelf {
+      inset: 64px 14px 210px;
+      gap: 10px;
+    }
+    .float-card {
+      display: none;
+    }
+    .runs-on {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .runs-on .marquee {
+      width: 100%;
+    }
+  }
+
+  .cap-card {
+    min-height: 100%;
+  }
+
+  /* Demo teaser */
+  .demo-teaser {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 64px;
+    align-items: center;
+  }
+  .demo-teaser h2 {
+    font-size: clamp(30px, 4vw, 44px);
+  }
+  .muted-lead {
+    font-size: 18px;
+    color: var(--muted);
+  }
+  .checks {
+    list-style: none;
+    padding: 0;
+    margin: 18px 0 0;
+    display: grid;
+    gap: 10px;
+  }
+  .checks li {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .checks :global(svg) {
+    flex: none;
+    margin-top: 3px;
+    color: var(--teal-600);
+  }
+  .teaser-device {
+    position: relative;
+    border-radius: 28px;
+    padding: 10px;
+    background: linear-gradient(145deg, #1f252e, #0b0e13);
+    box-shadow: 0 40px 80px rgba(10, 20, 35, 0.3);
+  }
+  .teaser-device qrgen-scanner {
+    height: 460px;
+    --qrgen-radius: 20px;
+  }
+  .teaser-result {
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    bottom: -26px;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: #fff;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-soft);
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .teaser-result strong {
+    color: var(--ink);
+    font-size: 15px;
+    word-break: break-all;
+  }
+  @media (max-width: 900px) {
+    .demo-teaser {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 40px;
+    }
+    .teaser-device qrgen-scanner {
+      height: 400px;
+    }
+  }
+
+  /* Industries */
+  .industries {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 32px;
+    align-items: start;
+  }
+  .ind-tabs {
+    display: grid;
+    gap: 6px;
+  }
+  .ind-tabs button {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    background: none;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink-2);
+    text-align: left;
+    cursor: pointer;
+  }
+  .ind-tabs button:hover {
+    background: #fff;
+  }
+  .ind-tabs button[aria-selected="true"] {
+    background: #fff;
+    border-color: var(--line);
+    color: var(--ink);
+    box-shadow: var(--shadow-soft);
+  }
+  .ind-tabs button[aria-selected="true"] :global(svg) {
+    color: var(--teal-600);
+  }
+  .ind-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: 40px;
+    padding: 36px;
+    border-radius: 20px;
+    background: #fff;
+    border: 1px solid var(--line);
+  }
+  .ind-panel[hidden] {
+    display: none;
+  }
+  .ind-panel h3 {
+    font-size: 30px;
+  }
+  .ind-lead {
+    font-size: 18px;
+    color: var(--muted);
+  }
+  .ind-panel .link-arrow {
+    margin-top: 24px;
+  }
+  .ind-visual {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
+    justify-content: center;
+  }
+  .code-tile {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    max-width: 300px;
+    aspect-ratio: 1;
+    padding: 28px;
+    border-radius: 18px;
+    background: var(--bg-softer);
+    border: 1px dashed #cfd7e2;
+  }
+  .code-tile :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+  .ind-visual figcaption {
+    font-size: 13.5px;
+    color: var(--muted);
+    text-align: center;
+    max-width: 34ch;
+  }
+  @media (max-width: 1000px) {
+    .industries {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .ind-tabs {
+      display: flex;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .ind-tabs button {
+      white-space: nowrap;
+      font-size: 15px;
+    }
+    .ind-panel {
+      grid-template-columns: minmax(0, 1fr);
+      padding: 24px;
+    }
+  }
+
+  .stats-band {
+    background: var(--navy-850);
+  }
+
+  .cta-band {
+    padding: 88px 0;
+  }
+  .cta-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .cta-inner h2 {
+    font-size: clamp(32px, 4.4vw, 52px);
+    color: #fff;
+    margin-bottom: 12px;
+  }
+  .cta-inner p {
+    font-size: 18px;
+    max-width: 44ch;
+    margin: 0;
+  }
+  .cta-inner .hero-ctas {
+    margin-top: 0;
+  }
+</style>

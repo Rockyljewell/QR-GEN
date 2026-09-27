@@ -1,0 +1,60 @@
+name: Release packages
+
+# Publishes when a v* tag is pushed (or manually). Each registry step runs only when its
+# credential is configured: NPM_TOKEN for npm; PyPI uses trusted publishing (configure the
+# "pypi" environment and the publisher on pypi.org first, then set the repository variable
+# PYPI_PUBLISH=true).
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  npm:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+      - run: npm ci
+      - run: npm test -w qrgen-sdk
+      - name: Publish qrgen-sdk
+        if: env.NPM_TOKEN != ''
+        run: npm publish -w qrgen-sdk --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish qrgen-react-native
+        if: env.NPM_TOKEN != ''
+        working-directory: packages/react-native
+        run: npm ci && npm publish --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  pypi:
+    if: vars.PYPI_PUBLISH == 'true'
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    defaults:
+      run:
+        working-directory: packages/python
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install build && python -m build
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: packages/python/dist

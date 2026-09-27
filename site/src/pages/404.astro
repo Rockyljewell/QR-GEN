@@ -1,0 +1,39 @@
+---
+import Base from "../layouts/Base.astro";
+import { url } from "../lib/site";
+---
+
+<Base title="Page not found" description="The page you were looking for does not exist.">
+  <section class="nf hero-bg dark">
+    <div class="container">
+      <span class="tag">404</span>
+      <h1>No barcode here</h1>
+      <p>We couldn't find that page. It may have moved, or the link is mistyped.</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href={url("/")}>Go home</a>
+        <a class="btn btn-outline" href={url("/docs/")}>Browse the docs</a>
+        <button class="btn btn-outline" type="button" data-search-open>Search</button>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf {
+    padding: 120px 0 140px;
+  }
+  .nf h1 {
+    margin: 26px 0 12px;
+    font-size: clamp(40px, 6vw, 64px);
+    color: #fff;
+  }
+  .nf p {
+    font-size: 19px;
+  }
+  .ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+  }
+</style>

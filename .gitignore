@@ -1,0 +1,45 @@
+node_modules/
+dist/
+.astro/
+*.tsbuildinfo
+.DS_Store
+coverage/
+.vitest/
+test-results/
+playwright-report/
+packages/sdk/src/generated/
+site/public/sdk/
+site/public/wasm/
+site/public/downloads/
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+packages/python/build/
+.pytest_cache/
+# Android / Gradle
+.gradle/
+local.properties
+packages/android/**/build/
+# iOS / Swift
+.build/
+.swiftpm/
+DerivedData/
+xcuserdata/
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+pubspec.lock
+# .NET
+packages/dotnet/**/bin/
+packages/dotnet/**/obj/
+
+# Generated from package READMEs by site/scripts/sync-readmes.mjs
+site/src/content/docs/ios.md
+site/src/content/docs/android.md
+site/src/content/docs/react-native.md
+site/src/content/docs/flutter.md
+site/src/content/docs/dotnet.md
+site/src/content/docs/python.md

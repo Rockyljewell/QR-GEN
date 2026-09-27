@@ -1,0 +1,54 @@
+---
+import { FOOTER } from "../lib/nav";
+import { GITHUB, url } from "../lib/site";
+import Icon from "./Icon.astro";
+import Wordmark from "./Wordmark.astro";
+
+const href = (h: string) => (h.startsWith("http") ? h : url(h));
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <Wordmark />
+        <p>Open-source smart data capture. Barcode, QR and ID scanning for every platform, MIT licensed and private by default.</p>
+        <div class="footer-badges">
+          <a class="store-badge" href={url("/demo/")}>
+            <Icon name="scan" size={22} />
+            <span>Try it in your browser<strong>Live demo</strong></span>
+          </a>
+          <a class="store-badge" href={GITHUB.url} target="_blank" rel="noopener">
+            <Icon name="github" size={22} />
+            <span>Source code on<strong>GitHub</strong></span>
+          </a>
+        </div>
+      </div>
+      {
+        FOOTER.map((col) => (
+          <div>
+            <h4>{col.title}</h4>
+            <ul>
+              {col.links.map((l) => (
+                <li>
+                  <a href={href(l.href)} {...(l.external ? { target: "_blank", rel: "noopener" } : {})}>
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+    <div class="footer-bottom">
+      <span>© {year} QRGen contributors · MIT License · Not affiliated with any commercial scanning vendor.</span>
+      <div class="socials">
+        <a href={GITHUB.url} aria-label="GitHub" target="_blank" rel="noopener"><Icon name="github" size={18} /></a>
+        <a href={GITHUB.discussions} aria-label="Discussions" target="_blank" rel="noopener"><Icon name="users" size={18} /></a>
+        <a href={url("/llms.txt")} aria-label="llms.txt"><Icon name="bot" size={18} /></a>
+      </div>
+    </div>
+  </div>
+</footer>

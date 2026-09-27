@@ -1,0 +1,464 @@
+---
+import { readdirSync, readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import Icon from "../../components/Icon.astro";
+import Terminal from "../../components/Terminal.astro";
+import Base from "../../layouts/Base.astro";
+import { AGENT_PROMPT, SKILLS_INSTALL } from "../../lib/prompt";
+import { GITHUB, SITE_URL, url } from "../../lib/site";
+
+// Read the real skills from the repository so this page never drifts from them.
+const skillsDir = resolve(process.cwd(), "../skills");
+const ORDER = ["qrgen-sdk", "qrgen-barcode-generation", "qrgen-data-parsing", "qrgen-batch-scanning", "qrgen-id-scanning", "qrgen-migration", "qrgen-testing"];
+const ICON: Record<string, string> = {
+  "qrgen-sdk": "scan",
+  "qrgen-barcode-generation": "wand",
+  "qrgen-data-parsing": "layers",
+  "qrgen-batch-scanning": "grid",
+  "qrgen-id-scanning": "id",
+  "qrgen-migration": "arrowRight",
+  "qrgen-testing": "check",
+};
+const skills = readdirSync(skillsDir, { withFileTypes: true })
+  .filter((d) => d.isDirectory())
+  .map((d) => {
+    const md = readFileSync(resolve(skillsDir, d.name, "SKILL.md"), "utf8");
+    const fm = /^---\n([\s\S]*?)\n---/.exec(md)?.[1] ?? "";
+    const name = /^name:\s*(.+)$/m.exec(fm)?.[1]?.trim() ?? d.name;
+    const description = /^description:\s*(.+)$/m.exec(fm)?.[1]?.trim() ?? "";
+    let refs = 0;
+    try {
+      refs = readdirSync(resolve(skillsDir, d.name, "references")).length;
+    } catch {
+      refs = 0;
+    }
+    return { name, description, refs, lines: md.split("\n").length };
+  })
+  .sort((a, b) => ORDER.indexOf(a.name) - ORDER.indexOf(b.name));
+
+const CLAUDE_INSTALL = `# In Claude Code:
+/plugin marketplace add Rockyljewell/QR-GEN
+/plugin install qrgen-sdk@qrgen-plugins
+
+# Update later
+/plugin marketplace update qrgen-plugins`;
+
+const agents = ["Claude Code", "Cursor", "OpenAI Codex", "GitHub Copilot", "Windsurf", "Gemini CLI", "Cline", "Goose", "OpenCode", "Roo Code"];
+
+const faqs = [
+  { q: "What is an Agent Skill?", a: "A folder with a SKILL.md file of instructions (plus optional references and scripts) that coding agents load when a task matches. QRGen's skills describe the real SDK APIs, platform setup, pitfalls and a verification checklist." },
+  { q: "Which agents are supported?", a: "Any agent that reads the Agent Skills format. The skills CLI installs into Claude Code, Cursor, Codex, Copilot, Windsurf, Gemini CLI and many more. For anything else, paste the agent prompt." },
+  { q: "Are skills safe to install?", a: "They are plain Markdown plus one small Node script for fake-camera tests, all MIT licensed and readable on GitHub. Skills run with your agent's permissions, so review them like any dependency." },
+  { q: "Do I need an account or API key?", a: "No. QRGen has no license keys, no sign-up and no telemetry. The skills only point your agent at public packages and docs." },
+  { q: "How do I keep them up to date?", a: "Run `npx skills update`, or `/plugin marketplace update qrgen-plugins` in Claude Code. Skills are versioned with the SDK in the same repository." },
+];
+---
+
+<Base title="Agent Skills" description="Agent Skills for QRGen: install one command and your coding agent (Claude Code, Cursor, Codex, Copilot…) can add barcode, QR and ID scanning to any app.">
+  <section class="as-hero hero-bg dark">
+    <div class="container as-grid">
+      <div>
+        <span class="tag">Agent Skills</span>
+        <h1>Your coding agent, now a barcode scanning expert</h1>
+        <p class="lead">
+          Install the QRGen skills once. Then ask your agent to "add a QR scanner to checkout" and it gets the platform, the permissions, the API and the tests
+          right on the first try.
+        </p>
+        <div class="ctas">
+          <button type="button" class="btn btn-primary" data-copy="npx skills add https://github.com/Rockyljewell/QR-GEN"><Icon name="copy" size={18} /> <span>Copy install command</span></button>
+          <a class="btn btn-outline" href={`${GITHUB.url}/tree/main/skills`} target="_blank" rel="noopener">Browse skills on GitHub</a>
+        </div>
+        <ul class="facts">
+          <li><strong>{skills.length}</strong> skills</li>
+          <li><strong>20+</strong> platforms covered</li>
+          <li><strong>0</strong> API keys</li>
+        </ul>
+      </div>
+      <Terminal
+        id="skills-install"
+        tabs={[
+          { label: "skills CLI", text: SKILLS_INSTALL, kind: "shell" },
+          { label: "Claude Code", text: CLAUDE_INSTALL, kind: "shell" },
+          { label: "Agent prompt", text: AGENT_PROMPT, kind: "prompt" },
+        ]}
+      />
+    </div>
+  </section>
+
+  <!-- Copy prompt -->
+  <section class="section" id="prompt">
+    <div class="container prompt-grid">
+      <div>
+        <span class="eyebrow">No skills support? No problem</span>
+        <h2>Paste this prompt into any agent</h2>
+        <p class="muted-lead">
+          Works in ChatGPT, Gemini, Copilot Chat, Cursor, Windsurf, Zed or any other assistant. It tells the agent how to detect your stack, install the right
+          package, wire up the scanner and verify it.
+        </p>
+        <ul class="checks">
+          <li><Icon name="check" size={18} /> Links to the full plain-text docs so the agent reads the real API</li>
+          <li><Icon name="check" size={18} /> Covers web, mobile, desktop, server and REST integrations</li>
+          <li><Icon name="check" size={18} /> Ends with a verification step, not "should work"</li>
+        </ul>
+        <p class="alt">
+          Also available as plain text at <a href={url("/agent-prompt.txt")}><code>{SITE_URL}agent-prompt.txt</code></a>
+        </p>
+      </div>
+      <div class="prompt-box">
+        <div class="prompt-head">
+          <span><Icon name="bot" size={18} /> Prompt for your coding agent</span>
+          <button type="button" class="btn btn-primary btn-sm" data-copy-target="#agent-prompt"><Icon name="copy" size={16} /> <span>Copy prompt</span></button>
+        </div>
+        <pre id="agent-prompt">{AGENT_PROMPT}</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section class="section soft" id="skills">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">What's inside</span>
+        <h2>{skills.length} skills, one plugin</h2>
+        <p>Installed together as the <code>qrgen-sdk</code> plugin, or pick the ones you need with <code>npx skills add … --skill &lt;name&gt;</code>.</p>
+      </div>
+      <div class="grid grid-3 skills">
+        {
+          skills.map((s) => (
+            <a class="card skill" href={`${GITHUB.url}/blob/main/skills/${s.name}/SKILL.md`} target="_blank" rel="noopener">
+              <span class="icon-tile">
+                <Icon name={ICON[s.name] ?? "sparkle"} size={22} />
+              </span>
+              <code class="skill-name">{s.name}</code>
+              <p>{s.description.split(". Use ")[0]}.</p>
+              <span class="meta">
+                {s.refs ? `${s.refs} reference files · ` : ""}
+                {s.lines} lines
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow">How it works</span>
+        <h2>From request to working scanner</h2>
+      </div>
+      <div class="flow">
+        <div class="step">
+          <span class="num">1</span>
+          <h3>Install once</h3>
+          <p>One command adds the skills to your project or your user profile.</p>
+          <code>npx skills add https://github.com/Rockyljewell/QR-GEN</code>
+        </div>
+        <div class="step">
+          <span class="num">2</span>
+          <h3>Ask in plain English</h3>
+          <div class="chat">
+            <p class="me">Add a barcode scanner to the inventory page so staff can count stock.</p>
+            <p class="bot">Using <b>qrgen-sdk</b> + <b>qrgen-batch-scanning</b>: this is a Next.js app, so I'll add a client component with <code>mode="batch"</code>…</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="num">3</span>
+          <h3>Verified, not guessed</h3>
+          <p>The skills finish with a checklist: build, type-check, and a generate→scan round-trip test, plus how to try it on a phone over HTTPS.</p>
+        </div>
+      </div>
+      <div class="agents">
+        <span>Works with</span>
+        <ul>
+          {agents.map((a) => <li>{a}</li>)}
+          <li>any Agent Skills compatible tool</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section soft">
+    <div class="container faq">
+      <div class="section-head">
+        <h2>Questions</h2>
+      </div>
+      <div class="faq-list">
+        {
+          faqs.map((f) => (
+            <details>
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .as-hero {
+    padding: 88px 0 96px;
+  }
+  .as-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 56px;
+    align-items: center;
+  }
+  .as-hero h1 {
+    margin: 30px 0 20px;
+    font-size: clamp(36px, 4.6vw, 54px);
+    font-weight: 800;
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+    color: #fff;
+  }
+  .lead {
+    font-size: 19px;
+    color: #e4eaf2 !important;
+  }
+  .ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 30px;
+  }
+  .facts {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+    padding: 0;
+    margin: 32px 0 0;
+    color: #c5cfdb;
+  }
+  .facts strong {
+    font-family: var(--font-display);
+    font-size: 26px;
+    color: #fff;
+    margin-right: 6px;
+  }
+  .as-hero :global(.terminal .panel) {
+    min-height: 360px;
+  }
+  .as-hero :global(.terminal pre.p) {
+    max-height: 360px;
+    overflow-y: auto;
+    padding: 52px 28px 28px;
+  }
+  @media (max-width: 1000px) {
+    .as-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  .prompt-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: 48px;
+    align-items: start;
+  }
+  .prompt-grid h2 {
+    font-size: clamp(30px, 4vw, 42px);
+  }
+  .muted-lead {
+    font-size: 18px;
+    color: var(--muted);
+  }
+  .checks {
+    list-style: none;
+    padding: 0;
+    margin: 18px 0;
+    display: grid;
+    gap: 10px;
+  }
+  .checks li {
+    display: flex;
+    gap: 10px;
+  }
+  .checks :global(svg) {
+    flex: none;
+    margin-top: 3px;
+    color: var(--teal-600);
+  }
+  .alt {
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .alt a {
+    color: inherit;
+  }
+  .prompt-box {
+    border-radius: 16px;
+    border: 1px solid #30363d;
+    background: #1c2128;
+    overflow: hidden;
+    box-shadow: 0 30px 60px rgba(10, 20, 35, 0.18);
+  }
+  .prompt-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px 12px 18px;
+    border-bottom: 1px solid #30363d;
+    color: #cdd9e5;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .prompt-head span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .prompt-head .btn span {
+    display: inline;
+  }
+  .prompt-box pre {
+    margin: 0;
+    padding: 20px 22px;
+    max-height: 520px;
+    overflow: auto;
+    white-space: pre-wrap;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.6;
+    color: #d6e0ea;
+  }
+  @media (max-width: 1000px) {
+    .prompt-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  .skill-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    background: none !important;
+    border: 0 !important;
+    padding: 0 !important;
+  }
+  .skill .meta {
+    margin-top: auto;
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  .flow {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+  .step {
+    position: relative;
+    padding: 28px;
+    border-radius: 18px;
+    border: 1px solid var(--line);
+    background: #fff;
+  }
+  .step .num {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .step h3 {
+    font-size: 20px;
+  }
+  .step p {
+    color: var(--muted);
+    font-size: 15px;
+  }
+  .step > code {
+    display: block;
+    font-size: 12.5px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .chat {
+    display: grid;
+    gap: 8px;
+  }
+  .chat p {
+    margin: 0;
+    padding: 10px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  .chat .me {
+    background: #eef1f5;
+    color: var(--ink);
+    border-bottom-right-radius: 4px;
+  }
+  .chat .bot {
+    background: #e9f8fa;
+    color: #11505a;
+    border-bottom-left-radius: 4px;
+  }
+  .agents {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 22px;
+    margin-top: 40px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .agents > span {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 12px;
+  }
+  .agents ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .agents li {
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    color: var(--ink-2);
+    font-weight: 600;
+    font-size: 13.5px;
+  }
+  @media (max-width: 900px) {
+    .flow {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  .faq-list {
+    display: grid;
+    gap: 10px;
+    max-width: 860px;
+  }
+  .faq-list details {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: #fff;
+    padding: 0 18px;
+  }
+  .faq-list summary {
+    padding: 16px 0;
+    font-weight: 650;
+    cursor: pointer;
+  }
+  .faq-list p {
+    color: var(--muted);
+    margin: 0 0 16px;
+  }
+</style>

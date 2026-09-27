@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="qrgen_scanned_one">Scanned: %1$s</string>
+    <plurals name="qrgen_scanned_many">
+        <item quantity="one">%1$d code scanned</item>
+        <item quantity="other">%1$d codes scanned</item>
+    </plurals>
+    <string name="qrgen_scanner_description">Barcode scanner camera preview</string>
+</resources>

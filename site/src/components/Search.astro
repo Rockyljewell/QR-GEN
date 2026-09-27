@@ -1,0 +1,107 @@
+---
+import { url } from "../lib/site";
+import Icon from "./Icon.astro";
+---
+
+<dialog class="search-dialog" data-search aria-label="Search">
+  <form method="dialog" role="search" onsubmit="return false">
+    <Icon name="search" size={20} />
+    <input type="search" placeholder="Search docs, SDKs and guides…" aria-label="Search" autocomplete="off" data-search-input />
+    <kbd>Esc</kbd>
+  </form>
+  <ul class="search-results" data-search-results data-index={url("/search.json")}></ul>
+</dialog>
+
+<script>
+  type Entry = { title: string; description: string; group: string; url: string; text: string; headings: string[] };
+  const dialog = document.querySelector<HTMLDialogElement>("[data-search]")!;
+  const input = dialog.querySelector<HTMLInputElement>("[data-search-input]")!;
+  const list = dialog.querySelector<HTMLUListElement>("[data-search-results]")!;
+  let index: Entry[] | null = null;
+  let active = 0;
+
+  const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
+
+  async function load(): Promise<Entry[]> {
+    if (index) return index;
+    const res = await fetch(list.dataset.index!);
+    index = (await res.json()) as Entry[];
+    return index;
+  }
+
+  function score(e: Entry, terms: string[]): number {
+    let s = 0;
+    const title = e.title.toLowerCase();
+    const desc = e.description.toLowerCase();
+    const heads = e.headings.join(" ").toLowerCase();
+    const text = e.text.toLowerCase();
+    for (const t of terms) {
+      let hit = 0;
+      if (title.includes(t)) hit += title.startsWith(t) ? 12 : 8;
+      if (desc.includes(t)) hit += 4;
+      if (heads.includes(t)) hit += 3;
+      if (text.includes(t)) hit += 1;
+      if (!hit) return 0;
+      s += hit;
+    }
+    return s;
+  }
+
+  async function render(): Promise<void> {
+    const q = input.value.trim().toLowerCase();
+    const all = await load();
+    const terms = q.split(/\s+/).filter(Boolean);
+    const results = terms.length
+      ? all
+          .map((e) => ({ e, s: score(e, terms) }))
+          .filter((r) => r.s > 0)
+          .sort((a, b) => b.s - a.s)
+          .slice(0, 12)
+          .map((r) => r.e)
+      : all.filter((e) => e.group === "Get started" || e.group === "Pages").slice(0, 10);
+    active = 0;
+    list.innerHTML = results.length
+      ? results
+          .map(
+            (e, i) =>
+              `<li><a href="${e.url}" class="${i === 0 ? "active" : ""}"><span class="group">${esc(e.group)}</span><strong>${esc(e.title)}</strong><span>${esc(e.description)}</span></a></li>`,
+          )
+          .join("")
+      : `<li class="search-empty">No results for “${esc(input.value)}”</li>`;
+  }
+
+  function open(): void {
+    if (!dialog.open) dialog.showModal();
+    input.focus();
+    input.select();
+    void render();
+  }
+
+  document.querySelectorAll("[data-search-open]").forEach((b) => b.addEventListener("click", open));
+  document.addEventListener("keydown", (e) => {
+    const target = e.target as HTMLElement;
+    const typing = target.closest("input, textarea, [contenteditable]");
+    if ((e.key === "k" && (e.metaKey || e.ctrlKey)) || (e.key === "/" && !typing)) {
+      e.preventDefault();
+      open();
+    }
+  });
+  input.addEventListener("input", () => void render());
+  input.addEventListener("keydown", (e) => {
+    const links = [...list.querySelectorAll("a")];
+    if (!links.length) return;
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      links[active]?.classList.remove("active");
+      active = (active + (e.key === "ArrowDown" ? 1 : links.length - 1)) % links.length;
+      links[active]!.classList.add("active");
+      links[active]!.scrollIntoView({ block: "nearest" });
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      links[active]?.click();
+    }
+  });
+  dialog.addEventListener("click", (e) => {
+    if (e.target === dialog) dialog.close();
+  });
+</script>

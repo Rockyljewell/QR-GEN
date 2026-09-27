@@ -1,0 +1,134 @@
+{
+  "name": "qrgen-sdk",
+  "version": "1.0.0",
+  "description": "Open-source barcode, QR and ID scanning SDK for the web, Node.js and every WebView platform. Pre-built scanner UI, batch (multi-barcode) tracking, AAMVA/GS1 parsing and a barcode generator.",
+  "keywords": [
+    "barcode",
+    "qr",
+    "qrcode",
+    "scanner",
+    "barcode-scanner",
+    "datamatrix",
+    "pdf417",
+    "ean",
+    "upc",
+    "gs1",
+    "aamva",
+    "web-components",
+    "react",
+    "vue",
+    "zxing",
+    "wasm"
+  ],
+  "license": "MIT",
+  "homepage": "https://rockyljewell.github.io/QR-GEN/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rockyljewell/QR-GEN.git",
+    "directory": "packages/sdk"
+  },
+  "bugs": "https://github.com/Rockyljewell/QR-GEN/issues",
+  "type": "module",
+  "sideEffects": [
+    "./dist/elements.js",
+    "./dist/elements.cjs",
+    "./dist/browser/*"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "unpkg": "./dist/browser/qrgen.iife.js",
+  "jsdelivr": "./dist/browser/qrgen.iife.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./elements": {
+      "types": "./dist/elements.d.ts",
+      "import": "./dist/elements.js",
+      "require": "./dist/elements.cjs"
+    },
+    "./react": {
+      "types": "./dist/react.d.ts",
+      "import": "./dist/react.js",
+      "require": "./dist/react.cjs"
+    },
+    "./vue": {
+      "types": "./dist/vue.d.ts",
+      "import": "./dist/vue.js",
+      "require": "./dist/vue.cjs"
+    },
+    "./parsers": {
+      "types": "./dist/parsers.d.ts",
+      "import": "./dist/parsers.js",
+      "require": "./dist/parsers.cjs"
+    },
+    "./node": {
+      "types": "./dist/node.d.ts",
+      "import": "./dist/node.js",
+      "require": "./dist/node.cjs"
+    },
+    "./server": {
+      "types": "./dist/server.d.ts",
+      "import": "./dist/server.js",
+      "require": "./dist/server.cjs"
+    },
+    "./bridge": {
+      "types": "./dist/bridge.d.ts",
+      "import": "./dist/bridge.js",
+      "require": "./dist/bridge.cjs"
+    },
+    "./browser": "./dist/browser/qrgen.js",
+    "./wasm/reader.wasm": "./dist/wasm/zxing_reader.wasm",
+    "./wasm/writer.wasm": "./dist/wasm/zxing_writer.wasm",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "qrgen": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "gen:worker": "node scripts/build-worker.mjs",
+    "build": "node scripts/build-worker.mjs && tsup && node scripts/postbuild.mjs",
+    "dev": "tsup --watch",
+    "test": "node scripts/build-worker.mjs && vitest run",
+    "test:watch": "vitest",
+    "typecheck": "node scripts/build-worker.mjs && tsc --noEmit",
+    "prepack": "npm run build"
+  },
+  "dependencies": {
+    "zxing-wasm": "3.1.4"
+  },
+  "peerDependencies": {
+    "react": ">=17",
+    "vue": ">=3.3"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=18.17"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.4",
+    "@types/react": "^19.3.0",
+    "esbuild": "^0.25.12",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^5.0.2",
+    "vue": "^3.5.43"
+  }
+}

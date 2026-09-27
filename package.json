@@ -1,0 +1,27 @@
+{
+  "name": "qrgen-monorepo",
+  "private": true,
+  "description": "QRGen: open-source barcode, QR and ID scanning SDK for every platform, plus Agent Skills for coding agents.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rockyljewell/QR-GEN.git"
+  },
+  "workspaces": [
+    "packages/sdk",
+    "site"
+  ],
+  "scripts": {
+    "build": "npm run build -w qrgen-sdk && npm run build -w qrgen-site",
+    "build:sdk": "npm run build -w qrgen-sdk",
+    "build:site": "npm run build -w qrgen-site",
+    "dev": "npm run dev -w qrgen-site",
+    "test": "npm test -w qrgen-sdk",
+    "test:e2e": "npm run test:e2e -w qrgen-site",
+    "typecheck": "npm run typecheck -w qrgen-sdk && npm run typecheck -w qrgen-site",
+    "validate:plugin": "claude plugin validate . --strict"
+  },
+  "engines": {
+    "node": ">=18.17"
+  }
+}

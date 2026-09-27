@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
+    <AssemblyName>QRGen.Net</AssemblyName>
+    <RootNamespace>QRGen</RootNamespace>
+    <PackageId>QRGen.Net</PackageId>
+    <Title>QRGen for .NET</Title>
+    <Description>Open-source barcode, QR code and ID scanning SDK for .NET: GS1, AAMVA and QR content parsers, a client for the QRGen REST API, local encode/decode with ZXing.Net, and helpers for the QRGen WebView embed (.NET MAUI).</Description>
+    <PackageTags>barcode;qrcode;qr;scanner;gs1;aamva;pdf417;datamatrix;ean;upc;zxing;maui</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IsPackable>true</IsPackable>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0'">
+    <IsTrimmable>false</IsTrimmable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ZXing.Net" Version="0.16.11" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <InternalsVisibleTo Include="QRGen.Net.Tests" />
+  </ItemGroup>
+
+</Project>

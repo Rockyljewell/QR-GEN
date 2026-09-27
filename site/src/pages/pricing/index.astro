@@ -1,0 +1,255 @@
+---
+import Icon from "../../components/Icon.astro";
+import Base from "../../layouts/Base.astro";
+import { GITHUB, url } from "../../lib/site";
+
+const plans = [
+  {
+    name: "Open Source",
+    price: "$0",
+    period: "forever",
+    lead: "Everything, for every developer and every company.",
+    cta: ["Get started", "/docs/quick-start/"],
+    primary: true,
+    features: ["All SDKs: web, iOS, Android, React Native, Flutter, .NET, Node, Python", "26 symbologies, batch and ID scanning", "Pre-built scanner UI and generator", "Unlimited devices, scans and apps", "MIT license: use commercially, modify, redistribute"],
+  },
+  {
+    name: "Self-hosted",
+    price: "$0",
+    period: "on your infrastructure",
+    lead: "Run the REST API and the scanner assets on your own servers.",
+    cta: ["Deploy the REST API", "/docs/rest-api/"],
+    features: ["Docker image and single-binary CLI", "Offline and air-gapped operation", "Self-hosted wasm engine and embed page", "No outbound calls, no telemetry", "Scale horizontally, since the service is stateless"],
+  },
+  {
+    name: "Community",
+    price: "$0",
+    period: "best effort",
+    lead: "Get help from maintainers and other users in the open.",
+    cta: ["Join the discussion", GITHUB.discussions],
+    features: ["GitHub Discussions and Issues", "Public roadmap", "Agent Skills for self-serve integration", "llms.txt docs for AI assistants", "Contributions welcome"],
+  },
+];
+
+const compare: [string, string, string][] = [
+  ["License cost", "$0, MIT", "Per device, per scan or per app"],
+  ["License keys", "None", "Required, with periodic renewal"],
+  ["Source code", "Public, auditable", "Closed"],
+  ["Data leaves the device", "Never (unless you send it)", "Often analytics or telemetry"],
+  ["Platforms", "Web, iOS, Android, RN, Flutter, .NET, Node, Python, REST", "Similar"],
+  ["Damaged or low-light code performance", "Good (zxing-cpp, Apple Vision, ML Kit)", "Often better (proprietary engines)"],
+  ["Enterprise SLA", "Not included", "Included"],
+];
+---
+
+<Base title="Pricing" description="QRGen is free and MIT licensed: every SDK, every feature, unlimited devices and scans. No license keys, no telemetry.">
+  <section class="pr-hero hero-bg dark">
+    <div class="container">
+      <span class="tag">Pricing</span>
+      <h1>Free. For everyone. Forever.</h1>
+      <p>QRGen is MIT licensed. There are no license keys, no per-device fees and no scan limits, and it will stay that way.</p>
+    </div>
+  </section>
+
+  <section class="section plans-section">
+    <div class="container">
+      <div class="plans">
+        {
+          plans.map((p) => (
+            <div class:list={["plan", { primary: p.primary }]}>
+              <h2>{p.name}</h2>
+              <div class="price">
+                <strong>{p.price}</strong>
+                <span>{p.period}</span>
+              </div>
+              <p>{p.lead}</p>
+              <a class:list={["btn", p.primary ? "btn-primary" : "btn-light"]} href={p.cta[1]!.startsWith("http") ? p.cta[1] : url(p.cta[1]!)}>
+                {p.cta[0]}
+              </a>
+              <ul>
+                {p.features.map((f) => (
+                  <li>
+                    <Icon name="check" size={18} />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section soft">
+    <div class="container">
+      <div class="section-head">
+        <h2>How QRGen compares</h2>
+        <p>An honest comparison with typical commercial scanning SDKs. Test with your own labels before you switch production traffic.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th scope="col"></th><th scope="col">QRGen</th><th scope="col">Typical commercial SDK</th></tr>
+          </thead>
+          <tbody>
+            {
+              compare.map(([k, a, b]) => (
+                <tr>
+                  <th scope="row">{k}</th>
+                  <td>{a}</td>
+                  <td>{b}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container faq">
+      <h2>Pricing questions</h2>
+      <details><summary>Can I use QRGen in a commercial, closed-source app?</summary><p>Yes. The MIT license lets you use, modify and ship it in commercial products. Keep the license notice with the code.</p></details>
+      <details><summary>Is there a paid tier coming?</summary><p>No paid tier is planned for the SDKs. If hosted services are ever offered, the SDKs and self-hosting will stay free.</p></details>
+      <details><summary>Who maintains QRGen?</summary><p>QRGen contributors on GitHub. Issues, pull requests and sponsorship of specific features are welcome.</p></details>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .pr-hero {
+    padding: 84px 0 140px;
+    text-align: center;
+  }
+  .pr-hero h1 {
+    margin: 26px auto 14px;
+    font-size: clamp(38px, 5.4vw, 64px);
+    font-weight: 800;
+    color: #fff;
+  }
+  .pr-hero p {
+    font-size: 19px;
+    max-width: 38em;
+    margin: 0 auto;
+  }
+  .plans-section {
+    padding-top: 0;
+    margin-top: -90px;
+  }
+  .plans {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .plan {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 30px;
+    border-radius: 20px;
+    background: #fff;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-soft);
+  }
+  .plan.primary {
+    border-color: var(--teal-500);
+    box-shadow: 0 20px 50px rgba(61, 177, 192, 0.18);
+  }
+  .plan h2 {
+    font-size: 22px;
+    margin: 0;
+  }
+  .price {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .price strong {
+    font-family: var(--font-display);
+    font-size: 52px;
+    letter-spacing: -0.03em;
+  }
+  .price span {
+    color: var(--muted);
+  }
+  .plan p {
+    color: var(--muted);
+    margin: 0;
+  }
+  .plan .btn {
+    margin: 8px 0;
+  }
+  .plan ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 10px;
+    font-size: 15px;
+  }
+  .plan li {
+    display: flex;
+    gap: 10px;
+  }
+  .plan li :global(svg) {
+    flex: none;
+    margin-top: 3px;
+    color: var(--teal-600);
+  }
+  @media (max-width: 900px) {
+    .plans {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    background: #fff;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 640px;
+    font-size: 15px;
+  }
+  th,
+  td {
+    padding: 14px 18px;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+  }
+  thead th {
+    background: var(--bg-softer);
+  }
+  tbody th {
+    font-weight: 600;
+  }
+  tbody tr:last-child th,
+  tbody tr:last-child td {
+    border-bottom: 0;
+  }
+  .faq {
+    max-width: 860px;
+  }
+  .faq h2 {
+    font-size: 30px;
+  }
+  .faq details {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 0 18px;
+    margin-bottom: 10px;
+  }
+  .faq summary {
+    padding: 16px 0;
+    font-weight: 650;
+    cursor: pointer;
+  }
+  .faq p {
+    color: var(--muted);
+    margin: 0 0 16px;
+  }
+</style>

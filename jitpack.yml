@@ -1,0 +1,12 @@
+# JitPack builds the QRGen Android SDK from packages/android (JitPack starts at the repo root).
+#
+#   repositories { maven("https://jitpack.io") }
+#   implementation("com.github.Rockyljewell.QR-GEN:qrgen-android:<tag>")   // or qrgen-core, qrgen-compose
+#   implementation("com.github.Rockyljewell:QR-GEN:<tag>")                // every module
+#
+# JitPack exports JITPACK/GROUP/ARTIFACT/VERSION; packages/android/build.gradle.kts turns them
+# into the group com.github.Rockyljewell.QR-GEN and the tag as version.
+jdk:
+  - openjdk17
+install:
+  - cd packages/android && chmod +x gradlew && ./gradlew publishToMavenLocal -x test -Pqrgen.android=true --no-daemon --stacktrace

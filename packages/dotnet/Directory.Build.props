@@ -1,0 +1,21 @@
+<Project>
+  <!-- Shared settings for every project under packages/dotnet. -->
+  <PropertyGroup>
+    <Version>1.0.0</Version>
+    <Authors>QRGen contributors</Authors>
+    <Company>QRGen</Company>
+    <Product>QRGen</Product>
+    <Copyright>Copyright (c) 2026 QRGen contributors</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://rockyljewell.github.io/QR-GEN/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Rockyljewell/QR-GEN</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Deterministic>true</Deterministic>
+    <NeutralLanguage>en</NeutralLanguage>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+  </PropertyGroup>
+</Project>

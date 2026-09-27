@@ -1,0 +1,81 @@
+{
+  "name": "qrgen-react-native",
+  "version": "0.1.0",
+  "description": "QRGen for React Native: barcode, QR and ID scanning with react-native-vision-camera, plus a zero-native-setup WebView fallback.",
+  "license": "MIT",
+  "author": "QRGen contributors",
+  "homepage": "https://rockyljewell.github.io/QR-GEN/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rockyljewell/QR-GEN.git",
+    "directory": "packages/react-native"
+  },
+  "bugs": {
+    "url": "https://github.com/Rockyljewell/QR-GEN/issues"
+  },
+  "keywords": [
+    "react-native",
+    "expo",
+    "barcode",
+    "qr",
+    "qrcode",
+    "scanner",
+    "vision-camera",
+    "webview",
+    "ean",
+    "pdf417",
+    "data-matrix",
+    "qrgen"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "react-native": "src/index.ts",
+  "source": "src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "react-native": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "clean": "rm -rf lib",
+    "typecheck": "tsc --noEmit",
+    "test": "jest",
+    "prepack": "npm run clean && npm run build"
+  },
+  "peerDependencies": {
+    "react": ">=18.2.0",
+    "react-native": ">=0.73.0",
+    "react-native-vision-camera": "^4.7.0",
+    "react-native-webview": ">=13.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react-native-webview": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/react": "^19.3.0",
+    "jest": "^30.5.2",
+    "react": "^19.2.3",
+    "react-native": "^0.87.1",
+    "react-native-vision-camera": "^4.7.3",
+    "react-native-webview": "^14.0.1",
+    "ts-jest": "^29.4.14",
+    "typescript": "~5.9.3"
+  },
+  "engines": {
+    "node": ">=18.17"
+  }
+}

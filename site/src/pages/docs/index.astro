@@ -1,0 +1,223 @@
+---
+import FrameworkChips from "../../components/FrameworkChips.astro";
+import Icon from "../../components/Icon.astro";
+import Base from "../../layouts/Base.astro";
+import { getDocs, groupDocs } from "../../lib/docs";
+import { PLATFORMS } from "../../lib/platforms";
+import { url } from "../../lib/site";
+
+const docs = await getDocs();
+const groups = groupDocs(docs);
+const ids = new Set(docs.map((d) => d.id));
+const platforms = PLATFORMS.filter((p) => ids.has(p.doc));
+const featured = [
+  { icon: "bolt", title: "Quick start", text: "Scan your first code in five minutes with a script tag, npm or React.", href: "/docs/quick-start/" },
+  { icon: "bot", title: "Agent Skills", text: "Let Claude Code, Cursor or Codex integrate QRGen for you.", href: "/agent-skills/" },
+  { icon: "code", title: "API reference", text: "Every export of qrgen-sdk, with types.", href: "/docs/api/" },
+  { icon: "qr", title: "Symbologies", text: "What each platform can read and write.", href: "/docs/symbologies/" },
+];
+---
+
+<Base title="Documentation" description="Developer documentation for QRGen: quick start, guides for web, iOS, Android, React Native, Flutter, .NET, Node.js and Python, API reference and troubleshooting.">
+  <section class="docs-hero hero-bg dark">
+    <div class="container">
+      <span class="tag">Developers</span>
+      <h1>QRGen documentation</h1>
+      <p>Guides, API references and examples for adding barcode, QR and ID scanning to any app.</p>
+      <button type="button" class="search-trigger" data-search-open>
+        <Icon name="search" size={20} />
+        <span>Search the docs…</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+      <div class="hero-chips"><FrameworkChips /></div>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="container">
+      <div class="grid grid-4">
+        {
+          featured.map((f) => (
+            <a class="card" href={url(f.href)}>
+              <span class="icon-tile">
+                <Icon name={f.icon} size={22} />
+              </span>
+              <h3>{f.title}</h3>
+              <p>{f.text}</p>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm soft">
+    <div class="container">
+      <div class="section-head">
+        <h2>Pick your platform</h2>
+        <p>Same symbology ids, options and result format everywhere.</p>
+      </div>
+      <div class="plat-grid">
+        {
+          platforms.map((p) => (
+            <a class="plat" href={url(`/docs/${p.doc}/`)}>
+              <Icon name={p.icon} size={24} />
+              <span>
+                <strong>{p.label}</strong>
+                <small>{p.language}</small>
+              </span>
+              {p.status !== "stable" && <span class={`badge ${p.status}`}>{p.status === "guide" ? "guide" : p.status}</span>}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="container all-docs">
+      {
+        groups.map((g) => (
+          <div>
+            <h2>{g.group}</h2>
+            <ul>
+              {g.items.map((d) => (
+                <li>
+                  <a href={url(`/docs/${d.id}/`)}>
+                    <strong>{d.data.title}</strong>
+                    <span>{d.data.description}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</Base>
+
+<style>
+  .docs-hero {
+    padding: 72px 0 64px;
+  }
+  .docs-hero h1 {
+    margin: 26px 0 12px;
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 800;
+    color: #fff;
+  }
+  .docs-hero p {
+    font-size: 19px;
+    max-width: 40em;
+  }
+  .search-trigger {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: min(560px, 100%);
+    height: 54px;
+    margin: 28px 0 32px;
+    padding: 0 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.06);
+    color: #cfd8e3;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: left;
+  }
+  .search-trigger:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+  .search-trigger span {
+    flex: 1;
+  }
+  .search-trigger kbd {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  .plat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+  }
+  .plat {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    border-radius: 14px;
+    background: #fff;
+    border: 1px solid var(--line);
+    text-decoration: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .plat:hover {
+    border-color: #b9c4d2;
+    box-shadow: var(--shadow-soft);
+  }
+  .plat > :global(svg) {
+    color: #1f7f8c;
+    flex: none;
+  }
+  .plat span:first-of-type {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .plat small {
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .all-docs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 40px 32px;
+  }
+  .all-docs h2 {
+    font-size: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+  .all-docs ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 4px;
+  }
+  .all-docs a {
+    display: block;
+    padding: 8px 10px;
+    margin: 0 -10px;
+    border-radius: 10px;
+    text-decoration: none;
+  }
+  .all-docs a:hover {
+    background: var(--bg-soft);
+  }
+  .all-docs strong {
+    display: block;
+    font-size: 15.5px;
+  }
+  .all-docs span {
+    display: block;
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+  @media (max-width: 1000px) {
+    .all-docs {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 640px) {
+    .all-docs {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

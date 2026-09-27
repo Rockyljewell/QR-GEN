@@ -1,0 +1,456 @@
+---
+import CodeTabs from "../../components/CodeTabs.astro";
+import Icon from "../../components/Icon.astro";
+import SdkHero from "../../components/SdkHero.astro";
+import Base from "../../layouts/Base.astro";
+import { PLATFORMS } from "../../lib/platforms";
+import { url } from "../../lib/site";
+
+const groups = [
+  { title: "Native mobile", ids: ["ios", "android"] },
+  { title: "Cross-platform mobile", ids: ["react-native", "flutter", "capacitor", "cordova", "dotnet", "xamarin", "titanium"] },
+  { title: "Web frameworks", ids: ["javascript", "react", "nextjs", "vue", "angular", "svelte"] },
+  { title: "Desktop, server & Linux", ids: ["electron", "tauri", "node", "python", "linux", "rest"] },
+];
+const byId = new Map(PLATFORMS.map((p) => [p.id, p]));
+
+const quickstart = [
+  {
+    label: "Web component",
+    icon: "js",
+    lang: "html",
+    code: `<script type="module" src="https://rockyljewell.github.io/QR-GEN/sdk/qrgen.js"></script>
+
+<qrgen-scanner symbologies="qr,ean13,code128" mode="single" style="height: 420px"></qrgen-scanner>
+
+<script type="module">
+  document.querySelector("qrgen-scanner").addEventListener("scan", (e) => {
+    console.log(e.detail.barcode.symbology, e.detail.barcode.data);
+  });
+</script>`,
+  },
+  {
+    label: "React",
+    icon: "react",
+    lang: "tsx",
+    code: `import { QRGenScanner } from "qrgen-sdk/react";
+
+export function Checkout() {
+  return (
+    <QRGenScanner
+      symbologies={["qr", "ean13"]}
+      mode="single"
+      style={{ height: 420 }}
+      onScan={(barcodes) => addToCart(barcodes[0].data)}
+    />
+  );
+}`,
+  },
+  {
+    label: "Swift",
+    icon: "apple",
+    lang: "swift",
+    code: `import QRGenKit
+import SwiftUI
+
+struct ScanScreen: View {
+    @State private var code: String?
+
+    var body: some View {
+        QRGenScannerView(options: .init(symbologies: ["qr", "ean13"], mode: .single)) { barcodes in
+            code = barcodes.first?.data
+        }
+        .onError { error in print(error.code) }
+        .ignoresSafeArea()
+    }
+}`,
+  },
+  {
+    label: "Kotlin",
+    icon: "android",
+    lang: "kotlin",
+    code: `import dev.qrgen.ScannerOptions
+import dev.qrgen.Symbology
+import dev.qrgen.compose.QRGenScanner
+
+@Composable
+fun ScanScreen(onCode: (String) -> Unit) {
+    QRGenScanner(
+        options = ScannerOptions(
+            symbologies = Symbology.resolve("qr", "retail"),
+            mode = ScannerOptions.Mode.SINGLE,
+        ),
+        onScan = { barcodes -> onCode(barcodes.first().data) },
+        onError = { error -> Log.w("scan", error.message ?: "") },
+        modifier = Modifier.fillMaxSize(),
+    )
+}`,
+  },
+  {
+    label: "React Native",
+    icon: "react",
+    lang: "tsx",
+    code: `import { QRGenScanner } from "qrgen-react-native";
+
+export function ScanScreen() {
+  return (
+    <QRGenScanner
+      style={{ flex: 1 }}
+      symbologies={["qr", "ean13", "code128"]}
+      mode="single"
+      onScan={(barcodes) => console.log(barcodes[0].data)}
+    />
+  );
+}`,
+  },
+  {
+    label: "Flutter",
+    icon: "flutter",
+    lang: "dart",
+    code: `import 'package:qrgen_flutter/qrgen_flutter.dart';
+
+QRGenScanner(
+  options: const QRGenScannerOptions(
+    symbologies: ['qr', 'ean13', 'code128'],
+    mode: QRGenScanMode.single,
+  ),
+  onScan: (barcodes) => Navigator.pop(context, barcodes.first.data),
+)`,
+  },
+  {
+    label: "Python",
+    icon: "python",
+    lang: "python",
+    code: `import qrgen_sdk
+
+for code in qrgen_sdk.scan("label.jpg", symbologies=["qr", "retail"]):
+    print(code.symbology, code.data)
+
+qrgen_sdk.save("https://example.com", "qr.png")`,
+  },
+  {
+    label: "REST",
+    icon: "docker",
+    lang: "bash",
+    code: `docker run -p 8080:8080 ghcr.io/rockyljewell/qr-gen
+
+curl -X POST --data-binary @label.jpg -H "content-type: image/jpeg" \\
+  http://localhost:8080/v1/scan`,
+  },
+];
+
+const resultJson = `{
+  "data": "(01)09501101530003(17)271231(10)LOT4815",
+  "symbology": "data-matrix",
+  "symbologyName": "Data Matrix",
+  "contentType": "gs1",
+  "isGS1": true,
+  "location": {
+    "topLeft": { "x": 412, "y": 188 }, "topRight": { "x": 566, "y": 190 },
+    "bottomRight": { "x": 564, "y": 344 }, "bottomLeft": { "x": 410, "y": 342 }
+  },
+  "frameSize": { "width": 1280, "height": 720 },
+  "symbologyIdentifier": "]d2",
+  "timestamp": 1790000000000
+}`;
+
+const Y = "yes";
+const matrix: [string, string[]][] = [
+  ["Pre-built scanner UI", [Y, Y, Y, Y, Y, "MAUI", "–", "–"]],
+  ["Single & continuous modes", [Y, Y, Y, Y, Y, Y, Y, "–"]],
+  ["Batch tracking", [Y, Y, Y, Y, Y, Y, Y, "–"]],
+  ["Image / file scanning", [Y, Y, Y, "–", "–", Y, Y, Y]],
+  ["GS1 / AAMVA / content parsers", [Y, Y, Y, "via qrgen-sdk", "–", Y, Y, Y]],
+  ["Barcode generation", [Y, "4 formats", Y, "–", "–", Y, Y, Y]],
+  ["All 26 symbologies", [Y, "20", "ML Kit set", "native set / all via WebView", "native set / all via WebView", "via REST", Y, Y]],
+];
+const cols = ["Web", "iOS", "Android", "React Native", "Flutter", ".NET", "Python", "REST"];
+---
+
+<Base title="SDK & Frameworks" description="QRGen SDKs for iOS, Android, JavaScript, React Native, Flutter, .NET, Capacitor, Cordova, Titanium, Linux and more, plus Agent Skills that get your coding agent to working code in minutes.">
+  <SdkHero as="h1" id="sdk" />
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Platforms</span>
+        <h2>One SDK family, every platform</h2>
+        <p>Same symbology ids, options and result format, so logic and tests move between platforms with the code.</p>
+      </div>
+      {
+        groups.map((g) => (
+          <div class="pgroup">
+            <h3>{g.title}</h3>
+            <div class="pgrid">
+              {g.ids.map((id) => {
+                const p = byId.get(id)!;
+                return (
+                  <a class="pcard" href={url(`/docs/${p.doc}/`)}>
+                    <div class="ptop">
+                      <span class="picon">
+                        <Icon name={p.icon} size={22} />
+                      </span>
+                      <span class="pname">
+                        <strong>{p.label}</strong>
+                        <small>{p.language}</small>
+                      </span>
+                      <span class={`badge ${p.status}`}>{p.status === "guide" ? "guide" : p.status}</span>
+                    </div>
+                    <p>{p.summary}</p>
+                    <code>{p.install}</code>
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        ))
+      }
+      <p class="status-note registry-note">
+        <Icon name="book" size={16} /> <span>Registry releases (npm, PyPI, pub.dev, NuGet, Maven) are on the way. Until then install the web SDK with <code>npm install https://rockyljewell.github.io/QR-GEN/downloads/qrgen-sdk.tgz</code>. Every guide shows the GitHub-based install for its platform.</span>
+      </p>
+      <p class="status-note">
+        <span class="badge">stable</span> tested in CI · <span class="badge beta">beta</span> logic unit-tested, device testing in progress ·
+        <span class="badge guide">guide</span> integration guide using the web SDK or embed bridge
+      </p>
+    </div>
+  </section>
+
+  <section class="section soft">
+    <div class="container qs-grid">
+      <div>
+        <span class="eyebrow">Quick start</span>
+        <h2>A working scanner in a few lines</h2>
+        <p class="muted-lead">Each snippet is a complete integration: camera permission prompt, viewfinder, feedback and a typed result.</p>
+        <ul class="checks">
+          <li><Icon name="check" size={18} /> Symbologies as simple ids: <code>qr</code>, <code>ean13</code>, <code>retail</code></li>
+          <li><Icon name="check" size={18} /> <code>single</code>, <code>continuous</code> and <code>batch</code> modes everywhere</li>
+          <li><Icon name="check" size={18} /> Duplicate filter, torch, zoom and camera switching built in</li>
+        </ul>
+        <a class="btn btn-dark" href={url("/docs/quick-start/")}>Full quick start</a>
+      </div>
+      <CodeTabs id="sdk-qs" tabs={quickstart} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container result-grid">
+      <CodeTabs id="sdk-result" tabs={[{ label: "Barcode result", lang: "json", code: resultJson }]} />
+      <div>
+        <span class="eyebrow">One result shape</span>
+        <h2>The same JSON on every platform</h2>
+        <p class="muted-lead">
+          A scan from Swift, Kotlin, Dart, TypeScript, Python or C# serializes to the same object, and GS1 data always comes back in human-readable
+          form. Send results to one backend and parse them with the same code.
+        </p>
+        <a class="link-arrow" href={url("/docs/concepts/")}>Core concepts <Icon name="arrowRight" size={16} /></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section soft">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Feature matrix</span>
+        <h2>What's in each SDK</h2>
+      </div>
+      <div class="matrix-wrap">
+        <table class="matrix">
+          <thead>
+            <tr>
+              <th scope="col">Feature</th>
+              {cols.map((c) => <th scope="col">{c}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {
+              matrix.map(([feature, values]) => (
+                <tr>
+                  <th scope="row">{feature}</th>
+                  {values.map((v) => (
+                    <td class={v === Y ? "yes" : v === "–" ? "no" : "part"}>{v === Y ? <Icon name="check" size={18} /> : v}</td>
+                  ))}
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="status-note">iOS reads 20 symbologies through Apple Vision and generates QR, PDF417, Aztec and Code 128 natively (everything else through the REST API). See <a href={url("/docs/symbologies/")}>Symbologies</a>.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .pgroup {
+    margin-bottom: 40px;
+  }
+  .pgroup h3 {
+    font-size: 15px;
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .pgrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .pcard {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    background: #fff;
+    text-decoration: none;
+    transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+  }
+  .pcard:hover {
+    border-color: #b9c4d2;
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-2px);
+  }
+  .ptop {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .picon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #e7f8fa, #eef0ff);
+    color: #1f7f8c;
+  }
+  .pname {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+  }
+  .pname small {
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .pcard p {
+    margin: 0;
+    font-size: 14.5px;
+    color: var(--muted);
+  }
+  .pcard code {
+    margin-top: auto;
+    display: block;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .status-note {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+  .registry-note {
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: #eefafb;
+    color: #1e4a51;
+    margin-bottom: 10px;
+  }
+  .status-note a {
+    color: var(--teal-600);
+  }
+  .qs-grid,
+  .result-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 48px;
+    align-items: center;
+  }
+  .result-grid {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  }
+  .qs-grid h2,
+  .result-grid h2 {
+    font-size: clamp(28px, 3.6vw, 40px);
+  }
+  .muted-lead {
+    font-size: 18px;
+    color: var(--muted);
+  }
+  .checks {
+    list-style: none;
+    padding: 0;
+    margin: 18px 0 28px;
+    display: grid;
+    gap: 10px;
+  }
+  .checks li {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .checks :global(svg) {
+    flex: none;
+    margin-top: 3px;
+    color: var(--teal-600);
+  }
+  @media (max-width: 1000px) {
+    .qs-grid,
+    .result-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  .matrix-wrap {
+    overflow-x: auto;
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    background: #fff;
+    margin-bottom: 14px;
+  }
+  .matrix {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    min-width: 860px;
+  }
+  .matrix th,
+  .matrix td {
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--line);
+    text-align: center;
+  }
+  .matrix thead th {
+    background: var(--bg-softer);
+    font-weight: 650;
+  }
+  .matrix th[scope="row"] {
+    text-align: left;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .matrix tr:last-child th,
+  .matrix tr:last-child td {
+    border-bottom: 0;
+  }
+  .matrix .yes {
+    color: var(--teal-600);
+  }
+  .matrix .no {
+    color: #b0b9c4;
+  }
+  .matrix .part {
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+</style>

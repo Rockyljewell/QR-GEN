@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Optional XML attributes for dev.qrgen.android.QRGenScannerView. -->
+    <declare-styleable name="QRGenScannerView">
+        <!-- Viewfinder, highlight and toast accent color. Default #2EC1CE. -->
+        <attr name="qrgen_accentColor" format="color" />
+        <!-- Overlay style. "auto" picks line for linear-only symbologies, else frame. -->
+        <attr name="qrgen_viewfinder" format="enum">
+            <enum name="auto" value="0" />
+            <enum name="frame" value="1" />
+            <enum name="line" value="2" />
+            <enum name="none" value="3" />
+        </attr>
+        <!-- Comma separated SPEC symbology ids or groups, for example "qr,retail". -->
+        <attr name="qrgen_symbologies" format="string" />
+        <!-- single | continuous | batch -->
+        <attr name="qrgen_mode" format="enum">
+            <enum name="single" value="0" />
+            <enum name="continuous" value="1" />
+            <enum name="batch" value="2" />
+        </attr>
+        <attr name="qrgen_beep" format="boolean" />
+        <attr name="qrgen_vibrate" format="boolean" />
+        <!-- Show the success pill after a scan. Default true. -->
+        <attr name="qrgen_showToast" format="boolean" />
+        <!-- Outline detected codes. Default true. -->
+        <attr name="qrgen_showHighlights" format="boolean" />
+        <!-- Dim the area outside the viewfinder. Default true. -->
+        <attr name="qrgen_dimBackground" format="boolean" />
+    </declare-styleable>
+</resources>

@@ -1,0 +1,114 @@
+---
+import "../styles/global.css";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import Search from "../components/Search.astro";
+import { BRAND, url } from "../lib/site";
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Full <title>; defaults to "{title} | QRGen". */
+  fullTitle?: string;
+  noFooter?: boolean;
+  bodyClass?: string;
+}
+const { title, description = BRAND.description, fullTitle, noFooter = false, bodyClass } = Astro.props;
+const pageTitle = fullTitle ?? `${title} | QRGen`;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL(url("/og.png"), Astro.site).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#373737" />
+    <link rel="icon" href={url("/favicon.svg")} type="image/svg+xml" />
+    <link rel="alternate" type="text/plain" href={url("/llms.txt")} title="llms.txt" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="QRGen" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@600;700;800&family=JetBrains+Mono:wght@400;500&family=Montserrat:wght@300;400&display=swap"
+    />
+    <script is:inline define:vars={{ wasmBase: url("/sdk/wasm/") }}>
+      // Self-host the decoding engine (the SDK reads this before loading the wasm).
+      window.QRGEN_WASM_BASE = wasmBase;
+    </script>
+    <slot name="head" />
+  </head>
+  <body class={bodyClass}>
+    <a class="skip" href="#main">Skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    {!noFooter && <Footer />}
+    <Search />
+    <script>
+      // Copy buttons: [data-copy="text"] or [data-copy-target="#selector"].
+      async function copyText(text: string): Promise<void> {
+        try {
+          await navigator.clipboard.writeText(text);
+        } catch {
+          const ta = document.createElement("textarea");
+          ta.value = text;
+          ta.style.position = "fixed";
+          ta.style.opacity = "0";
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          ta.remove();
+        }
+      }
+      document.addEventListener("click", async (e) => {
+        const btn = (e.target as Element).closest<HTMLElement>("[data-copy], [data-copy-target]");
+        if (!btn) return;
+        const text = btn.dataset.copy ?? document.querySelector(btn.dataset.copyTarget!)?.textContent ?? "";
+        await copyText(text.replace(/\n$/, ""));
+        const label = btn.querySelector("span");
+        const prev = label?.textContent;
+        btn.classList.add("done");
+        if (label) label.textContent = "Copied";
+        setTimeout(() => {
+          btn.classList.remove("done");
+          if (label && prev) label.textContent = prev;
+        }, 1600);
+      });
+
+      // Markdown code blocks get a copy button; callout blockquotes get a class.
+      document.querySelectorAll<HTMLPreElement>(".prose pre").forEach((pre, i) => {
+        if (pre.parentElement?.classList.contains("code-wrap")) return;
+        const wrap = document.createElement("div");
+        wrap.className = "code-wrap";
+        pre.parentNode!.insertBefore(wrap, pre);
+        wrap.appendChild(pre);
+        pre.id ||= `code-${i}`;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "copy-btn";
+        btn.dataset.copyTarget = `#${pre.id}`;
+        btn.setAttribute("aria-label", "Copy code");
+        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg><span>Copy</span>';
+        wrap.appendChild(btn);
+      });
+      document.querySelectorAll<HTMLQuoteElement>(".prose blockquote").forEach((bq) => {
+        const t = bq.textContent?.trim() ?? "";
+        if (t.startsWith("Warning:")) bq.classList.add("warning");
+        else if (t.startsWith("Tip:")) bq.classList.add("tip");
+      });
+    </script>
+  </body>
+</html>

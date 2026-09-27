@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Merged into the app. CAMERA still has to be requested at runtime
+         (see QRGen.hasCameraPermission and the README). -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- Haptic feedback on scan (normal permission, granted at install). -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- Scanning works with any camera; do not filter devices out of the Play Store. -->
+    <uses-feature android:name="android.hardware.camera.any" android:required="false" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.flash" android:required="false" />
+
+    <!-- com.google.mlkit:barcode-scanning bundles its model: nothing to download at runtime. -->
+</manifest>

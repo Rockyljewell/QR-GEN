@@ -1,0 +1,100 @@
+---
+import { url } from "../../lib/site";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>QRGen scanner</title>
+    <meta name="robots" content="noindex" />
+    <meta name="description" content="Embeddable QRGen barcode scanner for WebViews and iframes." />
+    <link rel="icon" href={url("/favicon.svg")} type="image/svg+xml" />
+    <script is:inline define:vars={{ wasmBase: url("/sdk/wasm/") }}>
+      window.QRGEN_WASM_BASE = wasmBase;
+    </script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #05070a;
+        color: #fff;
+        font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+        overscroll-behavior: none;
+      }
+      qrgen-scanner {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+      }
+      .standalone {
+        position: fixed;
+        left: 12px;
+        right: 12px;
+        bottom: max(12px, env(safe-area-inset-bottom));
+        z-index: 10;
+        padding: 10px 14px;
+        border-radius: 12px;
+        background: rgba(12, 16, 22, 0.86);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        font-size: 13px;
+        line-height: 1.45;
+      }
+      .standalone a {
+        color: #6fd2dd;
+      }
+      .log {
+        position: fixed;
+        top: 70px;
+        left: 12px;
+        right: 12px;
+        max-height: 40vh;
+        overflow: auto;
+        z-index: 10;
+        margin: 0;
+        padding: 10px;
+        border-radius: 10px;
+        background: rgba(0, 0, 0, 0.7);
+        font: 11px/1.4 ui-monospace, monospace;
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      import { attributesFromQuery, connectBridge, detectChannels } from "qrgen-sdk/bridge";
+      import "qrgen-sdk/elements";
+
+      const params = new URLSearchParams(location.search);
+      const el = document.createElement("qrgen-scanner");
+      const attrs = attributesFromQuery(location.search);
+      if (!("mode" in attrs)) attrs.mode = "single";
+      for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+      document.body.append(el);
+      connectBridge(el as unknown as Parameters<typeof connectBridge>[0]);
+
+      const channels = detectChannels();
+      if (!channels.length) {
+        const note = document.createElement("div");
+        note.className = "standalone";
+        note.innerHTML =
+          'This is the embeddable QRGen scanner. Load it in a WebView or iframe (<code>allow="camera"</code>) to receive results. <a href="../docs/embed-bridge/">Docs</a>';
+        document.body.append(note);
+      }
+      if (params.get("debug") === "1") {
+        const log = document.createElement("pre");
+        log.className = "log";
+        document.body.append(log);
+        const write = (line: string) => (log.textContent = `${line}\n${log.textContent}`.slice(0, 5000));
+        write(`channels: ${channels.join(", ") || "none"}`);
+        for (const name of ["ready", "scan", "track", "select", "error", "statechange"]) {
+          el.addEventListener(name, (e) => write(`${name} ${JSON.stringify((e as CustomEvent).detail).slice(0, 300)}`));
+        }
+      }
+    </script>
+  </body>
+</html>

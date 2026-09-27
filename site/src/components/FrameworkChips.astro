@@ -1,0 +1,24 @@
+---
+import { PLATFORM_BY_ID, HERO_PLATFORMS } from "../lib/platforms";
+import { url } from "../lib/site";
+import Icon from "./Icon.astro";
+interface Props {
+  ids?: string[];
+  light?: boolean;
+}
+const { ids = HERO_PLATFORMS, light = false } = Astro.props;
+const items = ids.map((id) => PLATFORM_BY_ID.get(id)).filter((p): p is NonNullable<typeof p> => !!p);
+---
+
+<ul class:list={["chips", { light }]} aria-label="Supported platforms">
+  {
+    items.map((p) => (
+      <li>
+        <a class="chip" href={url(`/docs/${p.doc}/`)}>
+          <Icon name={p.icon} size={17} />
+          {p.label}
+        </a>
+      </li>
+    ))
+  }
+</ul>

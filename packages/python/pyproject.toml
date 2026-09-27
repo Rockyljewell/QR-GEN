@@ -1,0 +1,74 @@
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "qrgen-sdk"
+dynamic = ["version"]
+description = "Open-source barcode, QR code and ID scanning SDK: decode, generate, parse GS1/AAMVA/QR content, webcam scanning and a REST server."
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "QRGen contributors" }]
+keywords = [
+  "barcode",
+  "qr code",
+  "qrcode",
+  "scanner",
+  "zxing",
+  "datamatrix",
+  "pdf417",
+  "gs1",
+  "aamva",
+  "driver license",
+  "ean",
+  "upc",
+  "raspberry pi",
+]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Multimedia :: Graphics :: Capture",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Typing :: Typed",
+]
+dependencies = ["zxing-cpp>=3.1", "pillow>=9.1"]
+
+[project.optional-dependencies]
+camera = ["opencv-python-headless>=4.8", "numpy"]
+server = []
+dev = ["pytest>=7", "numpy"]
+
+[project.scripts]
+qrgen-py = "qrgen_sdk.cli:main"
+qrgen-sdk = "qrgen_sdk.cli:main"
+
+[project.urls]
+Homepage = "https://rockyljewell.github.io/QR-GEN/"
+Documentation = "https://github.com/Rockyljewell/QR-GEN/tree/main/packages/python#readme"
+Repository = "https://github.com/Rockyljewell/QR-GEN"
+Issues = "https://github.com/Rockyljewell/QR-GEN/issues"
+Specification = "https://github.com/Rockyljewell/QR-GEN/blob/main/docs/SPEC.md"
+
+[tool.hatch.version]
+path = "src/qrgen_sdk/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/qrgen_sdk"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/qrgen_sdk", "tests", "README.md", "LICENSE", "pyproject.toml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-ra"

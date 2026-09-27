@@ -1,0 +1,139 @@
+---
+import { NAV } from "../lib/nav";
+import { GITHUB, url } from "../lib/site";
+import Icon from "./Icon.astro";
+import Wordmark from "./Wordmark.astro";
+
+const href = (h: string) => (h.startsWith("http") ? h : url(h));
+---
+
+<header class="site-header" data-header>
+  <div class="container bar">
+    <Wordmark />
+    <nav aria-label="Main">
+      <ul class="nav">
+        {
+          NAV.map((item, i) => (
+            <li data-nav-item>
+              <button class="nav-trigger" aria-expanded="false" aria-controls={`mega-${i}`} type="button">
+                {item.label}
+                <Icon name="chevronDown" size={14} />
+              </button>
+              <div class="mega" id={`mega-${i}`}>
+                <div class="mega-inner" style={`--cols:${item.columns.length}`}>
+                  {item.columns.map((col) => (
+                    <div>
+                      <h4>{col.title}</h4>
+                      <ul>
+                        {col.links.map((l) => (
+                          <li>
+                            <a href={href(l.href)} {...(l.external ? { target: "_blank", rel: "noopener" } : {})}>
+                              <strong>{l.label}</strong>
+                              {l.desc && <span>{l.desc}</span>}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                  <div class="feature">
+                    <h5>{item.feature.title}</h5>
+                    <p>{item.feature.text}</p>
+                    {item.feature.code && <code>{item.feature.code}</code>}
+                    <a href={href(item.feature.href)}>
+                      {item.feature.cta} <Icon name="arrowRight" size={16} />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" type="button" data-search-open aria-label="Search the docs (Ctrl K)">
+        <Icon name="search" size={22} />
+      </button>
+      <a class="header-link hide-md" href={GITHUB.url} target="_blank" rel="noopener">GitHub <Icon name="external" size={14} /></a>
+      <a class="btn btn-outline hide-md hide-sm" href={GITHUB.discussions} target="_blank" rel="noopener">Contact us</a>
+      <a class="btn btn-primary hide-sm" href={url("/demo/")}>Try for free</a>
+      <button class="icon-btn menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+        <Icon name="menu" size={24} />
+      </button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobile-menu" data-mobile-menu>
+    {
+      NAV.map((item) => (
+        <details>
+          <summary>
+            {item.label} <Icon name="chevronDown" size={18} />
+          </summary>
+          {item.columns.map((col) => (
+            <ul>
+              {col.links.map((l) => (
+                <li>
+                  <a href={href(l.href)}>{l.label}</a>
+                </li>
+              ))}
+            </ul>
+          ))}
+        </details>
+      ))
+    }
+    <div class="actions">
+      <a class="btn btn-primary" href={url("/demo/")}>Try for free</a>
+      <a class="btn btn-light" href={url("/agent-skills/")}>Agent Skills</a>
+      <a class="btn btn-light" href={GITHUB.url}>GitHub</a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const items = document.querySelectorAll<HTMLLIElement>("[data-nav-item]");
+  items.forEach((li) => {
+    const btn = li.querySelector("button")!;
+    btn.addEventListener("click", () => {
+      const open = !li.classList.contains("open");
+      items.forEach((o) => {
+        o.classList.remove("open");
+        o.querySelector("button")?.setAttribute("aria-expanded", "false");
+      });
+      li.classList.toggle("open", open);
+      li.classList.remove("closed");
+      btn.setAttribute("aria-expanded", String(open));
+    });
+    li.addEventListener("mouseleave", () => {
+      li.classList.remove("open", "closed");
+      btn.setAttribute("aria-expanded", "false");
+    });
+    li.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        li.classList.remove("open");
+        li.classList.add("closed");
+        btn.setAttribute("aria-expanded", "false");
+        btn.focus();
+      }
+    });
+    // Close the panel after navigating within the page.
+    li.querySelectorAll(".mega a").forEach((a) => a.addEventListener("click", () => li.classList.add("closed")));
+  });
+  document.addEventListener("click", (e) => {
+    if (!(e.target as Element).closest("[data-nav-item]")) items.forEach((o) => o.classList.remove("open"));
+  });
+  const toggle = document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+  const menu = document.querySelector<HTMLElement>("[data-mobile-menu]");
+  toggle?.addEventListener("click", () => {
+    const open = !menu!.classList.contains("open");
+    menu!.classList.toggle("open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    document.body.style.overflow = open ? "hidden" : "";
+  });
+  menu?.querySelectorAll("a").forEach((a) =>
+    a.addEventListener("click", () => {
+      menu.classList.remove("open");
+      document.body.style.overflow = "";
+    }),
+  );
+</script>

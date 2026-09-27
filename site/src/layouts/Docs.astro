@@ -1,0 +1,387 @@
+---
+import type { MarkdownHeading } from "astro";
+import Icon from "../components/Icon.astro";
+import { getDocs, groupDocs, sourcePath, type DocEntry } from "../lib/docs";
+import { GITHUB, url } from "../lib/site";
+import Base from "./Base.astro";
+
+interface Props {
+  entry: DocEntry;
+  headings: MarkdownHeading[];
+}
+const { entry, headings } = Astro.props;
+const docs = await getDocs();
+const groups = groupDocs(docs);
+const index = docs.findIndex((d) => d.id === entry.id);
+const prev = index > 0 ? docs[index - 1] : undefined;
+const next = index < docs.length - 1 ? docs[index + 1] : undefined;
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
+const editUrl = `${GITHUB.url}/edit/main/${sourcePath(entry.id)}`;
+const { title, description, badge, status, group } = entry.data;
+---
+
+<Base title={`${title} · Docs`} description={description} bodyClass="docs-body">
+  <div class="docs container">
+    <aside class="docs-nav" aria-label="Documentation">
+      <details class="docs-nav-toggle" open>
+        <summary>Documentation menu</summary>
+        <nav>
+          {
+            groups.map((g) => (
+              <div class="nav-group">
+                <h2>{g.group}</h2>
+                <ul>
+                  {g.items.map((d) => (
+                    <li>
+                      <a href={url(`/docs/${d.id}/`)} aria-current={d.id === entry.id ? "page" : undefined}>
+                        {d.data.label ?? d.data.title}
+                        {d.data.status && d.data.status !== "stable" && <span class={`dot ${d.data.status}`} title={d.data.status} />}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
+        </nav>
+      </details>
+    </aside>
+
+    <article class="docs-main">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href={url("/docs/")}>Docs</a>
+        <span aria-hidden="true">/</span>
+        <span>{group}</span>
+      </nav>
+      <header class="doc-head">
+        <h1>{title}</h1>
+        <div class="doc-badges">
+          {badge && <span class="badge">{badge}</span>}
+          {status && <span class={`badge ${status}`}>{status === "guide" ? "WebView guide" : status}</span>}
+        </div>
+        <p class="doc-lead">{description}</p>
+        <div class="doc-tools">
+          <button type="button" class="btn btn-light btn-sm" data-copy-md>
+            <Icon name="copy" size={15} /> <span>Copy as Markdown</span>
+          </button>
+          <a class="btn btn-light btn-sm" href={editUrl} target="_blank" rel="noopener"><Icon name="github" size={15} /> Edit on GitHub</a>
+        </div>
+      </header>
+      <div class="prose" data-doc-content>
+        <slot />
+      </div>
+      <template data-md-source set:text={entry.body ?? ""} />
+      <nav class="pager" aria-label="Previous and next">
+        {
+          prev ? (
+            <a class="pager-link" href={url(`/docs/${prev.id}/`)}>
+              <span>Previous</span>
+              <strong>{prev.data.title}</strong>
+            </a>
+          ) : (
+            <span />
+          )
+        }
+        {
+          next && (
+            <a class="pager-link next" href={url(`/docs/${next.id}/`)}>
+              <span>Next</span>
+              <strong>{next.data.title}</strong>
+            </a>
+          )
+        }
+      </nav>
+    </article>
+
+    <aside class="docs-toc" aria-label="On this page">
+      {
+        toc.length > 0 && (
+          <>
+            <h2>On this page</h2>
+            <ul>
+              {toc.map((h) => (
+                <li class={`d${h.depth}`}>
+                  <a href={`#${h.slug}`} data-toc={h.slug}>
+                    {h.text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </>
+        )
+      }
+      <div class="toc-cta">
+        <strong>Using a coding agent?</strong>
+        <p>Install the Agent Skills and let it do the integration.</p>
+        <a href={url("/agent-skills/")}>Agent Skills <Icon name="arrowRight" size={14} /></a>
+      </div>
+    </aside>
+  </div>
+</Base>
+
+<script>
+  // Copy the page's Markdown source (handy for pasting into an AI assistant).
+  const btn = document.querySelector<HTMLButtonElement>("[data-copy-md]");
+  btn?.addEventListener("click", async () => {
+    const tpl = document.querySelector<HTMLTemplateElement>("[data-md-source]");
+    const title = document.querySelector(".doc-head h1")?.textContent ?? "";
+    const md = `# ${title}\n\n${tpl?.content.textContent ?? tpl?.innerHTML ?? ""}`;
+    await navigator.clipboard.writeText(md).catch(() => undefined);
+    const span = btn.querySelector("span")!;
+    span.textContent = "Copied";
+    setTimeout(() => (span.textContent = "Copy as Markdown"), 1500);
+  });
+
+  // Heading anchors + active TOC item.
+  const content = document.querySelector("[data-doc-content]");
+  content?.querySelectorAll<HTMLHeadingElement>("h2[id], h3[id]").forEach((h) => {
+    const a = document.createElement("a");
+    a.href = `#${h.id}`;
+    a.className = "anchor";
+    a.textContent = "#";
+    a.setAttribute("aria-label", `Link to ${h.textContent}`);
+    h.append(a);
+  });
+  const links = new Map([...document.querySelectorAll<HTMLAnchorElement>("[data-toc]")].map((a) => [a.dataset.toc!, a]));
+  if (links.size && "IntersectionObserver" in window) {
+    const obs = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          links.forEach((a) => a.classList.remove("active"));
+          links.get(e.target.id)?.classList.add("active");
+        }
+      },
+      { rootMargin: "-80px 0px -70% 0px" },
+    );
+    content?.querySelectorAll("h2[id], h3[id]").forEach((h) => obs.observe(h));
+  }
+  // Collapse the sidebar by default on small screens.
+  if (matchMedia("(max-width: 1000px)").matches) document.querySelector<HTMLDetailsElement>(".docs-nav-toggle")?.removeAttribute("open");
+</script>
+
+<style>
+  .docs {
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1fr) 230px;
+    gap: 48px;
+    padding-top: 36px;
+    padding-bottom: 96px;
+    align-items: start;
+  }
+  .docs-nav,
+  .docs-toc {
+    position: sticky;
+    top: calc(var(--header-h) + 24px);
+    max-height: calc(100vh - var(--header-h) - 48px);
+    overflow-y: auto;
+    font-size: 14.5px;
+  }
+  .docs-nav summary {
+    display: none;
+  }
+  .nav-group {
+    margin-bottom: 22px;
+  }
+  .nav-group h2 {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 8px;
+  }
+  .docs-nav ul,
+  .docs-toc ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .docs-nav a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 6px 10px;
+    margin: 0 -10px;
+    border-radius: 8px;
+    color: var(--ink-2);
+    text-decoration: none;
+  }
+  .docs-nav a:hover {
+    background: var(--bg-soft);
+  }
+  .docs-nav a[aria-current="page"] {
+    background: #e9f8fa;
+    color: #11606b;
+    font-weight: 650;
+  }
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex: none;
+  }
+  .dot.beta {
+    background: #8f7dff;
+  }
+  .dot.preview {
+    background: #f0a33a;
+  }
+  .dot.guide {
+    background: #b7c2cf;
+  }
+  .crumbs {
+    display: flex;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .crumbs a {
+    color: var(--teal-600);
+    text-decoration: none;
+  }
+  .doc-head {
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--line);
+  }
+  .doc-head h1 {
+    font-size: clamp(32px, 4vw, 44px);
+    font-weight: 750;
+    margin: 0 0 12px;
+  }
+  .doc-badges {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .doc-badges .badge {
+    text-transform: capitalize;
+  }
+  .doc-lead {
+    font-size: 19px;
+    color: var(--muted);
+    margin: 0 0 18px;
+    max-width: 44em;
+  }
+  .doc-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .doc-tools .btn {
+    height: 34px;
+    font-size: 13.5px;
+  }
+  .pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 64px;
+  }
+  .pager-link {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 18px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    text-decoration: none;
+  }
+  .pager-link:hover {
+    border-color: #b9c4d2;
+  }
+  .pager-link span {
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .pager-link.next {
+    text-align: right;
+    grid-column: 2;
+  }
+  .docs-toc h2 {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 10px;
+  }
+  .docs-toc li a {
+    display: block;
+    padding: 4px 0 4px 12px;
+    border-left: 2px solid var(--line);
+    color: var(--muted);
+    text-decoration: none;
+    line-height: 1.4;
+  }
+  .docs-toc li.d3 a {
+    padding-left: 24px;
+    font-size: 13.5px;
+  }
+  .docs-toc li a:hover {
+    color: var(--ink);
+  }
+  .docs-toc li a.active {
+    color: #11606b;
+    border-left-color: var(--teal-500);
+    font-weight: 600;
+  }
+  .toc-cta {
+    margin-top: 28px;
+    padding: 16px;
+    border-radius: 12px;
+    background: var(--bg-soft);
+    font-size: 13.5px;
+  }
+  .toc-cta p {
+    margin: 6px 0 8px;
+    color: var(--muted);
+  }
+  .toc-cta a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 650;
+    color: var(--teal-600);
+    text-decoration: none;
+  }
+  @media (max-width: 1200px) {
+    .docs {
+      grid-template-columns: 230px minmax(0, 1fr);
+    }
+    .docs-toc {
+      display: none;
+    }
+  }
+  @media (max-width: 1000px) {
+    .docs {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 20px;
+      padding-top: 20px;
+    }
+    .docs-nav {
+      position: static;
+      max-height: none;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 0 16px;
+    }
+    .docs-nav summary {
+      display: block;
+      padding: 14px 0;
+      font-weight: 650;
+      cursor: pointer;
+    }
+    .pager {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .pager-link.next {
+      grid-column: 1;
+    }
+  }
+</style>

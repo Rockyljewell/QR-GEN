@@ -1,0 +1,24 @@
+{
+  "name": "qrgen-site",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "prepare-assets": "node scripts/copy-sdk.mjs && node scripts/sync-readmes.mjs",
+    "dev": "npm run prepare-assets && astro dev",
+    "build": "npm run prepare-assets && astro build",
+    "preview": "astro preview",
+    "typecheck": "astro check",
+    "test:e2e": "node scripts/e2e.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.3.5",
+    "qrgen-sdk": "*"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "playwright": "^1.63.0",
+    "typescript": "^5.9.3"
+  }
+}

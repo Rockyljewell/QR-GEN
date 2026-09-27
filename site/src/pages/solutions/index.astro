@@ -1,0 +1,272 @@
+---
+import { Code } from "astro:components";
+import Icon from "../../components/Icon.astro";
+import Base from "../../layouts/Base.astro";
+import { barcodeSvg } from "../../lib/barcodes";
+import { url } from "../../lib/site";
+
+const industries = [
+  {
+    id: "retail",
+    icon: "cart",
+    title: "Retail",
+    lead: "Give every associate and every shopper a fast scanner on the phone they already carry.",
+    workflows: ["Price check and product lookup", "Shelf audits and gap scans (batch mode)", "Click & collect and returns", "Self-checkout and scan-and-go", "Loyalty and coupon QR codes"],
+    config: `<qrgen-scanner
+  symbologies="retail,qr"
+  mode="continuous"
+  duplicate-filter="1500"
+></qrgen-scanner>`,
+    sample: ["https://id.gs1.org/01/09506000134352/10/ABC123", "qr"],
+    caption: "GS1 Digital Link QR, the successor to the EAN on pack",
+    links: [["Barcode Scanning", "/products/barcode-scanning/"], ["Batch Scanning", "/products/batch-scanning/"]],
+  },
+  {
+    id: "logistics",
+    icon: "truck",
+    title: "Logistics & Post",
+    lead: "Keep up with the belt: GS1-128 labels, SSCCs and tracking numbers, several at a time.",
+    workflows: ["Receiving and put-away", "Sortation and hub scanning", "Proof of delivery", "Multi-label parcel scanning", "Pallet and SSCC verification"],
+    config: `<qrgen-scanner
+  symbologies="code128,itf14,data-matrix,qr,pdf417"
+  mode="batch"
+  max-results="10"
+></qrgen-scanner>`,
+    sample: ["(00)095011015300000018(420)10001", "code128"],
+    caption: "GS1-128: SSCC plus ship-to postal code",
+    links: [["Batch Scanning", "/products/batch-scanning/"], ["Parsers", "/docs/parsers/"]],
+  },
+  {
+    id: "healthcare",
+    icon: "heart",
+    title: "Healthcare",
+    lead: "Scan medication, specimens and wristbands with on-device processing, so no patient data leaves the device.",
+    workflows: ["Medication administration checks", "UDI and GS1 Data Matrix on packs", "Specimen tube tracking", "Patient wristband ID", "Expiry and recall checks"],
+    config: `import { parseGS1 } from "qrgen-sdk/parsers";
+
+scanner.addEventListener("scan", (e) => {
+  const gs1 = parseGS1(e.detail.barcode.data);
+  const expiry = gs1?.elements.find((x) => x.ai === "17")?.date;
+  if (expiry && expiry < today) alert("Expired: do not administer");
+});`,
+    sample: ["(01)09501101530003(17)271231(10)LOT4815(21)SN0042", "data-matrix"],
+    caption: "GS1 Data Matrix: GTIN, expiry, lot and serial",
+    links: [["Parsers", "/docs/parsers/"], ["Barcode Scanning", "/products/barcode-scanning/"]],
+  },
+  {
+    id: "manufacturing",
+    icon: "factory",
+    title: "Manufacturing",
+    lead: "Trace parts and assets from the line to the field, including on fixed cameras and headless Linux boxes.",
+    workflows: ["Work-in-progress tracking", "Part and asset labels (Data Matrix, QR)", "Tool crib check-in and check-out", "Fixed-mount camera stations (Python + OpenCV)", "MES and PLC integration over REST"],
+    config: `# Fixed-mount station on a Raspberry Pi
+pip install "qrgen-sdk[camera] @ git+https://github.com/Rockyljewell/QR-GEN.git#subdirectory=packages/python"
+qrgen-py camera --mode continuous --symbologies data-matrix,qr,code128`,
+    sample: ["ASSET-7731-PUMP-03", "data-matrix"],
+    caption: "Data Matrix asset tag",
+    links: [["Python", "/docs/python/"], ["REST API", "/docs/rest-api/"]],
+  },
+  {
+    id: "events",
+    icon: "ticket",
+    title: "Events & Ticketing",
+    lead: "Get people through the door in about a second, with or without a connection.",
+    workflows: ["QR and Aztec ticket validation", "Boarding passes (PDF417, Aztec)", "Age checks at the bar from driver licenses", "Badge scanning and lead capture", "Offline validation with local allow-lists"],
+    config: `<qrgen-scanner
+  symbologies="qr,aztec,pdf417"
+  mode="continuous"
+  duplicate-filter="-1"
+></qrgen-scanner>`,
+    sample: ["TICKET:QRG-2026-00481;SEAT:B12;GATE:3", "aztec"],
+    caption: "Aztec ticket",
+    links: [["ID Scanning", "/products/id-scanning/"], ["Embed in any app", "/docs/embed-bridge/"]],
+  },
+];
+const svgs = await Promise.all(industries.map((i) => barcodeSvg(i.sample[0]!, { symbology: i.sample[1]!, gs1: i.sample[0]!.startsWith("("), scale: 5 })));
+---
+
+<Base title="Solutions" description="QRGen for retail, logistics, healthcare, manufacturing and events: scanning workflows, recommended configurations and sample codes.">
+  <section class="s-hero hero-bg dark">
+    <div class="container">
+      <span class="tag">Solutions</span>
+      <h1>Scanning for the way your industry works</h1>
+      <p>Proven configurations for the workflows that run on barcodes, all free and open source.</p>
+      <nav class="jump" aria-label="Industries">
+        {
+          industries.map((i) => (
+            <a href={`#${i.id}`}>
+              <Icon name={i.icon} size={18} />
+              {i.title}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+  </section>
+
+  {
+    industries.map((ind, idx) => (
+      <section class:list={["section", { soft: idx % 2 === 1 }]} id={ind.id}>
+        <div class="container ind">
+          <div>
+            <span class="eyebrow">
+              <Icon name={ind.icon} size={16} /> {ind.title}
+            </span>
+            <h2>{ind.lead}</h2>
+            <ul class="wf">
+              {ind.workflows.map((w) => (
+                <li>
+                  <Icon name="check" size={18} />
+                  {w}
+                </li>
+              ))}
+            </ul>
+            <div class="cfg">
+              <span>Recommended setup</span>
+              <Code code={ind.config} lang={ind.config.startsWith("<") ? "html" : ind.config.startsWith("#") ? "bash" : "ts"} theme="github-dark-dimmed" />
+            </div>
+            <div class="links">
+              {ind.links.map(([label, href]) => (
+                <a class="link-arrow" href={url(href!)}>
+                  {label} <Icon name="arrowRight" size={16} />
+                </a>
+              ))}
+            </div>
+          </div>
+          <figure class="sample">
+            <div class="tile" set:html={svgs[idx]} />
+            <figcaption>{ind.caption}. Scan it with the <a href={url("/demo/")}>demo</a>.</figcaption>
+          </figure>
+        </div>
+      </section>
+    ))
+  }
+</Base>
+
+<style>
+  .s-hero {
+    padding: 80px 0 72px;
+  }
+  .s-hero h1 {
+    margin: 26px 0 14px;
+    font-size: clamp(36px, 5vw, 58px);
+    font-weight: 800;
+    color: #fff;
+    max-width: 16em;
+  }
+  .s-hero p {
+    font-size: 19px;
+  }
+  .jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 28px;
+  }
+  .jump a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .jump a:hover {
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+  .ind {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    gap: 56px;
+    align-items: center;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ind h2 {
+    font-size: clamp(26px, 3.2vw, 36px);
+    margin-bottom: 20px;
+  }
+  .wf {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 20px;
+  }
+  .wf li {
+    display: flex;
+    gap: 10px;
+  }
+  .wf :global(svg) {
+    flex: none;
+    margin-top: 3px;
+    color: var(--teal-600);
+  }
+  .cfg > span {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .cfg :global(pre) {
+    border-radius: 12px;
+    padding: 16px 18px;
+    font-size: 13.5px;
+    margin: 0 0 18px;
+    overflow-x: auto;
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .sample {
+    margin: 0;
+    display: grid;
+    gap: 12px;
+    justify-items: center;
+  }
+  .tile {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    max-width: 340px;
+    aspect-ratio: 1;
+    padding: 30px;
+    border-radius: 20px;
+    background: #fff;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-soft);
+  }
+  .tile :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+  .sample figcaption {
+    font-size: 14px;
+    color: var(--muted);
+    text-align: center;
+  }
+  .sample a {
+    color: var(--teal-600);
+  }
+  @media (max-width: 900px) {
+    .ind {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .wf {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://rockyljewell.github.io/QR-GEN/sitemap-index.xml
