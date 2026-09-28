@@ -1,6 +1,6 @@
 # QRGen for Android
 
-Native Android SDK for [QRGen](https://github.com/Rockyljewell/QR-GEN), the open-source (MIT)
+Native Android SDK for [QRGen](https://github.com/Rockyljewell/QR-GEN), the open-source (Apache-2.0)
 barcode, QR and ID scanning SDK. It follows the cross-platform contract in
 [`docs/SPEC.md`](../../docs/SPEC.md): the same symbology ids, result shape, parsers, scanner
 options and error codes as every other QRGen platform.
@@ -352,7 +352,7 @@ What was verified for this version (1.0.0), in a Linux container with JDK 21, Gr
 - `qrgen-compose`: compiled (`assembleRelease`) and lint passes.
 - `sample`: `assembleDebug` and a minified (R8) `assembleRelease` build succeed.
 - Publishing: `publishToMavenLocal` produces `dev.qrgen:qrgen-core|qrgen-android|qrgen-compose:1.0.0`
-  (jar/aar, sources, POM with MIT license and SCM). The JitPack build was simulated locally with
+  (jar/aar, sources, POM with Apache-2.0 license and SCM). The JitPack build was simulated locally with
   `JITPACK=true GROUP=com.github.Rockyljewell ARTIFACT=QR-GEN VERSION=1.0.0`, which publishes
   `com.github.Rockyljewell.QR-GEN:*:1.0.0` with matching inter-module dependencies.
 
@@ -367,4 +367,6 @@ placement). The round-trip test guards this.
 
 ## License
 
-MIT, see [LICENSE](../../LICENSE).
+Apache-2.0, see [LICENSE](LICENSE) and [NOTICE](NOTICE).
+
+Created by [Rockyljewell](https://github.com/Rockyljewell).

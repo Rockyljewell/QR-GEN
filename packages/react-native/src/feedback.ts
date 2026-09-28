@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 /**
  * Scan feedback: vibration through React Native's `Vibration` API and an
  * optional, app-provided beep.

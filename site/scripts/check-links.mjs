@@ -20,7 +20,7 @@ for (const file of files) {
   const pageUrl = new URL(`http://x${base}/${relative(dist, file).replace(/index\.html$/, "").replace(/\\/g, "/")}`);
   for (const m of html.matchAll(/\s(?:href|src)="([^"#?]+)(?:[?#][^"]*)?"/g)) {
     const ref = m[1];
-    if (/^(https?:|mailto:|tel:|data:|javascript:|blob:)/.test(ref) || ref.startsWith("//")) continue;
+    if (/^(https?:|mailto:|tel:|sms:|data:|javascript:|blob:)/.test(ref) || ref.startsWith("//")) continue;
     const u = new URL(ref, pageUrl);
     if (!u.pathname.startsWith(`${base}/`)) {
       broken.push(`${relative(dist, file)} → ${ref} (outside base)`);

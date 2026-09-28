@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 import type { Point, Quadrilateral, ScanArea, Size } from "../types.js";
 
 /** Mapping between camera-frame pixels and element pixels for `object-fit: cover`. */

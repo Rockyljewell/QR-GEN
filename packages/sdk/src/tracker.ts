@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 import { bounds, center } from "./engine/convert.js";
 import type { Barcode, TrackedBarcode } from "./types.js";
 

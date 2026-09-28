@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 
@@ -41,16 +44,16 @@ subprojects {
                     inceptionYear.set("2026")
                     licenses {
                         license {
-                            name.set("MIT License")
-                            url.set("https://opensource.org/licenses/MIT")
+                            name.set("Apache License 2.0")
+                            url.set("https://www.apache.org/licenses/LICENSE-2.0")
                             distribution.set("repo")
                         }
                     }
                     developers {
                         developer {
                             id.set("Rockyljewell")
-                            name.set("QRGen contributors")
-                            url.set("https://github.com/Rockyljewell/QR-GEN")
+                            name.set("Rockyljewell")
+                            url.set("https://github.com/Rockyljewell")
                         }
                     }
                     scm {

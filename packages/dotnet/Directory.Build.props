@@ -2,11 +2,11 @@
   <!-- Shared settings for every project under packages/dotnet. -->
   <PropertyGroup>
     <Version>1.0.0</Version>
-    <Authors>QRGen contributors</Authors>
+    <Authors>Rockyljewell</Authors>
     <Company>QRGen</Company>
     <Product>QRGen</Product>
-    <Copyright>Copyright (c) 2026 QRGen contributors</Copyright>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>Copyright 2026 Rockyljewell</Copyright>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://rockyljewell.github.io/QR-GEN/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Rockyljewell/QR-GEN</RepositoryUrl>
     <RepositoryType>git</RepositoryType>

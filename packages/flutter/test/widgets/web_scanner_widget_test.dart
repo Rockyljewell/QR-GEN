@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 // Widget tests for QRGenWebScanner against a fake webview_flutter platform.
 import 'dart:convert';
 

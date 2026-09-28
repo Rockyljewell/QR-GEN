@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 // Widget tests for QRGenScanner against a fake mobile_scanner platform.
 //
 // The fake implements the mobile_scanner 7 platform interface (the version

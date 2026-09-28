@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 import { prepareZXingModule, writeBarcode } from "zxing-wasm/writer";
 import { getConfig, toArrayBuffer, writerWasmUrl } from "./engine/config.js";
 import { QRGenError } from "./errors.js";

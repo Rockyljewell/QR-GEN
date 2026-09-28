@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 export { parseAAMVA, parseAamvaDate, AAMVA_FIELDS, type AamvaResult, type AamvaOptions } from "./aamva.js";
 export {
   parseGS1,

@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 /// Frame-to-view coordinate helpers, including the crop of an aspect-fill
 /// (`BoxFit.cover`) preview. Pure Dart.
 library;

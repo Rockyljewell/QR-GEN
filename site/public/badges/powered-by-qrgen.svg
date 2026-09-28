@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="146" height="20" viewBox="0 0 146 20" role="img" aria-label="Powered by QRGen">
+  <title>Powered by QRGen</title>
+  <linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient>
+  <clipPath id="r"><rect width="146" height="20" rx="3" fill="#fff"/></clipPath>
+  <g clip-path="url(#r)">
+    <rect width="74" height="20" fill="#373737"/>
+    <rect x="74" width="72" height="20" fill="#5cc9d6"/>
+    <rect width="146" height="20" fill="url(#s)"/>
+  </g>
+  <g font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11" text-anchor="middle">
+    <text x="37" y="15" fill="#010101" fill-opacity=".3">powered by</text>
+    <text x="37" y="14" fill="#fff">powered by</text>
+    <text x="117" y="14" fill="#05232b" font-weight="bold">QRGen</text>
+  </g>
+  <g transform="translate(79 3.5) scale(0.40625)">
+    <path d="M5 11V7a2 2 0 0 1 2-2h4M21 5h4a2 2 0 0 1 2 2v4M27 21v4a2 2 0 0 1-2 2h-4M11 27H7a2 2 0 0 1-2-2v-4" stroke="#05232b" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <rect x="10" y="10" width="5" height="5" rx="1" fill="#05232b"/><rect x="17" y="10" width="5" height="5" rx="1" fill="#05232b"/><rect x="10" y="17" width="5" height="5" rx="1" fill="#05232b"/><path d="M17 17h2.2v2.2H17zM19.8 19.8H22V22h-2.2z" fill="#05232b"/>
+  </g>
+</svg>

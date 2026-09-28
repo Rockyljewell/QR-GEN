@@ -1,11 +1,11 @@
 ---
 import Icon from "../../components/Icon.astro";
 import Base from "../../layouts/Base.astro";
-import { GITHUB, url } from "../../lib/site";
+import { AUTHOR, GITHUB, url } from "../../lib/site";
 
 const principles = [
   { icon: "lock", title: "Private by default", text: "Camera frames, images and ID data are processed on the device. QRGen has no analytics, no telemetry and no phone-home license checks." },
-  { icon: "code", title: "Open all the way down", text: "SDKs, UI components, parsers, docs, Agent Skills and this website live in one MIT-licensed repository." },
+  { icon: "code", title: "Open all the way down", text: "SDKs, UI components, parsers, docs, Agent Skills and this website live in one Apache-2.0 licensed repository." },
   { icon: "layers", title: "One contract", text: "Every platform follows the same specification for symbology ids, options, results, parsers and the REST API." },
   { icon: "bot", title: "Built for agents", text: "Agent Skills, llms.txt and a copy-paste prompt help coding agents integrate QRGen on the first try." },
   { icon: "check", title: "Honest about limits", text: "Beta packages are labelled beta, and the docs say what has been tested on devices and what hasn't." },
@@ -25,7 +25,25 @@ const principles = [
     </div>
   </section>
 
-  <section class="section" id="open-source">
+  <section class="section creator" id="creator">
+    <div class="container two">
+      <div>
+        <span class="eyebrow">Created by</span>
+        <h2><a href={AUTHOR.url} target="_blank" rel="noopener">{AUTHOR.name}</a></h2>
+        <p class="muted-lead">
+          QRGen was created by {AUTHOR.name} and is developed in the open on GitHub. It's free for everyone under the Apache License 2.0. If you build something with
+          it, keep the NOTICE with your app and, if you'd like to say thanks, add a "Powered by QRGen" link or share the project.
+        </p>
+      </div>
+      <div class="ctas">
+        <a class="btn btn-dark" href={AUTHOR.url} target="_blank" rel="noopener"><Icon name="github" size={18} /> @{AUTHOR.name}</a>
+        <a class="btn btn-light" href={url("/docs/credit/")}><Icon name="heart" size={18} /> How to credit QRGen</a>
+        <button class="btn btn-light" type="button" data-share-open><Icon name="share" size={18} /> Share QRGen</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section soft" id="open-source">
     <div class="container">
       <div class="section-head">
         <span class="eyebrow">Principles</span>
@@ -47,7 +65,7 @@ const principles = [
     </div>
   </section>
 
-  <section class="section soft" id="privacy">
+  <section class="section" id="privacy">
     <div class="container two">
       <div>
         <span class="eyebrow">Privacy & security</span>
@@ -63,7 +81,7 @@ const principles = [
     </div>
   </section>
 
-  <section class="section">
+  <section class="section soft">
     <div class="container two">
       <div>
         <span class="eyebrow">Credits</span>

@@ -52,3 +52,20 @@ generate an equivalent test code with `npx qrgen generate`). Never attach real I
 Tag `vX.Y.Z` on `main`. The release workflow publishes to npm (needs `NPM_TOKEN`) and PyPI (trusted
 publishing, enabled with the `PYPI_PUBLISH` repository variable), the Docker workflow publishes
 `ghcr.io/rockyljewell/qr-gen`, and JitPack and Swift Package Manager pick up the tag automatically.
+
+## License of contributions
+
+QRGen is licensed under the [Apache License 2.0](LICENSE). By opening a pull request you agree that
+your contribution is licensed under the same terms (section 5 of the license). You keep the copyright
+on what you write.
+
+Keep the existing header at the top of every file you edit. Start new source files with the same
+header, and add your own copyright line above it if you'd like credit for the file:
+
+```ts
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+```
+
+Don't remove or edit the [NOTICE](NOTICE) file except to add a notice that a newly bundled
+dependency requires.

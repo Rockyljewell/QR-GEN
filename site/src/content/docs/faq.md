@@ -7,7 +7,11 @@ order: 5
 
 ## Is QRGen free for commercial use?
 
-Yes. QRGen is MIT licensed: use it in commercial and closed-source products, modify it, and redistribute it. Keep the license notice. There are no license keys, per-device fees, usage limits or telemetry. The decoding engine is [zxing-cpp](https://github.com/zxing-cpp/zxing-cpp) (Apache-2.0), compiled to WebAssembly by [zxing-wasm](https://github.com/Sec-ant/zxing-wasm) (MIT).
+Yes. QRGen is licensed under the Apache License 2.0: use it in commercial and closed-source products, modify it, and redistribute it. When you ship it, keep the license, the copyright headers and the NOTICE text (see [Credit and attribution](../credit/)). There are no license keys, per-device fees, usage limits or telemetry. The decoding engine is [zxing-cpp](https://github.com/zxing-cpp/zxing-cpp) (Apache-2.0), compiled to WebAssembly by [zxing-wasm](https://github.com/Sec-ant/zxing-wasm) (MIT).
+
+## Do I have to credit QRGen?
+
+If you ship it, yes: include the license, keep the copyright headers and put the NOTICE text wherever your product lists open-source credits. A visible "Powered by QRGen" link is optional. See [Credit and attribution](../credit/) for the text to copy and where it goes on each platform.
 
 ## Are camera images uploaded anywhere?
 

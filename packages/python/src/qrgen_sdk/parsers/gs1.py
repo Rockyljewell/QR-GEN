@@ -1,3 +1,6 @@
+# Copyright 2026 Rockyljewell
+# SPDX-License-Identifier: Apache-2.0
+
 """GS1 element string and GS1 Digital Link parser (SPEC section 3.2).
 
 Accepted inputs:

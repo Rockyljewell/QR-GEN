@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Hosting;

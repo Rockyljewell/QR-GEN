@@ -20,7 +20,8 @@
     "zxing",
     "wasm"
   ],
-  "license": "MIT",
+  "license": "Apache-2.0",
+  "author": "Rockyljewell",
   "homepage": "https://rockyljewell.github.io/QR-GEN/",
   "repository": {
     "type": "git",
@@ -91,7 +92,8 @@
   "files": [
     "dist",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "NOTICE"
   ],
   "scripts": {
     "gen:worker": "node scripts/build-worker.mjs",

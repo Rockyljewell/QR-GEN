@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 /**
  * QRGen: open-source barcode, QR and ID scanning.
  *

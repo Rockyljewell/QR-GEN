@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 /// Converts engine detections into SPEC section 2 results. Pure Dart.
 library;
 

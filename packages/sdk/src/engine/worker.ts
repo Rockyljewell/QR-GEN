@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 /// <reference lib="webworker" />
 // Decoder worker. Bundled to a string by scripts/build-worker.mjs and started from a Blob URL,
 // so it works with every bundler (and with no bundler at all).

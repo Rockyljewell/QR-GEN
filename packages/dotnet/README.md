@@ -1,6 +1,6 @@
 # QRGen.Net
 
-Open-source (MIT) barcode, QR code and ID scanning for .NET. `QRGen.Net` gives you:
+Open-source (Apache-2.0) barcode, QR code and ID scanning for .NET. `QRGen.Net` gives you:
 
 * **Parsers** for GS1 element strings and Digital Link, AAMVA driver licenses, and QR
   payloads (URL, Wi-Fi, vCard/MECARD, events, payments, products...). Pure C#, no
@@ -244,4 +244,6 @@ Version 1.0.0.
 
 ## License
 
-MIT. See the repository [LICENSE](https://github.com/Rockyljewell/QR-GEN/blob/main/LICENSE).
+Apache-2.0. See [LICENSE](https://github.com/Rockyljewell/QR-GEN/blob/main/packages/dotnet/LICENSE) and [NOTICE](https://github.com/Rockyljewell/QR-GEN/blob/main/packages/dotnet/NOTICE).
+
+Created by [Rockyljewell](https://github.com/Rockyljewell).

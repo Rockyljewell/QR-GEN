@@ -7,6 +7,12 @@ export const BRAND = {
     "QRGen is an open-source barcode, QR code and ID scanning SDK for web, iOS, Android, React Native, Flutter, .NET, Node.js and Python, with pre-built scanning UI, batch scanning, a barcode generator and Agent Skills for coding agents.",
 };
 
+/** The project's creator, credited in the footer, about page and NOTICE. */
+export const AUTHOR = {
+  name: "Rockyljewell",
+  url: "https://github.com/Rockyljewell",
+};
+
 export const GITHUB = {
   owner: "Rockyljewell",
   repo: "QR-GEN",

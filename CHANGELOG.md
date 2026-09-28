@@ -17,3 +17,7 @@ First public version.
 - **qrgen-sdk for Python (beta):** image and webcam scanning, generator, parsers, CLI and REST server.
 - **Agent Skills:** seven skills plus a Claude Code plugin marketplace.
 - **Website:** marketing site, live demo, docs, `llms.txt`, embed page.
+- **License:** Apache License 2.0 with a `NOTICE` file, copyright headers in every source file and a
+  banner comment in the built SDK files. Created by Rockyljewell.
+- **Sharing:** share button and share options (native share sheet, copy link, page QR code, social
+  networks, messaging and email) on every page.

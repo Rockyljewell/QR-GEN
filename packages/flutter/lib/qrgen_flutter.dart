@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 /// QRGen for Flutter: barcode, QR and ID scanning.
 ///
 /// - [QRGenScanner]: native performance, built on `mobile_scanner`.

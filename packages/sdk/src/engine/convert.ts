@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 import { fromZXingFormat, symbologyName, type Symbology } from "../symbologies.js";
 import type { Barcode, ContentType, Quadrilateral, Size } from "../types.js";
 import { toBase64 } from "../util.js";

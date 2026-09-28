@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 package dev.qrgen
 
 /** Error codes shared by every QRGen platform (SPEC §4). */

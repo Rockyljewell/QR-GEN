@@ -1,3 +1,6 @@
+# Copyright 2026 Rockyljewell
+# SPDX-License-Identifier: Apache-2.0
+
 """REST API tests against a real server on an ephemeral port."""
 
 from __future__ import annotations

@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 /**
  * qrgen-react-native example: a scanner screen with a mode switch, a torch
  * toggle, a back end switch (vision-camera or WebView) and a result list.

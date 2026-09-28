@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 import 'dart:convert';
 
 import 'package:qrgen_flutter/src/core/bridge.dart';

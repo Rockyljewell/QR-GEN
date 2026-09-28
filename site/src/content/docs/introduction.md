@@ -1,13 +1,13 @@
 ---
 title: Introduction
-description: "QRGen is an open-source (MIT) SDK for scanning barcodes, QR codes and ID documents, and for generating and parsing barcodes, on the web, mobile, desktop and server."
+description: "QRGen is an open-source (Apache-2.0) SDK for scanning barcodes, QR codes and ID documents, and for generating and parsing barcodes, on the web, mobile, desktop and server."
 group: Get started
 order: 1
 ---
 
 QRGen is an open-source barcode, QR code and ID scanning SDK. It gives you a ready-made camera scanner you can drop into a page, a lower-level scanning API for custom interfaces, parsers that turn scanned text into structured data, and a barcode generator. Decoding runs on the device in WebAssembly (or the platform's native engine on iOS and Android), so camera frames never leave the user's device.
 
-The whole project is MIT licensed and free to use in commercial products. There are no license keys, usage limits or telemetry.
+The whole project is free and open source under the Apache License 2.0, including for commercial products. It was created by [Rockyljewell](https://github.com/Rockyljewell). There are no license keys, usage limits or telemetry.
 
 ## What's in the box
 

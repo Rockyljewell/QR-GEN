@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 import Foundation
 
 /// Errors reported by QRGenKit. ``code`` returns the cross-platform error code (SPEC section 4).

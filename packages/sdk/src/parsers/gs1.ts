@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 import { DIGITAL_LINK_NAMES, GS1_AIS, PREDEFINED_LENGTH_PREFIXES, matchAI } from "./gs1-ais.js";
 
 export interface GS1Element {

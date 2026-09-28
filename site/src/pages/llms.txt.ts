@@ -7,7 +7,7 @@ export const GET: APIRoute = async () => {
   const lines = [
     "# QRGen",
     "",
-    "> QRGen is an open-source (MIT) barcode, QR code and ID scanning SDK for web, iOS, Android, React Native, Flutter, .NET, Node.js and Python. It has a pre-built scanner UI (`<qrgen-scanner>`), batch (multi-code) tracking, AAMVA driver license and GS1 parsing, a barcode generator, a CLI, a REST API, and Agent Skills for coding agents.",
+    "> QRGen is an open-source (Apache-2.0) barcode, QR code and ID scanning SDK for web, iOS, Android, React Native, Flutter, .NET, Node.js and Python. It has a pre-built scanner UI (`<qrgen-scanner>`), batch (multi-code) tracking, AAMVA driver license and GS1 parsing, a barcode generator, a CLI, a REST API, and Agent Skills for coding agents.",
     "",
     "Key facts for assistants:",
     "- npm package: `qrgen-sdk` (subpaths: `/elements`, `/react`, `/vue`, `/parsers`, `/node`, `/server`, `/bridge`). Before the npm release: `npm install " + SITE_URL + "downloads/qrgen-sdk.tgz`.",

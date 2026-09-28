@@ -1,3 +1,6 @@
+# Copyright 2026 Rockyljewell
+# SPDX-License-Identifier: Apache-2.0
+
 """Classify and parse decoded barcode text (SPEC section 3.1).
 
 :func:`parse_content` recognises URLs, GS1 Digital Link, e-mail, phone, SMS, Wi-Fi,

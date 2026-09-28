@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 import { prepareZXingModule, readBarcodes } from "zxing-wasm/reader";
 import { QRGenError } from "../errors.js";
 import { WORKER_SOURCE } from "../generated/worker-source.js";

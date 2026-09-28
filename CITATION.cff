@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use QRGen in research or an article, please cite it as below."
+title: "QRGen: open-source barcode, QR code and ID scanning SDK"
+type: software
+authors:
+  - alias: Rockyljewell
+    website: "https://github.com/Rockyljewell"
+repository-code: "https://github.com/Rockyljewell/QR-GEN"
+url: "https://rockyljewell.github.io/QR-GEN/"
+license: Apache-2.0
+version: 1.0.0
+keywords:
+  - barcode
+  - qr-code
+  - scanner
+  - sdk
+  - webassembly
+  - gs1
+  - aamva

@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 import 'package:qrgen_flutter/src/core/barcode.dart';
 import 'package:qrgen_flutter/src/core/duplicate_filter.dart';
 import 'package:qrgen_flutter/src/core/options.dart';

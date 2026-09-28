@@ -1,3 +1,6 @@
+# Copyright 2026 Rockyljewell
+# SPDX-License-Identifier: Apache-2.0
+
 """Camera frame processing without a physical camera (OpenCV/numpy optional)."""
 
 from __future__ import annotations

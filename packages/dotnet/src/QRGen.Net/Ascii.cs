@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 namespace QRGen
 {
     /// <summary>ASCII-only character tests (<see cref="char.IsDigit(char)"/> also accepts non-Latin digits).</summary>

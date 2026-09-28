@@ -1,7 +1,7 @@
 # qrgen-react-native
 
 Barcode, QR and ID scanning for React Native, part of [QRGen](https://github.com/Rockyljewell/QR-GEN)
-(MIT). Two scanning back ends share one API:
+(Apache-2.0). Two scanning back ends share one API:
 
 | Component | Engine | Native setup | Best for |
 | --- | --- | --- | --- |
@@ -327,4 +327,6 @@ a back end switch and a result list.
 
 ## License
 
-MIT, see [LICENSE](LICENSE).
+Apache-2.0, see [LICENSE](LICENSE) and [NOTICE](NOTICE).
+
+Created by [Rockyljewell](https://github.com/Rockyljewell).

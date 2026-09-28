@@ -1,3 +1,6 @@
+# Copyright 2026 Rockyljewell
+# SPDX-License-Identifier: Apache-2.0
+
 """QRGen REST API (SPEC section 6) using only the Python standard library.
 
 Start it with ``qrgen-py serve --port 8080`` (or ``python -m qrgen_sdk serve``), or

@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 #if canImport(AVFoundation) && canImport(Vision) && (os(iOS) || os(macOS))
 import AVFoundation
 import CoreGraphics

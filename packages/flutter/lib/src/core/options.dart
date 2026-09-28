@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 /// Shared scanner options (SPEC section 4). Pure Dart.
 library;
 

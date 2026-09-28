@@ -11,7 +11,7 @@ const plans = [
     lead: "Everything, for every developer and every company.",
     cta: ["Get started", "/docs/quick-start/"],
     primary: true,
-    features: ["All SDKs: web, iOS, Android, React Native, Flutter, .NET, Node, Python", "26 symbologies, batch and ID scanning", "Pre-built scanner UI and generator", "Unlimited devices, scans and apps", "MIT license: use commercially, modify, redistribute"],
+    features: ["All SDKs: web, iOS, Android, React Native, Flutter, .NET, Node, Python", "26 symbologies, batch and ID scanning", "Pre-built scanner UI and generator", "Unlimited devices, scans and apps", "Apache-2.0 license: use commercially, modify, redistribute"],
   },
   {
     name: "Self-hosted",
@@ -32,7 +32,7 @@ const plans = [
 ];
 
 const compare: [string, string, string][] = [
-  ["License cost", "$0, MIT", "Per device, per scan or per app"],
+  ["License cost", "$0, Apache-2.0", "Per device, per scan or per app"],
   ["License keys", "None", "Required, with periodic renewal"],
   ["Source code", "Public, auditable", "Closed"],
   ["Data leaves the device", "Never (unless you send it)", "Often analytics or telemetry"],
@@ -42,12 +42,12 @@ const compare: [string, string, string][] = [
 ];
 ---
 
-<Base title="Pricing" description="QRGen is free and MIT licensed: every SDK, every feature, unlimited devices and scans. No license keys, no telemetry.">
+<Base title="Pricing" description="QRGen is free and open source (Apache-2.0): every SDK, every feature, unlimited devices and scans. No license keys, no telemetry.">
   <section class="pr-hero hero-bg dark">
     <div class="container">
       <span class="tag">Pricing</span>
       <h1>Free. For everyone. Forever.</h1>
-      <p>QRGen is MIT licensed. There are no license keys, no per-device fees and no scan limits, and it will stay that way.</p>
+      <p>QRGen is open source under the Apache License 2.0. There are no license keys, no per-device fees and no scan limits, and it will stay that way.</p>
     </div>
   </section>
 
@@ -111,9 +111,9 @@ const compare: [string, string, string][] = [
   <section class="section">
     <div class="container faq">
       <h2>Pricing questions</h2>
-      <details><summary>Can I use QRGen in a commercial, closed-source app?</summary><p>Yes. The MIT license lets you use, modify and ship it in commercial products. Keep the license notice with the code.</p></details>
+      <details><summary>Can I use QRGen in a commercial, closed-source app?</summary><p>Yes. The Apache License 2.0 lets you use, modify and ship it in commercial products. Keep the license, the copyright headers and the NOTICE with what you ship. See <a href={url("/docs/credit/")}>how to credit QRGen</a>.</p></details>
       <details><summary>Is there a paid tier coming?</summary><p>No paid tier is planned for the SDKs. If hosted services are ever offered, the SDKs and self-hosting will stay free.</p></details>
-      <details><summary>Who maintains QRGen?</summary><p>QRGen contributors on GitHub. Issues, pull requests and sponsorship of specific features are welcome.</p></details>
+      <details><summary>Who maintains QRGen?</summary><p>QRGen was created by <a href="https://github.com/Rockyljewell">Rockyljewell</a> and is developed in the open on GitHub. Issues and pull requests are welcome.</p></details>
     </div>
   </section>
 </Base>

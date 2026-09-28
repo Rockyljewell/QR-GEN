@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 import { createElement, forwardRef, useEffect, useImperativeHandle, useLayoutEffect, useRef, type CSSProperties, type ReactElement, type Ref } from "react";
 import { defineElements } from "../elements/define.js";
 import type { QRGenScannerElement } from "../elements/scanner-element.js";

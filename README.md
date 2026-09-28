@@ -7,11 +7,13 @@
 [Website](https://rockyljewell.github.io/QR-GEN/) · [Live demo](https://rockyljewell.github.io/QR-GEN/demo/) · [Docs](https://rockyljewell.github.io/QR-GEN/docs/) · [Agent Skills](https://rockyljewell.github.io/QR-GEN/agent-skills/) · [SDK & Frameworks](https://rockyljewell.github.io/QR-GEN/sdk/)
 
 [![CI](https://github.com/Rockyljewell/QR-GEN/actions/workflows/ci.yml/badge.svg)](https://github.com/Rockyljewell/QR-GEN/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/license-MIT-5cc9d6.svg)](LICENSE)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-5cc9d6.svg)](LICENSE)
+
+Created by [Rockyljewell](https://github.com/Rockyljewell)
 
 </div>
 
-QRGen is a free, MIT-licensed alternative to commercial scanning SDKs. It reads 26 symbologies
+QRGen is a free, open-source (Apache-2.0) alternative to commercial scanning SDKs. It reads 26 symbologies
 (QR, Data Matrix, PDF417, Aztec, EAN/UPC, Code 128, GS1 DataBar…), ships a polished pre-built
 scanner UI, tracks many codes at once, parses GS1 data and North American driver licenses, and
 generates print-ready barcodes. It runs on the web, iOS, Android, React Native, Flutter, .NET, Node.js,
@@ -146,8 +148,25 @@ The site deploys to GitHub Pages from `main` via [`.github/workflows/pages.yml`]
 Enable it once under **Settings → Pages → Source: GitHub Actions**. To host elsewhere, build with
 `SITE=https://your.domain BASE=/ npm run build`.
 
+## Credit
+
+QRGen was created by [Rockyljewell](https://github.com/Rockyljewell). It's free to use, including in
+commercial and closed-source products. If you ship it, the license asks for three things:
+
+- Keep the copyright and license headers in the source files you use.
+- Include the [NOTICE](NOTICE) file, or its text, wherever your product lists open-source credits
+  (an "Acknowledgements" or "Open-source licenses" screen, your docs, or your README).
+- Mark files you changed as changed.
+
+A visible "Powered by QRGen" link is optional, but appreciated. Copy-paste snippets and a badge are on
+the [credit page](https://rockyljewell.github.io/QR-GEN/docs/credit/). To cite QRGen in a paper or
+article, use GitHub's "Cite this repository" button (from [CITATION.cff](CITATION.cff)).
+
+Forks are welcome under a different name: see [TRADEMARKS.md](TRADEMARKS.md).
+
 ## License and disclaimer
 
-MIT, see [LICENSE](LICENSE). QRGen is an independent open-source project and is not affiliated with,
+Apache License 2.0, see [LICENSE](LICENSE) and [NOTICE](NOTICE). Copyright 2026 Rockyljewell.
+QRGen is an independent open-source project and is not affiliated with,
 endorsed by or connected to Scandit AG or any other commercial scanning vendor. Product names are
 trademarks of their respective owners.

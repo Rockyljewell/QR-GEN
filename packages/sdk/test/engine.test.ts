@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 import { describe, expect, it } from "vitest";
 import { generate, scan, generatePNG } from "../src/node";
 import { SYMBOLOGIES, WRITABLE_SYMBOLOGIES } from "../src/symbologies";

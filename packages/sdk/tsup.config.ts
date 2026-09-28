@@ -1,6 +1,12 @@
-import { defineConfig } from "tsup";
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 
-const banner = { js: "/*! qrgen-sdk | MIT License | https://github.com/Rockyljewell/QR-GEN */" };
+import { defineConfig } from "tsup";
+import { BANNER } from "./scripts/banner.mjs";
+
+// tsup's rollup tree-shaking pass can drop this banner from ESM/CJS files; scripts/postbuild.mjs
+// puts it back so every JS file in dist/ starts with it.
+const banner = { js: BANNER };
 
 export default defineConfig([
   // npm package: ESM + CJS with types; zxing-wasm stays an external dependency.
@@ -33,7 +39,7 @@ export default defineConfig([
     platform: "node",
     target: "node18",
     external: ["zxing-wasm"],
-    banner: { js: "#!/usr/bin/env node" },
+    banner: { js: `#!/usr/bin/env node\n${BANNER}` },
     clean: false,
   },
   // Standalone browser builds: <script type="module"> and classic <script>.

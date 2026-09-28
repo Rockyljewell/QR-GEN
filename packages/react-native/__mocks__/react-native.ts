@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 /**
  * Minimal react-native stand-in for Node tests. Only what the package imports
  * at module load is provided; the components are not rendered in tests.

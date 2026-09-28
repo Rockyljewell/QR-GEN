@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 import Foundation
 #if canImport(Vision) && (os(iOS) || os(macOS))
 import Vision

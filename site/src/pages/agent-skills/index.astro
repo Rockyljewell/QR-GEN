@@ -48,7 +48,7 @@ const agents = ["Claude Code", "Cursor", "OpenAI Codex", "GitHub Copilot", "Wind
 const faqs = [
   { q: "What is an Agent Skill?", a: "A folder with a SKILL.md file of instructions (plus optional references and scripts) that coding agents load when a task matches. QRGen's skills describe the real SDK APIs, platform setup, pitfalls and a verification checklist." },
   { q: "Which agents are supported?", a: "Any agent that reads the Agent Skills format. The skills CLI installs into Claude Code, Cursor, Codex, Copilot, Windsurf, Gemini CLI and many more. For anything else, paste the agent prompt." },
-  { q: "Are skills safe to install?", a: "They are plain Markdown plus one small Node script for fake-camera tests, all MIT licensed and readable on GitHub. Skills run with your agent's permissions, so review them like any dependency." },
+  { q: "Are skills safe to install?", a: "They are plain Markdown plus one small Node script for fake-camera tests, all Apache-2.0 licensed and readable on GitHub. Skills run with your agent's permissions, so review them like any dependency." },
   { q: "Do I need an account or API key?", a: "No. QRGen has no license keys, no sign-up and no telemetry. The skills only point your agent at public packages and docs." },
   { q: "How do I keep them up to date?", a: "Run `npx skills update`, or `/plugin marketplace update qrgen-plugins` in Claude Code. Skills are versioned with the SDK in the same repository." },
 ];

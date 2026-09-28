@@ -8,9 +8,9 @@ dynamic = ["version"]
 description = "Open-source barcode, QR code and ID scanning SDK: decode, generate, parse GS1/AAMVA/QR content, webcam scanning and a REST server."
 readme = "README.md"
 requires-python = ">=3.9"
-license = "MIT"
-license-files = ["LICENSE"]
-authors = [{ name = "QRGen contributors" }]
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [{ name = "Rockyljewell" }]
 keywords = [
   "barcode",
   "qr code",
@@ -66,7 +66,7 @@ path = "src/qrgen_sdk/_version.py"
 packages = ["src/qrgen_sdk"]
 
 [tool.hatch.build.targets.sdist]
-include = ["src/qrgen_sdk", "tests", "README.md", "LICENSE", "pyproject.toml"]
+include = ["src/qrgen_sdk", "tests", "README.md", "LICENSE", "NOTICE", "pyproject.toml"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
