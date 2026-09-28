@@ -2,7 +2,9 @@
 #   docker build -t qrgen .
 #   docker run -p 8080:8080 qrgen
 #   curl -F image=@label.jpg http://localhost:8080/v1/scan
-FROM node:22-alpine AS build
+# The build stage runs on the builder's own CPU ($BUILDPLATFORM) even for multi-arch images: the SDK and
+# its dependencies are plain JavaScript and WebAssembly, and npm under QEMU emulation is slow and can hang.
+FROM --platform=$BUILDPLATFORM node:22-alpine AS build
 WORKDIR /src
 COPY package.json package-lock.json ./
 COPY packages/sdk/package.json packages/sdk/
@@ -10,14 +12,14 @@ COPY site/package.json site/
 RUN npm ci --workspace qrgen-sdk --include-workspace-root=false --ignore-scripts --no-audit --no-fund
 COPY packages/sdk packages/sdk
 RUN npm run build --workspace qrgen-sdk \
- && mkdir -p /out && cd packages/sdk && npm pack --ignore-scripts --pack-destination /out
+ && mkdir -p /out && cd packages/sdk && npm pack --ignore-scripts --pack-destination /out \
+ && mkdir -p /app && cd /app && npm install --omit=dev --no-audit --no-fund /out/qrgen-sdk-*.tgz
 
 FROM node:22-alpine
 ENV NODE_ENV=production PORT=8080 HOST=0.0.0.0
 WORKDIR /app
-COPY --from=build /out/*.tgz /tmp/qrgen-sdk.tgz
-RUN npm install --omit=dev --no-audit --no-fund /tmp/qrgen-sdk.tgz && rm /tmp/qrgen-sdk.tgz \
- && addgroup -S qrgen && adduser -S qrgen -G qrgen
+COPY --from=build /app /app
+RUN addgroup -S qrgen && adduser -S qrgen -G qrgen
 USER qrgen
 EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=3s CMD wget -qO- "http://127.0.0.1:${PORT}/health" >/dev/null || exit 1
