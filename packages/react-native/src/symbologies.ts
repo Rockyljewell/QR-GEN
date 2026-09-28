@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 /**
  * QRGen symbology ids, names, aliases and groups (SPEC section 1), plus the
  * mapping between QRGen ids and react-native-vision-camera code types.

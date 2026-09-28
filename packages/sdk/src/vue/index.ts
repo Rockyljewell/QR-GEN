@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 import { defineComponent, h, onBeforeUnmount, onMounted, ref, type App, type PropType } from "vue";
 import { defineElements } from "../elements/define.js";
 import type { QRGenScannerElement } from "../elements/scanner-element.js";

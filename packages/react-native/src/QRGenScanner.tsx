@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 /**
  * `QRGenScanner`: native-performance scanner built on react-native-vision-camera 4.
  */

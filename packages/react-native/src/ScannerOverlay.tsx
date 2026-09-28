@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 /**
  * Scanner overlay built from plain React Native views: rounded corner-bracket
  * viewfinder (or a scan line), highlight frames for detected codes and a

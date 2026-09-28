@@ -1,9 +1,12 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 // Bundles src/engine/worker.ts (with the zxing-wasm reader glue) into a single IIFE and
 // writes it as a string constant, so the SDK can start the worker from a Blob URL.
 import { build } from "esbuild";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { BANNER } from "./banner.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const result = await build({
@@ -15,6 +18,7 @@ const result = await build({
   minify: true,
   write: false,
   legalComments: "none",
+  banner: { js: BANNER },
   logLevel: "warning",
 });
 const code = result.outputFiles[0].text;

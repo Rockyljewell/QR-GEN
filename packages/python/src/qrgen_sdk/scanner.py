@@ -1,3 +1,6 @@
+# Copyright 2026 Rockyljewell
+# SPDX-License-Identifier: Apache-2.0
+
 """Decode barcodes from still images with zxing-cpp."""
 
 from __future__ import annotations

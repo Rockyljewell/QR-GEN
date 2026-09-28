@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 export const SCANNER_CSS = /* css */ `
 :host {
   --qrgen-accent: #5cc9d6;

@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 /**
  * Cross-platform QRGen types (SPEC sections 2 and 4). Pure TypeScript.
  */

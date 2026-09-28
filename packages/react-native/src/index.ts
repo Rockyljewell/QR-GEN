@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 /**
  * qrgen-react-native: QRGen barcode, QR and ID scanning for React Native.
  *

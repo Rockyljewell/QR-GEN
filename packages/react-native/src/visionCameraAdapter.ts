@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 /**
  * Converts react-native-vision-camera `Code` objects into SPEC section 2
  * results. Pure TypeScript: the vision-camera shapes are declared

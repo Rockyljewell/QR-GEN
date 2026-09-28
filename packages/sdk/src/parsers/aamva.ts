@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 /**
  * Parser for the AAMVA PDF417 barcode on the back of North American driver
  * licenses and identification cards (AAMVA DL/ID Card Design Standard, 2000-2020).

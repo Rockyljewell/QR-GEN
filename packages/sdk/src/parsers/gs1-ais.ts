@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 /**
  * GS1 Application Identifier table (subset of the GS1 General Specifications
  * covering the identifiers seen on real products, logistics labels and

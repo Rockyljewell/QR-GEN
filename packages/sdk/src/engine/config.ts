@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 import { ZXING_WASM_VERSION } from "zxing-wasm/reader";
 
 export interface EngineConfig {

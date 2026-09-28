@@ -1,3 +1,6 @@
+# Copyright 2026 Rockyljewell
+# SPDX-License-Identifier: Apache-2.0
+
 """Generate barcodes as SVG or PNG with zxing-cpp (SPEC section 7)."""
 
 from __future__ import annotations

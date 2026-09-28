@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 import { describe, expect, it } from "vitest";
 import { DuplicateFilter } from "../src/duplicate-filter";
 import { BarcodeTracker } from "../src/tracker";

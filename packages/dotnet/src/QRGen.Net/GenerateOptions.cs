@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 namespace QRGen
 {
     /// <summary>Barcode generation options (SPEC section 7), shared by <see cref="QRGenClient"/> and <see cref="QRGenLocal"/>.</summary>

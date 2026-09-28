@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 // QRGen example app (SwiftUI, iOS 15+).
 //
 // Drop this file and ContentView.swift into a new Xcode "App" project, add the QRGenKit

@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 import { defineElements } from "./define.js";
 
 export { defineElements, QRGenBarcodeElement, QRGenScannerElement } from "./define.js";

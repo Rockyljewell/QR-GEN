@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 import type { Quadrilateral } from "../types.js";
 
 /** Reader parameters passed to zxing-cpp for one decode call. */

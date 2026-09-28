@@ -1,3 +1,6 @@
+# Copyright 2026 Rockyljewell
+# SPDX-License-Identifier: Apache-2.0
+
 """Live scanning from a webcam, USB camera or Raspberry Pi camera with OpenCV.
 
 Install the optional dependencies first::

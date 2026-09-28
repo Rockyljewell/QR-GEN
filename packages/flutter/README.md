@@ -1,7 +1,7 @@
 # qrgen_flutter
 
 Barcode, QR and ID scanning for Flutter, part of [QRGen](https://github.com/Rockyljewell/QR-GEN)
-(MIT). Two widgets share one API:
+(Apache-2.0). Two widgets share one API:
 
 | Widget | Engine | Best for |
 | --- | --- | --- |
@@ -236,4 +236,6 @@ generate the platform folders, then add the permissions above.
 
 ## License
 
-MIT, see [LICENSE](LICENSE).
+Apache-2.0, see [LICENSE](LICENSE) and [NOTICE](NOTICE).
+
+Created by [Rockyljewell](https://github.com/Rockyljewell).

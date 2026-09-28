@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 import { decodeOnMainThread } from "./engine/decoder.js";
 import { toBarcodes } from "./engine/convert.js";
 import type { DecodeParams } from "./engine/protocol.js";

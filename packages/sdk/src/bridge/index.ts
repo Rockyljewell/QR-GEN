@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 /**
  * Embed bridge (docs/SPEC.md §5): lets a scanner running in a WebView or iframe talk
  * to its host (React Native, Flutter, iOS/Android WebViews, .NET MAUI, iframes…).

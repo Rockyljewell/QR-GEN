@@ -1,3 +1,6 @@
+# Copyright 2026 Rockyljewell
+# SPDX-License-Identifier: Apache-2.0
+
 """QRGen for Python: barcode, QR code and ID scanning, generation and parsing.
 
 Quick start::

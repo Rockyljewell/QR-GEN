@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 /// Scan session state machine: mode, duplicate filter and tracker. Pure Dart.
 library;
 

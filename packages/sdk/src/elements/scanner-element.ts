@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 import { Camera } from "../camera.js";
 import { toQRGenError } from "../errors.js";
 import { BarcodeScanner, type BarcodeScannerOptions, type ScannerState } from "../scanner.js";

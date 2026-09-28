@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 #if os(iOS) || os(macOS)
 import Foundation
 #if os(iOS)

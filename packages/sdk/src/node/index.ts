@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 /**
  * Node.js, Bun and Deno entry: loads the engine from the local package (no network)
  * and adds file helpers.

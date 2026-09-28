@@ -1,6 +1,6 @@
 # qrgen-sdk
 
-Open-source (MIT) barcode, QR code and ID scanning for the web and Node.js: a drop-in scanner UI,
+Open-source (Apache-2.0) barcode, QR code and ID scanning for the web and Node.js: a drop-in scanner UI,
 batch (multi-code) tracking, image scanning, a barcode generator, GS1 and AAMVA driver license
 parsers, a CLI and a REST server. Part of [QRGen](https://github.com/Rockyljewell/QR-GEN).
 
@@ -62,4 +62,6 @@ Camera scanning requires HTTPS or localhost. The engine is [zxing-cpp](https://g
 via [zxing-wasm](https://github.com/Sec-ant/zxing-wasm), and it loads from jsDelivr unless you call
 `configure({ wasmBaseUrl })`.
 
-MIT License.
+Apache-2.0, see [LICENSE](LICENSE) and [NOTICE](NOTICE).
+
+Created by [Rockyljewell](https://github.com/Rockyljewell).

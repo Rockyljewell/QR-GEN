@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 /// QRGen result models (SPEC section 2). Pure Dart.
 library;
 

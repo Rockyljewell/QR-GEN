@@ -1,3 +1,6 @@
+# Copyright 2026 Rockyljewell
+# SPDX-License-Identifier: Apache-2.0
+
 """Symbology ids, names, aliases and groups (SPEC section 1).
 
 Every QRGen API accepts and returns the lowercase ids defined here. Inputs are

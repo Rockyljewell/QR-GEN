@@ -1,3 +1,6 @@
+# Copyright 2026 Rockyljewell
+# SPDX-License-Identifier: Apache-2.0
+
 """AAMVA driver license / ID card parser (SPEC section 3.3).
 
 Parses the PDF417 on the back of North American driver licenses and ID cards

@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 import Foundation
 
 /// The classified payload of a code (SPEC section 3.1).

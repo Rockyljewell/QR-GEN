@@ -1,6 +1,6 @@
 # qrgen-sdk (Python)
 
-Open-source (MIT) barcode, QR code and ID scanning for Python. Decode 26 symbologies
+Open-source (Apache-2.0) barcode, QR code and ID scanning for Python. Decode 26 symbologies
 from images and webcams, generate SVG/PNG barcodes, parse GS1, AAMVA driver licenses
 and QR payloads (Wi-Fi, vCard, payments…), and run a REST API with the standard
 library only.
@@ -245,4 +245,6 @@ Version 1.0.0.
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+Apache-2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
+
+Created by [Rockyljewell](https://github.com/Rockyljewell).

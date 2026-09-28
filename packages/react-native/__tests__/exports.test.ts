@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 /**
  * Loads the package entry point against the react-native mock to make sure the
  * public surface exists and that importing it never requires the native

@@ -1,3 +1,6 @@
+# Copyright 2026 Rockyljewell
+# SPDX-License-Identifier: Apache-2.0
+
 """Pure-Python parsers for decoded barcode content (SPEC section 3).
 
 All parsers return plain dicts with the camelCase keys used by every QRGen

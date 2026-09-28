@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 /**
  * `QRGenWebScanner`: zero-native-setup scanner that runs the hosted QRGen
  * embed page inside react-native-webview and talks to it over the SPEC

@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 import { parseAAMVA, type AamvaResult } from "./aamva.js";
 import { isValidCheckDigit, parseDigitalLink, parseGS1, type GS1Result } from "./gs1.js";
 

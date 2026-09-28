@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 /**
  * Symbology ids shared by every QRGen SDK (see docs/SPEC.md §1).
  */

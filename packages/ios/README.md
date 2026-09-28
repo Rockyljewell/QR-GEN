@@ -1,6 +1,6 @@
 # QRGenKit (iOS / macOS)
 
-Native Swift package of **QRGen**, the open-source (MIT) barcode, QR and ID scanning SDK.
+Native Swift package of **QRGen**, the open-source (Apache-2.0) barcode, QR and ID scanning SDK.
 
 - **Camera scanning** with AVFoundation + Apple Vision: single, continuous and batch (multi-code tracking) modes,
   duplicate filter, region of interest, torch, zoom, camera switching, beep and haptics.
@@ -314,4 +314,6 @@ Please open an issue or a pull request if something does not build with your Xco
 
 ## License
 
-MIT, see [LICENSE](../../LICENSE).
+Apache-2.0, see [LICENSE](LICENSE) and [NOTICE](NOTICE).
+
+Created by [Rockyljewell](https://github.com/Rockyljewell).

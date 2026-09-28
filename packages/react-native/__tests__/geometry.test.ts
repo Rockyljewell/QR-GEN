@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 import { createBarcode, normalizeBarcode, quadrilateralBounds, quadrilateralFromRect } from '../src/barcode';
 import { withAlpha } from '../src/color';
 import { createQRGenError, isQRGenErrorCode, mapVisionCameraErrorCode, toQRGenError } from '../src/errors';

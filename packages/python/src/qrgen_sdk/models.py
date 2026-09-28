@@ -1,3 +1,6 @@
+# Copyright 2026 Rockyljewell
+# SPDX-License-Identifier: Apache-2.0
+
 """Result types shared by the scanner, camera and REST server (SPEC section 2).
 
 Python attributes use snake_case; :meth:`Barcode.to_dict` produces the camelCase

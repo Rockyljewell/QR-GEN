@@ -2,8 +2,8 @@
   "name": "qrgen-react-native",
   "version": "0.1.0",
   "description": "QRGen for React Native: barcode, QR and ID scanning with react-native-vision-camera, plus a zero-native-setup WebView fallback.",
-  "license": "MIT",
-  "author": "QRGen contributors",
+  "license": "Apache-2.0",
+  "author": "Rockyljewell",
   "homepage": "https://rockyljewell.github.io/QR-GEN/",
   "repository": {
     "type": "git",
@@ -43,7 +43,8 @@
     "lib",
     "src",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "NOTICE"
   ],
   "sideEffects": false,
   "scripts": {

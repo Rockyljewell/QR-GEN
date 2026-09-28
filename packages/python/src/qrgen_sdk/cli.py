@@ -1,3 +1,6 @@
+# Copyright 2026 Rockyljewell
+# SPDX-License-Identifier: Apache-2.0
+
 """Command line interface: ``qrgen-py`` (also ``qrgen-sdk`` and ``python -m qrgen_sdk``).
 
 The Python CLI is called ``qrgen-py`` so it does not clash with the Node ``qrgen`` CLI.

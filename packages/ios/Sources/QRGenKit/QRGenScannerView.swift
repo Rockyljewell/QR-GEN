@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 #if canImport(SwiftUI) && canImport(UIKit) && canImport(AVFoundation) && canImport(Vision) && os(iOS)
 import SwiftUI
 import UIKit

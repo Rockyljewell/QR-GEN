@@ -1,3 +1,6 @@
+# Copyright 2026 Rockyljewell
+# SPDX-License-Identifier: Apache-2.0
+
 """Duplicate filtering and multi-code tracking for live scanning (SPEC section 4).
 
 Both classes are pure Python and clock-injectable (pass ``now_ms``), so they can be

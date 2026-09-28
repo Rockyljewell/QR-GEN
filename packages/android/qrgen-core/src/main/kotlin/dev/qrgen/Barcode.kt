@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 package dev.qrgen
 
 /** What kind of payload a barcode carries (SPEC §2 `contentType`). */

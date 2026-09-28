@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 /**
  * Coordinate helpers: camera frame pixels to view points, including the crop
  * of an aspect-fill ("cover") preview. Pure TypeScript.

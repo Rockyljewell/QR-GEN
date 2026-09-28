@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 import { describe, expect, it } from "vitest";
 import { computeCheckDigit, formatGS1, gs1Date, isValidCheckDigit, parseAAMVA, parseContent, parseGS1 } from "../src/parsers";
 

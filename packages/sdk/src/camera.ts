@@ -1,3 +1,6 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
 import { QRGenError, toQRGenError } from "./errors.js";
 import type { CameraFacing } from "./types.js";
 

@@ -1,3 +1,5 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
 /**
  * Scan session state machine shared by the scanner components: applies the
  * mode (`single` / `continuous` / `batch`), the duplicate filter and the batch
