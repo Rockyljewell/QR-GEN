@@ -22,8 +22,10 @@ import binascii
 import json
 import logging
 import re
+import socket
 import sys
 import threading
+import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any, Dict, List, Optional, Tuple
 from urllib.parse import parse_qs, urlsplit
@@ -40,6 +42,9 @@ __all__ = ["QRGenHandler", "ApiError", "create_server", "serve", "start_in_threa
 
 #: Largest accepted request body (bytes).
 DEFAULT_MAX_BODY = 25 * 1024 * 1024
+
+# Give a rejected upload's last response time to arrive before a full TCP close.
+_UNREAD_BODY_CLOSE_TIMEOUT = 1.0
 
 logger = logging.getLogger("qrgen_sdk.server")
 
@@ -121,8 +126,37 @@ class QRGenHandler(BaseHTTPRequestHandler):
         if not self.quiet:
             logger.info("%s - %s", self.address_string(), format % args)
 
+    def finish(self) -> None:
+        try:
+            if getattr(self, "_closing_unread_body", False):
+                # RFC 9112 section 9.6: an immediate close with incoming bytes can
+                # reset TCP and erase the error response at the client. Half-close
+                # after sending, then discard only during this bounded close grace.
+                # Never parse another request or wait for the advertised body size.
+                try:
+                    self.wfile.flush()
+                    self.connection.shutdown(socket.SHUT_WR)
+                    deadline = time.monotonic() + _UNREAD_BODY_CLOSE_TIMEOUT
+                    while True:
+                        remaining = deadline - time.monotonic()
+                        if remaining <= 0:
+                            break
+                        self.connection.settimeout(remaining)
+                        if not self.connection.recv(64 * 1024):
+                            break
+                except OSError:
+                    pass  # The peer closed/reset, or the bounded grace expired.
+        finally:
+            super().finish()
+
     def _send(self, status: int, body: bytes, content_type: str, extra: Optional[Dict[str, str]] = None) -> None:
         self.send_response(status)
+        if self._has_unread_body():
+            # Rejected uploads must not become the next HTTP/1.1 request. Do not
+            # drain an oversized or unsupported body just to keep its socket open.
+            self.close_connection = True
+            self._closing_unread_body = True
+            self.send_header("Connection", "close")
         for key, value in _CORS_HEADERS.items():
             self.send_header(key, value)
         self.send_header("Content-Type", content_type)
@@ -140,6 +174,19 @@ class QRGenHandler(BaseHTTPRequestHandler):
     def _error(self, status: int, code: str, message: str) -> None:
         self._json(status, {"error": {"code": code, "message": message}})
 
+    def _has_unread_body(self) -> bool:
+        if self.headers.get("Transfer-Encoding"):
+            return True
+        if self._body_consumed:
+            return False
+        length_header = self.headers.get("Content-Length")
+        if length_header is None:
+            return False
+        try:
+            return int(length_header) != 0
+        except ValueError:
+            return True
+
     def _body(self) -> bytes:
         length_header = self.headers.get("Content-Length")
         if length_header is None:
@@ -152,7 +199,9 @@ class QRGenHandler(BaseHTTPRequestHandler):
             raise ApiError(400, "bad-request", "invalid Content-Length") from exc
         if length > self.max_body:
             raise ApiError(413, "payload-too-large", "request body exceeds %d bytes" % self.max_body)
-        return self.rfile.read(length) if length > 0 else b""
+        body = self.rfile.read(length) if length > 0 else b""
+        self._body_consumed = length >= 0 and len(body) == length
+        return body
 
     def _content_type(self) -> str:
         return (self.headers.get("Content-Type") or "").split(";", 1)[0].strip().lower()
@@ -167,6 +216,7 @@ class QRGenHandler(BaseHTTPRequestHandler):
         return payload
 
     def _dispatch(self, method: str) -> None:
+        self._body_consumed = False
         url = urlsplit(self.path)
         path = url.path.rstrip("/") or "/"
         query = {k: v[-1] for k, v in parse_qs(url.query, keep_blank_values=True).items()}
@@ -204,6 +254,7 @@ class QRGenHandler(BaseHTTPRequestHandler):
         self._dispatch("POST")
 
     def do_OPTIONS(self) -> None:  # noqa: N802
+        self._body_consumed = False
         self._send(204, b"", "text/plain")
 
     def do_PUT(self) -> None:  # noqa: N802
