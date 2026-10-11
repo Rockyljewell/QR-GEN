@@ -1,0 +1,29 @@
+{
+  "scope": "Immutable file-only interpretation preparation frozen before any actual trace read or recognition. Synthetic probes are not engine traces.",
+  "preparationManifestSha256": "895591898867b18c8541cdba6e58bc7d78f224267fbc490ca270df570ed6fc3d",
+  "files": [
+    {
+      "path": "interpret.py",
+      "bytes": 39514,
+      "sha256": "a9b1064b61ad15893038d8ef982b11dbcbe0491a5f9e0c5ebd186860e5350fd9"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4191,
+      "sha256": "8f4a289df4120676e495c652d98195a2b4eda77457cdeac119d91ab4c8049245"
+    },
+    {
+      "path": "synthetic-check.json",
+      "bytes": 1350,
+      "sha256": "aa9deff00212873f1e15e25cd0b1379cbeefc3496a7b7458f8b5a07ebf6ede40"
+    },
+    {
+      "path": "verify-synthetic.py",
+      "bytes": 7847,
+      "sha256": "8e298488a449a450b019f1328b0a583fb254be0171507863819a3459dfd6b50d"
+    }
+  ],
+  "readerImports": 0,
+  "recognitionCalls": 0,
+  "actualTraceReads": 0
+}

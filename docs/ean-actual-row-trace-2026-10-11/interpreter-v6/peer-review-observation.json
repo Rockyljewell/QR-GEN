@@ -1,0 +1,14 @@
+{
+  "scope": "Transcribed peer message from /root/web_lifecycle_review; read-only source/fixture review, no interpreter or recognition calls. Not an archived raw tool transcript.",
+  "result": "passed-no-concrete-blocker",
+  "analysisCodeSha256": "18a5cc534254bd05c439d05d4cf9bfdfae60388811a578c15a70b23314f98e41",
+  "findings": [
+    "Exactly the two declared raw decision-to-internal-result normalization lines differ from v5.",
+    "Insert/merge gates retain consistent internal result consumption; numeric guard-test.result untouched.",
+    "Fabricated fixture common/hook keys match header 57-62/158 and sole ODReader 220-222 QRT_BOOL site.",
+    "False-insert/true-merge/support-prune and legacy/numeric/false-merge rejection probes cover the prior blind spot.",
+    "Main/output gates, C++ instrumentation and 90-profile definitions unchanged."
+  ],
+  "peerInterpreterCalls": 0,
+  "peerRecognitionCalls": 0
+}

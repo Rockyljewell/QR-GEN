@@ -1,0 +1,10 @@
+{
+  "scope": "Retrospective observation of a pure function probe preparation failure; no reader/glue import or WASM instantiation.",
+  "firstAttempt": "vm script parsing rejected import.meta.url in the extracted unused fallback branch.",
+  "originalRedirectedStderrArchiveRetained": false,
+  "observationSource": "Returned tool output in this preparation conversation.",
+  "correction": "Replace only that unused fallback expression with a named syntheticModuleUrl for vm parsing, preserve exact supplied-locateFile branch, record original and modelled function hashes. Fourteen pure probes then passed.",
+  "readerImports": 0,
+  "wasmInstantiations": 0,
+  "recognitionCalls": 0
+}

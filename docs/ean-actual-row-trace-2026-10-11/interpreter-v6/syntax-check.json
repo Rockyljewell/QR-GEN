@@ -1,0 +1,19 @@
+{
+  "scope": "Python AST parse only; no actual trace interpreter execution.",
+  "files": [
+    {
+      "path": "interpret.py",
+      "sha256": "18a5cc534254bd05c439d05d4cf9bfdfae60388811a578c15a70b23314f98e41"
+    },
+    {
+      "path": "verify-source-amendment.py",
+      "sha256": "4cd2788c9a6c8859f2d7261a7732d430fd10bb9ad4819a69e9986d60fa2d6ee6"
+    },
+    {
+      "path": "verify-synthetic.py",
+      "sha256": "010d37f52fd5b8518f927bf59ad2e0b41f8bf0c975071975791f9b299ca9de76"
+    }
+  ],
+  "readerImports": 0,
+  "recognitionCalls": 0
+}

@@ -1,0 +1,18 @@
+{
+  "scope": "File-only syntax checks, no builds or decoder imports.",
+  "files": [
+    "freeze-package.py",
+    "prepare-instrumentation.py",
+    "snapshot-build-phase.py",
+    "verify-build-inputs.py",
+    "verify-v5-amendment.py",
+    "capture-build-evidence.mjs",
+    "freeze-plan.mjs",
+    "run-paired.mjs",
+    "verify-v4-caches.mjs",
+    "verify-v5-local-resolution.mjs",
+    "verify-validation-only.mjs"
+  ],
+  "readerImports": 0,
+  "recognitionCalls": 0
+}

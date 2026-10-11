@@ -1,0 +1,180 @@
+{
+  "scope": "Successful build file fingerprints only; no reader imports or recognition.",
+  "variant": "instrumented",
+  "wrapperCommit": "b7dcf63aefc7b94fb97ba09e9b1fb213d9399f54",
+  "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
+  "compileDefinition": "ZXING_QRGEN_ROW_TRACE=1",
+  "patchSha256": "0d4213a7b7eeeefa5b8cad7772920ac53d886c7be60607745ef24df8815d53cd",
+  "esGraph": [
+    {
+      "path": "full/index.js",
+      "sha256": "360f4fdf31d1a19d1214fc91c93e61dcd8dbcad9426a6ffb2b98415e2d1d6f8d",
+      "bytes": 44076
+    },
+    {
+      "path": "reader/index.js",
+      "sha256": "ee1b2847feac36874574a7bdebbb008843b44a878944c4e46c1e363a1ebec479",
+      "bytes": 41338
+    },
+    {
+      "path": "share.js",
+      "sha256": "68b09047a19c17ba74c0bf7e0a4341e77d46b36ae1cae4bdcca31d0c6757f3f2",
+      "bytes": 10947
+    },
+    {
+      "path": "writer/index.js",
+      "sha256": "2adfe6c3366581725bbfb1ae9f9ce553b6e7244d21ec41c464690d0e1585660e",
+      "bytes": 29313
+    }
+  ],
+  "wasmSha256": "b5e45bfbfda1bf29992c3e3c716a4c2afa50ac4172c00e80c07c21704f74b2cc",
+  "wasmBytes": 1045736,
+  "glueSha256": "3555a970a06a953a34a3eb9d608e2fdc337806c9216ac01e35014a379cc3c217",
+  "compilerFiles": [
+    {
+      "path": "cmake/full/CMakeCache.txt",
+      "sha256": "ee58a36884ddb1a74f180c179830dfa798258705e56cdfbad2d59afb6c745904",
+      "bytes": 18617
+    },
+    {
+      "path": "cmake/full/CMakeFiles/zxing_full.dir/flags.make",
+      "sha256": "40277e41247554df5c284e2f973f2a5f6ee11890503f092f2db66428de1e7e8e",
+      "bytes": 548
+    },
+    {
+      "path": "cmake/full/CMakeFiles/zxing_full.dir/link.txt",
+      "sha256": "36b5df57669d426a2b4e78d137ef83341310752cedf8a504e0a6658bf25f6b32",
+      "bytes": 663
+    },
+    {
+      "path": "cmake/full/CMakeFiles/zxing_reader.dir/flags.make",
+      "sha256": "2788ef2bc16b37932bfe17f9b697caca86ed5b1ddccf0ef00926645fd399c137",
+      "bytes": 539
+    },
+    {
+      "path": "cmake/full/CMakeFiles/zxing_reader.dir/link.txt",
+      "sha256": "c51d4f3b0b8dcfaf2f983da8be8085ad12b96d484ae87baabbde39f7d4057be1",
+      "bytes": 669
+    },
+    {
+      "path": "cmake/full/CMakeFiles/zxing_writer.dir/flags.make",
+      "sha256": "dd65a035665e6baef4bef72dcca081310269323d8e2b9211980a8420fa10e510",
+      "bytes": 539
+    },
+    {
+      "path": "cmake/full/CMakeFiles/zxing_writer.dir/link.txt",
+      "sha256": "614d3f981771dd4e7561429ecf104c73d74351802a5d47a1a889861c5f4d87b6",
+      "bytes": 669
+    },
+    {
+      "path": "cmake/full/ZXing/CMakeFiles/ZXing.dir/flags.make",
+      "sha256": "d69bc82ef0f1d2449137cc816ce6477048def9c0e09c95f1814fd02bddf21a57",
+      "bytes": 27430
+    },
+    {
+      "path": "cmake/full/ZXing/CMakeFiles/ZXing.dir/link.txt",
+      "sha256": "e7851cb55634afceff733886d5b540b09cbfed5b3df0cf5a420a18926fb87f48",
+      "bytes": 5348
+    },
+    {
+      "path": "cmake/full/_deps/stb-subbuild/CMakeCache.txt",
+      "sha256": "fa1da8bb551c7212c19f6fffceff8f0b67a7b759156ddc9017c390bf87104127",
+      "bytes": 4442
+    },
+    {
+      "path": "cmake/full/phase-manifest.json",
+      "sha256": "c14b29df35246bf853642cb2df1fae6e1b455347238ec1f55d2b1a53bdb5c3b2",
+      "bytes": 1748
+    },
+    {
+      "path": "cmake/reader/CMakeCache.txt",
+      "sha256": "7186876e4b42adabf5fa7a904ea1f995ba117b251de160b4019b91dafd490740",
+      "bytes": 18590
+    },
+    {
+      "path": "cmake/reader/CMakeFiles/zxing_reader.dir/flags.make",
+      "sha256": "2788ef2bc16b37932bfe17f9b697caca86ed5b1ddccf0ef00926645fd399c137",
+      "bytes": 539
+    },
+    {
+      "path": "cmake/reader/CMakeFiles/zxing_reader.dir/link.txt",
+      "sha256": "c51d4f3b0b8dcfaf2f983da8be8085ad12b96d484ae87baabbde39f7d4057be1",
+      "bytes": 669
+    },
+    {
+      "path": "cmake/reader/ZXing/CMakeFiles/ZXing.dir/flags.make",
+      "sha256": "eb082f1dc4804f33818de5a42f318abe70b2f3ad971ea30414581466e6b21cd3",
+      "bytes": 22151
+    },
+    {
+      "path": "cmake/reader/ZXing/CMakeFiles/ZXing.dir/link.txt",
+      "sha256": "422514f6035f03fde5f4a3e78e0edc94c23406ec30ae96f419258122c7140eb2",
+      "bytes": 4061
+    },
+    {
+      "path": "cmake/reader/_deps/stb-subbuild/CMakeCache.txt",
+      "sha256": "fa1da8bb551c7212c19f6fffceff8f0b67a7b759156ddc9017c390bf87104127",
+      "bytes": 4442
+    },
+    {
+      "path": "cmake/reader/phase-manifest.json",
+      "sha256": "b559419c9a01054bcee4bb6572417648508bb8b6ff6229e5cb44e05d00736fc2",
+      "bytes": 1068
+    },
+    {
+      "path": "cmake/writer/CMakeCache.txt",
+      "sha256": "8bf72c46633b48c8365314f994976158800d45bb3180b61ae81a5ac5862e391c",
+      "bytes": 18619
+    },
+    {
+      "path": "cmake/writer/CMakeFiles/zxing_reader.dir/flags.make",
+      "sha256": "2788ef2bc16b37932bfe17f9b697caca86ed5b1ddccf0ef00926645fd399c137",
+      "bytes": 539
+    },
+    {
+      "path": "cmake/writer/CMakeFiles/zxing_reader.dir/link.txt",
+      "sha256": "c51d4f3b0b8dcfaf2f983da8be8085ad12b96d484ae87baabbde39f7d4057be1",
+      "bytes": 669
+    },
+    {
+      "path": "cmake/writer/CMakeFiles/zxing_writer.dir/flags.make",
+      "sha256": "dd65a035665e6baef4bef72dcca081310269323d8e2b9211980a8420fa10e510",
+      "bytes": 539
+    },
+    {
+      "path": "cmake/writer/CMakeFiles/zxing_writer.dir/link.txt",
+      "sha256": "614d3f981771dd4e7561429ecf104c73d74351802a5d47a1a889861c5f4d87b6",
+      "bytes": 669
+    },
+    {
+      "path": "cmake/writer/ZXing/CMakeFiles/ZXing.dir/flags.make",
+      "sha256": "4c2040fc57c117b79689b8ecc4ac56cb808fec8ffde42a217316df62dc21fcf0",
+      "bytes": 9732
+    },
+    {
+      "path": "cmake/writer/ZXing/CMakeFiles/ZXing.dir/link.txt",
+      "sha256": "166415d76dd8dc4777a92375bb872ec600dd1b82462d223d8c725e65af3b86a1",
+      "bytes": 2190
+    },
+    {
+      "path": "cmake/writer/_deps/stb-subbuild/CMakeCache.txt",
+      "sha256": "fa1da8bb551c7212c19f6fffceff8f0b67a7b759156ddc9017c390bf87104127",
+      "bytes": 4442
+    },
+    {
+      "path": "cmake/writer/phase-manifest.json",
+      "sha256": "cfbbed5894f4142a98e74c1f92e9b65832090c7bafeba9cf25952194f00a5f80",
+      "bytes": 1409
+    },
+    {
+      "path": "cxxflags.txt",
+      "sha256": "5365c6d652c35d21b6aac3767b491e7c878d923a189eb81786656bda023e2a82"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "709e68d8d7ee610f1cf732914b120ffa881ebfb7dbacc6aafb1cfc32c26d11fa"
+    }
+  ],
+  "node": "v22.14.0",
+  "recognitionCalls": 0
+}

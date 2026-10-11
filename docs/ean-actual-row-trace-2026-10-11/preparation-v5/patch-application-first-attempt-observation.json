@@ -1,0 +1,57 @@
+{
+  "scope": "Retrospective file-only observation of the preserved first application tree; original tool reported exact-byte assertion failure. No original stderr archive.",
+  "gitApplyCheckAndApplyExit": 0,
+  "exactBytesMatched": false,
+  "cause": "Windows Git core.autocrlf produced CRLF patched files; all eight normalized values match pinned LF source copies.",
+  "files": [
+    {
+      "path": "core/src/ReadBarcode.cpp",
+      "retainedSha256": "ea9170862d165ba72ee4d62ea5942e8cc2b88541b4176ed906abebff68d14ab1",
+      "crlfCount": 368,
+      "matchesAfterLFNormalization": true
+    },
+    {
+      "path": "core/src/MultiFormatReader.cpp",
+      "retainedSha256": "4ea0720f185743e554fa5a82bbbe988a2a784f25f760d0700009aedfd67d6227",
+      "crlfCount": 121,
+      "matchesAfterLFNormalization": true
+    },
+    {
+      "path": "core/src/Pattern.h",
+      "retainedSha256": "b4a25fbc99c381350b2be621a5cc57a55a4360b66b22bef3787742734f264313",
+      "crlfCount": 478,
+      "matchesAfterLFNormalization": true
+    },
+    {
+      "path": "core/src/GlobalHistogramBinarizer.cpp",
+      "retainedSha256": "89391282f07f7e0c591b1d77cb418acd7835898b6918daa89bd010e880691750",
+      "crlfCount": 201,
+      "matchesAfterLFNormalization": true
+    },
+    {
+      "path": "core/src/oned/ODReader.cpp",
+      "retainedSha256": "8afa8765a655bd773693e3133332a34b260c238ba120e6049ccae313bcd31399",
+      "crlfCount": 331,
+      "matchesAfterLFNormalization": true
+    },
+    {
+      "path": "core/src/oned/ODRowReader.h",
+      "retainedSha256": "801f7b5515be194c5f4020be2a6de096a45e9aa57014bb4e416c2f92a9501cc5",
+      "crlfCount": 229,
+      "matchesAfterLFNormalization": true
+    },
+    {
+      "path": "core/src/oned/ODMultiUPCEANReader.cpp",
+      "retainedSha256": "f0f8ba581d7487e6229368319997df30b7ad1b75f24b09426afa3ae6713199f4",
+      "crlfCount": 342,
+      "matchesAfterLFNormalization": true
+    },
+    {
+      "path": "core/src/QRGenRowTrace.h",
+      "retainedSha256": "1cfc1d07925407e86845d5fb8c2d6a9802fce83e6c7bdb6c6e6b7b8f5c943102",
+      "crlfCount": 165,
+      "matchesAfterLFNormalization": true
+    }
+  ],
+  "recognitionCalls": 0
+}

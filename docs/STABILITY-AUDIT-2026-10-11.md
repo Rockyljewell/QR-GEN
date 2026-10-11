@@ -329,6 +329,41 @@ reader assets. Its 4,648 public image calls lose no expected baseline target
 record or bytes. The physical-conflict study refutes a simple overlap filter
 for the separate /1/35 case. Neither study changes the released decoder.
 
+## Camera ownership fixes and actual EAN row traces
+
+[PR #45](https://github.com/Rockyljewell/QR-GEN/pull/45) fixes camera restart
+from a synchronous destroy callback and obsolete frame-error delivery after a
+stopped callback opens a replacement session. Thirteen added regressions bring
+the SDK suite to 371 passing tests. Separate actual Chromium checks exercise
+the public scanner, embedded worker and fake native camera; they reproduce the
+old failures and verify cleanup in the fixed scanner. Fake cameras do not
+establish physical-device behavior.
+
+[PR #47](https://github.com/Rockyljewell/QR-GEN/pull/47) fixes Android Compose
+retaining a replaced lifecycle owner or scanner state. Six Compose/Robolectric
+tests exercise real view/controller ownership, including unchanged-owner
+controls. Four intended baseline assertions fail; all six fixed cases pass.
+Camera permission is denied in these tests, so they do not establish active
+CameraX/MLKit or phone behavior. All 13 CI jobs and the automatic Pages/Docker
+workflows pass for both merged revisions.
+
+The [actual C++ row-trace report](ean-actual-row-trace-2026-10-11/README.md)
+records unchanged released-reader policy on 15 saved rasters with fast/hard
+search and limits 1, 2 and 255. All 90 baseline/instrumented pairs preserve every
+recorded public result field; this is an instrumentation conformance check,
+not 90 correct decodes. File-only analysis reconstructs 931,395 retained events
+and all 30 result-limit comparisons without another recognition call.
+
+The wrong `/2/07` and `/1/35` EAN values remain reproducible. The traces explain
+which rows support each value and how result limits change the scan schedule.
+They also show one decoder group collecting support from both placements of a
+two-identical-label control. Returned positions are representative scanline-based
+quadrilaterals and need not enclose every historical contributing row. They do
+not establish physical symbol boundaries or item counts. No new decoder filter
+or default is justified by this diagnostic study; production remains released
+zxing-wasm 3.1.5 and [issue #32](https://github.com/Rockyljewell/QR-GEN/issues/32)
+remains open.
+
 ## Retail AR and adjacent features
 
 The following is an assessment of repository code against the vendors' published

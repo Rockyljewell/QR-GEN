@@ -1,0 +1,406 @@
+{
+  "scope": "File-only actual trace reconstruction after all 90 unchanged-policy public conformance gates. No recognition.",
+  "status": "all-90-transport-and-reconstruction-checks-passed",
+  "profiles": 90,
+  "trios": 30,
+  "counts": {
+    "call-begin": 90,
+    "options": 90,
+    "layer": 90,
+    "bitmap-pass": 90,
+    "reader-dispatch": 90,
+    "oned-pass-begin": 147,
+    "row-attempt": 24812,
+    "row-binarizer": 24812,
+    "row-runs": 24526,
+    "row-direction": 49014,
+    "decode-attempt": 60872,
+    "ean-dispatch": 60872,
+    "left-guard-not-found": 48142,
+    "decode-return": 60872,
+    "collector-reject-invalid": 56066,
+    "cursor-advance": 60830,
+    "left-guard-search": 20333,
+    "guard-test": 153206,
+    "oned-search-end": 147,
+    "orientation-gate": 90,
+    "left-guard-found": 12730,
+    "digit-variances": 113894,
+    "digit-return": 113894,
+    "ean13-parity": 6163,
+    "candidate-check-reject": 7465,
+    "checksum": 5265,
+    "ean-accepted-row": 5265,
+    "collector-candidate": 4806,
+    "collector-insert": 112,
+    "check-rows-replaced": 49,
+    "collector-compare": 6044,
+    "collector-merge": 4694,
+    "collector-merged": 4694,
+    "oned-budget-exit": 42,
+    "collector-output": 111,
+    "reader-return": 90,
+    "reader-budget-exit": 42,
+    "reader-sorted-output": 111,
+    "bitmap-result": 90,
+    "global-candidate": 111,
+    "global-insert": 111,
+    "global-budget-exit": 42,
+    "call-end": 90,
+    "row-binarizer-reject": 286,
+    "schedule-out-of-bounds": 2,
+    "collector-drop-support": 1
+  },
+  "classification": {
+    "attempts": 60872,
+    "collectorEligible": 4806,
+    "collectorRejectedInvalid": 56066,
+    "parserReturnedRows": 5265,
+    "checksumPasses": 4806,
+    "parserReturnedChecksumErrors": 459,
+    "checksumFailures": 459,
+    "binarizerRejectedRows": 286
+  },
+  "samePayloadControlProfiles": [
+    {
+      "profile": "physical-control/two-same-payload-aligned-gap16/fast/max1",
+      "publicCount": 1,
+      "groups": [
+        {
+          "group": 1,
+          "supportContributions": 2,
+          "placementIndices": [
+            1
+          ],
+          "terminalReason": null,
+          "output": {
+            "seq": 157,
+            "index": 0,
+            "lineCount": 2,
+            "position": [
+              [
+                64,
+                263
+              ],
+              [
+                443,
+                263
+              ],
+              [
+                443,
+                265
+              ],
+              [
+                64,
+                265
+              ]
+            ],
+            "bytes": [
+              53,
+              57,
+              48,
+              49,
+              50,
+              51,
+              52,
+              49,
+              50,
+              51,
+              52,
+              53,
+              55
+            ],
+            "format": 12613
+          }
+        }
+      ]
+    },
+    {
+      "profile": "physical-control/two-same-payload-aligned-gap16/fast/max2",
+      "publicCount": 1,
+      "groups": [
+        {
+          "group": 1,
+          "supportContributions": 17,
+          "placementIndices": [
+            0,
+            1
+          ],
+          "terminalReason": null,
+          "output": {
+            "seq": 1265,
+            "index": 0,
+            "lineCount": 17,
+            "position": [
+              [
+                64,
+                143
+              ],
+              [
+                443,
+                143
+              ],
+              [
+                443,
+                353
+              ],
+              [
+                64,
+                353
+              ]
+            ],
+            "bytes": [
+              53,
+              57,
+              48,
+              49,
+              50,
+              51,
+              52,
+              49,
+              50,
+              51,
+              52,
+              53,
+              55
+            ],
+            "format": 12613
+          }
+        }
+      ]
+    },
+    {
+      "profile": "physical-control/two-same-payload-aligned-gap16/fast/max255",
+      "publicCount": 1,
+      "groups": [
+        {
+          "group": 1,
+          "supportContributions": 17,
+          "placementIndices": [
+            0,
+            1
+          ],
+          "terminalReason": null,
+          "output": {
+            "seq": 1265,
+            "index": 0,
+            "lineCount": 17,
+            "position": [
+              [
+                64,
+                143
+              ],
+              [
+                443,
+                143
+              ],
+              [
+                443,
+                353
+              ],
+              [
+                64,
+                353
+              ]
+            ],
+            "bytes": [
+              53,
+              57,
+              48,
+              49,
+              50,
+              51,
+              52,
+              49,
+              50,
+              51,
+              52,
+              53,
+              55
+            ],
+            "format": 12613
+          }
+        }
+      ]
+    },
+    {
+      "profile": "physical-control/two-same-payload-aligned-gap16/hard/max1",
+      "publicCount": 1,
+      "groups": [
+        {
+          "group": 1,
+          "supportContributions": 2,
+          "placementIndices": [
+            1
+          ],
+          "terminalReason": null,
+          "output": {
+            "seq": 437,
+            "index": 0,
+            "lineCount": 2,
+            "position": [
+              [
+                64,
+                256
+              ],
+              [
+                443,
+                256
+              ],
+              [
+                443,
+                257
+              ],
+              [
+                64,
+                257
+              ]
+            ],
+            "bytes": [
+              53,
+              57,
+              48,
+              49,
+              50,
+              51,
+              52,
+              49,
+              50,
+              51,
+              52,
+              53,
+              55
+            ],
+            "format": 12613
+          }
+        }
+      ]
+    },
+    {
+      "profile": "physical-control/two-same-payload-aligned-gap16/hard/max2",
+      "publicCount": 1,
+      "groups": [
+        {
+          "group": 1,
+          "supportContributions": 400,
+          "placementIndices": [
+            0,
+            1
+          ],
+          "terminalReason": null,
+          "output": {
+            "seq": 40838,
+            "index": 0,
+            "lineCount": 400,
+            "position": [
+              [
+                64,
+                20
+              ],
+              [
+                443,
+                20
+              ],
+              [
+                443,
+                455
+              ],
+              [
+                64,
+                455
+              ]
+            ],
+            "bytes": [
+              53,
+              57,
+              48,
+              49,
+              50,
+              51,
+              52,
+              49,
+              50,
+              51,
+              52,
+              53,
+              55
+            ],
+            "format": 12613
+          }
+        }
+      ]
+    },
+    {
+      "profile": "physical-control/two-same-payload-aligned-gap16/hard/max255",
+      "publicCount": 1,
+      "groups": [
+        {
+          "group": 1,
+          "supportContributions": 400,
+          "placementIndices": [
+            0,
+            1
+          ],
+          "terminalReason": null,
+          "output": {
+            "seq": 40838,
+            "index": 0,
+            "lineCount": 400,
+            "position": [
+              [
+                64,
+                20
+              ],
+              [
+                443,
+                20
+              ],
+              [
+                443,
+                455
+              ],
+              [
+                64,
+                455
+              ]
+            ],
+            "bytes": [
+              53,
+              57,
+              48,
+              49,
+              50,
+              51,
+              52,
+              49,
+              50,
+              51,
+              52,
+              53,
+              55
+            ],
+            "format": 12613
+          }
+        }
+      ]
+    }
+  ],
+  "sourcePins": {
+    "preparationManifestSha256": "136216bb38f48aff447ef6408496bde8f19b2edfdc58e03064be479563fc5cb9",
+    "planSha256": "a548442961019070d44787c174f31253b4dc65ecfacc70005b6f3f212b300d09",
+    "executionInventorySha256": "f1f892418a44f30915ae807039b7a7fc70866da131e4fa8943a916e550453206",
+    "pairedRecordsDecompressedSha256": "c744a49397b3a5485c0eabbc1e5570b085e450dd8992934955a91e4a7677345e",
+    "analysisCodeSha256": "18a5cc534254bd05c439d05d4cf9bfdfae60388811a578c15a70b23314f98e41",
+    "analysisManifestSha256": "43db13eb66cb48eb10b65719805aaba1ff16423372d53fbd02ed230a472a6de3"
+  },
+  "readerImports": 0,
+  "recognitionCalls": 0,
+  "limitations": [
+    "Positions are scanline-support envelopes; no complete physical-support mask.",
+    "Whole-PNG placement membership is descriptive, including original quiet padding.",
+    "Known examples and controls are diagnostic, not held-out accuracy evidence.",
+    "Profile-local group IDs are not physical identities across calls.",
+    "Max1/max2/max255 alter observed acquisition/aggregation; no truncation assumption.",
+    "No threshold, filter, alternate digit search, majority or expected-truth correction selected."
+  ]
+}

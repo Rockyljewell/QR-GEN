@@ -1,0 +1,123 @@
+{
+  "status": "passed-bounded-independent-derived-review",
+  "profiles": 90,
+  "trios": 30,
+  "sourcePins": {
+    "preparationManifestSha256": "136216bb38f48aff447ef6408496bde8f19b2edfdc58e03064be479563fc5cb9",
+    "planSha256": "a548442961019070d44787c174f31253b4dc65ecfacc70005b6f3f212b300d09",
+    "executionInventorySha256": "f1f892418a44f30915ae807039b7a7fc70866da131e4fa8943a916e550453206",
+    "pairedRecordsDecompressedSha256": "c744a49397b3a5485c0eabbc1e5570b085e450dd8992934955a91e4a7677345e",
+    "analysisCodeSha256": "18a5cc534254bd05c439d05d4cf9bfdfae60388811a578c15a70b23314f98e41",
+    "analysisManifestSha256": "43db13eb66cb48eb10b65719805aaba1ff16423372d53fbd02ed230a472a6de3"
+  },
+  "derivedInventorySha256": "2f42d0f7fed0f5843c802eefd91e34da1f143f867b261763188032db09bd9918",
+  "derivedPayloadBytes": 13148167,
+  "totalEvents": 931395,
+  "classification": {
+    "attempts": 60872,
+    "collectorEligible": 4806,
+    "collectorRejectedInvalid": 56066,
+    "parserReturnedRows": 5265,
+    "parserReturnedChecksumErrors": 459,
+    "checksumPasses": 4806,
+    "checksumFailures": 459,
+    "binarizerRejectedRows": 286
+  },
+  "boundedRawSpotchecks": [
+    {
+      "profile": "physical-control/two-aligned-gap16/fast/max1",
+      "tracePath": "ean-actual-row-trace-execution-v5-run-01/traces/042-instrumented.stderr.jsonl",
+      "traceSha256": "e5e929d8fb227b00601154848b369aa9fd92caced38dd069bc8e8b0a25e34629",
+      "rows": 4,
+      "attempts": 7,
+      "publicCount": 1,
+      "outputSupports": [
+        2
+      ],
+      "budgetExits": [
+        {
+          "seq": 153,
+          "pass": 1,
+          "row": 265,
+          "groupsBeforePrune": 1,
+          "supportedGroups": {
+            "1": 2
+          }
+        }
+      ],
+      "passExitReasons": [
+        "oned-budget-exit"
+      ]
+    },
+    {
+      "profile": "physical-control/two-aligned-gap16/fast/max2",
+      "tracePath": "ean-actual-row-trace-execution-v5-run-01/traces/043-instrumented.stderr.jsonl",
+      "traceSha256": "4c1c55cff4e5389ee394db8268e5c90832cdc727a52f6f031417148838aac5e3",
+      "rows": 10,
+      "attempts": 19,
+      "publicCount": 2,
+      "outputSupports": [
+        5,
+        2
+      ],
+      "budgetExits": [
+        {
+          "seq": 523,
+          "pass": 1,
+          "row": 216,
+          "groupsBeforePrune": 2,
+          "supportedGroups": {
+            "1": 5,
+            "2": 2
+          }
+        }
+      ],
+      "passExitReasons": [
+        "oned-budget-exit"
+      ]
+    },
+    {
+      "profile": "physical-control/two-aligned-gap16/fast/max255",
+      "tracePath": "ean-actual-row-trace-execution-v5-run-01/traces/044-instrumented.stderr.jsonl",
+      "traceSha256": "59724e9ca564845aa8ed7faa0e6d3ca9658edbf8783d56f7b2425566a9c5c51d",
+      "rows": 38,
+      "attempts": 76,
+      "publicCount": 2,
+      "outputSupports": [
+        11,
+        9
+      ],
+      "budgetExits": [],
+      "passExitReasons": [
+        "max-lines-exhausted",
+        "max-lines-exhausted"
+      ]
+    }
+  ],
+  "sourceBasis": {
+    "path": "ean-actual-row-trace-v5/instrumented-source/core/src/oned/ODReader.cpp",
+    "sha256": "aa459963118abfd55fb6a523f8c2b90e870e00b80da34ed78c38984c9e7f1ff1",
+    "claims": [
+      "Rows and contributions retain source event order/context.",
+      "Reverse then rotate maps each accepted raw scanline into the recorded position.",
+      "Budget exit is reached support-group count, before support pruning; it is not output truncation."
+    ]
+  },
+  "limitationsReviewed": [
+    "Positions are scanline-support envelopes; no complete physical-support mask.",
+    "Whole-PNG placement membership is descriptive, including original quiet padding.",
+    "Known examples and controls are diagnostic, not held-out accuracy evidence.",
+    "Profile-local group IDs are not physical identities across calls.",
+    "Max1/max2/max255 alter observed acquisition/aggregation; no truncation assumption.",
+    "No threshold, filter, alternate digit search, majority or expected-truth correction selected."
+  ],
+  "publicationCaveats": [
+    "The frozen shorthand scanline-support envelope is not a guaranteed enclosing envelope of all historical support. ODReader replaces the nearer quadrilateral side; an interior incoming scanline can replace a previous edge. Use collector representative quadrilateral or support-derived geometry, and retain individual contribution positions.",
+    "The three raw control spotchecks do not establish all semantic histories or a safe recognition policy; the photographed and same-payload cases have a separate reviewer."
+  ],
+  "blockers": [],
+  "scope": "All derived provenance, counts, public records and comparison references checked; semantic raw histories spotchecked for only three fast distinct-payload control profiles. Other semantic case findings are reviewed separately.",
+  "readerImports": 0,
+  "recognitionCalls": 0,
+  "duplicateFullInterpreterExecutions": 0
+}

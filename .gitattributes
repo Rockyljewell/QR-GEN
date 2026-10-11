@@ -65,3 +65,10 @@ docs/ean-sdk-independent-node-review-2026-10-11/**/*.gz binary
 docs/ean-sdk-independent-node-review-2026-10-11/**/*.png binary
 docs/ean-sdk-independent-node-review-2026-10-11/**/*.patch whitespace=cr-at-eol,-blank-at-eof,-trailing-space,-space-before-tab
 docs/ean-sdk-independent-node-review-2026-10-11/**/*.diff whitespace=cr-at-eol,-blank-at-eof,-trailing-space,-space-before-tab
+
+# Exact-byte actual C++ trace evidence.
+docs/ean-actual-row-trace-2026-10-11/** -text whitespace=cr-at-eol,-blank-at-eof
+docs/ean-actual-row-trace-2026-10-11/**/*.gz binary
+docs/ean-actual-row-trace-2026-10-11/**/*.patch whitespace=cr-at-eol,-blank-at-eof,-trailing-space,-space-before-tab
+docs/ean-actual-row-trace-2026-10-11/build/**/CMakeLists.txt whitespace=cr-at-eol,-blank-at-eof,-trailing-space
+docs/ean-actual-row-trace-2026-10-11/build/**/*.make whitespace=cr-at-eol,-blank-at-eof,-trailing-space
