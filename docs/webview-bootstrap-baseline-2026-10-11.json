@@ -1,0 +1,588 @@
+{
+  "issue": "https://github.com/Rockyljewell/QR-GEN/issues/79",
+  "productionBase": "b591828fd2096429bcd2c43bdad5c5af782626ca",
+  "testOnlyHead": "7cd46e361f0f272569b26fddee53b91430ced093",
+  "reportedBeforeProductionEdits": true,
+  "flutter": {
+    "jobUrl": "https://github.com/Rockyljewell/QR-GEN/actions/runs/38182056013/job/114596506683",
+    "runtime": {
+      "flutter": "3.47.7",
+      "dart": "3.13.5",
+      "webview_flutter": "4.14.1",
+      "platform_interface": "2.15.1"
+    },
+    "visibleTests": {
+      "total": 282,
+      "passed": 279,
+      "failed": 3,
+      "skipped": 0,
+      "priorPassed": 273,
+      "newPassed": 6,
+      "newFailed": 3
+    },
+    "fixtureSha256": "8b5917b3242bc9297f9f049a923fcb20126a197cd36e1e6b3d1a35ef2f8ed52d",
+    "rawLogSha256": "eea654c8bae5754cfe4c0c0cd439739fc18709f587d4adca2249325d3bfa7165",
+    "allPrior273Pass": true,
+    "cleanupTraces": 9,
+    "scope": "Actual hosted widget/controller with controlled WebView platform boundary; no native WebView execution."
+  },
+  "reactNative": {
+    "passed": 8,
+    "intendedFailures": 3,
+    "runtime": {
+      "node": "v24.19.0",
+      "browserVersion": "153.0.8010.12",
+      "react": "19.3.0",
+      "reactDom": "19.3.0",
+      "playwright": "1.63.0",
+      "browserExecutable": "Playwright default"
+    },
+    "cases": [
+      {
+        "name": "public start queued before explicit-autostart page load reaches installed command API",
+        "regression": true,
+        "passed": false,
+        "cleanup": {
+          "attached": false,
+          "refAttached": false,
+          "appListenerCount": 0,
+          "documentMessageListeners": 0,
+          "transportPresent": false,
+          "commandCapability": false,
+          "epoch": 1,
+          "uri": null,
+          "ready": 0,
+          "errors": [],
+          "calls": [],
+          "scripts": [],
+          "messages": [],
+          "events": [
+            {
+              "type": "load-start",
+              "epoch": 1,
+              "url": "https://example.invalid/embed/?autostart=0&symbologies=qr&beep=0&vibrate=0&torch=0"
+            },
+            {
+              "type": "command-capability",
+              "epoch": 1,
+              "present": true
+            },
+            {
+              "type": "load-end",
+              "epoch": 1
+            }
+          ],
+          "vibrations": 0
+        },
+        "browserErrors": [],
+        "networkRequests": []
+      },
+      {
+        "name": "public start after explicit-autostart page load reaches installed command API",
+        "regression": true,
+        "passed": false,
+        "cleanup": {
+          "attached": false,
+          "refAttached": false,
+          "appListenerCount": 0,
+          "documentMessageListeners": 0,
+          "transportPresent": false,
+          "commandCapability": false,
+          "epoch": 1,
+          "uri": null,
+          "ready": 0,
+          "errors": [],
+          "calls": [],
+          "scripts": [],
+          "messages": [],
+          "events": [
+            {
+              "type": "load-start",
+              "epoch": 1,
+              "url": "https://example.invalid/embed/?autostart=0&symbologies=qr&beep=0&vibrate=0&torch=0"
+            },
+            {
+              "type": "command-capability",
+              "epoch": 1,
+              "present": true
+            },
+            {
+              "type": "load-end",
+              "epoch": 1
+            }
+          ],
+          "vibrations": 0
+        },
+        "browserErrors": [],
+        "networkRequests": []
+      },
+      {
+        "name": "public sendCommand start has the same explicit-autostart bootstrap contract",
+        "regression": true,
+        "passed": false,
+        "cleanup": {
+          "attached": false,
+          "refAttached": false,
+          "appListenerCount": 0,
+          "documentMessageListeners": 0,
+          "transportPresent": false,
+          "commandCapability": false,
+          "epoch": 1,
+          "uri": null,
+          "ready": 0,
+          "errors": [],
+          "calls": [],
+          "scripts": [],
+          "messages": [],
+          "events": [
+            {
+              "type": "load-start",
+              "epoch": 1,
+              "url": "https://example.invalid/embed/?autostart=0&symbologies=qr&beep=0&vibrate=0&torch=0"
+            },
+            {
+              "type": "command-capability",
+              "epoch": 1,
+              "present": true
+            },
+            {
+              "type": "load-end",
+              "epoch": 1
+            }
+          ],
+          "vibrations": 0
+        },
+        "browserErrors": [],
+        "networkRequests": []
+      },
+      {
+        "name": "installed SDK bridge direct start works before any camera-ready",
+        "regression": false,
+        "passed": true,
+        "cleanup": {
+          "attached": false,
+          "refAttached": false,
+          "appListenerCount": 0,
+          "documentMessageListeners": 0,
+          "transportPresent": false,
+          "commandCapability": false,
+          "epoch": 1,
+          "uri": null,
+          "ready": 0,
+          "errors": [],
+          "calls": [
+            {
+              "epoch": 1,
+              "type": "start"
+            }
+          ],
+          "scripts": [],
+          "messages": [],
+          "events": [
+            {
+              "type": "load-start",
+              "epoch": 1,
+              "url": "https://example.invalid/embed/?autostart=0&symbologies=qr&beep=0&vibrate=0&torch=0"
+            },
+            {
+              "type": "command-capability",
+              "epoch": 1,
+              "present": true
+            },
+            {
+              "type": "load-end",
+              "epoch": 1
+            }
+          ],
+          "vibrations": 0
+        },
+        "browserErrors": [],
+        "networkRequests": []
+      },
+      {
+        "name": "explicit autostart=0 query is retained without automatically starting",
+        "regression": false,
+        "passed": true,
+        "cleanup": {
+          "attached": false,
+          "refAttached": false,
+          "appListenerCount": 0,
+          "documentMessageListeners": 0,
+          "transportPresent": false,
+          "commandCapability": false,
+          "epoch": 1,
+          "uri": null,
+          "ready": 0,
+          "errors": [],
+          "calls": [],
+          "scripts": [],
+          "messages": [],
+          "events": [
+            {
+              "type": "load-start",
+              "epoch": 1,
+              "url": "https://example.invalid/embed/?autostart=0&symbologies=qr&beep=0&vibrate=0&torch=0"
+            },
+            {
+              "type": "command-capability",
+              "epoch": 1,
+              "present": true
+            },
+            {
+              "type": "load-end",
+              "epoch": 1
+            }
+          ],
+          "vibrations": 0
+        },
+        "browserErrors": [],
+        "networkRequests": []
+      },
+      {
+        "name": "default active mount preserves default-autostart URL and sends no forced start",
+        "regression": false,
+        "passed": true,
+        "cleanup": {
+          "attached": false,
+          "refAttached": false,
+          "appListenerCount": 0,
+          "documentMessageListeners": 0,
+          "transportPresent": false,
+          "commandCapability": false,
+          "epoch": 1,
+          "uri": null,
+          "ready": 0,
+          "errors": [],
+          "calls": [],
+          "scripts": [],
+          "messages": [],
+          "events": [
+            {
+              "type": "load-start",
+              "epoch": 1,
+              "url": "https://example.invalid/embed/?symbologies=qr&beep=0&vibrate=0&torch=0"
+            },
+            {
+              "type": "command-capability",
+              "epoch": 1,
+              "present": true
+            },
+            {
+              "type": "load-end",
+              "epoch": 1
+            }
+          ],
+          "vibrations": 0
+        },
+        "browserErrors": [],
+        "networkRequests": []
+      },
+      {
+        "name": "page load without a command API cannot release queued start",
+        "regression": false,
+        "passed": true,
+        "cleanup": {
+          "attached": false,
+          "refAttached": false,
+          "appListenerCount": 0,
+          "documentMessageListeners": 0,
+          "transportPresent": false,
+          "commandCapability": false,
+          "epoch": 1,
+          "uri": null,
+          "ready": 0,
+          "errors": [],
+          "calls": [],
+          "scripts": [],
+          "messages": [],
+          "events": [
+            {
+              "type": "load-start",
+              "epoch": 1,
+              "url": "https://example.invalid/embed/?autostart=0&symbologies=qr&beep=0&vibrate=0&torch=0"
+            },
+            {
+              "type": "command-capability",
+              "epoch": 1,
+              "present": false
+            },
+            {
+              "type": "load-end",
+              "epoch": 1
+            }
+          ],
+          "vibrations": 0
+        },
+        "browserErrors": [],
+        "networkRequests": []
+      },
+      {
+        "name": "unrelated ready-shaped message cannot release queued start",
+        "regression": false,
+        "passed": true,
+        "cleanup": {
+          "attached": false,
+          "refAttached": false,
+          "appListenerCount": 0,
+          "documentMessageListeners": 0,
+          "transportPresent": false,
+          "commandCapability": false,
+          "epoch": 0,
+          "uri": null,
+          "ready": 0,
+          "errors": [],
+          "calls": [],
+          "scripts": [],
+          "messages": [],
+          "events": [],
+          "vibrations": 0
+        },
+        "browserErrors": [],
+        "networkRequests": []
+      },
+      {
+        "name": "public reload preserves attachment but discards the old transport",
+        "regression": false,
+        "passed": true,
+        "cleanup": {
+          "attached": false,
+          "refAttached": false,
+          "appListenerCount": 0,
+          "documentMessageListeners": 0,
+          "transportPresent": false,
+          "commandCapability": false,
+          "epoch": 1,
+          "uri": null,
+          "ready": 0,
+          "errors": [],
+          "calls": [],
+          "scripts": [],
+          "messages": [],
+          "events": [
+            {
+              "type": "load-start",
+              "epoch": 1,
+              "url": "https://example.invalid/embed/?autostart=0&symbologies=qr&beep=0&vibrate=0&torch=0"
+            },
+            {
+              "type": "command-capability",
+              "epoch": 1,
+              "present": true
+            },
+            {
+              "type": "load-end",
+              "epoch": 1
+            },
+            {
+              "type": "reload-request",
+              "epoch": 1
+            }
+          ],
+          "vibrations": 0
+        },
+        "browserErrors": [],
+        "networkRequests": []
+      },
+      {
+        "name": "ordinary pause before camera-ready stays queued despite confirmed command capability",
+        "regression": false,
+        "passed": true,
+        "cleanup": {
+          "attached": false,
+          "refAttached": false,
+          "appListenerCount": 0,
+          "documentMessageListeners": 0,
+          "transportPresent": false,
+          "commandCapability": false,
+          "epoch": 1,
+          "uri": null,
+          "ready": 0,
+          "errors": [],
+          "calls": [],
+          "scripts": [],
+          "messages": [],
+          "events": [
+            {
+              "type": "load-start",
+              "epoch": 1,
+              "url": "https://example.invalid/embed/?autostart=0&symbologies=qr&beep=0&vibrate=0&torch=0"
+            },
+            {
+              "type": "command-capability",
+              "epoch": 1,
+              "present": true
+            },
+            {
+              "type": "load-end",
+              "epoch": 1
+            }
+          ],
+          "vibrations": 0
+        },
+        "browserErrors": [],
+        "networkRequests": []
+      },
+      {
+        "name": "ordinary torch changes before camera-ready stay queued despite confirmed command capability",
+        "regression": false,
+        "passed": true,
+        "cleanup": {
+          "attached": false,
+          "refAttached": false,
+          "appListenerCount": 0,
+          "documentMessageListeners": 0,
+          "transportPresent": false,
+          "commandCapability": false,
+          "epoch": 1,
+          "uri": null,
+          "ready": 0,
+          "errors": [],
+          "calls": [],
+          "scripts": [],
+          "messages": [],
+          "events": [
+            {
+              "type": "load-start",
+              "epoch": 1,
+              "url": "https://example.invalid/embed/?autostart=0&symbologies=qr&beep=0&vibrate=0&torch=0"
+            },
+            {
+              "type": "command-capability",
+              "epoch": 1,
+              "present": true
+            },
+            {
+              "type": "load-end",
+              "epoch": 1
+            }
+          ],
+          "vibrations": 0
+        },
+        "browserErrors": [],
+        "networkRequests": []
+      }
+    ],
+    "fixtureSha256": "63c9f3c51a7c935ecc038a55e140dbe29a7895f099a5a76a9b0a3df05e98d210",
+    "receiptSha256": "d65611b6a4482dfbc18298ee1782df8841a191865d69b45d98b08b244d05aaaa",
+    "scope": "Actual component/public ref and real SDK bridge in React DOM; controlled native WebView/scanner boundary."
+  },
+  "browser": {
+    "passed": 5,
+    "total": 5,
+    "runtime": {
+      "node": "v24.19.0",
+      "playwright": "1.63.0",
+      "chromium": "153.0.8010.12"
+    },
+    "servedInputsVerified": true,
+    "loadedWasmVerified": true,
+    "sourceStable": true,
+    "builtOutputStable": true,
+    "cases": [
+      {
+        "name": "autostart0 installs bridge before camera ready, direct host start works",
+        "passed": true,
+        "errors": [],
+        "cleanup": {
+          "observation": "observed actual page stop and element removal",
+          "videoAttachedAfterStop": false,
+          "trackStates": [
+            "ended"
+          ],
+          "contextClosed": true,
+          "pageClosedAfterContextClose": true
+        }
+      },
+      {
+        "name": "default autostart reports camera ready without host start",
+        "passed": true,
+        "errors": [],
+        "cleanup": {
+          "observation": "observed actual page stop and element removal",
+          "videoAttachedAfterStop": false,
+          "trackStates": [
+            "ended"
+          ],
+          "contextClosed": true,
+          "pageClosedAfterContextClose": true
+        }
+      },
+      {
+        "name": "controlled camera permission denial is an error, not an idle bootstrap wait",
+        "passed": true,
+        "errors": [],
+        "cleanup": {
+          "observation": "observed actual page stop and element removal",
+          "videoAttachedAfterStop": false,
+          "trackStates": [],
+          "contextClosed": true,
+          "pageClosedAfterContextClose": true
+        }
+      },
+      {
+        "name": "main document load failure is distinct and observed without evaluating an inaccessible page",
+        "passed": true,
+        "errors": [],
+        "cleanup": {
+          "observation": "not observed inside document; controlled failed navigation is recorded from browser lifecycle only",
+          "url": "about:blank",
+          "pageClosedBeforeContextClose": false,
+          "contextClosed": true,
+          "pageClosedAfterContextClose": true
+        }
+      },
+      {
+        "name": "initial default camera denial can retry through the real bridge without prior ready",
+        "passed": true,
+        "errors": [],
+        "cleanup": {
+          "observation": "observed actual page stop and element removal",
+          "videoAttachedAfterStop": false,
+          "trackStates": [
+            "ended"
+          ],
+          "contextClosed": true,
+          "pageClosedAfterContextClose": true
+        }
+      }
+    ],
+    "receiptSha256": "7ea924a814f55fb22a18d79d2cf031f0210cbfe6d40b11afbdeb9143aa794e32",
+    "scope": "Actual served embed/SDK and official real Chromium with fake-device camera. Host-channel recorder only; camera denial control changes only getUserMedia boundary. No Flutter WebView/OS/handset claim."
+  },
+  "limits": [
+    "No physical handset, OS permission prompt or native WebView test.",
+    "No Scandit trial or matched competitor comparison.",
+    "Legacy bridge messages carry no physical document generation; internal admission tokens do not establish native event provenance."
+  ],
+  "reactNativeFixedValidation": {
+    "actual": true,
+    "unchangedBeforeAfterCases": {
+      "passed": 11,
+      "failed": 0,
+      "receiptSha256": "a41b888ed3b374a177b31db76b85898af24f504802079e85bfef6a49142f3b7c",
+      "logSha256": "1cadf327492717b34983c7e8ab7b795efc0af556eb23072b5218a9751d50648a"
+    },
+    "additionalComponentCases": {
+      "passed": 16,
+      "failed": 0,
+      "runnerSha256": "f2f55fcf42d4179132408efc55beb082c72621b763204c43a388ad500d3baaec",
+      "receiptSha256": "081237a7b2dc5a95feda00712deca0a57b56d5fcf6c96acfa355511bb4cc7509",
+      "logSha256": "1a8ceec07690b696a1e9d7f7ca7171257e5d77d36fc4032b68e8870cbfeed232"
+    },
+    "packageTests": 308,
+    "typecheck": "passed",
+    "build": "passed",
+    "sourceHashes": {
+      "QRGenWebScanner.tsx": "e4622e09234c7519cc46bc9d914658ece0f5062b2eb32e88c315170275212c0d",
+      "webScannerTransport.ts": "4f00029e99b3c7476018d9fc3e47f6e3b843ffaec6beeb1e963dc6ba6e74a7e7"
+    },
+    "cleanupRuns": 27,
+    "unintendedBrowserErrors": 0,
+    "networkRequests": 0,
+    "limits": [
+      "Actual component and SDK bridge; controlled native view, event and timer boundaries",
+      "No native WebView, OS camera or physical phone execution",
+      "No Scandit parity claim"
+    ]
+  }
+}

@@ -154,7 +154,10 @@ await controller.pause();
   grant the page's camera request.
 - Controller commands (`start`, `stop`, `pause`, `resume`, `setTorch`, `send`) call
   `runJavaScript("window.qrgen && window.qrgen.command({...});")`. Commands sent before the page
-  reports `ready` are queued.
+  reports `ready` are queued, except `start`/`stop`: those can reach a verified
+  command bridge before camera-ready, so `autostart=0` and startup retries work.
+  `onReady` and `controller.isReady` still reflect the page's actual camera-ready
+  message; pause/resume/torch keep their camera-ready queue.
 - `isActive: false`, a covered route and the app going to the background send `stop`; coming
   back sends `start`. Changing `torch` sends a command, changing other options reloads the page.
 - Haptics run natively; the page gets `vibrate=0`. The page plays the beep.
