@@ -111,6 +111,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
   private capturePolicy: AdaptiveCapturePolicy | null = null;
   private _state: ScannerState = "idle";
   private busy = false;
+  private destroying = false;
   private frameHandle = 0;
   private lastDecodeStart = 0;
   private frameCount = 0;
@@ -191,7 +192,8 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
 
   /** Open the camera and start decoding. Call from a user gesture for sound on iOS. */
   async start(): Promise<void> {
-    if (this._state === "scanning" || this._state === "starting") return;
+    if (this.destroying || this._state === "scanning" || this._state === "starting") return;
+    this.video?.addEventListener?.("resize", this.handleVideoResize);
     const token = ++this.startToken;
     this.frameToken++;
     this.resetCapturePolicy();
@@ -271,6 +273,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
   }
 
   async switchCamera(): Promise<void> {
+    if (this.destroying) return;
     const token = this.startToken;
     // Rapid control presses share the camera operation and its failure outcome.
     if (this.pendingCameraSwitch?.token === token) return this.pendingCameraSwitch.promise;
@@ -310,13 +313,21 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
 
   /** Release everything, including the decoder reference. */
   destroy(): void {
-    this.stop();
-    this.feedback.dispose();
-    this.removeAllListeners();
-    this.video?.removeEventListener?.("resize", this.handleVideoResize);
-    if (this.ownsVideo) this.video?.remove();
-    this.decoder = null;
-    this.setState("idle");
+    if (this.destroying) return;
+    this.destroying = true;
+    try {
+      // stop emits state synchronously: callbacks must not reopen a source while
+      // this teardown is still releasing it. Explicit later reuse stays allowed.
+      this.stop();
+      this.feedback.dispose();
+      this.removeAllListeners();
+      this.video?.removeEventListener?.("resize", this.handleVideoResize);
+      if (this.ownsVideo) this.video?.remove();
+      this.decoder = null;
+      this.setState("idle");
+    } finally {
+      this.destroying = false;
+    }
   }
 
   private cancelFrame(): void {
@@ -420,8 +431,9 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
     try {
       grabbed = this.grab(plan);
     } catch (err) {
+      const stoppedToken = this.startToken + 1;
       this.stop();
-      this.emit("error", toQRGenError(err));
+      if (this.startToken === stoppedToken) this.emit("error", toQRGenError(err));
       return;
     }
     if (!grabbed) return this.schedule();
@@ -478,9 +490,9 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
       if (!this.isCurrentFrame(token, grabbed.frame)) return;
       const e = toQRGenError(err);
       if (e.code === "engine-load-failed") {
-        this.decoder = null;
+        const stoppedToken = this.startToken + 1;
         this.stop();
-        this.emit("error", e);
+        if (this.startToken === stoppedToken) this.emit("error", e);
       }
     } finally {
       this.busy = false;
