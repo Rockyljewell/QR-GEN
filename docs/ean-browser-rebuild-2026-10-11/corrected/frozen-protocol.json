@@ -1,0 +1,650 @@
+{
+  "scope": "Isolated raw-reader main-thread and actual module-Worker validation only. No production SDK integration, camera, phone, latency or parity claim.",
+  "frozenAt": "2026-10-11T15:54:25.652Z",
+  "provenance": {
+    "run": 38152527079,
+    "head": "3cfe7298c1d92eb2d4ac56158a1bfcd51275f070",
+    "upstreamCommit": "b7dcf63aefc7b94fb97ba09e9b1fb213d9399f54",
+    "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
+    "variants": {
+      "baseline": {
+        "artifactId": 11707386971,
+        "artifactZipSha256": "5a977f4f3388d0f11b0e18ca52416ca1b9e28a1bf784d6ed1e0f4e732a7a0c6c",
+        "buildEvidence": {
+          "scope": "Isolated rebuild and blank-image smoke only. Not corpus validation or production code.",
+          "recordedAt": "2026-10-11T15:47:19.408Z",
+          "variant": "baseline",
+          "node": "v22.14.0",
+          "readerVersion": "3.1.5",
+          "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
+          "wasmSha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+          "matchedWrapperSha256": "3c364d8477404a513d7c0629b1cf9e63ae11e01f9746146d3574f8b10a122320",
+          "releasedReaderWasmSha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+          "blankResult": [],
+          "matchesReleasedWasm": true
+        }
+      },
+      "candidate": {
+        "artifactId": 11707446910,
+        "artifactZipSha256": "fda7d5c917c4dc2fc28092b64fc4f605bcbf126f2db9da043bcb2774f1b4283b",
+        "buildEvidence": {
+          "scope": "Isolated rebuild and blank-image smoke only. Not corpus validation or production code.",
+          "recordedAt": "2026-10-11T15:46:39.790Z",
+          "variant": "candidate",
+          "node": "v22.14.0",
+          "readerVersion": "3.1.5",
+          "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
+          "wasmSha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+          "matchedWrapperSha256": "616a6837775f252ae1468667ad76693ae77f938f06192d6ae7cad2cf26639298",
+          "releasedReaderWasmSha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+          "blankResult": [],
+          "matchesReleasedWasm": false
+        }
+      }
+    }
+  },
+  "fixtures": {
+    "actual-Chrome-ean13-2-07-full.png": {
+      "sha256": "63783fca63db9e02e42cd905cae39630fd68acdcdb5ba7bb265e5f5a076e7399",
+      "bytes": 193449
+    },
+    "clean-ean13.png": {
+      "sha256": "5ea0cc8106ffd6d02d6d169c18d6ee9dd827ea8c9cb5ae7fb3f16ca696b8e404",
+      "bytes": 814
+    },
+    "clean-qr.png": {
+      "sha256": "e5b3bcb23eac348a577dbcc891d7e1771ec0256da59e3c0366faab56a5b0686f",
+      "bytes": 580
+    },
+    "clean-upca.png": {
+      "sha256": "e292d6fe54a6a69cde24b21ac8c139fe3ee5e16785b81fbfa4edbba8fb38a73b",
+      "bytes": 829
+    }
+  },
+  "controls": [
+    {
+      "file": "clean-ean13.png",
+      "data": "5901234123457",
+      "symbology": "ean13",
+      "scale": 3
+    },
+    {
+      "file": "clean-qr.png",
+      "data": "QRGEN-RAW-READER-CONTROL-20261011",
+      "symbology": "qr",
+      "scale": 3
+    },
+    {
+      "file": "clean-upca.png",
+      "data": "012345678905",
+      "symbology": "upca",
+      "scale": 3
+    }
+  ],
+  "cases": [
+    {
+      "id": "actual-ean-invert-true-downscale-true",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": {
+        "baseline": [
+          {
+            "format": "EAN13",
+            "text": "0798884816632"
+          }
+        ],
+        "candidate": []
+      }
+    },
+    {
+      "id": "actual-ean-invert-true-downscale-false",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": {
+        "baseline": [
+          {
+            "format": "EAN13",
+            "text": "0798884816632"
+          }
+        ],
+        "candidate": []
+      }
+    },
+    {
+      "id": "actual-ean-invert-false-downscale-true",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": {
+        "baseline": [
+          {
+            "format": "EAN13",
+            "text": "0798884816632"
+          }
+        ],
+        "candidate": []
+      }
+    },
+    {
+      "id": "actual-ean-invert-false-downscale-false",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": {
+        "baseline": [
+          {
+            "format": "EAN13",
+            "text": "0798884816632"
+          }
+        ],
+        "candidate": []
+      }
+    },
+    {
+      "id": "actual-upca-only-downscale-true",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": {
+        "baseline": [
+          {
+            "format": "UPCA",
+            "text": "0798884816632"
+          }
+        ],
+        "candidate": [
+          {
+            "format": "UPCA",
+            "text": "0798884816632"
+          }
+        ]
+      }
+    },
+    {
+      "id": "actual-upca-only-downscale-false",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": {
+        "baseline": [
+          {
+            "format": "UPCA",
+            "text": "0798884816632"
+          }
+        ],
+        "candidate": [
+          {
+            "format": "UPCA",
+            "text": "0798884816632"
+          }
+        ]
+      }
+    },
+    {
+      "id": "clean-ean13",
+      "frame": "cleanEAN",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": {
+        "baseline": [
+          {
+            "format": "EAN13",
+            "text": "5901234123457"
+          }
+        ],
+        "candidate": [
+          {
+            "format": "EAN13",
+            "text": "5901234123457"
+          }
+        ]
+      }
+    },
+    {
+      "id": "clean-qr",
+      "frame": "cleanQR",
+      "options": {
+        "formats": [
+          "QRCode"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": {
+        "baseline": [
+          {
+            "format": "QRCode",
+            "text": "QRGEN-RAW-READER-CONTROL-20261011"
+          }
+        ],
+        "candidate": [
+          {
+            "format": "QRCode",
+            "text": "QRGEN-RAW-READER-CONTROL-20261011"
+          }
+        ]
+      }
+    },
+    {
+      "id": "clean-upca-only",
+      "frame": "cleanUPC",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": {
+        "baseline": [
+          {
+            "format": "UPCA",
+            "text": "0012345678905"
+          }
+        ],
+        "candidate": [
+          {
+            "format": "UPCA",
+            "text": "0012345678905"
+          }
+        ]
+      }
+    },
+    {
+      "id": "clean-ean13-upca-only-scope",
+      "frame": "cleanEAN",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": {
+        "baseline": [],
+        "candidate": []
+      }
+    },
+    {
+      "id": "no-code",
+      "frame": "blank",
+      "options": {
+        "formats": [
+          "EAN13",
+          "QRCode",
+          "UPCA"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": {
+        "baseline": [],
+        "candidate": []
+      }
+    },
+    {
+      "id": "mixed-clean-ean13-qr",
+      "frame": "mixedClean",
+      "options": {
+        "formats": [
+          "EAN13",
+          "QRCode"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": {
+        "baseline": [
+          {
+            "format": "EAN13",
+            "text": "5901234123457"
+          },
+          {
+            "format": "QRCode",
+            "text": "QRGEN-RAW-READER-CONTROL-20261011"
+          }
+        ],
+        "candidate": [
+          {
+            "format": "EAN13",
+            "text": "5901234123457"
+          },
+          {
+            "format": "QRCode",
+            "text": "QRGEN-RAW-READER-CONTROL-20261011"
+          }
+        ]
+      }
+    },
+    {
+      "id": "mixed-actual-qr-invert-true",
+      "frame": "mixedActual",
+      "options": {
+        "formats": [
+          "EAN13",
+          "QRCode"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": {
+        "baseline": [
+          {
+            "format": "EAN13",
+            "text": "0798884816632"
+          },
+          {
+            "format": "QRCode",
+            "text": "QRGEN-RAW-READER-CONTROL-20261011"
+          }
+        ],
+        "candidate": [
+          {
+            "format": "QRCode",
+            "text": "QRGEN-RAW-READER-CONTROL-20261011"
+          }
+        ]
+      }
+    },
+    {
+      "id": "mixed-actual-qr-invert-false",
+      "frame": "mixedActual",
+      "options": {
+        "formats": [
+          "EAN13",
+          "QRCode"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": {
+        "baseline": [
+          {
+            "format": "EAN13",
+            "text": "0798884816632"
+          },
+          {
+            "format": "QRCode",
+            "text": "QRGEN-RAW-READER-CONTROL-20261011"
+          }
+        ],
+        "candidate": [
+          {
+            "format": "QRCode",
+            "text": "QRGEN-RAW-READER-CONTROL-20261011"
+          }
+        ]
+      }
+    }
+  ],
+  "negativeOracle": "The blank image contains no code; the EAN13->UPCA scope control is only negative for UPCA, not universally negative.",
+  "expectations": "Known actual frame has ground truth9780804816632; baseline wrong0798884816632 is a historical observation. Candidate EAN ambiguity suppression is tested; UPCA-only bypass deliberately remains unchanged.",
+  "representationAmendment": {
+    "reason": "The first frozen expected UPC-A text used SDK-normalized 12 digits. The raw reader HRI contract observed/source-confirmed retains a leading zero and emits13digits. Only the three UPC-A text oracles are amended; decoder options, images, payloads and all other expected results are identical.",
+    "previousProtocol": {
+      "file": "../frozen-protocol.json",
+      "sha256": "81c548110a63aa0dd0cad1bf484f987ea7cc5de3e1df31c5fad18eb762eeccf0"
+    },
+    "previousResults": {
+      "file": "../recorded-results.json",
+      "sha256": "18626e85fbbe386d9c375d1a5dcf452ac96c002df2b2e083d9bbfd2a9fe5c922",
+      "reads": 56,
+      "strictExpectedPasses": 44,
+      "strictExpectedRepresentationMismatches": 12
+    },
+    "sourceConfirmation": {
+      "path": "packages/sdk/src/engine/convert.ts",
+      "sha256": "2c6c329d5fe8f77145bf890f77b3fca19fc103bca28cb75a0dc79af5ea507f54",
+      "line": 98,
+      "behavior": "SDK strips one leadingzero from raw13-digit UPC-A; this raw-reader test does not call that SDK conversion."
+    },
+    "newInterpretation": "Actual camera EAN output is wrong by groundtruth; candidate empty is suppression/miss, not correct recovery. UPC-A-only wrong observation intentionally remains outside candidate EAN13-format filter."
+  }
+}

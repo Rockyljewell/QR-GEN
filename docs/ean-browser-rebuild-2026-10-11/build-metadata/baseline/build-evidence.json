@@ -1,0 +1,13 @@
+{
+  "scope": "Isolated rebuild and blank-image smoke only. Not corpus validation or production code.",
+  "recordedAt": "2026-10-11T15:47:19.408Z",
+  "variant": "baseline",
+  "node": "v22.14.0",
+  "readerVersion": "3.1.5",
+  "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
+  "wasmSha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+  "matchedWrapperSha256": "3c364d8477404a513d7c0629b1cf9e63ae11e01f9746146d3574f8b10a122320",
+  "releasedReaderWasmSha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+  "blankResult": [],
+  "matchesReleasedWasm": true
+}

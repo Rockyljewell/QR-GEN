@@ -1,0 +1,22 @@
+{
+  "scope": "Artifact DP cross-check against independent exhaustive Cartesian enumeration on all selected real accepted rows plus1000fixed-seed bounded synthetic candidate sets. No decoder or production changes.",
+  "checked": 1238,
+  "examples": [
+    {
+      "row": 207,
+      "text": "0798884816632",
+      "validWords": [
+        "0798884816632",
+        "9780804816632"
+      ]
+    },
+    {
+      "row": 209,
+      "text": "0798884816632",
+      "validWords": [
+        "0798884816632",
+        "9780804816632"
+      ]
+    }
+  ]
+}

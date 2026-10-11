@@ -1,0 +1,339 @@
+{
+  "repository": "zxing-cpp/zxing-cpp",
+  "commit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
+  "recordedAt": "2026-10-11T15:18:52.109Z",
+  "files": [
+    {
+      "path": "core/src/Barcode.cpp",
+      "sha256": "2b663ee18e1d9333ea9783aa4749faa56cbb24ea831fe88099d7ed2611caa9a5"
+    },
+    {
+      "path": "core/src/Barcode.h",
+      "sha256": "132469c8f74d9cdff218471d423134c9844ac0d85a74b7bdea66fb430c253c4e"
+    },
+    {
+      "path": "core/src/BarcodeData.h",
+      "sha256": "5c13486fe4a67f360054ab53099be6c9e672ffe8929a1c8ae5628f554b3c2619"
+    },
+    {
+      "path": "core/src/BinaryBitmap.cpp",
+      "sha256": "e767145caced3aa67ed2911dc69b3142e69b79a88d239eb56ad6ef0bae09ea43"
+    },
+    {
+      "path": "core/src/BinaryBitmap.h",
+      "sha256": "f5c47f0e7c2fe2e8d2256f4fc38d80e92c3ef017f9695f2192f0be6c71e4bb8d"
+    },
+    {
+      "path": "core/src/BitArray.cpp",
+      "sha256": "0a850051db3b4a82d9db7a258cf3959675ff390779bdc6ea0b00f8cdc447951e"
+    },
+    {
+      "path": "core/src/BitArray.h",
+      "sha256": "20b139ddf6c5a19eb668042f50e719245294a1c3b51359fb50710915c0e0f6f7"
+    },
+    {
+      "path": "core/src/BitMatrix.cpp",
+      "sha256": "d009bac5522e5b82d36e54af5f6dc6fb2deb1845d0d6232740e20ceb824a707f"
+    },
+    {
+      "path": "core/src/BitMatrix.h",
+      "sha256": "efb519f41f3f045e39836887067f0a9bbe31a608ce40cb1efb00b0bee0dcf4c4"
+    },
+    {
+      "path": "core/src/GlobalHistogramBinarizer.cpp",
+      "sha256": "f92ec3aef8bc0970172b6ed620dad67e1ae660385e2bc7c03c4baedce8e1a46b"
+    },
+    {
+      "path": "core/src/GlobalHistogramBinarizer.h",
+      "sha256": "2bd8becc4349d458a609cc8b5ffe6cf89b3def4fa2ad430b3eedae04453c0cc3"
+    },
+    {
+      "path": "core/src/GTIN.cpp",
+      "sha256": "197586a7f578193627bb46a15f29dd3b9d5676e92a108837ce040f59a590d788"
+    },
+    {
+      "path": "core/src/GTIN.h",
+      "sha256": "f5508d046247ced2a4fce30ffd00eb699ca1792ce3b59132c5e3b7ebd2b322ef"
+    },
+    {
+      "path": "core/src/HybridBinarizer.cpp",
+      "sha256": "fc626a1b201e6b6438fcd6e6d436098dfac32c8317345eee0b95dc64b65ef228"
+    },
+    {
+      "path": "core/src/HybridBinarizer.h",
+      "sha256": "3c96c7f700b4298487e5ac62953b0b0f3d3c3a20feb43bd47df7cdf05b252e27"
+    },
+    {
+      "path": "core/src/ImageView.h",
+      "sha256": "b5c63ad64174bb5175283bccd31eea691fadf3cd3ebe76e414a28555236b875c"
+    },
+    {
+      "path": "core/src/MultiFormatReader.cpp",
+      "sha256": "207b7287dcfaecd47ff13fd657e728e633a22c3942b171f6843caadaa027e879"
+    },
+    {
+      "path": "core/src/MultiFormatReader.h",
+      "sha256": "a0496ff7583dabdc6297739f52e87ce328f444a0330eeac2be392043a6acd4dc"
+    },
+    {
+      "path": "core/src/oned/ODCodabarReader.cpp",
+      "sha256": "0ca469beeec1b6758709c59f6c0ee537ea74728db2ad15c0ae5dd95ee162a21b"
+    },
+    {
+      "path": "core/src/oned/ODCodabarReader.h",
+      "sha256": "881440b17a0e692f6e65665c0ce0291c6d94bc66b5d1d659e85a844a69476052"
+    },
+    {
+      "path": "core/src/oned/ODCodabarWriter.cpp",
+      "sha256": "b12c7d984546bc44af8456632edf6dc1f446c75fe7969c07cac16a8de1cfa597"
+    },
+    {
+      "path": "core/src/oned/ODCodabarWriter.h",
+      "sha256": "eea94bc75e465c2948c49e7ee9e520598ab7c1f0a26e674f7751d2e108bae301"
+    },
+    {
+      "path": "core/src/oned/ODCode128Patterns.h",
+      "sha256": "8101edea9b3d8ebdf2655416d842d0a07d568d7df9036d35c08e8fcbac511f68"
+    },
+    {
+      "path": "core/src/oned/ODCode128Reader.cpp",
+      "sha256": "b71b3f1c8c8887e7e45e3d2fa1bdb4102876bbb7a325c666c3cd7cdfbfd162ee"
+    },
+    {
+      "path": "core/src/oned/ODCode128Reader.h",
+      "sha256": "7d127f9ea8ca9b21b40f291864a21855cabb56a8f29a54d2755232937d6660a6"
+    },
+    {
+      "path": "core/src/oned/ODCode128Writer.cpp",
+      "sha256": "3e26b670b4e436da0b0507f9f31bd235c672c53814218a7a7cdc64c696164e3a"
+    },
+    {
+      "path": "core/src/oned/ODCode128Writer.h",
+      "sha256": "988d3cda78f2b9b4a66e51126abaf662f93d71fd2581649a12f124e35d07ed59"
+    },
+    {
+      "path": "core/src/oned/ODCode39Reader.cpp",
+      "sha256": "008a00f4368915eea743cf37f273b2bc79f913d7865f8ac692faa27d71e8ceda"
+    },
+    {
+      "path": "core/src/oned/ODCode39Reader.h",
+      "sha256": "802e6dc8b5699afefb6b04ab116b2869cdf226f87548d9c2579c1c6af09e0832"
+    },
+    {
+      "path": "core/src/oned/ODCode39Writer.cpp",
+      "sha256": "b1b64ab3168b53884d4dcae432a2e72cfccb8e0ce7e5f80206c9f0725eb7d81d"
+    },
+    {
+      "path": "core/src/oned/ODCode39Writer.h",
+      "sha256": "3a08221a9133924ab97077c9ef989778b3c91c4ddee7d03bda9db6a7ee788b4c"
+    },
+    {
+      "path": "core/src/oned/ODCode93Patterns.h",
+      "sha256": "0b5f256f5affff5d15f96fdde9993c7b3a31c1c2a30b96f6c880135072ab54fa"
+    },
+    {
+      "path": "core/src/oned/ODCode93Reader.cpp",
+      "sha256": "02b9d86069ff37cfb1b559da4b1d8cfb9429e260cf11416804a78965ee151b09"
+    },
+    {
+      "path": "core/src/oned/ODCode93Reader.h",
+      "sha256": "99be0326d16ebe598729d816954ebe060870a9043f1e0c2fa2a8abdf00985413"
+    },
+    {
+      "path": "core/src/oned/ODCode93Writer.cpp",
+      "sha256": "5751c49bec7dd9df3b9a327287a4a0111823a405651e991c43808957513577c9"
+    },
+    {
+      "path": "core/src/oned/ODCode93Writer.h",
+      "sha256": "2c67693ba371b0d16872ecdc409cc1cb68f58570f4e0e123b2abd16c4ea43434"
+    },
+    {
+      "path": "core/src/oned/ODDataBarCommon.cpp",
+      "sha256": "fb0c4991654420e5370c4a5bf85f11941478434b83a663e827d92e165abfd598"
+    },
+    {
+      "path": "core/src/oned/ODDataBarCommon.h",
+      "sha256": "e60f839ece6c0a3ef46d9143212d74f5c7c5805016f3d7daf9f90478ace8df53"
+    },
+    {
+      "path": "core/src/oned/ODDataBarExpandedBitDecoder.cpp",
+      "sha256": "8591c2a7503de292c6d1746bdfaf8d93366936aaa92401efc61d369b23793db1"
+    },
+    {
+      "path": "core/src/oned/ODDataBarExpandedBitDecoder.h",
+      "sha256": "fd8933031ea5f8da2e153c9c0924e46520eb69a0662c445eab07be0b2e64f8a1"
+    },
+    {
+      "path": "core/src/oned/ODDataBarExpandedReader.cpp",
+      "sha256": "9a1e38a6f4a6511822abbf741c947c8347b3737cd1def8880042dd8ade00bc25"
+    },
+    {
+      "path": "core/src/oned/ODDataBarExpandedReader.h",
+      "sha256": "3829fafd98329f8860663376abfaf27585240fa8e5a787e5b64dc9fa5428adfe"
+    },
+    {
+      "path": "core/src/oned/ODDataBarLimitedReader.cpp",
+      "sha256": "739538d17d0524ecbdafa32b1a352fe5e1505fcc6101296e5505c6e52a87c000"
+    },
+    {
+      "path": "core/src/oned/ODDataBarLimitedReader.h",
+      "sha256": "5b0cac4cb40643a5ff07a63eff5c2984f691a99c37bafe8c70a928e8869a730d"
+    },
+    {
+      "path": "core/src/oned/ODDataBarReader.cpp",
+      "sha256": "8ee3a7636cfcb57b9077bd9f50901ab5570baeb71ee6fc4288a33ef41ff94303"
+    },
+    {
+      "path": "core/src/oned/ODDataBarReader.h",
+      "sha256": "212f9dc20b7f0b2214ad4a4de68d62ea4665dc06fc2b9fe099e727b517a4c523"
+    },
+    {
+      "path": "core/src/oned/ODDXFilmEdgeReader.cpp",
+      "sha256": "c023b6e043545ef134f2253e7c81dc86073d188d935b9c54db4fe5bd58df36ff"
+    },
+    {
+      "path": "core/src/oned/ODDXFilmEdgeReader.h",
+      "sha256": "4ea422f6bde806feacf2e93e72027b8896653478f3f60abdedb0e8205ad4ce7d"
+    },
+    {
+      "path": "core/src/oned/ODEAN13Writer.cpp",
+      "sha256": "fe319c1329c4a1247fe6094e5a2eab3ba3760791c2949c0e725d1a09fa6d48a7"
+    },
+    {
+      "path": "core/src/oned/ODEAN13Writer.h",
+      "sha256": "7b5b2e9112f931afe0572fe8340fb703118dd4ff12a72c22ec4596c5d886ce26"
+    },
+    {
+      "path": "core/src/oned/ODEAN8Writer.cpp",
+      "sha256": "4d7f694babbc5ee1676e936f0d8f2124a2dc41c2988c754fa09c758c2b673cf7"
+    },
+    {
+      "path": "core/src/oned/ODEAN8Writer.h",
+      "sha256": "0b60d8b42912c48a8f477799e989fd8db3d8dbc80ee09e80d0923c7a7666166c"
+    },
+    {
+      "path": "core/src/oned/ODITFReader.cpp",
+      "sha256": "0057974dbe2198af77c5c3bbbeaf8b7e49f42cb550069a15f1053779c5b77486"
+    },
+    {
+      "path": "core/src/oned/ODITFReader.h",
+      "sha256": "6d53913b8b8095c4d018e6bafcdbf9f3e25cfcede2cf33ca384eda8645c54121"
+    },
+    {
+      "path": "core/src/oned/ODITFWriter.cpp",
+      "sha256": "fd4a3627b97d97ce08473429d9848a945472111efd9f9ec53c7f88e2f4861069"
+    },
+    {
+      "path": "core/src/oned/ODITFWriter.h",
+      "sha256": "2df1c2b802809c9ef507fe944de94686cee58c711b126b434b107812a9589754"
+    },
+    {
+      "path": "core/src/oned/ODMultiUPCEANReader.cpp",
+      "sha256": "84d85014bcef424e6457caeaa81a78498af2838354f50db41664f4ebac0be5e9"
+    },
+    {
+      "path": "core/src/oned/ODMultiUPCEANReader.h",
+      "sha256": "8f3ac49c84106a171dc582343dd1139f2e53a39fbf8f341aca4d1bab9414a769"
+    },
+    {
+      "path": "core/src/oned/ODReader.cpp",
+      "sha256": "bb7c077d260aae12f82b473f5a38a0dd5a15790d2fc33db121f04dfc012faa6e"
+    },
+    {
+      "path": "core/src/oned/ODReader.h",
+      "sha256": "2c035de910ca311c1a6adcca289c4c686e628b7911bb7a24b2d2972a59c87d98"
+    },
+    {
+      "path": "core/src/oned/ODRowReader.h",
+      "sha256": "5b008b44f33d77445e67a10c8b46a88c77f99fb42fae299773195bc07b0c2499"
+    },
+    {
+      "path": "core/src/oned/ODTelepenReader.cpp",
+      "sha256": "042d605b247a4ba0a3a6efb56914efb63075da5575cf5232cf66a5c6631d7179"
+    },
+    {
+      "path": "core/src/oned/ODTelepenReader.h",
+      "sha256": "b31b288a9278a508447af85482bd938c1e045b144494cf5790218a6b959d8ca3"
+    },
+    {
+      "path": "core/src/oned/ODUPCAWriter.cpp",
+      "sha256": "b286223037d938548206264fef091dee654cf501ca05ffbd6ef4a45387bd8033"
+    },
+    {
+      "path": "core/src/oned/ODUPCAWriter.h",
+      "sha256": "314ce0144ef942bb15fdac4302d2d899bced50299272be7e9e3b056d1061e8ee"
+    },
+    {
+      "path": "core/src/oned/ODUPCEANCommon.cpp",
+      "sha256": "3901af82edf80299a793baf294d9611aed0a73624ec4c73953445876780d07fe"
+    },
+    {
+      "path": "core/src/oned/ODUPCEANCommon.h",
+      "sha256": "2179c559843e0ee422eee6fdbdb1c4e59b51081057a1e8b0068e5c9aef878928"
+    },
+    {
+      "path": "core/src/oned/ODUPCEWriter.cpp",
+      "sha256": "7de7a3163970bb03f36f2ea59d395a41639c3fb4e132d8654d945e220d5028f0"
+    },
+    {
+      "path": "core/src/oned/ODUPCEWriter.h",
+      "sha256": "81ac21fbbb7ef2f0acb0a18252e58ed66fba088a89cef58ce9bce1a4bd9a15e3"
+    },
+    {
+      "path": "core/src/oned/ODWriterHelper.cpp",
+      "sha256": "97ff59d4ed65ec2a4b1f8afb5a98068501a92767ee67a20e8b3cd34933ff9e23"
+    },
+    {
+      "path": "core/src/oned/ODWriterHelper.h",
+      "sha256": "4258e3df9f73d5985f610297bcc6ada815ceec165042ab850d7593123f771738"
+    },
+    {
+      "path": "core/src/Pattern.h",
+      "sha256": "e3f483989b9e673753941529124744374f3050f7830de6f935226af73011b5ba"
+    },
+    {
+      "path": "core/src/Quadrilateral.h",
+      "sha256": "44cec03a64a27290d1d22f67bfdc64a338e7350a6dc8a423dd3c8a6f205ab1c9"
+    },
+    {
+      "path": "core/src/Range.h",
+      "sha256": "736b2b85c608ce76e8c11ade6cbc543d0feeceb50be98789f292ad1a7430a409"
+    },
+    {
+      "path": "core/src/ReadBarcode.cpp",
+      "sha256": "53b9780a67f291c3f8f91722912323783c44890b71ea1a5328c729ca3e82685c"
+    },
+    {
+      "path": "core/src/ReadBarcode.h",
+      "sha256": "6462e3bf5bd5925ec0d8f12b0273330f1507dfa6fb0b92c505663f0e33039cd9"
+    },
+    {
+      "path": "core/src/Reader.h",
+      "sha256": "802958bd4cf16896e11927ecb0b2961f6bb9a0de28c74c2489d6fc1808ca0980"
+    },
+    {
+      "path": "core/src/ReaderOptions.h",
+      "sha256": "b02f422ace401fcde9ffaabf4aefdc9532b7b61a846cc92705e55a89431d609e"
+    },
+    {
+      "path": "core/src/ResultPoint.cpp",
+      "sha256": "e5438cf75727f5668044daefae5af9752de647c6de88858a6691a3a7dae31a26"
+    },
+    {
+      "path": "core/src/ResultPoint.h",
+      "sha256": "c9b2aa66d849fe3aadc275eee8c0d76b3b7a0d20cf8e34b8a7b7dc544262cb67"
+    },
+    {
+      "path": "core/src/ThresholdBinarizer.h",
+      "sha256": "253e0e3c04e1110a61cc9115b022ce75b8f9d50e8431be7846f4ba464d773d94"
+    },
+    {
+      "path": "core/src/ZXAlgorithms.h",
+      "sha256": "e15a227d28aa2679cd8f7b0943e5c611eab884c1ee4cc1520b17575fc76edba7"
+    },
+    {
+      "path": "core/src/ZXConfig.h",
+      "sha256": "bac5941a128fc4fb0d5d656860019cae2f20bf279de232a380bf8889e56e3539"
+    }
+  ]
+}

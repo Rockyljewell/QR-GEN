@@ -1,0 +1,24 @@
+{
+  "scope": "Actual native C++ upstream GoogleTest suite; candidate adds extracted-private-helper controls. Blackbox/photo quality is evaluated separately.",
+  "variant": "candidate",
+  "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
+  "googleTest": {
+    "tests": 326,
+    "failures": 0,
+    "disabled": 0,
+    "errors": 0
+  },
+  "ctestEntries": 2,
+  "ctestFailures": 0,
+  "registeredGoogleTestSuites": 61,
+  "helperControls": {
+    "scope": "Candidate-only test TU compiles exact private helper/collector source bodies; the reader TU source is unchanged. This is helper compilation plus the upstream unit suite, not a full blackbox confidence guarantee.",
+    "candidateSourceSha256": "b9cd713e52c5579fa9366f6b7c89f5012b10b1510a5c81fb01e2145f57cd46ce",
+    "testFixtureSha256": "1ac9edbb4121f99890186a274015e61adb12d9947c17a09badccb407e35411a6",
+    "extractedHelperSha256": "2e066426b49cbb21777b7b991a6448c380df1cb657070aa87bd472f43770c81a",
+    "generatedTestSha256": "09f158dde3dad5f0f4039d39fce2a756bf2ef8cd6222b6f1a3a4bd62233ba3f1",
+    "addedGoogleTests": 14,
+    "frozenRealRows": 238,
+    "boundaryCases": 9
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "scope": "Actual unmodified315WASM only, sameChrome fullframe hardtrue/min2/max255/downscalefalse. Candidate notbuilt.",
+  "runs": [
+    {
+      "formats": [
+        "EAN13"
+      ],
+      "results": [
+        {
+          "format": "EAN13",
+          "text": "0798884816632",
+          "lineCount": 2
+        }
+      ]
+    },
+    {
+      "formats": [
+        "UPCA"
+      ],
+      "results": [
+        {
+          "format": "UPCA",
+          "text": "0798884816632",
+          "lineCount": 2
+        }
+      ]
+    },
+    {
+      "formats": [
+        "EAN13",
+        "UPCA"
+      ],
+      "results": [
+        {
+          "format": "EAN13",
+          "text": "0798884816632",
+          "lineCount": 2
+        }
+      ]
+    },
+    {
+      "formats": [],
+      "results": [
+        {
+          "format": "EAN13",
+          "text": "0798884816632",
+          "lineCount": 2
+        }
+      ]
+    }
+  ]
+}

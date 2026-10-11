@@ -308,6 +308,21 @@ correct photographic reads or introduced other wrong values. The compact package
 preserves full raw outputs and exact portable replay; no decoder default changed.
 [Issue #32](https://github.com/Rockyljewell/QR-GEN/issues/32) remains open.
 
+## Compiled EAN candidate and deployed retail follow-up
+
+The [compiled ambiguity candidate report](EAN-CANDIDATE-VALIDATION-2026-10-11.md)
+preserves a reproducible baseline, actual rebuilt-WASM comparison, native unit
+suite and real Chromium worker checks. Its 3,988 profiles / 12,108 reader calls
+retain every expected text/family/bytes found by the baseline and introduce no new text/format
+pairs. The candidate suppresses the known /2/07 ambiguity; /1/35 and explicit
+UPC-A-only behavior remain unresolved. Production still uses released 3.1.5.
+These development fixtures do not establish population or phone/vendor parity.
+
+The merged retail release at `6d3728f` passes main CI, Pages and Docker builds.
+Its [three hosted checks](retail-state-postdeploy-2026-10-11/README.md) match all
+loaded modules and reader WASM to the actual successful Pages artifact, exercise
+paused pruning/reset callbacks, and release every live camera track.
+
 ## Retail AR and adjacent features
 
 The following is an assessment of repository code against the vendors' published

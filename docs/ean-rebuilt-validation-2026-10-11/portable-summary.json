@@ -1,0 +1,201 @@
+{
+  "harnessSelfCheck": false,
+  "scope": "Actual released315 versus independently rebuilt baseline, followed only on baseline conformance by actual rebuilt candidate. Non-exhaustive matrix: full479 core across fast/hard and downscale off/on at max255/EAN13; focused controls vary limits/formats/addons; raw72 and separately modelled SDK-style inversion72.",
+  "recordedAt": "2026-10-11T15:51:39.445Z",
+  "planSha256": "03eb911057351f594004eb3450f1a83b60e00360dbadefccda8d709e0403a4ab",
+  "engines": {
+    "released315": {
+      "modulePath": "$QRGEN_REPRO_DEPENDENCY_ROOT\\packages\\sdk\\node_modules\\zxing-wasm\\dist\\es\\reader\\index.js",
+      "wasmPath": "$QRGEN_REPRO_DEPENDENCY_ROOT\\packages\\sdk\\node_modules\\zxing-wasm\\dist\\reader\\zxing_reader.wasm",
+      "moduleSha256": "3c364d8477404a513d7c0629b1cf9e63ae11e01f9746146d3574f8b10a122320",
+      "wasmSha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+      "readerVersion": "3.1.5",
+      "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
+      "matchesPublishedWasmBytes": true,
+      "retainedDistGraphSha256": "da26fb570c2342fa5f4fdfb9edaaa978a841011b14e36bfe606974c5614a461b",
+      "retainedDistGraphFileCount": 27,
+      "matchedRawGlue": null,
+      "downloadProvenance": null
+    },
+    "baseline": {
+      "modulePath": "$QRGEN_ARTIFACT_ROOT\\rebuilt-ean\\3cfe7298\\baseline\\dist\\es\\reader\\index.js",
+      "wasmPath": "$QRGEN_ARTIFACT_ROOT\\rebuilt-ean\\3cfe7298\\baseline\\zxing_reader.wasm",
+      "moduleSha256": "3c364d8477404a513d7c0629b1cf9e63ae11e01f9746146d3574f8b10a122320",
+      "wasmSha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+      "readerVersion": "3.1.5",
+      "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
+      "matchesPublishedWasmBytes": true,
+      "retainedDistGraphSha256": "b843b3e1f7c00f2259a60b51038e69bd04faf153ccab125737a6e6c801c36d26",
+      "retainedDistGraphFileCount": 4,
+      "matchedRawGlue": {
+        "path": "$QRGEN_ARTIFACT_ROOT\\rebuilt-ean\\3cfe7298\\baseline\\matched-emscripten-glue.js",
+        "sha256": "1355cda0b9a596e528a4bef37a33543bd4594cc5e66a0240dd5334b7fd565cfe"
+      },
+      "downloadProvenance": {
+        "path": "$QRGEN_ARTIFACT_ROOT\\rebuilt-ean\\3cfe7298\\baseline\\download-provenance.json",
+        "sha256": "533ce09bd2533f8ef1bdd19546a01eb799de594ba03b9df996a6986b8346d5b7"
+      }
+    },
+    "candidate": {
+      "modulePath": "$QRGEN_ARTIFACT_ROOT\\rebuilt-ean\\3cfe7298\\candidate\\dist\\es\\reader\\index.js",
+      "wasmPath": "$QRGEN_ARTIFACT_ROOT\\rebuilt-ean\\3cfe7298\\candidate\\zxing_reader.wasm",
+      "moduleSha256": "616a6837775f252ae1468667ad76693ae77f938f06192d6ae7cad2cf26639298",
+      "wasmSha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+      "readerVersion": "3.1.5",
+      "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
+      "matchesPublishedWasmBytes": false,
+      "retainedDistGraphSha256": "fbf365bb7af04ab6862a32aad91fc60bc504f78cac5ee96b7894c15b3b3c9d69",
+      "retainedDistGraphFileCount": 4,
+      "matchedRawGlue": {
+        "path": "$QRGEN_ARTIFACT_ROOT\\rebuilt-ean\\3cfe7298\\candidate\\matched-emscripten-glue.js",
+        "sha256": "44c9d31d2d7e3021a2a8a844fdefe5b163f141f97e9f22ad57e7edb50f89401e"
+      },
+      "downloadProvenance": {
+        "path": "$QRGEN_ARTIFACT_ROOT\\rebuilt-ean\\3cfe7298\\candidate\\download-provenance.json",
+        "sha256": "e25197a06b2555e52df078a134eb430a83c531aed8f466efc5c6224cf9e24206"
+      }
+    }
+  },
+  "counts": {
+    "frozenCoreItems": 479,
+    "focusedOriginalDerivedChromeItems": 5,
+    "focusedGeneratedItems": 8,
+    "invalidChecksumItems": 1,
+    "additionalSyntheticNoCodeItems": 5,
+    "matrixItems": 72,
+    "totalPreparedItems": 565,
+    "selectedProfiles": 3988,
+    "plannedReaderCallsWithoutFallback": 11964,
+    "fullProfiles": 3988
+  },
+  "baselineProfiles": 3988,
+  "baselineConformanceMismatches": 0,
+  "orderedBaselineDifferences": 0,
+  "baselineDifferenceProfiles": [],
+  "timingLimitations": [
+    "One timed warm call per profile/engine, sequential release then baseline then candidate; timings are descriptive and not an unbiased performance benchmark."
+  ],
+  "warmTiming": {
+    "released315": {
+      "n": 3988,
+      "p50Ms": 0.766500000000633,
+      "p95Ms": 4.34900000000016,
+      "maxMs": 51.88349999999991
+    },
+    "baseline": {
+      "n": 3988,
+      "p50Ms": 0.748700000000099,
+      "p95Ms": 4.292499999999563,
+      "maxMs": 52.8823999999986
+    },
+    "candidate": {
+      "n": 3988,
+      "p50Ms": 0.7695999999996275,
+      "p95Ms": 4.405800000000454,
+      "maxMs": 45.3093000000008
+    }
+  },
+  "status": "actual-candidate-comparison-completed",
+  "candidateEvaluationPerformed": true,
+  "candidateProfiles": 3988,
+  "candidateReaderCalls": 4036,
+  "candidateErrors": 0,
+  "changedProfiles": 86,
+  "lostTargetProfiles": [],
+  "introducedNoCodeOutputProfiles": [],
+  "arms": {
+    "full-frozen-corpus/raw": {
+      "profiles": 1916,
+      "changed": 6,
+      "lostTargetProfiles": 0,
+      "baselineTargetProfiles": 1130,
+      "candidateTargetProfiles": 1130,
+      "baselineControlOutput": 0,
+      "candidateControlOutput": 0,
+      "baselineKnownFalse07": 4,
+      "candidateKnownFalse07": 0,
+      "baselineKnownFalse35": 4,
+      "candidateKnownFalse35": 4,
+      "candidateErrors": 0
+    },
+    "focused-limits-formats-addons/raw": {
+      "profiles": 1872,
+      "changed": 72,
+      "lostTargetProfiles": 0,
+      "baselineTargetProfiles": 864,
+      "candidateTargetProfiles": 864,
+      "baselineControlOutput": 0,
+      "candidateControlOutput": 0,
+      "baselineKnownFalse07": 96,
+      "candidateKnownFalse07": 24,
+      "baselineKnownFalse35": 48,
+      "candidateKnownFalse35": 48,
+      "candidateErrors": 0
+    },
+    "checksum-error-semantics/raw": {
+      "profiles": 16,
+      "changed": 8,
+      "lostTargetProfiles": 0,
+      "baselineTargetProfiles": 0,
+      "candidateTargetProfiles": 0,
+      "baselineControlOutput": 0,
+      "candidateControlOutput": 0,
+      "baselineKnownFalse07": 0,
+      "candidateKnownFalse07": 0,
+      "baselineKnownFalse35": 0,
+      "candidateKnownFalse35": 0,
+      "candidateErrors": 0
+    },
+    "broader-no-code-controls/raw": {
+      "profiles": 40,
+      "changed": 0,
+      "lostTargetProfiles": 0,
+      "baselineTargetProfiles": 0,
+      "candidateTargetProfiles": 0,
+      "baselineControlOutput": 0,
+      "candidateControlOutput": 0,
+      "baselineKnownFalse07": 0,
+      "candidateKnownFalse07": 0,
+      "baselineKnownFalse35": 0,
+      "candidateKnownFalse35": 0,
+      "candidateErrors": 0
+    },
+    "generated-72-format-matrix/raw": {
+      "profiles": 72,
+      "changed": 0,
+      "lostTargetProfiles": 0,
+      "baselineTargetProfiles": 56,
+      "candidateTargetProfiles": 56,
+      "baselineControlOutput": 0,
+      "candidateControlOutput": 0,
+      "baselineKnownFalse07": 0,
+      "candidateKnownFalse07": 0,
+      "baselineKnownFalse35": 0,
+      "candidateKnownFalse35": 0,
+      "candidateErrors": 0
+    },
+    "generated-72-format-matrix/sdk-style-raster-inversion": {
+      "profiles": 72,
+      "changed": 0,
+      "lostTargetProfiles": 0,
+      "baselineTargetProfiles": 72,
+      "candidateTargetProfiles": 72,
+      "baselineControlOutput": 0,
+      "candidateControlOutput": 0,
+      "baselineKnownFalse07": 0,
+      "candidateKnownFalse07": 0,
+      "baselineKnownFalse35": 0,
+      "candidateKnownFalse35": 0,
+      "candidateErrors": 0
+    }
+  },
+  "productionApproval": false,
+  "limitations": [
+    "Development fixtures inherited from the same engine family, not population or Scandit parity evidence.",
+    "One timed warm call per profile/engine, sequential release then baseline then candidate; timings are descriptive and not an unbiased performance benchmark.",
+    "Raw engines retain unsupported inverted formats. The separate SDK-style arm models the same bounded explicit inversion policy for every engine and is not execution of the product SDK with a replaced dependency.",
+    "Full limits/formats/addons/downscale cross product is focused, not applied to every photo.",
+    "No output-subset invariant is assumed; candidate can alter scheduling and later searches. Newly appearing values and lost baseline targets are recorded.",
+    "Package/source/defaults are never modified; missing inputs/hash mismatches fail instead of shrinking scope."
+  ]
+}

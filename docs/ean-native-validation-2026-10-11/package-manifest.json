@@ -1,0 +1,230 @@
+{
+  "scope": "Compact actual native diagnostic evidence; no binaries",
+  "files": [
+    {
+      "path": "baseline/build.log.gz",
+      "bytes": 1857,
+      "sha256": "d932b84afd723a7c249315b90c71dad4128cf45a0a1321ea57d9b99f31b00e8d"
+    },
+    {
+      "path": "baseline/cmake-version.txt",
+      "bytes": 91,
+      "sha256": "f6e81c2559f3ce00c5fdad01d7b226c301f5d6b07ee04f65db6dbfdc1cc5970b"
+    },
+    {
+      "path": "baseline/CMakeCache.txt.gz",
+      "bytes": 4855,
+      "sha256": "f8048ef1ca830ee9dfe9a366b4c79eb27bb48559c1328c4026fb7d9962f395c8"
+    },
+    {
+      "path": "baseline/configure.log.gz",
+      "bytes": 395,
+      "sha256": "30a01070198d29dc1b3c6b63db450e0c58f5cb0d856b32c6ef1f9af3c23ba35e"
+    },
+    {
+      "path": "baseline/ctest-list.json",
+      "bytes": 1410,
+      "sha256": "172401e618b0e8bc96159c1a4c746573d98a173c3650010a69563624f3a20603"
+    },
+    {
+      "path": "baseline/ctest.log.gz",
+      "bytes": 5670,
+      "sha256": "ddba27322072e2f2dbde2e41980a69723a071f1641e6f93547ac8ef52f235aaa"
+    },
+    {
+      "path": "baseline/ctest.xml",
+      "bytes": 2699,
+      "sha256": "dda8414e8b34f6addc7ca8233ca021e7c083a510e726e58ef98d76b2da4010e2"
+    },
+    {
+      "path": "baseline/cxx-version.txt",
+      "bytes": 246,
+      "sha256": "88b7c4b67564a146863224148116065fee418539f0a408f3636a68f3bde51805"
+    },
+    {
+      "path": "baseline/download-provenance.json",
+      "bytes": 1052,
+      "sha256": "0416c5919f0013449e8d7a88a11077ab421a6199fc5b3dae1483c4bdd099a56a"
+    },
+    {
+      "path": "baseline/google-test-list.txt",
+      "bytes": 6564,
+      "sha256": "d9d911638d47226a4636307b83a58925cc5724f7338f11d268c6f0578be8c6ce"
+    },
+    {
+      "path": "baseline/googletest-commit.txt",
+      "bytes": 41,
+      "sha256": "175e94e362b93aea7bd12c5d9e6d2d57ef423de66efceb563e4e0e3026f0f2eb"
+    },
+    {
+      "path": "baseline/gtest.xml",
+      "bytes": 83379,
+      "sha256": "683823e2ad7a41010d160bc9d5fbe6c009e5779dda11cc375af4156140a995fd"
+    },
+    {
+      "path": "baseline/patch-metadata.json",
+      "bytes": 491,
+      "sha256": "22ec04b05e3ccf1e3453f40928f10207ad55ba7b4fd6ec6cf789c220fd2a1bd9"
+    },
+    {
+      "path": "baseline/python-version.txt",
+      "bytes": 14,
+      "sha256": "5b3e43dc38ca01e3f5a7854ba50d4330864b0c1e0f646650b2c78cf072acc366"
+    },
+    {
+      "path": "baseline/submodule-status.txt",
+      "bytes": 58,
+      "sha256": "c68a8dee342af7d99996b48111e686b6fb4f38b9d3e847080cc0cf54827fc98a"
+    },
+    {
+      "path": "baseline/summary.json",
+      "bytes": 418,
+      "sha256": "933d13e9d0faa032be75fa352a3044d0900da4b03e747156dcd67ac5c816c6a7"
+    },
+    {
+      "path": "candidate/build.log.gz",
+      "bytes": 1864,
+      "sha256": "278809d846aa254cd4c484de387a9c65fef5fc9354bb20ead0374ef07c476f89"
+    },
+    {
+      "path": "candidate/cmake-version.txt",
+      "bytes": 91,
+      "sha256": "f6e81c2559f3ce00c5fdad01d7b226c301f5d6b07ee04f65db6dbfdc1cc5970b"
+    },
+    {
+      "path": "candidate/CMakeCache.txt.gz",
+      "bytes": 4855,
+      "sha256": "f8048ef1ca830ee9dfe9a366b4c79eb27bb48559c1328c4026fb7d9962f395c8"
+    },
+    {
+      "path": "candidate/configure.log.gz",
+      "bytes": 395,
+      "sha256": "aee0a0530f454d5b8354ccb21e3105535a6d8719803a0666325075f95b7dcc43"
+    },
+    {
+      "path": "candidate/ctest-list.json",
+      "bytes": 1410,
+      "sha256": "172401e618b0e8bc96159c1a4c746573d98a173c3650010a69563624f3a20603"
+    },
+    {
+      "path": "candidate/ctest.log.gz",
+      "bytes": 6016,
+      "sha256": "51d8f7aec475bcd70c942a9cdce16c7f0473be697d1a99a1e265b091eadd40df"
+    },
+    {
+      "path": "candidate/ctest.xml",
+      "bytes": 2699,
+      "sha256": "1aca1f77a3b532be83aaf26697212e916c7abd7104275d9fea2ccf11f6837ab7"
+    },
+    {
+      "path": "candidate/cxx-version.txt",
+      "bytes": 246,
+      "sha256": "88b7c4b67564a146863224148116065fee418539f0a408f3636a68f3bde51805"
+    },
+    {
+      "path": "candidate/diagnostic.patch",
+      "bytes": 8104,
+      "sha256": "1dc2026f1aaab2fab0604b3207213fb164f83e8680a4a74b553db506972ddfb1"
+    },
+    {
+      "path": "candidate/download-provenance.json",
+      "bytes": 1053,
+      "sha256": "bdf54399a881589b5cdede3a3022a026b427393b9347154ed16ce7ca52d72546"
+    },
+    {
+      "path": "candidate/google-test-list.txt",
+      "bytes": 6999,
+      "sha256": "ebac37ab7e015f77ea4f08479b181c1f57920921a99d888726f47e896c2c5e91"
+    },
+    {
+      "path": "candidate/googletest-commit.txt",
+      "bytes": 41,
+      "sha256": "175e94e362b93aea7bd12c5d9e6d2d57ef423de66efceb563e4e0e3026f0f2eb"
+    },
+    {
+      "path": "candidate/gtest.xml",
+      "bytes": 87260,
+      "sha256": "0dab50bcf9a14e5624402db26bf45dc07932847cae2368833a0af51ff7004641"
+    },
+    {
+      "path": "candidate/helper-test-provenance.json",
+      "bytes": 676,
+      "sha256": "5d5e518875f117ac2dd492db14629d361b7b4c50ee60e652fa204a4a648f9f2c"
+    },
+    {
+      "path": "candidate/patch-metadata.json",
+      "bytes": 491,
+      "sha256": "22ec04b05e3ccf1e3453f40928f10207ad55ba7b4fd6ec6cf789c220fd2a1bd9"
+    },
+    {
+      "path": "candidate/python-version.txt",
+      "bytes": 14,
+      "sha256": "5b3e43dc38ca01e3f5a7854ba50d4330864b0c1e0f646650b2c78cf072acc366"
+    },
+    {
+      "path": "candidate/QRGenEANWordDiagnosticTest.cpp",
+      "bytes": 53810,
+      "sha256": "09f158dde3dad5f0f4039d39fce2a756bf2ef8cd6222b6f1a3a4bd62233ba3f1"
+    },
+    {
+      "path": "candidate/submodule-status.txt",
+      "bytes": 58,
+      "sha256": "c68a8dee342af7d99996b48111e686b6fb4f38b9d3e847080cc0cf54827fc98a"
+    },
+    {
+      "path": "candidate/summary.json",
+      "bytes": 1134,
+      "sha256": "243eb4ced7668a49424bfd7adf3c0d633691bd20a6be442f6c6d950d28761d8c"
+    },
+    {
+      "path": "published-recipe-provenance.json",
+      "bytes": 1161,
+      "sha256": "498b47e59fbe163242b4771a2b9f0d7adfd4b4fb8fb1d3b0e2ad1e4b3f8500ef"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4632,
+      "sha256": "d2476a1ccc8d9c6c7a3ce7f562871ebae8bd02ee06a37c0f48b992478c4a5cdd"
+    },
+    {
+      "path": "recipe/diagnostic-native.yml",
+      "bytes": 5015,
+      "sha256": "1419b8ae7d0c9f1a594ce62dd3bcfee4e4ce2576896d8296b6a1b2557dd18fb0"
+    },
+    {
+      "path": "recipe/ean13-whole-word-ambiguity.patch",
+      "bytes": 7548,
+      "sha256": "f80daf81fe49616e59b250fac96e25a6c5d73ee5e59e6511cec5b98dc2bd7fae"
+    },
+    {
+      "path": "recipe/native-boundary-cases.json",
+      "bytes": 86997,
+      "sha256": "1ac9edbb4121f99890186a274015e61adb12d9947c17a09badccb407e35411a6"
+    },
+    {
+      "path": "recipe/patch-metadata.json",
+      "bytes": 491,
+      "sha256": "22ec04b05e3ccf1e3453f40928f10207ad55ba7b4fd6ec6cf789c220fd2a1bd9"
+    },
+    {
+      "path": "recipe/prepare-native-tests.py",
+      "bytes": 5828,
+      "sha256": "ea2101de03be1d1f992b9b58600d2cf932a3c644d1a52f30805b195107a29669"
+    },
+    {
+      "path": "recipe/summarize-native.py",
+      "bytes": 1140,
+      "sha256": "d10b02a4ff39586f57dfbb992ddea505ea94092d12bc8e7c4810c0eea9d68624"
+    },
+    {
+      "path": "verification.json",
+      "bytes": 4871,
+      "sha256": "b2d1c92cd462599a3f6eee36bb4fbc7f83937ab23048d8bb4f9c20e2f2a961fc"
+    },
+    {
+      "path": "ZXING-LICENSE.txt",
+      "bytes": 13320,
+      "sha256": "3f62881f0566227a24b12e5a754cc79f39aaa94883038e95c94812e1f50af42f"
+    }
+  ]
+}

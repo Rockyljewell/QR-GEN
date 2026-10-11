@@ -1,0 +1,59 @@
+{
+  "status": "passed",
+  "revision": "6d3728f569f1cd5031fa8ca40ec090c8ff6bdf5b",
+  "deploymentRun": 38152103868,
+  "artifactId": 11706946941,
+  "artifactTarSha256": "5d9780d4074923417946e203212a3855762b894e5d7df00699a8b9aeecb76d6f",
+  "githubReportedZipDigest": "sha256:6197b64abe2dc3cf0b58eb02d5e03dbf37943095cee24966a8d3c07c061a7e7b",
+  "startedAt": "2026-10-11T15:43:55.065Z",
+  "finishedAt": "2026-10-11T15:44:01.043Z",
+  "mainAtStart": "6d3728f569f1cd5031fa8ca40ec090c8ff6bdf5b",
+  "mainAtFinish": "6d3728f569f1cd5031fa8ca40ec090c8ff6bdf5b",
+  "chromiumVersion": "153.0.8010.12",
+  "sourceContentHashesUnchanged": true,
+  "cases": [
+    {
+      "name": "37-hosted-worker-QR-EAN-paused-pruning-and-deselection",
+      "status": "passed",
+      "loadedAssetCount": 6,
+      "allLoadedAssetsMatchDeploymentArtifact": true,
+      "pageErrors": 0,
+      "consoleErrors": 0,
+      "cleanup": {
+        "liveMediaTracks": 0,
+        "attachedElementVideoStreams": 0
+      }
+    },
+    {
+      "name": "38-hosted-CustomEvent-mode-reset-pause-and-cosmetic-callback",
+      "status": "passed",
+      "loadedAssetCount": 6,
+      "allLoadedAssetsMatchDeploymentArtifact": true,
+      "pageErrors": 0,
+      "consoleErrors": 0,
+      "cleanup": {
+        "liveMediaTracks": 0,
+        "attachedElementVideoStreams": 0
+      }
+    },
+    {
+      "name": "38-hosted-source-reset-hint-accent-latest-camera-new-worker-QR",
+      "status": "passed",
+      "loadedAssetCount": 6,
+      "allLoadedAssetsMatchDeploymentArtifact": true,
+      "pageErrors": 0,
+      "consoleErrors": 0,
+      "cleanup": {
+        "liveMediaTracks": 0,
+        "attachedElementVideoStreams": 0
+      }
+    }
+  ],
+  "postResume": {
+    "lastSeenBefore": 1791733437125,
+    "lastSeenAfter": 1791733438101,
+    "identityOutcome": "fresh ID after documented wall-clock expiry",
+    "trackerTimeout": 500
+  },
+  "browserClosed": true
+}

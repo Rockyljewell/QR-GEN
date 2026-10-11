@@ -1,0 +1,309 @@
+{
+  "revision": "6d3728f569f1cd5031fa8ca40ec090c8ff6bdf5b",
+  "deploymentRun": 38152103868,
+  "deploymentConclusion": "success",
+  "deploymentUrl": "https://github.com/Rockyljewell/QR-GEN/actions/runs/38152103868",
+  "artifactId": 11706946941,
+  "artifactName": "github-pages",
+  "artifactZipDigestAsReportedByGitHub": "sha256:6197b64abe2dc3cf0b58eb02d5e03dbf37943095cee24966a8d3c07c061a7e7b",
+  "artifactTarSha256": "5d9780d4074923417946e203212a3855762b894e5d7df00699a8b9aeecb76d6f",
+  "artifactTarBytes": 12953600,
+  "assets": {
+    "/QR-GEN/pricing/index.html": {
+      "sha256": "63cab952946c90cde6d3b54c2650a886f95cdb67ec6928e8f941f9753bd50f9f",
+      "bytes": 76599
+    },
+    "/QR-GEN/demo/index.html": {
+      "sha256": "a9827518ad18b7dd4ec62da75fa6408ef99faed0b8484970a07a5c48c4b3b3c2",
+      "bytes": 101381
+    },
+    "/QR-GEN/plan/index.html": {
+      "sha256": "3d722df8cc3b3ec098a1c260f1e33231cd7c877e2096e9d39a202ae584d2a895",
+      "bytes": 74189
+    },
+    "/QR-GEN/solutions/index.html": {
+      "sha256": "50befbb7f7f15cff1e3888e5b5219bae5621f03677d5eae527e5a56d9655c34b",
+      "bytes": 100804
+    },
+    "/QR-GEN/products/barcode-scanning/index.html": {
+      "sha256": "527afa97d244948aa17f8984dfe2d75831404c315873ea67494b361154b5e454",
+      "bytes": 84059
+    },
+    "/QR-GEN/products/barcode-generator/index.html": {
+      "sha256": "d6b59ad6cb9dc780374a725667b14cd9390f15e7a03850c73cf1492306d3bed3",
+      "bytes": 88852
+    },
+    "/QR-GEN/products/batch-scanning/index.html": {
+      "sha256": "ee384c69066f9e7ad87e848f142326307a68c3b9cd227073c2aa17e8870e59a0",
+      "bytes": 88007
+    },
+    "/QR-GEN/products/id-scanning/index.html": {
+      "sha256": "4b639850e0b35ffb8f75461a17780a8a82b90654005d5e918e788b7a614d5c80",
+      "bytes": 92454
+    },
+    "/QR-GEN/index.html": {
+      "sha256": "cbf33dddee06897cc67b1770625d02b0cdcc6788aafec4fe8e9d5aa3be0fc60b",
+      "bytes": 142503
+    },
+    "/QR-GEN/agent-skills/index.html": {
+      "sha256": "3367088da03451118eaa41977653af908750b2af57dc5c17e17582efa6119a88",
+      "bytes": 91468
+    },
+    "/QR-GEN/_astro/chunk-YMWLR7YI.DkH5rM36.js": {
+      "sha256": "2416877c6906de40cd9f56a197d12ee27f6f127f3456f55e59dc0e24966b8225",
+      "bytes": 132610
+    },
+    "/QR-GEN/_astro/index.astro_astro_type_script_index_0_lang.BSIQpUxA.js": {
+      "sha256": "381d2182c7f0aeb76b334123c80fe5819966ca5dd5e0b26dcae0038433b5a167",
+      "bytes": 908
+    },
+    "/QR-GEN/_astro/chunk-G3CZVFEW.DnSaL_Nl.js": {
+      "sha256": "33883172c910144fe7ffc724bd2f387c2655557925709719465aa02aa61e7086",
+      "bytes": 13094
+    },
+    "/QR-GEN/_astro/index.astro_astro_type_script_index_0_lang.B0G-Cf48.js": {
+      "sha256": "eae808b55eec8e6afd19a41f780cb52c55e4afba13040bc0753b328b879b6396",
+      "bytes": 45598
+    },
+    "/QR-GEN/_astro/_slug_.astro_astro_type_script_index_0_lang.C9xzS5PH.js": {
+      "sha256": "28afcbcf2895b5b8be318505ba5a53b3f02b553fee203e569fe930bb026ae735",
+      "bytes": 574
+    },
+    "/QR-GEN/_astro/plan.astro_astro_type_script_index_0_lang.Dn9rN_d_.js": {
+      "sha256": "ef8196a5ff0790a5e04731ff161a91701f287e17bbd765650864a6da117708d7",
+      "bytes": 4334
+    },
+    "/QR-GEN/_astro/elements.pjjgTECq.js": {
+      "sha256": "064dc9bdea8d74b05cfd286a7100039b578962f823e2f4ad2ed23e6ef003f757",
+      "bytes": 34879
+    },
+    "/QR-GEN/_astro/index.astro_astro_type_script_index_0_lang.Dkkb-j-1.js": {
+      "sha256": "7d47aedf02268f50c208425751f5634922a0f848c75dd278b7a4748590fb1aeb",
+      "bytes": 3605
+    },
+    "/QR-GEN/404.html": {
+      "sha256": "b5a8f1af6fff5b074f72a71399669fa772319e3614c0ea05303cb3b78620a07e",
+      "bytes": 63329
+    },
+    "/QR-GEN/offline/client.js": {
+      "sha256": "a0db90fd667a08f2d3736f89b817b6fd930397c72d5ac21a3553e2938672682d",
+      "bytes": 8355
+    },
+    "/QR-GEN/offline/index.html": {
+      "sha256": "b7a0eef1887bd7deb2c36091df37239e4400f31d7d46aba8e79ae8155d8f5f4c",
+      "bytes": 5294
+    },
+    "/QR-GEN/offline/sw.js": {
+      "sha256": "570fcb7fa6d64f872ffeda5cac32b4993004b0fc96a5440259edede5396933f5",
+      "bytes": 5703
+    },
+    "/QR-GEN/docs/flutter/index.html": {
+      "sha256": "8e670985fc7280f597d50bac33e6ea58e64a325d89dfcfb5b997042827859179",
+      "bytes": 114663
+    },
+    "/QR-GEN/docs/javascript/index.html": {
+      "sha256": "262d4594e92e331c4ac0e5acefc3ebfd3fa220bc366ebb04eaee1b3d27a639e4",
+      "bytes": 130787
+    },
+    "/QR-GEN/docs/concepts/index.html": {
+      "sha256": "485fcba88372c14cf4346705e51b0d7344900df1f6d5cf1ac19cbc25e5206ab5",
+      "bytes": 106157
+    },
+    "/QR-GEN/docs/electron/index.html": {
+      "sha256": "7047fbe650317acf7a83ec41065558dcc2558fd138490df7d51c45af3d774f3e",
+      "bytes": 119325
+    },
+    "/QR-GEN/docs/capacitor/index.html": {
+      "sha256": "0889e2ced18ffb9306bf489a526e5131e81049f7f8fcc264b32f1d66a8fcc77d",
+      "bytes": 99790
+    },
+    "/QR-GEN/docs/installation/index.html": {
+      "sha256": "a9afa6dfdac733fbe90e4cca3a1d43645465596874d763f608e73e4458e12f22",
+      "bytes": 110002
+    },
+    "/QR-GEN/docs/faq/index.html": {
+      "sha256": "72d76a47f6c5f7753c4dbe0e4269471ae6c2f13a026b0cc234f4261032fd982f",
+      "bytes": 95048
+    },
+    "/QR-GEN/docs/cdn/index.html": {
+      "sha256": "7645a356ec0b163a870c6a12badbd909c5b292469061bbbd13cb4d2afe4a1dca",
+      "bytes": 101897
+    },
+    "/QR-GEN/docs/vue/index.html": {
+      "sha256": "0132b1ccd4b62635f2d98c2c1b32e87584442843bf8d7ae8d43bf1f10552e791",
+      "bytes": 118473
+    },
+    "/QR-GEN/docs/migration/index.html": {
+      "sha256": "037275aa3f406960cf615fd531e9d35e22ce5c912a6cb71ec8b924c20335c0d1",
+      "bytes": 129772
+    },
+    "/QR-GEN/docs/tauri/index.html": {
+      "sha256": "d60771ebf8dbf1cb55403591b3d5bee4bb9fd5a9900f3e6f4794383284d72813",
+      "bytes": 101082
+    },
+    "/QR-GEN/docs/options-events/index.html": {
+      "sha256": "8ea317e4e01c95788819e0fa3176087203dd6cd37776b2d6d9959c5758a6dbe3",
+      "bytes": 104718
+    },
+    "/QR-GEN/docs/barcode-scanning/index.html": {
+      "sha256": "deabee4add1ead2825d6b44712f36809446da0ecad723cf2992c07cb5d3b425a",
+      "bytes": 112726
+    },
+    "/QR-GEN/docs/troubleshooting/index.html": {
+      "sha256": "143a86caeb005a6d79224638a768cd02c6ffd24f83590055dc742258cb7a07eb",
+      "bytes": 105264
+    },
+    "/QR-GEN/docs/barcode-generation/index.html": {
+      "sha256": "4b3bff73385624c240c4bb7751d7c5f710af891c32a4dc6aa3742b23b4a21098",
+      "bytes": 115854
+    },
+    "/QR-GEN/docs/introduction/index.html": {
+      "sha256": "c697eafa8d12b4d1c7b3f817f850486da4be10e2c3474bed588f92c378aefb86",
+      "bytes": 90867
+    },
+    "/QR-GEN/docs/credit/index.html": {
+      "sha256": "49d5ed148ffbad7435eb25388e836728fa692196dde20a417f53f9cec2c102b0",
+      "bytes": 89380
+    },
+    "/QR-GEN/docs/angular/index.html": {
+      "sha256": "f332a7c625b2bcb379d56ad332c27ab7e2638786adbc8b19ed26de2c5f10421f",
+      "bytes": 113041
+    },
+    "/QR-GEN/docs/index.html": {
+      "sha256": "1699822ddcf9f4dd62aff712cc436a1c69a747410a475427883b4a054e569eea",
+      "bytes": 105564
+    },
+    "/QR-GEN/docs/react-native/index.html": {
+      "sha256": "08c023af5a7ed71373da59ed39ef88f87ec1ac7d65b92da6dd40327962b17982",
+      "bytes": 132041
+    },
+    "/QR-GEN/docs/web-components/index.html": {
+      "sha256": "99aaa7474cd1b26631276b5988166bf50cd0bccf38ff8c215190b8de9ddaf1c4",
+      "bytes": 127345
+    },
+    "/QR-GEN/docs/quick-start/index.html": {
+      "sha256": "10e1a2d204c0380ba4473a403af6ec0290f3692b776bc3789d3921b494fdff96",
+      "bytes": 95536
+    },
+    "/QR-GEN/docs/svelte/index.html": {
+      "sha256": "c5139971ab3991f9788bf0c9a13b6cb044b8c2964735669699944c17045fd623",
+      "bytes": 109397
+    },
+    "/QR-GEN/docs/agent-skills/index.html": {
+      "sha256": "eb602ce8b647c761c5a67c755f847a3856bebf86cc681ab198fddbaa51e3070b",
+      "bytes": 84624
+    },
+    "/QR-GEN/docs/android/index.html": {
+      "sha256": "68682a7be3fc70cbc8c945e017a34ce1793bebd313edc87a09749865671f298b",
+      "bytes": 148735
+    },
+    "/QR-GEN/docs/ui-customization/index.html": {
+      "sha256": "56d69f487d4a06b248304a5f7fb5f79e6d0a56dc21c7532269642c5750634450",
+      "bytes": 153597
+    },
+    "/QR-GEN/docs/python/index.html": {
+      "sha256": "749d80f0b536b45a20606478903948c95dcb6e2def5fa87ba6659b81092bfd35",
+      "bytes": 123901
+    },
+    "/QR-GEN/docs/symbologies/index.html": {
+      "sha256": "c506a9175ea3dc8c5cbf3967b1cfc375c14cd83d43a84fe0b4cc1b59b909afc6",
+      "bytes": 97800
+    },
+    "/QR-GEN/docs/batch-scanning/index.html": {
+      "sha256": "7adca63cc9fcd6a9fbaa602872a44331293e4753195d53f7dbe09de34d4de8c9",
+      "bytes": 117518
+    },
+    "/QR-GEN/docs/linux/index.html": {
+      "sha256": "f10fcce7459564153b68c52feb054c057d1af6a86cc1cbb7ff00287cb12a331b",
+      "bytes": 110291
+    },
+    "/QR-GEN/docs/api/index.html": {
+      "sha256": "89a474924c98634c620a5ae0d6d8b4d6e05b6f265dbb81f0f0dce80d0e8c6fce",
+      "bytes": 186859
+    },
+    "/QR-GEN/docs/nodejs/index.html": {
+      "sha256": "8b883bb5c78e7005b7e772fe25110487b5a4dff1613d296e311b56a81523d5a3",
+      "bytes": 117604
+    },
+    "/QR-GEN/docs/titanium/index.html": {
+      "sha256": "0ba47e5454e2fdb1f15bc31f2b94b14eb23e24af0fda75ca1cd0b80f9392b5c8",
+      "bytes": 111247
+    },
+    "/QR-GEN/docs/dotnet/index.html": {
+      "sha256": "f2c5a021c4bd20ab6a4ab511e36e6be0e7279b16b5f122afb709b552aa4c2c18",
+      "bytes": 126429
+    },
+    "/QR-GEN/docs/cordova/index.html": {
+      "sha256": "485b9a65b7db01bc488e910ba1fdd0080c81ad4d4567f0d576e3913da08cf084",
+      "bytes": 107699
+    },
+    "/QR-GEN/docs/cli/index.html": {
+      "sha256": "ab7d7d25a710dc537afc02f4464a04668c1ffabd55bad9f20df8434b2d480079",
+      "bytes": 111420
+    },
+    "/QR-GEN/docs/react/index.html": {
+      "sha256": "ebc8c3dd145ca1841a9911eed64a43f82fa5f86b0180e42ed90f4e36465848c9",
+      "bytes": 119003
+    },
+    "/QR-GEN/docs/ios/index.html": {
+      "sha256": "76b3996d2110c8a17b280319807d5d4cea85daffbc4c63495594e3f65f9b08c0",
+      "bytes": 137985
+    },
+    "/QR-GEN/docs/id-scanning/index.html": {
+      "sha256": "89c6b93a1708fef11f6c4853db0147a8d050f950d8697f1337cb228a2554518c",
+      "bytes": 110672
+    },
+    "/QR-GEN/docs/print-planning/index.html": {
+      "sha256": "44083e6d5d5d9065cacc6cbd3798f902064557dae9aa0c9b99ad2f04f6184aad",
+      "bytes": 87133
+    },
+    "/QR-GEN/docs/rest-api/index.html": {
+      "sha256": "92275f3c7dab4e61aaa3da99644953f397d28061ea1e5608d9fa4e984c22810f",
+      "bytes": 168609
+    },
+    "/QR-GEN/docs/nextjs/index.html": {
+      "sha256": "709a9b238cf598ded9dfd86e7916690b0f77a6ea26c516ebdfd236d0ab11aa4e",
+      "bytes": 106506
+    },
+    "/QR-GEN/docs/parsers/index.html": {
+      "sha256": "52f2a2ea77eb9565f4f84306ec648892b58488c7c80239dd0dd49e154b983fec",
+      "bytes": 124842
+    },
+    "/QR-GEN/docs/embed-bridge/index.html": {
+      "sha256": "900d668e0a13d2061bfb0daad8e79e580e83730e5df130adb7bab8815ae0346d",
+      "bytes": 156061
+    },
+    "/QR-GEN/docs/image-scanning/index.html": {
+      "sha256": "deda6dece0811efed09c220ef66dfd61a8438cbbb2f0d98b70cd19095ad37826",
+      "bytes": 117957
+    },
+    "/QR-GEN/sdk/wasm/zxing_writer.wasm": {
+      "sha256": "af26f895fe471d23cb2d742bc3eca0695dbecb4ea6bad9b92eba3763ec505941",
+      "bytes": 647500
+    },
+    "/QR-GEN/sdk/wasm/zxing_reader.wasm": {
+      "sha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+      "bytes": 966895
+    },
+    "/QR-GEN/sdk/index.html": {
+      "sha256": "c100a8b1243b4491f416e0a4b251c345452f928723483f66c7cf52faa6cb44c4",
+      "bytes": 153325
+    },
+    "/QR-GEN/sdk/qrgen.js": {
+      "sha256": "c6c736fb7288ad58d57552b542d2c84962d84389d29ffb7de9bcb74d064cd96b",
+      "bytes": 217433
+    },
+    "/QR-GEN/sdk/qrgen.iife.js": {
+      "sha256": "3dd159a9697be9641f1d68413fab743726b411b65a29860f97660575784d3b65",
+      "bytes": 218068
+    },
+    "/QR-GEN/embed/index.html": {
+      "sha256": "81085314dce932b612611f8eef5dada73d999d2310e7fde174ef6b654736494f",
+      "bytes": 1494
+    },
+    "/QR-GEN/about/index.html": {
+      "sha256": "fd18915b4d8f938b8c2d4c7c86e223c5b9f49e8d74983e484aa04c5203155db6",
+      "bytes": 75577
+    }
+  }
+}

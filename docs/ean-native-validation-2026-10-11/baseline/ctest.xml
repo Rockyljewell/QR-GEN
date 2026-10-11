@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="2"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-10-11T15:54:26"
+	>
+	<testcase name="UnitTest" classname="UnitTest" time="0.681098" status="run">
+		<properties/>
+		<system-out>Running main() from /home/runner/work/_temp/native-build/_deps/googletest-src/googletest/src/gtest_main.cc
+[==========] Running 312 tests from 59 test suites.
+[----------] Global test environment set-up.
+[----------] 3 tests from BarcodeFormatTest
+[ RUN      ] BarcodeFormatTest.BarcodeFormatCreation
+[       OK ] BarcodeFormatTest.BarcodeFormatCreation (0 ms)
+[ RUN      ] BarcodeFormatTest.BarcodeFormatIntersection
+[       OK ] BarcodeFormatTest.BarcodeFormatIntersection (0 ms)
+[ RUN      ] BarcodeFormatTest.BarcodeFormatSubset
+[       OK ] BarcodeFormatTest.BarcodeFormatSubset (0 ms)
+[----------] 3 tests from BarcodeFormatTest (0 ms total)
+
+[----------] 2 tests from CharacterSetECITest
+[ RUN      ] CharacterSetECITest.Charset2ECI
+[       OK ] CharacterSetECITest.Charset2ECI (0 ms)
+[ RUN      ] CharacterSetECITest.CharacterSetFromString
+[       OK ] CharacterSetECITest.CharacterSetFromString (0 ms)
+[----------] 2 tests from CharacterSetECITest (0 ms total)
+
+[----------] 3 tests from ContentTest
+[ RUN      ] Co...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="ZXingCTest" classname="ZXingCTest" time="0.00393651" status="run">
+		<properties/>
+		<system-out>Text       : When we at WRT talk about \"text,\" we are generally talking about a particular kind of readable information encoding - and readable is a complex proposition. Text may be stylized in a way we are unfamiliar with, as in blackletter - it may be interspersed with some markup we don\'t understand, such as HTML - it may be be a substitution system we aren\'t familiar with, such as braille or morse code - or it may be a system that, while technically human-readable, isn\'t particularly optimized for reading by humans, as with barcodes (although barcodes can be read).
+BytesECI   : ]Q1When we at WRT talk about \"text,\" we are generally talking about a particular kind of readable information encoding - and readable is a complex proposition. Text may be stylized in a way we are unfamiliar with, as in blackletter - it may be interspersed with some markup we don\'t understand, such as HTML - it may be be a substitution system we aren\'t familiar with, such as braille or morse code - or it may be a system th...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+</testsuite>

@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "originalPlanSha256": "03eb911057351f594004eb3450f1a83b60e00360dbadefccda8d709e0403a4ab",
+  "runnerSha256": "e9961f091ff03a35e965dc6d17761fc2d3417edd256819a008ec0278ede18ca3",
+  "pathTransformation": "Absolute host paths are replaced in derived portable JSON only. Exact raw JSONL gzip and provenance retain original bytes/digests. Portable plan is not the original frozen plan byte sequence.",
+  "tokens": {
+    "$QRGEN_EAN_UNIFORM_PACKAGE_DIR": "inputs/uniform",
+    "$QRGEN_EAN_REVIEW_PACKAGE_DIR": "inputs/mechanism",
+    "$EVALUATION_OUTPUT": "fresh replay evidence directory",
+    "$QRGEN_EAN_STUDY_CACHE_DIR": "frozen original/derived/generated/negative raster cache",
+    "$QRGEN_ARTIFACT_ROOT": "original development artifact root (descriptive provenance only)",
+    "$QRGEN_REPRO_DEPENDENCY_ROOT": "existing QR-GEN checkout"
+  },
+  "origins": [
+    {
+      "packagePath": "portable-evaluation-plan.json.gz",
+      "source": "$EVALUATION_OUTPUT\\evaluation-plan.json",
+      "originalBytes": 2606072,
+      "originalSha256": "03eb911057351f594004eb3450f1a83b60e00360dbadefccda8d709e0403a4ab"
+    },
+    {
+      "packagePath": "portable-summary.json",
+      "source": "$EVALUATION_OUTPUT\\summary.json",
+      "originalBytes": 9054,
+      "originalSha256": "80081127b18b87d238056eb2af6b9ff8e2d4b8d4aee33560ec6c0b3a067e471a"
+    },
+    {
+      "packagePath": "portable-engine-inputs.json",
+      "source": "$EVALUATION_OUTPUT\\engine-inputs.json",
+      "originalBytes": 3696,
+      "originalSha256": "563d57c75352a69848a73800709c48a9f2934464815fc9fe68d64baa46d49c3a"
+    },
+    {
+      "packagePath": "retained-es-graph-fingerprints.json",
+      "source": "$EVALUATION_OUTPUT\\retained-dist-graph-fingerprints.json",
+      "originalBytes": 6631,
+      "originalSha256": "c64208a00848b2085f59a6e975fcb2376a6f2bc7d3f2a3e4ff30f291ef2a5015"
+    },
+    {
+      "packagePath": "baseline-conformance.jsonl.gz",
+      "source": "$EVALUATION_OUTPUT\\baseline-conformance.jsonl",
+      "originalBytes": 5601381,
+      "originalSha256": "5d6408faf85669bc8f90a4c1cbb911e7c4388ea77839c0ca4148efc5d9469199"
+    },
+    {
+      "packagePath": "candidate-comparison.jsonl.gz",
+      "source": "$EVALUATION_OUTPUT\\candidate-comparison.jsonl",
+      "originalBytes": 5617655,
+      "originalSha256": "7e1c94a4ace2d0a8b585c85c7e2fda8be9115441cc3423e4082f5e5e1cbefe76"
+    },
+    {
+      "packagePath": "independent/actual-matrix-review.json",
+      "source": "$QRGEN_ARTIFACT_ROOT\\ean-cpp-source-trace\\independent-review\\actual-matrix-review.json",
+      "originalBytes": 133701,
+      "originalSha256": "c20afd02a3eeb5c5f0c41e3f59ab2fb819e21894a9a229e0bf48b4e9787f5902"
+    },
+    {
+      "packagePath": "independent/actual-matrix-family-review.json",
+      "source": "$QRGEN_ARTIFACT_ROOT\\ean-cpp-source-trace\\independent-review\\actual-matrix-family-review.json",
+      "originalBytes": 10658,
+      "originalSha256": "60ad0ffe224b36dc7698a1c67b0e281cf49952232e2406d0666c33061891e50b"
+    },
+    {
+      "packagePath": "independent/summarize-evaluation.mjs",
+      "source": "$QRGEN_ARTIFACT_ROOT\\ean-cpp-source-trace\\independent-review\\summarize-evaluation.mjs",
+      "originalBytes": 9488,
+      "originalSha256": "16988e29ce823af3de09f43aa3fc1d30eab9a06359d2d5671e45008ce5acc878"
+    },
+    {
+      "packagePath": "independent/verify-family-aliases.mjs",
+      "source": "$QRGEN_ARTIFACT_ROOT\\ean-cpp-source-trace\\independent-review\\verify-family-aliases.mjs",
+      "originalBytes": 3784,
+      "originalSha256": "f88b97821f9e4ca2b267f124369a47a249dcbb55b91dbd3a52457251d0cceaf2"
+    },
+    {
+      "packagePath": "independent/review-actual-evaluator.mjs",
+      "source": "$QRGEN_ARTIFACT_ROOT\\ean-cpp-source-trace\\review-actual-evaluator.mjs",
+      "originalBytes": 5385,
+      "originalSha256": "dae5c734d21984602f06f63529ebdca5d801fdd3b6bde0cc466e3472ea70ae30"
+    },
+    {
+      "packagePath": "independent/independent-evaluator-review.json",
+      "source": "$QRGEN_ARTIFACT_ROOT\\ean-cpp-source-trace\\independent-evaluator-review.json",
+      "originalBytes": 1797,
+      "originalSha256": "0a405962a7b171acf967dfb0d90c4af1707ad3c0c92b5e2e1c80203bab96fa41"
+    },
+    {
+      "packagePath": "evaluate-rebuilt.mjs",
+      "source": "$QRGEN_ARTIFACT_ROOT\\ean-cpp-source-trace\\candidate\\evaluate-rebuilt.mjs",
+      "originalBytes": 36409,
+      "originalSha256": "e9961f091ff03a35e965dc6d17761fc2d3417edd256819a008ec0278ede18ca3"
+    },
+    {
+      "packagePath": "provenance/run-metadata-final.json",
+      "source": "$QRGEN_ARTIFACT_ROOT\\rebuilt-ean\\3cfe7298\\run-metadata-final.json",
+      "originalBytes": 4963,
+      "originalSha256": "60f3fcb604dc67447a2e26e5802df7154fe0d71be7903ced952270025f1e8aa5"
+    },
+    {
+      "packagePath": "provenance/branch-ci-final.json",
+      "source": "$QRGEN_ARTIFACT_ROOT\\rebuilt-ean\\3cfe7298\\branch-ci-final.json",
+      "originalBytes": 22866,
+      "originalSha256": "c61475eac3bd29f896b5ff6098aa0bcc2645cbc81d1a706cbbf4c19e3446281a"
+    },
+    {
+      "packagePath": "provenance/baseline-download.json",
+      "source": "$QRGEN_ARTIFACT_ROOT\\rebuilt-ean\\3cfe7298\\baseline\\download-provenance.json",
+      "originalBytes": 1708,
+      "originalSha256": "533ce09bd2533f8ef1bdd19546a01eb799de594ba03b9df996a6986b8346d5b7"
+    },
+    {
+      "packagePath": "provenance/baseline-build-evidence.json",
+      "source": "$QRGEN_ARTIFACT_ROOT\\rebuilt-ean\\3cfe7298\\baseline\\build-evidence.json",
+      "originalBytes": 610,
+      "originalSha256": "5777dbf33efdf34797a283830528445ff12e3bb6f0877c3ed785b212e32c9c9f"
+    },
+    {
+      "packagePath": "provenance/candidate-download.json",
+      "source": "$QRGEN_ARTIFACT_ROOT\\rebuilt-ean\\3cfe7298\\candidate\\download-provenance.json",
+      "originalBytes": 1711,
+      "originalSha256": "e25197a06b2555e52df078a134eb430a83c531aed8f466efc5c6224cf9e24206"
+    },
+    {
+      "packagePath": "provenance/candidate-build-evidence.json",
+      "source": "$QRGEN_ARTIFACT_ROOT\\rebuilt-ean\\3cfe7298\\candidate\\build-evidence.json",
+      "originalBytes": 612,
+      "originalSha256": "377aa7162329e6466e73adb3a6256db994bfc038553db97ad13b0b03430312e2"
+    },
+    {
+      "packagePath": "inputs/mechanism/frozen-raster-manifest.json",
+      "source": "$QRGEN_EAN_REVIEW_PACKAGE_DIR\\frozen-raster-manifest.json",
+      "originalBytes": 217308,
+      "originalSha256": "6cbeb1697861977eb702d46cd228167c72778006ab518c0d5a69d2c75f560428"
+    },
+    {
+      "packagePath": "inputs/mechanism/generated-manifest.json",
+      "source": "$QRGEN_EAN_REVIEW_PACKAGE_DIR\\generated-manifest.json",
+      "originalBytes": 81069,
+      "originalSha256": "7ecfbb12af6528d3b88ea66b71f821edfb5ea9dcc6979057a683a12aead92375"
+    },
+    {
+      "packagePath": "inputs/uniform/negative-manifest.json",
+      "source": "$QRGEN_EAN_UNIFORM_PACKAGE_DIR\\negative-manifest.json",
+      "originalBytes": 8243,
+      "originalSha256": "7ac738fa5a3e22e007cab35072c11ab63bbaec00284bb7fade5a88a6e707ef43"
+    },
+    {
+      "packagePath": "inputs/uniform/frozen-inputs.json.gz",
+      "source": "$QRGEN_EAN_UNIFORM_PACKAGE_DIR\\frozen-inputs.json.gz",
+      "originalBytes": 95159,
+      "originalSha256": "c9141625854ea935dce746db222e632ffd7db6503919c6f8f791f45fafd556d7"
+    }
+  ]
+}

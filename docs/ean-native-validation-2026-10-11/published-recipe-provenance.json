@@ -1,0 +1,16 @@
+{
+  "scope": "Isolated native diagnostic; no production API/dependency changes",
+  "base": "6d3728f569f1cd5031fa8ca40ec090c8ff6bdf5b",
+  "commit": "d9aec2cabf211181f9792ff73b65f8583afdb121",
+  "branch": "codex/ean-native-diagnostic",
+  "tree": "a90fe68a1b59bb06f4cb779f5b396e8a39a04031",
+  "fileSha256": {
+    ".github/workflows/ean-native-diagnostic.yml": "1419b8ae7d0c9f1a594ce62dd3bcfee4e4ce2576896d8296b6a1b2557dd18fb0",
+    "diagnostics/ean-native-ambiguity/prepare-native-tests.py": "ea2101de03be1d1f992b9b58600d2cf932a3c644d1a52f30805b195107a29669",
+    "diagnostics/ean-native-ambiguity/summarize-native.py": "d10b02a4ff39586f57dfbb992ddea505ea94092d12bc8e7c4810c0eea9d68624",
+    "diagnostics/ean-native-ambiguity/native-boundary-cases.json": "1ac9edbb4121f99890186a274015e61adb12d9947c17a09badccb407e35411a6",
+    "diagnostics/ean-native-ambiguity/ean13-whole-word-ambiguity.patch": "f80daf81fe49616e59b250fac96e25a6c5d73ee5e59e6511cec5b98dc2bd7fae",
+    "diagnostics/ean-native-ambiguity/patch-metadata.json": "22ec04b05e3ccf1e3453f40928f10207ad55ba7b4fd6ec6cf789c220fd2a1bd9"
+  },
+  "ref": "refs/heads/codex/ean-native-diagnostic"
+}

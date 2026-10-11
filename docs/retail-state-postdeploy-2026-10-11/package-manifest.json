@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 2,
+  "createdAt": "2026-10-11T16:06:08.277140+00:00",
+  "scope": "Original frozen observations plus separately named derived replay and fresh validation; no aggregated pass count.",
+  "originalPackageManifestSha256": "fb7a9151de6197e427faeb020d9204472ce694c21cb638adc5dce052e63d4c82",
+  "files": [
+    {
+      "file": "artifact-metadata.json",
+      "bytes": 713,
+      "sha256": "6694d1bd167f8eae23f7b993992a49b73f91a789c6038427f060c89e34f90af2",
+      "role": "original-archived"
+    },
+    {
+      "file": "deployment-run.json",
+      "bytes": 3312,
+      "sha256": "66f2d4901c37d73bc0869319233d5a143334f4ebe8f8a95ddcb6fd44f1512eec",
+      "role": "original-archived"
+    },
+    {
+      "file": "make-proof.py",
+      "bytes": 1809,
+      "sha256": "e70f323e066384914190eb711bf0b138c06ea8c2bab314109e9124ce28f9c5e9",
+      "role": "original-archived"
+    },
+    {
+      "file": "proof.json",
+      "bytes": 12432,
+      "sha256": "7e6a0798d4764264691974e6be66b704d90669dc027538b7806403153d330143",
+      "role": "original-archived"
+    },
+    {
+      "file": "README.md",
+      "bytes": 6414,
+      "sha256": "87b3296879a86501097f72f643892a170d413df52cf45478d4cc2d92ca876eea",
+      "role": "derived-replay-or-validation"
+    },
+    {
+      "file": "recorded-README.md",
+      "bytes": 4673,
+      "sha256": "546831bdcfce46c72b034559f575021bea1cbdc0612904d0f53af7049e07a2c8",
+      "role": "original-archived"
+    },
+    {
+      "file": "recorded-results.json",
+      "bytes": 23371,
+      "sha256": "6d156218eda3a920e2faf5d0615eb18bf4f35d420af4fe70ab4549612ebbf189",
+      "role": "original-archived"
+    },
+    {
+      "file": "replay-path-guard-validation.json",
+      "bytes": 967,
+      "sha256": "32ddf62c491d27e05ef557d028cf909f2e174af2fee260569e1feae608521f8e",
+      "role": "derived-replay-or-validation"
+    },
+    {
+      "file": "replay-validation-results.json",
+      "bytes": 23866,
+      "sha256": "453e6ebb9cf1ff0a74672aea757c3a50625e1c822f86fb90ac3845c50b0f299e",
+      "role": "derived-replay-or-validation"
+    },
+    {
+      "file": "replay-validation.json",
+      "bytes": 2067,
+      "sha256": "8a907d0dc494ef23d50fd507499cc180212d99e2a3dab93525088bf26595999f",
+      "role": "derived-replay-or-validation"
+    },
+    {
+      "file": "replay.mjs",
+      "bytes": 17740,
+      "sha256": "d7d43e218b66139e194206b71ecdef5d0045f7d4be1895235402e77caa25326d",
+      "role": "derived-replay-or-validation"
+    },
+    {
+      "file": "run-hosted.mjs",
+      "bytes": 15916,
+      "sha256": "a4ddb2732cd8041f13244182679d21c830c1276d58a6caa1c2229241ad3c07aa",
+      "role": "original-archived"
+    },
+    {
+      "file": "summary.json",
+      "bytes": 1898,
+      "sha256": "2f81db1074328a5c9bde4b377a3715650e41fdde7d7814c5a30b236b0be74d83",
+      "role": "original-archived"
+    }
+  ],
+  "artifactArchiveIncluded": false,
+  "binaryFixtureIncluded": false
+}

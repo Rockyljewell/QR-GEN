@@ -1,0 +1,191 @@
+{
+  "recordedAt": "2026-10-11T16:01:39.543696+00:00",
+  "scope": "Portable evidence package; hashes preserve both original and separately corrected recorded observations.",
+  "files": [
+    {
+      "path": "build-metadata/baseline/build-evidence.json",
+      "bytes": 610,
+      "sha256": "5777dbf33efdf34797a283830528445ff12e3bb6f0877c3ed785b212e32c9c9f"
+    },
+    {
+      "path": "build-metadata/baseline/cmake-version.txt",
+      "bytes": 91,
+      "sha256": "f6e81c2559f3ce00c5fdad01d7b226c301f5d6b07ee04f65db6dbfdc1cc5970b"
+    },
+    {
+      "path": "build-metadata/baseline/download-provenance.json",
+      "bytes": 1708,
+      "sha256": "533ce09bd2533f8ef1bdd19546a01eb799de594ba03b9df996a6986b8346d5b7"
+    },
+    {
+      "path": "build-metadata/baseline/emcc-version.txt",
+      "bytes": 330,
+      "sha256": "7ab6d5e58a386e143e994545042cece661efbf3b038088cf3bb8c6410f984cb2"
+    },
+    {
+      "path": "build-metadata/baseline/node-version.txt",
+      "bytes": 9,
+      "sha256": "7703fd79909af9b17df6395137bee2b07c3f3b27b6e96e18c909f433cce84f19"
+    },
+    {
+      "path": "build-metadata/baseline/patch-metadata.json",
+      "bytes": 491,
+      "sha256": "22ec04b05e3ccf1e3453f40928f10207ad55ba7b4fd6ec6cf789c220fd2a1bd9"
+    },
+    {
+      "path": "build-metadata/baseline/pnpm-version.txt",
+      "bytes": 7,
+      "sha256": "22ca0edbc38124758d5ae6e4fcf257a287bd68a4425dceaffa9f89aa74a98fcd"
+    },
+    {
+      "path": "build-metadata/candidate/build-evidence.json",
+      "bytes": 612,
+      "sha256": "377aa7162329e6466e73adb3a6256db994bfc038553db97ad13b0b03430312e2"
+    },
+    {
+      "path": "build-metadata/candidate/cmake-version.txt",
+      "bytes": 91,
+      "sha256": "f6e81c2559f3ce00c5fdad01d7b226c301f5d6b07ee04f65db6dbfdc1cc5970b"
+    },
+    {
+      "path": "build-metadata/candidate/download-provenance.json",
+      "bytes": 1711,
+      "sha256": "e25197a06b2555e52df078a134eb430a83c531aed8f466efc5c6224cf9e24206"
+    },
+    {
+      "path": "build-metadata/candidate/emcc-version.txt",
+      "bytes": 330,
+      "sha256": "7ab6d5e58a386e143e994545042cece661efbf3b038088cf3bb8c6410f984cb2"
+    },
+    {
+      "path": "build-metadata/candidate/node-version.txt",
+      "bytes": 9,
+      "sha256": "7703fd79909af9b17df6395137bee2b07c3f3b27b6e96e18c909f433cce84f19"
+    },
+    {
+      "path": "build-metadata/candidate/patch-metadata.json",
+      "bytes": 491,
+      "sha256": "22ec04b05e3ccf1e3453f40928f10207ad55ba7b4fd6ec6cf789c220fd2a1bd9"
+    },
+    {
+      "path": "build-metadata/candidate/pnpm-version.txt",
+      "bytes": 7,
+      "sha256": "22ca0edbc38124758d5ae6e4fcf257a287bd68a4425dceaffa9f89aa74a98fcd"
+    },
+    {
+      "path": "camera-input-provenance.json",
+      "bytes": 2952,
+      "sha256": "55df23821a7013a69dce8472f82ee9b89c6272d3d408552ab5c34fa4608a91fc"
+    },
+    {
+      "path": "corrected/frozen-protocol.json",
+      "bytes": 18371,
+      "sha256": "976af37292c131e469e60d05e9ae7b1361dd9d0aedca0eb184c500a3d20fad25"
+    },
+    {
+      "path": "corrected/frozen-rasters.json",
+      "bytes": 1375,
+      "sha256": "a2489912a9f78d388a742870c0450c17f93dd64e5a0f69aba7469191c64ccafc"
+    },
+    {
+      "path": "corrected/predeclared-protocol.json",
+      "bytes": 18371,
+      "sha256": "976af37292c131e469e60d05e9ae7b1361dd9d0aedca0eb184c500a3d20fad25"
+    },
+    {
+      "path": "corrected/recorded-results.json",
+      "bytes": 99266,
+      "sha256": "70a4df466e486f2ca03d77faa0fa15d4e449f8ed110238bcbd437b1ce458f29b"
+    },
+    {
+      "path": "corrected/recorded-run.mjs",
+      "bytes": 17732,
+      "sha256": "2f83ec44b31b1428fd28ae94d6e6dcf58a73df9e5cde818dd181eb8d28544e40"
+    },
+    {
+      "path": "fixtures/clean-ean13.png",
+      "bytes": 814,
+      "sha256": "5ea0cc8106ffd6d02d6d169c18d6ee9dd827ea8c9cb5ae7fb3f16ca696b8e404"
+    },
+    {
+      "path": "fixtures/clean-qr.png",
+      "bytes": 580,
+      "sha256": "e5b3bcb23eac348a577dbcc891d7e1771ec0256da59e3c0366faab56a5b0686f"
+    },
+    {
+      "path": "fixtures/clean-upca.png",
+      "bytes": 829,
+      "sha256": "e292d6fe54a6a69cde24b21ac8c139fe3ee5e16785b81fbfa4edbba8fb38a73b"
+    },
+    {
+      "path": "frozen-protocol.json",
+      "bytes": 17060,
+      "sha256": "81c548110a63aa0dd0cad1bf484f987ea7cc5de3e1df31c5fad18eb762eeccf0"
+    },
+    {
+      "path": "frozen-rasters.json",
+      "bytes": 1375,
+      "sha256": "66f1f3315b21d80a4439f5e939d53c320164c869b85b3a9538b5761b738ea594"
+    },
+    {
+      "path": "licenses/ZXING-LICENSE.txt",
+      "bytes": 13320,
+      "sha256": "3f62881f0566227a24b12e5a754cc79f39aaa94883038e95c94812e1f50af42f"
+    },
+    {
+      "path": "licenses/ZXING-NOTICE.txt",
+      "bytes": 664,
+      "sha256": "4db4b60aace29ec6c5c4f13ca9cac1930d3c0c54bcc67dceead0c10771120e66"
+    },
+    {
+      "path": "licenses/ZXING-REUSE-dep5.txt",
+      "bytes": 826,
+      "sha256": "386cfe0a9c0bee357e8ed7ba09e72d0b41d033dca47ca2b742841bcf73a3e819"
+    },
+    {
+      "path": "portable-replay-validation.json",
+      "bytes": 1419,
+      "sha256": "3676de9d69ec0ca0439bfc27ece359475b077aac411964e3bf428cf13c797111"
+    },
+    {
+      "path": "README.md",
+      "bytes": 9462,
+      "sha256": "a0e82d3b61d8d0c20dce8b9aed12a72b44fa39e9da1fd493db4bbe0840204b10"
+    },
+    {
+      "path": "recorded-results.json",
+      "bytes": 99273,
+      "sha256": "18626e85fbbe386d9c375d1a5dcf452ac96c002df2b2e083d9bbfd2a9fe5c922"
+    },
+    {
+      "path": "recorded-run.mjs",
+      "bytes": 18273,
+      "sha256": "073fbb3b2411c5efe1d702f28feb990b4ba90af95144e74a141b1ca5e06f565f"
+    },
+    {
+      "path": "replay.mjs",
+      "bytes": 17225,
+      "sha256": "324955989ad2e532c12ed0d6ae9eb00bdda0f718d93dfe3d3161d5b94c0d546b"
+    },
+    {
+      "path": "summary.json",
+      "bytes": 5065,
+      "sha256": "7a5eccedf69346b275d0cc4ef29481c33693d7b01632964878d3bb46328d23f6"
+    },
+    {
+      "path": "verified-artifacts.json",
+      "bytes": 1444,
+      "sha256": "16259080711eb4c5226059da298ae74ba7e93c328ba01d3098e5ae0fea5d585a"
+    },
+    {
+      "path": "verified-run.json",
+      "bytes": 4837,
+      "sha256": "8f1b27e28f7758f7c8c0040490b4d77dd5528981adcac408abc52b78163e4100"
+    },
+    {
+      "path": "worker.mjs",
+      "bytes": 1433,
+      "sha256": "21e985afd0345d3e8f7bd830ff2e13e8507667720f2f3b974bdc22843651c47c"
+    }
+  ]
+}

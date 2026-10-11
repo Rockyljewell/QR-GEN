@@ -1,0 +1,72 @@
+{
+  "repository": "zxing/zxing",
+  "commit": "5bdcab8035f6d26107cfad32d1aa2a85455efbc5",
+  "source": {
+    "id": "ean13-2-07",
+    "expected": [
+      {
+        "format": "ean13",
+        "data": "9780804816632"
+      }
+    ],
+    "image": {
+      "path": "core/src/test/resources/blackbox/ean13-2/07.png",
+      "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/resources/blackbox/ean13-2/07.png",
+      "local": "images/ean13-2-07.png",
+      "sha256": "449dc5aeddd91d7223ea63e0ff0380c9ae115771fe13827917895f9e56b30e00",
+      "bytes": 76331,
+      "width": 480,
+      "height": 360
+    },
+    "groundTruth": {
+      "path": "core/src/test/resources/blackbox/ean13-2/07.txt",
+      "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/resources/blackbox/ean13-2/07.txt",
+      "sha256": "5e3f03ce127b501c67eb2c6dd2615ece2c9c90a0a0bff5e604728bd490934b16",
+      "text": "9780804816632",
+      "utf8Bytes": 13,
+      "normalization": "none (upstream compares exact UTF-8 bytes; no trim)"
+    },
+    "conditions": [
+      "mobile photograph",
+      "difficult lighting",
+      "adjacent EAN-5 addon excluded by selected format"
+    ],
+    "fixture": {
+      "imageSha256": "449dc5aeddd91d7223ea63e0ff0380c9ae115771fe13827917895f9e56b30e00",
+      "y4mSha256": "3211ab1d83d1dd9545620e07f83b0a30df8497257b0b46b13762f7dba016d43c",
+      "sourceWidth": 480,
+      "sourceHeight": 360,
+      "width": 640,
+      "height": 480,
+      "frames": 30,
+      "frameRate": "30:1",
+      "rasterWidth": 480,
+      "rasterHeight": 360,
+      "left": 80,
+      "top": 60,
+      "resized": false,
+      "resizeKernel": "lanczos3",
+      "noUpscaling": true,
+      "sourceAlphaComposite": "white",
+      "luma": "round(16 + (65.738*R + 129.057*G + 25.064*B)/255)",
+      "chroma": 128,
+      "paddingY": 200,
+      "sharpVersion": "0.35.5"
+    },
+    "testDefinition": {
+      "path": "core/src/test/java/com/google/zxing/oned/EAN13BlackBox2TestCase.java",
+      "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/java/com/google/zxing/oned/EAN13BlackBox2TestCase.java",
+      "sha256": "79a4762145ebdbd22a2c208ff566dc59032ff35249e27afb6134ee02a1a010b1",
+      "expectedFormatEnum": "EAN_13"
+    }
+  },
+  "capture": {
+    "historicalSourceHead": "4949870806cd9e1d384cd4535a53f46ae4f21076",
+    "existingRelativeFile": "../ean-browser-diagnostic-2026-10-11/fixtures/ean13-2-07-full.png",
+    "pngSha256": "63783fca63db9e02e42cd905cae39630fd68acdcdb5ba7bb265e5f5a076e7399",
+    "rgbaSha256": "ec287e182dca32d86261e719e4a9525277023ba1872394ca6d4fa4e454fc7107",
+    "width": 640,
+    "height": 480
+  },
+  "scope": "Previously selected known failure; not unseen or representative. Historical comparison observations unchanged."
+}

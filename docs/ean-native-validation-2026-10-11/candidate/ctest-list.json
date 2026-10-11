@@ -1,0 +1,76 @@
+{
+  "backtraceGraph" : 
+  {
+    "commands" : 
+    [
+      "add_test"
+    ],
+    "files" : 
+    [
+      "/home/runner/work/_temp/zxing-cpp/test/unit/CMakeLists.txt",
+      "/home/runner/work/_temp/zxing-cpp/wrappers/c/CMakeLists.txt"
+    ],
+    "nodes" : 
+    [
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 112,
+        "parent" : 0
+      },
+      {
+        "file" : 1
+      },
+      {
+        "command" : 0,
+        "file" : 1,
+        "line" : 6,
+        "parent" : 2
+      }
+    ]
+  },
+  "kind" : "ctestInfo",
+  "tests" : 
+  [
+    {
+      "backtrace" : 1,
+      "command" : 
+      [
+        "/home/runner/work/_temp/native-build/test/unit/UnitTest"
+      ],
+      "name" : "UnitTest",
+      "properties" : 
+      [
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "/home/runner/work/_temp/native-build/test/unit"
+        }
+      ]
+    },
+    {
+      "backtrace" : 3,
+      "command" : 
+      [
+        "/home/runner/work/_temp/native-build/wrappers/c/ZXingCTest",
+        "/home/runner/work/_temp/zxing-cpp/test/samples/qrcode-1/1.png",
+        "QRCode"
+      ],
+      "name" : "ZXingCTest",
+      "properties" : 
+      [
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "/home/runner/work/_temp/native-build/wrappers/c"
+        }
+      ]
+    }
+  ],
+  "version" : 
+  {
+    "major" : 1,
+    "minor" : 0
+  }
+}

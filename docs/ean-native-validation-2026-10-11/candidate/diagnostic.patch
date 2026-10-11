@@ -1,0 +1,201 @@
+diff --git a/core/src/oned/ODMultiUPCEANReader.cpp b/core/src/oned/ODMultiUPCEANReader.cpp
+index f027492..52ee0c1 100644
+--- a/core/src/oned/ODMultiUPCEANReader.cpp
++++ b/core/src/oned/ODMultiUPCEANReader.cpp
+@@ -16,7 +16,10 @@
+ #include "JSON.h"
+ #include "SymbologyIdentifier.h"
+ 
++#include <algorithm>
++#include <array>
+ #include <cmath>
++#include <cstdint>
+ 
+ namespace ZXing::OneD {
+ 
+@@ -43,18 +46,102 @@ constexpr float QUIET_ZONE_ADDON = 3;
+ // There is a single sample (ean13-1/12.png) that fails to decode with these (new) settings because
+ // it has a right-side quiet zone of only about 4.5 modules, which is clearly out of spec.
+ 
+-static bool DecodeDigit(const PatternView& view, std::string& txt, int* lgPattern = nullptr)
++static constexpr float MAX_AVG_VARIANCE = 0.48f;
++static constexpr float MAX_INDIVIDUAL_VARIANCE = 0.7f;
++
++// Collect precisely equal best matches using the existing float variance function.
++// A mask is requested only by EAN13; other UPC/EAN paths retain their old decoder.
++template <typename Patterns>
++static int DecodeDigitAndBestMatches(const PatternView& view, const Patterns& patterns, uint32_t& bestMatches)
++{
++	float bestVariance = MAX_AVG_VARIANCE;
++	int bestMatch = -1;
++	bestMatches = 0;
++	for (int i = 0; i < Size(patterns); ++i) {
++		float variance =
++			RowReader::PatternMatchVariance(view.data(), patterns[i].data(), patterns[i].size(), MAX_INDIVIDUAL_VARIANCE);
++		if (variance < bestVariance) {
++			bestVariance = variance;
++			bestMatch = i;
++			bestMatches = uint32_t{1} << i;
++		} else if (bestMatch != -1 && variance == bestVariance) {
++			bestMatches |= uint32_t{1} << i;
++		}
++	}
++	return bestMatch;
++}
++
++static bool HasMultipleValidEAN13Words(const std::array<uint32_t, 12>& matches)
++{
++	bool hasTie = false;
++	for (auto mask : matches)
++		hasTie |= (mask & (mask - 1)) != 0;
++	if (!hasTie)
++		return false;
++
++	// Left-hand states retain parity and checksum residue. Counts saturate at2:
++	// every full EAN13 word has exactly one valid digit/parity encoding path.
++	std::array<uint8_t, 64 * 10> states = {};
++	states[0] = 1;
++	for (int digit = 0; digit < 6; ++digit) {
++		std::array<uint8_t, 64 * 10> next = {};
++		for (int parity = 0; parity < (1 << digit); ++parity)
++			for (int residue = 0; residue < 10; ++residue) {
++				auto count = states[parity * 10 + residue];
++				if (!count)
++					continue;
++				for (int pattern = 0; pattern < 20; ++pattern)
++					if (matches[digit] & (uint32_t{1} << pattern)) {
++						int p = (parity << 1) | (pattern >= 10);
++						int r = (residue + (pattern % 10) * (digit % 2 == 0 ? 3 : 1)) % 10;
++						auto& dest = next[p * 10 + r];
++						dest = static_cast<uint8_t>(std::min(2, int(dest) + count));
++					}
++			}
++		states = next;
++	}
++
++	std::array<uint8_t, 10> counts = {};
++	for (int parity = 0; parity < 64; ++parity) {
++		int lead = IndexOf(FIRST_DIGIT_ENCODINGS, parity);
++		if (lead == -1)
++			continue;
++		for (int residue = 0; residue < 10; ++residue) {
++			auto& dest = counts[(residue + lead) % 10];
++			dest = static_cast<uint8_t>(std::min(2, int(dest) + states[parity * 10 + residue]));
++		}
++	}
++	for (int digit = 6; digit < 12; ++digit) {
++		std::array<uint8_t, 10> next = {};
++		for (int residue = 0; residue < 10; ++residue) {
++			if (!counts[residue])
++				continue;
++			for (int pattern = 0; pattern < 10; ++pattern)
++				if (matches[digit] & (uint32_t{1} << pattern)) {
++					int r = (residue + pattern * (digit % 2 == 0 ? 3 : 1)) % 10;
++					auto& dest = next[r];
++					dest = static_cast<uint8_t>(std::min(2, int(dest) + counts[residue]));
++				}
++		}
++		counts = next;
++	}
++	return counts[0] > 1;
++}
++
++static bool DecodeDigit(const PatternView& view, std::string& txt, int* lgPattern = nullptr, uint32_t* bestMatches = nullptr)
+ {
+ #if 1
+ 	// These two values are critical for determining how permissive the decoding will be.
+ 	// We've arrived at these values through a lot of trial and error. Setting them any higher
+ 	// lets false positives creep in quickly.
+-	static constexpr float MAX_AVG_VARIANCE = 0.48f;
+-	static constexpr float MAX_INDIVIDUAL_VARIANCE = 0.7f;
+-
+-	int bestMatch =
+-		lgPattern ? RowReader::DecodeDigit(view, UPCEANCommon::L_AND_G_PATTERNS, MAX_AVG_VARIANCE, MAX_INDIVIDUAL_VARIANCE, false)
+-				  : RowReader::DecodeDigit(view, UPCEANCommon::L_PATTERNS, MAX_AVG_VARIANCE, MAX_INDIVIDUAL_VARIANCE, false);
++	int bestMatch;
++	if (bestMatches)
++		bestMatch = lgPattern ? DecodeDigitAndBestMatches(view, UPCEANCommon::L_AND_G_PATTERNS, *bestMatches)
++							  : DecodeDigitAndBestMatches(view, UPCEANCommon::L_PATTERNS, *bestMatches);
++	else
++		bestMatch = lgPattern
++						? RowReader::DecodeDigit(view, UPCEANCommon::L_AND_G_PATTERNS, MAX_AVG_VARIANCE, MAX_INDIVIDUAL_VARIANCE, false)
++						: RowReader::DecodeDigit(view, UPCEANCommon::L_PATTERNS, MAX_AVG_VARIANCE, MAX_INDIVIDUAL_VARIANCE, false);
+ 	if (bestMatch == -1)
+ 		return false;
+ 
+@@ -105,10 +192,11 @@ static bool DecodeDigit(const PatternView& view, std::string& txt, int* lgPatter
+ #endif
+ }
+ 
+-static bool DecodeDigits(int digitCount, PatternView& next, std::string& txt, int* lgPattern = nullptr)
++static bool DecodeDigits(int digitCount, PatternView& next, std::string& txt, int* lgPattern = nullptr,
++						 uint32_t* bestMatches = nullptr)
+ {
+ 	for (int j = 0; j < digitCount; ++j, next.skipSymbol())
+-		if (!DecodeDigit(next, txt, lgPattern))
++		if (!DecodeDigit(next, txt, lgPattern, bestMatches ? bestMatches + j : nullptr))
+ 			return false;
+ 	return true;
+ }
+@@ -118,6 +206,7 @@ struct PartialResult
+ 	std::string txt;
+ 	PatternView end;
+ 	BarcodeFormat format = BarcodeFormat::None;
++	bool multipleValidEAN13Words = false;
+ 
+ 	PartialResult() { txt.reserve(14); }
+ 	bool isValid() const { return format != BarcodeFormat::None; }
+@@ -131,6 +220,7 @@ bool _ret_false_debug_helper()
+ 
+ static bool EAN13(PartialResult& res, PatternView begin)
+ {
++	std::array<uint32_t, 12> bestMatches = {};
+ 	auto mid = begin.subView(27, MID_PATTERN.size());
+ 	auto end = begin.subView(56, END_PATTERN.size());
+ 
+@@ -140,11 +230,11 @@ static bool EAN13(PartialResult& res, PatternView begin)
+ 	res.txt = " "; // make space for lgPattern character
+ 	int lgPattern = 0;
+ 
+-	CHECK(DecodeDigits(6, next, res.txt, &lgPattern));
++	CHECK(DecodeDigits(6, next, res.txt, &lgPattern, bestMatches.data()));
+ 
+ 	next = next.subView(MID_PATTERN.size(), CHAR_LEN);
+ 
+-	CHECK(DecodeDigits(6, next, res.txt));
++	CHECK(DecodeDigits(6, next, res.txt, nullptr, bestMatches.data() + 6));
+ 
+ 	int i = IndexOf(FIRST_DIGIT_ENCODINGS, lgPattern);
+ 	CHECK(i != -1);
+@@ -152,6 +242,7 @@ static bool EAN13(PartialResult& res, PatternView begin)
+ 
+ 	res.end = end;
+ 	res.format = BarcodeFormat::EAN13;
++	res.multipleValidEAN13Words = HasMultipleValidEAN13Words(bestMatches);
+ 	return true;
+ }
+ 
+@@ -316,6 +407,12 @@ BarcodeData MultiUPCEANReader::decodePattern(int rowNumber, PatternView& next, s
+ 	if (_opts.eanAddOnSymbol() == EanAddOnSymbol::Require && !addOnRes.isValid())
+ 		return {};
+ 
++	// Filter only a baseline checksum-valid EAN13-format result. Optional add-on
++	// parsing has already run, so final next consumption remains unchanged.
++	// Explicit UPC-A-only conversion, EAN8, UPC-E and checksum errors bypass it.
++	if (res.format == BarcodeFormat::EAN13 && !error && res.multipleValidEAN13Words)
++		return {};
++
+ 	return LinearBarcode(res.format, res.txt, rowNumber, begin.pixelsInFront(), next.pixelsTillEnd(), symbologyIdentifier, error,
+ 						 JsonProp(BarcodeExtra::UPCE, upceTxt) + JsonProp(BarcodeExtra::EanAddOn, addOnRes.txt));
+ }
+diff --git a/test/unit/CMakeLists.txt b/test/unit/CMakeLists.txt
+index 72dff94..930ab05 100644
+--- a/test/unit/CMakeLists.txt
++++ b/test/unit/CMakeLists.txt
+@@ -110,3 +110,6 @@ target_link_libraries (UnitTest ZXing::ZXing GTest::gtest_main GTest::gmock)
+ # target_precompile_headers(UnitTest PRIVATE ${CMAKE_SOURCE_DIR}/core/src/ZXingCpp.h) # <gtest/gtest.h>)
+ 
+ add_test(NAME UnitTest COMMAND UnitTest)
++
++# Isolated diagnostic helper tests; not a production API.
++target_sources(UnitTest PRIVATE "${CMAKE_CURRENT_LIST_DIR}/QRGenEANWordDiagnosticTest.cpp")

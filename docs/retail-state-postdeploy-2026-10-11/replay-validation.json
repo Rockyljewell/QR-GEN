@@ -1,0 +1,53 @@
+{
+  "scope": "Fresh derived-runner verification only; original recorded-results.json remains the historical three-case run. Counts are not aggregated.",
+  "status": "passed",
+  "startedAt": "2026-10-11T16:04:48.004Z",
+  "finishedAt": "2026-10-11T16:04:57.357Z",
+  "derivedRunnerSha256": "d7d43e218b66139e194206b71ecdef5d0045f7d4be1895235402e77caa25326d",
+  "originalRunnerSha256": "a4ddb2732cd8041f13244182679d21c830c1276d58a6caa1c2229241ad3c07aa",
+  "originalRecordedResultSha256": "6d156218eda3a920e2faf5d0615eb18bf4f35d420af4fe70ab4549612ebbf189",
+  "freshResultFile": "replay-validation-results.json",
+  "freshResultSha256": "453e6ebb9cf1ff0a74672aea757c3a50625e1c822f86fb90ac3845c50b0f299e",
+  "fixtureSha256": "782d79a10bf3b9c31938fa954ac4404dec788c88bbe14d76112fbbdd2cc6a3d6",
+  "sameFrozenFixture": true,
+  "mainAtStart": "6d3728f569f1cd5031fa8ca40ec090c8ff6bdf5b",
+  "mainAtFinish": "6d3728f569f1cd5031fa8ca40ec090c8ff6bdf5b",
+  "cases": [
+    {
+      "name": "37-hosted-worker-QR-EAN-paused-pruning-and-deselection",
+      "status": "passed",
+      "pageErrors": 0,
+      "consoleErrors": 0,
+      "cleanup": {
+        "liveMediaTracks": 0,
+        "attachedElementVideoStreams": 0
+      },
+      "allLoadedAssetsMatchDeployment": true
+    },
+    {
+      "name": "38-hosted-CustomEvent-mode-reset-pause-and-cosmetic-callback",
+      "status": "passed",
+      "pageErrors": 0,
+      "consoleErrors": 0,
+      "cleanup": {
+        "liveMediaTracks": 0,
+        "attachedElementVideoStreams": 0
+      },
+      "allLoadedAssetsMatchDeployment": true
+    },
+    {
+      "name": "38-hosted-source-reset-hint-accent-latest-camera-new-worker-QR",
+      "status": "passed",
+      "pageErrors": 0,
+      "consoleErrors": 0,
+      "cleanup": {
+        "liveMediaTracks": 0,
+        "attachedElementVideoStreams": 0
+      },
+      "allLoadedAssetsMatchDeployment": true
+    }
+  ],
+  "browserClosed": true,
+  "pathGuards": "replay-path-guard-validation.json",
+  "outputAndFixtureLocation": "Fresh external directory; absent from evidence package and QR-GEN checkout."
+}

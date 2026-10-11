@@ -1,0 +1,48 @@
+{
+  "frozenAt": "2026-10-11T15:55:42.007Z",
+  "beforeAnyReaderDecode": true,
+  "rasters": {
+    "actual": {
+      "width": 640,
+      "height": 480,
+      "rgbaSha256": "ec287e182dca32d86261e719e4a9525277023ba1872394ca6d4fa4e454fc7107",
+      "alphaAllOpaque": true
+    },
+    "cleanEAN": {
+      "width": 339,
+      "height": 165,
+      "rgbaSha256": "536b34274f30464506edda1ab791e54b60e67d6afe45e6b9d5079f7913543e44",
+      "alphaAllOpaque": true
+    },
+    "cleanQR": {
+      "width": 99,
+      "height": 99,
+      "rgbaSha256": "4a2a4e949cae2220528225fd4d875085fa9026da4a66ee48a447dad4aa867d1a",
+      "alphaAllOpaque": true
+    },
+    "cleanUPC": {
+      "width": 339,
+      "height": 165,
+      "rgbaSha256": "5cbbbd4dbeb40f491e715da08bd321dee3a31b1a43b279f9370641f70b08493c",
+      "alphaAllOpaque": true
+    },
+    "blank": {
+      "width": 640,
+      "height": 480,
+      "rgbaSha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1",
+      "alphaAllOpaque": true
+    },
+    "mixedClean": {
+      "width": 640,
+      "height": 480,
+      "rgbaSha256": "fcbf2cf1b95fe097c64f672a29dac2b5c730341506b3ac82da2b926f288c1e75",
+      "alphaAllOpaque": true
+    },
+    "mixedActual": {
+      "width": 640,
+      "height": 480,
+      "rgbaSha256": "4160a465ec9e9a418056aa253ecf3f83879d7e3f11d30b903652b5eb9aa98fd8",
+      "alphaAllOpaque": true
+    }
+  }
+}
