@@ -409,7 +409,7 @@ class QRGenTrackedBarcode extends QRGenBarcode {
         timestamp: barcode.timestamp,
       );
 
-  /// Stable id (derived from symbology and data by the QRGen trackers).
+  /// Opaque stable id: payload-derived by default, fresh in optional spatial mode.
   final String id;
 
   /// When the code was first seen.

@@ -37,10 +37,17 @@ const group = kind => result.results.filter(item => item.kind === kind);
 const calibration = group('calibration');
 const behavior = group('default-clock');
 const controls = group('control');
+const spatialBehavior = group('spatial-default-clock');
+const spatialControls = group('spatial-control');
 const validCalibration = result.phase === 'completed' && calibration.length === 4 && calibration.every(item => item.passed);
 const validControls = controls.length === 16 && controls.every(item => item.passed);
 const expectedBehavior = behavior.length === 14 && behavior.every(item => !item.error && item.passed === !baseline);
-const verified = validCalibration && validControls && expectedBehavior && result.results.length === 34;
+const validSpatial = baseline
+  ? spatialBehavior.length === 0 && spatialControls.length === 0
+  : spatialBehavior.length === 10 && spatialBehavior.every(item => item.passed)
+    && spatialControls.length === 4 && spatialControls.every(item => item.passed);
+const verified = validCalibration && validControls && expectedBehavior && validSpatial
+  && result.results.length === (baseline ? 34 : 48);
 console.log(JSON.stringify({
   scope: 'Officially compiled Dart web core in an isolated Node VM context; no native Flutter VM/widget/device claim.',
   expectation: baseline ? 'baseline wall-clock defect' : 'fixed elapsed-clock behavior',
@@ -51,6 +58,8 @@ console.log(JSON.stringify({
     calibration: { total: calibration.length, passed: calibration.filter(item => item.passed).length },
     defaultClock: { total: behavior.length, passedElapsedOracle: behavior.filter(item => item.passed).length },
     controls: { total: controls.length, passed: controls.filter(item => item.passed).length },
+    spatialDefaultClock: { total: spatialBehavior.length, passed: spatialBehavior.filter(item => item.passed).length },
+    spatialControls: { total: spatialControls.length, passed: spatialControls.filter(item => item.passed).length },
   },
   result,
 }, null, 2));

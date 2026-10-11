@@ -308,5 +308,128 @@ void main() {
     final track = tracker.update([qr('A', at(42))]).tracked.single;
     return [track.timestamp.millisecondsSinceEpoch, track.firstSeen.millisecondsSinceEpoch, track.lastSeen.millisecondsSinceEpoch];
   });
+  _spatialChecks();
   emit('completed');
+}
+
+QRGenBarcode _spatialBarcode([DateTime? timestamp]) => QRGenBarcode(
+      data: 'A',
+      symbology: QRGenSymbology.qr,
+      location: QRGenQuadrilateral.fromRect(const QRGenRect(10, 20, 10, 10)),
+      frameSize: const QRGenSize(640, 480),
+      timestamp: timestamp,
+    );
+
+void _spatialChecks() {
+  // Actual opt-in APIs use valid geometry and omit now throughout these cases.
+  // The harness supplies independent wall and elapsed clocks, never associations.
+  for (final s in const [
+    Scenario('rollback', 2000, -60000, true, true),
+    Scenario('forward', 100, 60000, false, false),
+  ]) {
+    check('spatial tracker.prune ${s.name}', 'spatial-default-clock',
+        [s.expire ? 0 : 1, s.expire ? 1 : 0, s.expire], () {
+      final tracker = QRGenBarcodeTracker(spatial: true);
+      tracker.update([_spatialBarcode()]);
+      s.advance();
+      final update = tracker.prune();
+      return [update.tracked.length, update.removed.length, update.changed];
+    });
+    check('spatial tracker.update empty ${s.name}', 'spatial-default-clock',
+        [s.expire ? 0 : 1, s.expire ? 1 : 0, s.expire], () {
+      final tracker = QRGenBarcodeTracker(spatial: true);
+      tracker.update([_spatialBarcode()]);
+      s.advance();
+      final update = tracker.update([], null, const QRGenSize(640, 480));
+      return [update.tracked.length, update.removed.length, update.changed];
+    });
+    check('spatial session batch.tick ${s.name}', 'spatial-default-clock',
+        s.expire ? <String>[] : null, () {
+      final session = QRGenScanSession(mode: QRGenScanMode.batch, spatialTracking: true);
+      session.process([_spatialBarcode()]);
+      s.advance();
+      return session.tick()?.map((item) => item.data).toList();
+    });
+    check('spatial session batch.process empty ${s.name}', 'spatial-default-clock',
+        s.expire ? <String>[] : null, () {
+      final session = QRGenScanSession(mode: QRGenScanMode.batch, spatialTracking: true);
+      session.process([_spatialBarcode()]);
+      s.advance();
+      return session.process([], null, const QRGenSize(640, 480))
+          .tracked?.map((item) => item.data).toList();
+    });
+    check('spatial session prepared duplicate filter ${s.name}', 'spatial-default-clock',
+        [s.report ? 1 : 0, s.expire, s.expire ? 1 : 2], () {
+      final session = QRGenScanSession(mode: QRGenScanMode.batch, spatialTracking: true);
+      final first = session.process([_spatialBarcode()]);
+      if (first.scanned.length != 1) throw StateError('Initial spatial report failed');
+      final initialId = first.tracked!.single.id;
+      s.advance();
+      final second = session.process([_spatialBarcode()]);
+      final track = second.tracked!.single;
+      return [second.scanned.length, track.id != initialId, track.count];
+    });
+  }
+
+  check('spatial tracker 500 versus 501 elapsed boundary', 'spatial-control',
+      [1, false, 1, 0], () {
+    final tracker = QRGenBarcodeTracker(spatial: true);
+    tracker.update([_spatialBarcode()]);
+    clock(500, offset: 60000);
+    final kept = tracker.prune();
+    clock(501, offset: -60000);
+    final expired = tracker.prune();
+    return [kept.tracked.length, kept.changed, expired.removed.length, tracker.length];
+  });
+  check('spatial session tick and blank elapsed boundaries', 'spatial-control',
+      [null, null, <String>[], <String>[], 0, 0], () {
+    final timer = QRGenScanSession(mode: QRGenScanMode.batch, spatialTracking: true);
+    final frame = QRGenScanSession(mode: QRGenScanMode.batch, spatialTracking: true);
+    timer.process([_spatialBarcode()]);
+    frame.process([_spatialBarcode()]);
+    clock(500, offset: 60000);
+    final timerKept = timer.tick()?.map((item) => item.id).toList();
+    final frameKept = frame.process([], null, const QRGenSize(640, 480))
+        .tracked?.map((item) => item.id).toList();
+    clock(501, offset: -60000);
+    final timerExpired = timer.tick()?.map((item) => item.id).toList();
+    final frameExpired = frame.process([], null, const QRGenSize(640, 480))
+        .tracked?.map((item) => item.id).toList();
+    return [timerKept, frameKept, timerExpired, frameExpired,
+      timer.tracked.length, frame.tracked.length];
+  });
+  check('spatial metadata preserves epoch through wall rollback', 'spatial-control',
+      [true, 2, baseWall + 60000, baseWall - 60000, baseWall - 60000,
+        true, 2, baseWall + 60000, baseWall - 60000, baseWall - 60000], () {
+    final tracker = QRGenBarcodeTracker(spatial: true);
+    final session = QRGenScanSession(mode: QRGenScanMode.batch, spatialTracking: true);
+    clock(0, offset: 60000);
+    final firstBarcode = _spatialBarcode();
+    final first = tracker.update([firstBarcode]).tracked.single;
+    final firstSession = session.process([firstBarcode]).tracked!.single;
+    clock(100, wall: baseWall - 60000);
+    final secondBarcode = _spatialBarcode();
+    final second = tracker.update([secondBarcode]).tracked.single;
+    final secondSession = session.process([secondBarcode]).tracked!.single;
+    return [second.id == first.id, second.count, second.firstSeen.millisecondsSinceEpoch,
+      second.lastSeen.millisecondsSinceEpoch, second.timestamp.millisecondsSinceEpoch,
+      secondSession.id == firstSession.id, secondSession.count,
+      secondSession.firstSeen.millisecondsSinceEpoch, secondSession.lastSeen.millisecondsSinceEpoch,
+      secondSession.timestamp.millisecondsSinceEpoch];
+  });
+  check('spatial explicit time and decode metadata remain independent', 'spatial-control',
+      [1, 1, 42, 300, 300, null, <String>[]], () {
+    final barcode = _spatialBarcode(at(42));
+    final tracker = QRGenBarcodeTracker(spatial: true);
+    tracker.update([barcode], at(0));
+    clock(2000, offset: -60000);
+    final kept = tracker.prune(at(500)).tracked.length;
+    final removed = tracker.prune(at(501)).removed.length;
+    final session = QRGenScanSession(mode: QRGenScanMode.batch, spatialTracking: true);
+    final track = session.process([barcode], at(300)).tracked!.single;
+    return [kept, removed, track.timestamp.millisecondsSinceEpoch,
+      track.firstSeen.millisecondsSinceEpoch, track.lastSeen.millisecondsSinceEpoch,
+      session.tick(at(800))?.map((item) => item.id).toList(),
+      session.tick(at(801))?.map((item) => item.id).toList()];
+  });
 }

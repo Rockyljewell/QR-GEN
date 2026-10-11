@@ -189,8 +189,8 @@ Shared option names (camelCase in JS/Kotlin/Swift/Dart/C#, snake_case in Python)
 Events: `scan` (`{ barcodes: Barcode[] }`), `track` (batch only,
 `{ tracked: TrackedBarcode[] }` where `TrackedBarcode = Barcode & { id, firstSeen, lastSeen, count }`;
 `id` is stable for the lifetime of a track; web and Kotlin use numeric IDs, Swift uses numeric
-string IDs, and React Native, Flutter and default Python payload tracking derive string
-base IDs from symbology + data. Python and React Native's opt-in spatial tracking allocate
+string IDs, and default React Native, Flutter and Python payload tracking derive string
+base IDs from symbology + data. Python, React Native and Flutter's opt-in spatial helpers allocate
 fresh string IDs.
 Treat every track ID as opaque),
 `error` (`{ code, message }`), `ready`.
@@ -242,7 +242,28 @@ The React Native work budget is a positive safe integer. It uses the same
 `n*n*(m+n)` estimate described below for Python and rejects the complete frame
 before assignment matrices or state changes. Invalid geometry, clock, budget or
 late metadata/ID/count validation leaves tracking and duplicate histories unchanged.
-Native component failures report through the existing `onError` contract. This
+
+Flutter's pure helpers offer the same opt-in association with
+`QRGenBarcodeTracker(spatial: true, maxJump: 3, maxAssociationWork: 250000)` and
+`QRGenScanSession(mode: QRGenScanMode.batch, spatialTracking: true,
+trackMaxJump: 3, trackMaxAssociationWork: 250000)`. `update` and `process` accept
+an optional third positional full-frame `QRGenSize`, including for empty frames.
+Each spatial record requires finite usable corners and its own positive integral
+source dimensions, consistent across the frame. The safe-integer summed work budget
+uses the same estimate; invalid or over-budget spatial session input changes neither
+duplicate history nor observation state. Payload duplicate reports stay unchanged.
+Reactive session configuration validates before mutation: equal policies do nothing;
+changed policies clear observations, advance their opaque ID namespace and preserve
+payload history and stopped state. Changing mode also resumes. `resetSpatial()`
+clears observations only and returns an empty-list change once. Reset and expiry
+preserve the spatial allocator, so IDs are not reused within a helper lifetime.
+DateTime metadata, explicit microsecond comparisons and default monotonic ages remain.
+These flags are not widget, shared-options or WebView/embed settings. Custom camera
+integrations must establish their own source/orientation boundaries and reject old
+source frames; full Flutter widget integration remains separate work. The helpers
+do not establish physical identity or confirmed quantities.
+Pure Flutter helper rejections throw. React Native component failures report through
+the existing `onError` contract. This
 bounds association work rather than time or memory; physical-device performance
 and camera-driver frame provenance remain separate validation gates.
 

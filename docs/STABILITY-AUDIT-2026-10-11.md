@@ -499,6 +499,45 @@ Flutter 3.47.7, Dart 3.13.5, mobile_scanner 7.4.2 and webview_flutter 4.14.1.
 Compiled pure Dart and fake-platform Flutter tests remain separate from physical
 phone, native-driver and matched Scandit validation.
 
+## Flutter optional spatial helper foundation
+
+Flutter's pure tracker and scan session now offer opt-in short-lived spatial
+observations. Default payload aggregation, scan-report duplicate filtering,
+DateTime metadata, scanner widgets and original rendering remain unchanged.
+The association maximizes eligible one-to-one matches before minimizing total
+Euclidean movement. It checks consistent integral full-frame dimensions and a
+summed assignment-work budget before allocation. Rejected spatial frames leave
+tracking, payload histories, time-source association and ID allocation unchanged.
+Reactive session policy replacement clears observations and advances their public
+ID namespace while retaining payload history; ordinary resets retain the allocator.
+
+The exact pure-source suite passes 220 Dart VM cases with strict analysis clean.
+Its 87 new spatial tracker/session/oracle cases also pass after official Dart web
+compilation and execution on Node. The independent oracle enumerates 256 small
+grid scenes and 240 seeded scenes, checking cardinality and Euclidean movement
+without sharing the production assignment algorithm. Targeted cases include
+greedy and squared-distance traps, deterministic ties, finite extreme geometry,
+exact and summed budget boundaries, source-size changes and late-failure rollback.
+An independent six-case public-API review passes. The strengthened clock-transition
+rollback test passes for the correct source and fails at its intended assertions
+for separate filter-only and tracker-only source-commit mutations; those copies
+never modify production files.
+
+The permanent compiled-core clock probe retains its original 34 checks and adds
+14 spatial cases, all 48 passing with four clock calibrations. The added cases
+cover rollback, forward jumps, elapsed expiry, spatial session filtering and
+metadata/explicit-time boundaries. CI runs the complete Flutter suite, the 87
+compiled spatial tests and this calibrated probe. These are controlled helper
+and fake-platform tests, not physical-camera or Scandit-parity evidence.
+
+The new flags are not wired into `QRGenScanner`, shared scanner options or the
+WebView/embed bridge. Custom integrations must own camera/coordinate boundaries
+and reject old-source frames. Full Flutter camera integration, native frame
+provenance and handset validation remain separate work. The assignment budget bounds matching work, while spatial
+sessions also copy retained duplicate-history maps; long-session allocation and
+latency need separate measurement. Observations do not establish confirmed item
+quantities or persistent physical identity through occlusion.
+
 ## Retail AR and adjacent features
 
 The following is an assessment of repository code against the vendors' published
@@ -513,7 +552,7 @@ provides tracking and overlay integration patterns.
 | Capability | QRGen today | Next useful work |
 | --- | --- | --- |
 | Multi-code overlays | Web canvas highlights, smoothing and accessible per-track list selection; native overlays also exist. | Add explicit per-code inventory/task states and test list selection with representative users and dense views. |
-| Identical-product counting | Web/iOS/Android match spatial detections. Python and native React Native offer optional short-lived spatial observations with a bounded association workload; their defaults and Flutter still aggregate by symbology and payload. Scan-event duplicate filtering remains payload-based. | Add spatial tracking to remaining aggregating platforms. Validate decoded observations against physical items, including misses, duplicate detections and identity swaps; tracks do not establish confirmed quantities or persistent physical identity. |
+| Identical-product counting | Web/iOS/Android match spatial detections. Python and native React Native offer optional short-lived spatial observations with a bounded association workload; Flutter's pure helpers now offer that opt-in, while its widgets and all three default helper policies still aggregate by symbology and payload. Scan-event duplicate filtering remains payload-based. | Complete Flutter camera integration. Validate decoded observations against physical items, including misses, duplicate detections and identity swaps; tracks do not establish confirmed quantities or persistent physical identity. |
 | Remembering off-screen items | Web tracks expire after 500 ms by default. Confirmed receiving quantities persist locally after leaving view and reload. There is no persistent scene map or physical item identity across occlusion/camera movement. | Validate physical re-identification separately. Increasing a timeout alone does not establish physical identity. |
 | Picking / receiving | The [local receiving workflow](RECEIVING-WORKFLOW.md) supports expected quantities, unexpected products, explicit confirmation, corrections with history, parallel-tab transactions and stable exports. Scanner observations do not increment quantities. | Validate with representative users and integrate authoritative inventory data. Add target-SKU picking separately. |
 | Price / expiry checks | GS1 dates, amounts and product identifiers can be parsed. | Connect an authoritative product/inventory source; show provenance and freshness before acting on an overlay. |

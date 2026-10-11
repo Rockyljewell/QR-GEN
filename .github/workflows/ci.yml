@@ -198,6 +198,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Spatial core and session regressions (compiled Dart)
+        run: dart --suppress-analytics test --platform node test/flutter_spatial_tracker_test.dart test/flutter_spatial_session_test.dart test/flutter_spatial_oracle_test.dart
       - name: Calibrated default-clock regressions (compiled Dart core)
         run: |
           mkdir -p build/clock-probe
