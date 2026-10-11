@@ -231,6 +231,14 @@ perspective, dense physical shelves or phone thermal behavior. Regression checks
 include mixed-polarity identical payloads, combined limits, disabled inversion,
 RGBA/input immutability, optional codec failures and fallback engine failures.
 
+## Native overlap association follow-up
+
+[Issue #28](https://github.com/Rockyljewell/QR-GEN/issues/28) reproduced an
+avoidable two-to-three track inflation in Android and both Swift CI platforms.
+Exact payload matches remain fixed while incomplete overlap assignments are
+repaired before creating new IDs. [Reproduction, matching scope and validation](NATIVE-TRACKING-2026-10-11.md)
+are recorded separately; physical item identity and phone parity remain unverified.
+
 ## Retail AR and adjacent features
 
 The following is an assessment of repository code against the vendors' published

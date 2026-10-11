@@ -77,7 +77,7 @@ public class BarcodeTracker @JvmOverloads constructor(
                 if (iou >= overlapThreshold) overlapPairs += Candidate(di, ti, iou, distance(d, t.barcode))
             }
         }
-        assign(overlapPairs, assignment, matchedTrack)
+        assign(overlapPairs, assignment, matchedTrack, repairIncomplete = true)
 
         // 4. Update matched tracks and create new ones.
         val added = ArrayList<TrackedBarcode>()
@@ -108,12 +108,72 @@ public class BarcodeTracker @JvmOverloads constructor(
 
     private class Candidate(val detection: Int, val track: Int, val overlap: Float, val distance: Float)
 
-    private fun assign(candidates: MutableList<Candidate>, assignment: Array<Track?>, matchedTrack: BooleanArray) {
+    private fun assign(
+        candidates: MutableList<Candidate>,
+        assignment: Array<Track?>,
+        matchedTrack: BooleanArray,
+        repairIncomplete: Boolean = false,
+    ) {
+        if (candidates.isEmpty()) return
         candidates.sortWith(compareByDescending<Candidate> { it.overlap }.thenBy { it.distance })
+        val frozenTracks = matchedTrack.copyOf()
+        val frozenDetections = BooleanArray(assignment.size) { assignment[it] != null }
+        val detectionTrack = IntArray(assignment.size) { -1 }
+        val trackOwner = IntArray(tracks.size) { -1 }
         for (c in candidates) {
             if (assignment[c.detection] != null || matchedTrack[c.track]) continue
             assignment[c.detection] = tracks[c.track]
             matchedTrack[c.track] = true
+            detectionTrack[c.detection] = c.track
+            trackOwner[c.track] = c.detection
+        }
+        if (!repairIncomplete) return
+
+        // Keep exact payload matches and the existing geometric preference. Only
+        // repair an incomplete fallback assignment, using an alternating path to
+        // a free track before creating an avoidable extra ID.
+        val neighbors = Array(assignment.size) { ArrayList<Int>() }
+        for (c in candidates) {
+            if (!frozenTracks[c.track] && !frozenDetections[c.detection]) {
+                neighbors[c.detection] += c.track
+            }
+        }
+        for (start in assignment.indices) {
+            if (assignment[start] != null || neighbors[start].isEmpty()) continue
+            val predecessor = IntArray(tracks.size) { -1 }
+            val seenDetection = BooleanArray(assignment.size)
+            val queue = IntArray(assignment.size)
+            var head = 0
+            var tail = 1
+            queue[0] = start
+            seenDetection[start] = true
+            var freeTrack = -1
+            search@ while (head < tail) {
+                val detection = queue[head++]
+                for (track in neighbors[detection]) {
+                    if (predecessor[track] != -1) continue
+                    predecessor[track] = detection
+                    val owner = trackOwner[track]
+                    if (owner == -1) {
+                        freeTrack = track
+                        break@search
+                    }
+                    if (!seenDetection[owner]) {
+                        seenDetection[owner] = true
+                        queue[tail++] = owner
+                    }
+                }
+            }
+            var track = freeTrack
+            while (track != -1) {
+                val detection = predecessor[track]
+                val previousTrack = detectionTrack[detection]
+                assignment[detection] = tracks[track]
+                detectionTrack[detection] = track
+                trackOwner[track] = detection
+                matchedTrack[track] = true
+                track = previousTrack
+            }
         }
     }
 
