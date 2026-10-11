@@ -75,8 +75,12 @@ export function gs1Date(yymmdd: string, now: Date = new Date()): string | undefi
   return `${year}-${String(mm).padStart(2, "0")}-${String(dd).padStart(2, "0")}`;
 }
 
-function buildElement(ai: string, value: string): GS1Element {
+function buildElement(ai: string, value: string): GS1Element | undefined {
   const def = GS1_AIS[ai];
+  // Check known field shapes before deriving dates, amounts or checksum metadata.
+  if (def && (!value || (def.fixed !== undefined && value.length !== def.fixed) ||
+    (def.max !== undefined && value.length > def.max) || (def.numeric && !/^\d+$/.test(value)) ||
+    (def.isoPrefix && (value.length <= 3 || !/^\d{3}/.test(value))))) return undefined;
   const el: GS1Element = {
     ai,
     title: def?.title ?? `AI ${ai}`,
@@ -90,7 +94,7 @@ function buildElement(ai: string, value: string): GS1Element {
   }
   if (def.check) el.checkDigitValid = isValidCheckDigit(value);
   let numeric = value;
-  if (def.isoPrefix && value.length > 3) {
+  if (def.isoPrefix) {
     el.iso = value.slice(0, 3);
     numeric = value.slice(3);
   }
@@ -119,11 +123,14 @@ function parseHRI(input: string): GS1Result | null {
   while ((m = re.exec(input))) markers.push({ ai: m[1]!, start: m.index, end: m.index + m[0].length });
   if (markers.length === 0 || markers[0]!.start !== 0) return null;
   if (!markers.some((mk) => GS1_AIS[mk.ai])) return null;
-  const elements = markers.map((mk, i) => {
+  const elements: GS1Element[] = [];
+  for (const [i, mk] of markers.entries()) {
     const next = markers[i + 1];
     const value = input.slice(mk.end, next ? next.start : undefined).replace(new RegExp(GS, "g"), "");
-    return buildElement(mk.ai, value);
-  });
+    const element = buildElement(mk.ai, value);
+    if (!element) return null;
+    elements.push(element);
+  }
   return finish(elements);
 }
 
@@ -161,8 +168,9 @@ function parseRaw(input: string): GS1Result | null {
         pos = gs === -1 ? s.length : gs + 1;
       }
     }
-    if (def.numeric && !/^\d*$/.test(value)) return null;
-    elements.push(buildElement(ai, value));
+    const element = buildElement(ai, value);
+    if (!element) return null;
+    elements.push(element);
   }
   // Raw numeric strings are ambiguous; require at least one AI with a predefined length
   // or a separator so plain numbers are not mistaken for GS1 data.
@@ -204,13 +212,18 @@ export function parseDigitalLink(input: string): GS1Result | null {
     if (!ai) break;
     let value = segments[i + 1]!;
     // GTINs shorter than 14 digits are zero padded in element strings.
-    if (ai === "01" && /^\d{8,13}$/.test(value)) value = value.padStart(14, "0");
-    elements.push(buildElement(ai, value));
+    if (ai === "01" && [8, 12, 13].includes(value.length) && /^\d+$/.test(value)) value = value.padStart(14, "0");
+    const element = buildElement(ai, value);
+    if (!element) return null;
+    elements.push(element);
   }
-  url.searchParams.forEach((value, key) => {
+  for (const [key, value] of url.searchParams) {
     const ai = toAI(key);
-    if (ai) elements.push(buildElement(ai, value));
-  });
+    if (!ai) continue;
+    const element = buildElement(ai, value);
+    if (!element) return null;
+    elements.push(element);
+  }
   return finish(elements, input);
 }
 

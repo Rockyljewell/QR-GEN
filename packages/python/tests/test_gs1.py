@@ -88,6 +88,23 @@ def test_integer_decimal_value_is_int():
     assert isinstance(_by_ai(parse_gs1("(3100)000195"))["3100"]["number"], int)
 
 
+@pytest.mark.parametrize("ai", ["3912", "3932"])
+@pytest.mark.parametrize("value", ["978", "97", "", "USD1299", "978A"])
+def test_currency_amount_requires_both_numeric_components(ai, value):
+    for data in ("(%s)%s" % (ai, value), "]C1" + ai + value,
+                 "https://id.gs1.org/01/09501101530003?%s=%s" % (ai, value)):
+        assert parse_gs1(data) is None, data
+
+
+@pytest.mark.parametrize("ai", ["3912", "3932"])
+def test_currency_amount_minimum_and_optional_identifier_extensions(ai):
+    for data in ("(%s)9781" % ai, "]C1" + ai + "9781",
+                 "https://id.gs1.org/01/9501101530003?%s=9781" % ai):
+        assert _by_ai(parse_gs1(data))[ai]["number"] == pytest.approx(0.01)
+    # Identifier extensions stay optional; they are not currency amounts.
+    assert parse_gs1("(253)9501101530003")["values"]["253"] == "9501101530003"
+
+
 def test_digital_link(today):
     url = "https://id.gs1.org/01/09501101530003/10/ABC123?17=250101"
     result = parse_gs1(url, today=today)

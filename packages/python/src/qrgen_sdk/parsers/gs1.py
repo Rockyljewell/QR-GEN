@@ -82,7 +82,9 @@ class AIDefinition:
                 part = value[pos:] if last else value[pos : pos + length]
                 if len(part) > length:
                     return False
-                if not part and index == 0:
+                # The amount after a currency code is mandatory, unlike optional
+                # identifier extensions such as GDTI's serial component.
+                if not part and (index == 0 or self.currency_prefix):
                     return False
             if kind == "N" and part and not part.isdigit():
                 return False
@@ -534,7 +536,7 @@ def _parse_digital_link(url: str, today: _dt.date) -> Optional[Dict[str, Any]]:
         if not ok:
             return None
         elements.append(element)
-    for key, raw in parse_qsl(parts.query, keep_blank_values=False):
+    for key, raw in parse_qsl(parts.query, keep_blank_values=True):
         ai = key if key.isdigit() and key in AI_TABLE else _DL_SHORT_NAMES.get(key)
         if ai is None:
             continue  # non-AI parameters such as linkType are ignored

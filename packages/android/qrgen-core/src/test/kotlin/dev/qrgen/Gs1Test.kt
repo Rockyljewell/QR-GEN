@@ -90,6 +90,38 @@ class Gs1Test {
     }
 
     @Test
+    fun `known fields are validated before HRI or Digital Link annotations`() {
+        for (input in listOf(
+            "(01)123", "(01)0950110153000A", "(3103)1", "(3103)00019A",
+            "(10)" + "A".repeat(21), "(3922)1234567890123456",
+            "https://id.gs1.org/01/09501101530003?3103=1",
+            "https://id.gs1.org/01/09501101530003?10=",
+        )) assertNull(GS1.parse(input, today), input)
+        for (ai in listOf("3912", "3932")) {
+            for (value in listOf("978", "97", "", "USD1299", "978A")) {
+                for (input in listOf("($ai)$value", "]C1$ai$value", "https://id.gs1.org/01/09501101530003?$ai=$value")) {
+                    assertNull(GS1.parse(input, today), input)
+                }
+            }
+            for (input in listOf("($ai)9781", "]C1${ai}9781", "https://id.gs1.org/01/9501101530003?$ai=9781")) {
+                assertEquals(0.01, GS1.parse(input, today)?.element(ai)?.number, input)
+            }
+        }
+        val valid = assertNotNull(GS1.parse("https://id.gs1.org/01/9501101530003?3103=000195&3932=97812345&17=240200", today))
+        assertEquals("09501101530003", valid.gtin)
+        assertEquals(0.195, valid.element("3103")?.number)
+        assertEquals(123.45, valid.element("3932")?.number)
+        assertEquals("2024-02-29", valid.expiryDate)
+        for (gtin in listOf("96385074", "012345000065", "9501101530003")) {
+            assertEquals(gtin.padStart(14, '0'), GS1.parseDigitalLink("https://id.gs1.org/01/$gtin", today)?.gtin)
+        }
+        assertNotNull(GS1.parse("(01)09501101530004", today), "field parsing does not enforce checksums")
+        assertNotNull(GS1.parseDigitalLink("https://id.gs1.org/01/09501101530004", today))
+        assertNull(assertNotNull(GS1.parse("(17)251301", today)).expiryDate)
+        assertEquals("X", GS1.parse("(04)X", today)?.element("04")?.value, "unknown HRI AIs stay supported")
+    }
+
+    @Test
     fun `AI table covers the required identifiers`() {
         val ais = listOf(
             "00", "01", "02", "10", "11", "12", "13", "15", "16", "17", "20", "21", "22", "235", "240", "241", "242", "243",

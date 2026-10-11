@@ -118,7 +118,7 @@ public object GS1 {
         val maxLength: Int = parts.sumOf { it.max }
         val fixedLength: Int? = if (minLength == maxLength) maxLength else null
 
-        fun validate(value: String): Boolean {
+        fun validate(value: String, checkTextCharacters: Boolean = true): Boolean {
             if (value.length < minLength.coerceAtLeast(1) || value.length > maxLength) return false
             var p = 0
             for (part in parts) {
@@ -126,7 +126,7 @@ public object GS1 {
                 if (take < part.min) return false
                 val chunk = value.substring(p, p + take)
                 if (part.numeric && !chunk.all { it in '0'..'9' }) return false
-                if (!part.numeric && !chunk.all { it.code in 0x21..0x7E }) return false
+                if (!part.numeric && checkTextCharacters && !chunk.all { it.code in 0x21..0x7E }) return false
                 p += take
             }
             return p == value.length
@@ -136,7 +136,7 @@ public object GS1 {
             val numeric = p[0] == 'N'
             val spec = p.substring(1)
             return when {
-                spec.startsWith("..") -> Part(numeric, if (index == 0) 1 else 0, spec.substring(2).toInt())
+                spec.startsWith("..") -> Part(numeric, if (index == 0 || ai.startsWith("391") || ai.startsWith("393")) 1 else 0, spec.substring(2).toInt())
                 spec.contains("..") -> {
                     val (a, b) = spec.split("..")
                     Part(numeric, a.toInt(), b.toInt())
@@ -258,7 +258,7 @@ public object GS1 {
             val end = if (i + 1 < matches.size) matches[i + 1].range.first else s.length
             val value = s.substring(m.range.last + 1, end).trim { it == ' ' }
             if (value.isEmpty()) return null
-            elements += element(ai, value, today)
+            elements += element(ai, value, today) ?: return null
         }
         return Gs1Result(elements)
     }
@@ -298,7 +298,7 @@ public object GS1 {
             }
             if (value.isEmpty()) return null
             if (strict && def != null && !def.validate(value)) return null
-            val el = element(ai, value, today)
+            val el = element(ai, value, today) ?: return null
             if (strict && def != null && def.dateKind != DateKind.NONE && el.date == null) return null
             elements += el
         }
@@ -336,7 +336,7 @@ public object GS1 {
         var i = start
         while (i + 1 < segments.size) {
             val ai = digitalLinkAi(segments[i]) ?: break
-            elements += digitalLinkElement(ai, segments[i + 1], today)
+            elements += digitalLinkElement(ai, segments[i + 1], today) ?: return null
             i += 2
         }
         if (query.isNotEmpty()) {
@@ -346,17 +346,17 @@ public object GS1 {
                 val ai = digitalLinkAi(pair.substring(0, eq)) ?: continue
                 if (elements.any { it.ai == ai }) continue
                 val rawValue = pair.substring(eq + 1)
-                if (rawValue.isEmpty()) continue
-                elements += digitalLinkElement(ai, rawValue, today)
+                if (rawValue.isEmpty() && definitions[ai] == null) continue
+                elements += digitalLinkElement(ai, rawValue, today) ?: return null
             }
         }
         return Gs1Result(elements)
     }
 
-    private fun digitalLinkElement(ai: String, encoded: String, today: CalendarDate): Gs1Element {
+    private fun digitalLinkElement(ai: String, encoded: String, today: CalendarDate): Gs1Element? {
         val decoded = percentDecode(encoded, plusIsSpace = false)
-        val value = if (ai == "01" || ai == "02") decoded.padStart(14, '0') else decoded
-        val el = element(ai, value, today)
+        val value = if ((ai == "01" || ai == "02") && decoded.length in setOf(8, 12, 13) && decoded.all { it in '0'..'9' }) decoded.padStart(14, '0') else decoded
+        val el = element(ai, value, today) ?: return null
         return if (value != encoded) el.copy(raw = encoded) else el
     }
 
@@ -379,8 +379,10 @@ public object GS1 {
         }
     }
 
-    private fun element(ai: String, value: String, today: CalendarDate): Gs1Element {
+    private fun element(ai: String, value: String, today: CalendarDate): Gs1Element? {
         val def = definitions[ai]
+        // Preserve lenient text handling, but do not annotate malformed known fields.
+        if (def != null && !def.validate(value, checkTextCharacters = false)) return null
         val date = when (def?.dateKind) {
             DateKind.YYMMDD -> yymmdd(value, today)
             DateKind.YYMMDDHHMM -> yymmddhhmm(value, today)
