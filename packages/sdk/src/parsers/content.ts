@@ -109,13 +109,26 @@ function contentLines(text: string): { name: string; params: string; value: stri
     if (idx <= 0) continue;
     const head = line.slice(0, idx);
     const [name, ...params] = head.split(";");
-    const value = line
-      .slice(idx + 1)
-      .replace(/\\n/gi, "\n")
-      .replace(/\\([,;\\])/g, "$1");
+    const value = line.slice(idx + 1);
     out.push({ name: name!.split(".").pop()!.toUpperCase(), params: params.join(";").toUpperCase(), value });
   }
   return out;
+}
+
+/** Decode text once, after identifying the structured field boundaries. */
+function unescapeText(value: string): string {
+  return value.replace(/\\([nN,;\\])/g, (_, character: string) => /[nN]/.test(character) ? "\n" : character);
+}
+
+function structured(value: string): string[] {
+  const parts = [""];
+  for (let i = 0; i < value.length; i++) {
+    const character = value[i]!;
+    if (character === "\\" && i + 1 < value.length) parts[parts.length - 1] += character + value[++i];
+    else if (character === ";") parts.push("");
+    else parts[parts.length - 1] += character;
+  }
+  return parts.map(unescapeText);
 }
 
 function icsDate(v: string | undefined): string | undefined {
@@ -129,11 +142,11 @@ function icsDate(v: string | undefined): string | undefined {
 function parseVCard(text: string): ParsedContent {
   const lines = contentLines(text);
   const get = (n: string) => lines.find((l) => l.name === n)?.value;
-  let name = get("FN");
+  let name = get("FN") === undefined ? undefined : unescapeText(get("FN")!);
   if (!name) {
     const n = get("N");
     if (n) {
-      const [last = "", first = "", middle = "", prefix = "", suffix = ""] = n.split(";");
+      const [last = "", first = "", middle = "", prefix = "", suffix = ""] = structured(n);
       name = [prefix, first, middle, last, suffix].filter(Boolean).join(" ");
     }
   }
@@ -142,13 +155,13 @@ function parseVCard(text: string): ParsedContent {
     type: "contact",
     format: "vcard",
     name: name || undefined,
-    organization: get("ORG")?.replace(/;/g, " ").trim() || undefined,
-    title: get("TITLE") || undefined,
-    phones: lines.filter((l) => l.name === "TEL").map((l) => l.value.replace(/^tel:/i, "")),
-    emails: lines.filter((l) => l.name === "EMAIL").map((l) => l.value),
-    urls: lines.filter((l) => l.name === "URL").map((l) => l.value),
-    address: adr ? adr.split(";").map((p) => p.trim()).filter(Boolean).join(", ") : undefined,
-    note: get("NOTE") || undefined,
+    organization: get("ORG") === undefined ? undefined : structured(get("ORG")!).join(" ").trim() || undefined,
+    title: get("TITLE") === undefined ? undefined : unescapeText(get("TITLE")!) || undefined,
+    phones: lines.filter((l) => l.name === "TEL").map((l) => unescapeText(l.value).replace(/^tel:/i, "")),
+    emails: lines.filter((l) => l.name === "EMAIL").map((l) => unescapeText(l.value)),
+    urls: lines.filter((l) => l.name === "URL").map((l) => unescapeText(l.value)),
+    address: adr ? structured(adr).map((p) => p.trim()).filter(Boolean).join(", ") : undefined,
+    note: get("NOTE") === undefined ? undefined : unescapeText(get("NOTE")!) || undefined,
   };
 }
 
@@ -175,8 +188,27 @@ function parseMeCard(body: string): ParsedContent {
 }
 
 function parseEvent(text: string): ParsedContent {
-  const lines = contentLines(text);
-  const get = (n: string) => lines.find((l) => l.name === n)?.value;
+  const lines: ReturnType<typeof contentLines> = [];
+  let inEvent = false;
+  let nested = 0;
+  for (const line of contentLines(text)) {
+    const component = line.value.trim().toUpperCase();
+    if (line.name === "BEGIN") {
+      if (!inEvent && component === "VEVENT") inEvent = true;
+      else if (inEvent) nested++;
+      continue;
+    }
+    if (line.name === "END") {
+      if (inEvent && nested === 0 && component === "VEVENT") break;
+      if (inEvent && nested > 0) nested--;
+      continue;
+    }
+    if (inEvent && nested === 0) lines.push(line);
+  }
+  const get = (n: string) => {
+    const value = lines.find((l) => l.name === n)?.value;
+    return value === undefined ? undefined : unescapeText(value);
+  };
   return {
     type: "event",
     summary: get("SUMMARY"),

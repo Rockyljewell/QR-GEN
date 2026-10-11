@@ -68,26 +68,52 @@ function readBody(req: IncomingMessage, limit: number): Promise<Buffer> {
 
 /** Extract the first file part (or the "image" field) from a multipart/form-data body. */
 function multipartImage(body: Buffer, contentType: string): { image: Buffer; fields: Record<string, string> } {
-  const m = /boundary=(?:"([^"]+)"|([^;]+))/i.exec(contentType);
-  if (!m) throw new HttpError(400, "bad-request", "multipart body without boundary");
-  const boundary = Buffer.from(`--${m[1] ?? m[2]}`);
+  // Consume whole parameters, including quoted strings, without changing the boundary's case.
+  const parameters = /;[ \t]*([^=;\s]+)[ \t]*=[ \t]*(?:"((?:[^"\\]|\\.)*)"|([^;\s]*))[ \t]*(?=;|$)/g;
+  let value: string | undefined;
+  for (const parameter of contentType.matchAll(parameters)) {
+    if (parameter[1]!.toLowerCase() === "boundary") {
+      value = parameter[2] === undefined ? parameter[3] : parameter[2].replace(/\\(.)/g, "$1");
+      break;
+    }
+  }
+  if (!value || !/^[0-9A-Za-z'()+_,./:=? \-]{1,70}$/.test(value) || value.endsWith(" ")) {
+    throw new HttpError(400, "bad-request", "multipart body without a valid boundary");
+  }
+  const boundary = Buffer.from(`--${value}`);
+  const delimiter = (from: number) => {
+    let start = body.indexOf(boundary, from);
+    while (start !== -1) {
+      // Only delimiter lines count: arbitrary binary data can contain the same bytes.
+      if (start === 0 || (body[start - 2] === 13 && body[start - 1] === 10)) {
+        let end = start + boundary.length;
+        const closing = body[end] === 45 && body[end + 1] === 45;
+        if (closing) end += 2;
+        while (body[end] === 32 || body[end] === 9) end++;
+        if (closing && end === body.length) return { start, next: end, closing };
+        if (body[end] === 13 && body[end + 1] === 10) return { start, next: end + 2, closing };
+      }
+      start = body.indexOf(boundary, start + boundary.length);
+    }
+    return undefined;
+  };
   const fields: Record<string, string> = {};
   let image: Buffer | undefined;
-  let pos = body.indexOf(boundary);
-  while (pos !== -1) {
-    const start = pos + boundary.length + 2; // skip CRLF
-    const next = body.indexOf(boundary, start);
-    if (next === -1) break;
-    const part = body.subarray(start, next - 2);
+  let current = delimiter(0);
+  if (!current) throw new HttpError(400, "bad-request", "Malformed multipart body");
+  while (!current.closing) {
+    const next = delimiter(current.next);
+    if (!next) throw new HttpError(400, "bad-request", "Incomplete multipart body");
+    // The CRLF immediately before a delimiter belongs to framing, not to the file.
+    const part = body.subarray(current.next, next.start - 2);
     const headerEnd = part.indexOf("\r\n\r\n");
-    if (headerEnd !== -1) {
-      const headers = part.subarray(0, headerEnd).toString("utf8");
-      const content = part.subarray(headerEnd + 4);
-      const name = /name="([^"]*)"/i.exec(headers)?.[1] ?? "";
-      if (/filename=/i.test(headers) || name === "image" || name === "file") image ??= content;
-      else fields[name] = content.toString("utf8");
-    }
-    pos = next;
+    if (headerEnd === -1) throw new HttpError(400, "bad-request", "Malformed multipart part headers");
+    const headers = part.subarray(0, headerEnd).toString("utf8");
+    const content = part.subarray(headerEnd + 4);
+    const name = /name="([^"]*)"/i.exec(headers)?.[1] ?? "";
+    if (/filename=/i.test(headers) || name === "image" || name === "file") image ??= content;
+    else fields[name] = content.toString("utf8");
+    current = next;
   }
   if (!image) throw new HttpError(400, "bad-request", 'multipart body has no file part (use -F "image=@photo.jpg")');
   return { image, fields };
@@ -165,12 +191,13 @@ export function createHandler(options: ServerOptions = {}): (req: IncomingMessag
     if (req.method === "POST" && path === "/v1/scan") {
       const body = await readBody(req, limit);
       const type = String(req.headers["content-type"] ?? "");
+      const mediaType = type.split(";", 1)[0]!.trim().toLowerCase();
       let image: Uint8Array;
       let symbologies = list(q.symbologies);
       let tryHarder = truthy(q.tryHarder);
       let parse = truthy(q.parse) ?? true;
       let maxResults: unknown = q.maxResults;
-      if (type.includes("application/json")) {
+      if (mediaType === "application/json") {
         let json: Record<string, unknown>;
         try {
           json = JSON.parse(body.toString("utf8"));
@@ -184,7 +211,7 @@ export function createHandler(options: ServerOptions = {}): (req: IncomingMessag
         tryHarder = truthy(json.tryHarder) ?? tryHarder;
         parse = truthy(json.parse) ?? parse;
         if (json.maxResults !== undefined) maxResults = json.maxResults;
-      } else if (type.includes("multipart/form-data")) {
+      } else if (mediaType === "multipart/form-data") {
         const mp = multipartImage(body, type);
         image = mp.image;
         symbologies = list(mp.fields.symbologies) ?? symbologies;

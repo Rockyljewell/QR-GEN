@@ -696,10 +696,20 @@ enum ContentParser {
     static func parseEvent(_ text: String) -> ParsedContent.Event {
         var event = ParsedContent.Event()
         var inEvent = false
+        var nested = 0
         for line in contentLines(text) {
-            if line.name == "BEGIN", line.value.uppercased() == "VEVENT" { inEvent = true; continue }
-            if line.name == "END", line.value.uppercased() == "VEVENT" { break }
-            guard inEvent else { continue }
+            let component = line.value.trimmingCharacters(in: .whitespaces).uppercased()
+            if line.name == "BEGIN" {
+                if !inEvent && component == "VEVENT" { inEvent = true }
+                else if inEvent { nested += 1 }
+                continue
+            }
+            if line.name == "END" {
+                if inEvent && nested == 0 && component == "VEVENT" { break }
+                if inEvent && nested > 0 { nested -= 1 }
+                continue
+            }
+            guard inEvent && nested == 0 else { continue }
             switch line.name {
             case "SUMMARY": event.summary = nonEmpty(unescapeText(line.value))
             case "DTSTART": event.start = nonEmpty(isoDateTime(line.value))
