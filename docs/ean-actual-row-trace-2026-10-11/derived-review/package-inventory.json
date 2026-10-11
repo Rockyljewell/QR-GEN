@@ -1,0 +1,20 @@
+{
+  "scope": "Independent bounded derived-output file review; no recognition or duplicate full interpreter execution.",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 1741,
+      "sha256": "b5ff4bbefa1f674a74043b4da266bcf20f1137f70409dd4dc7f1e4d0351ded00"
+    },
+    {
+      "path": "review.json",
+      "bytes": 4939,
+      "sha256": "cb4cd22fa51552fe4a332fe11703869dbe497b0644738fd04923f540e1ac1b4f"
+    },
+    {
+      "path": "review.py",
+      "bytes": 13823,
+      "sha256": "a3ecc256974dfb026a42d1ea8ac9b0adcdf08ca52929656dcdfb0460b0cce3e4"
+    }
+  ]
+}

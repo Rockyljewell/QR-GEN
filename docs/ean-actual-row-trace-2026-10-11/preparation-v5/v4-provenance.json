@@ -1,0 +1,222 @@
+{
+  "scope": "Exact immutable v4 preparation hashes. V5 changes only the local WASM filename resolver in the runner; compiled inputs and recognition profiles remain unchanged.",
+  "v4ManifestSha256": "895591898867b18c8541cdba6e58bc7d78f224267fbc490ca270df570ed6fc3d",
+  "v4PlanSha256": "7ce033b87fd69931e1c59df5f0be23d7442a79095a65436323b98826e047645b",
+  "v4Files": [
+    {
+      "path": "accessor-audit.json",
+      "bytes": 4196,
+      "sha256": "5570d2b3f8f0dea2b351dfcd977640596a9bb0434ddec71dee7ab5074d4a4155"
+    },
+    {
+      "path": "actual-row-trace.patch",
+      "bytes": 32465,
+      "sha256": "0d4213a7b7eeeefa5b8cad7772920ac53d886c7be60607745ef24df8815d53cd"
+    },
+    {
+      "path": "amendment-check.json",
+      "bytes": 1441,
+      "sha256": "dbd38e2aa2a3e6dd5ecc0942300321f41f24b9d8cc2a4e748564dcff3e9005fb"
+    },
+    {
+      "path": "build-failure-provenance.json",
+      "bytes": 1241,
+      "sha256": "1e0dd2782c11c0d535f79abdd2031189202a006e973a388cda31f1ad0dcf3eb7"
+    },
+    {
+      "path": "cache-verifier-check.json",
+      "bytes": 1950,
+      "sha256": "5a6e1f8ed4ac78439be0cb4e1f1d8b30262518e70d0c9fb6f34d1e058d5691a1"
+    },
+    {
+      "path": "capture-build-evidence.mjs",
+      "bytes": 4419,
+      "sha256": "1248c47a6c1bafae89bbf28c6f22b3027790fa26a2d4479dba4b66c4823f9c18"
+    },
+    {
+      "path": "diagnostic-build.yml",
+      "bytes": 5475,
+      "sha256": "8682b9cee5e6080caf4085edeec991f9c2be0ecf732f7671348b391c5a481f65"
+    },
+    {
+      "path": "first-instrumented-build.log.gz",
+      "bytes": 11951,
+      "sha256": "63b15709fc221bd3230378c443a9326602cecc82ba43fe713aa62da6e8ac787f"
+    },
+    {
+      "path": "freeze-package.py",
+      "bytes": 1288,
+      "sha256": "be91cad7368a5bd3c511c6d720aeeb87e35e6073cc52e6a0ccc706859d13f6dc"
+    },
+    {
+      "path": "freeze-plan.mjs",
+      "bytes": 4976,
+      "sha256": "468cbbc105087e96e738ac5031281512ca01945fa903adab695f7220ffc98397"
+    },
+    {
+      "path": "frozen-plan.json",
+      "bytes": 75826,
+      "sha256": "7ce033b87fd69931e1c59df5f0be23d7442a79095a65436323b98826e047645b"
+    },
+    {
+      "path": "instrumented-source/core/src/GlobalHistogramBinarizer.cpp",
+      "bytes": 6603,
+      "sha256": "ab14d7e9e171414a650cc63a6f9ac1d771acb028031bd521fd3f5c919c34c5d7"
+    },
+    {
+      "path": "instrumented-source/core/src/MultiFormatReader.cpp",
+      "bytes": 3597,
+      "sha256": "b9194c5eb6ca1d9fe8d36e317ac2bbac8de265716b208379b00976912656e86a"
+    },
+    {
+      "path": "instrumented-source/core/src/oned/ODMultiUPCEANReader.cpp",
+      "bytes": 11913,
+      "sha256": "b19f01a0d1a1fdf135bcb6f04134b97f7bfcce6100e0ac8972ccea7f20b31d7e"
+    },
+    {
+      "path": "instrumented-source/core/src/oned/ODReader.cpp",
+      "bytes": 14689,
+      "sha256": "aa459963118abfd55fb6a523f8c2b90e870e00b80da34ed78c38984c9e7f1ff1"
+    },
+    {
+      "path": "instrumented-source/core/src/oned/ODRowReader.h",
+      "bytes": 8005,
+      "sha256": "1f50d579928183bf7ed3da802b96c52b7c93268a4132d15251457da4d9de480e"
+    },
+    {
+      "path": "instrumented-source/core/src/Pattern.h",
+      "bytes": 14738,
+      "sha256": "c3eaedeb80ffd855ac8007648efe33ffb0965a309a40866913edf91a802715ad"
+    },
+    {
+      "path": "instrumented-source/core/src/QRGenRowTrace.h",
+      "bytes": 8110,
+      "sha256": "3e0d114600817d6825f1b16f2aa3bcf51d95f11ec90914bdf049d6445dd53e33"
+    },
+    {
+      "path": "instrumented-source/core/src/ReadBarcode.cpp",
+      "bytes": 13600,
+      "sha256": "06c06ae2a324c89bafb000411cae58560f6fa5c64836352506aa5c8ebde8bcd8"
+    },
+    {
+      "path": "local-file-check-observation.json",
+      "bytes": 616,
+      "sha256": "520ea76c6eac3007ef3ef84c2c7f5259a301f63c60c5131f83b92fe01807c071"
+    },
+    {
+      "path": "patch-application-check.json",
+      "bytes": 583,
+      "sha256": "20c2108670a85f35f2c2ae2fa4e2ee8532996131738664e510c7df547fea5a18"
+    },
+    {
+      "path": "patch-application-first-attempt-observation.json",
+      "bytes": 2201,
+      "sha256": "3a70e43184c465f87ec85879cf9f5ca37bc7ffed10da74f87a682a62008d0ca5"
+    },
+    {
+      "path": "patch-metadata.json",
+      "bytes": 3221,
+      "sha256": "9badab55108636ccb14f4aed86da3d2a4c6bcf088a233671f451529daa22fe8e"
+    },
+    {
+      "path": "prepare-instrumentation.py",
+      "bytes": 21180,
+      "sha256": "66f9f2c4ce02cd6af5ab86c92d2856ffcdfa659ced36887b000b891e1db2372a"
+    },
+    {
+      "path": "PROTOCOL.md",
+      "bytes": 5773,
+      "sha256": "3fc42647c6ce964ae38d506542ac3f1b49a6d40e6480787bf5712c54a3f870b2"
+    },
+    {
+      "path": "QRGenRowTrace.h",
+      "bytes": 8110,
+      "sha256": "3e0d114600817d6825f1b16f2aa3bcf51d95f11ec90914bdf049d6445dd53e33"
+    },
+    {
+      "path": "README.md",
+      "bytes": 5533,
+      "sha256": "1841739a9188872e553dfd0349fd00cdc445dc40588a63d46dea159e186b9035"
+    },
+    {
+      "path": "REVIEW-AMENDMENT.md",
+      "bytes": 3068,
+      "sha256": "2a7b86cb739c77f71266d836fc3b7cafa2b7b704a195bc591d477a13760d485c"
+    },
+    {
+      "path": "run-paired.mjs",
+      "bytes": 14412,
+      "sha256": "9d8aff8f74bc81bfc487e9772fc86d42f6c3e10701b642864d7cc26e68ab158d"
+    },
+    {
+      "path": "snapshot-build-phase.py",
+      "bytes": 1226,
+      "sha256": "24597cba3876e9e4b31f3369225055fed350584d70d9f18d38ca27fb3c8cc109"
+    },
+    {
+      "path": "syntax-check.json",
+      "bytes": 446,
+      "sha256": "2697d0b695a33608a4431a66265b522783dc108df0933a62175760717754af6f"
+    },
+    {
+      "path": "v1-provenance.json",
+      "bytes": 4534,
+      "sha256": "de34d74405e02dfa1e6b21798c0954e7c60368c897c8661b0c965dec23f8a4ed"
+    },
+    {
+      "path": "v2-provenance.json",
+      "bytes": 5354,
+      "sha256": "648b3fe0283618fd19a89c1fa63f014f05dcf18c760e23a2ca21d93cf49b4fe3"
+    },
+    {
+      "path": "v3-build-attempt-artifact-metadata.json.gz",
+      "bytes": 553,
+      "sha256": "86bb836856187706ce8310cbf56a3f86afbfbac98374146e1e30691754dc7ea4"
+    },
+    {
+      "path": "v3-build-attempt-download-summary.json.gz",
+      "bytes": 387,
+      "sha256": "56bdc80f4b5be6e0d9cb22f8fd22ae57f158ede91ba011bd626923af9204318b"
+    },
+    {
+      "path": "v3-build-attempt-workflow-run.json.gz",
+      "bytes": 753,
+      "sha256": "5f0a816499950eafb6ed9fdb34a88311efecc63cc1adff0b0265630f1157cd47"
+    },
+    {
+      "path": "v3-build-failure-provenance.json",
+      "bytes": 2448,
+      "sha256": "b1adbdac75c4f0127c915624ffc5f0ef0e7aa9c9116ef0ed1c4d2910db4bb06d"
+    },
+    {
+      "path": "v3-provenance.json",
+      "bytes": 6332,
+      "sha256": "bda0612febf2dd92d7fb11aedeaf54d015b4a01356ef398ab6cb0e10ff5706db"
+    },
+    {
+      "path": "validation-only-confirmation.json",
+      "bytes": 1390,
+      "sha256": "a3a417af644fc80636c490e0f0ec235689b29a8673ed167dee297313ddeffa2a"
+    },
+    {
+      "path": "verify-build-inputs.py",
+      "bytes": 1327,
+      "sha256": "a3883177553ffb0f2a5e2817a74880b283c15c89b90c67a846e0f45f0e65ab7b"
+    },
+    {
+      "path": "verify-v4-amendment.py",
+      "bytes": 3851,
+      "sha256": "e05b323d10d27e50931c733cd2e4b32fe847a1274eaea20fc0313c0cc1c1f51c"
+    },
+    {
+      "path": "verify-v4-caches.mjs",
+      "bytes": 5679,
+      "sha256": "7b752dc124d1f45f3425e213218d44231874c7bca41367a103e31cdfdbab709b"
+    },
+    {
+      "path": "verify-validation-only.mjs",
+      "bytes": 3599,
+      "sha256": "135a4d41956d54a449ecdde26379e10c9372622b731173a0c3730d9837722bb7"
+    }
+  ]
+}

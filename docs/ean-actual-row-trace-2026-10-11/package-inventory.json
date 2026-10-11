@@ -1,0 +1,872 @@
+{
+  "scope": "Compact publication record. Exact copies and one lossless gzip transformation; completed raw traces, binary/build archives and input image bytes omitted as documented.",
+  "fileCount": 173,
+  "payloadBytes": 4939506,
+  "files": [
+    {
+      "path": "build/artifact-metadata.json",
+      "bytes": 1471,
+      "sha256": "b90d41d3f4fae2c8b7beb570fefe227b0447a28abba72e7f2712051c73776425"
+    },
+    {
+      "path": "build/baseline/build-evidence.json",
+      "bytes": 6243,
+      "sha256": "3b48b98cf22c0456f5d4c9a89fc8d92ee2fdce92359a073e900fd51cc2e378c7"
+    },
+    {
+      "path": "build/baseline/cmake/full/_deps/stb-subbuild/CMakeCache.txt",
+      "bytes": 4442,
+      "sha256": "fa1da8bb551c7212c19f6fffceff8f0b67a7b759156ddc9017c390bf87104127"
+    },
+    {
+      "path": "build/baseline/cmake/full/CMakeCache.txt",
+      "bytes": 18592,
+      "sha256": "694bc1560dd71d4a784a5dca29a812ea5183ab055c4e91e1ecd4a5c35ae3d482"
+    },
+    {
+      "path": "build/baseline/cmake/full/CMakeFiles/zxing_full.dir/flags.make",
+      "bytes": 523,
+      "sha256": "402720424a6c69a8c5f9e334276cf46f0bfaf402da99d9bf9b2ad764a4303d51"
+    },
+    {
+      "path": "build/baseline/cmake/full/CMakeFiles/zxing_full.dir/link.txt",
+      "bytes": 638,
+      "sha256": "a1cc4a7f4f9da5020c6e81754a210dccf086c73a62e1c4232eebf237e79b32a7"
+    },
+    {
+      "path": "build/baseline/cmake/full/CMakeFiles/zxing_reader.dir/flags.make",
+      "bytes": 514,
+      "sha256": "bf48799d9ba4fcd26231d6eae535ebc1bf99d638e632e93d031afa6256fa61c9"
+    },
+    {
+      "path": "build/baseline/cmake/full/CMakeFiles/zxing_reader.dir/link.txt",
+      "bytes": 644,
+      "sha256": "a197daaf5d86ab90e655c2b01d920ea90af8d645b331af0c84aeae665a2f9846"
+    },
+    {
+      "path": "build/baseline/cmake/full/CMakeFiles/zxing_writer.dir/flags.make",
+      "bytes": 514,
+      "sha256": "14f07dce7dba4d66cf120e88c71fa48417571eb58a183a1be30d20e63987f5da"
+    },
+    {
+      "path": "build/baseline/cmake/full/CMakeFiles/zxing_writer.dir/link.txt",
+      "bytes": 644,
+      "sha256": "0ade91d167e89b6b3ad6fe9ef9f482ab80e7fb504713f11e6804ef69c6697cfe"
+    },
+    {
+      "path": "build/baseline/cmake/full/phase-manifest.json",
+      "bytes": 1748,
+      "sha256": "4c1474394c9741a5e9a47c09f619d3094fc02f34eb0bcedc916892ac2aa2310f"
+    },
+    {
+      "path": "build/baseline/cmake/full/ZXing/CMakeFiles/ZXing.dir/flags.make",
+      "bytes": 27405,
+      "sha256": "d7eb8f5f9f2b7fd99cd4ecdaed003f90423cdd1255d3afab70166adb15198eea"
+    },
+    {
+      "path": "build/baseline/cmake/full/ZXing/CMakeFiles/ZXing.dir/link.txt",
+      "bytes": 5348,
+      "sha256": "d5b0fe7bdb24cd2ce7feee83290887d7523b55fc32b0e809bf69df9841375c2b"
+    },
+    {
+      "path": "build/baseline/cmake/reader/_deps/stb-subbuild/CMakeCache.txt",
+      "bytes": 4442,
+      "sha256": "fa1da8bb551c7212c19f6fffceff8f0b67a7b759156ddc9017c390bf87104127"
+    },
+    {
+      "path": "build/baseline/cmake/reader/CMakeCache.txt",
+      "bytes": 18565,
+      "sha256": "60131579e385a5da38881fd9023e558e30f070c2bb7f4d2879b555de5dd4b8bf"
+    },
+    {
+      "path": "build/baseline/cmake/reader/CMakeFiles/zxing_reader.dir/flags.make",
+      "bytes": 514,
+      "sha256": "bf48799d9ba4fcd26231d6eae535ebc1bf99d638e632e93d031afa6256fa61c9"
+    },
+    {
+      "path": "build/baseline/cmake/reader/CMakeFiles/zxing_reader.dir/link.txt",
+      "bytes": 644,
+      "sha256": "a197daaf5d86ab90e655c2b01d920ea90af8d645b331af0c84aeae665a2f9846"
+    },
+    {
+      "path": "build/baseline/cmake/reader/phase-manifest.json",
+      "bytes": 1068,
+      "sha256": "725dc775fa5a29d92f976e196b243fa4f5b7fceae92e86559d5503cb5436980e"
+    },
+    {
+      "path": "build/baseline/cmake/reader/ZXing/CMakeFiles/ZXing.dir/flags.make",
+      "bytes": 22126,
+      "sha256": "0095449e1df17afec94d09c44adb9549abe6e594f5163878dc1a3a75d4b05bb7"
+    },
+    {
+      "path": "build/baseline/cmake/reader/ZXing/CMakeFiles/ZXing.dir/link.txt",
+      "bytes": 4061,
+      "sha256": "576dfc1afd00bcdea0968d42e98311854ec2c6dc974280252b02026952d297fb"
+    },
+    {
+      "path": "build/baseline/cmake/writer/_deps/stb-subbuild/CMakeCache.txt",
+      "bytes": 4442,
+      "sha256": "fa1da8bb551c7212c19f6fffceff8f0b67a7b759156ddc9017c390bf87104127"
+    },
+    {
+      "path": "build/baseline/cmake/writer/CMakeCache.txt",
+      "bytes": 18594,
+      "sha256": "9089924e7d75b3e58bcf3170cd864babf056d46118f0be2302c8ab074264a5ba"
+    },
+    {
+      "path": "build/baseline/cmake/writer/CMakeFiles/zxing_reader.dir/flags.make",
+      "bytes": 514,
+      "sha256": "bf48799d9ba4fcd26231d6eae535ebc1bf99d638e632e93d031afa6256fa61c9"
+    },
+    {
+      "path": "build/baseline/cmake/writer/CMakeFiles/zxing_reader.dir/link.txt",
+      "bytes": 644,
+      "sha256": "a197daaf5d86ab90e655c2b01d920ea90af8d645b331af0c84aeae665a2f9846"
+    },
+    {
+      "path": "build/baseline/cmake/writer/CMakeFiles/zxing_writer.dir/flags.make",
+      "bytes": 514,
+      "sha256": "14f07dce7dba4d66cf120e88c71fa48417571eb58a183a1be30d20e63987f5da"
+    },
+    {
+      "path": "build/baseline/cmake/writer/CMakeFiles/zxing_writer.dir/link.txt",
+      "bytes": 644,
+      "sha256": "0ade91d167e89b6b3ad6fe9ef9f482ab80e7fb504713f11e6804ef69c6697cfe"
+    },
+    {
+      "path": "build/baseline/cmake/writer/phase-manifest.json",
+      "bytes": 1409,
+      "sha256": "7eb1d3a43348d92729e890040158b648ef953a85912f6625e89e9a2ef55721a8"
+    },
+    {
+      "path": "build/baseline/cmake/writer/ZXing/CMakeFiles/ZXing.dir/flags.make",
+      "bytes": 9707,
+      "sha256": "30c2c75dc444b6557e679c1651bf26b3314299e70a977f4138c24c2ae8ec1a0c"
+    },
+    {
+      "path": "build/baseline/cmake/writer/ZXing/CMakeFiles/ZXing.dir/link.txt",
+      "bytes": 2190,
+      "sha256": "9298f936c3a1cf15b0e69e763081fbbb61861be96ca3e257ec261d917fd3ac4a"
+    },
+    {
+      "path": "build/baseline/cmake-version.txt",
+      "bytes": 91,
+      "sha256": "f6e81c2559f3ce00c5fdad01d7b226c301f5d6b07ee04f65db6dbfdc1cc5970b"
+    },
+    {
+      "path": "build/baseline/CMakeLists.txt",
+      "bytes": 2482,
+      "sha256": "709e68d8d7ee610f1cf732914b120ffa881ebfb7dbacc6aafb1cfc32c26d11fa"
+    },
+    {
+      "path": "build/baseline/cxxflags.txt",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "build/baseline/emcc-version.txt",
+      "bytes": 330,
+      "sha256": "7ab6d5e58a386e143e994545042cece661efbf3b038088cf3bb8c6410f984cb2"
+    },
+    {
+      "path": "build/baseline/node-version.txt",
+      "bytes": 9,
+      "sha256": "7703fd79909af9b17df6395137bee2b07c3f3b27b6e96e18c909f433cce84f19"
+    },
+    {
+      "path": "build/baseline/pnpm-version.txt",
+      "bytes": 7,
+      "sha256": "22ca0edbc38124758d5ae6e4fcf257a287bd68a4425dceaffa9f89aa74a98fcd"
+    },
+    {
+      "path": "build/compiled-build-binding-v5.json",
+      "bytes": 2069,
+      "sha256": "6831973add47709688a17744ea0090706c6783691202297d0b2984426d9b21d7"
+    },
+    {
+      "path": "build/compiled-build-binding.json",
+      "bytes": 1629,
+      "sha256": "80d2e7b3e780f8aa854bbd0ce666c8b7d11f6e1c70077c8e1efbe2bffe3898f5"
+    },
+    {
+      "path": "build/download-summary.json",
+      "bytes": 676,
+      "sha256": "9698b7d92908be75737ae123cb23d1a76a0db702d5824071d4b1bb538b6d52ad"
+    },
+    {
+      "path": "build/instrumented/build-evidence.json",
+      "bytes": 6331,
+      "sha256": "4d29f3aa08fa296e41a55d2cb11498f2d740b9aeb5d92a887bcc77c4dea4eac5"
+    },
+    {
+      "path": "build/instrumented/cmake/full/_deps/stb-subbuild/CMakeCache.txt",
+      "bytes": 4442,
+      "sha256": "fa1da8bb551c7212c19f6fffceff8f0b67a7b759156ddc9017c390bf87104127"
+    },
+    {
+      "path": "build/instrumented/cmake/full/CMakeCache.txt",
+      "bytes": 18617,
+      "sha256": "ee58a36884ddb1a74f180c179830dfa798258705e56cdfbad2d59afb6c745904"
+    },
+    {
+      "path": "build/instrumented/cmake/full/CMakeFiles/zxing_full.dir/flags.make",
+      "bytes": 548,
+      "sha256": "40277e41247554df5c284e2f973f2a5f6ee11890503f092f2db66428de1e7e8e"
+    },
+    {
+      "path": "build/instrumented/cmake/full/CMakeFiles/zxing_full.dir/link.txt",
+      "bytes": 663,
+      "sha256": "36b5df57669d426a2b4e78d137ef83341310752cedf8a504e0a6658bf25f6b32"
+    },
+    {
+      "path": "build/instrumented/cmake/full/CMakeFiles/zxing_reader.dir/flags.make",
+      "bytes": 539,
+      "sha256": "2788ef2bc16b37932bfe17f9b697caca86ed5b1ddccf0ef00926645fd399c137"
+    },
+    {
+      "path": "build/instrumented/cmake/full/CMakeFiles/zxing_reader.dir/link.txt",
+      "bytes": 669,
+      "sha256": "c51d4f3b0b8dcfaf2f983da8be8085ad12b96d484ae87baabbde39f7d4057be1"
+    },
+    {
+      "path": "build/instrumented/cmake/full/CMakeFiles/zxing_writer.dir/flags.make",
+      "bytes": 539,
+      "sha256": "dd65a035665e6baef4bef72dcca081310269323d8e2b9211980a8420fa10e510"
+    },
+    {
+      "path": "build/instrumented/cmake/full/CMakeFiles/zxing_writer.dir/link.txt",
+      "bytes": 669,
+      "sha256": "614d3f981771dd4e7561429ecf104c73d74351802a5d47a1a889861c5f4d87b6"
+    },
+    {
+      "path": "build/instrumented/cmake/full/phase-manifest.json",
+      "bytes": 1748,
+      "sha256": "c14b29df35246bf853642cb2df1fae6e1b455347238ec1f55d2b1a53bdb5c3b2"
+    },
+    {
+      "path": "build/instrumented/cmake/full/ZXing/CMakeFiles/ZXing.dir/flags.make",
+      "bytes": 27430,
+      "sha256": "d69bc82ef0f1d2449137cc816ce6477048def9c0e09c95f1814fd02bddf21a57"
+    },
+    {
+      "path": "build/instrumented/cmake/full/ZXing/CMakeFiles/ZXing.dir/link.txt",
+      "bytes": 5348,
+      "sha256": "e7851cb55634afceff733886d5b540b09cbfed5b3df0cf5a420a18926fb87f48"
+    },
+    {
+      "path": "build/instrumented/cmake/reader/_deps/stb-subbuild/CMakeCache.txt",
+      "bytes": 4442,
+      "sha256": "fa1da8bb551c7212c19f6fffceff8f0b67a7b759156ddc9017c390bf87104127"
+    },
+    {
+      "path": "build/instrumented/cmake/reader/CMakeCache.txt",
+      "bytes": 18590,
+      "sha256": "7186876e4b42adabf5fa7a904ea1f995ba117b251de160b4019b91dafd490740"
+    },
+    {
+      "path": "build/instrumented/cmake/reader/CMakeFiles/zxing_reader.dir/flags.make",
+      "bytes": 539,
+      "sha256": "2788ef2bc16b37932bfe17f9b697caca86ed5b1ddccf0ef00926645fd399c137"
+    },
+    {
+      "path": "build/instrumented/cmake/reader/CMakeFiles/zxing_reader.dir/link.txt",
+      "bytes": 669,
+      "sha256": "c51d4f3b0b8dcfaf2f983da8be8085ad12b96d484ae87baabbde39f7d4057be1"
+    },
+    {
+      "path": "build/instrumented/cmake/reader/phase-manifest.json",
+      "bytes": 1068,
+      "sha256": "b559419c9a01054bcee4bb6572417648508bb8b6ff6229e5cb44e05d00736fc2"
+    },
+    {
+      "path": "build/instrumented/cmake/reader/ZXing/CMakeFiles/ZXing.dir/flags.make",
+      "bytes": 22151,
+      "sha256": "eb082f1dc4804f33818de5a42f318abe70b2f3ad971ea30414581466e6b21cd3"
+    },
+    {
+      "path": "build/instrumented/cmake/reader/ZXing/CMakeFiles/ZXing.dir/link.txt",
+      "bytes": 4061,
+      "sha256": "422514f6035f03fde5f4a3e78e0edc94c23406ec30ae96f419258122c7140eb2"
+    },
+    {
+      "path": "build/instrumented/cmake/writer/_deps/stb-subbuild/CMakeCache.txt",
+      "bytes": 4442,
+      "sha256": "fa1da8bb551c7212c19f6fffceff8f0b67a7b759156ddc9017c390bf87104127"
+    },
+    {
+      "path": "build/instrumented/cmake/writer/CMakeCache.txt",
+      "bytes": 18619,
+      "sha256": "8bf72c46633b48c8365314f994976158800d45bb3180b61ae81a5ac5862e391c"
+    },
+    {
+      "path": "build/instrumented/cmake/writer/CMakeFiles/zxing_reader.dir/flags.make",
+      "bytes": 539,
+      "sha256": "2788ef2bc16b37932bfe17f9b697caca86ed5b1ddccf0ef00926645fd399c137"
+    },
+    {
+      "path": "build/instrumented/cmake/writer/CMakeFiles/zxing_reader.dir/link.txt",
+      "bytes": 669,
+      "sha256": "c51d4f3b0b8dcfaf2f983da8be8085ad12b96d484ae87baabbde39f7d4057be1"
+    },
+    {
+      "path": "build/instrumented/cmake/writer/CMakeFiles/zxing_writer.dir/flags.make",
+      "bytes": 539,
+      "sha256": "dd65a035665e6baef4bef72dcca081310269323d8e2b9211980a8420fa10e510"
+    },
+    {
+      "path": "build/instrumented/cmake/writer/CMakeFiles/zxing_writer.dir/link.txt",
+      "bytes": 669,
+      "sha256": "614d3f981771dd4e7561429ecf104c73d74351802a5d47a1a889861c5f4d87b6"
+    },
+    {
+      "path": "build/instrumented/cmake/writer/phase-manifest.json",
+      "bytes": 1409,
+      "sha256": "cfbbed5894f4142a98e74c1f92e9b65832090c7bafeba9cf25952194f00a5f80"
+    },
+    {
+      "path": "build/instrumented/cmake/writer/ZXing/CMakeFiles/ZXing.dir/flags.make",
+      "bytes": 9732,
+      "sha256": "4c2040fc57c117b79689b8ecc4ac56cb808fec8ffde42a217316df62dc21fcf0"
+    },
+    {
+      "path": "build/instrumented/cmake/writer/ZXing/CMakeFiles/ZXing.dir/link.txt",
+      "bytes": 2190,
+      "sha256": "166415d76dd8dc4777a92375bb872ec600dd1b82462d223d8c725e65af3b86a1"
+    },
+    {
+      "path": "build/instrumented/cmake-version.txt",
+      "bytes": 91,
+      "sha256": "f6e81c2559f3ce00c5fdad01d7b226c301f5d6b07ee04f65db6dbfdc1cc5970b"
+    },
+    {
+      "path": "build/instrumented/CMakeLists.txt",
+      "bytes": 2482,
+      "sha256": "709e68d8d7ee610f1cf732914b120ffa881ebfb7dbacc6aafb1cfc32c26d11fa"
+    },
+    {
+      "path": "build/instrumented/cxxflags.txt",
+      "bytes": 26,
+      "sha256": "5365c6d652c35d21b6aac3767b491e7c878d923a189eb81786656bda023e2a82"
+    },
+    {
+      "path": "build/instrumented/emcc-version.txt",
+      "bytes": 330,
+      "sha256": "7ab6d5e58a386e143e994545042cece661efbf3b038088cf3bb8c6410f984cb2"
+    },
+    {
+      "path": "build/instrumented/node-version.txt",
+      "bytes": 9,
+      "sha256": "7703fd79909af9b17df6395137bee2b07c3f3b27b6e96e18c909f433cce84f19"
+    },
+    {
+      "path": "build/instrumented/pnpm-version.txt",
+      "bytes": 7,
+      "sha256": "22ca0edbc38124758d5ae6e4fcf257a287bd68a4425dceaffa9f89aa74a98fcd"
+    },
+    {
+      "path": "build/workflow-run.json",
+      "bytes": 4916,
+      "sha256": "a2b0a60a03eeb644e2ce3497313a5cc8d642def2f7e69a6e856f6f3cb6f7e6ed"
+    },
+    {
+      "path": "case-review/file-inventory.json",
+      "bytes": 963,
+      "sha256": "43cecde79c28e819c0e4acc2e7c8de7c8fc4df81862ace30c2132164a061d11c"
+    },
+    {
+      "path": "case-review/FINDINGS.md",
+      "bytes": 4873,
+      "sha256": "076fc0e100eb8cc50b541e5bac54f01eb2edc6abc96700f14478197c18367750"
+    },
+    {
+      "path": "case-review/README.md",
+      "bytes": 1811,
+      "sha256": "f5472ffee17f174488c6b44b503c9b9861df99c6643b9527d6ac4f067920bef3"
+    },
+    {
+      "path": "case-review/results.json",
+      "bytes": 137316,
+      "sha256": "245dbd056c7d7217d1886f741ff88f1d1aa683d5871dbc44ab007f86579a3ca5"
+    },
+    {
+      "path": "case-review/review-actual-cases.py",
+      "bytes": 10775,
+      "sha256": "d8f74857fcb7f6929d60ae591fe5af0389c167ebc4acf912d8878c7cb2e6fa70"
+    },
+    {
+      "path": "case-review/run-observation.json",
+      "bytes": 431,
+      "sha256": "91ddac8c61470d5245b52bc7d6bfc5205c1f06ad17b333e48e7983bf2b92c0fb"
+    },
+    {
+      "path": "derived-review/package-inventory.json",
+      "bytes": 573,
+      "sha256": "7458dce6b79954e48289b512772f2a525922d18115a9cd4411f273137c003164"
+    },
+    {
+      "path": "derived-review/README.md",
+      "bytes": 1741,
+      "sha256": "b5ff4bbefa1f674a74043b4da266bcf20f1137f70409dd4dc7f1e4d0351ded00"
+    },
+    {
+      "path": "derived-review/review.json",
+      "bytes": 4939,
+      "sha256": "cb4cd22fa51552fe4a332fe11703869dbe497b0644738fd04923f540e1ac1b4f"
+    },
+    {
+      "path": "derived-review/review.py",
+      "bytes": 13823,
+      "sha256": "a3ecc256974dfb026a42d1ea8ac9b0adcdf08ca52929656dcdfb0460b0cce3e4"
+    },
+    {
+      "path": "execution/execution-binding.json",
+      "bytes": 3044,
+      "sha256": "9ddff614c3f85ffb0050c5d1e0296f9993274293a412cc285efc38b7a845d6b1"
+    },
+    {
+      "path": "execution/execution-file-inventory.json",
+      "bytes": 30923,
+      "sha256": "f1f892418a44f30915ae807039b7a7fc70866da131e4fa8943a916e550453206"
+    },
+    {
+      "path": "execution/paired-records.jsonl.gz",
+      "bytes": 18706,
+      "sha256": "acd67fea840d730ee91605b93aee95d189f2c1db7a1979b2242d46eb2a817aaa"
+    },
+    {
+      "path": "execution/summary.json",
+      "bytes": 908,
+      "sha256": "8c90ec1ae13ff0440495e7987f55ac3ef1268dc3782f6c271841522d9286f36d"
+    },
+    {
+      "path": "gate-review/audit-facts.json",
+      "bytes": 897,
+      "sha256": "fcd3becf13c0ecd10b4ca4013ffdf9ed93ceea8e2f769446bee66abed68676b4"
+    },
+    {
+      "path": "gate-review/package-inventory.json",
+      "bytes": 941,
+      "sha256": "fa65d0bf582fb4846f2b4ccf2f775a2bc66583f95638c29150cbd09793460178"
+    },
+    {
+      "path": "gate-review/README.md",
+      "bytes": 2172,
+      "sha256": "ae3de22be4e797b17d8a2b8fd35d1188988353a7b8a4f301b3965159275010a5"
+    },
+    {
+      "path": "gate-review/retained-verifier-validation.json",
+      "bytes": 874,
+      "sha256": "06f4459953a8a2ee1290bd6c850ca8f05a8592f398332de4deb263597b328df7"
+    },
+    {
+      "path": "gate-review/verifier-development-observation.json",
+      "bytes": 708,
+      "sha256": "f8cf4518b8aa24f6ce75e4c78f200019af3d7d338ef42f4bb6fb4e0b794db60c"
+    },
+    {
+      "path": "gate-review/verify-gate.py",
+      "bytes": 15651,
+      "sha256": "ac69d728122004c342ee96ad3bd07da0a10349fb71bb728f22f32446c0bd5608"
+    },
+    {
+      "path": "input-references.json",
+      "bytes": 14508,
+      "sha256": "ea245e397b3bc11fdbbe976f935bbd706e57a92dbad28b7ba5dee3fefd956e66"
+    },
+    {
+      "path": "interpreter-v6/collector-compare-schema-fixture.json",
+      "bytes": 3240,
+      "sha256": "8397261117c1759ed1733d7e3ce32d47e3c68eec6f328f7b44f9bdb4280c47e5"
+    },
+    {
+      "path": "interpreter-v6/failed-v5-invocation-observations.json",
+      "bytes": 1698,
+      "sha256": "4364186455bcafdef4d082e7475e7b58902bf1c1f8836615db41ff8a7edefe96"
+    },
+    {
+      "path": "interpreter-v6/freeze-manifest.json",
+      "bytes": 2853,
+      "sha256": "43db13eb66cb48eb10b65719805aaba1ff16423372d53fbd02ed230a472a6de3"
+    },
+    {
+      "path": "interpreter-v6/interpret.py",
+      "bytes": 40084,
+      "sha256": "18a5cc534254bd05c439d05d4cf9bfdfae60388811a578c15a70b23314f98e41"
+    },
+    {
+      "path": "interpreter-v6/INTERPRETER-AMENDMENT.md",
+      "bytes": 1405,
+      "sha256": "c89ed3ac0dffbc4fe07654a7dd5f46e7e38dea1d06e0a25698c690e534e0c240"
+    },
+    {
+      "path": "interpreter-v6/peer-review-observation.json",
+      "bytes": 916,
+      "sha256": "1e9e6dbdc19334e884e9c9b732f5fded2c62ad778c9ce007c37a40d63c3612f2"
+    },
+    {
+      "path": "interpreter-v6/previous-original-freeze-manifest.json",
+      "bytes": 974,
+      "sha256": "ac8b67b5abe8cd598c29496950bfa2c64fe1741714f3427f7907878450ed234b"
+    },
+    {
+      "path": "interpreter-v6/previous-v5-freeze-manifest.json",
+      "bytes": 2023,
+      "sha256": "e57aff951d5de62da7c8695a86c7e794014973de045f578d951cc5783207568d"
+    },
+    {
+      "path": "interpreter-v6/README.md",
+      "bytes": 5341,
+      "sha256": "bc2d406e4a20e48417c43f96c21c381ef4a17a1db7b945d92c9a84760157d539"
+    },
+    {
+      "path": "interpreter-v6/source-amendment-check.json",
+      "bytes": 1499,
+      "sha256": "a0afc13993285adfdeb44b6c5b8d2b0a162afd307f378caa687c588bcecb6ec9"
+    },
+    {
+      "path": "interpreter-v6/syntax-check.json",
+      "bytes": 542,
+      "sha256": "55f8fbd3d75870c0f03c27786170444782414535c57e4d6aa90cbc72d800fc6a"
+    },
+    {
+      "path": "interpreter-v6/synthetic-check.json",
+      "bytes": 1856,
+      "sha256": "a303eeaa58e29ba662ea4e7312d80d645c603399b0dff6efc399999283c00625"
+    },
+    {
+      "path": "interpreter-v6/verify-source-amendment.py",
+      "bytes": 5043,
+      "sha256": "4cd2788c9a6c8859f2d7261a7732d430fd10bb9ad4819a69e9986d60fa2d6ee6"
+    },
+    {
+      "path": "interpreter-v6/verify-synthetic.py",
+      "bytes": 13570,
+      "sha256": "010d37f52fd5b8518f927bf59ad2e0b41f8bf0c975071975791f9b299ca9de76"
+    },
+    {
+      "path": "preparation-v5/accessor-audit.json",
+      "bytes": 4196,
+      "sha256": "5570d2b3f8f0dea2b351dfcd977640596a9bb0434ddec71dee7ab5074d4a4155"
+    },
+    {
+      "path": "preparation-v5/actual-row-trace.patch",
+      "bytes": 32465,
+      "sha256": "0d4213a7b7eeeefa5b8cad7772920ac53d886c7be60607745ef24df8815d53cd"
+    },
+    {
+      "path": "preparation-v5/amendment-check.json",
+      "bytes": 1288,
+      "sha256": "486e459214c024ae52101a6a111779f2e23c4dd89100f032a75bd581374fd930"
+    },
+    {
+      "path": "preparation-v5/build-failure-provenance.json",
+      "bytes": 1241,
+      "sha256": "1e0dd2782c11c0d535f79abdd2031189202a006e973a388cda31f1ad0dcf3eb7"
+    },
+    {
+      "path": "preparation-v5/cache-verifier-check.json",
+      "bytes": 1950,
+      "sha256": "5a6e1f8ed4ac78439be0cb4e1f1d8b30262518e70d0c9fb6f34d1e058d5691a1"
+    },
+    {
+      "path": "preparation-v5/capture-build-evidence.mjs",
+      "bytes": 4419,
+      "sha256": "1248c47a6c1bafae89bbf28c6f22b3027790fa26a2d4479dba4b66c4823f9c18"
+    },
+    {
+      "path": "preparation-v5/compiled-build-reuse-amendment.json",
+      "bytes": 4706,
+      "sha256": "68a00b3e0a99b290fcd1da3b88f01ea00821f11b8cef20b9c14923a05c6d0261"
+    },
+    {
+      "path": "preparation-v5/diagnostic-build.yml",
+      "bytes": 5475,
+      "sha256": "8682b9cee5e6080caf4085edeec991f9c2be0ecf732f7671348b391c5a481f65"
+    },
+    {
+      "path": "preparation-v5/failed-v4-execution/execution-binding.json",
+      "bytes": 2608,
+      "sha256": "85c7d9f1c1dea04f8c6a5e83f5507ff97d83ee25445aabb29074f53753922dc5"
+    },
+    {
+      "path": "preparation-v5/failed-v4-execution/execution-file-inventory.json",
+      "bytes": 886,
+      "sha256": "b924a8b3a524ad42c6305b6469da6b0fc76e0123248b5298a499da4d47b67c6f"
+    },
+    {
+      "path": "preparation-v5/failed-v4-execution/paired-records.jsonl.gz",
+      "bytes": 425,
+      "sha256": "869f925d0a34372d2391cbabf5e6c8c301b69508afdb7d4269ec677bcc45243a"
+    },
+    {
+      "path": "preparation-v5/failed-v4-execution/summary.json",
+      "bytes": 691,
+      "sha256": "57e5f87eda07dc984a755a61345658e6e45b92c7cf8ce36ed3ebdfe5fa77fa82"
+    },
+    {
+      "path": "preparation-v5/failed-v4-execution/traces/000-baseline.stderr.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "preparation-v5/failed-v4-execution/traces/000-instrumented.stderr.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "preparation-v5/first-instrumented-build.log.gz",
+      "bytes": 11951,
+      "sha256": "63b15709fc221bd3230378c443a9326602cecc82ba43fe713aa62da6e8ac787f"
+    },
+    {
+      "path": "preparation-v5/freeze-manifest.json",
+      "bytes": 9892,
+      "sha256": "136216bb38f48aff447ef6408496bde8f19b2edfdc58e03064be479563fc5cb9"
+    },
+    {
+      "path": "preparation-v5/freeze-package.py",
+      "bytes": 1288,
+      "sha256": "be91cad7368a5bd3c511c6d720aeeb87e35e6073cc52e6a0ccc706859d13f6dc"
+    },
+    {
+      "path": "preparation-v5/freeze-plan.mjs",
+      "bytes": 5139,
+      "sha256": "43e94ae13d3515f81fdc65390715e1c25d8abae9ce8364d5c618ee270fcd964e"
+    },
+    {
+      "path": "preparation-v5/frozen-plan.json",
+      "bytes": 76649,
+      "sha256": "a548442961019070d44787c174f31253b4dc65ecfacc70005b6f3f212b300d09"
+    },
+    {
+      "path": "preparation-v5/instrumented-source/core/src/GlobalHistogramBinarizer.cpp",
+      "bytes": 6603,
+      "sha256": "ab14d7e9e171414a650cc63a6f9ac1d771acb028031bd521fd3f5c919c34c5d7"
+    },
+    {
+      "path": "preparation-v5/instrumented-source/core/src/MultiFormatReader.cpp",
+      "bytes": 3597,
+      "sha256": "b9194c5eb6ca1d9fe8d36e317ac2bbac8de265716b208379b00976912656e86a"
+    },
+    {
+      "path": "preparation-v5/instrumented-source/core/src/oned/ODMultiUPCEANReader.cpp",
+      "bytes": 11913,
+      "sha256": "b19f01a0d1a1fdf135bcb6f04134b97f7bfcce6100e0ac8972ccea7f20b31d7e"
+    },
+    {
+      "path": "preparation-v5/instrumented-source/core/src/oned/ODReader.cpp",
+      "bytes": 14689,
+      "sha256": "aa459963118abfd55fb6a523f8c2b90e870e00b80da34ed78c38984c9e7f1ff1"
+    },
+    {
+      "path": "preparation-v5/instrumented-source/core/src/oned/ODRowReader.h",
+      "bytes": 8005,
+      "sha256": "1f50d579928183bf7ed3da802b96c52b7c93268a4132d15251457da4d9de480e"
+    },
+    {
+      "path": "preparation-v5/instrumented-source/core/src/Pattern.h",
+      "bytes": 14738,
+      "sha256": "c3eaedeb80ffd855ac8007648efe33ffb0965a309a40866913edf91a802715ad"
+    },
+    {
+      "path": "preparation-v5/instrumented-source/core/src/QRGenRowTrace.h",
+      "bytes": 8110,
+      "sha256": "3e0d114600817d6825f1b16f2aa3bcf51d95f11ec90914bdf049d6445dd53e33"
+    },
+    {
+      "path": "preparation-v5/instrumented-source/core/src/ReadBarcode.cpp",
+      "bytes": 13600,
+      "sha256": "06c06ae2a324c89bafb000411cae58560f6fa5c64836352506aa5c8ebde8bcd8"
+    },
+    {
+      "path": "preparation-v5/local-file-check-observation.json",
+      "bytes": 616,
+      "sha256": "520ea76c6eac3007ef3ef84c2c7f5259a301f63c60c5131f83b92fe01807c071"
+    },
+    {
+      "path": "preparation-v5/local-probe-preparation-observation.json",
+      "bytes": 691,
+      "sha256": "056c15cd08af434fc0a97a02c637559e9dd1b01ecbe70f090d307607dee1d2f2"
+    },
+    {
+      "path": "preparation-v5/LOCAL-RESOLUTION-AMENDMENT.md",
+      "bytes": 2993,
+      "sha256": "1df99a62f87674cda2ba6e9a1a1ce5d2ab6fbd1d9d0192d361991e43208593ab"
+    },
+    {
+      "path": "preparation-v5/local-resolution-check.json",
+      "bytes": 2821,
+      "sha256": "50ef8595f092225a952678823e16f2df73d8841143f4d0e9168d60fb2197d020"
+    },
+    {
+      "path": "preparation-v5/patch-application-check.json",
+      "bytes": 583,
+      "sha256": "20c2108670a85f35f2c2ae2fa4e2ee8532996131738664e510c7df547fea5a18"
+    },
+    {
+      "path": "preparation-v5/patch-application-first-attempt-observation.json",
+      "bytes": 2201,
+      "sha256": "3a70e43184c465f87ec85879cf9f5ca37bc7ffed10da74f87a682a62008d0ca5"
+    },
+    {
+      "path": "preparation-v5/patch-metadata.json",
+      "bytes": 3221,
+      "sha256": "9badab55108636ccb14f4aed86da3d2a4c6bcf088a233671f451529daa22fe8e"
+    },
+    {
+      "path": "preparation-v5/prepare-instrumentation.py",
+      "bytes": 21180,
+      "sha256": "66f9f2c4ce02cd6af5ab86c92d2856ffcdfa659ced36887b000b891e1db2372a"
+    },
+    {
+      "path": "preparation-v5/PROTOCOL.md",
+      "bytes": 5773,
+      "sha256": "3fc42647c6ce964ae38d506542ac3f1b49a6d40e6480787bf5712c54a3f870b2"
+    },
+    {
+      "path": "preparation-v5/QRGenRowTrace.h",
+      "bytes": 8110,
+      "sha256": "3e0d114600817d6825f1b16f2aa3bcf51d95f11ec90914bdf049d6445dd53e33"
+    },
+    {
+      "path": "preparation-v5/README.md",
+      "bytes": 5630,
+      "sha256": "50d27bdfa72acc36a17bf85411a049b996b348336042be35412b9310217de622"
+    },
+    {
+      "path": "preparation-v5/REVIEW-AMENDMENT.md",
+      "bytes": 3068,
+      "sha256": "2a7b86cb739c77f71266d836fc3b7cafa2b7b704a195bc591d477a13760d485c"
+    },
+    {
+      "path": "preparation-v5/run-paired.mjs",
+      "bytes": 15577,
+      "sha256": "9c9fc956a418120c922b2fb52fa1063b5b9245ae7b1f542a3e4f724caca13e34"
+    },
+    {
+      "path": "preparation-v5/snapshot-build-phase.py",
+      "bytes": 1226,
+      "sha256": "24597cba3876e9e4b31f3369225055fed350584d70d9f18d38ca27fb3c8cc109"
+    },
+    {
+      "path": "preparation-v5/syntax-check.json",
+      "bytes": 483,
+      "sha256": "598bc1232742b55961b4330896f0c87d38aa2a5ed8c0398464899defe3ccfe93"
+    },
+    {
+      "path": "preparation-v5/v1-provenance.json",
+      "bytes": 4534,
+      "sha256": "de34d74405e02dfa1e6b21798c0954e7c60368c897c8661b0c965dec23f8a4ed"
+    },
+    {
+      "path": "preparation-v5/v2-provenance.json",
+      "bytes": 5354,
+      "sha256": "648b3fe0283618fd19a89c1fa63f014f05dcf18c760e23a2ca21d93cf49b4fe3"
+    },
+    {
+      "path": "preparation-v5/v3-build-attempt-artifact-metadata.json.gz",
+      "bytes": 553,
+      "sha256": "86bb836856187706ce8310cbf56a3f86afbfbac98374146e1e30691754dc7ea4"
+    },
+    {
+      "path": "preparation-v5/v3-build-attempt-download-summary.json.gz",
+      "bytes": 387,
+      "sha256": "56bdc80f4b5be6e0d9cb22f8fd22ae57f158ede91ba011bd626923af9204318b"
+    },
+    {
+      "path": "preparation-v5/v3-build-attempt-workflow-run.json.gz",
+      "bytes": 753,
+      "sha256": "5f0a816499950eafb6ed9fdb34a88311efecc63cc1adff0b0265630f1157cd47"
+    },
+    {
+      "path": "preparation-v5/v3-build-failure-provenance.json",
+      "bytes": 2448,
+      "sha256": "b1adbdac75c4f0127c915624ffc5f0ef0e7aa9c9116ef0ed1c4d2910db4bb06d"
+    },
+    {
+      "path": "preparation-v5/v3-provenance.json",
+      "bytes": 6332,
+      "sha256": "bda0612febf2dd92d7fb11aedeaf54d015b4a01356ef398ab6cb0e10ff5706db"
+    },
+    {
+      "path": "preparation-v5/v4-execution-failure-provenance.json",
+      "bytes": 1624,
+      "sha256": "f6927e73314a72a13c5f7c31b513dbcf903d2e0b8123d93bc3fe959d105c4710"
+    },
+    {
+      "path": "preparation-v5/v4-provenance.json",
+      "bytes": 7618,
+      "sha256": "a3d3730af04be4d53b078b412e5c5a9102fcced78c090d93ce2946aab5caeb4a"
+    },
+    {
+      "path": "preparation-v5/validation-only-confirmation.json",
+      "bytes": 1390,
+      "sha256": "bb5030bcbab3180d39ed59b8b8b70eebe53333a3e95fa2b4f86288de1c6bb230"
+    },
+    {
+      "path": "preparation-v5/verify-build-inputs.py",
+      "bytes": 1327,
+      "sha256": "a3883177553ffb0f2a5e2817a74880b283c15c89b90c67a846e0f45f0e65ab7b"
+    },
+    {
+      "path": "preparation-v5/verify-v4-caches.mjs",
+      "bytes": 5679,
+      "sha256": "7b752dc124d1f45f3425e213218d44231874c7bca41367a103e31cdfdbab709b"
+    },
+    {
+      "path": "preparation-v5/verify-v5-amendment.py",
+      "bytes": 6412,
+      "sha256": "cac269c6b0006e76a8625af34eb1b27a793c699468822aa1ea20b399cd5f43d0"
+    },
+    {
+      "path": "preparation-v5/verify-v5-local-resolution.mjs",
+      "bytes": 4633,
+      "sha256": "ea400cc57485a8def0274d0899346e3c03aa334f5aa9ced128fa4004e376dfd3"
+    },
+    {
+      "path": "preparation-v5/verify-validation-only.mjs",
+      "bytes": 3599,
+      "sha256": "135a4d41956d54a449ecdde26379e10c9372622b731173a0c3730d9837722bb7"
+    },
+    {
+      "path": "README.md",
+      "bytes": 7575,
+      "sha256": "3ceb920df25c7aaca95e8a560f2265a5a1d99f95d03937929067066c90413c39"
+    },
+    {
+      "path": "reconstruction/analysis-file-inventory.json",
+      "bytes": 503,
+      "sha256": "2f42d0f7fed0f5843c802eefd91e34da1f143f867b261763188032db09bd9918"
+    },
+    {
+      "path": "reconstruction/comparisons.json.gz",
+      "bytes": 365300,
+      "sha256": "206f917d576d0d717d84333b2a8e33a985a4114c749dd467d77bd42c3b8edeea"
+    },
+    {
+      "path": "reconstruction/profile-analysis.jsonl.gz",
+      "bytes": 3398822,
+      "sha256": "5cc9cca49ed05efed7c2a28085aa92dbe80ff6ba80a87926a20aedaa98ec0a6b"
+    },
+    {
+      "path": "reconstruction/summary.json",
+      "bytes": 9884,
+      "sha256": "b67065b93893286ee736e9b18218a0c32e539b1466b882721bf43cbd2b6b5d3d"
+    },
+    {
+      "path": "source-copy-inventory.json",
+      "bytes": 90647,
+      "sha256": "ae19c8442f2d1fe78187be7584d4794c76707b4309ea8d6711ac73d2f38e4ab9"
+    },
+    {
+      "path": "ZXING-LICENSE.txt",
+      "bytes": 13320,
+      "sha256": "3f62881f0566227a24b12e5a754cc79f39aaa94883038e95c94812e1f50af42f"
+    },
+    {
+      "path": "ZXING-NOTICE.txt",
+      "bytes": 664,
+      "sha256": "4db4b60aace29ec6c5c4f13ca9cac1930d3c0c54bcc67dceead0c10771120e66"
+    }
+  ]
+}

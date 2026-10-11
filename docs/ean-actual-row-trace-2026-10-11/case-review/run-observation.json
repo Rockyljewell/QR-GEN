@@ -1,0 +1,15 @@
+{
+  "scope": "Bounded file-only case review; not a full interpreter or recognition run.",
+  "exitCode": 0,
+  "stdout": {
+    "status": "file-only-case-checks-passed",
+    "scoreCases": 12,
+    "focusProfiles": 24,
+    "controlProfiles": 18,
+    "readerImports": 0,
+    "recognitionCalls": 0,
+    "fullInterpreterRuns": 0
+  },
+  "stderr": "",
+  "pythonVersion": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]"
+}

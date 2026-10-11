@@ -1,0 +1,26 @@
+{
+  "recordKind": "Separate retained-verifier validation; no recognition rerun",
+  "status": "passed-file-only-gate-audit",
+  "profiles": 90,
+  "pairedCalls": 180,
+  "inventoryFiles": 183,
+  "inventoryBytes": 355748312,
+  "publicOutputMismatches": 0,
+  "readerErrors": 0,
+  "inputMutations": 0,
+  "incompleteTraces": 0,
+  "traceTransportErrors": 0,
+  "traceEvents": 931395,
+  "traceBytes": 355725654,
+  "maximumPerTrace": {
+    "lineBytes": 1090,
+    "events": 56157,
+    "bytes": 22578423
+  },
+  "executionInventorySha256": "f1f892418a44f30915ae807039b7a7fc70866da131e4fa8943a916e550453206",
+  "summarySha256": "8c90ec1ae13ff0440495e7987f55ac3ef1268dc3782f6c271841522d9286f36d",
+  "pairedRecordsGzipSha256": "acd67fea840d730ee91605b93aee95d189f2c1db7a1979b2242d46eb2a817aaa",
+  "readerImports": 0,
+  "engineCallsDuringAudit": 0,
+  "historyInterpretationPerformed": false
+}

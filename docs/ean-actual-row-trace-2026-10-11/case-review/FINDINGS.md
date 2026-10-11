@@ -1,0 +1,24 @@
+The actual unchanged-policy traces explain both false readings, but do not establish a safe new production filter for /35. This bounded review follows the successful 90-profile paired and reconstruction gates. It checks existing files only: 24 focused profiles, 12 accepted-candidate score cases, two /07 terminal schedules and 18 same-payload/occlusion control profiles. No reader call, full interpreter rerun or recognition-policy change occurred.
+
+For derived and actual-Chrome /07, fast search returns no code at every limit. Hard search returns only the wrong `0798884816632` at max1/max2/max255. Its two supporting horizontal scanlines are y209 and y207, spanning x188–424. Actual recorded scores at both lines admit eight equal-best digit-pattern combinations; two complete words satisfy existing EAN13 parity and checksum: `0798884816632` and `9780804816632`. This corroborates the separately studied whole-word ambiguity mechanism. It neither recovers the correct output nor tests the candidate implementation in this baseline trace run; it makes no new UPC-A-only policy claim.
+
+For /35, hard search produces these counts of accepted supporting lines per returned payload:
+
+| Input | Limit | `5030159003930` | Wrong `7034759003930` | Scheduled rows |
+| --- | ---: | ---: | ---: | ---: |
+| Original | 1 | 2 | 0 | 485 |
+| Original | 2 | 7 | 2 | 632 |
+| Original | 255 | 8 | 3 | 1120 |
+| Derived | 1 | 2 | 0 | 499 |
+| Derived | 2 | 5 | 2 | 592 |
+| Derived | 255 | 6 | 5 | 1120 |
+
+The wrong max255 support comes from rotated scans, which map to original x264/244/241 for the original and x265/264/244/243/241 for the derived image. These are checksum-valid parser returns accepted into a separate collector group, not duplicate copies introduced by the wrapper. Each of these eight recorded score cases has four exact-best combinations, two parity-valid words, and only `7034759003930` satisfying checksum. The other parity-valid word, `7034859003930`, fails checksum. The existing multiple-complete-word ambiguity criterion therefore does not reject /35. Bare digit-tie rejection would be a broader policy; previous frozen work already showed correct-read losses under that approach.
+
+Max1 is an acquisition policy, not an output truncation. It exits after the first supported group and can also change scan spacing. For /07 max2, one horizontal result leaves a rotated budget of one. Pinned `ODReader.cpp` lines 93–97 and 324–325 then select rowStep2 over a rotated height640; max255 leaves budget254 and selects rowStep1. The two observed max2 cases cover every one of the 320 even rotated rows, including row0, then propose row640 at normal iteration320. The terminal records have an empty pending-check stack and zero rotated groups. Total rows are 480+320=800 instead of 480+640=1120. No abandoned pending checks or omitted row from the intended step2 lattice is demonstrated. The odd rows are deliberately unsampled by the existing heuristic; these records do not justify changing the bounds check or choosing max1 to hide false results.
+
+Returned positions are collector representative quadrilaterals. They are neither complete physical support masks nor guaranteed unions enclosing every historical contribution. In original /35 fast max2/max255, contributions are x300,302,301; merge event630 replaces a boundary and contracts the returned span from x300–302 to301–302. Source lines 227–235 replace one endpoint pair using distance/tie comparisons; they do not average all contributions. The separate contribution history retains x300.
+
+The two-same-payload aligned control contains two saved, distinct PNG placements. Max1 returns one group supported twice only in placement1. At fast max2/max255, one group contains17 contributions:6 from placement0 and11 from placement1. At hard max2/max255, one group contains400 contributions,200 from each placement. The collector thus combines two known physical labels into one returned result in this control. Single-label white-band controls also combine disconnected supporting regions: hard max2/max255 support196 lines for band4 and184 for band16. Text deduplication, projected overlap, a support majority, or a chosen gap threshold does not establish physical identity from these observations.
+
+No new /35 decoder or collector fix is safely established by this study. A next bounded experiment can freeze a proposed physical-identity rule and independent controls before evaluation, including repeated payloads, distinct aligned labels, rotations, offsets and single occluded labels, and compare accepted/rejected row histories against independently specified placements. The current results supply diagnostic mechanisms and counterexamples; they do not select a rule, threshold or alternate payload. They are known examples and controls, not held-out accuracy evidence or a Scandit parity claim.

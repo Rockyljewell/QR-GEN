@@ -1,0 +1,35 @@
+{
+  "scope": "Two distinct parent-reported invocation observations, transcribed from the root task assignment. No original stdout/stderr archive or complete command line was supplied to this preparation.",
+  "source": "Root message assigning immutable analysis-v6 amendment",
+  "analysisV5ManifestSha256": "e57aff951d5de62da7c8695a86c7e794014973de045f578d951cc5783207568d",
+  "analysisV5CodeSha256": "3f51eee1579fe061e2828b5b117cd9abc6c45ae9aab76c32c8478009fe56d09c",
+  "successfulPairedExecutionUnchanged": {
+    "directory": "ean-actual-row-trace-execution-v5-run-01",
+    "inventorySha256": "f1f892418a44f30915ae807039b7a7fc70866da131e4fa8943a916e550453206",
+    "pairedGzipSha256": "acd67fea840d730ee91605b93aee95d189f2c1db7a1979b2242d46eb2a817aaa",
+    "completedProfiles": 90,
+    "readerCalls": 180
+  },
+  "observations": [
+    {
+      "ordinal": 1,
+      "argumentCount": 2,
+      "classification": "CLI usage failure: successful execution path omitted",
+      "outcome": "Failed before creating an output directory",
+      "observationAuthority": "Parent report; no independent reproduction",
+      "rawStdoutOrStderrArchiveIncludedHere": false
+    },
+    {
+      "ordinal": 2,
+      "argumentCount": 3,
+      "classification": "File-only reconstruction schema lookup failure",
+      "reportedException": "KeyError: 'result'",
+      "producerField": "decision",
+      "outcome": "Failed before creating an output directory",
+      "observationAuthority": "Parent report; exact source mismatch independently confirmed by file-only inspection",
+      "rawStdoutOrStderrArchiveIncludedHere": false
+    }
+  ],
+  "readerCallsByThisAmendment": 0,
+  "actualTracePayloadReadsByThisAmendment": 0
+}

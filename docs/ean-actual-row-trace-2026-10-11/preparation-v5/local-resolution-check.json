@@ -1,0 +1,82 @@
+{
+  "scope": "Pure extracted-function and local filename probes using synthetic bytes, not reader/glue execution or WASM instantiation.",
+  "checks": [
+    {
+      "name": "exact-local-name-empty-prefix-resolves-to-pinned-path",
+      "passed": true
+    },
+    {
+      "name": "reject-name-zxing_writer.wasm",
+      "passed": true
+    },
+    {
+      "name": "reject-name-zxing_full.wasm",
+      "passed": true
+    },
+    {
+      "name": "reject-name-../zxing_reader.wasm",
+      "passed": true
+    },
+    {
+      "name": "reject-name-https://example.invalid/zxing_reader.wasm",
+      "passed": true
+    },
+    {
+      "name": "reject-name-file:///other/zxing_reader.wasm",
+      "passed": true
+    },
+    {
+      "name": "reject-name-zxing_reader.wasm?x=1",
+      "passed": true
+    },
+    {
+      "name": "reject-name-ZXING_READER.WASM",
+      "passed": true
+    },
+    {
+      "name": "reject-name-%7Azxing_reader.wasm",
+      "passed": true
+    },
+    {
+      "name": "reject-all-unexpected-prefixes",
+      "passed": true
+    },
+    {
+      "name": "reject-relative-target",
+      "passed": true
+    },
+    {
+      "name": "pinned-baseline-glue-reproduces-old-failure-and-selects-synthetic-in-memory-bytes-with-new-resolver",
+      "passed": true
+    },
+    {
+      "name": "pinned-instrumented-glue-reproduces-old-failure-and-selects-synthetic-in-memory-bytes-with-new-resolver",
+      "passed": true
+    },
+    {
+      "name": "fetch-http-https-denials-preserved",
+      "passed": true
+    }
+  ],
+  "pinnedGlue": [
+    {
+      "variant": "baseline",
+      "glueSha256": "1355cda0b9a596e528a4bef37a33543bd4594cc5e66a0240dd5334b7fd565cfe",
+      "extractedFunctionsSha256": "4fd3f0e56ea0bfa362d281ee5b155bab271efbe4424731ea2ed6477830d043ce",
+      "probeFunctionsSha256": "d136954faf9686f4b77250163d477965cdf51f5207f5263b30927a7a7adef444",
+      "modelAmendment": "Unused import.meta.url fallback replaced by syntheticModuleUrl for vm script parsing; supplied locateFile branch unchanged."
+    },
+    {
+      "variant": "instrumented",
+      "glueSha256": "3555a970a06a953a34a3eb9d608e2fdc337806c9216ac01e35014a379cc3c217",
+      "extractedFunctionsSha256": "4fd3f0e56ea0bfa362d281ee5b155bab271efbe4424731ea2ed6477830d043ce",
+      "probeFunctionsSha256": "d136954faf9686f4b77250163d477965cdf51f5207f5263b30927a7a7adef444",
+      "modelAmendment": "Unused import.meta.url fallback replaced by syntheticModuleUrl for vm script parsing; supplied locateFile branch unchanged."
+    }
+  ],
+  "runnerSha256": "9c9fc956a418120c922b2fb52fa1063b5b9245ae7b1f542a3e4f724caca13e34",
+  "auditCodeSha256": "ea400cc57485a8def0274d0899346e3c03aa334f5aa9ced128fa4004e376dfd3",
+  "readerImports": 0,
+  "wasmInstantiations": 0,
+  "recognitionCalls": 0
+}

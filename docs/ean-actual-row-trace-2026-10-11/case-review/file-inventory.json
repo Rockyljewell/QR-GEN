@@ -1,0 +1,33 @@
+{
+  "scope": "Bounded actual case review, exact original script/results/memo; no engines or full interpreter reruns.",
+  "files": [
+    {
+      "path": "FINDINGS.md",
+      "bytes": 4873,
+      "sha256": "076fc0e100eb8cc50b541e5bac54f01eb2edc6abc96700f14478197c18367750"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1811,
+      "sha256": "f5472ffee17f174488c6b44b503c9b9861df99c6643b9527d6ac4f067920bef3"
+    },
+    {
+      "path": "results.json",
+      "bytes": 137316,
+      "sha256": "245dbd056c7d7217d1886f741ff88f1d1aa683d5871dbc44ab007f86579a3ca5"
+    },
+    {
+      "path": "review-actual-cases.py",
+      "bytes": 10775,
+      "sha256": "d8f74857fcb7f6929d60ae591fe5af0389c167ebc4acf912d8878c7cb2e6fa70"
+    },
+    {
+      "path": "run-observation.json",
+      "bytes": 431,
+      "sha256": "91ddac8c61470d5245b52bc7d6bfc5205c1f06ad17b333e48e7983bf2b92c0fb"
+    }
+  ],
+  "readerImports": 0,
+  "recognitionCalls": 0,
+  "fullInterpreterRuns": 0
+}

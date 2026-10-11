@@ -1,0 +1,45 @@
+{
+  "scope": "Exact file-only phase snapshot",
+  "files": [
+    {
+      "path": "CMakeCache.txt",
+      "bytes": 18594,
+      "sha256": "9089924e7d75b3e58bcf3170cd864babf056d46118f0be2302c8ab074264a5ba"
+    },
+    {
+      "path": "CMakeFiles/zxing_reader.dir/flags.make",
+      "bytes": 514,
+      "sha256": "bf48799d9ba4fcd26231d6eae535ebc1bf99d638e632e93d031afa6256fa61c9"
+    },
+    {
+      "path": "CMakeFiles/zxing_reader.dir/link.txt",
+      "bytes": 644,
+      "sha256": "a197daaf5d86ab90e655c2b01d920ea90af8d645b331af0c84aeae665a2f9846"
+    },
+    {
+      "path": "CMakeFiles/zxing_writer.dir/flags.make",
+      "bytes": 514,
+      "sha256": "14f07dce7dba4d66cf120e88c71fa48417571eb58a183a1be30d20e63987f5da"
+    },
+    {
+      "path": "CMakeFiles/zxing_writer.dir/link.txt",
+      "bytes": 644,
+      "sha256": "0ade91d167e89b6b3ad6fe9ef9f482ab80e7fb504713f11e6804ef69c6697cfe"
+    },
+    {
+      "path": "ZXing/CMakeFiles/ZXing.dir/flags.make",
+      "bytes": 9707,
+      "sha256": "30c2c75dc444b6557e679c1651bf26b3314299e70a977f4138c24c2ae8ec1a0c"
+    },
+    {
+      "path": "ZXing/CMakeFiles/ZXing.dir/link.txt",
+      "bytes": 2190,
+      "sha256": "9298f936c3a1cf15b0e69e763081fbbb61861be96ca3e257ec261d917fd3ac4a"
+    },
+    {
+      "path": "_deps/stb-subbuild/CMakeCache.txt",
+      "bytes": 4442,
+      "sha256": "fa1da8bb551c7212c19f6fffceff8f0b67a7b759156ddc9017c390bf87104127"
+    }
+  ]
+}
