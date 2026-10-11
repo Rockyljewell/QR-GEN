@@ -34,7 +34,9 @@ such as `QRGEN-PHONE-TEST`, a valid EAN-13 `5901234123457`, and Code 128
 | Choose and deselect barcodes from the list below the preview | Touch activates the intended stable row; keyboard Enter/Space and the phone's screen reader expose its payload, track identity and selected state. Selection does not depend on tapping a moving highlight. | |
 | Select a label, move it out of view, then deselect it from the list | The retained row is marked selected and out of view; deselection works. The in-view count excludes it. | |
 | Pause after selecting a label, then use the in-place camera switch or rotate the phone until intrinsic frame dimensions change | Old-source highlights and in-view rows/count clear; retained selections remain explicitly out of view. A newly observed identical label gets a fresh spatial ID. | |
-| Recreate the scanner by changing a camera-source attribute in an integration | Previous selection clears with scanner recreation; it is not carried into the new scanner session. | |
+| Recreate the scanner by changing a camera-source attribute in an integration | Previous selection clears with scanner recreation; one empty `select` reset updates the connected app. It is not carried into the new scanner session. | |
+| Pause a batch scanner, then disable a currently detected barcode type | Disabled in-view rows/count clear immediately; enabled IDs remain. Chosen snapshots remain labelled out of view and can be deselected. | |
+| Retry or stop from a camera-error state listener | The original start rejects, while its obsolete error event does not overwrite the replacement session or stopped UI. | |
 | Scan a thin linear barcode with the front camera and repeat at different rotations | The mirrored highlight retains visible height and covers the code; choose it from the accessible list. | |
 | Hide a label beyond the configured tracking timeout and show it again | Its spatial track starts fresh. This does not prove persistent physical-item identity. | |
 

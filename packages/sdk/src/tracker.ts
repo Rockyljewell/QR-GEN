@@ -129,6 +129,17 @@ export class BarcodeTracker {
     return [...this.tracks.values()];
   }
 
+  /** @internal Remove disabled formats without changing surviving track identity or history. */
+  retainSymbologies(symbologies: ReadonlySet<Barcode["symbology"]>): TrackerUpdate {
+    const removed: TrackedBarcode[] = [];
+    for (const [id, track] of this.tracks) {
+      if (symbologies.has(track.symbology)) continue;
+      this.tracks.delete(id);
+      removed.push(track);
+    }
+    return { tracked: this.all, added: [], updated: [], removed };
+  }
+
   update(detections: readonly Barcode[], now = Date.now()): TrackerUpdate {
     const added: TrackedBarcode[] = [];
     const updated: TrackedBarcode[] = [];

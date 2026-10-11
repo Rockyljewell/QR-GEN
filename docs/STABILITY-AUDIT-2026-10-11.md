@@ -279,6 +279,35 @@ No scan-policy default was changed. The prior decoder deployment's
 website modules against the successful CI deployment artifact; desktop fake
 cameras still do not establish phone or Scandit parity.
 
+## Batch configuration and retry ownership follow-up
+
+[Issue #37](https://github.com/Rockyljewell/QR-GEN/issues/37) reproduces disabled
+barcode types remaining counted and selectable after a paused symbology change.
+Removed types now leave spatial tracking and pending scan reports immediately;
+enabled track identities and intentionally chosen out-of-view snapshots remain.
+[Issue #38](https://github.com/Rockyljewell/QR-GEN/issues/38) reproduces host apps
+retaining stale selections because automatic resets omit the `select` event.
+Nonempty resets now notify consumers once, including mode/source recreation and
+disconnect. Callback ownership guards preserve a listener's replacement session.
+[Issue #39](https://github.com/Rockyljewell/QR-GEN/issues/39) reproduces an obsolete
+camera-start error after an error-state listener retries or stops; original start
+promise rejections remain while obsolete event delivery is suppressed.
+
+The prior `ded21a8` deployment's [hosted check](public-postdeploy-ded21a8-2026-10-11.json)
+matches loaded app modules and both WASM assets against its successful Pages
+artifact, including a PNM Blob dimension probe. Its separate
+[ten-minute desktop check](browser-stress-ded21a8-2026-10-11.json) covers 50
+start/stop cycles, 20 requested camera switches, 20 pause/resume cycles and
+continuous worker decoding. The synthetic static camera is not phone, thermal,
+memory-growth or Scandit parity evidence.
+
+The [uniform EAN policy study](ean-uniform-policy-study-2026-10-11/README.md)
+made 6,706 frozen-input reads across seven binarizer/global-contrast policies.
+No tested policy recovered the actual Chrome camera target, and several lost
+correct photographic reads or introduced other wrong values. The compact package
+preserves full raw outputs and exact portable replay; no decoder default changed.
+[Issue #32](https://github.com/Rockyljewell/QR-GEN/issues/32) remains open.
+
 ## Retail AR and adjacent features
 
 The following is an assessment of repository code against the vendors' published

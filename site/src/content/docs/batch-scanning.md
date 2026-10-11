@@ -28,7 +28,7 @@ The same mode is available as `mode: "batch"` on `BarcodeScanner`, the React `QR
 
 | Event | `detail` | When |
 | --- | --- | --- |
-| `track` | `{ tracked, added, removed }` | After every decoded frame. `tracked` is everything currently in view. |
+| `track` | `{ tracked, added, removed }` | After every decoded frame or when a symbology change removes disabled tracks. `tracked` is everything currently in view. |
 | `scan` | `{ barcodes, barcode }` | A code value appeared for the first time this session. |
 | `select` | `{ barcode, selected, selection }` | A result's selection changed (`selected` is `true` when it was added). |
 
@@ -79,7 +79,7 @@ Use the buttons below the live preview. Each row has an `aria-pressed` state and
 </script>
 ```
 
-`selection` holds chosen `TrackedBarcode` objects captured at the moment of selection. Activate a selected row again to deselect it. `clearSelection()` empties the selection and fires `select` with `barcode: null`. Custom controls can call `selectBarcode(trackId, selected?)`; it returns `false` for unknown tracks or outside batch mode. Changing mode, recreating the scanner through its camera, resolution or worker attributes, or removing it from the page clears the session's selection.
+`selection` holds chosen `TrackedBarcode` objects captured at the moment of selection. Activate a selected row again to deselect it. `clearSelection()` empties the selection and fires `select` with `barcode: null`. Custom controls can call `selectBarcode(trackId, selected?)`; it returns `false` for unknown tracks or outside batch mode. Changing mode, recreating the scanner through its camera, resolution or worker attributes, or removing it from the page clears the session's selection. If it was nonempty, this sends one `select` reset with `barcode: null`, `selected: false` and `selection: []`. Changing enabled symbologies removes disabled in-view tracks immediately, including while paused; chosen snapshots remain available as out-of-view selections until you deselect or clear them.
 
 ## Count items in view
 

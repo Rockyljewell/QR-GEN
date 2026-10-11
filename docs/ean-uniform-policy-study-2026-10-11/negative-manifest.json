@@ -1,0 +1,223 @@
+{
+  "repository": "zxing/zxing",
+  "commit": "5bdcab8035f6d26107cfad32d1aa2a85455efbc5",
+  "selectionFrozenAt": "2026-10-11T14:14:25.147Z",
+  "limitations": [
+    "This upstream ZXing regression corpus is not independent of QRGEN's ZXing-derived engine and is not statistically held-out.",
+    "Twenty manually selected cases and repeated payloads are diagnostic, not population success estimates.",
+    "Some small/control images look rendered; photograph provenance is asserted only when source comments or visual review support it.",
+    "Images replayed as static camera frames do not simulate motion, autofocus, rolling shutter, glare changes, phone thermal behavior or field workflows.",
+    "Scandit combines EAN-13/UPC-A, so selected scopes cannot match exactly; universal no-code negatives avoid treating another valid format as a false positive.",
+    "No latency, stability parity, proprietary SDK/license extraction, trial signup or hidden SDK calls."
+  ],
+  "cases": [
+    {
+      "id": "falsepositives-01",
+      "format": null,
+      "folder": "falsepositives",
+      "stem": "01",
+      "negative": true,
+      "groundTruth": {
+        "expected": [],
+        "source": "core/src/test/java/com/google/zxing/negative/FalsePositivesBlackBoxTestCase.java",
+        "oracle": "Upstream universal MultiFormatReader negative blackbox test; visually review before assigning no-code label."
+      },
+      "imagePath": "core/src/test/resources/blackbox/falsepositives/01.png",
+      "image": {
+        "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/resources/blackbox/falsepositives/01.png",
+        "path": "core/src/test/resources/blackbox/falsepositives/01.png",
+        "local": "images/falsepositives-01.png",
+        "sha256": "351fc204817fae136f77412dd38d22c6e8bd1aac0306d75323f73ecf8e6e8bff",
+        "bytes": 381082,
+        "width": 640,
+        "height": 480
+      },
+      "conditions": [
+        "no-code visual review",
+        "printed prose"
+      ],
+      "conditionAuthority": "Test-class description where specified; otherwise visual-review inference, not a quantified blur/lighting label.",
+      "expected": [],
+      "publicUi": {
+        "scandit": {
+          "preset": "all",
+          "selectedSymbologies": [
+            "QR Code",
+            "Data Matrix",
+            "PDF417",
+            "EAN-13/UPC-A",
+            "Code 128"
+          ],
+          "colorInverted": false,
+          "extendedSymbolCounts": false
+        },
+        "qrgen": {
+          "selectedSymbologies": [
+            "qr",
+            "data-matrix",
+            "pdf417",
+            "ean13",
+            "code128"
+          ],
+          "inversionSetting": "alternate (public default)"
+        }
+      }
+    },
+    {
+      "id": "falsepositives-10",
+      "format": null,
+      "folder": "falsepositives",
+      "stem": "10",
+      "negative": true,
+      "groundTruth": {
+        "expected": [],
+        "source": "core/src/test/java/com/google/zxing/negative/FalsePositivesBlackBoxTestCase.java",
+        "oracle": "Upstream universal MultiFormatReader negative blackbox test; visually review before assigning no-code label."
+      },
+      "imagePath": "core/src/test/resources/blackbox/falsepositives/10.png",
+      "image": {
+        "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/resources/blackbox/falsepositives/10.png",
+        "path": "core/src/test/resources/blackbox/falsepositives/10.png",
+        "local": "images/falsepositives-10.png",
+        "sha256": "a2ec169c492cd903a87ae0db11c6bbb7c0a0c126cada51fb4df979cb7433e0e4",
+        "bytes": 653158,
+        "width": 640,
+        "height": 480
+      },
+      "conditions": [
+        "no-code visual review",
+        "striped fabric texture"
+      ],
+      "conditionAuthority": "Test-class description where specified; otherwise visual-review inference, not a quantified blur/lighting label.",
+      "expected": [],
+      "publicUi": {
+        "scandit": {
+          "preset": "all",
+          "selectedSymbologies": [
+            "QR Code",
+            "Data Matrix",
+            "PDF417",
+            "EAN-13/UPC-A",
+            "Code 128"
+          ],
+          "colorInverted": false,
+          "extendedSymbolCounts": false
+        },
+        "qrgen": {
+          "selectedSymbologies": [
+            "qr",
+            "data-matrix",
+            "pdf417",
+            "ean13",
+            "code128"
+          ],
+          "inversionSetting": "alternate (public default)"
+        }
+      }
+    },
+    {
+      "id": "falsepositives-2-01",
+      "format": null,
+      "folder": "falsepositives-2",
+      "stem": "01",
+      "negative": true,
+      "groundTruth": {
+        "expected": [],
+        "source": "core/src/test/java/com/google/zxing/negative/FalsePositives2BlackBoxTestCase.java",
+        "oracle": "Upstream universal MultiFormatReader negative blackbox test; visually review before assigning no-code label."
+      },
+      "imagePath": "core/src/test/resources/blackbox/falsepositives-2/01.png",
+      "image": {
+        "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/resources/blackbox/falsepositives-2/01.png",
+        "path": "core/src/test/resources/blackbox/falsepositives-2/01.png",
+        "local": "images/falsepositives-2-01.png",
+        "sha256": "1e99e694791f4e083bff9cb0ffe83a1b198875095d32adab1c832ebff8571cb9",
+        "bytes": 154402,
+        "width": 480,
+        "height": 480
+      },
+      "conditions": [
+        "no-code visual review",
+        "patterned fabric"
+      ],
+      "conditionAuthority": "Test-class description where specified; otherwise visual-review inference, not a quantified blur/lighting label.",
+      "expected": [],
+      "publicUi": {
+        "scandit": {
+          "preset": "all",
+          "selectedSymbologies": [
+            "QR Code",
+            "Data Matrix",
+            "PDF417",
+            "EAN-13/UPC-A",
+            "Code 128"
+          ],
+          "colorInverted": false,
+          "extendedSymbolCounts": false
+        },
+        "qrgen": {
+          "selectedSymbologies": [
+            "qr",
+            "data-matrix",
+            "pdf417",
+            "ean13",
+            "code128"
+          ],
+          "inversionSetting": "alternate (public default)"
+        }
+      }
+    },
+    {
+      "id": "falsepositives-20",
+      "format": null,
+      "folder": "falsepositives",
+      "stem": "20",
+      "negative": true,
+      "groundTruth": {
+        "expected": [],
+        "source": "core/src/test/java/com/google/zxing/negative/FalsePositivesBlackBoxTestCase.java",
+        "oracle": "Upstream universal MultiFormatReader negative blackbox test; visually review before assigning no-code label."
+      },
+      "imagePath": "core/src/test/resources/blackbox/falsepositives/20.png",
+      "image": {
+        "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/resources/blackbox/falsepositives/20.png",
+        "path": "core/src/test/resources/blackbox/falsepositives/20.png",
+        "local": "images/falsepositives-20.png",
+        "sha256": "de560a977b8edf0706742fcb85212d55cceb8df39d63858d63310e22192d780a",
+        "bytes": 666534,
+        "width": 640,
+        "height": 480
+      },
+      "conditions": [
+        "no-code visual review",
+        "leaf pattern texture"
+      ],
+      "conditionAuthority": "Test-class description where specified; otherwise visual-review inference, not a quantified blur/lighting label.",
+      "expected": [],
+      "publicUi": {
+        "scandit": {
+          "preset": "all",
+          "selectedSymbologies": [
+            "QR Code",
+            "Data Matrix",
+            "PDF417",
+            "EAN-13/UPC-A",
+            "Code 128"
+          ],
+          "colorInverted": false,
+          "extendedSymbolCounts": false
+        },
+        "qrgen": {
+          "selectedSymbologies": [
+            "qr",
+            "data-matrix",
+            "pdf417",
+            "ean13",
+            "code128"
+          ],
+          "inversionSetting": "alternate (public default)"
+        }
+      }
+    }
+  ]
+}
