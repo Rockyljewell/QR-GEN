@@ -1,6 +1,6 @@
 Diagnostic preparation for issue #32. Recognition policy is unchanged. This directory is a new study; earlier frozen source-port, raw reader, Node/browser and physical-feasibility evidence remain unchanged.
 
-This is the v3 preparation package. See `REVIEW-AMENDMENT.md` for the single diagnostic accessor correction, retained failed-build log and exact v1/v2 provenance. The 15 input identities, 90 profiles, runner and recognition policy remain identical to v2. The preceding v2 instrumented build failed before any recognition; this v3 preparation has not been compiled.
+This is the v4 preparation package. See `REVIEW-AMENDMENT.md` for the file-only CMake cache verifier correction and exact v1/v2/v3 provenance. The C++ patch, 15 input identities, 90 profiles, runner, protocol and recognition policy remain identical to v3. Both preceding v3 variants compiled, but its workflow failed at the instrumented file-only provenance gate; no recognition occurred. This v4 preparation performs no C++ build.
 
 The frozen matrix has 15 saved rasters and 90 profiles. Read `PROTOCOL.md` for exact inputs, options, coverage, gates and limitations. `frozen-plan.json` binds original photograph identities separately from exact PNG transports and decoded RGBA hashes. Preparation decodes PNG transport only; it never imports an SDK/reader or recognizes a barcode.
 

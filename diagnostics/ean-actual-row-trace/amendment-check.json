@@ -1,43 +1,41 @@
 {
-  "scope": "File-only amendment verification, not C++ compilation or recognition.",
+  "scope": "File-only provenance-verifier amendment verification, not C++ compilation or recognition.",
   "checks": [
     {
-      "name": "unchanged-ean-actual-row-trace",
-      "verifiedManifestEntries": 24
+      "name": "original-frozen-package-unchanged-ean-actual-row-trace",
+      "manifestEntries": 24
     },
     {
-      "name": "unchanged-ean-actual-row-trace-v2",
-      "verifiedManifestEntries": 29
+      "name": "original-frozen-package-unchanged-ean-actual-row-trace-v2",
+      "manifestEntries": 29
     },
     {
-      "name": "exact-single-accessor-correction",
-      "comparedSourceFiles": 8,
-      "changedPaths": [
-        "core/src/MultiFormatReader.cpp"
-      ]
+      "name": "original-frozen-package-unchanged-ean-actual-row-trace-v3",
+      "manifestEntries": 35
     },
     {
-      "name": "runner-protocol-header-workflow-and-build-verifiers-unchanged",
+      "name": "cpp-patch-eight-sources-policy-runner-protocol-workflow-unchanged",
       "passed": true
     },
     {
-      "name": "exact-v2-input-profile-and-gate-identity",
+      "name": "only-phase-verifier-block-changed-in-capture-code",
+      "beforeSha256": "ca2522f392cb5d90bbc12c18263bf6933c2ede50bc762b29b2400a4d94ce2bff",
+      "afterSha256": "1248c47a6c1bafae89bbf28c6f22b3027790fa26a2d4479dba4b66c4823f9c18"
+    },
+    {
+      "name": "exact-v3-input-profile-and-gate-identity",
       "rasters": 15,
       "profiles": 90
     },
     {
-      "name": "exact-failed-build-log-retained",
-      "originalSha256": "2f2ac90878881a200afe5ddc0040377aead44544bfdfecefaa651b553f798c0e",
-      "originalBytes": 54687
-    },
-    {
-      "name": "api-audit-pinned-header-bytes",
-      "fileCount": 8
+      "name": "exact-unsuccessful-v3-workflow-records-and-archive-hashes-retained",
+      "records": 3,
+      "archives": 2
     }
   ],
   "patchSha256": "0d4213a7b7eeeefa5b8cad7772920ac53d886c7be60607745ef24df8815d53cd",
-  "planSha256": "689b371b279221a09d7d947a6452597d77cbee036af0a8d35e44afce8709d14e",
-  "auditCodeSha256": "b823268ae690dc76f4b915117125d949345a540505c2da733f00cd2bb24663ca",
+  "planSha256": "7ce033b87fd69931e1c59df5f0be23d7442a79095a65436323b98826e047645b",
+  "auditCodeSha256": "e05b323d10d27e50931c733cd2e4b32fe847a1274eaea20fc0313c0cc1c1f51c",
   "readerImports": 0,
   "recognitionCalls": 0
 }

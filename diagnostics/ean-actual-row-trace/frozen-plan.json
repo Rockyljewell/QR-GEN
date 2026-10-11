@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "frozenAt": "2026-10-11T17:15:48.601Z",
-  "scope": "Unchanged-policy actual C++ instrumentation, 15 rasters Ã— 6 profiles; no recognition during freeze.",
+  "frozenAt": "2026-10-11T17:26:14.732Z",
+  "scope": "Unchanged-policy actual C++ instrumentation, 15 rasters Ãƒâ€” 6 profiles; no recognition during freeze.",
   "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
   "wrapperCommit": "b7dcf63aefc7b94fb97ba09e9b1fb213d9399f54",
   "count": {
@@ -46,8 +46,8 @@
     },
     {
       "path": "freeze-plan.mjs",
-      "sha256": "fe6ce1f19c445c15329e5a62b8ec046d13dffee78c47f091ca4508de9c2aa092",
-      "bytes": 4890
+      "sha256": "468cbbc105087e96e738ac5031281512ca01945fa903adab695f7220ffc98397",
+      "bytes": 4976
     },
     {
       "path": "run-paired.mjs",
@@ -56,8 +56,8 @@
     },
     {
       "path": "capture-build-evidence.mjs",
-      "sha256": "ca2522f392cb5d90bbc12c18263bf6933c2ede50bc762b29b2400a4d94ce2bff",
-      "bytes": 3152
+      "sha256": "1248c47a6c1bafae89bbf28c6f22b3027790fa26a2d4479dba4b66c4823f9c18",
+      "bytes": 4419
     },
     {
       "path": "diagnostic-build.yml",
@@ -85,14 +85,29 @@
       "bytes": 3599
     },
     {
-      "path": "verify-v3-amendment.py",
-      "sha256": "b823268ae690dc76f4b915117125d949345a540505c2da733f00cd2bb24663ca",
-      "bytes": 4173
+      "path": "verify-v4-amendment.py",
+      "sha256": "e05b323d10d27e50931c733cd2e4b32fe847a1274eaea20fc0313c0cc1c1f51c",
+      "bytes": 3851
+    },
+    {
+      "path": "verify-v4-caches.mjs",
+      "sha256": "7b752dc124d1f45f3425e213218d44231874c7bca41367a103e31cdfdbab709b",
+      "bytes": 5679
+    },
+    {
+      "path": "v3-provenance.json",
+      "sha256": "bda0612febf2dd92d7fb11aedeaf54d015b4a01356ef398ab6cb0e10ff5706db",
+      "bytes": 6332
+    },
+    {
+      "path": "v3-build-failure-provenance.json",
+      "sha256": "b1adbdac75c4f0127c915624ffc5f0ef0e7aa9c9116ef0ed1c4d2910db4bb06d",
+      "bytes": 2448
     },
     {
       "path": "REVIEW-AMENDMENT.md",
-      "sha256": "d2e7b7abd9c9ad2aa280b27e8c696870fd90cdfeace7e50237d94bfe4e17a462",
-      "bytes": 2637
+      "sha256": "2a7b86cb739c77f71266d836fc3b7cafa2b7b704a195bc591d477a13760d485c",
+      "bytes": 3068
     },
     {
       "path": "v1-provenance.json",
@@ -116,8 +131,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "b98203e04615780321db7f0bb6d5ea21e82b2470687255c32ff86b9ae25bcc21",
-      "bytes": 5466
+      "sha256": "1841739a9188872e553dfd0349fd00cdc445dc40588a63d46dea159e186b9035",
+      "bytes": 5533
     }
   ],
   "inputs": [

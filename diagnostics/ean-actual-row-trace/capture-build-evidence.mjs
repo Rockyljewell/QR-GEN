@@ -11,12 +11,19 @@ if(cxxFlags!==(expected?flag:''))throw Error('Declared CXXFLAGS do not match dia
 for(const phase of ['reader','writer','full']){
  const base=join(root,'cmake',phase),m=JSON.parse(readFileSync(join(base,'phase-manifest.json')));
  for(const f of m.files)if(sha(readFileSync(join(base,f.path)))!==f.sha256)throw Error('Phase snapshot changed: '+phase+'/'+f.path);
- const caches=m.files.filter(f=>f.path.endsWith('CMakeCache.txt')).map(f=>readFileSync(join(base,f.path),'utf8'));
+ const caches=m.files.filter(f=>f.path.endsWith('CMakeCache.txt')).map(f=>({path:f.path,text:readFileSync(join(base,f.path),'utf8')}));
  const flags=m.files.filter(f=>f.path.endsWith('flags.make')).map(f=>({path:f.path,text:readFileSync(join(base,f.path),'utf8')}));
- if(!caches.some(s=>/^CMAKE_CXX_FLAGS:STRING=/m.test(s))||caches.some(s=>s.includes(flag)!==expected))throw Error('Actual cache flag mismatch: '+phase);
+ const value=(text,key)=>{const lines=text.split(/\r?\n/).filter(s=>s.startsWith(key+'='));if(lines.length!==1)throw Error('Missing/duplicate cache key '+key+': '+phase);return lines[0].slice(key.length+1);};
+ const top=caches.filter(f=>f.path==='CMakeCache.txt');
+ if(top.length!==1||value(top[0].text,'CMAKE_PROJECT_NAME:STATIC')!=='ZXingWasm'||value(top[0].text,'CMAKE_CXX_FLAGS:STRING')!==(expected?flag:''))throw Error('Actual top-level cache/project/flags mismatch: '+phase);
+ for(const child of caches.filter(f=>f.path!=='CMakeCache.txt')){
+  // Retain and hash the non-compiling FetchContent setup cache; it has no C++ flags.
+  if(child.path!=='_deps/stb-subbuild/CMakeCache.txt'||value(child.text,'CMAKE_PROJECT_NAME:STATIC')!=='stb-populate'||/^CMAKE_(?:CXX_FLAGS|CXX_COMPILER|C_COMPILER)(?::|[-_])/m.test(child.text)||child.text.includes(flag))throw Error('Unrecognised or compiling child cache: '+phase+'/'+child.path);
+ }
  const cxx=flags.filter(f=>/^CXX_FLAGS\s*=/m.test(f.text));
- if(!cxx.length||cxx.some(f=>f.text.includes(flag)!==expected))throw Error('Actual C++ compiler flags mismatch: '+phase);
- if(phase==='reader'&&(!cxx.some(f=>f.path.includes('ZXing.dir/'))||!cxx.some(f=>f.path.includes('zxing_reader.dir/'))))throw Error('Reader/core compile flags missing');
+ if(!cxx.length||cxx.some(f=>{const lines=f.text.split(/\r?\n/).filter(s=>/^CXX_FLAGS\s*=/.test(s));if(lines.length!==1)return true;const tokens=lines[0].slice(lines[0].indexOf('=')+1).trim().split(/\s+/).filter(s=>s.startsWith('-DZXING_QRGEN_ROW_TRACE'));return JSON.stringify(tokens)!==JSON.stringify(expected?[flag]:[]);}))throw Error('Actual C++ compiler flags mismatch: '+phase);
+ const required=['ZXing/CMakeFiles/ZXing.dir/flags.make','CMakeFiles/zxing_reader.dir/flags.make',...(phase!=='reader'?['CMakeFiles/zxing_writer.dir/flags.make']:[]),...(phase==='full'?['CMakeFiles/zxing_full.dir/flags.make']:[])];
+ if(required.some(path=>cxx.filter(f=>f.path===path).length!==1))throw Error('Phase-appropriate actual C++ target flags missing: '+phase);
 }
 const evidence={scope:'Successful build file fingerprints only; no reader imports or recognition.',variant,
  wrapperCommit:metadata.wrapperCommit,cppCommit:metadata.cppCommit,compileDefinition:variant==='instrumented'?metadata.compileDefinition:null,

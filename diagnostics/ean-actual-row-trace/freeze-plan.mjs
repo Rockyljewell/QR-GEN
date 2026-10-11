@@ -38,8 +38,8 @@ for(const input of inputs)for(const tryHarder of [false,true])for(const maxNumbe
  profiles.push({id:input.key+'/'+(tryHarder?'hard':'fast')+'/max'+maxNumberOfSymbols,inputKey:input.key,
   options:{...options,tryHarder,maxNumberOfSymbols}});
 const code=['PROTOCOL.md','QRGenRowTrace.h','prepare-instrumentation.py','actual-row-trace.patch','patch-metadata.json',
- 'freeze-plan.mjs','run-paired.mjs','capture-build-evidence.mjs','diagnostic-build.yml','verify-build-inputs.py','snapshot-build-phase.py','freeze-package.py','verify-validation-only.mjs','verify-v3-amendment.py','REVIEW-AMENDMENT.md','v1-provenance.json','v2-provenance.json','build-failure-provenance.json','accessor-audit.json','README.md'];
-const plan={schemaVersion:1,frozenAt:new Date().toISOString(),scope:'Unchanged-policy actual C++ instrumentation, 15 rasters Ã— 6 profiles; no recognition during freeze.',
+ 'freeze-plan.mjs','run-paired.mjs','capture-build-evidence.mjs','diagnostic-build.yml','verify-build-inputs.py','snapshot-build-phase.py','freeze-package.py','verify-validation-only.mjs','verify-v4-amendment.py','verify-v4-caches.mjs','v3-provenance.json','v3-build-failure-provenance.json','REVIEW-AMENDMENT.md','v1-provenance.json','v2-provenance.json','build-failure-provenance.json','accessor-audit.json','README.md'];
+const plan={schemaVersion:1,frozenAt:new Date().toISOString(),scope:'Unchanged-policy actual C++ instrumentation, 15 rasters Ãƒâ€” 6 profiles; no recognition during freeze.',
  cppCommit:'2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4',wrapperCommit:'b7dcf63aefc7b94fb97ba09e9b1fb213d9399f54',
  count:{rasters:15,profiles:90},parentPlans:[{path:nodePath,sha256:sha(readFileSync(nodePath))},{path:physicalPath,sha256:sha(readFileSync(physicalPath))}],
  files:code.map(path=>({path,sha256:sha(readFileSync(join(here,path))),bytes:readFileSync(join(here,path)).length})),inputs,profiles,
