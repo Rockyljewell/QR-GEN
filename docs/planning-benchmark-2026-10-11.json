@@ -1,0 +1,1034 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-11T13:50:29.233Z",
+  "experiment": "whole-dot-print-planning",
+  "environment": {
+    "node": "v24.19.0",
+    "platform": "win32",
+    "sdkBundleSha256": "d1d24c4ebc4def5e664a3e35409f42ed6c99ce88114c6249c1b8401615923734",
+    "plannerSourceSha256": "d3aaa31509d27729ab87f56261d403f795d28cc379f98e02c5cc99f08f906307",
+    "writerWasmSha256": "f78be8b66f1f6d6aba6ce1e34180d36bf509f73edc26ca542810f92c08dc5950"
+  },
+  "limits": [
+    "ASCII URL payloads only; module counts depend on actual content and encoding mode.",
+    "Three printer dots/module is the chosen illustrative profile, not a universal reliability threshold.",
+    "Exact text and bytes are checked on the generated PNG using QRGen's reader; printed material and other readers are untested.",
+    "Automatic mode maximizes whole dots/module among M/Q/H then chooses strongest correction among ties; explicit H remains exact."
+  ],
+  "summary": {
+    "total": 24,
+    "suitable": 19,
+    "unsuitable": 5,
+    "exactSuitablePngs": 19
+  },
+  "cases": [
+    {
+      "bytes": 60,
+      "widthMm": 20,
+      "dpi": 203,
+      "requestedEcLevel": "auto",
+      "suitable": true,
+      "selectedEcLevel": "H",
+      "geometry": {
+        "version": 7,
+        "symbolModules": 45,
+        "quietZoneModules": 4,
+        "totalModules": 53,
+        "dotsPerModule": 3,
+        "widthDots": 159,
+        "widthMm": 19.894581280788177,
+        "moduleMm": 0.37536945812807876,
+        "quietZoneMm": 1.501477832512315
+      },
+      "exactText": true,
+      "exactBytes": true,
+      "candidates": [
+        {
+          "ecLevel": "M",
+          "suitable": true,
+          "dotsPerModule": 3,
+          "symbolModules": 33,
+          "minimumWidthMm": 15.39014778325123
+        },
+        {
+          "ecLevel": "Q",
+          "suitable": true,
+          "dotsPerModule": 3,
+          "symbolModules": 37,
+          "minimumWidthMm": 16.891625615763548
+        },
+        {
+          "ecLevel": "H",
+          "suitable": true,
+          "dotsPerModule": 3,
+          "symbolModules": 45,
+          "minimumWidthMm": 19.894581280788177
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "physical-validation-required"
+        }
+      ]
+    },
+    {
+      "bytes": 60,
+      "widthMm": 20,
+      "dpi": 203,
+      "requestedEcLevel": "H",
+      "suitable": true,
+      "selectedEcLevel": "H",
+      "geometry": {
+        "version": 7,
+        "symbolModules": 45,
+        "quietZoneModules": 4,
+        "totalModules": 53,
+        "dotsPerModule": 3,
+        "widthDots": 159,
+        "widthMm": 19.894581280788177,
+        "moduleMm": 0.37536945812807876,
+        "quietZoneMm": 1.501477832512315
+      },
+      "exactText": true,
+      "exactBytes": true,
+      "candidates": [
+        {
+          "ecLevel": "H",
+          "suitable": true,
+          "dotsPerModule": 3,
+          "symbolModules": 45,
+          "minimumWidthMm": 19.894581280788177
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "physical-validation-required"
+        }
+      ]
+    },
+    {
+      "bytes": 60,
+      "widthMm": 20,
+      "dpi": 300,
+      "requestedEcLevel": "auto",
+      "suitable": true,
+      "selectedEcLevel": "Q",
+      "geometry": {
+        "version": 5,
+        "symbolModules": 37,
+        "quietZoneModules": 4,
+        "totalModules": 45,
+        "dotsPerModule": 5,
+        "widthDots": 225,
+        "widthMm": 19.05,
+        "moduleMm": 0.42333333333333334,
+        "quietZoneMm": 1.6933333333333334
+      },
+      "exactText": true,
+      "exactBytes": true,
+      "candidates": [
+        {
+          "ecLevel": "M",
+          "suitable": true,
+          "dotsPerModule": 5,
+          "symbolModules": 33,
+          "minimumWidthMm": 10.414
+        },
+        {
+          "ecLevel": "Q",
+          "suitable": true,
+          "dotsPerModule": 5,
+          "symbolModules": 37,
+          "minimumWidthMm": 11.43
+        },
+        {
+          "ecLevel": "H",
+          "suitable": true,
+          "dotsPerModule": 4,
+          "symbolModules": 45,
+          "minimumWidthMm": 13.462
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "physical-validation-required"
+        },
+        {
+          "code": "ecc-tradeoff"
+        }
+      ]
+    },
+    {
+      "bytes": 60,
+      "widthMm": 20,
+      "dpi": 300,
+      "requestedEcLevel": "H",
+      "suitable": true,
+      "selectedEcLevel": "H",
+      "geometry": {
+        "version": 7,
+        "symbolModules": 45,
+        "quietZoneModules": 4,
+        "totalModules": 53,
+        "dotsPerModule": 4,
+        "widthDots": 212,
+        "widthMm": 17.949333333333332,
+        "moduleMm": 0.33866666666666667,
+        "quietZoneMm": 1.3546666666666667
+      },
+      "exactText": true,
+      "exactBytes": true,
+      "candidates": [
+        {
+          "ecLevel": "H",
+          "suitable": true,
+          "dotsPerModule": 4,
+          "symbolModules": 45,
+          "minimumWidthMm": 13.462
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "physical-validation-required"
+        }
+      ]
+    },
+    {
+      "bytes": 60,
+      "widthMm": 30,
+      "dpi": 203,
+      "requestedEcLevel": "auto",
+      "suitable": true,
+      "selectedEcLevel": "Q",
+      "geometry": {
+        "version": 5,
+        "symbolModules": 37,
+        "quietZoneModules": 4,
+        "totalModules": 45,
+        "dotsPerModule": 5,
+        "widthDots": 225,
+        "widthMm": 28.15270935960591,
+        "moduleMm": 0.625615763546798,
+        "quietZoneMm": 2.502463054187192
+      },
+      "exactText": true,
+      "exactBytes": true,
+      "candidates": [
+        {
+          "ecLevel": "M",
+          "suitable": true,
+          "dotsPerModule": 5,
+          "symbolModules": 33,
+          "minimumWidthMm": 15.39014778325123
+        },
+        {
+          "ecLevel": "Q",
+          "suitable": true,
+          "dotsPerModule": 5,
+          "symbolModules": 37,
+          "minimumWidthMm": 16.891625615763548
+        },
+        {
+          "ecLevel": "H",
+          "suitable": true,
+          "dotsPerModule": 4,
+          "symbolModules": 45,
+          "minimumWidthMm": 19.894581280788177
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "physical-validation-required"
+        },
+        {
+          "code": "ecc-tradeoff"
+        }
+      ]
+    },
+    {
+      "bytes": 60,
+      "widthMm": 30,
+      "dpi": 203,
+      "requestedEcLevel": "H",
+      "suitable": true,
+      "selectedEcLevel": "H",
+      "geometry": {
+        "version": 7,
+        "symbolModules": 45,
+        "quietZoneModules": 4,
+        "totalModules": 53,
+        "dotsPerModule": 4,
+        "widthDots": 212,
+        "widthMm": 26.526108374384233,
+        "moduleMm": 0.5004926108374383,
+        "quietZoneMm": 2.0019704433497534
+      },
+      "exactText": true,
+      "exactBytes": true,
+      "candidates": [
+        {
+          "ecLevel": "H",
+          "suitable": true,
+          "dotsPerModule": 4,
+          "symbolModules": 45,
+          "minimumWidthMm": 19.894581280788177
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "physical-validation-required"
+        }
+      ]
+    },
+    {
+      "bytes": 60,
+      "widthMm": 30,
+      "dpi": 300,
+      "requestedEcLevel": "auto",
+      "suitable": true,
+      "selectedEcLevel": "M",
+      "geometry": {
+        "version": 4,
+        "symbolModules": 33,
+        "quietZoneModules": 4,
+        "totalModules": 41,
+        "dotsPerModule": 8,
+        "widthDots": 328,
+        "widthMm": 27.770666666666664,
+        "moduleMm": 0.6773333333333333,
+        "quietZoneMm": 2.7093333333333334
+      },
+      "exactText": true,
+      "exactBytes": true,
+      "candidates": [
+        {
+          "ecLevel": "M",
+          "suitable": true,
+          "dotsPerModule": 8,
+          "symbolModules": 33,
+          "minimumWidthMm": 10.414
+        },
+        {
+          "ecLevel": "Q",
+          "suitable": true,
+          "dotsPerModule": 7,
+          "symbolModules": 37,
+          "minimumWidthMm": 11.43
+        },
+        {
+          "ecLevel": "H",
+          "suitable": true,
+          "dotsPerModule": 6,
+          "symbolModules": 45,
+          "minimumWidthMm": 13.462
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "physical-validation-required"
+        },
+        {
+          "code": "ecc-tradeoff"
+        }
+      ]
+    },
+    {
+      "bytes": 60,
+      "widthMm": 30,
+      "dpi": 300,
+      "requestedEcLevel": "H",
+      "suitable": true,
+      "selectedEcLevel": "H",
+      "geometry": {
+        "version": 7,
+        "symbolModules": 45,
+        "quietZoneModules": 4,
+        "totalModules": 53,
+        "dotsPerModule": 6,
+        "widthDots": 318,
+        "widthMm": 26.924,
+        "moduleMm": 0.5079999999999999,
+        "quietZoneMm": 2.0319999999999996
+      },
+      "exactText": true,
+      "exactBytes": true,
+      "candidates": [
+        {
+          "ecLevel": "H",
+          "suitable": true,
+          "dotsPerModule": 6,
+          "symbolModules": 45,
+          "minimumWidthMm": 13.462
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "physical-validation-required"
+        }
+      ]
+    },
+    {
+      "bytes": 120,
+      "widthMm": 20,
+      "dpi": 203,
+      "requestedEcLevel": "auto",
+      "suitable": true,
+      "selectedEcLevel": "M",
+      "geometry": {
+        "version": 7,
+        "symbolModules": 45,
+        "quietZoneModules": 4,
+        "totalModules": 53,
+        "dotsPerModule": 3,
+        "widthDots": 159,
+        "widthMm": 19.894581280788177,
+        "moduleMm": 0.37536945812807876,
+        "quietZoneMm": 1.501477832512315
+      },
+      "exactText": true,
+      "exactBytes": true,
+      "candidates": [
+        {
+          "ecLevel": "M",
+          "suitable": true,
+          "dotsPerModule": 3,
+          "symbolModules": 45,
+          "minimumWidthMm": 19.894581280788177
+        },
+        {
+          "ecLevel": "Q",
+          "suitable": false,
+          "dotsPerModule": 2,
+          "symbolModules": 53,
+          "minimumWidthMm": 22.897536945812806
+        },
+        {
+          "ecLevel": "H",
+          "suitable": false,
+          "dotsPerModule": 2,
+          "symbolModules": 61,
+          "minimumWidthMm": 25.900492610837436
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "physical-validation-required"
+        },
+        {
+          "code": "ecc-tradeoff"
+        }
+      ]
+    },
+    {
+      "bytes": 120,
+      "widthMm": 20,
+      "dpi": 203,
+      "requestedEcLevel": "H",
+      "suitable": false,
+      "selectedEcLevel": null,
+      "geometry": null,
+      "exactText": null,
+      "exactBytes": null,
+      "candidates": [
+        {
+          "ecLevel": "H",
+          "suitable": false,
+          "dotsPerModule": 2,
+          "symbolModules": 61,
+          "minimumWidthMm": 25.900492610837436
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "physical-validation-required"
+        },
+        {
+          "code": "insufficient-space",
+          "minimumWidthMm": 25.900492610837436
+        }
+      ]
+    },
+    {
+      "bytes": 120,
+      "widthMm": 20,
+      "dpi": 300,
+      "requestedEcLevel": "auto",
+      "suitable": true,
+      "selectedEcLevel": "M",
+      "geometry": {
+        "version": 7,
+        "symbolModules": 45,
+        "quietZoneModules": 4,
+        "totalModules": 53,
+        "dotsPerModule": 4,
+        "widthDots": 212,
+        "widthMm": 17.949333333333332,
+        "moduleMm": 0.33866666666666667,
+        "quietZoneMm": 1.3546666666666667
+      },
+      "exactText": true,
+      "exactBytes": true,
+      "candidates": [
+        {
+          "ecLevel": "M",
+          "suitable": true,
+          "dotsPerModule": 4,
+          "symbolModules": 45,
+          "minimumWidthMm": 13.462
+        },
+        {
+          "ecLevel": "Q",
+          "suitable": true,
+          "dotsPerModule": 3,
+          "symbolModules": 53,
+          "minimumWidthMm": 15.494
+        },
+        {
+          "ecLevel": "H",
+          "suitable": true,
+          "dotsPerModule": 3,
+          "symbolModules": 61,
+          "minimumWidthMm": 17.525999999999996
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "physical-validation-required"
+        },
+        {
+          "code": "ecc-tradeoff"
+        }
+      ]
+    },
+    {
+      "bytes": 120,
+      "widthMm": 20,
+      "dpi": 300,
+      "requestedEcLevel": "H",
+      "suitable": true,
+      "selectedEcLevel": "H",
+      "geometry": {
+        "version": 11,
+        "symbolModules": 61,
+        "quietZoneModules": 4,
+        "totalModules": 69,
+        "dotsPerModule": 3,
+        "widthDots": 207,
+        "widthMm": 17.525999999999996,
+        "moduleMm": 0.25399999999999995,
+        "quietZoneMm": 1.0159999999999998
+      },
+      "exactText": true,
+      "exactBytes": true,
+      "candidates": [
+        {
+          "ecLevel": "H",
+          "suitable": true,
+          "dotsPerModule": 3,
+          "symbolModules": 61,
+          "minimumWidthMm": 17.525999999999996
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "physical-validation-required"
+        }
+      ]
+    },
+    {
+      "bytes": 120,
+      "widthMm": 30,
+      "dpi": 203,
+      "requestedEcLevel": "auto",
+      "suitable": true,
+      "selectedEcLevel": "M",
+      "geometry": {
+        "version": 7,
+        "symbolModules": 45,
+        "quietZoneModules": 4,
+        "totalModules": 53,
+        "dotsPerModule": 4,
+        "widthDots": 212,
+        "widthMm": 26.526108374384233,
+        "moduleMm": 0.5004926108374383,
+        "quietZoneMm": 2.0019704433497534
+      },
+      "exactText": true,
+      "exactBytes": true,
+      "candidates": [
+        {
+          "ecLevel": "M",
+          "suitable": true,
+          "dotsPerModule": 4,
+          "symbolModules": 45,
+          "minimumWidthMm": 19.894581280788177
+        },
+        {
+          "ecLevel": "Q",
+          "suitable": true,
+          "dotsPerModule": 3,
+          "symbolModules": 53,
+          "minimumWidthMm": 22.897536945812806
+        },
+        {
+          "ecLevel": "H",
+          "suitable": true,
+          "dotsPerModule": 3,
+          "symbolModules": 61,
+          "minimumWidthMm": 25.900492610837436
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "physical-validation-required"
+        },
+        {
+          "code": "ecc-tradeoff"
+        }
+      ]
+    },
+    {
+      "bytes": 120,
+      "widthMm": 30,
+      "dpi": 203,
+      "requestedEcLevel": "H",
+      "suitable": true,
+      "selectedEcLevel": "H",
+      "geometry": {
+        "version": 11,
+        "symbolModules": 61,
+        "quietZoneModules": 4,
+        "totalModules": 69,
+        "dotsPerModule": 3,
+        "widthDots": 207,
+        "widthMm": 25.900492610837436,
+        "moduleMm": 0.37536945812807876,
+        "quietZoneMm": 1.501477832512315
+      },
+      "exactText": true,
+      "exactBytes": true,
+      "candidates": [
+        {
+          "ecLevel": "H",
+          "suitable": true,
+          "dotsPerModule": 3,
+          "symbolModules": 61,
+          "minimumWidthMm": 25.900492610837436
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "physical-validation-required"
+        }
+      ]
+    },
+    {
+      "bytes": 120,
+      "widthMm": 30,
+      "dpi": 300,
+      "requestedEcLevel": "auto",
+      "suitable": true,
+      "selectedEcLevel": "M",
+      "geometry": {
+        "version": 7,
+        "symbolModules": 45,
+        "quietZoneModules": 4,
+        "totalModules": 53,
+        "dotsPerModule": 6,
+        "widthDots": 318,
+        "widthMm": 26.924,
+        "moduleMm": 0.5079999999999999,
+        "quietZoneMm": 2.0319999999999996
+      },
+      "exactText": true,
+      "exactBytes": true,
+      "candidates": [
+        {
+          "ecLevel": "M",
+          "suitable": true,
+          "dotsPerModule": 6,
+          "symbolModules": 45,
+          "minimumWidthMm": 13.462
+        },
+        {
+          "ecLevel": "Q",
+          "suitable": true,
+          "dotsPerModule": 5,
+          "symbolModules": 53,
+          "minimumWidthMm": 15.494
+        },
+        {
+          "ecLevel": "H",
+          "suitable": true,
+          "dotsPerModule": 5,
+          "symbolModules": 61,
+          "minimumWidthMm": 17.525999999999996
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "physical-validation-required"
+        },
+        {
+          "code": "ecc-tradeoff"
+        }
+      ]
+    },
+    {
+      "bytes": 120,
+      "widthMm": 30,
+      "dpi": 300,
+      "requestedEcLevel": "H",
+      "suitable": true,
+      "selectedEcLevel": "H",
+      "geometry": {
+        "version": 11,
+        "symbolModules": 61,
+        "quietZoneModules": 4,
+        "totalModules": 69,
+        "dotsPerModule": 5,
+        "widthDots": 345,
+        "widthMm": 29.21,
+        "moduleMm": 0.42333333333333334,
+        "quietZoneMm": 1.6933333333333334
+      },
+      "exactText": true,
+      "exactBytes": true,
+      "candidates": [
+        {
+          "ecLevel": "H",
+          "suitable": true,
+          "dotsPerModule": 5,
+          "symbolModules": 61,
+          "minimumWidthMm": 17.525999999999996
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "physical-validation-required"
+        }
+      ]
+    },
+    {
+      "bytes": 240,
+      "widthMm": 20,
+      "dpi": 203,
+      "requestedEcLevel": "auto",
+      "suitable": false,
+      "selectedEcLevel": null,
+      "geometry": null,
+      "exactText": null,
+      "exactBytes": null,
+      "candidates": [
+        {
+          "ecLevel": "M",
+          "suitable": false,
+          "dotsPerModule": 2,
+          "symbolModules": 61,
+          "minimumWidthMm": 25.900492610837436
+        },
+        {
+          "ecLevel": "Q",
+          "suitable": false,
+          "dotsPerModule": 2,
+          "symbolModules": 69,
+          "minimumWidthMm": 28.90344827586207
+        },
+        {
+          "ecLevel": "H",
+          "suitable": false,
+          "dotsPerModule": 1,
+          "symbolModules": 81,
+          "minimumWidthMm": 33.40788177339901
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "physical-validation-required"
+        },
+        {
+          "code": "insufficient-space",
+          "minimumWidthMm": 25.900492610837436
+        }
+      ]
+    },
+    {
+      "bytes": 240,
+      "widthMm": 20,
+      "dpi": 203,
+      "requestedEcLevel": "H",
+      "suitable": false,
+      "selectedEcLevel": null,
+      "geometry": null,
+      "exactText": null,
+      "exactBytes": null,
+      "candidates": [
+        {
+          "ecLevel": "H",
+          "suitable": false,
+          "dotsPerModule": 1,
+          "symbolModules": 81,
+          "minimumWidthMm": 33.40788177339901
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "physical-validation-required"
+        },
+        {
+          "code": "insufficient-space",
+          "minimumWidthMm": 33.40788177339901
+        }
+      ]
+    },
+    {
+      "bytes": 240,
+      "widthMm": 20,
+      "dpi": 300,
+      "requestedEcLevel": "auto",
+      "suitable": true,
+      "selectedEcLevel": "Q",
+      "geometry": {
+        "version": 13,
+        "symbolModules": 69,
+        "quietZoneModules": 4,
+        "totalModules": 77,
+        "dotsPerModule": 3,
+        "widthDots": 231,
+        "widthMm": 19.558,
+        "moduleMm": 0.25399999999999995,
+        "quietZoneMm": 1.0159999999999998
+      },
+      "exactText": true,
+      "exactBytes": true,
+      "candidates": [
+        {
+          "ecLevel": "M",
+          "suitable": true,
+          "dotsPerModule": 3,
+          "symbolModules": 61,
+          "minimumWidthMm": 17.525999999999996
+        },
+        {
+          "ecLevel": "Q",
+          "suitable": true,
+          "dotsPerModule": 3,
+          "symbolModules": 69,
+          "minimumWidthMm": 19.558
+        },
+        {
+          "ecLevel": "H",
+          "suitable": false,
+          "dotsPerModule": 2,
+          "symbolModules": 81,
+          "minimumWidthMm": 22.605999999999998
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "physical-validation-required"
+        },
+        {
+          "code": "ecc-tradeoff"
+        }
+      ]
+    },
+    {
+      "bytes": 240,
+      "widthMm": 20,
+      "dpi": 300,
+      "requestedEcLevel": "H",
+      "suitable": false,
+      "selectedEcLevel": null,
+      "geometry": null,
+      "exactText": null,
+      "exactBytes": null,
+      "candidates": [
+        {
+          "ecLevel": "H",
+          "suitable": false,
+          "dotsPerModule": 2,
+          "symbolModules": 81,
+          "minimumWidthMm": 22.605999999999998
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "physical-validation-required"
+        },
+        {
+          "code": "insufficient-space",
+          "minimumWidthMm": 22.605999999999998
+        }
+      ]
+    },
+    {
+      "bytes": 240,
+      "widthMm": 30,
+      "dpi": 203,
+      "requestedEcLevel": "auto",
+      "suitable": true,
+      "selectedEcLevel": "Q",
+      "geometry": {
+        "version": 13,
+        "symbolModules": 69,
+        "quietZoneModules": 4,
+        "totalModules": 77,
+        "dotsPerModule": 3,
+        "widthDots": 231,
+        "widthMm": 28.90344827586207,
+        "moduleMm": 0.37536945812807876,
+        "quietZoneMm": 1.501477832512315
+      },
+      "exactText": true,
+      "exactBytes": true,
+      "candidates": [
+        {
+          "ecLevel": "M",
+          "suitable": true,
+          "dotsPerModule": 3,
+          "symbolModules": 61,
+          "minimumWidthMm": 25.900492610837436
+        },
+        {
+          "ecLevel": "Q",
+          "suitable": true,
+          "dotsPerModule": 3,
+          "symbolModules": 69,
+          "minimumWidthMm": 28.90344827586207
+        },
+        {
+          "ecLevel": "H",
+          "suitable": false,
+          "dotsPerModule": 2,
+          "symbolModules": 81,
+          "minimumWidthMm": 33.40788177339901
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "physical-validation-required"
+        },
+        {
+          "code": "ecc-tradeoff"
+        }
+      ]
+    },
+    {
+      "bytes": 240,
+      "widthMm": 30,
+      "dpi": 203,
+      "requestedEcLevel": "H",
+      "suitable": false,
+      "selectedEcLevel": null,
+      "geometry": null,
+      "exactText": null,
+      "exactBytes": null,
+      "candidates": [
+        {
+          "ecLevel": "H",
+          "suitable": false,
+          "dotsPerModule": 2,
+          "symbolModules": 81,
+          "minimumWidthMm": 33.40788177339901
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "physical-validation-required"
+        },
+        {
+          "code": "insufficient-space",
+          "minimumWidthMm": 33.40788177339901
+        }
+      ]
+    },
+    {
+      "bytes": 240,
+      "widthMm": 30,
+      "dpi": 300,
+      "requestedEcLevel": "auto",
+      "suitable": true,
+      "selectedEcLevel": "M",
+      "geometry": {
+        "version": 11,
+        "symbolModules": 61,
+        "quietZoneModules": 4,
+        "totalModules": 69,
+        "dotsPerModule": 5,
+        "widthDots": 345,
+        "widthMm": 29.21,
+        "moduleMm": 0.42333333333333334,
+        "quietZoneMm": 1.6933333333333334
+      },
+      "exactText": true,
+      "exactBytes": true,
+      "candidates": [
+        {
+          "ecLevel": "M",
+          "suitable": true,
+          "dotsPerModule": 5,
+          "symbolModules": 61,
+          "minimumWidthMm": 17.525999999999996
+        },
+        {
+          "ecLevel": "Q",
+          "suitable": true,
+          "dotsPerModule": 4,
+          "symbolModules": 69,
+          "minimumWidthMm": 19.558
+        },
+        {
+          "ecLevel": "H",
+          "suitable": true,
+          "dotsPerModule": 3,
+          "symbolModules": 81,
+          "minimumWidthMm": 22.605999999999998
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "physical-validation-required"
+        },
+        {
+          "code": "ecc-tradeoff"
+        }
+      ]
+    },
+    {
+      "bytes": 240,
+      "widthMm": 30,
+      "dpi": 300,
+      "requestedEcLevel": "H",
+      "suitable": true,
+      "selectedEcLevel": "H",
+      "geometry": {
+        "version": 16,
+        "symbolModules": 81,
+        "quietZoneModules": 4,
+        "totalModules": 89,
+        "dotsPerModule": 3,
+        "widthDots": 267,
+        "widthMm": 22.605999999999998,
+        "moduleMm": 0.25399999999999995,
+        "quietZoneMm": 1.0159999999999998
+      },
+      "exactText": true,
+      "exactBytes": true,
+      "candidates": [
+        {
+          "ecLevel": "H",
+          "suitable": true,
+          "dotsPerModule": 3,
+          "symbolModules": 81,
+          "minimumWidthMm": 22.605999999999998
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "physical-validation-required"
+        }
+      ]
+    }
+  ]
+}

@@ -12,6 +12,7 @@ describe("Scanner element autostart lifecycle", () => {
     const attributes = new Map<string, string>();
     Object.assign(el, {
       getAttribute: (name: string) => attributes.get(name) ?? null,
+      hasAttribute: (name: string) => attributes.has(name),
       isConnected: true,
     });
     vi.spyOn(el as unknown as { render(): void }, "render").mockImplementation(() => {});
@@ -126,6 +127,71 @@ describe("Scanner element autostart lifecycle", () => {
     expect(el.selection).toEqual([]);
     expect(draw).toHaveBeenCalled();
     expect(start).toHaveBeenCalledOnce();
+  });
+
+  it.each([
+    { attribute: "camera", value: "front", expected: "front" },
+    { attribute: "resolution", value: "hd", expected: "hd" },
+    { attribute: "worker", value: "false", expected: false },
+  ])("restarts pending startup with the new $attribute setting", async ({ attribute, value, expected }) => {
+    const { el, start, attributes } = element();
+    const internals = el as any;
+    internals.rendered = true;
+    const oldScanner = { state: "starting", destroy: vi.fn() };
+    internals._scanner = oldScanner;
+    vi.spyOn(internals, "updateCount").mockImplementation(() => {});
+    vi.spyOn(internals, "updateResults").mockImplementation(() => {});
+    vi.spyOn(internals, "requestDraw").mockImplementation(() => {});
+    const screens = vi.spyOn(internals, "updateScreens").mockImplementation(() => {});
+    let replacementOptions: unknown;
+    let finish!: () => void;
+    const pending = new Promise<void>((resolve) => { finish = resolve; });
+    start.mockImplementation(() => { replacementOptions = el.options; return pending; });
+    attributes.set(attribute, value);
+
+    el.attributeChangedCallback(attribute, "old", value);
+
+    expect(oldScanner.destroy).toHaveBeenCalledOnce();
+    expect(start).toHaveBeenCalledOnce();
+    expect(replacementOptions).toMatchObject({ [attribute]: expected });
+    expect(screens).not.toHaveBeenCalledWith("idle");
+    finish();
+    await pending;
+  });
+
+  it.each(["starting", "scanning", "paused"])("honors a stop during %s configuration teardown", (state) => {
+    const { el, start } = element();
+    const internals = el as any;
+    internals.rendered = true;
+    internals._scanner = { state, destroy: () => el.stop() };
+    vi.spyOn(internals, "updateCount").mockImplementation(() => {});
+    vi.spyOn(internals, "updateResults").mockImplementation(() => {});
+    vi.spyOn(internals, "requestDraw").mockImplementation(() => {});
+    const screens = vi.spyOn(internals, "updateScreens").mockImplementation(() => {});
+
+    el.attributeChangedCallback("camera", "back", "front");
+
+    expect(start).not.toHaveBeenCalled();
+    expect(internals._scanner).toBeNull();
+    expect(screens).toHaveBeenLastCalledWith("idle");
+  });
+
+  it("keeps a replacement started during pending-start teardown", () => {
+    const { el, start } = element();
+    const internals = el as any;
+    internals.rendered = true;
+    const replacement = { state: "starting" };
+    internals._scanner = { state: "starting", destroy: () => { internals._scanner = replacement; } };
+    vi.spyOn(internals, "updateCount").mockImplementation(() => {});
+    vi.spyOn(internals, "updateResults").mockImplementation(() => {});
+    vi.spyOn(internals, "requestDraw").mockImplementation(() => {});
+    const screens = vi.spyOn(internals, "updateScreens").mockImplementation(() => {});
+
+    el.attributeChangedCallback("worker", "true", "false");
+
+    expect(start).not.toHaveBeenCalled();
+    expect(internals._scanner).toBe(replacement);
+    expect(screens).not.toHaveBeenCalled();
   });
 
   it("does not clear a replacement scanner's results after a reentrant stop listener", () => {

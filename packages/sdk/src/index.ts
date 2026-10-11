@@ -11,6 +11,9 @@
  */
 import { configure, ENGINE_VERSION } from "./engine/config.js";
 import { generate, generateDataURL, generateSVG } from "./generator.js";
+import { checkSymbologies, getRuntimeCapabilities } from "./capabilities.js";
+import { planQRCode } from "./planner.js";
+import { buildUrlPayload, buildWifiPayload } from "./payloads.js";
 import { scanImage } from "./image.js";
 import { parseAAMVA, parseContent, parseGS1 } from "./parsers/index.js";
 import { BarcodeScanner, type BarcodeScannerOptions } from "./scanner.js";
@@ -38,6 +41,10 @@ export {
 } from "./symbologies.js";
 export { scanImage, type ScanImageOptions, type ImageInput } from "./image.js";
 export { generate, generateSVG, generateDataURL, styleSvg, type GenerateOptions, type GeneratedBarcode } from "./generator.js";
+export * from "./planner.js";
+export * from "./payloads.js";
+export * from "./capabilities.js";
+export type { AdaptiveCaptureOptions, AdaptiveCaptureStats } from "./capture-policy.js";
 export { BarcodeScanner, type BarcodeScannerOptions, type ScannerEvents, type ScannerState, type FrameEvent } from "./scanner.js";
 export { Camera, type CameraOptions, type CameraCapabilities, type Resolution } from "./camera.js";
 export { Feedback, type FeedbackOptions } from "./feedback.js";
@@ -56,6 +63,11 @@ export const QRGen = {
   generate,
   generateSVG,
   generateDataURL,
+  planQRCode,
+  buildUrlPayload,
+  buildWifiPayload,
+  getRuntimeCapabilities,
+  checkSymbologies,
   parseContent,
   parseGS1,
   parseAAMVA,

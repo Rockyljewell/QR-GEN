@@ -1,0 +1,91 @@
+---
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+// Version the complete standalone shell and its matching engine files together.
+const hash = createHash("sha256");
+const assetHashes: Record<string, string> = {};
+for (const asset of ["src/pages/offline.astro", "public/offline/client.js", "public/offline/sw.js", "public/sdk/qrgen.js", "public/sdk/wasm/zxing_reader.wasm", "public/sdk/wasm/zxing_writer.wasm"]) {
+  const bytes = readFileSync(resolve(process.cwd(), asset));
+  hash.update(asset).update(bytes);
+  const key = asset === "public/offline/client.js" ? "client" : asset === "public/sdk/qrgen.js" ? "sdk" : asset.endsWith("zxing_reader.wasm") ? "reader" : asset.endsWith("zxing_writer.wasm") ? "writer" : null;
+  if (key) assetHashes[key] = createHash("sha256").update(bytes).digest("hex");
+}
+const version = hash.digest("hex").slice(0, 20);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Save QRGen for offline use, make QR codes and scan an image locally without a camera." />
+    <link rel="icon" href="data:," />
+    <title>QRGen · Offline tools</title>
+    <style is:inline>
+      * { box-sizing: border-box; }
+      body { margin: 0; background: #f4f6f8; color: #142332; font: 16px/1.6 system-ui, sans-serif; }
+      main { max-width: 900px; margin: auto; padding: 32px 20px 56px; }
+      h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.2; margin: 16px 0; }
+      h2 { font-size: 22px; margin-top: 0; }
+      p { margin: 12px 0; }
+      a { color: #07538a; }
+      .state, section { background: white; border: 1px solid #c5cfd9; border-radius: 12px; padding: 22px; margin-top: 22px; }
+      .state { border-left: 5px solid #44627a; }
+      label { display: block; font-weight: 650; margin: 16px 0 6px; }
+      textarea, select, input[type="file"] { width: 100%; padding: 12px; font: inherit; border: 1px solid #8296a8; border-radius: 6px; background: white; color: inherit; }
+      textarea { resize: vertical; }
+      button { padding: 12px 18px; font: inherit; font-weight: 650; color: white; background: #064f7b; border: 0; border-radius: 6px; cursor: pointer; }
+      button:disabled { opacity: .55; cursor: default; }
+      button:focus-visible, a:focus-visible, textarea:focus-visible, select:focus-visible, input:focus-visible { outline: 3px solid #da7100; outline-offset: 3px; }
+      .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+      .help { font-size: 14px; color: #3e5365; }
+      .error { color: #a1172a; font-weight: 650; }
+      .preview { display: flex; justify-content: center; margin-top: 18px; }
+      .preview svg { width: min(100%, 240px); height: auto; background: white; }
+      pre { white-space: pre-wrap; overflow-wrap: anywhere; padding: 14px; background: #f0f4f7; max-height: 280px; overflow-y: auto; }
+      [hidden] { display: none !important; }
+      @media (max-width: 480px) { main { padding: 24px 14px; } section, .state { padding: 18px; } }
+    </style>
+  </head>
+  <body>
+    <main data-offline-version={version} data-offline-hashes={JSON.stringify(assetHashes)}>
+      <a href={`${base}/`}>QRGen home</a>
+      <h1>QR tools you can keep offline</h1>
+      <p>Make a QR code or read one from an image, without a camera. Your input and images are processed on this device. These tools do not upload or save your content.</p>
+      <div class="state">
+        <strong>Offline availability</strong>
+        <p data-offline-status role="status" aria-live="polite" data-state="preparing">Saving the tools for later offline use…</p>
+        <p class="help">Open this page online first and wait for confirmation. A first-ever offline visit cannot load the tools. Your browser can remove saved site files, so check availability before relying on them.</p>
+      </div>
+      <noscript><p class="error">Enable JavaScript to use these local tools.</p></noscript>
+      <section aria-labelledby="create-title">
+        <h2 id="create-title">Make a QR code</h2>
+        <form data-offline-form autocomplete="off">
+          <label for="offline-kind">Content type</label>
+          <select id="offline-kind" name="kind"><option value="url">Website link</option><option value="text">Plain text</option></select>
+          <label for="offline-content">Content to encode</label>
+          <textarea id="offline-content" name="content" rows="3" maxlength="7089" spellcheck="false" aria-describedby="offline-content-help" required></textarea>
+          <p id="offline-content-help" class="help">For links, include https:// or http://. A link can be encoded offline; opening its website may still need internet.</p>
+          <div class="actions"><button type="submit" data-offline-generate disabled>Make QR code</button><button type="button" data-offline-download disabled>Save PNG</button></div>
+        </form>
+        <p data-offline-create-status role="status" aria-live="polite"></p>
+        <p data-offline-create-error class="error" role="alert" hidden></p>
+        <div class="preview" data-offline-preview></div>
+        <p class="help">This is a general screen image. For a printed label, use QRGen’s print planner while online and test a printed sample.</p>
+      </section>
+      <section aria-labelledby="scan-title">
+        <h2 id="scan-title">Read a code from an image</h2>
+        <label for="offline-image">Choose an image</label>
+        <input id="offline-image" data-offline-image type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/bmp" aria-describedby="offline-image-help" disabled />
+        <p id="offline-image-help" class="help">Choose a PNG, JPEG or another supported image up to 20 MB. Your image stays on this device.</p>
+        <p data-offline-scan-status role="status" aria-live="polite"></p>
+        <p data-offline-scan-error class="error" role="alert" hidden></p>
+        <pre data-offline-results aria-label="Decoded code content" hidden></pre>
+      </section>
+    </main>
+    <script is:inline type="module" src={`${base}/offline/client.js?v=${version}`}></script>
+  </body>
+</html>

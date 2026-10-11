@@ -49,6 +49,8 @@ jobs:
         working-directory: site
       - name: End-to-end tests (fake camera)
         run: npm run test:e2e -w qrgen-site
+      - name: Print planning, adaptive opt-in and offline browser checks
+        run: npm run test:frontier
 
   windows-web:
     name: Windows web build + camera lifecycle
@@ -68,6 +70,7 @@ jobs:
       - run: npx playwright install chromium
         working-directory: site
       - run: npm run test:e2e
+      - run: npm run test:frontier
 
   skills:
     name: Agent Skills + plugin manifest

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { Camera } from "./camera.js";
+import { AdaptiveCapturePolicy, resolveAdaptiveCaptureOptions, type AdaptiveCaptureOptions, type AdaptiveCapturePlan, type AdaptiveCaptureStats, type ResolvedAdaptiveCaptureOptions } from "./capture-policy.js";
 import { DuplicateFilter } from "./duplicate-filter.js";
 import { toBarcodes } from "./engine/convert.js";
 import { createFrameDecoder, type FrameDecoder } from "./engine/decoder.js";
@@ -44,6 +45,8 @@ export interface BarcodeScannerOptions extends ScannerOptions {
   maxFps?: number;
   /** Also look for white-on-black codes (costs time). Default: alternate frames. */
   tryInvert?: boolean | "alternate";
+  /** Experimental bounded full-frame capture adaptation. Default false (fixed capture). */
+  adaptive?: boolean | AdaptiveCaptureOptions;
 }
 
 interface ResolvedOptions {
@@ -58,6 +61,7 @@ interface ResolvedOptions {
   maxDecodeSize: number;
   maxFps: number;
   tryInvert: boolean | "alternate";
+  adaptive: ResolvedAdaptiveCaptureOptions | null;
   viewfinder: ViewfinderStyle;
 }
 
@@ -78,6 +82,7 @@ function resolveOptions(o: BarcodeScannerOptions): ResolvedOptions {
     maxDecodeSize: o.maxDecodeSize ?? 1280,
     maxFps: o.maxFps ?? 24,
     tryInvert: o.tryInvert ?? "alternate",
+    adaptive: resolveAdaptiveCaptureOptions(o.adaptive, o.maxDecodeSize ?? 1280),
     viewfinder: o.viewfinder ?? (onlyLinear ? "line" : "frame"),
   };
 }
@@ -103,6 +108,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
   private filter: DuplicateFilter;
   private pendingBatchScans = new Set<number>();
   private decoder: FrameDecoder | null = null;
+  private capturePolicy: AdaptiveCapturePolicy | null = null;
   private _state: ScannerState = "idle";
   private busy = false;
   private frameHandle = 0;
@@ -119,7 +125,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
   private frameSize: Size | null = null;
   private readonly handleVideoResize = () => this.syncFrameSize();
   /** Rolling statistics for diagnostics. */
-  readonly stats = { decodeMs: 0, fps: 0, engine: "" as "" | "worker" | "main" };
+  readonly stats = { decodeMs: 0, fps: 0, engine: "" as "" | "worker" | "main", adaptive: null as AdaptiveCaptureStats | null };
   private fpsWindow: number[] = [];
 
   /** Options as the caller gave them; defaults are re-derived from these on every change. */
@@ -130,6 +136,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
     const { video: _video, ...raw } = options;
     this.raw = raw;
     this.opts = resolveOptions(options);
+    this.resetCapturePolicy();
     this.filter = new DuplicateFilter(this.opts.duplicateFilter);
     this.camera = new Camera({ camera: options.camera, resolution: options.resolution });
     this.feedback = new Feedback({ beep: this.opts.beep, vibrate: this.opts.vibrate });
@@ -158,11 +165,13 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
   /** Update options while running (symbologies, mode, duplicate filter, scan area…). */
   setOptions(partial: Partial<BarcodeScannerOptions>): void {
     const { video: _video, ...rest } = partial;
-    this.raw = { ...this.raw, ...rest };
-    const merged = resolveOptions(this.raw);
+    const raw = { ...this.raw, ...rest };
+    const merged = resolveOptions(raw);
+    this.raw = raw;
     this.frameToken++;
     const modeChanged = merged.mode !== this.opts.mode;
     this.opts = merged;
+    this.resetCapturePolicy();
     this.filter.window = merged.duplicateFilter;
     this.feedback.options = { ...this.feedback.options, beep: merged.beep, vibrate: merged.vibrate };
     if (modeChanged) {
@@ -178,6 +187,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
     if (this._state === "scanning" || this._state === "starting") return;
     const token = ++this.startToken;
     this.frameToken++;
+    this.resetCapturePolicy();
     this.setState("starting");
     if (token !== this.startToken) return;
     this.feedback.unlock();
@@ -210,6 +220,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
   stop(): void {
     this.startToken++;
     this.frameToken++;
+    this.resetCapturePolicy();
     this.cancelFrame();
     this.camera.stop();
     // The shared decoder factory reuses healthy workers and replaces failed ones.
@@ -224,6 +235,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
   pause(): void {
     if (this._state !== "scanning") return;
     this.frameToken++;
+    this.resetCapturePolicy();
     this.cancelFrame();
     this.setState("paused");
   }
@@ -232,6 +244,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
   resume(): void {
     if (this._state !== "paused") return;
     this.frameToken++;
+    this.resetCapturePolicy();
     this.filter.reset();
     this.setState("scanning");
     this.schedule();
@@ -256,6 +269,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
     if (this.pendingCameraSwitch?.token === token) return this.pendingCameraSwitch.promise;
     const operation = ++this.switchToken;
     this.frameToken++;
+    this.resetCapturePolicy();
     this.cancelFrame();
     const switching = this.performCameraSwitch(token, operation);
     this.pendingCameraSwitch = { token, promise: switching };
@@ -316,6 +330,11 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
     this.frameHandle = typeof v.requestVideoFrameCallback === "function" ? v.requestVideoFrameCallback(tick) : requestAnimationFrame(tick);
   }
 
+  private resetCapturePolicy(): void {
+    this.capturePolicy = this.opts.adaptive ? new AdaptiveCapturePolicy(this.opts.adaptive) : null;
+    this.stats.adaptive = null;
+  }
+
   private currentFrameSize(): Size | null {
     const width = this.video.videoWidth;
     const height = this.video.videoHeight;
@@ -331,6 +350,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
     this.frameSize = next;
     if (!previous || (previous.width === next.width && previous.height === next.height)) return;
     this.frameToken++;
+    this.resetCapturePolicy();
     this.tracker.clear();
     this.pendingBatchScans.clear();
     this.emit("spatialreset", { frameSize: next });
@@ -344,7 +364,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
       && size.width === this.video.videoWidth && size.height === this.video.videoHeight;
   }
 
-  private grab(): { image: ImageData; offsetX: number; offsetY: number; scale: number; frame: Size } | null {
+  private grab(plan?: AdaptiveCapturePlan): { image: ImageData; offsetX: number; offsetY: number; scale: number; scaleX?: number; scaleY?: number; frame: Size } | null {
     const vw = this.video.videoWidth;
     const vh = this.video.videoHeight;
     if (!vw || !vh) return null;
@@ -354,16 +374,28 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
     const sw = a ? Math.min(vw - sx, Math.round(a.width * vw)) : vw;
     const sh = a ? Math.min(vh - sy, Math.round(a.height * vh)) : vh;
     if (sw < 16 || sh < 16) return null;
-    const scale = Math.max(1, Math.max(sw, sh) / this.opts.maxDecodeSize);
-    const dw = Math.round(sw / scale);
-    const dh = Math.round(sh / scale);
+    if (plan && (!Number.isFinite(sw) || !Number.isFinite(sh))) return null;
+    const scale = Math.max(1, Math.max(sw, sh) / (plan?.maxDecodeSize ?? this.opts.maxDecodeSize), plan ? Math.sqrt(sw * sh / plan.maxDecodePixels) : 1);
+    // Floor only adaptive dimensions so neither side nor total pixels can exceed its budget.
+    let dw = plan ? Math.max(1, Math.floor(sw / scale)) : Math.round(sw / scale);
+    let dh = plan ? Math.max(1, Math.floor(sh / scale)) : Math.round(sh / scale);
+    if (plan) {
+      // A very skinny area can clamp one dimension to 1px after scaling. Enforce
+      // the product again so that minimum-one rounding cannot bypass the budget.
+      dw = Math.min(dw, plan.maxDecodePixels);
+      dh = Math.min(dh, Math.floor(plan.maxDecodePixels / dw));
+    }
     if (!this.canvas || this.canvas.width !== dw || this.canvas.height !== dh) {
       this.canvas = typeof OffscreenCanvas !== "undefined" ? new OffscreenCanvas(dw, dh) : Object.assign(document.createElement("canvas"), { width: dw, height: dh });
       this.ctx = this.canvas.getContext("2d", { willReadFrequently: true }) as CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D | null;
     }
     if (!this.ctx) return null;
     this.ctx.drawImage(this.video, sx, sy, sw, sh, 0, 0, dw, dh);
-    return { image: this.ctx.getImageData(0, 0, dw, dh), offsetX: sx, offsetY: sy, scale, frame: { width: vw, height: vh } };
+    return {
+      image: this.ctx.getImageData(0, 0, dw, dh), offsetX: sx, offsetY: sy, scale,
+      ...(plan ? { scaleX: sw / dw, scaleY: sh / dh } : {}),
+      frame: { width: vw, height: vh },
+    };
   }
 
   private async onFrame(): Promise<void> {
@@ -375,9 +407,11 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
     const minInterval = 1000 / this.opts.maxFps;
     const hidden = typeof document !== "undefined" && document.visibilityState === "hidden";
     if (this.busy || hidden || now - this.lastDecodeStart < minInterval) return this.schedule();
+    const policy = this.capturePolicy;
+    const plan = policy?.next();
     let grabbed: ReturnType<BarcodeScanner["grab"]>;
     try {
-      grabbed = this.grab();
+      grabbed = this.grab(plan);
     } catch (err) {
       this.stop();
       this.emit("error", toQRGenError(err));
@@ -400,9 +434,11 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
     // Schedule the next frame now so the video callback chain never stalls.
     this.schedule();
     try {
+      const decodeStart = plan ? performance.now() : now;
       const raws = await this.decoder.decode(grabbed.image, params);
       if (!this.isCurrentFrame(token, grabbed.frame)) return;
-      const decodeMs = performance.now() - now;
+      const finished = performance.now();
+      const decodeMs = finished - now;
       this.stats.decodeMs = this.stats.decodeMs ? this.stats.decodeMs * 0.8 + decodeMs * 0.2 : decodeMs;
       this.fpsWindow.push(now);
       while (this.fpsWindow.length && now - this.fpsWindow[0]! > 1000) this.fpsWindow.shift();
@@ -414,8 +450,20 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
         offsetX: grabbed.offsetX,
         offsetY: grabbed.offsetY,
         scale: grabbed.scale,
+        scaleX: grabbed.scaleX,
+        scaleY: grabbed.scaleY,
         requested,
       });
+      if (policy && plan) {
+        policy.observe(plan, finished - decodeStart, barcodes.length > 0);
+        this.stats.adaptive = {
+          ...policy.snapshot,
+          phase: plan.phase,
+          width: grabbed.image.width,
+          height: grabbed.image.height,
+          decodeMs: finished - decodeStart,
+        };
+      }
       this.emit("frame", { barcodes, frameSize: grabbed.frame, decodeMs });
       if (!this.isCurrentFrame(token, grabbed.frame)) return;
       this.handleResults(barcodes);

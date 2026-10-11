@@ -594,6 +594,15 @@ p {
   }
 }
 @media (max-width: 520px) {
+  .site-header .bar {
+    gap: 8px;
+  }
+  .site-header nav {
+    display: none;
+  }
+  .site-header .header-actions {
+    gap: 4px;
+  }
   .site-header .header-actions .hide-sm {
     display: none;
   }

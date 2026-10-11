@@ -1,0 +1,449 @@
+// Copyright 2026 Rockyljewell
+// SPDX-License-Identifier: Apache-2.0
+
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { BarcodeScanner, type BarcodeScannerOptions } from "../src/scanner";
+import { QRGenError } from "../src/errors";
+import type { RawBarcode } from "../src/engine/protocol";
+
+const mocks = vi.hoisted(() => ({ decode: vi.fn(), drawImage: vi.fn() }));
+vi.mock("../src/camera", () => ({ Camera: class {
+  start = vi.fn().mockResolvedValue(undefined);
+  stop = vi.fn();
+  setTorch = vi.fn().mockResolvedValue(true);
+  switch = vi.fn().mockResolvedValue(undefined);
+} }));
+vi.mock("../src/feedback", () => ({ Feedback: class {
+  options = {};
+  unlock() {} success() {} dispose() {}
+} }));
+vi.mock("../src/engine/decoder", () => ({
+  createFrameDecoder: async () => ({ kind: "worker", decode: mocks.decode }),
+}));
+
+const barcode: RawBarcode = {
+  format: "QRCodeModel2", text: "test", bytes: new TextEncoder().encode("test"), contentType: "Text",
+  position: { topLeft: { x: 10, y: 10 }, topRight: { x: 50, y: 10 }, bottomRight: { x: 50, y: 50 }, bottomLeft: { x: 10, y: 50 } },
+  orientation: 0, ecLevel: "M", symbologyIdentifier: "]Q1", isMirrored: false, isInverted: false,
+};
+
+describe("Scanner adaptive capture integration", () => {
+  let now: number;
+  let captureMs: number;
+  let decodeMs: number;
+  let tick: () => void;
+  const scanners: BarcodeScanner[] = [];
+  function scanner(options: BarcodeScannerOptions = {}, width = 4000, height = 3000) {
+    const video = Object.assign(new EventTarget(), {
+      videoWidth: width, videoHeight: height,
+      requestVideoFrameCallback: vi.fn((cb) => { tick = cb; return 1; }),
+      cancelVideoFrameCallback: vi.fn(),
+    }) as unknown as HTMLVideoElement;
+    const s = new BarcodeScanner({ video, beep: false, vibrate: false, ...options });
+    scanners.push(s);
+    return s;
+  }
+  const flush = () => new Promise((resolve) => setTimeout(resolve, 0));
+  async function frame() {
+    now += 100;
+    tick();
+    await flush();
+  }
+  beforeEach(() => {
+    now = 100;
+    captureMs = 0;
+    decodeMs = 10;
+    mocks.decode.mockReset().mockImplementation(async () => { now += decodeMs; return []; });
+    mocks.drawImage.mockReset();
+    vi.spyOn(performance, "now").mockImplementation(() => now);
+    vi.stubGlobal("cancelAnimationFrame", vi.fn());
+    vi.stubGlobal("OffscreenCanvas", class {
+      constructor(public width: number, public height: number) {}
+      getContext() {
+        return {
+          drawImage: mocks.drawImage,
+          getImageData: (_x: number, _y: number, width: number, height: number) => {
+            now += captureMs;
+            return { width, height };
+          },
+        };
+      }
+    });
+  });
+  afterEach(() => {
+    for (const s of scanners.splice(0)) s.destroy();
+    vi.restoreAllMocks();
+    vi.unstubAllGlobals();
+  });
+
+  it.each([undefined, false])("preserves fixed dimensions and decoder options when adaptive is %s", async (adaptive) => {
+    const s = scanner({ adaptive });
+    await s.start();
+    for (let i = 0; i < 10; i++) await frame();
+    for (const [image, params] of mocks.decode.mock.calls) {
+      expect(image).toEqual({ width: 1280, height: 960 });
+      expect(params).toMatchObject({ tryHarder: false, tryRotate: true, tryDownscale: true, maxNumberOfSymbols: 1 });
+    }
+    expect(mocks.decode.mock.calls.map((call) => call[1].tryInvert)).toEqual([false, true, false, true, false, true, false, true, false, true]);
+    expect(s.stats.adaptive).toBeNull();
+  });
+
+  it("starts cheaply and periodically samples the full frame at higher resolution without stalling", async () => {
+    const s = scanner({ adaptive: { discoveryInterval: 2, missesBeforeDiscovery: 2, maxDecodePixels: 2_000_000 } });
+    await s.start();
+    const phases = [];
+    for (let i = 0; i < 7; i++) { await frame(); phases.push(s.stats.adaptive!.phase); }
+    expect(phases).toEqual(["normal", "normal", "discovery", "normal", "normal", "discovery", "normal"]);
+    expect(mocks.decode.mock.calls.map((call) => call[0].width)).toEqual([640, 640, 1280, 640, 640, 1280, 640]);
+    for (const call of mocks.drawImage.mock.calls) expect(call.slice(1, 5)).toEqual([0, 0, 4000, 3000]);
+    expect(s.video.requestVideoFrameCallback).toHaveBeenCalledTimes(8);
+    expect(s.stats.adaptive).toMatchObject({ completedFrames: 7, consecutiveMisses: 7 });
+  });
+
+  it("uses decoder-only timing for adaptation and preserves frame event elapsed time", async () => {
+    const s = scanner({ adaptive: true });
+    const event = vi.fn();
+    s.on("frame", event);
+    captureMs = 100;
+    decodeMs = 10;
+    await s.start();
+    await frame();
+    await frame();
+    expect(event.mock.calls[1]![0].decodeMs).toBe(110);
+    expect(s.stats.adaptive).toMatchObject({ decodeMs: 10, normalDecodeSize: 640 });
+    decodeMs = 80;
+    await frame();
+    await frame();
+    await frame();
+    expect(mocks.decode.mock.calls[4]![0].width).toBe(512);
+  });
+
+  it("counts successful decodes even when the duplicate filter suppresses scans", async () => {
+    mocks.decode.mockImplementation(async () => { now += 10; return [barcode]; });
+    const s = scanner({ adaptive: { discoveryInterval: 2, missesBeforeDiscovery: 1 }, duplicateFilter: -1 });
+    const scan = vi.fn();
+    s.on("scan", scan);
+    await s.start();
+    for (let i = 0; i < 5; i++) await frame();
+    expect(scan).toHaveBeenCalledOnce();
+    expect(s.stats.adaptive).toMatchObject({ phase: "normal", consecutiveMisses: 0, consecutiveSuccesses: 5 });
+    expect(mocks.decode.mock.calls.every((call) => call[0].width === 640)).toBe(true);
+  });
+
+  it("keeps a readable discovery resolution and resets that evidence on pause/resume", async () => {
+    mocks.decode.mockImplementation(async (image) => { now += 10; return image.width >= 1000 ? [barcode] : []; });
+    const s = scanner({ adaptive: { discoveryInterval: 2, missesBeforeDiscovery: 2, maxDecodePixels: 2_000_000 } });
+    await s.start();
+    for (let i = 0; i < 8; i++) await frame();
+    expect(mocks.decode.mock.calls.map((call) => call[0].width)).toEqual([640, 640, 1280, 1280, 1280, 1280, 1280, 1280]);
+    expect(s.stats.adaptive).toMatchObject({ phase: "normal", normalDecodeSize: 1280, consecutiveSuccesses: 6 });
+    s.pause();
+    s.resume();
+    await frame();
+    expect(mocks.decode.mock.calls[8]![0].width).toBe(640);
+    expect(s.stats.adaptive).toMatchObject({ completedFrames: 1, normalDecodeSize: 640, consecutiveMisses: 1 });
+  });
+
+  it("resets verified resolution before intrinsic resize callbacks while preserving CSS-only changes", async () => {
+    mocks.decode.mockImplementation(async (image) => { now += 10; return image.width >= 1000 ? [barcode] : []; });
+    const s = scanner({ mode: "batch", adaptive: { discoveryInterval: 2, missesBeforeDiscovery: 2, maxDecodePixels: 2_000_000 } });
+    const reset = vi.fn(() => {
+      expect(s.stats.adaptive).toBeNull();
+      expect(s.tracker.size).toBe(0);
+    });
+    const event = vi.fn();
+    s.on("spatialreset", reset);
+    s.on("frame", event);
+    await s.start();
+    for (let i = 0; i < 3; i++) await frame();
+    expect(s.stats.adaptive).toMatchObject({ completedFrames: 3, normalDecodeSize: 1280 });
+    expect(s.tracker.size).toBe(1);
+    Object.assign(s.video, { clientWidth: 300, clientHeight: 800 });
+    s.video.dispatchEvent(new Event("resize"));
+    expect(reset).not.toHaveBeenCalled();
+    expect(s.stats.adaptive).toMatchObject({ completedFrames: 3, normalDecodeSize: 1280 });
+    expect(s.tracker.size).toBe(1);
+    Object.assign(s.video, { videoWidth: 3000, videoHeight: 4000 });
+    s.video.dispatchEvent(new Event("resize"));
+    expect(reset).toHaveBeenCalledExactlyOnceWith({ frameSize: { width: 3000, height: 4000 } });
+    await frame();
+    expect(mocks.decode.mock.calls[3]![0]).toEqual({ width: 480, height: 640 });
+    expect(s.stats.adaptive).toMatchObject({ completedFrames: 1, phase: "normal", normalDecodeSize: 640, consecutiveMisses: 1 });
+    expect(event.mock.lastCall![0].frameSize).toEqual({ width: 3000, height: 4000 });
+  });
+
+  it.each(["resize event", "late resize event"])("rejects pending old-size discovery before stats or promotion (%s)", async (event) => {
+    const s = scanner({ adaptive: { discoveryInterval: 2, missesBeforeDiscovery: 2, maxDecodePixels: 2_000_000 } });
+    const decoded = vi.fn();
+    const scan = vi.fn();
+    const reset = vi.fn();
+    s.on("frame", decoded);
+    s.on("scan", scan);
+    s.on("spatialreset", reset);
+    await s.start();
+    await frame();
+    await frame();
+    const previousStats = { decodeMs: s.stats.decodeMs, fps: s.stats.fps };
+    let finish!: (value: RawBarcode[]) => void;
+    mocks.decode.mockReturnValueOnce(new Promise<RawBarcode[]>((resolve) => { finish = resolve; }));
+    now += 100;
+    tick();
+    expect(mocks.decode.mock.calls[2]![0].width).toBe(1280);
+    Object.assign(s.video, { videoWidth: 3000, videoHeight: 4000 });
+    if (event === "resize event") s.video.dispatchEvent(new Event("resize"));
+    now += 20;
+    finish([barcode]);
+    await flush();
+    expect(decoded).toHaveBeenCalledTimes(2);
+    expect(scan).not.toHaveBeenCalled();
+    expect(reset).toHaveBeenCalledOnce();
+    expect(s.stats).toMatchObject(previousStats);
+    expect(s.stats.adaptive).toBeNull();
+    await frame();
+    expect(s.stats.adaptive).toMatchObject({ completedFrames: 1, normalDecodeSize: 640, consecutiveMisses: 1 });
+    expect(mocks.decode.mock.calls[3]![0]).toEqual({ width: 480, height: 640 });
+    expect(s.state).toBe("scanning");
+  });
+
+  it("drops an old-size engine failure without training or stopping the resized camera", async () => {
+    const s = scanner({ adaptive: true });
+    const error = vi.fn();
+    s.on("error", error);
+    await s.start();
+    await frame();
+    const previousStats = { decodeMs: s.stats.decodeMs, fps: s.stats.fps };
+    let fail!: (error: QRGenError) => void;
+    mocks.decode.mockReturnValueOnce(new Promise<RawBarcode[]>((_resolve, reject) => { fail = reject; }));
+    now += 100;
+    tick();
+    Object.assign(s.video, { videoWidth: 3000, videoHeight: 4000 });
+    fail(new QRGenError("engine-load-failed", "stale decoder failure"));
+    await flush();
+    expect(error).not.toHaveBeenCalled();
+    expect(s.state).toBe("scanning");
+    expect(s.stats).toMatchObject(previousStats);
+    expect(s.stats.adaptive).toBeNull();
+    await frame();
+    expect(s.stats.adaptive).toMatchObject({ completedFrames: 1, normalDecodeSize: 640 });
+    expect(mocks.decode.mock.calls[2]![0]).toEqual({ width: 480, height: 640 });
+  });
+
+  it("honors pause in a late intrinsic resize callback before capturing and resumes with fresh history", async () => {
+    const s = scanner({ adaptive: true });
+    await s.start();
+    await frame();
+    s.on("spatialreset", () => s.pause());
+    Object.assign(s.video, { videoWidth: 3000, videoHeight: 4000 });
+    await frame();
+    expect(s.state).toBe("paused");
+    expect(mocks.decode).toHaveBeenCalledOnce();
+    expect(mocks.drawImage).toHaveBeenCalledOnce();
+    expect(s.stats.adaptive).toBeNull();
+    s.resume();
+    await frame();
+    expect(s.stats.adaptive).toMatchObject({ completedFrames: 1, normalDecodeSize: 640 });
+    expect(mocks.decode.mock.calls[1]![0]).toEqual({ width: 480, height: 640 });
+  });
+
+  it("uses current options when an intrinsic resize callback disables adaptation", async () => {
+    const s = scanner({ adaptive: true });
+    await s.start();
+    await frame();
+    s.on("spatialreset", () => s.setOptions({ adaptive: false }));
+    Object.assign(s.video, { videoWidth: 3000, videoHeight: 4000 });
+    await frame();
+    expect(mocks.decode.mock.calls[1]![0]).toEqual({ width: 960, height: 1280 });
+    expect(s.stats.adaptive).toBeNull();
+    expect(s.state).toBe("scanning");
+  });
+
+  it("preserves batch identity when only adaptive decoder dimensions change", async () => {
+    let decodedFrames = 0;
+    mocks.decode.mockImplementation(async (image) => {
+      now += 10;
+      decodedFrames++;
+      if (decodedFrames === 2 || decodedFrames === 3) return [];
+      return [{ ...barcode, position: {
+        topLeft: { x: image.width / 4, y: image.height / 4 }, topRight: { x: image.width / 2, y: image.height / 4 },
+        bottomRight: { x: image.width / 2, y: image.height / 2 }, bottomLeft: { x: image.width / 4, y: image.height / 2 },
+      } }];
+    });
+    const s = scanner({ mode: "batch", adaptive: { discoveryInterval: 2, missesBeforeDiscovery: 2, maxDecodePixels: 2_000_000 } });
+    const reset = vi.fn();
+    s.on("spatialreset", reset);
+    await s.start();
+    await frame();
+    const first = s.tracker.all[0]!;
+    await frame();
+    await frame();
+    await frame();
+    expect(mocks.decode.mock.calls.map((call) => call[0].width)).toEqual([640, 640, 640, 1280]);
+    expect(s.stats.adaptive).toMatchObject({ phase: "discovery", normalDecodeSize: 1280 });
+    expect(reset).not.toHaveBeenCalled();
+    expect(s.tracker.all).toHaveLength(1);
+    expect(s.tracker.all[0]).toMatchObject({ id: first.id, count: 2, frameSize: { width: 4000, height: 3000 }, location: first.location });
+  });
+
+  it.each([[8192, 8192], [8192, 4097], [4097, 8192]])("enforces side and pixel budgets for %s x %s camera frames", async (width, height) => {
+    const s = scanner({ adaptive: { initialDecodeSize: 2048, maxDecodePixels: 1_000_000, discoveryInterval: 2, missesBeforeDiscovery: 1 }, maxDecodeSize: 8192 }, width, height);
+    await s.start();
+    for (let i = 0; i < 4; i++) await frame();
+    for (const [image] of mocks.decode.mock.calls) {
+      expect(Math.max(image.width, image.height)).toBeLessThanOrEqual(2048);
+      expect(image.width * image.height).toBeLessThanOrEqual(1_000_000);
+      expect(image.width).toBeGreaterThan(0);
+      expect(image.height).toBeGreaterThan(0);
+    }
+    expect(s.stats.adaptive!.completedFrames).toBe(4);
+  });
+
+  it("never exceeds a smaller caller side cap", async () => {
+    const s = scanner({ adaptive: { discoveryInterval: 2, missesBeforeDiscovery: 1 }, maxDecodeSize: 256 });
+    await s.start();
+    for (let i = 0; i < 4; i++) await frame();
+    expect(mocks.decode.mock.calls.every((call) => Math.max(call[0].width, call[0].height) <= 256)).toBe(true);
+  });
+
+  it.each(["horizontal", "vertical"])("keeps skinny %s areas inside even the minimum pixel budget and maps actual axes", async (axis) => {
+    mocks.decode.mockImplementation(async (image) => {
+      now += 10;
+      return [{ ...barcode, position: {
+        topLeft: { x: 0, y: 0 }, topRight: { x: image.width, y: 0 },
+        bottomRight: { x: image.width, y: image.height }, bottomLeft: { x: 0, y: image.height },
+      } }];
+    });
+    const scanArea = axis === "horizontal" ? { x: 0, y: 0.25, width: 1, height: 16 / 8192 } : { x: 0.25, y: 0, width: 16 / 8192, height: 1 };
+    const s = scanner({ adaptive: { maxDecodePixels: 256 }, scanArea }, 8192, 8192);
+    const event = vi.fn();
+    s.on("frame", event);
+    await s.start();
+    await frame();
+    const image = mocks.decode.mock.calls[0]![0];
+    expect(image.width * image.height).toBeLessThanOrEqual(256);
+    expect([image.width, image.height]).toEqual(axis === "horizontal" ? [256, 1] : [1, 256]);
+    const location = event.mock.calls[0]![0].barcodes[0].location;
+    expect(location.topLeft).toEqual(axis === "horizontal" ? { x: 0, y: 2048 } : { x: 2048, y: 0 });
+    expect(location.bottomRight).toEqual(axis === "horizontal" ? { x: 8192, y: 2064 } : { x: 2064, y: 8192 });
+  });
+
+  it("preserves the caller scan area, source coordinates and full area discovery", async () => {
+    mocks.decode.mockImplementation(async () => { now += 10; return [barcode]; });
+    const s = scanner({ adaptive: true, scanArea: { x: 0.25, y: 0.25, width: 0.5, height: 0.5 } }, 2000, 1600);
+    const event = vi.fn();
+    s.on("frame", event);
+    await s.start();
+    await frame();
+    expect(mocks.drawImage.mock.calls[0]!.slice(1)).toEqual([500, 400, 1000, 800, 0, 0, 640, 512]);
+    expect(event.mock.calls[0]![0].barcodes[0].location.topLeft).toEqual({ x: 515.625, y: 415.625 });
+    expect(event.mock.calls[0]![0].frameSize).toEqual({ width: 2000, height: 1600 });
+  });
+
+  it.each(["restart", "resume", "options", "switch"])("resets history after %s and rejects the cancelled in-flight frame", async (action) => {
+    let finish!: (value: []) => void;
+    mocks.decode.mockReturnValueOnce(new Promise<[]>((resolve) => { finish = resolve; }));
+    const s = scanner({ adaptive: { discoveryInterval: 2, missesBeforeDiscovery: 1 } });
+    const event = vi.fn();
+    s.on("frame", event);
+    await s.start();
+    now += 100;
+    tick();
+    if (action === "restart") { s.stop(); await s.start(); }
+    if (action === "resume") { s.pause(); s.resume(); }
+    if (action === "options") s.setOptions({ tryHarder: true });
+    if (action === "switch") await s.switchCamera();
+    now += 500;
+    finish([]);
+    await flush();
+    expect(event).not.toHaveBeenCalled();
+    expect(s.stats.adaptive).toBeNull();
+    await frame();
+    expect(s.stats.adaptive).toMatchObject({ completedFrames: 1, phase: "normal", normalDecodeSize: 640, consecutiveMisses: 1 });
+    expect(mocks.decode.mock.calls[1]![0].width).toBe(640);
+    expect(s.state).toBe("scanning");
+  });
+
+  it("toggles adaptation while running and resets all learned work settings", async () => {
+    const s = scanner({ adaptive: true });
+    decodeMs = 100;
+    await s.start();
+    await frame();
+    await frame();
+    expect(s.stats.adaptive!.normalDecodeSize).toBe(512);
+    s.setOptions({ adaptive: false });
+    expect(s.stats.adaptive).toBeNull();
+    await frame();
+    expect(mocks.decode.mock.calls[2]![0].width).toBe(1280);
+    expect(s.stats.adaptive).toBeNull();
+    s.setOptions({ adaptive: true });
+    await frame();
+    expect(s.stats.adaptive).toMatchObject({ completedFrames: 1, normalDecodeSize: 640 });
+    expect(mocks.decode.mock.calls[3]![0].width).toBe(640);
+  });
+
+  it.each(["restart", "resume", "options", "switch"])("discards learned slow-frame settings after %s", async (action) => {
+    const s = scanner({ adaptive: true });
+    decodeMs = 100;
+    await s.start();
+    await frame();
+    await frame();
+    expect(s.stats.adaptive).toMatchObject({ completedFrames: 2, normalDecodeSize: 512 });
+    if (action === "restart") { s.stop(); await s.start(); }
+    if (action === "resume") { s.pause(); s.resume(); }
+    if (action === "options") s.setOptions({ tryHarder: true });
+    if (action === "switch") await s.switchCamera();
+    expect(s.stats.adaptive).toBeNull();
+    await frame();
+    expect(mocks.decode.mock.calls[2]![0].width).toBe(640);
+    expect(s.stats.adaptive).toMatchObject({ completedFrames: 1, normalDecodeSize: 640 });
+  });
+
+  it("does not consume discovery cadence while throttled, hidden or busy", async () => {
+    const s = scanner({ adaptive: { discoveryInterval: 2, missesBeforeDiscovery: 2 } });
+    await s.start();
+    await frame();
+    tick(); // Only ten milliseconds since the previous decode started.
+    await flush();
+    vi.stubGlobal("document", { visibilityState: "hidden" });
+    await frame();
+    expect(mocks.decode).toHaveBeenCalledOnce();
+    expect(s.stats.adaptive!.completedFrames).toBe(1);
+    vi.stubGlobal("document", { visibilityState: "visible" });
+    let finish!: (value: []) => void;
+    mocks.decode.mockReturnValueOnce(new Promise<[]>((resolve) => { finish = resolve; }));
+    now += 100;
+    tick();
+    await frame(); // The second decode remains in flight.
+    expect(mocks.decode).toHaveBeenCalledTimes(2);
+    expect(s.stats.adaptive!.completedFrames).toBe(1);
+    finish([]);
+    await flush();
+    expect(s.stats.adaptive).toMatchObject({ completedFrames: 2, phase: "normal" });
+    await frame();
+    expect(s.stats.adaptive).toMatchObject({ completedFrames: 3, phase: "discovery" });
+  });
+
+  it("keeps options atomic if adaptive validation rejects an update", async () => {
+    const s = scanner({ adaptive: true });
+    await s.start();
+    await frame();
+    expect(() => s.setOptions({ adaptive: { discoveryInterval: Infinity }, maxDecodeSize: 256 })).toThrowError(expect.objectContaining({ code: "bad-request" }));
+    expect(s.options.maxDecodeSize).toBe(1280);
+    expect(s.stats.adaptive!.completedFrames).toBe(1);
+    s.setOptions({ beep: false });
+    await frame();
+    expect(s.options.maxDecodeSize).toBe(1280);
+    expect(mocks.decode.mock.calls[1]![0].width).toBe(640);
+  });
+
+  it("keeps scheduling after a recoverable decoder failure without training on it", async () => {
+    mocks.decode.mockRejectedValueOnce(new QRGenError("unknown", "recoverable frame failure"));
+    const s = scanner({ adaptive: true });
+    await s.start();
+    await frame();
+    expect(s.stats.adaptive).toBeNull();
+    expect(s.state).toBe("scanning");
+    await frame();
+    expect(s.stats.adaptive!.completedFrames).toBe(1);
+    expect(s.video.requestVideoFrameCallback).toHaveBeenCalledTimes(3);
+  });
+});

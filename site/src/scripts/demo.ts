@@ -551,7 +551,16 @@ function renderSnippet(): void {
 }
 
 let genSeq = 0;
+function invalidateGenerator(): void {
+  genSeq++;
+  lastSvg = "";
+  lastPng = null;
+  preview.replaceChildren();
+  meta.textContent = "";
+  $$<HTMLButtonElement>("[data-gen]").forEach((button) => (button.disabled = true));
+}
 async function renderGenerator(): Promise<void> {
+  invalidateGenerator();
   const seq = ++genSeq;
   const o = genOptions();
   renderSnippet();
@@ -561,6 +570,7 @@ async function renderGenerator(): Promise<void> {
     errorBox.hidden = true;
     lastSvg = out.svg;
     lastPng = out.png;
+    $$<HTMLButtonElement>("[data-gen]").forEach((button) => (button.disabled = (button.dataset.gen === "png" || button.dataset.gen === "test") ? !lastPng : false));
     preview.innerHTML = out.svg;
     const svg = preview.querySelector("svg");
     if (svg) {
@@ -582,6 +592,7 @@ async function renderGenerator(): Promise<void> {
 let genTimer: ReturnType<typeof setTimeout> | undefined;
 form.addEventListener("input", (e) => {
   if (e.target === symSelect) return;
+  invalidateGenerator();
   clearTimeout(genTimer);
   genTimer = setTimeout(() => void renderGenerator(), 120);
 });
@@ -600,15 +611,27 @@ function download(blob: Blob, name: string): void {
 $('[data-gen="svg"]').addEventListener("click", () => lastSvg && download(new Blob([lastSvg], { type: "image/svg+xml" }), `qrgen-${symSelect.value}.svg`));
 $('[data-gen="png"]').addEventListener("click", () => lastPng && download(lastPng, `qrgen-${symSelect.value}.png`));
 $('[data-gen="copy-svg"]').addEventListener("click", async (e) => {
-  await navigator.clipboard.writeText(lastSvg).catch(() => undefined);
   const span = (e.currentTarget as HTMLElement).querySelector("span")!;
-  span.textContent = "Copied";
+  try {
+    await navigator.clipboard.writeText(lastSvg);
+    span.textContent = "Copied";
+  } catch {
+    span.textContent = "Copy failed";
+  }
   setTimeout(() => (span.textContent = "Copy SVG"), 1500);
 });
 $('[data-gen="test"]').addEventListener("click", async () => {
-  if (!lastPng) return;
-  const found = await scanImage(lastPng);
-  meta.textContent = found.length ? `Scanned back: ${found[0]!.symbologyName} → ${found[0]!.data.slice(0, 80)}` : "Could not scan it back (try a larger module size or darker colors).";
+  const png = lastPng;
+  const seq = genSeq;
+  if (!png) return;
+  try {
+    const found = await scanImage(png);
+    if (seq !== genSeq || png !== lastPng) return;
+    meta.textContent = found.length ? `Scanned back: ${found[0]!.symbologyName} → ${found[0]!.data.slice(0, 80)}` : "Could not scan it back (try a larger module size or darker colors).";
+  } catch (cause) {
+    if (seq !== genSeq || png !== lastPng) return;
+    meta.textContent = `Could not check the export: ${cause instanceof Error ? cause.message : String(cause)}`;
+  }
 });
 
 // ---------------------------------------------------------------------------

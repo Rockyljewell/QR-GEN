@@ -40,6 +40,8 @@ export interface QRGenScannerProps {
   resolution?: "sd" | "hd" | "fhd" | "4k";
   /** Decode in a Web Worker (default true). */
   worker?: boolean;
+  /** Opt in to experimental adaptive full-frame capture. Default false. */
+  adaptive?: boolean;
   className?: string;
   style?: CSSProperties;
   onScan?: (barcodes: Barcode[], barcode: Barcode) => void;
@@ -87,6 +89,7 @@ function attrs(p: QRGenScannerProps): Record<string, string | undefined> {
     "try-harder": b(p.tryHarder),
     resolution: p.resolution,
     worker: b(p.worker),
+    adaptive: b(p.adaptive),
   };
 }
 
