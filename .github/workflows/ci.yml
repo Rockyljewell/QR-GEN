@@ -152,8 +152,18 @@ jobs:
           distribution: temurin
           java-version: 17
       - uses: gradle/actions/setup-gradle@v4
-      - name: Core tests, library, Compose and sample builds
-        run: ./gradlew :qrgen-core:test :qrgen-android:testDebugUnitTest :qrgen-android:assembleRelease :qrgen-compose:assembleRelease :sample:assembleDebug -Pqrgen.android=true --no-daemon
+      - name: Core, Android and Compose tests, library and sample builds
+        run: ./gradlew :qrgen-core:test :qrgen-android:testDebugUnitTest :qrgen-compose:testDebugUnitTest :qrgen-android:assembleRelease :qrgen-compose:assembleRelease :sample:assembleDebug :qrgen-compose:generatePomFileForReleasePublication -Pqrgen.android=true --no-daemon
+      - name: Compose test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-compose-test-reports
+          path: |
+            packages/android/qrgen-compose/build/test-results/testDebugUnitTest/
+            packages/android/qrgen-compose/build/reports/tests/testDebugUnitTest/
+            packages/android/qrgen-compose/build/publications/release/pom-default.xml
+          if-no-files-found: warn
 
   react-native:
     name: React Native
