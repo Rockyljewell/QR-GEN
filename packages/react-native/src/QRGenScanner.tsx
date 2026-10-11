@@ -347,6 +347,8 @@ const VisionCameraScanner = forwardRef<QRGenScannerHandle, InnerProps>(function 
         setFrameSize((prev) => (prev && prev.width === fs.width && prev.height === fs.height ? prev : fs));
       }
       const result = session.process(barcodes, now);
+      // Complete this single frame before app callbacks can start a new scan.
+      if (result.stop) setRunState('stopped');
       if (state.mode === 'batch') {
         if (result.tracked) showHighlightsFor(result.tracked, false);
       } else if (barcodes.length > 0) {
@@ -362,7 +364,6 @@ const VisionCameraScanner = forwardRef<QRGenScannerHandle, InnerProps>(function 
         p.onScan?.(result.scanned);
       }
       if (result.tracked) p.onTrack?.(result.tracked);
-      if (result.stop) setRunState('stopped');
     },
     [platform, session, showHighlightsFor],
   );
