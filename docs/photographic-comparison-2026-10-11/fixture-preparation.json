@@ -1,0 +1,633 @@
+{
+  "preparedAt": "2026-10-11T14:15:28.811Z",
+  "selectionFrozenAt": "2026-10-11T14:14:25.147Z",
+  "selectionSha256": "22667937525331487eb722f9544b33f723c4b30c07418b43d5a88c89d976a6ce",
+  "selectionPolicy": "Condition/format selection and visual oracle review before any QRGEN/Scandit decoder run. No image was selected based on decoding success.",
+  "repository": "zxing/zxing",
+  "commit": "5bdcab8035f6d26107cfad32d1aa2a85455efbc5",
+  "helper": "image-camera.mjs",
+  "helperSha256": "17fb58c6f5281ab0329e09c0fb9da4acd7c1add18184a9329ff03e34b0f113c7",
+  "decoderCalls": 0,
+  "cases": [
+    {
+      "id": "qrcode-3-01",
+      "fixture": {
+        "imageSha256": "f248b31bab68a3a38a071ba3ddad1c39a1a43bdc80fd072916dceb204d457464",
+        "y4mSha256": "d617eb4f2e679bbf5eb31ee4b9229b3eff55d9cd5912222967f01d11cdc4eacf",
+        "sourceWidth": 240,
+        "sourceHeight": 240,
+        "width": 640,
+        "height": 480,
+        "frames": 30,
+        "frameRate": "30:1",
+        "rasterWidth": 240,
+        "rasterHeight": 240,
+        "left": 200,
+        "top": 120,
+        "resized": false,
+        "resizeKernel": "lanczos3",
+        "noUpscaling": true,
+        "sourceAlphaComposite": "white",
+        "luma": "round(16 + (65.738*R + 129.057*G + 25.064*B)/255)",
+        "chroma": 128,
+        "paddingY": 200,
+        "sharpVersion": "0.35.5"
+      },
+      "testDefinition": {
+        "path": "core/src/test/java/com/google/zxing/qrcode/QRCodeBlackBox3TestCase.java",
+        "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/java/com/google/zxing/qrcode/QRCodeBlackBox3TestCase.java",
+        "sha256": "c27aa0aa57db5cb11c96c3c6edf04cbcfe745dd70856b59711b64965a1a61c95",
+        "expectedFormatEnum": "QR_CODE"
+      }
+    },
+    {
+      "id": "qrcode-4-01",
+      "fixture": {
+        "imageSha256": "3e0f7c10d182bc52644d81c1dc4fc760e6d0dc8febff6725039dc4ebe85de06a",
+        "y4mSha256": "64df4a75bb7a42d3b1369d41323706627a9d34766c1ca6c68c0fe6b3fa236285",
+        "sourceWidth": 240,
+        "sourceHeight": 240,
+        "width": 640,
+        "height": 480,
+        "frames": 30,
+        "frameRate": "30:1",
+        "rasterWidth": 240,
+        "rasterHeight": 240,
+        "left": 200,
+        "top": 120,
+        "resized": false,
+        "resizeKernel": "lanczos3",
+        "noUpscaling": true,
+        "sourceAlphaComposite": "white",
+        "luma": "round(16 + (65.738*R + 129.057*G + 25.064*B)/255)",
+        "chroma": 128,
+        "paddingY": 200,
+        "sharpVersion": "0.35.5"
+      },
+      "testDefinition": {
+        "path": "core/src/test/java/com/google/zxing/qrcode/QRCodeBlackBox4TestCase.java",
+        "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/java/com/google/zxing/qrcode/QRCodeBlackBox4TestCase.java",
+        "sha256": "062dea375a710abb90477f968bf73ac55cc2760ea0bf18b79d77c34c569b4d14",
+        "expectedFormatEnum": "QR_CODE"
+      }
+    },
+    {
+      "id": "qrcode-5-01",
+      "fixture": {
+        "imageSha256": "7f893f6328502020ef979316c9befc1ee68833e4f01d1f960764ef458785a519",
+        "y4mSha256": "bd803c0c92ac72dfefdc902db19358476ea8cd8865748321d23bcb113ac6eeb9",
+        "sourceWidth": 240,
+        "sourceHeight": 240,
+        "width": 640,
+        "height": 480,
+        "frames": 30,
+        "frameRate": "30:1",
+        "rasterWidth": 240,
+        "rasterHeight": 240,
+        "left": 200,
+        "top": 120,
+        "resized": false,
+        "resizeKernel": "lanczos3",
+        "noUpscaling": true,
+        "sourceAlphaComposite": "white",
+        "luma": "round(16 + (65.738*R + 129.057*G + 25.064*B)/255)",
+        "chroma": 128,
+        "paddingY": 200,
+        "sharpVersion": "0.35.5"
+      },
+      "testDefinition": {
+        "path": "core/src/test/java/com/google/zxing/qrcode/QRCodeBlackBox5TestCase.java",
+        "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/java/com/google/zxing/qrcode/QRCodeBlackBox5TestCase.java",
+        "sha256": "765cfc17e27214735f218b86312369b66cbc8adead5b34a828f437925acde43e",
+        "expectedFormatEnum": "QR_CODE"
+      }
+    },
+    {
+      "id": "qrcode-6-1",
+      "fixture": {
+        "imageSha256": "93c02846cc4d70d3433429b75917393923455895c46dc41f473c6bd6c56ce874",
+        "y4mSha256": "8c5aa74f0c7b40015ffabba89fd49e2b2823c1944234780f75720546173319b3",
+        "sourceWidth": 500,
+        "sourceHeight": 500,
+        "width": 640,
+        "height": 480,
+        "frames": 30,
+        "frameRate": "30:1",
+        "rasterWidth": 480,
+        "rasterHeight": 480,
+        "left": 80,
+        "top": 0,
+        "resized": true,
+        "resizeKernel": "lanczos3",
+        "noUpscaling": true,
+        "sourceAlphaComposite": "white",
+        "luma": "round(16 + (65.738*R + 129.057*G + 25.064*B)/255)",
+        "chroma": 128,
+        "paddingY": 200,
+        "sharpVersion": "0.35.5"
+      },
+      "testDefinition": {
+        "path": "core/src/test/java/com/google/zxing/qrcode/QRCodeBlackBox6TestCase.java",
+        "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/java/com/google/zxing/qrcode/QRCodeBlackBox6TestCase.java",
+        "sha256": "3723445b8c2230066dbbbf827625ae3a40727a87d7d30ef21ae4aa3a70701c58",
+        "expectedFormatEnum": "QR_CODE"
+      }
+    },
+    {
+      "id": "datamatrix-2-01",
+      "fixture": {
+        "imageSha256": "a21ea4aad94a46d5bec2023bfc42d6825d04e8478c958901290e2506dca1fcf2",
+        "y4mSha256": "9b3d3ee2b0ba332a5a29c5d474acc33a4a510ca918f2a00078545995e7cd2c5e",
+        "sourceWidth": 240,
+        "sourceHeight": 240,
+        "width": 640,
+        "height": 480,
+        "frames": 30,
+        "frameRate": "30:1",
+        "rasterWidth": 240,
+        "rasterHeight": 240,
+        "left": 200,
+        "top": 120,
+        "resized": false,
+        "resizeKernel": "lanczos3",
+        "noUpscaling": true,
+        "sourceAlphaComposite": "white",
+        "luma": "round(16 + (65.738*R + 129.057*G + 25.064*B)/255)",
+        "chroma": 128,
+        "paddingY": 200,
+        "sharpVersion": "0.35.5"
+      },
+      "testDefinition": {
+        "path": "core/src/test/java/com/google/zxing/datamatrix/DataMatrixBlackBox2TestCase.java",
+        "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/java/com/google/zxing/datamatrix/DataMatrixBlackBox2TestCase.java",
+        "sha256": "bc09d38ef7f098bd102713513fb2b447add126f0db3f13cf9a92b9506b07cd15",
+        "expectedFormatEnum": "DATA_MATRIX"
+      }
+    },
+    {
+      "id": "datamatrix-2-08",
+      "fixture": {
+        "imageSha256": "383b547651cf28b7b39c9caa9a6ab27036f4414e9989663c6dd69e60624f1a26",
+        "y4mSha256": "08cb7b51b60ec53d34efea318b4f7529f0f978912cb2d8ec52a6850aec418f9d",
+        "sourceWidth": 240,
+        "sourceHeight": 240,
+        "width": 640,
+        "height": 480,
+        "frames": 30,
+        "frameRate": "30:1",
+        "rasterWidth": 240,
+        "rasterHeight": 240,
+        "left": 200,
+        "top": 120,
+        "resized": false,
+        "resizeKernel": "lanczos3",
+        "noUpscaling": true,
+        "sourceAlphaComposite": "white",
+        "luma": "round(16 + (65.738*R + 129.057*G + 25.064*B)/255)",
+        "chroma": 128,
+        "paddingY": 200,
+        "sharpVersion": "0.35.5"
+      },
+      "testDefinition": {
+        "path": "core/src/test/java/com/google/zxing/datamatrix/DataMatrixBlackBox2TestCase.java",
+        "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/java/com/google/zxing/datamatrix/DataMatrixBlackBox2TestCase.java",
+        "sha256": "bc09d38ef7f098bd102713513fb2b447add126f0db3f13cf9a92b9506b07cd15",
+        "expectedFormatEnum": "DATA_MATRIX"
+      }
+    },
+    {
+      "id": "datamatrix-2-18",
+      "fixture": {
+        "imageSha256": "e7222e1631af381c97a0e90eac7f7e4092936291729db09615537720cb0e6fa8",
+        "y4mSha256": "6d9c6d1ba44d04772f7d29637997d6c08461a19c479ced6d02c763e9b08b297f",
+        "sourceWidth": 240,
+        "sourceHeight": 240,
+        "width": 640,
+        "height": 480,
+        "frames": 30,
+        "frameRate": "30:1",
+        "rasterWidth": 240,
+        "rasterHeight": 240,
+        "left": 200,
+        "top": 120,
+        "resized": false,
+        "resizeKernel": "lanczos3",
+        "noUpscaling": true,
+        "sourceAlphaComposite": "white",
+        "luma": "round(16 + (65.738*R + 129.057*G + 25.064*B)/255)",
+        "chroma": 128,
+        "paddingY": 200,
+        "sharpVersion": "0.35.5"
+      },
+      "testDefinition": {
+        "path": "core/src/test/java/com/google/zxing/datamatrix/DataMatrixBlackBox2TestCase.java",
+        "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/java/com/google/zxing/datamatrix/DataMatrixBlackBox2TestCase.java",
+        "sha256": "bc09d38ef7f098bd102713513fb2b447add126f0db3f13cf9a92b9506b07cd15",
+        "expectedFormatEnum": "DATA_MATRIX"
+      }
+    },
+    {
+      "id": "pdf417-2-01",
+      "fixture": {
+        "imageSha256": "b036c6b9d6c1d36cc44651975004226fb16b5d1bdded83d6461ef473b3c978f1",
+        "y4mSha256": "52623db604673a8f8f948c1a01d0e72bceb3cc8ef3a6987850b490a46cc601a9",
+        "sourceWidth": 480,
+        "sourceHeight": 240,
+        "width": 640,
+        "height": 480,
+        "frames": 30,
+        "frameRate": "30:1",
+        "rasterWidth": 480,
+        "rasterHeight": 240,
+        "left": 80,
+        "top": 120,
+        "resized": false,
+        "resizeKernel": "lanczos3",
+        "noUpscaling": true,
+        "sourceAlphaComposite": "white",
+        "luma": "round(16 + (65.738*R + 129.057*G + 25.064*B)/255)",
+        "chroma": 128,
+        "paddingY": 200,
+        "sharpVersion": "0.35.5"
+      },
+      "testDefinition": {
+        "path": "core/src/test/java/com/google/zxing/pdf417/PDF417BlackBox2TestCase.java",
+        "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/java/com/google/zxing/pdf417/PDF417BlackBox2TestCase.java",
+        "sha256": "c809b303b2d8ba8f00b648727c843dba730d788bb1f4716795dd78103991fe7f",
+        "expectedFormatEnum": "PDF_417"
+      }
+    },
+    {
+      "id": "pdf417-2-10",
+      "fixture": {
+        "imageSha256": "45865ca529137684a27e56add868ec649f0cd607091ac47f3fefaeac4c8b25f9",
+        "y4mSha256": "a1d214209f739fb74bec69ff71ed577eaa3ff1cef1a038ee8c2fc6cd44c30e83",
+        "sourceWidth": 480,
+        "sourceHeight": 240,
+        "width": 640,
+        "height": 480,
+        "frames": 30,
+        "frameRate": "30:1",
+        "rasterWidth": 480,
+        "rasterHeight": 240,
+        "left": 80,
+        "top": 120,
+        "resized": false,
+        "resizeKernel": "lanczos3",
+        "noUpscaling": true,
+        "sourceAlphaComposite": "white",
+        "luma": "round(16 + (65.738*R + 129.057*G + 25.064*B)/255)",
+        "chroma": 128,
+        "paddingY": 200,
+        "sharpVersion": "0.35.5"
+      },
+      "testDefinition": {
+        "path": "core/src/test/java/com/google/zxing/pdf417/PDF417BlackBox2TestCase.java",
+        "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/java/com/google/zxing/pdf417/PDF417BlackBox2TestCase.java",
+        "sha256": "c809b303b2d8ba8f00b648727c843dba730d788bb1f4716795dd78103991fe7f",
+        "expectedFormatEnum": "PDF_417"
+      }
+    },
+    {
+      "id": "pdf417-2-25",
+      "fixture": {
+        "imageSha256": "5423cc32edd13dbf62bebfe90f4a2f4e49e310e15c51656f2d2e197e690ff1ef",
+        "y4mSha256": "8dacde67cb9c33aa7e9db8ed7e631d5c146c7056432bb8b2563d0d8c911f63bd",
+        "sourceWidth": 220,
+        "sourceHeight": 80,
+        "width": 640,
+        "height": 480,
+        "frames": 30,
+        "frameRate": "30:1",
+        "rasterWidth": 220,
+        "rasterHeight": 80,
+        "left": 210,
+        "top": 200,
+        "resized": false,
+        "resizeKernel": "lanczos3",
+        "noUpscaling": true,
+        "sourceAlphaComposite": "white",
+        "luma": "round(16 + (65.738*R + 129.057*G + 25.064*B)/255)",
+        "chroma": 128,
+        "paddingY": 200,
+        "sharpVersion": "0.35.5"
+      },
+      "testDefinition": {
+        "path": "core/src/test/java/com/google/zxing/pdf417/PDF417BlackBox2TestCase.java",
+        "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/java/com/google/zxing/pdf417/PDF417BlackBox2TestCase.java",
+        "sha256": "c809b303b2d8ba8f00b648727c843dba730d788bb1f4716795dd78103991fe7f",
+        "expectedFormatEnum": "PDF_417"
+      }
+    },
+    {
+      "id": "ean13-2-01",
+      "fixture": {
+        "imageSha256": "2118c72d5486fd8a3ba5f1c8b3e7454e1d87195d9f6b742a84f1d6cdf7b1af50",
+        "y4mSha256": "c804132d3ddf4a61c2423bcb2ba602d6ba1ad1e6b93b9ceeaaf92054d438f489",
+        "sourceWidth": 480,
+        "sourceHeight": 360,
+        "width": 640,
+        "height": 480,
+        "frames": 30,
+        "frameRate": "30:1",
+        "rasterWidth": 480,
+        "rasterHeight": 360,
+        "left": 80,
+        "top": 60,
+        "resized": false,
+        "resizeKernel": "lanczos3",
+        "noUpscaling": true,
+        "sourceAlphaComposite": "white",
+        "luma": "round(16 + (65.738*R + 129.057*G + 25.064*B)/255)",
+        "chroma": 128,
+        "paddingY": 200,
+        "sharpVersion": "0.35.5"
+      },
+      "testDefinition": {
+        "path": "core/src/test/java/com/google/zxing/oned/EAN13BlackBox2TestCase.java",
+        "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/java/com/google/zxing/oned/EAN13BlackBox2TestCase.java",
+        "sha256": "79a4762145ebdbd22a2c208ff566dc59032ff35249e27afb6134ee02a1a010b1",
+        "expectedFormatEnum": "EAN_13"
+      }
+    },
+    {
+      "id": "ean13-2-07",
+      "fixture": {
+        "imageSha256": "449dc5aeddd91d7223ea63e0ff0380c9ae115771fe13827917895f9e56b30e00",
+        "y4mSha256": "3211ab1d83d1dd9545620e07f83b0a30df8497257b0b46b13762f7dba016d43c",
+        "sourceWidth": 480,
+        "sourceHeight": 360,
+        "width": 640,
+        "height": 480,
+        "frames": 30,
+        "frameRate": "30:1",
+        "rasterWidth": 480,
+        "rasterHeight": 360,
+        "left": 80,
+        "top": 60,
+        "resized": false,
+        "resizeKernel": "lanczos3",
+        "noUpscaling": true,
+        "sourceAlphaComposite": "white",
+        "luma": "round(16 + (65.738*R + 129.057*G + 25.064*B)/255)",
+        "chroma": 128,
+        "paddingY": 200,
+        "sharpVersion": "0.35.5"
+      },
+      "testDefinition": {
+        "path": "core/src/test/java/com/google/zxing/oned/EAN13BlackBox2TestCase.java",
+        "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/java/com/google/zxing/oned/EAN13BlackBox2TestCase.java",
+        "sha256": "79a4762145ebdbd22a2c208ff566dc59032ff35249e27afb6134ee02a1a010b1",
+        "expectedFormatEnum": "EAN_13"
+      }
+    },
+    {
+      "id": "ean13-2-21",
+      "fixture": {
+        "imageSha256": "2a599fdd3344a43a3fc2a687993ac120c7e0b4f8e5c5d699ae693a4f52674bf1",
+        "y4mSha256": "02a85f39e0b64f9e193d39ebbb08d7a2a476657ac21d0b8cde23009ab7cdd58b",
+        "sourceWidth": 480,
+        "sourceHeight": 360,
+        "width": 640,
+        "height": 480,
+        "frames": 30,
+        "frameRate": "30:1",
+        "rasterWidth": 480,
+        "rasterHeight": 360,
+        "left": 80,
+        "top": 60,
+        "resized": false,
+        "resizeKernel": "lanczos3",
+        "noUpscaling": true,
+        "sourceAlphaComposite": "white",
+        "luma": "round(16 + (65.738*R + 129.057*G + 25.064*B)/255)",
+        "chroma": 128,
+        "paddingY": 200,
+        "sharpVersion": "0.35.5"
+      },
+      "testDefinition": {
+        "path": "core/src/test/java/com/google/zxing/oned/EAN13BlackBox2TestCase.java",
+        "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/java/com/google/zxing/oned/EAN13BlackBox2TestCase.java",
+        "sha256": "79a4762145ebdbd22a2c208ff566dc59032ff35249e27afb6134ee02a1a010b1",
+        "expectedFormatEnum": "EAN_13"
+      }
+    },
+    {
+      "id": "code128-2-01",
+      "fixture": {
+        "imageSha256": "d7045425d071773fd8018bd6733fa67b53a5ff9cef1d6c92a86af56a48683359",
+        "y4mSha256": "365d4d8be8f744004283ee75c66f7150cc9e6a4febf6123dfdda77b02f6d56cc",
+        "sourceWidth": 640,
+        "sourceHeight": 480,
+        "width": 640,
+        "height": 480,
+        "frames": 30,
+        "frameRate": "30:1",
+        "rasterWidth": 640,
+        "rasterHeight": 480,
+        "left": 0,
+        "top": 0,
+        "resized": false,
+        "resizeKernel": "lanczos3",
+        "noUpscaling": true,
+        "sourceAlphaComposite": "white",
+        "luma": "round(16 + (65.738*R + 129.057*G + 25.064*B)/255)",
+        "chroma": 128,
+        "paddingY": 200,
+        "sharpVersion": "0.35.5"
+      },
+      "testDefinition": {
+        "path": "core/src/test/java/com/google/zxing/oned/Code128BlackBox2TestCase.java",
+        "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/java/com/google/zxing/oned/Code128BlackBox2TestCase.java",
+        "sha256": "bb76bc41e10d5fa4e657fa220ff0eb135e2fdf2c2c9a4f0d7e1f26bb2e062788",
+        "expectedFormatEnum": "CODE_128"
+      }
+    },
+    {
+      "id": "code128-2-20",
+      "fixture": {
+        "imageSha256": "e841bc8844f9f70607a853796aad22df41ff6df9cb67a8b0cc932af941252964",
+        "y4mSha256": "f715b8495b8279f1c9c1eece9e932b57b12da8f523ae764c17ffd54a08b8d1c1",
+        "sourceWidth": 640,
+        "sourceHeight": 480,
+        "width": 640,
+        "height": 480,
+        "frames": 30,
+        "frameRate": "30:1",
+        "rasterWidth": 640,
+        "rasterHeight": 480,
+        "left": 0,
+        "top": 0,
+        "resized": false,
+        "resizeKernel": "lanczos3",
+        "noUpscaling": true,
+        "sourceAlphaComposite": "white",
+        "luma": "round(16 + (65.738*R + 129.057*G + 25.064*B)/255)",
+        "chroma": 128,
+        "paddingY": 200,
+        "sharpVersion": "0.35.5"
+      },
+      "testDefinition": {
+        "path": "core/src/test/java/com/google/zxing/oned/Code128BlackBox2TestCase.java",
+        "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/java/com/google/zxing/oned/Code128BlackBox2TestCase.java",
+        "sha256": "bb76bc41e10d5fa4e657fa220ff0eb135e2fdf2c2c9a4f0d7e1f26bb2e062788",
+        "expectedFormatEnum": "CODE_128"
+      }
+    },
+    {
+      "id": "code128-2-40",
+      "fixture": {
+        "imageSha256": "b236e9c48e6b63f772a9df8ba8e0d0a8d97f6d7f4e3cb99fd5a5370a19fddb30",
+        "y4mSha256": "5c408f82dc2ac6ee0d8bf41c0cb2dae7e2ca49d6463b2c651d82efd83e36ab65",
+        "sourceWidth": 640,
+        "sourceHeight": 480,
+        "width": 640,
+        "height": 480,
+        "frames": 30,
+        "frameRate": "30:1",
+        "rasterWidth": 640,
+        "rasterHeight": 480,
+        "left": 0,
+        "top": 0,
+        "resized": false,
+        "resizeKernel": "lanczos3",
+        "noUpscaling": true,
+        "sourceAlphaComposite": "white",
+        "luma": "round(16 + (65.738*R + 129.057*G + 25.064*B)/255)",
+        "chroma": 128,
+        "paddingY": 200,
+        "sharpVersion": "0.35.5"
+      },
+      "testDefinition": {
+        "path": "core/src/test/java/com/google/zxing/oned/Code128BlackBox2TestCase.java",
+        "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/java/com/google/zxing/oned/Code128BlackBox2TestCase.java",
+        "sha256": "bb76bc41e10d5fa4e657fa220ff0eb135e2fdf2c2c9a4f0d7e1f26bb2e062788",
+        "expectedFormatEnum": "CODE_128"
+      }
+    },
+    {
+      "id": "falsepositives-01",
+      "fixture": {
+        "imageSha256": "351fc204817fae136f77412dd38d22c6e8bd1aac0306d75323f73ecf8e6e8bff",
+        "y4mSha256": "3f4aadf99e3c02e8b80ac60c4b8d7814545436d304257704bfc25e2f15ada225",
+        "sourceWidth": 640,
+        "sourceHeight": 480,
+        "width": 640,
+        "height": 480,
+        "frames": 30,
+        "frameRate": "30:1",
+        "rasterWidth": 640,
+        "rasterHeight": 480,
+        "left": 0,
+        "top": 0,
+        "resized": false,
+        "resizeKernel": "lanczos3",
+        "noUpscaling": true,
+        "sourceAlphaComposite": "white",
+        "luma": "round(16 + (65.738*R + 129.057*G + 25.064*B)/255)",
+        "chroma": 128,
+        "paddingY": 200,
+        "sharpVersion": "0.35.5"
+      },
+      "testDefinition": {
+        "path": "core/src/test/java/com/google/zxing/negative/FalsePositivesBlackBoxTestCase.java",
+        "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/java/com/google/zxing/negative/FalsePositivesBlackBoxTestCase.java",
+        "sha256": "58cadae6a407323933c9be51584e9ed8c90177289db8c87fcbaee4b7bb9430cb",
+        "expectedFormatEnum": null
+      }
+    },
+    {
+      "id": "falsepositives-10",
+      "fixture": {
+        "imageSha256": "a2ec169c492cd903a87ae0db11c6bbb7c0a0c126cada51fb4df979cb7433e0e4",
+        "y4mSha256": "651581ac5042e243727064bb5a9798a86d557d3c2a403a7b3402c744ba08d58a",
+        "sourceWidth": 640,
+        "sourceHeight": 480,
+        "width": 640,
+        "height": 480,
+        "frames": 30,
+        "frameRate": "30:1",
+        "rasterWidth": 640,
+        "rasterHeight": 480,
+        "left": 0,
+        "top": 0,
+        "resized": false,
+        "resizeKernel": "lanczos3",
+        "noUpscaling": true,
+        "sourceAlphaComposite": "white",
+        "luma": "round(16 + (65.738*R + 129.057*G + 25.064*B)/255)",
+        "chroma": 128,
+        "paddingY": 200,
+        "sharpVersion": "0.35.5"
+      },
+      "testDefinition": {
+        "path": "core/src/test/java/com/google/zxing/negative/FalsePositivesBlackBoxTestCase.java",
+        "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/java/com/google/zxing/negative/FalsePositivesBlackBoxTestCase.java",
+        "sha256": "58cadae6a407323933c9be51584e9ed8c90177289db8c87fcbaee4b7bb9430cb",
+        "expectedFormatEnum": null
+      }
+    },
+    {
+      "id": "falsepositives-2-01",
+      "fixture": {
+        "imageSha256": "1e99e694791f4e083bff9cb0ffe83a1b198875095d32adab1c832ebff8571cb9",
+        "y4mSha256": "f658c997381cd618bae898c0e956bf6f613973de5f097b6d668c62f1e3c1e59b",
+        "sourceWidth": 480,
+        "sourceHeight": 480,
+        "width": 640,
+        "height": 480,
+        "frames": 30,
+        "frameRate": "30:1",
+        "rasterWidth": 480,
+        "rasterHeight": 480,
+        "left": 80,
+        "top": 0,
+        "resized": false,
+        "resizeKernel": "lanczos3",
+        "noUpscaling": true,
+        "sourceAlphaComposite": "white",
+        "luma": "round(16 + (65.738*R + 129.057*G + 25.064*B)/255)",
+        "chroma": 128,
+        "paddingY": 200,
+        "sharpVersion": "0.35.5"
+      },
+      "testDefinition": {
+        "path": "core/src/test/java/com/google/zxing/negative/FalsePositives2BlackBoxTestCase.java",
+        "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/java/com/google/zxing/negative/FalsePositives2BlackBoxTestCase.java",
+        "sha256": "8e57f219948c899ea40773a1bf93d82495c5dae27a7c3794fed46f9d28a9f84a",
+        "expectedFormatEnum": null
+      }
+    },
+    {
+      "id": "falsepositives-20",
+      "fixture": {
+        "imageSha256": "de560a977b8edf0706742fcb85212d55cceb8df39d63858d63310e22192d780a",
+        "y4mSha256": "f49b6a905084f2c5097ce29093892a43f3861f3b43deeae87429a57cbec63004",
+        "sourceWidth": 640,
+        "sourceHeight": 480,
+        "width": 640,
+        "height": 480,
+        "frames": 30,
+        "frameRate": "30:1",
+        "rasterWidth": 640,
+        "rasterHeight": 480,
+        "left": 0,
+        "top": 0,
+        "resized": false,
+        "resizeKernel": "lanczos3",
+        "noUpscaling": true,
+        "sourceAlphaComposite": "white",
+        "luma": "round(16 + (65.738*R + 129.057*G + 25.064*B)/255)",
+        "chroma": 128,
+        "paddingY": 200,
+        "sharpVersion": "0.35.5"
+      },
+      "testDefinition": {
+        "path": "core/src/test/java/com/google/zxing/negative/FalsePositivesBlackBoxTestCase.java",
+        "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/java/com/google/zxing/negative/FalsePositivesBlackBoxTestCase.java",
+        "sha256": "58cadae6a407323933c9be51584e9ed8c90177289db8c87fcbaee4b7bb9430cb",
+        "expectedFormatEnum": null
+      }
+    }
+  ]
+}

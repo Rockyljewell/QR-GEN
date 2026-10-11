@@ -1,0 +1,6565 @@
+{
+  "scope": "Isolated official ZXing-WASM patch comparison on frozen three photographic EAN fixtures and six derived PNGs. Not a live browser or Scandit comparison.",
+  "startedAt": "2026-10-11T14:39:34.187Z",
+  "node": "v18.17.0",
+  "executable": "<LOCAL_NODE_EXECUTABLE>",
+  "executableSha256": "da74bcc1606026f05523c33e7882cc0ca4e0786a532bb80f932873eca9bdb431",
+  "repeats": 3,
+  "tarball": {
+    "version": "3.1.5",
+    "tarball": "https://registry.npmjs.org/zxing-wasm/-/zxing-wasm-3.1.5.tgz",
+    "sha1": "8b953b8c01fefefa7588b433f2c120c1344b52a9",
+    "sha512": "sha512-jmxXvTCR/qZxMz2XwR6V+nL2BlDTD1aux7ZWSH9BV77TG9u4k0VyHba/NCCHBHJ60Wg6VV0QL/SMlJczKhJI4w==",
+    "integrityVerified": true
+  },
+  "versions": [
+    {
+      "name": "baseline",
+      "version": "3.1.4",
+      "cppCommit": "0b2d9a8fc81f420f369928c24331091ff0525976",
+      "entry": "<QRGEN_REPO>\\node_modules\\zxing-wasm\\dist\\cjs\\reader\\index.js",
+      "jsSha256": "a972d9d7182386e1a3c00a3f367cdcf5c5b6ab208fec9f3cf36ffc7531049570",
+      "wasmSha256": "e8af31edb56d0522f4de74495839385ef019ba8bc90d38e5ecb2f18795d86fb2",
+      "defaults": {
+        "formats": [],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      }
+    },
+    {
+      "name": "candidate",
+      "version": "3.1.5",
+      "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
+      "entry": "<EVIDENCE_OUTPUT>\\zxing-wasm-315-probe\\package\\dist\\es\\reader\\index.js",
+      "jsSha256": "3c364d8477404a513d7c0629b1cf9e63ae11e01f9746146d3574f8b10a122320",
+      "wasmSha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+      "defaults": {
+        "formats": [],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      }
+    }
+  ],
+  "cases": [
+    {
+      "id": "ean13-2-01",
+      "expected": [
+        {
+          "format": "ean13",
+          "data": "9780804816632"
+        }
+      ],
+      "pipeline": "original-PNG",
+      "path": "<EVIDENCE_OUTPUT>\\blackbox-comparison\\images\\ean13-2-01.png",
+      "pngSha256": "2118c72d5486fd8a3ba5f1c8b3e7454e1d87195d9f6b742a84f1d6cdf7b1af50",
+      "rasterSha256": "858eadaa223e0cffb24acf508c64f1eef033ac72b56ed907bc86dd6154179360",
+      "width": 480,
+      "height": 360,
+      "runs": [
+        {
+          "profile": "EAN-fast-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": false,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-fast-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": false,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-default-capacity",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-default-capacity",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "all-hard-default-capacity",
+          "options": {
+            "formats": [],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "all-hard-default-capacity",
+          "options": {
+            "formats": [],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        }
+      ]
+    },
+    {
+      "id": "ean13-2-01",
+      "expected": [
+        {
+          "format": "ean13",
+          "data": "9780804816632"
+        }
+      ],
+      "pipeline": "frozen-first-frame-Y",
+      "path": "<EVIDENCE_OUTPUT>\\ean-static-frames\\ean13-2-01-frozen-first-frame-Y.png",
+      "pngSha256": "f4af0d33a6efde724e418b7c64eedef1080c02f4fa72b6f60a8a3b9c5e3e7f13",
+      "rasterSha256": "35fb38c40b0563feba9e37c38527af3811326a12dd360d0abf61869291d942dc",
+      "width": 640,
+      "height": 480,
+      "runs": [
+        {
+          "profile": "EAN-fast-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": false,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-fast-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": false,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-default-capacity",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-default-capacity",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "all-hard-default-capacity",
+          "options": {
+            "formats": [],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "all-hard-default-capacity",
+          "options": {
+            "formats": [],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        }
+      ]
+    },
+    {
+      "id": "ean13-2-01",
+      "expected": [
+        {
+          "format": "ean13",
+          "data": "9780804816632"
+        }
+      ],
+      "pipeline": "frozen-first-frame-limited-Y-expanded-RGB",
+      "path": "<EVIDENCE_OUTPUT>\\ean-static-frames\\ean13-2-01-frozen-first-frame-limited-Y-expanded-RGB.png",
+      "pngSha256": "7662ff9812b3d8c6fbd9e4364700340bc5f7b08441a12f1abb64e0a357d9e6cc",
+      "rasterSha256": "5c7a101fbfe03dd25c554bfe663998ddd2c90538a7a22000e57aeb9a189a396b",
+      "width": 640,
+      "height": 480,
+      "runs": [
+        {
+          "profile": "EAN-fast-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": false,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-fast-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": false,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-default-capacity",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-default-capacity",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "all-hard-default-capacity",
+          "options": {
+            "formats": [],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "all-hard-default-capacity",
+          "options": {
+            "formats": [],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        }
+      ]
+    },
+    {
+      "id": "ean13-2-07",
+      "expected": [
+        {
+          "format": "ean13",
+          "data": "9780804816632"
+        }
+      ],
+      "pipeline": "original-PNG",
+      "path": "<EVIDENCE_OUTPUT>\\blackbox-comparison\\images\\ean13-2-07.png",
+      "pngSha256": "449dc5aeddd91d7223ea63e0ff0380c9ae115771fe13827917895f9e56b30e00",
+      "rasterSha256": "98cd861f6e3a8e714908622eb515a5a12c4f2f20b6a0de640a024454a8848905",
+      "width": 480,
+      "height": 360,
+      "runs": [
+        {
+          "profile": "EAN-fast-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": false,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 108,
+                        "y": 145
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 145
+                      },
+                      "bottomRight": {
+                        "x": 343,
+                        "y": 147
+                      },
+                      "bottomLeft": {
+                        "x": 108,
+                        "y": 147
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 108,
+                        "y": 145
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 145
+                      },
+                      "bottomRight": {
+                        "x": 343,
+                        "y": 147
+                      },
+                      "bottomLeft": {
+                        "x": 108,
+                        "y": 147
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 108,
+                        "y": 145
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 145
+                      },
+                      "bottomRight": {
+                        "x": 343,
+                        "y": 147
+                      },
+                      "bottomLeft": {
+                        "x": 108,
+                        "y": 147
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ]
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 108,
+                        "y": 145
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 145
+                      },
+                      "bottomRight": {
+                        "x": 343,
+                        "y": 147
+                      },
+                      "bottomLeft": {
+                        "x": 108,
+                        "y": 147
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 108,
+                        "y": 145
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 145
+                      },
+                      "bottomRight": {
+                        "x": 343,
+                        "y": 147
+                      },
+                      "bottomLeft": {
+                        "x": 108,
+                        "y": 147
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 108,
+                        "y": 145
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 145
+                      },
+                      "bottomRight": {
+                        "x": 343,
+                        "y": 147
+                      },
+                      "bottomLeft": {
+                        "x": 108,
+                        "y": 147
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ]
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-fast-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": false,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 108,
+                        "y": 145
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 145
+                      },
+                      "bottomRight": {
+                        "x": 343,
+                        "y": 147
+                      },
+                      "bottomLeft": {
+                        "x": 108,
+                        "y": 147
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 108,
+                        "y": 145
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 145
+                      },
+                      "bottomRight": {
+                        "x": 343,
+                        "y": 147
+                      },
+                      "bottomLeft": {
+                        "x": 108,
+                        "y": 147
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 108,
+                        "y": 145
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 145
+                      },
+                      "bottomRight": {
+                        "x": 343,
+                        "y": 147
+                      },
+                      "bottomLeft": {
+                        "x": 108,
+                        "y": 147
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ]
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 108,
+                        "y": 145
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 145
+                      },
+                      "bottomRight": {
+                        "x": 343,
+                        "y": 147
+                      },
+                      "bottomLeft": {
+                        "x": 108,
+                        "y": 147
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 108,
+                        "y": 145
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 145
+                      },
+                      "bottomRight": {
+                        "x": 343,
+                        "y": 147
+                      },
+                      "bottomLeft": {
+                        "x": 108,
+                        "y": 147
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 108,
+                        "y": 145
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 145
+                      },
+                      "bottomRight": {
+                        "x": 343,
+                        "y": 147
+                      },
+                      "bottomLeft": {
+                        "x": 108,
+                        "y": 147
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ]
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 110,
+                        "y": 179
+                      },
+                      "topRight": {
+                        "x": 346,
+                        "y": 179
+                      },
+                      "bottomRight": {
+                        "x": 346,
+                        "y": 180
+                      },
+                      "bottomLeft": {
+                        "x": 110,
+                        "y": 180
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 110,
+                        "y": 179
+                      },
+                      "topRight": {
+                        "x": 346,
+                        "y": 179
+                      },
+                      "bottomRight": {
+                        "x": 346,
+                        "y": 180
+                      },
+                      "bottomLeft": {
+                        "x": 110,
+                        "y": 180
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 110,
+                        "y": 179
+                      },
+                      "topRight": {
+                        "x": 346,
+                        "y": 179
+                      },
+                      "bottomRight": {
+                        "x": 346,
+                        "y": 180
+                      },
+                      "bottomLeft": {
+                        "x": 110,
+                        "y": 180
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ]
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 110,
+                        "y": 179
+                      },
+                      "topRight": {
+                        "x": 346,
+                        "y": 179
+                      },
+                      "bottomRight": {
+                        "x": 346,
+                        "y": 180
+                      },
+                      "bottomLeft": {
+                        "x": 110,
+                        "y": 180
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 110,
+                        "y": 179
+                      },
+                      "topRight": {
+                        "x": 346,
+                        "y": 179
+                      },
+                      "bottomRight": {
+                        "x": 346,
+                        "y": 180
+                      },
+                      "bottomLeft": {
+                        "x": 110,
+                        "y": 180
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 110,
+                        "y": 179
+                      },
+                      "topRight": {
+                        "x": 346,
+                        "y": 179
+                      },
+                      "bottomRight": {
+                        "x": 346,
+                        "y": 180
+                      },
+                      "bottomLeft": {
+                        "x": 110,
+                        "y": 180
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ]
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 110,
+                        "y": 179
+                      },
+                      "topRight": {
+                        "x": 346,
+                        "y": 179
+                      },
+                      "bottomRight": {
+                        "x": 346,
+                        "y": 180
+                      },
+                      "bottomLeft": {
+                        "x": 110,
+                        "y": 180
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 110,
+                        "y": 179
+                      },
+                      "topRight": {
+                        "x": 346,
+                        "y": 179
+                      },
+                      "bottomRight": {
+                        "x": 346,
+                        "y": 180
+                      },
+                      "bottomLeft": {
+                        "x": 110,
+                        "y": 180
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 110,
+                        "y": 179
+                      },
+                      "topRight": {
+                        "x": 346,
+                        "y": 179
+                      },
+                      "bottomRight": {
+                        "x": 346,
+                        "y": 180
+                      },
+                      "bottomLeft": {
+                        "x": 110,
+                        "y": 180
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ]
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 110,
+                        "y": 179
+                      },
+                      "topRight": {
+                        "x": 346,
+                        "y": 179
+                      },
+                      "bottomRight": {
+                        "x": 346,
+                        "y": 180
+                      },
+                      "bottomLeft": {
+                        "x": 110,
+                        "y": 180
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 110,
+                        "y": 179
+                      },
+                      "topRight": {
+                        "x": 346,
+                        "y": 179
+                      },
+                      "bottomRight": {
+                        "x": 346,
+                        "y": 180
+                      },
+                      "bottomLeft": {
+                        "x": 110,
+                        "y": 180
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 110,
+                        "y": 179
+                      },
+                      "topRight": {
+                        "x": 346,
+                        "y": 179
+                      },
+                      "bottomRight": {
+                        "x": 346,
+                        "y": 180
+                      },
+                      "bottomLeft": {
+                        "x": 110,
+                        "y": 180
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ]
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-default-capacity",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 109,
+                        "y": 144
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 144
+                      },
+                      "bottomRight": {
+                        "x": 354,
+                        "y": 294
+                      },
+                      "bottomLeft": {
+                        "x": 116,
+                        "y": 294
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 107
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 109,
+                        "y": 144
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 144
+                      },
+                      "bottomRight": {
+                        "x": 354,
+                        "y": 294
+                      },
+                      "bottomLeft": {
+                        "x": 116,
+                        "y": 294
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 107
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 109,
+                        "y": 144
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 144
+                      },
+                      "bottomRight": {
+                        "x": 354,
+                        "y": 294
+                      },
+                      "bottomLeft": {
+                        "x": 116,
+                        "y": 294
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 107
+                  }
+                ]
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 109,
+                        "y": 144
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 144
+                      },
+                      "bottomRight": {
+                        "x": 354,
+                        "y": 294
+                      },
+                      "bottomLeft": {
+                        "x": 116,
+                        "y": 294
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 107
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 109,
+                        "y": 144
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 144
+                      },
+                      "bottomRight": {
+                        "x": 354,
+                        "y": 294
+                      },
+                      "bottomLeft": {
+                        "x": 116,
+                        "y": 294
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 107
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 109,
+                        "y": 144
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 144
+                      },
+                      "bottomRight": {
+                        "x": 354,
+                        "y": 294
+                      },
+                      "bottomLeft": {
+                        "x": 116,
+                        "y": 294
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 107
+                  }
+                ]
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-default-capacity",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 109,
+                        "y": 144
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 144
+                      },
+                      "bottomRight": {
+                        "x": 354,
+                        "y": 294
+                      },
+                      "bottomLeft": {
+                        "x": 116,
+                        "y": 294
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 107
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 109,
+                        "y": 144
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 144
+                      },
+                      "bottomRight": {
+                        "x": 354,
+                        "y": 294
+                      },
+                      "bottomLeft": {
+                        "x": 116,
+                        "y": 294
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 107
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 109,
+                        "y": 144
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 144
+                      },
+                      "bottomRight": {
+                        "x": 354,
+                        "y": 294
+                      },
+                      "bottomLeft": {
+                        "x": 116,
+                        "y": 294
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 107
+                  }
+                ]
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 109,
+                        "y": 144
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 144
+                      },
+                      "bottomRight": {
+                        "x": 354,
+                        "y": 294
+                      },
+                      "bottomLeft": {
+                        "x": 116,
+                        "y": 294
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 107
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 109,
+                        "y": 144
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 144
+                      },
+                      "bottomRight": {
+                        "x": 354,
+                        "y": 294
+                      },
+                      "bottomLeft": {
+                        "x": 116,
+                        "y": 294
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 107
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 109,
+                        "y": 144
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 144
+                      },
+                      "bottomRight": {
+                        "x": 354,
+                        "y": 294
+                      },
+                      "bottomLeft": {
+                        "x": 116,
+                        "y": 294
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 107
+                  }
+                ]
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "all-hard-default-capacity",
+          "options": {
+            "formats": [],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 109,
+                        "y": 144
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 144
+                      },
+                      "bottomRight": {
+                        "x": 354,
+                        "y": 294
+                      },
+                      "bottomLeft": {
+                        "x": 116,
+                        "y": 294
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 107
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 109,
+                        "y": 144
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 144
+                      },
+                      "bottomRight": {
+                        "x": 354,
+                        "y": 294
+                      },
+                      "bottomLeft": {
+                        "x": 116,
+                        "y": 294
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 107
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 109,
+                        "y": 144
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 144
+                      },
+                      "bottomRight": {
+                        "x": 354,
+                        "y": 294
+                      },
+                      "bottomLeft": {
+                        "x": 116,
+                        "y": 294
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 107
+                  }
+                ]
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 109,
+                        "y": 144
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 144
+                      },
+                      "bottomRight": {
+                        "x": 354,
+                        "y": 294
+                      },
+                      "bottomLeft": {
+                        "x": 116,
+                        "y": 294
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 107
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 109,
+                        "y": 144
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 144
+                      },
+                      "bottomRight": {
+                        "x": 354,
+                        "y": 294
+                      },
+                      "bottomLeft": {
+                        "x": 116,
+                        "y": 294
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 107
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 109,
+                        "y": 144
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 144
+                      },
+                      "bottomRight": {
+                        "x": 354,
+                        "y": 294
+                      },
+                      "bottomLeft": {
+                        "x": 116,
+                        "y": 294
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 107
+                  }
+                ]
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "all-hard-default-capacity",
+          "options": {
+            "formats": [],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 109,
+                        "y": 144
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 144
+                      },
+                      "bottomRight": {
+                        "x": 354,
+                        "y": 294
+                      },
+                      "bottomLeft": {
+                        "x": 116,
+                        "y": 294
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 107
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 109,
+                        "y": 144
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 144
+                      },
+                      "bottomRight": {
+                        "x": 354,
+                        "y": 294
+                      },
+                      "bottomLeft": {
+                        "x": 116,
+                        "y": 294
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 107
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 109,
+                        "y": 144
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 144
+                      },
+                      "bottomRight": {
+                        "x": 354,
+                        "y": 294
+                      },
+                      "bottomLeft": {
+                        "x": 116,
+                        "y": 294
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 107
+                  }
+                ]
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 109,
+                        "y": 144
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 144
+                      },
+                      "bottomRight": {
+                        "x": 354,
+                        "y": 294
+                      },
+                      "bottomLeft": {
+                        "x": 116,
+                        "y": 294
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 107
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 109,
+                        "y": 144
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 144
+                      },
+                      "bottomRight": {
+                        "x": 354,
+                        "y": 294
+                      },
+                      "bottomLeft": {
+                        "x": 116,
+                        "y": 294
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 107
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "9780804816632",
+                    "bytes": [
+                      57,
+                      55,
+                      56,
+                      48,
+                      56,
+                      48,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 109,
+                        "y": 144
+                      },
+                      "topRight": {
+                        "x": 343,
+                        "y": 144
+                      },
+                      "bottomRight": {
+                        "x": 354,
+                        "y": 294
+                      },
+                      "bottomLeft": {
+                        "x": 116,
+                        "y": 294
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 107
+                  }
+                ]
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        }
+      ]
+    },
+    {
+      "id": "ean13-2-07",
+      "expected": [
+        {
+          "format": "ean13",
+          "data": "9780804816632"
+        }
+      ],
+      "pipeline": "frozen-first-frame-Y",
+      "path": "<EVIDENCE_OUTPUT>\\ean-static-frames\\ean13-2-07-frozen-first-frame-Y.png",
+      "pngSha256": "885abf0e77f7a738a7993bd31a74946c72e63dcaa76ff4110d9c1b459e20ebb1",
+      "rasterSha256": "335e95a110fecf60ab6843f5748343fdcbad8038f724d99755ccf93c06f01799",
+      "width": 640,
+      "height": 480,
+      "runs": [
+        {
+          "profile": "EAN-fast-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": false,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-fast-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": false,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-default-capacity",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-default-capacity",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "all-hard-default-capacity",
+          "options": {
+            "formats": [],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "all-hard-default-capacity",
+          "options": {
+            "formats": [],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        }
+      ]
+    },
+    {
+      "id": "ean13-2-07",
+      "expected": [
+        {
+          "format": "ean13",
+          "data": "9780804816632"
+        }
+      ],
+      "pipeline": "frozen-first-frame-limited-Y-expanded-RGB",
+      "path": "<EVIDENCE_OUTPUT>\\ean-static-frames\\ean13-2-07-frozen-first-frame-limited-Y-expanded-RGB.png",
+      "pngSha256": "a93905e88c63a7b8be3ab4e31e9ff145656d6a7f907bc426816eb179606e7dd6",
+      "rasterSha256": "f54a923a00a5948c6db449beb276899bb9576d02148ea752049d628889a40bd4",
+      "width": 640,
+      "height": 480,
+      "runs": [
+        {
+          "profile": "EAN-fast-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": false,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-fast-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": false,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ]
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ]
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ]
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ]
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-default-capacity",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ]
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ]
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-default-capacity",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ]
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ]
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "all-hard-default-capacity",
+          "options": {
+            "formats": [],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ]
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ]
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "all-hard-default-capacity",
+          "options": {
+            "formats": [],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ]
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ],
+                [
+                  {
+                    "isValid": true,
+                    "format": "EAN13",
+                    "text": "0798884816632",
+                    "bytes": [
+                      48,
+                      55,
+                      57,
+                      56,
+                      56,
+                      56,
+                      52,
+                      56,
+                      49,
+                      54,
+                      54,
+                      51,
+                      50
+                    ],
+                    "contentType": "Text",
+                    "position": {
+                      "topLeft": {
+                        "x": 188,
+                        "y": 207
+                      },
+                      "topRight": {
+                        "x": 424,
+                        "y": 207
+                      },
+                      "bottomRight": {
+                        "x": 424,
+                        "y": 209
+                      },
+                      "bottomLeft": {
+                        "x": 188,
+                        "y": 209
+                      }
+                    },
+                    "rotation": 0,
+                    "symbologyIdentifier": "]E0",
+                    "isInverted": false,
+                    "error": "",
+                    "lineCount": 2
+                  }
+                ]
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        }
+      ]
+    },
+    {
+      "id": "ean13-2-21",
+      "expected": [
+        {
+          "format": "ean13",
+          "data": "9784872348880"
+        }
+      ],
+      "pipeline": "original-PNG",
+      "path": "<EVIDENCE_OUTPUT>\\blackbox-comparison\\images\\ean13-2-21.png",
+      "pngSha256": "2a599fdd3344a43a3fc2a687993ac120c7e0b4f8e5c5d699ae693a4f52674bf1",
+      "rasterSha256": "1583fae42fe9a767b4a6107bbcb783ba447572428c33b56ebd4b4b763d717fd6",
+      "width": 480,
+      "height": 360,
+      "runs": [
+        {
+          "profile": "EAN-fast-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": false,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-fast-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": false,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-default-capacity",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-default-capacity",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "all-hard-default-capacity",
+          "options": {
+            "formats": [],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "all-hard-default-capacity",
+          "options": {
+            "formats": [],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        }
+      ]
+    },
+    {
+      "id": "ean13-2-21",
+      "expected": [
+        {
+          "format": "ean13",
+          "data": "9784872348880"
+        }
+      ],
+      "pipeline": "frozen-first-frame-Y",
+      "path": "<EVIDENCE_OUTPUT>\\ean-static-frames\\ean13-2-21-frozen-first-frame-Y.png",
+      "pngSha256": "af229d59a5d1875a06fb3567d7808920bf9b9a172b5bf24198848eb7508e3e18",
+      "rasterSha256": "802aa0f67a07ac4618c779a351c9ab564939d3b68d3186476eaec37cb268faff",
+      "width": 640,
+      "height": 480,
+      "runs": [
+        {
+          "profile": "EAN-fast-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": false,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-fast-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": false,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-default-capacity",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-default-capacity",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "all-hard-default-capacity",
+          "options": {
+            "formats": [],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "all-hard-default-capacity",
+          "options": {
+            "formats": [],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        }
+      ]
+    },
+    {
+      "id": "ean13-2-21",
+      "expected": [
+        {
+          "format": "ean13",
+          "data": "9784872348880"
+        }
+      ],
+      "pipeline": "frozen-first-frame-limited-Y-expanded-RGB",
+      "path": "<EVIDENCE_OUTPUT>\\ean-static-frames\\ean13-2-21-frozen-first-frame-limited-Y-expanded-RGB.png",
+      "pngSha256": "13ed8473a9e2418d7986f66084d934d60d53f99b778ec838095fbf2511859931",
+      "rasterSha256": "5f814913928239762ae84c2e2f7c5669c254cf04077c95f74209f92fcc7233de",
+      "width": 640,
+      "height": 480,
+      "runs": [
+        {
+          "profile": "EAN-fast-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": false,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-fast-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": false,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-single",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 1,
+            "tryInvert": false,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-default-capacity",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "EAN-hard-default-capacity",
+          "options": {
+            "formats": [
+              "EAN13"
+            ],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "all-hard-default-capacity",
+          "options": {
+            "formats": [],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "PNG-bytes",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        },
+        {
+          "profile": "all-hard-default-capacity",
+          "options": {
+            "formats": [],
+            "tryHarder": true,
+            "maxNumberOfSymbols": 255,
+            "tryInvert": true,
+            "tryRotate": true,
+            "tryDownscale": true,
+            "textMode": "HRI"
+          },
+          "inputType": "RGBA-pixmap",
+          "versions": [
+            {
+              "version": "3.1.4",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            },
+            {
+              "version": "3.1.5",
+              "repeatStable": true,
+              "outputs": [
+                [],
+                [],
+                []
+              ]
+            }
+          ],
+          "sameBetweenVersions": true
+        }
+      ]
+    }
+  ],
+  "completedAt": "2026-10-11T14:39:37.481Z"
+}
