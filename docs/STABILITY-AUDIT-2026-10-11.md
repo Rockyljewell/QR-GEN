@@ -538,6 +538,32 @@ sessions also copy retained duplicate-history maps; long-session allocation and
 latency need separate measurement. Observations do not establish confirmed item
 quantities or persistent physical identity through occlusion.
 
+## Flutter torch state across camera changes
+
+[#77](https://github.com/Rockyljewell/QR-GEN/issues/77) was reported after a
+[test-only baseline](https://github.com/Rockyljewell/QR-GEN/actions/runs/38179953569/job/114590208985)
+reproduced two violations of the public torch contract against main `ffaa5112`.
+Manual torch changes were lost after a camera round trip. A changed torch option
+was ignored when committed together with a camera, format or detection-speed
+replacement. Both directions failed: eight regression cases failed while all
+253 previous tests and eight new preservation controls passed. All 16 new probes
+removed their actual widgets and released camera/stream resources without
+unexpected errors. Analysis was clean; production remained unchanged for this run.
+
+The fix expires a manual override before controller replacement whenever the
+torch option changes. After an acknowledged direction change, the queued switch
+reapplies the current accepted torch setting only while its controller is still
+current and running. An unavailable single-camera no-op adds no extra unsupported
+error; switching a stopped camera does not start it. Unchanged torch options
+preserve manual overrides through replacement. Tests also cover accepted
+torch-only option changes followed by camera round trips without a manual override.
+The frozen baseline fixture remains unchanged for the before/after comparison.
+
+These checks use the actual Flutter and mobile_scanner widgets/controllers with
+a fake camera platform. They establish API/state behavior, not physical flashlight
+behavior or camera-driver reliability. The scanner rendering, overlay, styling,
+dependencies and decoder are unchanged.
+
 ## Retail AR and adjacent features
 
 The following is an assessment of repository code against the vendors' published

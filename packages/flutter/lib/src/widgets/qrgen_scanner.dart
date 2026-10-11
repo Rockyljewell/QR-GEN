@@ -258,10 +258,10 @@ class _QRGenScannerState extends State<QRGenScanner> with WidgetsBindingObserver
     }
     _session.configure(mode: newOptions.mode, duplicateFilter: newOptions.duplicateFilter);
     if (!listEquals(oldOptions.symbologies, newOptions.symbologies)) _resolveFormats();
+    if (oldOptions.torch != newOptions.torch) _torchOverride = null;
     if (_configKey() != _controllerConfig) {
       _replaceController();
     } else if (oldOptions.torch != newOptions.torch) {
-      _torchOverride = null;
       _enqueue(_applyTorch);
     }
     if (oldWidget.isActive != widget.isActive || oldOptions.mode != newOptions.mode) _sync();
@@ -451,7 +451,13 @@ class _QRGenScannerState extends State<QRGenScanner> with WidgetsBindingObserver
 
   Future<void> _switchCamera() async {
     _enqueue(() async {
-      if (_controller.value.isRunning) await _controller.switchCamera();
+      if (_disposed) return;
+      final controller = _controller;
+      if (!controller.value.isRunning) return;
+      final previousDirection = controller.value.cameraDirection;
+      await controller.switchCamera();
+      if (_disposed || !identical(controller, _controller) || !controller.value.isRunning) return;
+      if (controller.value.cameraDirection != previousDirection) await _applyTorch();
     });
     await _queue;
   }
