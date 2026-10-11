@@ -99,8 +99,18 @@ async function toDecodable(input: ImageInput): Promise<{ data: Blob | ArrayBuffe
     } catch (err) {
       throw new QRGenError("bad-request", `Could not fetch image ${input.slice(0, 80)}: ${err instanceof Error ? err.message : String(err)}`, err);
     }
-    if (!res.ok) throw new QRGenError("bad-request", `Could not fetch image ${input.slice(0, 80)}: HTTP ${res.status}`);
-    return toDecodable(new Uint8Array(await res.arrayBuffer()));
+    if (!res.ok) {
+      // A rejected response can still be streaming; release its connection.
+      try { await res.body?.cancel(); } catch { /* Preserve the HTTP error. */ }
+      throw new QRGenError("bad-request", `Could not fetch image ${input.slice(0, 80)}: HTTP ${res.status}`);
+    }
+    let bytes: ArrayBuffer;
+    try {
+      bytes = await res.arrayBuffer();
+    } catch (err) {
+      throw new QRGenError("bad-request", `Could not read image response ${input.slice(0, 80)}: ${err instanceof Error ? err.message : String(err)}`, err);
+    }
+    return toDecodable(new Uint8Array(bytes));
   }
   if ((input instanceof ArrayBuffer || input instanceof Uint8Array || (typeof Blob !== "undefined" && input instanceof Blob)) && !(typeof ImageData !== "undefined" && input instanceof ImageData)) {
     const bytes = input instanceof Uint8Array ? input : input instanceof ArrayBuffer ? new Uint8Array(input) : new Uint8Array(await (input as Blob).slice(0, 1024).arrayBuffer());

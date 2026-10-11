@@ -204,6 +204,23 @@ tracking time still applies. A cancelled scan must not consume its first-report 
 Batch scanners retain an unreported initial scan separately from a live spatial track and
 deliver it only when that code is observed again and callback/session ownership remains valid.
 
+The web tracker associates each symbology/payload group across a whole frame:
+it maximizes eligible matches within the movement gate, then minimizes total
+center movement. Input detection order must not invent an extra observed item
+when a complete eligible association exists. Tracks describe current observations;
+they do not establish persistent physical identity through occlusion or a count session.
+
+An intrinsic web video size change starts a new coordinate space, clears spatial
+and pending batch history, and rejects in-flight results in the previous space.
+`BarcodeScanner` emits `spatialreset` (`{ frameSize: { width, height } }`) so custom
+overlays can clear previous coordinates, including while paused. A CSS-only preview
+resize reprojects the same tracks. The web element clears its in-view count, results
+and highlights on camera switches and intrinsic size changes. For in-place
+`switchCamera()` and intrinsic resize, intentionally selected snapshots remain labelled
+out of view; fresh track IDs never inherit their selection. Changing the element's
+camera/resolution/worker attributes recreates its scanner and clears selection, as do
+disconnect and mode changes.
+
 Error codes: `camera-permission-denied`, `camera-not-found`, `camera-in-use`,
 `insecure-context`, `engine-load-failed`, `unsupported`, `bad-request` (invalid input such as an
 unreadable image or data a symbology cannot encode), `unknown`.

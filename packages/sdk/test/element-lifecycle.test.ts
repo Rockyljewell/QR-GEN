@@ -3,6 +3,7 @@
 
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { QRGenScannerElement } from "../src/elements/scanner-element";
+import type { TrackedBarcode } from "../src/types";
 
 describe("Scanner element autostart lifecycle", () => {
   function element() {
@@ -76,6 +77,96 @@ describe("Scanner element autostart lifecycle", () => {
     expect(toggle).not.toHaveBeenCalled();
     expect(layout).not.toHaveBeenCalled();
     expect(controls).not.toHaveBeenCalled();
+  });
+
+  it.each(["success", "failure"])("clears source-A results immediately during a paused camera switch (%s)", async (outcome) => {
+    const { el } = element();
+    let finish!: () => void;
+    let fail!: (error: Error) => void;
+    const pending = new Promise<void>((resolve, reject) => { finish = resolve; fail = reject; });
+    const internals = el as any;
+    const selected = { id: 1, data: "source A" } as TrackedBarcode;
+    internals.tracked = [selected];
+    internals.highlights = [{ at: 100 }];
+    internals._selection.set(1, selected);
+    internals._scanner = { switchCamera: () => pending, state: "paused", camera: { isFront: true } };
+    internals.els = { video: { classList: { toggle: vi.fn() } } };
+    internals.rendered = true;
+    const results = vi.spyOn(internals, "updateResults").mockImplementation(() => {});
+    vi.spyOn(internals, "updateCount").mockImplementation(() => {});
+    vi.spyOn(internals, "requestDraw").mockImplementation(() => {});
+    vi.spyOn(internals, "layout").mockImplementation(() => {});
+    vi.spyOn(internals, "refreshCameraControls").mockResolvedValue(undefined);
+    const switching = el.switchCamera();
+    const clearedBeforeCamera = internals.tracked.length === 0 && internals.highlights.length === 0;
+    if (outcome === "failure") fail(new Error("camera unavailable"));
+    else finish();
+    await Promise.allSettled([switching]);
+    expect(clearedBeforeCamera).toBe(true);
+    expect(internals.tracked).toEqual([]);
+    expect(internals.highlights).toEqual([]);
+    expect(el.selection).toEqual([selected]);
+    expect(results).toHaveBeenCalled();
+  });
+
+  it.each(["camera", "resolution", "worker"])("clears old highlights and selection when %s recreates the scanner", (attribute) => {
+    const { el, start } = element();
+    const internals = el as any;
+    internals.rendered = true;
+    internals.tracked = [{ id: 1 }];
+    internals.highlights = [{ at: 100 }];
+    internals._selection.set(1, { id: 1 });
+    internals._scanner = { state: "paused", destroy: vi.fn() };
+    vi.spyOn(internals, "updateCount").mockImplementation(() => {});
+    vi.spyOn(internals, "updateResults").mockImplementation(() => {});
+    const draw = vi.spyOn(internals, "requestDraw").mockImplementation(() => {});
+    el.attributeChangedCallback(attribute, "old", "new");
+    expect(internals.tracked).toEqual([]);
+    expect(internals.highlights).toEqual([]);
+    expect(el.selection).toEqual([]);
+    expect(draw).toHaveBeenCalled();
+    expect(start).toHaveBeenCalledOnce();
+  });
+
+  it("does not clear a replacement scanner's results after a reentrant stop listener", () => {
+    const { el } = element();
+    const internals = el as any;
+    const current = { id: 2 };
+    internals._scanner = { stop: () => { internals._scanner = {}; internals.tracked = [current]; internals.highlights = [{ at: 200 }]; } };
+    el.stop();
+    expect(internals.tracked).toEqual([current]);
+    expect(internals.highlights).toEqual([{ at: 200 }]);
+  });
+
+  it("clears intrinsic-resize overlays but ignores events from a replaced scanner", () => {
+    const { el } = element();
+    const internals = el as any;
+    Object.assign(el, { hasAttribute: () => false });
+    internals.els = { video: { addEventListener: vi.fn(), removeEventListener: vi.fn() } };
+    const scanner = internals.ensureScanner();
+    internals.rendered = true;
+    vi.spyOn(internals, "updateCount").mockImplementation(() => {});
+    vi.spyOn(internals, "updateResults").mockImplementation(() => {});
+    vi.spyOn(internals, "requestDraw").mockImplementation(() => {});
+    const selected = { id: 1 };
+    internals._selection.set(1, selected);
+    internals.tracked = [selected];
+    internals.highlights = [{ at: 100 }];
+    scanner.emit("spatialreset", { frameSize: { width: 480, height: 640 } });
+    expect(internals.tracked).toEqual([]);
+    expect(internals.highlights).toEqual([]);
+    expect(el.selection).toEqual([selected]);
+
+    const replacement = { id: 2 };
+    internals._scanner = {};
+    internals.tracked = [replacement];
+    internals.highlights = [{ at: 200 }];
+    scanner.emit("spatialreset", { frameSize: { width: 640, height: 480 } });
+    scanner.emit("track", { tracked: [selected], added: [selected], removed: [] });
+    scanner.emit("frame", { barcodes: [{ symbology: "qr" }], frameSize: { width: 640, height: 480 } });
+    scanner.emit("state", "stopped");
+    expect(internals.tracked).toEqual([replacement]);
+    expect(internals.highlights).toEqual([{ at: 200 }]);
   });
 
 });

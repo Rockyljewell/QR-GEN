@@ -1,0 +1,512 @@
+{
+  "schemaVersion": 1,
+  "auditDate": "2026-10-11",
+  "purpose": "Exact-input public-demo smoke observations; no latency/parity benchmark",
+  "run": {
+    "startedAt": "2026-10-11T13:42:34.133Z",
+    "finishedAt": "2026-10-11T13:49:38.477Z",
+    "browser": "Chromium 153.0.8010.12",
+    "viewport": {
+      "width": 1360,
+      "height": 960
+    },
+    "freshContextPerVendorAndFixture": true,
+    "order": "Five normal fixtures, then five inverted fixtures; one ordinary-UI follow-up for the last three Scandit inverted cases."
+  },
+  "sources": {
+    "scandit": "https://websdk.demos.scandit.com/",
+    "qrgen": "https://rockyljewell.github.io/QR-GEN/demo/",
+    "documentedFakeCameraRoute": "https://docs.scandit.com/sdks/web/testing/"
+  },
+  "provenance": {
+    "fixtureSourceRevision": "7296c67c2b49dbf0a62534471ee82caf57348dc2",
+    "fixtureGenerator": "site/scripts/fake-camera.mjs",
+    "fixtureGeneratorSha256": "725372f78d49ec1efd20b32e4e3e1c25214166495b7c04cba081f089cac8b05a",
+    "publicQrgenSourceRevision": null,
+    "publicQrgenSdkAssetSha256": null,
+    "publicQrgenCaveat": "SDK asset bytes were not retained per case. PR #18 merged as 98d9b9f360400a735f6c25cb7c605c04eb66dc33 at 2026-10-11T13:42:53Z during this run; automatic deployment may have changed the public UI. The local fixture source revision does not pin the hosted QRGen revision.",
+    "scanditDisplayedSdkVersion": "8.6.1"
+  },
+  "method": {
+    "fixture": {
+      "container": "YUV4MPEG2",
+      "width": 640,
+      "height": 480,
+      "frameRate": "30:1",
+      "frames": 30,
+      "pixelFormat": "C420jpeg",
+      "backgroundY": 200,
+      "normalDarkY": 20,
+      "normalLightY": 245,
+      "invertedDarkY": 245,
+      "invertedLightY": 20,
+      "invertedQuietZoneModules": 10,
+      "chroma": 128
+    },
+    "cameraFlags": [
+      "--use-fake-ui-for-media-stream",
+      "--use-fake-device-for-media-stream",
+      "--use-file-for-fake-video-capture=<fixture.y4m>"
+    ],
+    "reproduceFixture": "From a built checkout, import writeFakeCamera from ./site/scripts/fake-camera.mjs. For each case call writeFakeCamera(outputPath, [{ data: case.payload, symbology: case.format, x: case.fixture.x, y: case.fixture.y, module: case.fixture.module, inverted: case.inverted }], { width: 640, height: 480, frames: 30 }); verify SHA256, then launch Chromium with cameraFlags.",
+    "publicUiOnly": true,
+    "scandit": "Select recorded preset and Color Inverted when applicable; Start Scanner; Start Scanning tutorial; Settings; enable only recorded checkbox; leave Extended Symbol Counts off; close Settings; Clear List; Resume Scanning by Enter. Bounded follow-up activated Expand list by Enter before Clear List, using pointer when in view and focus/Enter otherwise.",
+    "qrgen": "Open Scanner settings; check only recorded format; close settings; Start scanner. Retain public alternate-frame inversion default.",
+    "exactResultObservationWindowSeconds": 20
+  },
+  "summary": {
+    "qrgen": {
+      "exactPayloads": 10,
+      "totalFixtures": 10,
+      "pageErrors": 0
+    },
+    "scandit": {
+      "exactPayloads": 9,
+      "inconclusive": 1,
+      "totalFixtures": 10,
+      "pageErrors": 0
+    },
+    "pairedFixtureHashesMatch": true
+  },
+  "environmentObservations": {
+    "allObservedPages": {
+      "videoWidth": 640,
+      "videoHeight": 480,
+      "videoReadyState": 4,
+      "cameraTrackState": "live",
+      "frameRate": 30,
+      "webglContextAvailable": true
+    },
+    "qrgen": {
+      "engine": "worker",
+      "scannerState": "scanning",
+      "crossOriginIsolated": false,
+      "sharedArrayBufferAvailable": false
+    },
+    "scandit": {
+      "crossOriginIsolated": true,
+      "sharedArrayBufferAvailable": true
+    },
+    "caveat": "A WebGL context does not establish hardware GPU acceleration. Threading, GPU and engine internals are not matched."
+  },
+  "limitations": [
+    "Exact-payload desktop smoke only; no latency, physical-camera, native SDK or stability parity claim.",
+    "Scandit's EAN-13/UPC-A checkbox combines formats; QRGEN uses EAN13 only.",
+    "Scandit Color Inverted is selected for inverted fixtures; QRGEN public UI retains default alternate-frame inversion.",
+    "All other engine internals and browser GPU/WASM threading configurations are not matched.",
+    "Static-video repeated detections represent one unique code in each fixture.",
+    "The fixtureSourceRevision describes local fixture generation. Public QRGEN cases did not retain SDK asset hashes; a deployment may have changed during the run, so their public source revision is unproven.",
+    "Inverted PDF417 had no exact result within the bounded 20-second public UI observation. Live video and no pageerrors were verified; the public resume/list state is insufficient to attribute this observation to the proprietary decoder.",
+    "Initial Scandit inverted PDF417 Clear List viewport blocker was followed once using ordinary Expand list and keyboard controls; initial failure evidence is retained."
+  ],
+  "cases": [
+    {
+      "caseId": "qr-normal",
+      "format": "qr",
+      "payload": "QRGEN-PUB-QR-20261011",
+      "inverted": false,
+      "fixture": {
+        "sha256": "ae1a1c589cb76c2781867eb2ca4ddd9c343db7cdd58d5cbd9ec3147df1eff2a6",
+        "matrixWidth": 21,
+        "matrixHeight": 21,
+        "module": 8,
+        "x": 236,
+        "y": 156
+      },
+      "observations": {
+        "scandit": {
+          "observedAt": "2026-10-11T13:42:41.212Z",
+          "status": "exact-payload-visible",
+          "exactPayloadVisible": true,
+          "selectedSymbologies": [
+            "QR Code"
+          ],
+          "preset": "qr",
+          "colorInverted": false,
+          "extendedSymbolCounts": false,
+          "visibleResult": "QRGEN-PUB-QR-20261011\nQR Code",
+          "pageErrors": []
+        },
+        "qrgen": {
+          "observedAt": "2026-10-11T13:42:43.095Z",
+          "status": "exact-payload-visible",
+          "exactPayloadVisible": true,
+          "selectedSymbologies": [
+            "qr"
+          ],
+          "inversionSetting": "alternate (public demo default)",
+          "visibleResult": "QR Code\n07:42:43 AM\nQRGEN-PUB-QR-20261011\nCopy",
+          "pageErrors": []
+        }
+      }
+    },
+    {
+      "caseId": "data-matrix-normal",
+      "format": "data-matrix",
+      "payload": "QRGEN-PUB-DM-20261011",
+      "inverted": false,
+      "fixture": {
+        "sha256": "097036cdc55b3d903551fedf755f8b2901b35d694c39ce907e7cf6a445963500",
+        "matrixWidth": 26,
+        "matrixHeight": 12,
+        "module": 8,
+        "x": 216,
+        "y": 192
+      },
+      "observations": {
+        "scandit": {
+          "observedAt": "2026-10-11T13:42:51.115Z",
+          "status": "exact-payload-visible",
+          "exactPayloadVisible": true,
+          "selectedSymbologies": [
+            "Data Matrix"
+          ],
+          "preset": "2dAll",
+          "colorInverted": false,
+          "extendedSymbolCounts": false,
+          "visibleResult": "QRGEN-PUB-DM-20261011\nData Matrix",
+          "pageErrors": []
+        },
+        "qrgen": {
+          "observedAt": "2026-10-11T13:42:53.079Z",
+          "status": "exact-payload-visible",
+          "exactPayloadVisible": true,
+          "selectedSymbologies": [
+            "data-matrix"
+          ],
+          "inversionSetting": "alternate (public demo default)",
+          "visibleResult": "Data Matrix\n07:42:53 AM\nQRGEN-PUB-DM-20261011\nCopy",
+          "pageErrors": []
+        }
+      }
+    },
+    {
+      "caseId": "pdf417-normal",
+      "format": "pdf417",
+      "payload": "QRGEN-PUB-PDF417-20261011",
+      "inverted": false,
+      "fixture": {
+        "sha256": "69d6a7dbc08fe496c02899147774084f0d5c1305339aff10780b5f54e64e7ebf",
+        "matrixWidth": 120,
+        "matrixHeight": 24,
+        "module": 3,
+        "x": 140,
+        "y": 204
+      },
+      "observations": {
+        "scandit": {
+          "observedAt": "2026-10-11T13:43:11.714Z",
+          "status": "exact-payload-visible",
+          "exactPayloadVisible": true,
+          "selectedSymbologies": [
+            "PDF417"
+          ],
+          "preset": "2dAll",
+          "colorInverted": false,
+          "extendedSymbolCounts": false,
+          "visibleResult": "QRGEN-PUB-PDF417-20261011\nPDF417",
+          "pageErrors": []
+        },
+        "qrgen": {
+          "observedAt": "2026-10-11T13:43:13.397Z",
+          "status": "exact-payload-visible",
+          "exactPayloadVisible": true,
+          "selectedSymbologies": [
+            "pdf417"
+          ],
+          "inversionSetting": "alternate (public demo default)",
+          "visibleResult": "PDF417\n07:43:13 AM\nQRGEN-PUB-PDF417-20261011\nCopy",
+          "pageErrors": []
+        }
+      }
+    },
+    {
+      "caseId": "ean13-normal",
+      "format": "ean13",
+      "payload": "5901234123457",
+      "inverted": false,
+      "fixture": {
+        "sha256": "e03afc4ccd81d0f71c90ec4b3ec5ceea680cc0e89b06ce763f9b952058095d10",
+        "matrixWidth": 95,
+        "matrixHeight": 55,
+        "module": 3,
+        "x": 177,
+        "y": 157
+      },
+      "observations": {
+        "scandit": {
+          "observedAt": "2026-10-11T13:43:21.383Z",
+          "status": "exact-payload-visible",
+          "exactPayloadVisible": true,
+          "selectedSymbologies": [
+            "EAN-13/UPC-A"
+          ],
+          "preset": "1dRetail",
+          "colorInverted": false,
+          "extendedSymbolCounts": false,
+          "visibleResult": "5901234123457\nEAN-13/UPC-A",
+          "pageErrors": []
+        },
+        "qrgen": {
+          "observedAt": "2026-10-11T13:43:23.243Z",
+          "status": "exact-payload-visible",
+          "exactPayloadVisible": true,
+          "selectedSymbologies": [
+            "ean13"
+          ],
+          "inversionSetting": "alternate (public demo default)",
+          "visibleResult": "EAN-13\n07:43:23 AM\n5901234123457\nProduct (EAN13)\nGTIN-14\n05901234123457\nCheck digit\nvalid\nCopy\nLook up",
+          "pageErrors": []
+        }
+      }
+    },
+    {
+      "caseId": "code128-normal",
+      "format": "code128",
+      "payload": "PUB128-1011",
+      "inverted": false,
+      "fixture": {
+        "sha256": "e4035b73f10e45ca64d66277f59faedcc101f25b062e6f7ebfe4cdf1dcb88543",
+        "matrixWidth": 145,
+        "matrixHeight": 50,
+        "module": 2,
+        "x": 175,
+        "y": 190
+      },
+      "observations": {
+        "scandit": {
+          "observedAt": "2026-10-11T13:43:41.010Z",
+          "status": "exact-payload-visible",
+          "exactPayloadVisible": true,
+          "selectedSymbologies": [
+            "Code 128"
+          ],
+          "preset": "1dIndustrial",
+          "colorInverted": false,
+          "extendedSymbolCounts": false,
+          "visibleResult": "PUB128-1011\nCode 128",
+          "pageErrors": []
+        },
+        "qrgen": {
+          "observedAt": "2026-10-11T13:43:42.760Z",
+          "status": "exact-payload-visible",
+          "exactPayloadVisible": true,
+          "selectedSymbologies": [
+            "code128"
+          ],
+          "inversionSetting": "alternate (public demo default)",
+          "visibleResult": "Code 128\n07:43:42 AM\nPUB128-1011\nCopy",
+          "pageErrors": []
+        }
+      }
+    },
+    {
+      "caseId": "qr-inverted",
+      "format": "qr",
+      "payload": "QRGEN-PUB-QR-20261011",
+      "inverted": true,
+      "fixture": {
+        "sha256": "fc0bf9ee41d40a8d0857120377b5f2e32f08d2d6d1a2dfcf9921a9862abca7f4",
+        "matrixWidth": 21,
+        "matrixHeight": 21,
+        "module": 8,
+        "x": 236,
+        "y": 156
+      },
+      "observations": {
+        "scandit": {
+          "observedAt": "2026-10-11T13:43:49.832Z",
+          "status": "exact-payload-visible",
+          "exactPayloadVisible": true,
+          "selectedSymbologies": [
+            "QR Code"
+          ],
+          "preset": "qr",
+          "colorInverted": true,
+          "extendedSymbolCounts": false,
+          "visibleResult": "QRGEN-PUB-QR-20261011\nQR Code",
+          "pageErrors": []
+        },
+        "qrgen": {
+          "observedAt": "2026-10-11T13:43:51.679Z",
+          "status": "exact-payload-visible",
+          "exactPayloadVisible": true,
+          "selectedSymbologies": [
+            "qr"
+          ],
+          "inversionSetting": "alternate (public demo default)",
+          "visibleResult": "QR Code\n07:43:51 AM\nQRGEN-PUB-QR-20261011\nCopy",
+          "pageErrors": []
+        }
+      }
+    },
+    {
+      "caseId": "data-matrix-inverted",
+      "format": "data-matrix",
+      "payload": "QRGEN-PUB-DM-20261011",
+      "inverted": true,
+      "fixture": {
+        "sha256": "a1ad28aa66edabb14b0d0932cb6520247e71cff77ca95b35a914aa6d65b8e4a7",
+        "matrixWidth": 26,
+        "matrixHeight": 12,
+        "module": 8,
+        "x": 216,
+        "y": 192
+      },
+      "observations": {
+        "scandit": {
+          "observedAt": "2026-10-11T13:44:00.494Z",
+          "status": "exact-payload-visible",
+          "exactPayloadVisible": true,
+          "selectedSymbologies": [
+            "Data Matrix"
+          ],
+          "preset": "2dAll",
+          "colorInverted": true,
+          "extendedSymbolCounts": false,
+          "visibleResult": "QRGEN-PUB-DM-20261011\nData Matrix",
+          "pageErrors": []
+        },
+        "qrgen": {
+          "observedAt": "2026-10-11T13:44:02.416Z",
+          "status": "exact-payload-visible",
+          "exactPayloadVisible": true,
+          "selectedSymbologies": [
+            "data-matrix"
+          ],
+          "inversionSetting": "alternate (public demo default)",
+          "visibleResult": "Data Matrix\n07:44:02 AM\nQRGEN-PUB-DM-20261011\nCopy",
+          "pageErrors": []
+        }
+      }
+    },
+    {
+      "caseId": "pdf417-inverted",
+      "format": "pdf417",
+      "payload": "QRGEN-PUB-PDF417-20261011",
+      "inverted": true,
+      "fixture": {
+        "sha256": "368444cf4be86fd51c4b4b0d4b51146f7f09b56fc1e2083590fdd4d8748b5253",
+        "matrixWidth": 120,
+        "matrixHeight": 24,
+        "module": 3,
+        "x": 140,
+        "y": 204
+      },
+      "observations": {
+        "scandit": {
+          "observedAt": "2026-10-11T13:49:14.530Z",
+          "status": "inconclusive",
+          "exactPayloadVisible": false,
+          "selectedSymbologies": [
+            "PDF417"
+          ],
+          "preset": "2dAll",
+          "colorInverted": true,
+          "extendedSymbolCounts": false,
+          "pageErrors": [],
+          "note": "No exact result became visible in the bounded observation. The public list/resume state is insufficient to attribute this to the decoder.",
+          "visiblePageDiagnostic": "Double click to enter fullscreen mode\nSettings\nCamera\nSound\nEffects\nDuplicate\nFilter\nInterested? Sign Up for Trial.\n0 items scanned\nClear List\nResume Scanning"
+        },
+        "qrgen": {
+          "observedAt": "2026-10-11T13:44:18.796Z",
+          "status": "exact-payload-visible",
+          "exactPayloadVisible": true,
+          "selectedSymbologies": [
+            "pdf417"
+          ],
+          "inversionSetting": "alternate (public demo default)",
+          "visibleResult": "PDF417\n07:44:18 AM\nQRGEN-PUB-PDF417-20261011\nCopy",
+          "pageErrors": []
+        }
+      }
+    },
+    {
+      "caseId": "ean13-inverted",
+      "format": "ean13",
+      "payload": "5901234123457",
+      "inverted": true,
+      "fixture": {
+        "sha256": "939d7c9d190edc9016438bcdcc594ddd7bb99a25757411241c625790cc2cbe49",
+        "matrixWidth": 95,
+        "matrixHeight": 55,
+        "module": 3,
+        "x": 177,
+        "y": 157
+      },
+      "observations": {
+        "scandit": {
+          "observedAt": "2026-10-11T13:49:21.116Z",
+          "status": "exact-payload-visible",
+          "exactPayloadVisible": true,
+          "selectedSymbologies": [
+            "EAN-13/UPC-A"
+          ],
+          "preset": "1dRetail",
+          "colorInverted": true,
+          "extendedSymbolCounts": false,
+          "visibleResult": "5901234123457\nEAN-13/UPC-A",
+          "pageErrors": []
+        },
+        "qrgen": {
+          "observedAt": "2026-10-11T13:44:20.730Z",
+          "status": "exact-payload-visible",
+          "exactPayloadVisible": true,
+          "selectedSymbologies": [
+            "ean13"
+          ],
+          "inversionSetting": "alternate (public demo default)",
+          "visibleResult": "EAN-13\n07:44:20 AM\n5901234123457\nProduct (EAN13)\nGTIN-14\n05901234123457\nCheck digit\nvalid\nCopy\nLook up",
+          "pageErrors": []
+        }
+      }
+    },
+    {
+      "caseId": "code128-inverted",
+      "format": "code128",
+      "payload": "PUB128-1011",
+      "inverted": true,
+      "fixture": {
+        "sha256": "3c5c632b61ba1937168ca84881e3a2237e3432fb5afdd4905742163b882297ca",
+        "matrixWidth": 145,
+        "matrixHeight": 50,
+        "module": 2,
+        "x": 175,
+        "y": 190
+      },
+      "observations": {
+        "scandit": {
+          "observedAt": "2026-10-11T13:49:38.416Z",
+          "status": "exact-payload-visible",
+          "exactPayloadVisible": true,
+          "selectedSymbologies": [
+            "Code 128"
+          ],
+          "preset": "1dIndustrial",
+          "colorInverted": true,
+          "extendedSymbolCounts": false,
+          "visibleResult": "PUB128-1011\nCode 128",
+          "pageErrors": []
+        },
+        "qrgen": {
+          "observedAt": "2026-10-11T13:44:22.767Z",
+          "status": "exact-payload-visible",
+          "exactPayloadVisible": true,
+          "selectedSymbologies": [
+            "code128"
+          ],
+          "inversionSetting": "alternate (public demo default)",
+          "visibleResult": "Code 128\n07:44:22 AM\nPUB128-1011\nCopy",
+          "pageErrors": []
+        }
+      }
+    }
+  ],
+  "priorUiAttempt": {
+    "caseId": "pdf417-inverted",
+    "vendor": "scandit",
+    "observedAt": "2026-10-11T13:44:16.792Z",
+    "status": "Clear List outside viewport; no decode conclusion",
+    "followup": "One bounded Expand list / keyboard attempt completed configuration. Inverted PDF417 remained inconclusive; inverted EAN13 and Code128 displayed exact payloads."
+  }
+}
