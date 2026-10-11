@@ -255,6 +255,9 @@ class Camera:
         """Decode one frame and apply the duplicate filter / tracker.
 
         Works without a camera: pass any grayscale, BGR or BGRA numpy array.
+        Omitted ``now_ms`` uses monotonic duplicate/tracking windows and epoch
+        result timestamps. Explicit ``now_ms`` supplies both clocks; switching
+        between default and injected calls rebases existing history by timestamp.
         """
         import zxingcpp
 
@@ -289,9 +292,9 @@ class Camera:
             if offset_x or offset_y:
                 barcode.location = Quad(*(Point(p.x + offset_x, p.y + offset_y) for p in barcode.location))
 
-        result = FrameResult(barcodes=barcodes, new=self.duplicates.filter(barcodes, now))
+        result = FrameResult(barcodes=barcodes, new=self.duplicates.filter(barcodes, now_ms))
         if self.mode == "batch":
-            result.tracked = self.tracker.update(barcodes, now)
+            result.tracked = self.tracker.update(barcodes, now_ms)
             result.added = list(self.tracker.added)
             result.removed = list(self.tracker.removed)
         return result
