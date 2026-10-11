@@ -245,6 +245,9 @@ class _QRGenScannerState extends State<QRGenScanner> with WidgetsBindingObserver
   @override
   void didUpdateWidget(QRGenScanner oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (oldWidget.showHighlights && !widget.showHighlights) {
+      _clearHighlights(rebuild: false);
+    }
     if (oldWidget.controller != widget.controller) {
       if (oldWidget.controller?._state == this) oldWidget.controller?._state = null;
       widget.controller?._state = this;
