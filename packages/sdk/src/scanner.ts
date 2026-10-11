@@ -315,7 +315,14 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
     const minInterval = 1000 / this.opts.maxFps;
     const hidden = typeof document !== "undefined" && document.visibilityState === "hidden";
     if (this.busy || hidden || now - this.lastDecodeStart < minInterval) return this.schedule();
-    const grabbed = this.grab();
+    let grabbed: ReturnType<BarcodeScanner["grab"]>;
+    try {
+      grabbed = this.grab();
+    } catch (err) {
+      this.stop();
+      this.emit("error", toQRGenError(err));
+      return;
+    }
     if (!grabbed) return this.schedule();
     this.busy = true;
     this.lastDecodeStart = now;
@@ -386,7 +393,12 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
     const fresh = barcodes.filter((b) => this.filter.accept(b));
     if (!fresh.length) return;
     this.feedback.success();
-    if (o.mode === "single") this.pause();
+    if (o.mode === "single") {
+      // pause() invalidates this frame once; listener changes invalidate it again.
+      const pausedToken = this.frameToken + 1;
+      this.pause();
+      if (this.frameToken !== pausedToken || this._state !== "paused") return;
+    }
     this.emit("scan", { barcodes: fresh });
   }
 }

@@ -131,4 +131,54 @@ describe("Scanner session isolation", () => {
     expect(scan).not.toHaveBeenCalled();
     s.destroy();
   });
+
+  it("releases the camera and reports frame capture failures", async () => {
+    const failure = new Error("camera frame unavailable");
+    vi.stubGlobal("OffscreenCanvas", class {
+      getContext() { return { drawImage() { throw failure; } }; }
+    });
+    const s = scanner();
+    const error = vi.fn();
+    s.on("error", error);
+    await s.start();
+    // Await the frame directly to make an unhandled callback rejection observable.
+    await (s as unknown as { onFrame(): Promise<void> }).onFrame();
+    expect(error).toHaveBeenCalledOnce();
+    expect(error.mock.calls[0]![0].cause).toBe(failure);
+    expect(s.camera.stop).toHaveBeenCalledOnce();
+    expect(s.state).toBe("stopped");
+    expect(mocks.decode).not.toHaveBeenCalled();
+    s.destroy();
+  });
+
+  it.each(["stop", "resume", "options", "no change"])("keeps single-scan events consistent when the pause listener uses %s", async (action) => {
+    mocks.decode.mockResolvedValue([{
+      format: "QRCodeModel2", text: "test", bytes: new TextEncoder().encode("test"),
+      contentType: "Text", position: {
+        topLeft: { x: 10, y: 10 }, topRight: { x: 50, y: 10 },
+        bottomRight: { x: 50, y: 50 }, bottomLeft: { x: 10, y: 50 },
+      }, orientation: 0, ecLevel: "M", symbologyIdentifier: "]Q1", isMirrored: false, isInverted: false,
+    }]);
+    const s = scanner();
+    s.setOptions({ mode: "single" });
+    const scan = vi.fn();
+    s.on("state", (state) => {
+      if (state !== "paused") return;
+      if (action === "stop") s.stop();
+      if (action === "resume") s.resume();
+      if (action === "options") s.setOptions({ symbologies: ["ean13"] });
+    });
+    s.on("scan", scan);
+    await s.start();
+    tick();
+    await new Promise((r) => setTimeout(r, 0));
+    if (action === "no change") {
+      expect(scan).toHaveBeenCalledOnce();
+      expect(scan.mock.calls[0]![0].barcodes[0].data).toBe("test");
+      expect(s.state).toBe("paused");
+    } else {
+      expect(scan).not.toHaveBeenCalled();
+    }
+    s.destroy();
+  });
 });

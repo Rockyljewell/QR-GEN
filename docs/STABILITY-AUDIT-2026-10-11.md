@@ -17,7 +17,8 @@ scan-limit, reentrant-event and Windows tooling defects.
 | Area | Reproduction / effect | Fix and evidence |
 | --- | --- | --- |
 | Camera ownership | Stop during permission prompt; a late stream remains live. Concurrent starts can attach an older stream. Metadata waits hang after stop; playback failure leaks the stream. | Generation checks dispose late streams, cancel metadata waits, time out missing metadata and release streams on failure. Unit tests plus real Chromium stop/unmount regressions. |
-| Scanner sessions | Old decode results/errors affect a restarted or resumed session, changed options or switched camera. Stop during torch setup still emits ready; stopping in a track callback still emits scan. | Invalidate pending results at lifecycle boundaries, recheck after asynchronous work and callbacks, reacquire a healthy shared decoder on restart. Unit regressions. |
+| Scanner sessions | Old decode results/errors affect a restarted or resumed session, changed options or switched camera. Stop during torch setup still emits ready; stopping in a track callback or changing the session in a single-mode pause callback still emits scan. | Invalidate pending results at lifecycle boundaries, recheck after asynchronous work and callbacks, reacquire a healthy shared decoder on restart. Unit regressions. |
+| Frame capture | A canvas capture exception escapes the asynchronous callback, leaving the camera running without reporting the failure. | Stop and release the camera, report the error, and avoid submitting an invalid frame. Unit regression. |
 | Worker failure | Runtime errors, unreadable responses, absent responses or failed sends strand pending decodes or reuse a dead worker. | Reject pending requests, clear timers, terminate and evict failed workers. A 20-second decode timeout bounds a lost response. Regression tests cover failure and healthy concurrent requests. |
 | Web tracking timeout | A detection after the timeout revives an expired track before cleanup. | Expire before matching. A returning code receives a fresh track id and count. |
 | REST input shape | `POST /v1/scan` with JSON `null` returns HTTP 500. | Reject non-object JSON as HTTP 400 `bad-request`. |
@@ -40,7 +41,7 @@ website build/browser checks; Python 3.12 and zxing-cpp 3.1.1.
 
 | Check | Result |
 | --- | --- |
-| Web SDK unit tests | 97 passing, including 34 added regressions |
+| Web SDK unit tests | 102 passing, including 39 added regressions |
 | SDK TypeScript checks | Pass |
 | Full SDK and website build | Pass; 57 generated pages |
 | Website type check | No errors; existing clipboard deprecation hint |
