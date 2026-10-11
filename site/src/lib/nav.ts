@@ -23,7 +23,7 @@ export const NAV: NavItem[] = [
       {
         title: "Core capabilities",
         links: [
-          { label: "Barcode Scanning", href: "/products/barcode-scanning/", desc: "40+ symbologies, one API" },
+          { label: "Barcode Scanning", href: "/products/barcode-scanning/", desc: "26 symbologies, one API" },
           { label: "Batch Scanning", href: "/products/batch-scanning/", desc: "Track many codes at once with AR highlights" },
           { label: "ID Scanning", href: "/products/id-scanning/", desc: "Read driver licenses and verify age" },
           { label: "Barcode Generator", href: "/products/barcode-generator/", desc: "Create print-ready codes" },
@@ -41,6 +41,7 @@ export const NAV: NavItem[] = [
         title: "Try it",
         links: [
           { label: "Live demo", href: "/demo/", desc: "Scan with your camera right now" },
+          { label: "Receive a delivery", href: "/receiving/", desc: "Confirm quantities against your delivery list" },
           { label: "Generate a code", href: "/demo/#generate", desc: "QR, Data Matrix, EAN, GS1…" },
           { label: "Pricing", href: "/pricing/", desc: "Free and open source" },
         ],
@@ -69,7 +70,7 @@ export const NAV: NavItem[] = [
       {
         title: "Use cases",
         links: [
-          { label: "Inventory counting", href: "/products/batch-scanning/", desc: "Count shelves in seconds" },
+          { label: "Delivery receiving", href: "/receiving/", desc: "Expected quantities, confirmations and corrections" },
           { label: "Age verification", href: "/products/id-scanning/", desc: "Read licenses on-device" },
           { label: "Asset tracking", href: "/solutions/#manufacturing", desc: "Label and follow equipment" },
           { label: "Ticket validation", href: "/solutions/#events", desc: "Validate QR and Aztec tickets" },

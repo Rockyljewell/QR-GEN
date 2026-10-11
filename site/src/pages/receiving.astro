@@ -1,0 +1,149 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import { barcodeSvg } from "../lib/barcodes";
+const samples = [
+  { code: "QRGEN-COFFEE", name: "Coffee", expected: 6 },
+  { code: "QRGEN-TEA", name: "Tea", expected: 4 },
+  { code: "QRGEN-COCOA", name: "Cocoa", expected: 2 },
+];
+const labels = await Promise.all(samples.map(item => barcodeSvg(item.code, { symbology: "qr", scale: 4 })));
+---
+
+<Base title="Receive a delivery" description="Scan product barcodes, confirm received quantities against a delivery list, record corrections and export a local receiving record.">
+  <section class="section-sm hero-bg dark">
+    <div class="container">
+      <span class="tag">Retail receiving</span>
+      <h1>Check a delivery, one confirmation at a time</h1>
+      <p class="intro">Scan to identify a product, then confirm how many you received. Compare against your expected quantities and keep a record of corrections. Everything stays in this browser.</p>
+    </div>
+  </section>
+  <section class="section-sm">
+    <div class="container" id="receiving-app" aria-busy="true">
+      <noscript>This receiving tool needs JavaScript and browser storage.</noscript>
+      <div class="delivery-bar">
+        <form id="new-delivery" class="delivery-create">
+          <label class="field">Delivery name<input id="delivery-name" maxlength="120" required placeholder="Monday delivery" /></label>
+          <button class="btn btn-dark" type="submit" disabled>New delivery</button>
+        </form>
+        <label class="field">Saved deliveries<select id="delivery-select" disabled><option value="">No saved deliveries</option></select></label>
+        <button id="sample-delivery" class="btn btn-light" type="button" disabled>Try a sample delivery</button>
+      </div>
+      <p id="receiving-message" role="status" aria-live="polite">Opening saved deliveries…</p>
+      <p id="storage-warning" class="help" role="status" hidden></p>
+      <div class="receiving-grid">
+        <div>
+          <section class="panel">
+            <h2>1. Set expected quantities</h2>
+            <form id="expected-item">
+              <fieldset data-editor disabled>
+                <label class="field">Barcode value<input id="item-code" maxlength="4096" required autocomplete="off" spellcheck="false" /></label>
+                <div class="field-row">
+                  <label class="field">Product name<input id="item-name" maxlength="120" required /></label>
+                  <label class="field">Expected quantity<input id="item-expected" type="number" min="1" max="1000000" step="1" value="1" required /></label>
+                </div>
+                <button class="btn btn-dark btn-sm" type="submit">Add expected product</button>
+              </fieldset>
+            </form>
+          </section>
+          <section class="panel scan-panel">
+            <h2>2. Identify a product</h2>
+            <p class="help">Use the camera or an image, then choose a barcode below. Repeated scans and identical labels do not add quantities.</p>
+            <qrgen-scanner id="scanner" autostart="false" mode="batch" symbologies="all" duplicate-filter="-1" beep="false" vibrate="false"></qrgen-scanner>
+            <label class="field image-field">Scan a barcode image<input id="image-file" type="file" accept="image/*" disabled /></label>
+            <p id="image-status" class="help" role="status"></p>
+            <ul id="observations" aria-label="Observed barcodes"></ul>
+            <p id="observation-empty" class="help">Scanned barcode values appear here. You can also choose a product from your delivery list.</p>
+          </section>
+          <details class="sample-labels">
+            <summary>Sample labels</summary>
+            <p class="help">Choose “Try a sample delivery”, then scan these labels with another device or save a label image to try the upload.</p>
+            <div class="label-grid">{samples.map((item, i) => <figure><div set:html={labels[i]} /><figcaption>{item.name}<br /><code>{item.code}</code></figcaption></figure>)}</div>
+          </details>
+        </div>
+        <aside class="panel confirmation" aria-label="Confirm received quantities">
+          <h2>3. Confirm what arrived</h2>
+          <p id="selected-code">Choose a barcode to confirm a quantity.</p>
+          <form id="unknown-item" hidden>
+            <p>This barcode is not on the expected list. Add it as an unexpected product before confirming a quantity.</p>
+            <fieldset data-editor disabled>
+              <label class="field">Product name<input id="unknown-name" maxlength="120" required /></label>
+              <button class="btn btn-light btn-sm" type="submit">Add unexpected product</button>
+            </fieldset>
+          </form>
+          <form id="confirm-quantity" hidden>
+            <fieldset data-editor disabled>
+              <label class="field">Quantity received now<input id="receive-quantity" type="number" min="1" max="1000000" step="1" value="1" required /></label>
+              <button class="btn btn-dark" type="submit"><Icon name="check" size={16} /> Confirm quantity</button>
+            </fieldset>
+          </form>
+          <form id="correct-quantity" hidden>
+            <h3>Correct a saved total</h3>
+            <fieldset data-editor disabled>
+              <label class="field">Correct total received<input id="correction-quantity" type="number" min="0" max="1000000" step="1" required /></label>
+              <label class="field">Reason<input id="correction-reason" maxlength="240" required placeholder="For example, one damaged item" /></label>
+              <button class="btn btn-light btn-sm" type="submit">Save correction</button>
+            </fieldset>
+            <p class="help">If another tab changes this delivery while you edit, review the latest totals before retrying a correction.</p>
+          </form>
+          <p class="help">Quantities are saved only after you confirm. Camera highlights show decoded observations; they cannot establish how many physical products are present.</p>
+        </aside>
+      </div>
+      <section class="panel delivery-results" aria-label="Delivery totals">
+        <div class="results-head"><div><h2 id="delivery-title">Your delivery</h2><p id="delivery-revision" class="help">No delivery selected</p></div><button id="export-delivery" type="button" class="btn btn-light btn-sm" disabled><Icon name="download" size={16} /> Export receiving record</button></div>
+        <p id="delivery-summary">Create a delivery to begin.</p>
+        <div class="table-scroll" tabindex="0" aria-label="Product quantities"><table><thead><tr><th scope="col">Product</th><th scope="col">Expected</th><th scope="col">Received</th><th scope="col">Status</th><th scope="col"><span class="sr-only">Choose product</span></th></tr></thead><tbody id="product-rows"></tbody></table></div>
+        <details><summary>Confirmation and correction history</summary><ol id="receiving-history"></ol></details>
+        <p class="help">Saved on this browser and site address, with no inventory system connection. Export a backup before clearing browser data or changing devices. The same delivery revision exports the same record ID; use that ID to avoid duplicate imports into your own system.</p>
+      </section>
+    </div>
+  </section>
+</Base>
+<script>import "../scripts/receiving";</script>
+<style>
+  h1 { font-size: clamp(32px, 5vw, 50px); margin: 20px 0 14px; max-width: 22em; }
+  .intro { max-width: 48em; font-size: 18px; }
+  h2 { margin: 0 0 18px; font-size: 21px; }
+  h3 { font-size: 18px; margin-top: 28px; }
+  .delivery-bar { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) auto; gap: 24px; align-items: end; margin-bottom: 20px; }
+  .delivery-create { display: flex; align-items: end; gap: 12px; }
+  .delivery-create .field { flex: 1; min-width: 0; }
+  .delivery-bar .field { margin-bottom: 0; }
+  .receiving-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: start; }
+  .panel { border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-soft); min-width: 0; }
+  .scan-panel, .delivery-results { margin-top: 24px; }
+  .field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; font-weight: 600; }
+  input, select { width: 100%; border: 1px solid #9ba7b4; border-radius: 8px; padding: 11px 12px; background: var(--white); color: var(--ink); font: inherit; font-weight: 400; min-width: 0; }
+  input[type="file"] { font-size: 13px; }
+  .field-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+  fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+  .help { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .image-field { margin-top: 20px; }
+  qrgen-scanner { display: block; height: 360px; border-radius: var(--radius); overflow: hidden; }
+  #observations { list-style: none; padding: 0; margin: 12px 0 0; display: grid; gap: 8px; }
+  #observations :global(button) { width: 100%; justify-content: start; text-align: left; overflow-wrap: anywhere; white-space: normal; }
+  #selected-code { overflow-wrap: anywhere; font-weight: 600; }
+  #receiving-message { min-height: 1.6em; font-weight: 600; }
+  #receiving-message[data-error="true"] { color: #9d2334; }
+  .results-head { display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 16px; }
+  .results-head h2 { margin-bottom: 8px; }
+  .table-scroll { position: relative; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; text-align: left; }
+  .table-scroll :global(th), .table-scroll :global(td) { padding: 12px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  #product-rows :global(td:first-child) { min-width: 160px; max-width: 300px; overflow-wrap: anywhere; }
+  #product-rows :global(code) { display: block; color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+  #product-rows :global([data-col="status"]) { min-width: 110px; }
+  details { margin-top: 24px; border-top: 1px solid var(--line); padding-top: 16px; }
+  summary { cursor: pointer; font-weight: 600; margin-bottom: 16px; }
+  #receiving-history { max-height: 300px; overflow-y: auto; padding-left: 24px; font-size: 14px; }
+  #receiving-history :global(li) { overflow-wrap: anywhere; margin-bottom: 8px; }
+  .label-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  figure { margin: 0; min-width: 0; }
+  figure :global(svg) { width: 100%; height: auto; }
+  figcaption { font-size: 12px; overflow-wrap: anywhere; }
+  button:disabled { opacity: .45; cursor: default; }
+  [hidden] { display: none; }
+  @media (max-width: 1000px) { .delivery-bar { grid-template-columns: 1fr 1fr; } .delivery-create { grid-column: 1 / -1; } }
+  @media (max-width: 760px) { .receiving-grid { grid-template-columns: 1fr; gap: 24px; } .panel { padding: 18px; } }
+  @media (max-width: 420px) { .delivery-bar, .field-row { grid-template-columns: 1fr; } .delivery-create { flex-direction: column; align-items: stretch; } }
+</style>
