@@ -11,3 +11,7 @@ docs/ean-browser-diagnostic-2026-10-11/fixtures/*.png binary
 docs/ean-browser-diagnostic-2026-10-11/licenses/ZXING-REUSE-dep5.txt whitespace=-blank-at-eof
 docs/ean-linecount-study-2026-10-11/** text eol=lf
 docs/ean-linecount-study-2026-10-11/ZXING-REUSE-dep5.txt whitespace=-blank-at-eof
+
+docs/ean-uniform-policy-study-2026-10-11/** text eol=lf
+docs/ean-uniform-policy-study-2026-10-11/*.gz binary
+docs/ean-uniform-policy-study-2026-10-11/ZXING-REUSE-dep5.txt whitespace=-blank-at-eof

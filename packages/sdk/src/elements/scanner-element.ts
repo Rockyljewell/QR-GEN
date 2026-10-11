@@ -131,6 +131,8 @@ export class QRGenScannerElement extends Base {
   private tracked: TrackedBarcode[] = [];
   private resultButtons = new Map<number, HTMLButtonElement>();
   private _selection = new Map<number, TrackedBarcode>();
+  private modeToken = 0;
+  private pauseToken = 0;
   private raf = 0;
   private toastTimer: ReturnType<typeof setTimeout> | undefined;
   private rendered = false;
@@ -321,6 +323,7 @@ export class QRGenScannerElement extends Base {
 
   disconnectedCallback(): void {
     this.autostartToken++;
+    this.modeToken++;
     this.root?.removeEventListener("click", this.handleClick);
     cancelAnimationFrame(this.raf);
     this.raf = 0;
@@ -328,46 +331,56 @@ export class QRGenScannerElement extends Base {
     this.resizeObserver = null;
     const scanner = this._scanner;
     this._scanner = null;
-    scanner?.destroy();
+    const hadSelection = this._selection.size > 0;
     this.highlights = [];
     this.tracked = [];
     this._selection.clear();
     this.resultButtons.clear();
     this.rendered = false;
     this.root?.replaceChildren();
+    scanner?.destroy();
+    // An old scanner's destroy listener may already have chosen a new result.
+    if (hadSelection && this._selection.size === 0) this.emitSelectionReset();
   }
 
   attributeChangedCallback(name: string, oldValue: string | null, value: string | null): void {
     if (oldValue === value || !this.rendered) return;
+    const change = name === "mode" ? ++this.modeToken : this.modeToken;
+    const token = this.autostartToken;
+    const scanner = this._scanner;
+    const current = () => change === this.modeToken && token === this.autostartToken && this._scanner === scanner;
     if (name === "accent") this.applyAccent();
     if (name === "hint" || name === "mode" || name === "viewfinder") this.updateHint();
     if (name === "torch" && this._scanner) void this._scanner.setTorch(bool(value, false)).then(() => this.updateControls());
-    if ((name === "camera" || name === "resolution" || name === "worker") && this._scanner) {
-      const scanner = this._scanner;
+    if ((name === "camera" || name === "resolution" || name === "worker") && scanner) {
       const running = scanner.state === "starting" || scanner.state === "scanning" || scanner.state === "paused";
-      const token = this.autostartToken;
       this._scanner = null;
+      const hadSelection = this._selection.size > 0;
       this._selection.clear();
       this.clearSpatialResults();
       scanner.destroy();
+      if (hadSelection && this._selection.size === 0) this.emitSelectionReset();
       if (!this._scanner && this.rendered) {
         if (running && token === this.autostartToken) void this.start().catch(() => undefined);
         else this.updateScreens("idle");
       }
       return;
     }
-    if (this._scanner) {
-      this._scanner.setOptions(this.options);
-      if (name === "mode") {
-        this.pausedBySingle = false;
-        if (this._scanner.state === "paused") this._scanner.resume();
-      }
+    if (scanner) {
+      scanner.setOptions(this.options);
+      if (!current()) return;
     }
     if (name === "mode") {
-      this.tracked = [];
+      const resume = scanner?.state === "paused";
+      const pause = this.pauseToken;
+      this.pausedBySingle = false;
+      const hadSelection = this._selection.size > 0;
       this._selection.clear();
-      this.updateCount();
-      this.updateResults();
+      this.clearSpatialResults();
+      if (hadSelection) this.emitSelectionReset();
+      if (!current()) return;
+      if (resume && pause === this.pauseToken && scanner?.state === "paused") scanner.resume();
+      if (!current()) return;
     }
     this.layout();
   }
@@ -555,6 +568,7 @@ export class QRGenScannerElement extends Base {
   }
 
   pause(): void {
+    this.pauseToken++;
     this._scanner?.pause();
   }
 
@@ -596,6 +610,10 @@ export class QRGenScannerElement extends Base {
     this._selection.clear();
     this.requestDraw();
     if (this.rendered) this.updateResults();
+    this.emitSelectionReset();
+  }
+
+  private emitSelectionReset(): void {
     this.emitEvent("select", { barcode: null, selected: false, selection: [] });
   }
 

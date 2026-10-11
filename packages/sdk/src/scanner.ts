@@ -168,8 +168,10 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
     const raw = { ...this.raw, ...rest };
     const merged = resolveOptions(raw);
     this.raw = raw;
-    this.frameToken++;
+    const token = ++this.frameToken;
     const modeChanged = merged.mode !== this.opts.mode;
+    const enabled = new Set(merged.symbologies);
+    const symbologiesChanged = enabled.size !== this.opts.symbologies.length || this.opts.symbologies.some((s) => !enabled.has(s));
     this.opts = merged;
     this.resetCapturePolicy();
     this.filter.window = merged.duplicateFilter;
@@ -178,7 +180,12 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
       this.tracker.clear();
       this.pendingBatchScans.clear();
       this.filter.reset();
+    } else if (symbologiesChanged) {
+      const update = this.tracker.retainSymbologies(enabled);
+      for (const track of update.removed) this.pendingBatchScans.delete(track.id);
+      if (update.removed.length) this.emit("track", update);
     }
+    if (token !== this.frameToken) return;
     if (partial.torch !== undefined && this._state === "scanning") void this.camera.setTorch(!!partial.torch);
   }
 
@@ -211,7 +218,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
       this.camera.stop();
       const e = toQRGenError(err);
       this.setState("error");
-      this.emit("error", e);
+      if (token === this.startToken) this.emit("error", e);
       throw e;
     }
   }

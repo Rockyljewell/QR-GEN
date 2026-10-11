@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "started": "2026-10-11T15:13:05.068Z",
+  "status": "passed",
+  "baseUrl": "https://rockyljewell.github.io/QR-GEN/",
+  "expectedRevision": "ded21a897cbfc33ac87f423a6f640613b95dfd5f",
+  "deployment": {
+    "headSha": "ded21a897cbfc33ac87f423a6f640613b95dfd5f",
+    "status": "success",
+    "url": "https://github.com/Rockyljewell/QR-GEN/actions/runs/38150179333",
+    "verification": "Deployment completion verified with gh before this smoke run."
+  },
+  "expectedStandaloneSdkSha256": "0397f294a55fbc180ce4eefdc9b74dc2297c4044f289ae3ab71b569e280f23af",
+  "hashAttempts": [
+    {
+      "at": "2026-10-11T15:13:05.436Z",
+      "url": "https://rockyljewell.github.io/QR-GEN/sdk/qrgen.js?postdeploy=ded21a8-1791731585240",
+      "status": 200,
+      "sha256": "0397f294a55fbc180ce4eefdc9b74dc2297c4044f289ae3ab71b569e280f23af",
+      "bytes": 216501
+    }
+  ],
+  "standaloneSdkVerificationNote": "Explicitly imported only to verify the separately published SDK asset. The UI scenario exercises the demo element already registered by the compiled website modules listed in siteJavaScriptAssets.",
+  "scenarios": [
+    {
+      "name": "public demo QR scan",
+      "status": "passed",
+      "data": "https://rockyljewell.github.io/QR-GEN/e2e",
+      "symbology": "qr",
+      "frameSize": {
+        "width": 640,
+        "height": 480
+      },
+      "resourcesAfterStop": {
+        "engine": "worker",
+        "attached": false,
+        "liveTracks": 0
+      }
+    },
+    {
+      "name": "paused camera switch retains selected snapshot with fresh resumed identity",
+      "status": "passed",
+      "oldId": 1,
+      "paused": {
+        "state": "paused",
+        "tracks": 0,
+        "highlights": 0,
+        "countHidden": true,
+        "selected": [
+          1
+        ]
+      },
+      "freshId": 2,
+      "freshData": "https://rockyljewell.github.io/QR-GEN/e2e",
+      "selectedAfterResume": [
+        1
+      ],
+      "stopped": {
+        "attached": false,
+        "tracks": 0,
+        "highlights": 0,
+        "selected": [],
+        "liveTracks": 0
+      }
+    },
+    {
+      "name": "published SDK preserves encoded PNM Blob frame dimensions",
+      "status": "passed",
+      "data": "HOSTED-IMAGE-DIMENSIONS",
+      "expectedFrame": {
+        "width": 145,
+        "height": 145
+      },
+      "results": [
+        {
+          "data": "HOSTED-IMAGE-DIMENSIONS",
+          "symbology": "qr",
+          "frameSize": {
+            "width": 145,
+            "height": 145
+          }
+        }
+      ]
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "limitations": [
+    "Desktop Chromium with a synthetic static camera feed; no physical-device or Scandit parity claim.",
+    "Fake front/back cameras provide the same pixels."
+  ],
+  "mainAtStart": "ded21a897cbfc33ac87f423a6f640613b95dfd5f",
+  "browser": "153.0.8010.12",
+  "standaloneSdkAsset": {
+    "url": "https://rockyljewell.github.io/QR-GEN/sdk/qrgen.js?postdeploy=ded21a8-1791731585240",
+    "sha256": "0397f294a55fbc180ce4eefdc9b74dc2297c4044f289ae3ab71b569e280f23af",
+    "bytes": 216501
+  },
+  "engineAssets": [
+    {
+      "url": "https://rockyljewell.github.io/QR-GEN/sdk/wasm/zxing_reader.wasm",
+      "sha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+      "bytes": 966895
+    },
+    {
+      "url": "https://rockyljewell.github.io/QR-GEN/sdk/wasm/zxing_writer.wasm",
+      "sha256": "af26f895fe471d23cb2d742bc3eca0695dbecb4ea6bad9b92eba3763ec505941",
+      "bytes": 647500
+    },
+    {
+      "url": "https://rockyljewell.github.io/QR-GEN/sdk/wasm/zxing_reader.wasm",
+      "sha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+      "bytes": 966895
+    }
+  ],
+  "siteJavaScriptAssets": [
+    {
+      "url": "https://rockyljewell.github.io/QR-GEN/_astro/index.astro_astro_type_script_index_0_lang.CR9vruZw.js",
+      "sha256": "cac71af918814cf71dd225127d557b55776bd855416fa1f3f61b630762eabfe0",
+      "bytes": 45598
+    },
+    {
+      "url": "https://rockyljewell.github.io/QR-GEN/_astro/chunk-AJXY674G.Co1BkhYA.js",
+      "sha256": "5bbb23d4cfd71aa15aa65d06acf2f51ceae91b4a99da38ab53592026b0ba3ad0",
+      "bytes": 13094
+    },
+    {
+      "url": "https://rockyljewell.github.io/QR-GEN/_astro/elements.CVPBrF06.js",
+      "sha256": "c4090732d723a358f8a93862d033f93d09f165d4cc45d60139572e25483d6949",
+      "bytes": 34409
+    },
+    {
+      "url": "https://rockyljewell.github.io/QR-GEN/_astro/chunk-N36IRQBG.Ch9GmwLz.js",
+      "sha256": "076f65a60410ef20d11ee42c9d1af9ca38febd2f9a9604275a6f726a2015f019",
+      "bytes": 132144
+    }
+  ],
+  "loadedWebsiteModulesMatchDeploymentArtifact": true,
+  "deploymentArtifact": {
+    "id": 11705709100,
+    "run": 38150179333,
+    "tarSha256": "c61d1f123ccbf15ccd392e1a21162f51cc16d49295a20811097b2acdddbb5e84"
+  },
+  "mainAtFinish": "ded21a897cbfc33ac87f423a6f640613b95dfd5f",
+  "completedAt": "2026-10-11T15:13:08.208Z"
+}

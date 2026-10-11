@@ -111,7 +111,7 @@ All events are `CustomEvent`s that bubble and cross shadow DOM boundaries. Read 
 | --- | --- | --- |
 | `scan` | `{ barcodes: Barcode[], barcode: Barcode }` | New codes passed the duplicate filter. `barcode` is `barcodes[0]`. |
 | `track` | `{ tracked: TrackedBarcode[], added: TrackedBarcode[], removed: TrackedBarcode[] }` | Batch mode, after every decoded frame. |
-| `select` | `{ barcode: TrackedBarcode \| null, selected: boolean, selection: TrackedBarcode[] }` | Batch mode: a result's selection changed, or `clearSelection()` was called (`barcode: null`). |
+| `select` | `{ barcode: TrackedBarcode \| null, selected: boolean, selection: TrackedBarcode[] }` | Batch mode: a result's selection changed, `clearSelection()` was called, or a nonempty selection was automatically cleared on mode/source recreation or disconnect (`barcode: null`). |
 | `ready` | `{ engine: "worker" \| "main" }` | The camera is open and decoding started. |
 | `statechange` | `{ state: ScannerState }` | The scanner state changed. |
 | `error` | `{ code: QRGenErrorCode, message: string }` | Starting failed or the engine failed to load. See [error codes](../options-events/#error-codes). |

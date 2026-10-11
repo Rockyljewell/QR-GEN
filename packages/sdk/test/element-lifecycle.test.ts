@@ -118,6 +118,7 @@ describe("Scanner element autostart lifecycle", () => {
     internals.highlights = [{ at: 100 }];
     internals._selection.set(1, { id: 1 });
     internals._scanner = { state: "paused", destroy: vi.fn() };
+    const emit = vi.spyOn(internals, "emitEvent").mockImplementation(() => {});
     vi.spyOn(internals, "updateCount").mockImplementation(() => {});
     vi.spyOn(internals, "updateResults").mockImplementation(() => {});
     const draw = vi.spyOn(internals, "requestDraw").mockImplementation(() => {});
@@ -125,6 +126,7 @@ describe("Scanner element autostart lifecycle", () => {
     expect(internals.tracked).toEqual([]);
     expect(internals.highlights).toEqual([]);
     expect(el.selection).toEqual([]);
+    expect(emit).toHaveBeenCalledWith("select", { barcode: null, selected: false, selection: [] });
     expect(draw).toHaveBeenCalled();
     expect(start).toHaveBeenCalledOnce();
   });
