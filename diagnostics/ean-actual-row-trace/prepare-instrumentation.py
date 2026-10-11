@@ -68,7 +68,7 @@ once(n, '\tfor (const auto& reader : _readers) {', '''\tfor (const auto& reader 
 once(n, '\t\tauto r = reader->read(image, maxSymbols);', '''\t\tauto r = reader->read(image, maxSymbols);
 \t\tQRT("reader-return", qrt.number("countBeforeErrorFilter", r.size()););
 \t\tQRT_ONLY(for (size_t qi = 0; qi < r.size(); ++qi) if (!_opts.returnErrors() && !r[qi].isValid()) {
-\t\t\tQRT("reader-discard-error", qrt.number("index", qi); qrt.position("position", r[qi].position()););
+\t\t\tQRT("reader-discard-error", qrt.number("index", qi); qrt.position("position", r[qi].position););
 \t\t})''')
 once(n, '\t\tif (maxSymbols <= 0)\n\t\t\tbreak;', '''\t\tif (maxSymbols <= 0) {
 \t\t\tQRT("reader-budget-exit", qrt.number("count", res.size()); qrt.number("remainingBudget", maxSymbols););

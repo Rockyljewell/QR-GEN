@@ -1,1 +1,65 @@
-{"scope":"Synthetic trace parser/completeness probes. No engine calls, builds or measured trace replay.","checks":[{"name":"exact-complete-synthetic-stream","passed":true},{"name":"wrong-event-schema","passed":true},{"name":"unknown-event-type","passed":true},{"name":"wrong-input-width","passed":true},{"name":"wrong-input-height","passed":true},{"name":"wrong-event-cap","passed":true},{"name":"wrong-byte-cap","passed":true},{"name":"wrong-line-cap","passed":true},{"name":"prior-byte-mismatch","passed":true},{"name":"sequence-gap","passed":true},{"name":"reported-drop","passed":true},{"name":"reported-oversize","passed":true},{"name":"attempt-counter-mismatch","passed":true},{"name":"missing-call-end","passed":true}],"runnerSha256":"9d8aff8f74bc81bfc487e9772fc86d42f6c3e10701b642864d7cc26e68ab158d","auditCodeSha256":"135a4d41956d54a449ecdde26379e10c9372622b731173a0c3730d9837722bb7","recognitionCalls":0,"readerImports":0}
+{
+  "scope": "Synthetic trace parser/completeness probes. No engine calls, builds or measured trace replay.",
+  "checks": [
+    {
+      "name": "exact-complete-synthetic-stream",
+      "passed": true
+    },
+    {
+      "name": "wrong-event-schema",
+      "passed": true
+    },
+    {
+      "name": "unknown-event-type",
+      "passed": true
+    },
+    {
+      "name": "wrong-input-width",
+      "passed": true
+    },
+    {
+      "name": "wrong-input-height",
+      "passed": true
+    },
+    {
+      "name": "wrong-event-cap",
+      "passed": true
+    },
+    {
+      "name": "wrong-byte-cap",
+      "passed": true
+    },
+    {
+      "name": "wrong-line-cap",
+      "passed": true
+    },
+    {
+      "name": "prior-byte-mismatch",
+      "passed": true
+    },
+    {
+      "name": "sequence-gap",
+      "passed": true
+    },
+    {
+      "name": "reported-drop",
+      "passed": true
+    },
+    {
+      "name": "reported-oversize",
+      "passed": true
+    },
+    {
+      "name": "attempt-counter-mismatch",
+      "passed": true
+    },
+    {
+      "name": "missing-call-end",
+      "passed": true
+    }
+  ],
+  "runnerSha256": "9d8aff8f74bc81bfc487e9772fc86d42f6c3e10701b642864d7cc26e68ab158d",
+  "auditCodeSha256": "135a4d41956d54a449ecdde26379e10c9372622b731173a0c3730d9837722bb7",
+  "recognitionCalls": 0,
+  "readerImports": 0
+}

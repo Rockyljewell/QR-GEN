@@ -1,0 +1,15 @@
+{
+  "scope": "File-only Python parse and Node syntax checks, no C++ build or reader import.",
+  "checked": [
+    "freeze-package.py",
+    "prepare-instrumentation.py",
+    "snapshot-build-phase.py",
+    "verify-build-inputs.py",
+    "verify-v3-amendment.py",
+    "capture-build-evidence.mjs",
+    "freeze-plan.mjs",
+    "run-paired.mjs",
+    "verify-validation-only.mjs"
+  ],
+  "recognitionCalls": 0
+}

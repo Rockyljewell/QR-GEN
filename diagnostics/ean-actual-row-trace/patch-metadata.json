@@ -3,7 +3,7 @@
   "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
   "wrapperCommit": "b7dcf63aefc7b94fb97ba09e9b1fb213d9399f54",
   "compileDefinition": "ZXING_QRGEN_ROW_TRACE=1",
-  "patchSha256": "6156e3c8e8ba373e41c05c7610fa4b2fed08850c9d39bbc084d75d28ef954912",
+  "patchSha256": "0d4213a7b7eeeefa5b8cad7772920ac53d886c7be60607745ef24df8815d53cd",
   "files": [
     {
       "path": "core/src/ReadBarcode.cpp",
@@ -13,7 +13,7 @@
     {
       "path": "core/src/MultiFormatReader.cpp",
       "baseSha256": "207b7287dcfaecd47ff13fd657e728e633a22c3942b171f6843caadaa027e879",
-      "instrumentedSha256": "c7c0b1e165a35f8e382078d5064bd371ca41192c54ae8959fe88cb2829f4f46c"
+      "instrumentedSha256": "b9194c5eb6ca1d9fe8d36e317ac2bbac8de265716b208379b00976912656e86a"
     },
     {
       "path": "core/src/Pattern.h",

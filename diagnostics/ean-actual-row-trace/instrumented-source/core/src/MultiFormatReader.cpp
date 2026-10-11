@@ -92,7 +92,7 @@ Barcodes MultiFormatReader::read(const BinaryBitmap& image, int maxSymbols) cons
 		auto r = reader->read(image, maxSymbols);
 		QRT("reader-return", qrt.number("countBeforeErrorFilter", r.size()););
 		QRT_ONLY(for (size_t qi = 0; qi < r.size(); ++qi) if (!_opts.returnErrors() && !r[qi].isValid()) {
-			QRT("reader-discard-error", qrt.number("index", qi); qrt.position("position", r[qi].position()););
+			QRT("reader-discard-error", qrt.number("index", qi); qrt.position("position", r[qi].position););
 		})
 		if (!_opts.returnErrors())
 			std::erase_if(r, [](auto&& s) { return !s.isValid(); });

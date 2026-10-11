@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "frozenAt": "2026-10-11T17:07:51.587Z",
-  "scope": "Unchanged-policy actual C++ instrumentation, 15 rasters × 6 profiles; no recognition during freeze.",
+  "frozenAt": "2026-10-11T17:15:48.601Z",
+  "scope": "Unchanged-policy actual C++ instrumentation, 15 rasters Ã— 6 profiles; no recognition during freeze.",
   "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
   "wrapperCommit": "b7dcf63aefc7b94fb97ba09e9b1fb213d9399f54",
   "count": {
@@ -31,23 +31,23 @@
     },
     {
       "path": "prepare-instrumentation.py",
-      "sha256": "b844d2e1d249760716a7d0768760b385f600f4c7a387b9ea0a67f621ce4a805a",
-      "bytes": 21182
+      "sha256": "66f9f2c4ce02cd6af5ab86c92d2856ffcdfa659ced36887b000b891e1db2372a",
+      "bytes": 21180
     },
     {
       "path": "actual-row-trace.patch",
-      "sha256": "6156e3c8e8ba373e41c05c7610fa4b2fed08850c9d39bbc084d75d28ef954912",
-      "bytes": 32467
+      "sha256": "0d4213a7b7eeeefa5b8cad7772920ac53d886c7be60607745ef24df8815d53cd",
+      "bytes": 32465
     },
     {
       "path": "patch-metadata.json",
-      "sha256": "ec96fe5b3425b5c423eb5f363ac465580142e21495019bbeb04093751dd3f9e5",
+      "sha256": "9badab55108636ccb14f4aed86da3d2a4c6bcf088a233671f451529daa22fe8e",
       "bytes": 3221
     },
     {
       "path": "freeze-plan.mjs",
-      "sha256": "3c00698e705693eae272d25f30cfc1fb6f22c997317c938661ffa3b7b6e1227a",
-      "bytes": 4787
+      "sha256": "fe6ce1f19c445c15329e5a62b8ec046d13dffee78c47f091ca4508de9c2aa092",
+      "bytes": 4890
     },
     {
       "path": "run-paired.mjs",
@@ -85,9 +85,14 @@
       "bytes": 3599
     },
     {
+      "path": "verify-v3-amendment.py",
+      "sha256": "b823268ae690dc76f4b915117125d949345a540505c2da733f00cd2bb24663ca",
+      "bytes": 4173
+    },
+    {
       "path": "REVIEW-AMENDMENT.md",
-      "sha256": "2e06c8e7e8bde18566585f6798ec561f1da36f20362491b5aef0ba561b672b23",
-      "bytes": 1452
+      "sha256": "d2e7b7abd9c9ad2aa280b27e8c696870fd90cdfeace7e50237d94bfe4e17a462",
+      "bytes": 2637
     },
     {
       "path": "v1-provenance.json",
@@ -95,9 +100,24 @@
       "bytes": 4534
     },
     {
+      "path": "v2-provenance.json",
+      "sha256": "648b3fe0283618fd19a89c1fa63f014f05dcf18c760e23a2ca21d93cf49b4fe3",
+      "bytes": 5354
+    },
+    {
+      "path": "build-failure-provenance.json",
+      "sha256": "1e0dd2782c11c0d535f79abdd2031189202a006e973a388cda31f1ad0dcf3eb7",
+      "bytes": 1241
+    },
+    {
+      "path": "accessor-audit.json",
+      "sha256": "5570d2b3f8f0dea2b351dfcd977640596a9bb0434ddec71dee7ab5074d4a4155",
+      "bytes": 4196
+    },
+    {
       "path": "README.md",
-      "sha256": "92e3e6e27a9299d8bc16edfce6833377c26bb0575cf5be5e0d409f9cb5b945f0",
-      "bytes": 5287
+      "sha256": "b98203e04615780321db7f0bb6d5ea21e82b2470687255c32ff86b9ae25bcc21",
+      "bytes": 5466
     }
   ],
   "inputs": [

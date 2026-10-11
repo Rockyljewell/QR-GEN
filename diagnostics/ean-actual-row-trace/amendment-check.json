@@ -1,0 +1,43 @@
+{
+  "scope": "File-only amendment verification, not C++ compilation or recognition.",
+  "checks": [
+    {
+      "name": "unchanged-ean-actual-row-trace",
+      "verifiedManifestEntries": 24
+    },
+    {
+      "name": "unchanged-ean-actual-row-trace-v2",
+      "verifiedManifestEntries": 29
+    },
+    {
+      "name": "exact-single-accessor-correction",
+      "comparedSourceFiles": 8,
+      "changedPaths": [
+        "core/src/MultiFormatReader.cpp"
+      ]
+    },
+    {
+      "name": "runner-protocol-header-workflow-and-build-verifiers-unchanged",
+      "passed": true
+    },
+    {
+      "name": "exact-v2-input-profile-and-gate-identity",
+      "rasters": 15,
+      "profiles": 90
+    },
+    {
+      "name": "exact-failed-build-log-retained",
+      "originalSha256": "2f2ac90878881a200afe5ddc0040377aead44544bfdfecefaa651b553f798c0e",
+      "originalBytes": 54687
+    },
+    {
+      "name": "api-audit-pinned-header-bytes",
+      "fileCount": 8
+    }
+  ],
+  "patchSha256": "0d4213a7b7eeeefa5b8cad7772920ac53d886c7be60607745ef24df8815d53cd",
+  "planSha256": "689b371b279221a09d7d947a6452597d77cbee036af0a8d35e44afce8709d14e",
+  "auditCodeSha256": "b823268ae690dc76f4b915117125d949345a540505c2da733f00cd2bb24663ca",
+  "readerImports": 0,
+  "recognitionCalls": 0
+}
