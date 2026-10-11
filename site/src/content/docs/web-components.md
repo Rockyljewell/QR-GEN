@@ -68,7 +68,7 @@ Attributes are strings. The properties in the second column accept typed values 
 | `accent` | | CSS color, hex recommended | `#5cc9d6` | Accent color. Same as setting `--qrgen-accent`. |
 | `hint` | | text | mode-specific | Instruction pill at the bottom. `hint=""` hides it. |
 | `toast` | | boolean | `true` | Show the success toast with the scanned value (single and continuous modes). |
-| `try-harder` | | boolean | `false` | Spend more CPU per frame on damaged or tiny codes. |
+| `try-harder` | | boolean | `false` (single/continuous), `true` (batch) | Spend more CPU per frame on damaged or tiny codes. |
 | `resolution` | | `sd`, `hd`, `fhd`, `4k` | `hd` | Requested camera resolution (640x480, 1280x720, 1920x1080, 3840x2160). |
 | `worker` | | boolean | `true` | Decode in a Web Worker. |
 

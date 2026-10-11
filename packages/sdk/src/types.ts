@@ -87,7 +87,7 @@ export interface ScannerOptions {
   scanArea?: ScanArea;
   /** Maximum codes per frame. Default 1 (20 in batch mode). */
   maxResults?: number;
-  /** Spend more CPU per frame for damaged or tiny codes. Default false for camera, true for images. */
+  /** Spend more CPU per frame for damaged or tiny codes. Default false in single/continuous camera modes, true in batch and for images. */
   tryHarder?: boolean;
   /** Preferred camera resolution. Default "hd" (1280x720). */
   resolution?: "sd" | "hd" | "fhd" | "4k";

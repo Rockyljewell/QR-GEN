@@ -1,0 +1,343 @@
+{
+  "cases": 156,
+  "reads": 5616,
+  "allRepetitionsStable": true,
+  "summary": [
+    {
+      "tryHarder": false,
+      "minLineCount": 2,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 1,
+      "total": 24,
+      "miss": 24
+    },
+    {
+      "tryHarder": false,
+      "minLineCount": 2,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 2,
+      "total": 24,
+      "exact": 24
+    },
+    {
+      "tryHarder": false,
+      "minLineCount": 2,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 3,
+      "total": 24,
+      "exact": 24
+    },
+    {
+      "tryHarder": false,
+      "minLineCount": 2,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 4,
+      "total": 24,
+      "exact": 24
+    },
+    {
+      "tryHarder": false,
+      "minLineCount": 2,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 8,
+      "total": 24,
+      "exact": 24
+    },
+    {
+      "tryHarder": false,
+      "minLineCount": 2,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 16,
+      "total": 24,
+      "exact": 24
+    },
+    {
+      "tryHarder": false,
+      "minLineCount": 2,
+      "inputType": "RGBA-pixmap",
+      "barHeight": null,
+      "total": 12,
+      "correct-control": 12
+    },
+    {
+      "tryHarder": false,
+      "minLineCount": 3,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 1,
+      "total": 24,
+      "miss": 24
+    },
+    {
+      "tryHarder": false,
+      "minLineCount": 3,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 2,
+      "total": 24,
+      "miss": 24
+    },
+    {
+      "tryHarder": false,
+      "minLineCount": 3,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 3,
+      "total": 24,
+      "exact": 24
+    },
+    {
+      "tryHarder": false,
+      "minLineCount": 3,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 4,
+      "total": 24,
+      "exact": 24
+    },
+    {
+      "tryHarder": false,
+      "minLineCount": 3,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 8,
+      "total": 24,
+      "exact": 24
+    },
+    {
+      "tryHarder": false,
+      "minLineCount": 3,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 16,
+      "total": 24,
+      "exact": 24
+    },
+    {
+      "tryHarder": false,
+      "minLineCount": 3,
+      "inputType": "RGBA-pixmap",
+      "barHeight": null,
+      "total": 12,
+      "correct-control": 12
+    },
+    {
+      "tryHarder": false,
+      "minLineCount": 4,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 1,
+      "total": 24,
+      "miss": 24
+    },
+    {
+      "tryHarder": false,
+      "minLineCount": 4,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 2,
+      "total": 24,
+      "miss": 24
+    },
+    {
+      "tryHarder": false,
+      "minLineCount": 4,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 3,
+      "total": 24,
+      "miss": 24
+    },
+    {
+      "tryHarder": false,
+      "minLineCount": 4,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 4,
+      "total": 24,
+      "exact": 24
+    },
+    {
+      "tryHarder": false,
+      "minLineCount": 4,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 8,
+      "total": 24,
+      "exact": 24
+    },
+    {
+      "tryHarder": false,
+      "minLineCount": 4,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 16,
+      "total": 24,
+      "exact": 24
+    },
+    {
+      "tryHarder": false,
+      "minLineCount": 4,
+      "inputType": "RGBA-pixmap",
+      "barHeight": null,
+      "total": 12,
+      "correct-control": 12
+    },
+    {
+      "tryHarder": true,
+      "minLineCount": 2,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 1,
+      "total": 24,
+      "miss": 24
+    },
+    {
+      "tryHarder": true,
+      "minLineCount": 2,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 2,
+      "total": 24,
+      "exact": 24
+    },
+    {
+      "tryHarder": true,
+      "minLineCount": 2,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 3,
+      "total": 24,
+      "exact": 24
+    },
+    {
+      "tryHarder": true,
+      "minLineCount": 2,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 4,
+      "total": 24,
+      "exact": 24
+    },
+    {
+      "tryHarder": true,
+      "minLineCount": 2,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 8,
+      "total": 24,
+      "exact": 24
+    },
+    {
+      "tryHarder": true,
+      "minLineCount": 2,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 16,
+      "total": 24,
+      "exact": 24
+    },
+    {
+      "tryHarder": true,
+      "minLineCount": 2,
+      "inputType": "RGBA-pixmap",
+      "barHeight": null,
+      "total": 12,
+      "correct-control": 12
+    },
+    {
+      "tryHarder": true,
+      "minLineCount": 3,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 1,
+      "total": 24,
+      "miss": 24
+    },
+    {
+      "tryHarder": true,
+      "minLineCount": 3,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 2,
+      "total": 24,
+      "miss": 24
+    },
+    {
+      "tryHarder": true,
+      "minLineCount": 3,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 3,
+      "total": 24,
+      "exact": 24
+    },
+    {
+      "tryHarder": true,
+      "minLineCount": 3,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 4,
+      "total": 24,
+      "exact": 24
+    },
+    {
+      "tryHarder": true,
+      "minLineCount": 3,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 8,
+      "total": 24,
+      "exact": 24
+    },
+    {
+      "tryHarder": true,
+      "minLineCount": 3,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 16,
+      "total": 24,
+      "exact": 24
+    },
+    {
+      "tryHarder": true,
+      "minLineCount": 3,
+      "inputType": "RGBA-pixmap",
+      "barHeight": null,
+      "total": 12,
+      "correct-control": 12
+    },
+    {
+      "tryHarder": true,
+      "minLineCount": 4,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 1,
+      "total": 24,
+      "miss": 24
+    },
+    {
+      "tryHarder": true,
+      "minLineCount": 4,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 2,
+      "total": 24,
+      "miss": 24
+    },
+    {
+      "tryHarder": true,
+      "minLineCount": 4,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 3,
+      "total": 24,
+      "miss": 24
+    },
+    {
+      "tryHarder": true,
+      "minLineCount": 4,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 4,
+      "total": 24,
+      "exact": 24
+    },
+    {
+      "tryHarder": true,
+      "minLineCount": 4,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 8,
+      "total": 24,
+      "exact": 24
+    },
+    {
+      "tryHarder": true,
+      "minLineCount": 4,
+      "inputType": "RGBA-pixmap",
+      "barHeight": 16,
+      "total": 24,
+      "exact": 24
+    },
+    {
+      "tryHarder": true,
+      "minLineCount": 4,
+      "inputType": "RGBA-pixmap",
+      "barHeight": null,
+      "total": 12,
+      "correct-control": 12
+    }
+  ]
+}

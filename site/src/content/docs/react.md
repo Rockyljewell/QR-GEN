@@ -68,7 +68,7 @@ The camera starts when the component mounts and stops when it unmounts. Camera a
 | `accent` | `string` | `#5cc9d6` | Accent color (hex). |
 | `hint` | `string` | mode-specific | Instruction text; `""` hides it. |
 | `toast` | `boolean` | `true` | Success toast. |
-| `tryHarder` | `boolean` | `false` | More CPU per frame for difficult codes. |
+| `tryHarder` | `boolean` | `false` (single/continuous), `true` (batch) | More CPU per frame for difficult codes. |
 | `resolution` | `"sd" \| "hd" \| "fhd" \| "4k"` | `"hd"` | Camera resolution. |
 | `className` | `string` | | Class on the `<qrgen-scanner>` element. |
 | `style` | `CSSProperties` | | Inline style. Give the scanner a height. |

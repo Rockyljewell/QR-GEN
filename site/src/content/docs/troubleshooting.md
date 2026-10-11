@@ -43,7 +43,7 @@ Measure first: `scanner.stats` (on `BarcodeScanner`, or `el.scanner.stats` on th
 - **Use the worker.** If `engine` is `"main"`, decoding competes with your UI. See [the worker warning](#decoding-on-the-main-thread-warning).
 - **Lower the resolution.** `resolution="sd"` (640x480) is enough for most QR codes and retail barcodes at normal distance.
 - **Decode smaller images.** On `BarcodeScanner`, `maxDecodeSize` (default 1280) caps the size handed to the decoder. `960` or `800` is noticeably faster on older phones. On the element: `el.scanner.setOptions({ maxDecodeSize: 960 })` after `ready`.
-- **Turn off extra passes.** Leave `try-harder` off for camera scanning, and set `tryInvert: false` on `BarcodeScanner` if you never scan white-on-black codes.
+- **Turn off extra passes.** Set `try-harder="false"` explicitly to disable hard search in batch mode; single/continuous modes already default to false, and set `tryInvert: false` on `BarcodeScanner` if you never scan white-on-black codes.
 - **Keep the scan area small.** The element decodes only the viewfinder region; with `viewfinder="none"` or batch mode it decodes everything visible. With `BarcodeScanner`, set `scanArea`.
 - **Batch mode.** Lower `max-results` if you never have 20 codes in view.
 - **Heat.** Phones throttle the CPU when they get hot. Stop the scanner when it's not on screen.

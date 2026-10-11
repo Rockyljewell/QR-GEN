@@ -87,7 +87,7 @@ async function browserDecode(blob: Blob): Promise<ImageData | null> {
   }
 }
 
-async function toDecodable(input: ImageInput): Promise<{ data: Blob | ArrayBuffer | Uint8Array | ImageData; width: number; height: number }> {
+async function toDecodable(input: ImageInput): Promise<{ data: Uint8Array | ImageData; width: number; height: number }> {
   if (typeof input === "string") {
     const isUrl = input.startsWith("data:") || /^(https?:|blob:)/.test(input);
     if (!hasDOM() && !isUrl) {
@@ -113,7 +113,7 @@ async function toDecodable(input: ImageInput): Promise<{ data: Blob | ArrayBuffe
     return toDecodable(new Uint8Array(bytes));
   }
   if ((input instanceof ArrayBuffer || input instanceof Uint8Array || (typeof Blob !== "undefined" && input instanceof Blob)) && !(typeof ImageData !== "undefined" && input instanceof ImageData)) {
-    const bytes = input instanceof Uint8Array ? input : input instanceof ArrayBuffer ? new Uint8Array(input) : new Uint8Array(await (input as Blob).slice(0, 1024).arrayBuffer());
+    let bytes = input instanceof Uint8Array ? input : input instanceof ArrayBuffer ? new Uint8Array(input) : new Uint8Array(await (input as Blob).slice(0, 1024).arrayBuffer());
     if (!bytes.length) throw new QRGenError("bad-request", "The image is empty.");
     // Normalize browser images once so both polarities share the same EXIF
     // orientation, pixels, and actual frame dimensions.
@@ -121,10 +121,12 @@ async function toDecodable(input: ImageInput): Promise<{ data: Blob | ArrayBuffe
     const decoded = blob ? await browserDecode(blob) : null;
     if (decoded) return { data: decoded, width: decoded.width, height: decoded.height };
     if (!builtinFormat(bytes)) throw new QRGenError("bad-request", describeUnsupported(bytes));
+    // The SOF of a JPEG can follow arbitrarily many metadata segments. Reuse
+    // one full Blob read for header inspection, ZXing and any raster fallback.
+    if (typeof Blob !== "undefined" && input instanceof Blob) bytes = new Uint8Array(await input.arrayBuffer());
+    return { data: bytes, width: 0, height: 0 };
   }
   if (typeof ImageData !== "undefined" && input instanceof ImageData) return { data: input, width: input.width, height: input.height };
-  if (input instanceof ArrayBuffer || input instanceof Uint8Array) return { data: input, width: 0, height: 0 };
-  if (typeof Blob !== "undefined" && input instanceof Blob) return { data: input, width: 0, height: 0 };
   if (typeof HTMLImageElement !== "undefined" && input instanceof HTMLImageElement) {
     if (!input.complete) await input.decode();
     const d = drawToImageData(input, input.naturalWidth, input.naturalHeight);
@@ -139,26 +141,51 @@ async function toDecodable(input: ImageInput): Promise<{ data: Blob | ArrayBuffe
   return { data: d, width: d.width, height: d.height };
 }
 
-/** Image size from PNG/JPEG/GIF/BMP headers, so results carry a frameSize without decoding twice. */
+/** Image size from supported encoded headers, without a second pixel decode. */
 function sniffSize(bytes: Uint8Array): { width: number; height: number } {
   const dv = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
   try {
     if (bytes[0] === 0x89 && bytes[1] === 0x50) return { width: dv.getUint32(16), height: dv.getUint32(20) };
     if (bytes[0] === 0x47 && bytes[1] === 0x49) return { width: dv.getUint16(6, true), height: dv.getUint16(8, true) };
-    if (bytes[0] === 0x42 && bytes[1] === 0x4d) return { width: dv.getInt32(18, true), height: Math.abs(dv.getInt32(22, true)) };
+    if (bytes[0] === 0x42 && bytes[1] === 0x4d) {
+      if (dv.getUint32(14, true) === 12) return { width: dv.getUint16(18, true), height: dv.getUint16(20, true) };
+      return { width: dv.getInt32(18, true), height: Math.abs(dv.getInt32(22, true)) };
+    }
+    if (bytes[0] === 0x38 && bytes[1] === 0x42 && bytes[2] === 0x50 && bytes[3] === 0x53) {
+      return { width: dv.getUint32(18), height: dv.getUint32(14) };
+    }
+    if (bytes[0] === 0x50 && (bytes[1] === 0x35 || bytes[1] === 0x36)) {
+      let i = 2;
+      const number = () => {
+        while (i < bytes.length) {
+          const c = bytes[i]!;
+          if (c === 0x23) {
+            while (i < bytes.length && bytes[i] !== 0x0a && bytes[i] !== 0x0d) i++;
+          } else if (c === 0x20 || (c >= 0x09 && c <= 0x0d)) i++;
+          else break;
+        }
+        const start = i;
+        let value = 0;
+        while (i < bytes.length && bytes[i]! >= 0x30 && bytes[i]! <= 0x39) value = value * 10 + bytes[i++]! - 0x30;
+        return i > start && Number.isSafeInteger(value) ? value : 0;
+      };
+      return { width: number(), height: number() };
+    }
     if (bytes[0] === 0xff && bytes[1] === 0xd8) {
       let i = 2;
-      while (i + 9 < bytes.length) {
-        if (bytes[i] !== 0xff) {
-          i++;
-          continue;
+      while (i < bytes.length) {
+        if (bytes[i++] !== 0xff) continue;
+        while (bytes[i] === 0xff) i++; // Legal fill bytes before a marker.
+        const marker = bytes[i++];
+        if (marker === undefined || marker === 0xd9 || marker === 0xda) break;
+        if (marker === 0x00 || marker === 0x01 || (marker >= 0xd0 && marker <= 0xd8)) continue;
+        if (i + 2 > bytes.length) break;
+        const len = dv.getUint16(i);
+        if (len < 2 || i + len > bytes.length) break;
+        if (len >= 8 && marker >= 0xc0 && marker <= 0xcf && marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc) {
+          return { width: dv.getUint16(i + 5), height: dv.getUint16(i + 3) };
         }
-        const marker = bytes[i + 1]!;
-        const len = dv.getUint16(i + 2);
-        if (marker >= 0xc0 && marker <= 0xcf && marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc) {
-          return { width: dv.getUint16(i + 7), height: dv.getUint16(i + 5) };
-        }
-        i += 2 + len;
+        i += len;
       }
     }
   } catch {
@@ -179,10 +206,7 @@ export async function scanImage(input: ImageInput, options: ScanImageOptions = {
   const ids = resolveSymbologies(options.symbologies);
   const { data, width, height } = await toDecodable(input);
   let size = { width, height };
-  if (!size.width) {
-    const bytes = data instanceof Uint8Array ? data : data instanceof ArrayBuffer ? new Uint8Array(data) : new Uint8Array(await (data as Blob).slice(0, 65536).arrayBuffer());
-    size = sniffSize(bytes);
-  }
+  if (!size.width && data instanceof Uint8Array) size = sniffSize(data);
   const params: DecodeParams = {
     formats: toZXingReadFormats(ids),
     tryHarder: options.tryHarder ?? true,
@@ -192,8 +216,7 @@ export async function scanImage(input: ImageInput, options: ScanImageOptions = {
     maxNumberOfSymbols: Math.max(1, Math.min(255, options.maxResults ?? 255)),
   };
   const raws = await decodeOnMainThread(data, params, async () => {
-    const bytes = data instanceof Uint8Array ? data : data instanceof ArrayBuffer ? new Uint8Array(data) : new Uint8Array(await (data as Blob).arrayBuffer());
-    return encodedRasterDecoder ? encodedRasterDecoder(bytes) : null;
+    return encodedRasterDecoder && data instanceof Uint8Array ? encodedRasterDecoder(data) : null;
   });
   const requested = ids.length === ALL_SYMBOLOGIES.length ? undefined : new Set(ids);
   return toBarcodes(raws, { frameSize: size, requested });
