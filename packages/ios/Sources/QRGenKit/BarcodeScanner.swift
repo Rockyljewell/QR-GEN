@@ -234,11 +234,12 @@ public final class BarcodeScanner {
     /// Applies new options while running (symbologies, mode, duplicate filter, camera, torch, ...).
     public func update(options newOptions: ScannerOptions) {
         let old = options
+        guard old != newOptions else { return }
         options = newOptions
         if customRegionOfInterest == nil {
             regionOfInterest = BarcodeScanner.defaultRegion(for: newOptions)
         }
-        processor.update(FrameProcessor.Configuration(options: newOptions, regionOfInterest: regionOfInterest))
+        processor.update(FrameProcessor.Configuration(options: newOptions, regionOfInterest: regionOfInterest), enabled: state == .running)
         if old.camera != newOptions.camera {
             use(camera: newOptions.camera)
         }
@@ -252,8 +253,10 @@ public final class BarcodeScanner {
     /// Pass `nil` to go back to ``ScannerOptions/scanArea``.
     public func setRegionOfInterest(_ rect: CGRect?) {
         customRegionOfInterest = rect.flatMap(BarcodeScanner.clampToUnit)
-        regionOfInterest = customRegionOfInterest ?? BarcodeScanner.defaultRegion(for: options)
-        processor.setRegionOfInterest(regionOfInterest)
+        let region = customRegionOfInterest ?? BarcodeScanner.defaultRegion(for: options)
+        guard region != regionOfInterest else { return }
+        regionOfInterest = region
+        processor.setRegionOfInterest(regionOfInterest, enabled: state == .running)
     }
 
     /// Turns the torch on or off. `completion` receives the resulting state.
@@ -380,31 +383,41 @@ public final class BarcodeScanner {
         }
     }
 
-    private func handle(_ output: FrameOutput) {
-        guard state == .running, processor.sourceSession.isCurrent(output.source) else { return }
-        if let error = output.error {
-            report(error, source: output.source)
+    private func handle(_ packet: DecodedCameraFrame) {
+        guard state == .running, processor.sourceSession.isCurrent(source: packet.source, epoch: packet.epoch) else { return }
+        if let error = packet.error {
+            report(error, source: packet.source, epoch: packet.epoch)
             return
         }
+        // Accept spatial state only after validating the queued decode. Report history is
+        // committed later, after earlier user callbacks have retained frame ownership.
+        guard let output = processor.sourceSession.process(
+            packet.detections, source: packet.source, epoch: packet.epoch, now: packet.timestamp,
+            mode: packet.mode, duplicateWindow: packet.duplicateWindow
+        ) else { return }
         if output.completedSingleScan {
+            processor.completeSingleScan(source: output.source, epoch: output.epoch)
             state = .paused
         }
-        guard processor.sourceSession.isCurrent(output.source) else { return }
+        guard processor.sourceSession.isCurrent(source: output.source, epoch: output.epoch) else { return }
         if !output.detections.isEmpty {
             onDetections?(output.detections)
         }
-        guard processor.sourceSession.isCurrent(output.source) else { return }
+        guard processor.sourceSession.isCurrent(source: output.source, epoch: output.epoch) else { return }
         if let tracked = output.tracked {
             onTrack?(tracked)
-            guard processor.sourceSession.isCurrent(output.source) else { return }
+            guard processor.sourceSession.isCurrent(source: output.source, epoch: output.epoch) else { return }
             delegate?.barcodeScanner(self, didTrack: tracked)
         }
-        guard processor.sourceSession.isCurrent(output.source) else { return }
+        guard processor.sourceSession.isCurrent(source: output.source, epoch: output.epoch) else { return }
         if !output.scans.isEmpty {
+            guard let scans = processor.sourceSession.commitScans(
+                output, now: packet.timestamp, duplicateWindow: packet.duplicateWindow
+            ), !scans.isEmpty else { return }
             ScanFeedback.play(beep: options.beep, vibrate: options.vibrate)
-            onScan?(output.scans)
-            guard processor.sourceSession.isCurrent(output.source) else { return }
-            delegate?.barcodeScanner(self, didScan: output.scans)
+            onScan?(scans)
+            guard processor.sourceSession.isCurrent(source: output.source, epoch: output.epoch) else { return }
+            delegate?.barcodeScanner(self, didScan: scans)
         }
     }
 
@@ -422,10 +435,12 @@ public final class BarcodeScanner {
         }
     }
 
-    private func report(_ error: QRGenError, source: UInt64? = nil) {
+    private func report(_ error: QRGenError, source: UInt64? = nil, epoch: UInt64? = nil) {
         if let source, !processor.sourceSession.isCurrent(source) { return }
+        if let source, let epoch, !processor.sourceSession.isCurrent(source: source, epoch: epoch) { return }
         onError?(error)
         if let source, !processor.sourceSession.isCurrent(source) { return }
+        if let source, let epoch, !processor.sourceSession.isCurrent(source: source, epoch: epoch) { return }
         delegate?.barcodeScanner(self, didFailWithError: error)
     }
 
@@ -473,7 +488,8 @@ public extension AVCaptureVideoPreviewLayer {
 
 // MARK: - Frame processing
 
-/// Runs Vision on camera frames. All mutable state is confined to ``queue``.
+/// Runs Vision on camera frames. Decoder/configuration state is confined to ``queue``;
+/// the synchronized session commits tracking/report state when the main actor accepts a decode.
 final class FrameProcessor: NSObject, @unchecked Sendable {
     struct Configuration: Sendable {
         var symbologies: Set<Symbology>
@@ -500,27 +516,32 @@ final class FrameProcessor: NSObject, @unchecked Sendable {
     let sourceSession = CameraFrameSession()
 
     private var configuration: Configuration
+    // Updated on the decoder queue together with its configuration/enabled state. Reading the
+    // session's latest epoch at frame arrival could incorrectly stamp old settings as current.
+    private var configuredEpoch: UInt64 = 0
     private var isEnabled = false
     private var lastFrameTime: TimeInterval = 0
     private var request: VNDetectBarcodesRequest?
     private var requestSymbologies: Set<Symbology>?
     private var failedSymbologies: Set<Symbology>?
+    private var failedEpoch: UInt64?
 
     private let handlerLock = NSLock()
-    private var outputHandler: (@Sendable (FrameOutput) -> Void)?
+    private var outputHandler: (@Sendable (DecodedCameraFrame) -> Void)?
 
     init(configuration: Configuration) {
         self.configuration = configuration
         super.init()
     }
 
-    func setOutputHandler(_ handler: @escaping @Sendable (FrameOutput) -> Void) {
+    func setOutputHandler(_ handler: @escaping @Sendable (DecodedCameraFrame) -> Void) {
         handlerLock.lock()
         outputHandler = handler
         handlerLock.unlock()
     }
 
-    func update(_ configuration: Configuration) {
+    func update(_ configuration: Configuration, enabled: Bool? = nil) {
+        let epoch = sourceSession.invalidateProcessing()
         queue.async { [self] in
             if configuration.symbologies != self.configuration.symbologies {
                 failedSymbologies = nil
@@ -529,49 +550,77 @@ final class FrameProcessor: NSObject, @unchecked Sendable {
                 sourceSession.resetTracking()
             }
             self.configuration = configuration
+            if let enabled { isEnabled = enabled }
+            configuredEpoch = epoch
         }
     }
 
-    func setRegionOfInterest(_ rect: CGRect) {
-        queue.async { [self] in configuration.regionOfInterest = rect }
+    func setRegionOfInterest(_ rect: CGRect, enabled: Bool? = nil) {
+        let epoch = sourceSession.invalidateProcessing()
+        queue.async { [self] in
+            configuration.regionOfInterest = rect
+            if let enabled { isEnabled = enabled }
+            configuredEpoch = epoch
+        }
     }
 
     func setEnabled(_ enabled: Bool) {
+        let epoch = sourceSession.invalidateProcessing()
         queue.async { [self] in
             isEnabled = enabled
             lastFrameTime = 0
+            configuredEpoch = epoch
+        }
+    }
+
+    /// An accepted single scan pauses its own epoch. A later resume/configuration wins even
+    /// if this queue task runs after that change was requested on the main actor.
+    func completeSingleScan(source: UInt64, epoch: UInt64) {
+        queue.async { [self] in
+            guard sourceSession.isCurrent(source: source, epoch: epoch), configuredEpoch == epoch else { return }
+            isEnabled = false
         }
     }
 
     @discardableResult
     func beginSource(resetDuplicateHistory: Bool = false) -> UInt64 {
         let source = sourceSession.beginSource(resetDuplicateHistory: resetDuplicateHistory)
+        let epoch = sourceSession.processingEpoch
         queue.async { [self] in
             lastFrameTime = 0
             failedSymbologies = nil
+            configuredEpoch = epoch
         }
         return source
     }
 
     // Called on `queue` by an immutable per-source delegate.
     func captureOutput(_ sampleBuffer: CMSampleBuffer, source: UInt64) {
-        guard isEnabled, sourceSession.isCurrent(source) else { return }
+        guard let epoch = currentEpoch(for: source) else { return }
         let now = ProcessInfo.processInfo.systemUptime
         guard now - lastFrameTime >= configuration.minimumFrameInterval else { return }
         lastFrameTime = now
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
-        process(pixelBuffer, source: source)
+        process(pixelBuffer, source: source, epoch: epoch)
     }
 
-    private func process(_ pixelBuffer: CVPixelBuffer, source: UInt64) {
+    /// Called on `queue`: a pending settings change invalidates its previous queue state
+    /// immediately, before that change reaches the decoder queue.
+    func currentEpoch(for source: UInt64) -> UInt64? {
+        guard isEnabled, sourceSession.isCurrent(source: source, epoch: configuredEpoch) else { return nil }
+        return configuredEpoch
+    }
+
+    private func process(_ pixelBuffer: CVPixelBuffer, source: UInt64, epoch: UInt64) {
         let config = configuration
-        guard failedSymbologies != config.symbologies else { return }
+        guard failedSymbologies != config.symbologies || failedEpoch != epoch else { return }
         let request: VNDetectBarcodesRequest
         do {
             request = try currentRequest(for: config.symbologies)
         } catch {
             failedSymbologies = config.symbologies
-            emit(FrameOutput(source: source, error: error as? QRGenError ?? .engineLoadFailed(error.localizedDescription)))
+            failedEpoch = epoch
+            emit(DecodedCameraFrame(source: source, epoch: epoch, error: error as? QRGenError ?? .engineLoadFailed(error.localizedDescription)))
             return
         }
 
@@ -605,11 +654,10 @@ final class FrameProcessor: NSObject, @unchecked Sendable {
             barcodes = Array(barcodes.prefix(config.maxResults))
         }
 
-        guard let output = sourceSession.process(
-            barcodes, source: source, now: now, mode: config.mode, duplicateWindow: config.duplicateFilter
-        ) else { return }
-        if output.completedSingleScan { isEnabled = false }
-        emit(output)
+        emit(DecodedCameraFrame(
+            source: source, epoch: epoch, detections: barcodes, timestamp: now,
+            mode: config.mode, duplicateWindow: config.duplicateFilter
+        ))
     }
 
     private func currentRequest(for symbologies: Set<Symbology>) throws -> VNDetectBarcodesRequest {
@@ -622,8 +670,8 @@ final class FrameProcessor: NSObject, @unchecked Sendable {
         return newRequest
     }
 
-    private func emit(_ output: FrameOutput) {
-        guard sourceSession.isCurrent(output.source) else { return }
+    private func emit(_ output: DecodedCameraFrame) {
+        guard sourceSession.isCurrent(source: output.source, epoch: output.epoch) else { return }
         handlerLock.lock()
         let handler = outputHandler
         handlerLock.unlock()

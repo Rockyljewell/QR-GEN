@@ -30,17 +30,14 @@ import com.google.mlkit.vision.barcode.common.Barcode as MlKitBarcode
  */
 internal class BarcodeAnalyzer(
     private val executor: Executor,
-    private val onFrame: (barcodes: List<MlKitBarcode>, frame: Size, timestamp: Long) -> Unit,
-    private val onFailure: (Exception) -> Unit,
+    private val captureProcessing: () -> ProcessingSession.Frame?,
+    private val onFrame: (processing: ProcessingSession.Frame, barcodes: List<MlKitBarcode>, frame: Size, timestamp: Long) -> Unit,
+    private val onFailure: (ProcessingSession.Frame, Exception) -> Unit,
 ) : ImageAnalysis.Analyzer {
 
     /** When `true`, frames are closed without analysis (preview keeps running). */
     @Volatile
     var paused: Boolean = false
-
-    /** The requested symbologies; the ML Kit client is recreated when the formats change. */
-    @Volatile
-    var symbologies: Set<Symbology> = Symbology.ALL
 
     private val closed = AtomicBoolean(false)
     private var client: BarcodeScanner? = null
@@ -52,6 +49,11 @@ internal class BarcodeAnalyzer(
             image.close()
             return
         }
+        val processing = captureProcessing()
+        if (processing == null) {
+            image.close()
+            return
+        }
         val media = image.image
         if (media == null) {
             image.close()
@@ -59,19 +61,19 @@ internal class BarcodeAnalyzer(
         }
         var handedOff = false
         try {
-            val scanner = clientFor(symbologies)
+            val scanner = clientFor(processing.options.symbologies)
             if (scanner == null) return
             val rotation = image.imageInfo.rotationDegrees
             val frame = FrameTransform.uprightSize(image.width, image.height, rotation)
             val timestamp = System.currentTimeMillis()
             val input = InputImage.fromMediaImage(media, rotation)
             scanner.process(input)
-                .addOnSuccessListener(executor) { list -> if (!closed.get() && !paused) onFrame(list, frame, timestamp) }
-                .addOnFailureListener(executor) { e -> if (!closed.get() && !paused) onFailure(e) }
+                .addOnSuccessListener(executor) { list -> if (!closed.get() && !paused) onFrame(processing, list, frame, timestamp) }
+                .addOnFailureListener(executor) { e -> if (!closed.get() && !paused) onFailure(processing, e) }
                 .addOnCompleteListener(executor) { image.close() }
             handedOff = true
         } catch (e: Exception) {
-            if (!closed.get() && !paused) onFailure(e)
+            if (!closed.get() && !paused) onFailure(processing, e)
         } finally {
             if (!handedOff) image.close()
         }
