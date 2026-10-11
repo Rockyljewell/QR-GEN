@@ -42,6 +42,31 @@ final class GS1Tests: XCTestCase {
         XCTAssertNil(QRGen.parseGS1("https://example.com/products/42"))
     }
 
+    func testFixedFieldsOutsidePredefinedTableNeedSeparator() throws {
+        for (ai, value) in [("7003", "2610111230"), ("7006", "261011"), ("8005", "001234"),
+                            ("3942", "1250"), ("3952", "001234")] {
+            let result = try XCTUnwrap(QRGen.parseGS1("(01)09501101530003(\(ai))\(value)(17)261012"))
+            let expected = "0109501101530003" + ai + value + "\u{1D}17261012"
+            XCTAssertEqual(result.elementString, expected, ai)
+            XCTAssertEqual(try XCTUnwrap(QRGen.parseGS1(expected)).values, result.values, ai)
+            XCTAssertEqual(try XCTUnwrap(QRGen.parseGS1("(\(ai))\(value)")).elementString, ai + value, ai)
+        }
+    }
+
+    func testPredefinedFieldsNeedNoSeparator() throws {
+        for (ai, value) in [("00", "123456789012345675"), ("01", "09501101530003"), ("11", "261011"),
+                            ("20", "01"), ("3103", "000195"), ("410", "9501101530003")] {
+            let result = try XCTUnwrap(QRGen.parseGS1("(\(ai))\(value)(17)261012"))
+            XCTAssertEqual(result.elementString, ai + value + "17261012", ai)
+        }
+    }
+
+    func testFullLengthVariableFieldStillNeedsSeparator() throws {
+        let value = String(repeating: "A", count: 20)
+        let result = try XCTUnwrap(QRGen.parseGS1("(10)\(value)(21)XYZ"))
+        XCTAssertEqual(result.elementString, "10" + value + "\u{1D}21XYZ")
+    }
+
     func testDecimalAndDateAIs() throws {
         let result = try XCTUnwrap(QRGen.parseGS1("(3103)000750(15)260200(3922)1999(11)991231"))
         XCTAssertEqual(result.element("3103")?.number ?? 0, 0.75, accuracy: 1e-9)
