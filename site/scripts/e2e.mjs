@@ -393,7 +393,7 @@ await test("demo image samples decode", async () => {
       await page.waitForFunction((n) => document.querySelectorAll("[data-img-results] .result-item").length === n, count, { timeout: 20000 });
       if (sample === "license") {
         const id = await page.locator("[data-img-results]").textContent();
-        assert(id.includes("JANE Q SAMPLE") && id.includes("21+ verified"), "license not parsed");
+        assert(id.includes("JANE Q SAMPLE") && id.includes("Age 21+"), "parsed license age not rendered");
       }
     }
   });

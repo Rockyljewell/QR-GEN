@@ -37,6 +37,14 @@ checked against independent exhaustive assignment enumeration in both orders.
 The Swift oracle also calculates square overlap independently. Existing expiry,
 symbology isolation and positionless matching tests remain in place.
 
-Final native builds and tests are required in PR #29. No physical phone is
-connected to the host, and no Swift/Android toolchain is available locally.
-Desktop/CI evidence does not establish phone or Scandit stability parity.
+[PR #29](https://github.com/Rockyljewell/QR-GEN/pull/29) merged as
+`c2ae04a8328ee70966691069a7c4f05008ef6176` after all 13 jobs passed on
+integrated head `9909c8afc79a3b2c2a7a7ff5f7e073376675fe23` in
+[PR CI](https://github.com/Rockyljewell/QR-GEN/actions/runs/38146910080)
+and push CI. That head incorporated current main `337037e`, including the
+other agent's PR #27. Swift Linux executed 54 tests and macOS 63, with zero
+failures. Android core/camera tests and library/Compose/sample builds passed.
+
+No physical phone is connected to the host, and no Swift/Android toolchain is
+available locally. Desktop/CI evidence does not establish phone or Scandit
+stability parity.

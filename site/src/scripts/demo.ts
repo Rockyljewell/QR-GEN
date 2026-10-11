@@ -85,7 +85,7 @@ function renderAamva(data: string): HTMLElement | null {
     el(
       "div",
       { class: "id-badges" },
-      id.isUnder21 === false ? badge("21+ verified", "ok") : id.isUnder21 ? badge("Under 21", "warn") : null,
+      id.isUnder21 === false ? badge("Age 21+", "ok") : id.isUnder21 ? badge("Under 21", "warn") : null,
       id.isExpired === false ? badge("Not expired", "ok") : id.isExpired ? badge("Expired", "warn") : null,
       badge(id.documentType === "ID" ? "ID card" : "Driver license", "guide"),
     ),
