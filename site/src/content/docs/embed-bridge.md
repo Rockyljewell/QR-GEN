@@ -50,7 +50,7 @@ The page posts every event as a message with this envelope:
 | `ready` | `engine` (`"worker"` or `"main"`) | The camera is open and scanning started. |
 | `scan` | `barcodes`: [Barcode](../concepts/#the-barcode-result)[] | New codes passed the duplicate filter. |
 | `track` | `tracked`: TrackedBarcode[] | Batch mode, after every decoded frame. |
-| `select` | `barcode`, `selected`, `selection` | Batch mode tap-to-select. |
+| `select` | `barcode`, `selected`, `selection` | Batch results selection changed. |
 | `state` | `state` | `idle`, `starting`, `scanning`, `paused`, `stopped`, `error`. |
 | `error` | `code`, `message` | Starting failed. See [error codes](../options-events/#error-codes). |
 

@@ -246,7 +246,7 @@ Commercial SDKs such as Scandit are built around similar concepts: a capture mod
 | SparkScan (pre-built scanning UI) | `<qrgen-scanner>`, `QRGenScanner` in React and Vue, the [embed page](../embed-bridge/) in WebViews |
 | MatrixScan (tracking many barcodes, "BarcodeBatch", previously "BarcodeTracking") | Batch mode (`mode="batch"`) with `track` events and `TrackedBarcode` ids; [`BarcodeTracker`](../batch-scanning/#barcodetracker-for-custom-interfaces) for custom pipelines |
 | MatrixScan basic overlay (highlights on tracked codes) | Built into `<qrgen-scanner>` in batch mode, or your own canvas: see [UI customization](../ui-customization/#build-a-fully-custom-ui) |
-| Tap-to-select on tracked codes | The element's `select` event and `selection` |
+| Choose tracked codes | The element's accessible results list, `select` event and `selection` |
 | ID capture (AAMVA barcode) | [`parseAAMVA()`](../id-scanning/) on a scanned PDF417 |
 | ID capture (MRZ, visual inspection zone, OCR) | Not available |
 | Barcode generator | [`generate()`](../barcode-generation/), `<qrgen-barcode>` |

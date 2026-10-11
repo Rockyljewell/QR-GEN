@@ -143,6 +143,53 @@ await test("demo batch mode tracks three codes", async () => {
   });
 });
 
+await test("batch results support keyboard selection outside a stable preview", async () => {
+  await withBrowser(null, async (page, errors) => {
+    await page.goto(u("embed/"));
+    await page.addScriptTag({ url: u("sdk/qrgen.iife.js") });
+    const before = await page.evaluate(() => {
+      document.querySelector("qrgen-scanner")?.remove();
+      const el = document.createElement("qrgen-scanner");
+      el.id = "selection-test";
+      el.autostart = false;
+      el.mode = "batch";
+      el.style.cssText = "width:320px;height:480px";
+      document.body.append(el);
+      const height = el.shadowRoot.querySelector(".preview").getBoundingClientRect().height;
+      const location = { topLeft: { x: 20, y: 20 }, topRight: { x: 80, y: 20 }, bottomRight: { x: 80, y: 80 }, bottomLeft: { x: 20, y: 80 } };
+      el.tracked = [1, 2].map((id) => ({ id, data: "<b>same value</b>", symbology: "qr", symbologyName: "QR Code", location }));
+      el.updateCount();
+      el.updateResults();
+      return height;
+    });
+    const el = page.locator("#selection-test");
+    const rows = el.locator(".result");
+    assert(await rows.count() === 2, "identical values should have separate rows");
+    assert(await rows.first().locator("b").count() === 0, "payload became HTML");
+    await rows.first().focus();
+    await page.keyboard.press("Space");
+    assert(await rows.first().getAttribute("aria-pressed") === "true", "Space did not select");
+    assert((await el.locator(".count").textContent()) === "2 barcodes in view", "selection changed detected total");
+    const bounds = await el.evaluate((node) => {
+      const preview = node.shadowRoot.querySelector(".preview").getBoundingClientRect();
+      const results = node.shadowRoot.querySelector(".results").getBoundingClientRect();
+      return { height: preview.height, bottom: preview.bottom, top: results.top, zoom: !!node.shadowRoot.querySelector('[data-a="zoom"]') };
+    });
+    assert(bounds.height === before && bounds.top >= bounds.bottom, "results overlap or resize preview");
+    assert(!bounds.zoom, "unexpected preset zoom control");
+    await el.locator("canvas").click({ force: true, position: { x: 160, y: 150 } });
+    assert((await el.evaluate((node) => node.selection.length)) === 1, "preview click changed selection");
+    await el.evaluate((node) => { node.tracked = []; node.updateCount(); node.updateResults(); });
+    assert(await rows.count() === 1 && (await rows.first().textContent()).includes("out of view"), "selected result was lost");
+    await rows.first().focus();
+    await page.keyboard.press("Enter");
+    assert(await rows.count() === 0, "Enter did not deselect an out-of-view result");
+    await el.evaluate((node) => { node.mode = "continuous"; });
+    assert(!await el.locator(".results").isVisible(), "results remained visible outside batch mode");
+    assert(errors.length === 0, errors.join("; "));
+  });
+});
+
 await test("demo single mode stops after one scan and resumes", async () => {
   await withBrowser(qrVideo, async (page) => {
     await page.goto(u("demo/"));

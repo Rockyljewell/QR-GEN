@@ -39,7 +39,7 @@ The JavaScript is about 60 KB gzipped for the full bundle (less with tree shakin
 
 ## Can it scan several barcodes at once?
 
-Yes. [Batch mode](../batch-scanning/) tracks up to 20 codes per frame with stable ids and lets users tap to select. `scanImage()` returns every code in an image.
+Yes. [Batch mode](../batch-scanning/) tracks up to 20 codes per frame with stable ids and lets users choose decoded results from a list below the camera preview. `scanImage()` returns every code in an image.
 
 ## Can it read driver licenses and passports?
 

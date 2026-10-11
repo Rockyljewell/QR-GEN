@@ -7,7 +7,7 @@ import { BarcodeScanner, type BarcodeScannerOptions, type ScannerState } from ".
 import { resolveSymbologies, symbologyInfo } from "../symbologies.js";
 import type { TrackerUpdate } from "../tracker.js";
 import type { Barcode, Quadrilateral, ScanArea, ScanMode, TrackedBarcode, ViewfinderStyle } from "../types.js";
-import { coverTransform, ensureMinHeight, inflateQuad, pointInQuad, quadToView, viewRectToScanArea, type CoverTransform } from "./geometry.js";
+import { coverTransform, ensureMinHeight, inflateQuad, quadToView, viewRectToScanArea, type CoverTransform } from "./geometry.js";
 import { ICONS } from "./icons.js";
 import { SCANNER_CSS } from "./styles.js";
 
@@ -105,17 +105,20 @@ export class QRGenScannerElement extends Base {
 
   private root!: ShadowRoot;
   private els!: {
+    preview: HTMLDivElement;
     video: HTMLVideoElement;
     canvas: HTMLCanvasElement;
-    hit: HTMLDivElement;
     vf: HTMLDivElement;
     hint: HTMLDivElement;
     toast: HTMLDivElement;
     torch: HTMLButtonElement;
     switch: HTMLButtonElement;
     pause: HTMLButtonElement;
-    zoom: HTMLButtonElement;
     count: HTMLDivElement;
+    results: HTMLElement;
+    resultsList: HTMLDivElement;
+    resultsEmpty: HTMLParagraphElement;
+    clearSelection: HTMLButtonElement;
     again: HTMLButtonElement;
     start: HTMLDivElement;
     loading: HTMLDivElement;
@@ -125,7 +128,7 @@ export class QRGenScannerElement extends Base {
   private resizeObserver: ResizeObserver | null = null;
   private highlights: Highlight[] = [];
   private tracked: TrackedBarcode[] = [];
-  private drawn = new Map<number, Quadrilateral>();
+  private resultButtons = new Map<number, HTMLButtonElement>();
   private _selection = new Map<number, TrackedBarcode>();
   private raf = 0;
   private toastTimer: ReturnType<typeof setTimeout> | undefined;
@@ -133,7 +136,6 @@ export class QRGenScannerElement extends Base {
   private autostartToken = 0;
   private readonly handleClick = (event: Event) => this.onClick(event as MouseEvent);
   private pausedBySingle = false;
-  private zoomLevel = 1;
   private scanned = 0;
   private lastScan: Barcode | null = null;
 
@@ -146,7 +148,7 @@ export class QRGenScannerElement extends Base {
     return this._scanner?.state ?? "idle";
   }
 
-  /** Batch mode: barcodes the user tapped. */
+  /** Batch mode: barcodes chosen from the results list. */
   get selection(): TrackedBarcode[] {
     return [...this._selection.values()];
   }
@@ -317,6 +319,9 @@ export class QRGenScannerElement extends Base {
     this.resizeObserver = null;
     this._scanner?.destroy();
     this._scanner = null;
+    this.tracked = [];
+    this._selection.clear();
+    this.resultButtons.clear();
     this.rendered = false;
     this.root?.replaceChildren();
   }
@@ -330,18 +335,25 @@ export class QRGenScannerElement extends Base {
       const running = this._scanner.state === "scanning" || this._scanner.state === "paused";
       this._scanner.destroy();
       this._scanner = null;
+      this.tracked = [];
+      this._selection.clear();
+      this.updateCount();
+      this.updateResults();
       if (running) void this.start().catch(() => undefined);
       return;
     }
     if (this._scanner) {
       this._scanner.setOptions(this.options);
       if (name === "mode") {
-        this.tracked = [];
-        this._selection.clear();
-        this.drawn.clear();
         this.pausedBySingle = false;
         if (this._scanner.state === "paused") this._scanner.resume();
       }
+    }
+    if (name === "mode") {
+      this.tracked = [];
+      this._selection.clear();
+      this.updateCount();
+      this.updateResults();
     }
     this.layout();
   }
@@ -354,9 +366,9 @@ export class QRGenScannerElement extends Base {
     this.root.innerHTML = `
       ${sheet ? "" : `<style>${SCANNER_CSS}</style>`}
       <div class="root" part="root">
+        <div class="preview" part="preview">
         <video part="video" playsinline muted autoplay></video>
         <canvas class="overlay" part="overlay"></canvas>
-        <div class="hit"></div>
         <div class="vf frame" part="viewfinder"><div class="shade"></div><span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span><div class="laser"></div></div>
         <div class="hint" part="hint"></div>
         <div class="toast" part="toast" role="status" aria-live="polite"><span class="ok">${ICONS.check}</span><span class="txt"><span class="sym"></span><span class="data"></span></span></div>
@@ -368,7 +380,6 @@ export class QRGenScannerElement extends Base {
           </div>
         </div>
         <div class="bar bottom" part="controls">
-          <button class="pill" data-a="zoom" aria-label="Zoom" hidden>1×</button>
           <div class="count" hidden></div>
         </div>
         <button class="again" data-a="again" hidden>Scan again</button>
@@ -385,35 +396,45 @@ export class QRGenScannerElement extends Base {
           <p class="msg"></p>
           <button class="cta" data-a="retry">Try again</button>
         </div>
+        </div>
+        <section class="results" part="results" aria-label="Scanned barcodes" hidden>
+          <div class="results-heading"><span>Choose barcodes</span><button type="button" class="clear-selection" data-a="clear-selection" disabled>Clear selection</button></div>
+          <p class="results-empty">Detected barcodes will appear here.</p>
+          <div class="results-list" role="group" aria-label="Barcode selection"></div>
+        </section>
       </div>`;
     const q = <T extends Element>(sel: string) => this.root.querySelector(sel) as T;
     this.els = {
+      preview: q(".preview"),
       video: q("video"),
       canvas: q("canvas"),
-      hit: q(".hit"),
       vf: q(".vf"),
       hint: q(".hint"),
       toast: q(".toast"),
       torch: q('[data-a="torch"]'),
       switch: q('[data-a="switch"]'),
       pause: q('[data-a="pause"]'),
-      zoom: q('[data-a="zoom"]'),
       count: q(".count"),
+      results: q(".results"),
+      resultsList: q(".results-list"),
+      resultsEmpty: q(".results-empty"),
+      clearSelection: q('[data-a="clear-selection"]'),
       again: q(".again"),
       start: q('[data-s="start"]'),
       loading: q('[data-s="loading"]'),
       error: q('[data-s="error"]'),
     };
     this.root.addEventListener("click", this.handleClick);
-    this.els.hit.addEventListener("pointerup", (e) => this.onTap(e));
     this.els.video.addEventListener("resize", () => this.layout());
     if (typeof ResizeObserver !== "undefined") {
       this.resizeObserver = new ResizeObserver(() => this.layout());
       this.resizeObserver.observe(this);
+      this.resizeObserver.observe(this.els.preview);
     }
     this.rendered = true;
     this.applyAccent();
     this.updateHint();
+    this.updateResults();
     this.layout();
   }
 
@@ -454,8 +475,8 @@ export class QRGenScannerElement extends Base {
     });
     s.on("track", (u: TrackerUpdate) => {
       this.tracked = u.tracked;
-      for (const r of u.removed) this.drawn.delete(r.id);
       this.updateCount();
+      this.updateResults();
       this.emitEvent("track", { tracked: u.tracked, added: u.added, removed: u.removed });
       this.requestDraw();
     });
@@ -497,7 +518,10 @@ export class QRGenScannerElement extends Base {
     this._scanner?.stop();
     this.highlights = [];
     this.tracked = [];
-    this.drawn.clear();
+    if (this.rendered) {
+      this.updateCount();
+      this.updateResults();
+    }
     this.requestDraw();
   }
 
@@ -541,8 +565,24 @@ export class QRGenScannerElement extends Base {
   clearSelection(): void {
     this._selection.clear();
     this.requestDraw();
-    this.updateCount();
+    if (this.rendered) this.updateResults();
     this.emitEvent("select", { barcode: null, selected: false, selection: [] });
+  }
+
+  /** Choose a tracked barcode, or deselect a previously chosen barcode after it leaves view. */
+  selectBarcode(id: number, selected?: boolean): boolean {
+    if ((this._scanner?.options.mode ?? this.mode) !== "batch") return false;
+    const barcode = this.tracked.find((item) => item.id === id) ?? this._selection.get(id);
+    if (!barcode) return false;
+    const next = selected ?? !this._selection.has(id);
+    if (next === this._selection.has(id)) return true;
+    if (next) this._selection.set(id, barcode);
+    else this._selection.delete(id);
+    this._scanner?.feedback.vibrate(20);
+    if (this.rendered) this.updateResults();
+    this.requestDraw();
+    this.emitEvent("select", { barcode, selected: next, selection: this.selection });
+    return true;
   }
 
   private async refreshCameraControls(): Promise<void> {
@@ -550,7 +590,6 @@ export class QRGenScannerElement extends Base {
     if (!s) return;
     const caps = s.camera.capabilities;
     this.els.torch.hidden = !caps.torch;
-    this.els.zoom.hidden = !caps.zoom || caps.zoom.max < 2;
     try {
       const cams = await Camera.list();
       this.els.switch.hidden = cams.length < 2;
@@ -569,7 +608,6 @@ export class QRGenScannerElement extends Base {
     const paused = s?.state === "paused";
     this.els.pause.innerHTML = paused ? ICONS.play : ICONS.pause;
     this.els.pause.setAttribute("aria-label", paused ? "Resume scanning" : "Pause scanning");
-    this.els.zoom.textContent = `${this.zoomLevel}×`;
   }
 
   private updateScreens(state: ScannerState): void {
@@ -588,7 +626,7 @@ export class QRGenScannerElement extends Base {
     if (!this.rendered) return;
     const custom = this.getAttribute("hint");
     const mode = this.getAttribute("mode") || "continuous";
-    const text = custom ?? (mode === "batch" ? "Point the camera at several barcodes. Tap one to select it." : "Point the camera at a barcode or QR code");
+    const text = custom ?? (mode === "batch" ? "Point at several barcodes, then choose from the list below." : "Point the camera at a barcode or QR code");
     this.els.hint.textContent = text;
     this.els.hint.hidden = !text;
     this.els.hint.style.opacity = this.scanned ? "0" : "1";
@@ -597,9 +635,49 @@ export class QRGenScannerElement extends Base {
   private updateCount(): void {
     const batch = (this._scanner?.options.mode ?? this.mode) === "batch";
     const n = this.tracked.length;
-    this.els.count.hidden = !batch || (n === 0 && this._selection.size === 0);
-    const sel = this._selection.size;
-    this.els.count.textContent = sel ? `${sel} selected · ${n} in view` : `${n} barcode${n === 1 ? "" : "s"} in view`;
+    this.els.count.hidden = !batch || n === 0;
+    this.els.count.textContent = `${n} barcode${n === 1 ? "" : "s"} in view`;
+  }
+
+  private updateResults(): void {
+    const batch = (this._scanner?.options.mode ?? this.mode) === "batch";
+    this.els.results.hidden = !batch;
+    this.els.clearSelection.disabled = this._selection.size === 0;
+    const available = new Map<number, TrackedBarcode>();
+    if (batch) {
+      for (const barcode of this.tracked) available.set(barcode.id, barcode);
+      for (const barcode of this._selection.values()) {
+        if (!available.has(barcode.id)) available.set(barcode.id, barcode);
+      }
+    }
+    const inView = new Set(this.tracked.map((barcode) => barcode.id));
+    for (const [id, button] of this.resultButtons) {
+      if (!available.has(id)) {
+        button.remove();
+        this.resultButtons.delete(id);
+      }
+    }
+    for (const [id, barcode] of available) {
+      let button = this.resultButtons.get(id);
+      if (!button) {
+        button = document.createElement("button");
+        button.type = "button";
+        button.className = "result";
+        button.dataset.a = "select-barcode";
+        button.dataset.id = String(id);
+        button.innerHTML = '<span class="result-text"><span class="result-format"></span><span class="result-data"></span></span><span class="result-state"></span>';
+        this.resultButtons.set(id, button);
+        this.els.resultsList.append(button);
+      }
+      const selected = this._selection.has(id);
+      button.setAttribute("aria-pressed", String(selected));
+      button.setAttribute("aria-label", `${selected ? "Deselect" : "Select"} ${barcode.symbologyName} ${id}: ${barcode.data}`);
+      button.title = barcode.data;
+      button.querySelector(".result-format")!.textContent = `${barcode.symbologyName} · #${id}`;
+      button.querySelector(".result-data")!.textContent = barcode.data;
+      button.querySelector(".result-state")!.textContent = selected ? (inView.has(id) ? "Selected" : "Selected · out of view") : "Select";
+    }
+    this.els.resultsEmpty.hidden = available.size > 0;
   }
 
   private showToast(b: Barcode): void {
@@ -620,8 +698,8 @@ export class QRGenScannerElement extends Base {
 
   private transform(): CoverTransform | null {
     const v = this.els.video;
-    const w = this.clientWidth;
-    const h = this.clientHeight;
+    const w = this.els.preview.clientWidth;
+    const h = this.els.preview.clientHeight;
     if (!v.videoWidth || !v.videoHeight || !w || !h) return null;
     return coverTransform({ width: w, height: h }, { width: v.videoWidth, height: v.videoHeight }, v.classList.contains("mirror"));
   }
@@ -629,8 +707,8 @@ export class QRGenScannerElement extends Base {
   /** Size the viewfinder and derive the decode region from it. */
   private layout(): void {
     if (!this.rendered) return;
-    const w = this.clientWidth;
-    const h = this.clientHeight;
+    const w = this.els.preview.clientWidth;
+    const h = this.els.preview.clientHeight;
     const opts = this.options;
     const mode = opts.mode ?? "continuous";
     const syms = resolveSymbologies(opts.symbologies);
@@ -679,7 +757,7 @@ export class QRGenScannerElement extends Base {
     const c = this.els.canvas;
     const ctx = c.getContext("2d");
     if (!ctx) return;
-    const dpr = c.width / Math.max(1, this.clientWidth);
+    const dpr = c.width / Math.max(1, this.els.preview.clientWidth);
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, c.width, c.height);
     const t = this.transform();
@@ -689,12 +767,10 @@ export class QRGenScannerElement extends Base {
     const batch = this._scanner?.options.mode === "batch";
     let again = false;
     if (batch) {
-      this.drawn.clear();
       for (const tb of this.tracked) {
         const linear = symbologyInfo(tb.symbology).kind === "linear";
         let q = quadToView(tb.location, t);
         q = inflateQuad(linear ? ensureMinHeight(q, 26) : q, 6);
-        this.drawn.set(tb.id, q);
         const selected = this._selection.has(tb.id);
         this.polygon(ctx, q);
         ctx.fillStyle = selected ? hexA(accent, 0.55) : hexA(accent, 0.2);
@@ -766,24 +842,6 @@ export class QRGenScannerElement extends Base {
     ctx.fillText(s, x + 6, yy + 14);
   }
 
-  private onTap(e: PointerEvent): void {
-    if (this._scanner?.options.mode !== "batch") return;
-    const r = this.getBoundingClientRect();
-    const p = { x: e.clientX - r.left, y: e.clientY - r.top };
-    for (const tb of this.tracked) {
-      const q = this.drawn.get(tb.id);
-      if (!q || !pointInQuad(p, q)) continue;
-      const selected = !this._selection.has(tb.id);
-      if (selected) this._selection.set(tb.id, tb);
-      else this._selection.delete(tb.id);
-      this._scanner?.feedback.vibrate(20);
-      this.updateCount();
-      this.requestDraw();
-      this.emitEvent("select", { barcode: tb, selected, selection: this.selection });
-      return;
-    }
-  }
-
   private onClick(e: MouseEvent): void {
     const target = (e.target as HTMLElement).closest("[data-a]") as HTMLElement | null;
     if (!target) return;
@@ -807,13 +865,12 @@ export class QRGenScannerElement extends Base {
       case "switch":
         void this.switchCamera();
         break;
-      case "zoom": {
-        const z = s?.camera.capabilities.zoom;
-        if (!z) break;
-        this.zoomLevel = this.zoomLevel === 1 ? Math.min(2, z.max) : 1;
-        void this.setZoom(this.zoomLevel).then(() => this.updateControls());
+      case "select-barcode":
+        this.selectBarcode(Number(target.dataset.id));
         break;
-      }
+      case "clear-selection":
+        this.clearSelection();
+        break;
     }
   }
 }

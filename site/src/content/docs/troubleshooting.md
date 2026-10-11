@@ -52,7 +52,7 @@ Measure first: `scanner.stats` (on `BarcodeScanner`, or `el.scanner.stats` on th
 
 - **Is the symbology enabled?** A Code 39 label won't be found with `symbologies="qr"`. Try without `symbologies` once to see what the code is.
 - **Is the code inside the viewfinder?** The element only decodes the viewfinder region (plus a small margin). Aim so the whole code is inside it.
-- **Distance and focus.** Phones can't focus closer than about 10 cm. Move the phone back until the code is sharp, then use the zoom button (or `setZoom(2)`) for small codes. Fixed-focus webcams need the code further away.
+- **Distance and focus.** Minimum focus distance depends on the camera. Move the phone back until the code is sharp, and use `resolution="fhd"` for small codes. Fixed-focus webcams may need the code further away. Try brighter, even lighting and keep the camera steady.
 - **Small or dense codes.** Each module needs a few pixels. Use `resolution="fhd"`, zoom in, or take a photo and use `scanImage()`, which works at full resolution.
 - **Glare and lighting.** Reflections on glossy labels, screens and laminated cards hide parts of the code: tilt the code or the phone slightly. In the dark, turn on the torch.
 - **Motion blur.** Hold still for a moment, especially in low light.
