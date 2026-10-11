@@ -9,7 +9,8 @@
     "build": "npm run prepare-assets && astro build",
     "preview": "astro preview",
     "typecheck": "astro check",
-    "test:e2e": "node scripts/e2e.mjs && node scripts/e2e-react.mjs && node scripts/e2e-native.mjs",
+    "test:e2e": "node scripts/e2e.mjs && node scripts/e2e-react.mjs && node scripts/e2e-native.mjs && npm run test:receiving",
+    "test:receiving": "node scripts/test-receiving.mjs && node scripts/e2e-receiving.mjs",
     "test:frontier": "node scripts/e2e-frontier.mjs && node scripts/e2e-offline.mjs",
     "test:stress": "node scripts/stress-browser.mjs"
   },
