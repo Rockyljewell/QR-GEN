@@ -189,7 +189,8 @@ Shared option names (camelCase in JS/Kotlin/Swift/Dart/C#, snake_case in Python)
 Events: `scan` (`{ barcodes: Barcode[] }`), `track` (batch only,
 `{ tracked: TrackedBarcode[] }` where `TrackedBarcode = Barcode & { id, firstSeen, lastSeen, count }`;
 `id` is stable for the lifetime of a track; web and Kotlin use numeric IDs, Swift uses numeric
-string IDs, and React Native, Flutter and Python derive string base IDs from symbology + data.
+string IDs, and React Native, Flutter and default Python payload tracking derive string
+base IDs from symbology + data. Python's opt-in spatial tracking allocates fresh string IDs.
 Treat every track ID as opaque),
 `error` (`{ code, message }`), `ready`.
 
@@ -209,6 +210,29 @@ it maximizes eligible matches within the movement gate, then minimizes total
 center movement. Input detection order must not invent an extra observed item
 when a complete eligible association exists. Tracks describe current observations;
 they do not establish persistent physical identity through occlusion or a count session.
+
+Python offers this association policy with `BatchTracker(spatial=True, max_jump=3.0)`
+or keyword-only `Camera(spatial_tracking=True, track_max_jump=3.0)`. Its default
+payload aggregation and payload duplicate filtering are unchanged. Spatial inputs
+require finite usable geometry and consistent positive source frame sizes;
+invalid updates leave tracker and duration-clock state unchanged. An explicit
+`update(..., frame_size=Size(...))` detects coordinate changes even on blank frames.
+Camera full-frame dimensions are supplied automatically, including with an ROI.
+Successful capture open/close boundaries reset spatial history and queue removals
+for the next successful frame result. Direct users switching same-size sources must
+clear their tracker. Spatial IDs are fresh after expiry/reset within the same tracker;
+they do not count confirmed products. Python retains monotonic duration timeouts
+and epoch metadata, and its existing injected-clock transition policy.
+Python spatial association has a constructor-only positive integer work budget:
+`max_association_work=250_000` on `BatchTracker`, or keyword-only
+`track_max_association_work=250_000` on `Camera`. Before matching it sums
+`n*n*(m+n)` for each exact payload group with `n` detections and `m > 0` prior
+tracks surviving expiry and coordinate resets, conservatively including out-of-gate
+columns. New-only groups cost zero. Exceeding the budget raises `ValueError` before
+matrix allocation or any tracker/clock/event/source-removal/duplicate-history
+mutation; it never truncates observations or changes matching policy. This bounds
+assignment work rather than frame time. Larger offline workloads can explicitly
+raise the limit.
 
 An intrinsic web video size change starts a new coordinate space, clears spatial
 and pending batch history, and rejects in-flight results in the previous space.

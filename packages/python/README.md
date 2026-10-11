@@ -173,6 +173,61 @@ with Camera(device=0, symbologies=["qr", "ean13"], mode="continuous",
   `now_ms` supplies both timeouts and timestamps. Mixing default and injected calls
   rebases retained history using timestamp differences at each transition, preserving
   the previous behavior; use a consistent timestamp basis when mixing clocks.
+
+### Optional spatial observations
+
+Batch tracking aggregates equal symbology/payload values by default. To keep
+separate observations of identical codes at different positions, opt in explicitly:
+
+```python
+with Camera(mode="batch", spatial_tracking=True, track_max_jump=3.0) as cam:
+    for frame, result in cam.frames():
+        for observed in result.tracked:
+            print(observed.id, observed.data, observed.count)
+```
+
+For external frame sources, use `BatchTracker(timeout_ms=500, spatial=True,
+max_jump=3.0)`. Each record must have finite corner coordinates, a nonzero extent,
+and a consistent positive `frame_size`. Narrow linear-code quads are supported.
+Invalid records or a negative/nonfinite movement gate raise `ValueError`; a rejected
+update leaves tracker state and clock history unchanged. The options are constructor
+policy; `spatial`, `max_jump` and `max_association_work` are read-only.
+
+Within each exact symbology/payload group, spatial tracking maximizes one-to-one
+matches inside the movement gate, then minimizes total center movement. The gate
+is `max(detection width, height, 1) * max_jump` source pixels. IDs are opaque strings,
+fresh after expiry, coordinate resets and `clear()` within that tracker object.
+An observed track's `count` is the number of frames matched to it.
+
+Supply `tracker.update(codes, frame_size=Size(width, height))` when a frame's size is
+known, including blank frames. Records must carry the same positive size; the
+argument does not fill missing record metadata. A size change removes old spatial
+tracks before matching. `Camera.process` supplies full-frame size automatically and
+keeps ROI coordinates in that space. Successful camera opens and closes reset only
+spatial history; removed tracks are reported once in the next successful
+`FrameResult`, even if intervening frame processing fails. Idempotent or failed
+opens do not reset it. When directly processing different same-size sources, call
+`tracker.clear()` yourself. A gap without frames preserves tracks until their normal
+timeout is checked on the next update.
+
+`result.new` and `on_scan` remain payload duplicate-filter notifications; use
+`tracked`, `added` or `on_track` for observed tracks. Resets do not clear payload
+report history. Spatial IDs do not establish persistent physical identity through
+crossings, camera motion, occlusion or leaving view. Decoder duplicates/misses can
+also affect observed counts. These tracks and frame counts are not confirmed
+receiving quantities. Dense repeated payload groups require more assignment work;
+`max_results` limits each decoded frame, not the number of retained unseen tracks.
+The default `max_association_work=250_000` conservatively sums `n*n*(m+n)` over
+each exact symbology/payload group with `n` detections and `m > 0` surviving prior
+tracks. It includes prior columns outside the movement gate. New-only, expired and
+coordinate-reset groups do not spend assignment units. A frame over this budget
+raises `ValueError` before allocating matching matrices or changing clocks, tracks,
+events, queued source removals or Camera duplicate-report history. There is no
+truncation or fallback matching policy. The limit must be a positive integer and is
+an assignment-work bound, not a whole-frame time guarantee. For large offline
+workloads, explicitly raise `BatchTracker(max_association_work=...)` or
+`Camera(track_max_association_work=...)`; measure performance for your hardware.
+
 * The `camera` extra installs `opencv-python-headless`, which has no GUI. For a preview
   window install `opencv-python` instead; without GUI support scanning continues and a
   warning is printed. Press `q` or Esc to quit the window.

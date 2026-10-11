@@ -201,10 +201,12 @@ class TrackedBarcode(Barcode):
     """A barcode followed across frames in ``batch`` mode.
 
     Attributes:
-        id: Stable identifier derived from symbology and data.
+        id: Opaque identifier, stable for a track's lifetime. Default payload
+            tracking derives its base from symbology and data; opt-in spatial
+            tracking allocates fresh string ids for observed tracks.
         first_seen: Milliseconds since the epoch when the code first appeared.
         last_seen: Milliseconds since the epoch of the latest frame containing it.
-        count: Number of frames the code was decoded in.
+        count: Number of frames this track was decoded in, not a quantity of products.
     """
 
     id: str = ""

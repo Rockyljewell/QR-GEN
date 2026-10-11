@@ -158,6 +158,13 @@ class Camera:
         scan_area: Region of interest ``(x, y, width, height)`` normalized to 0..1.
         track_timeout_ms: Batch mode: drop a code after this long unseen.
         beep: Ring the terminal bell on each scan.
+        spatial_tracking: Batch mode: opt in to separate short-lived spatial
+            observations of equal payloads (default False). Not physical quantities.
+        track_max_jump: Spatial center-distance gate relative to a detection's size
+            (default 3). Must be finite and nonnegative.
+        track_max_association_work: Positive integer spatial assignment-work limit
+            (default 250,000), not a frame-time guarantee. Rejection preserves
+            tracking and duplicate-report history.
     """
 
     def __init__(
@@ -174,6 +181,10 @@ class Camera:
         scan_area: Optional[Sequence[float]] = None,
         track_timeout_ms: int = 500,
         beep: bool = False,
+        *,
+        spatial_tracking: bool = False,
+        track_max_jump: float = 3.0,
+        track_max_association_work: int = 250_000,
     ) -> None:
         if mode not in MODES:
             raise ValueError("mode must be one of %s" % ", ".join(MODES))
@@ -188,7 +199,10 @@ class Camera:
         self.scan_area = tuple(scan_area) if scan_area else None
         self.beep = beep
         self.duplicates = DuplicateFilter(duplicate_filter)
-        self.tracker = BatchTracker(track_timeout_ms)
+        self.tracker = BatchTracker(
+            track_timeout_ms, spatial=spatial_tracking, max_jump=track_max_jump,
+            max_association_work=track_max_association_work,
+        )
         self._capture: Any = None
         self._window_ok: Optional[bool] = None
 
@@ -200,6 +214,7 @@ class Camera:
             return self
         if self.device == "picamera2":
             self._capture = _Picamera2Source(self.width, self.height)
+            self.tracker._reset_spatial()
             return self
         cv2 = _require_cv2()
         device: Union[int, str] = self.device
@@ -224,6 +239,7 @@ class Camera:
         if self.height:
             capture.set(cv2.CAP_PROP_FRAME_HEIGHT, self.height)
         self._capture = capture
+        self.tracker._reset_spatial()
         return self
 
     def close(self) -> None:
@@ -231,6 +247,7 @@ class Camera:
         if self._capture is not None:
             self._capture.release()
             self._capture = None
+        self.tracker._reset_spatial()
         if self._window_ok:
             try:
                 _require_cv2().destroyAllWindows()
@@ -258,6 +275,8 @@ class Camera:
         Omitted ``now_ms`` uses monotonic duplicate/tracking windows and epoch
         result timestamps. Explicit ``now_ms`` supplies both clocks; switching
         between default and injected calls rebases existing history by timestamp.
+        Spatial mode resets on intrinsic frame-size changes, even on blank frames.
+        For direct processing of different same-size sources, clear ``tracker``.
         """
         import zxingcpp
 
@@ -292,9 +311,12 @@ class Camera:
             if offset_x or offset_y:
                 barcode.location = Quad(*(Point(p.x + offset_x, p.y + offset_y) for p in barcode.location))
 
+        # Reject invalid spatial records before consuming payload-report history.
+        spatial = self.mode == "batch" and self.tracker.spatial
+        tracked = self.tracker.update(barcodes, now_ms, frame_size=Size(full_w, full_h)) if spatial else None
         result = FrameResult(barcodes=barcodes, new=self.duplicates.filter(barcodes, now_ms))
         if self.mode == "batch":
-            result.tracked = self.tracker.update(barcodes, now_ms)
+            result.tracked = tracked if tracked is not None else self.tracker.update(barcodes, now_ms)
             result.added = list(self.tracker.added)
             result.removed = list(self.tracker.removed)
         return result
