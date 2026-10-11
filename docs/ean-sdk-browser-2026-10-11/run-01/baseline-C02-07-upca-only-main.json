@@ -1,0 +1,1003 @@
+{
+  "variant": "baseline",
+  "id": "C02-07-upca-only-main",
+  "fixture": "historical07Y4M",
+  "startedAt": "2026-10-11T16:21:52.576Z",
+  "bootstrap": {
+    "engineVersion": "3.1.5",
+    "binaryEvidence": {},
+    "fixturePixels": [
+      {
+        "id": "historical07Y4M-preflight",
+        "rgbaSha256": "ec287e182dca32d86261e719e4a9525277023ba1872394ca6d4fa4e454fc7107",
+        "width": 640,
+        "height": 480
+      }
+    ]
+  },
+  "camera": {
+    "id": "C02-07-upca-only",
+    "startedAt": "2026-10-11T16:21:52.614Z",
+    "options": {
+      "mode": "continuous",
+      "maxResults": 255,
+      "duplicateFilter": 0,
+      "tryHarder": true,
+      "tryInvert": false,
+      "maxDecodeSize": 640,
+      "maxFps": 10,
+      "adaptive": false,
+      "scanArea": {
+        "x": 0,
+        "y": 0,
+        "width": 1,
+        "height": 1
+      },
+      "viewfinder": "none",
+      "resolution": "sd",
+      "beep": false,
+      "vibrate": false,
+      "symbologies": [
+        "upca"
+      ],
+      "worker": false
+    },
+    "frames": [
+      {
+        "barcodes": [
+          {
+            "data": "798884816632",
+            "symbology": "upca",
+            "symbologyName": "UPC-A",
+            "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 188,
+                "y": 207
+              },
+              "topRight": {
+                "x": 424,
+                "y": 207
+              },
+              "bottomRight": {
+                "x": 424,
+                "y": 209
+              },
+              "bottomLeft": {
+                "x": 188,
+                "y": 209
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735712740
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 13.100000023841858
+      },
+      {
+        "barcodes": [
+          {
+            "data": "798884816632",
+            "symbology": "upca",
+            "symbologyName": "UPC-A",
+            "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 188,
+                "y": 207
+              },
+              "topRight": {
+                "x": 424,
+                "y": 207
+              },
+              "bottomRight": {
+                "x": 424,
+                "y": 209
+              },
+              "bottomLeft": {
+                "x": 188,
+                "y": 209
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735712838
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 4.5
+      },
+      {
+        "barcodes": [
+          {
+            "data": "798884816632",
+            "symbology": "upca",
+            "symbologyName": "UPC-A",
+            "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 188,
+                "y": 207
+              },
+              "topRight": {
+                "x": 424,
+                "y": 207
+              },
+              "bottomRight": {
+                "x": 424,
+                "y": 209
+              },
+              "bottomLeft": {
+                "x": 188,
+                "y": 209
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735712962
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 4.5
+      },
+      {
+        "barcodes": [
+          {
+            "data": "798884816632",
+            "symbology": "upca",
+            "symbologyName": "UPC-A",
+            "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 188,
+                "y": 207
+              },
+              "topRight": {
+                "x": 424,
+                "y": 207
+              },
+              "bottomRight": {
+                "x": 424,
+                "y": 209
+              },
+              "bottomLeft": {
+                "x": 188,
+                "y": 209
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735713071
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 4.400000035762787
+      },
+      {
+        "barcodes": [
+          {
+            "data": "798884816632",
+            "symbology": "upca",
+            "symbologyName": "UPC-A",
+            "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 188,
+                "y": 207
+              },
+              "topRight": {
+                "x": 424,
+                "y": 207
+              },
+              "bottomRight": {
+                "x": 424,
+                "y": 209
+              },
+              "bottomLeft": {
+                "x": 188,
+                "y": 209
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735713199
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 4.5
+      },
+      {
+        "barcodes": [
+          {
+            "data": "798884816632",
+            "symbology": "upca",
+            "symbologyName": "UPC-A",
+            "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 188,
+                "y": 207
+              },
+              "topRight": {
+                "x": 424,
+                "y": 207
+              },
+              "bottomRight": {
+                "x": 424,
+                "y": 209
+              },
+              "bottomLeft": {
+                "x": 188,
+                "y": 209
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735713326
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 4.600000023841858
+      },
+      {
+        "barcodes": [
+          {
+            "data": "798884816632",
+            "symbology": "upca",
+            "symbologyName": "UPC-A",
+            "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 188,
+                "y": 207
+              },
+              "topRight": {
+                "x": 424,
+                "y": 207
+              },
+              "bottomRight": {
+                "x": 424,
+                "y": 209
+              },
+              "bottomLeft": {
+                "x": 188,
+                "y": 209
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735713435
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 4.600000023841858
+      },
+      {
+        "barcodes": [
+          {
+            "data": "798884816632",
+            "symbology": "upca",
+            "symbologyName": "UPC-A",
+            "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 188,
+                "y": 207
+              },
+              "topRight": {
+                "x": 424,
+                "y": 207
+              },
+              "bottomRight": {
+                "x": 424,
+                "y": 209
+              },
+              "bottomLeft": {
+                "x": 188,
+                "y": 209
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735713560
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 4.600000023841858
+      },
+      {
+        "barcodes": [
+          {
+            "data": "798884816632",
+            "symbology": "upca",
+            "symbologyName": "UPC-A",
+            "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 188,
+                "y": 207
+              },
+              "topRight": {
+                "x": 424,
+                "y": 207
+              },
+              "bottomRight": {
+                "x": 424,
+                "y": 209
+              },
+              "bottomLeft": {
+                "x": 188,
+                "y": 209
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735713668
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 4.5
+      },
+      {
+        "barcodes": [
+          {
+            "data": "798884816632",
+            "symbology": "upca",
+            "symbologyName": "UPC-A",
+            "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 188,
+                "y": 207
+              },
+              "topRight": {
+                "x": 424,
+                "y": 207
+              },
+              "bottomRight": {
+                "x": 424,
+                "y": 209
+              },
+              "bottomLeft": {
+                "x": 188,
+                "y": 209
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735713794
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 4.200000047683716
+      }
+    ],
+    "scans": [
+      {
+        "barcodes": [
+          {
+            "data": "798884816632",
+            "symbology": "upca",
+            "symbologyName": "UPC-A",
+            "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 188,
+                "y": 207
+              },
+              "topRight": {
+                "x": 424,
+                "y": 207
+              },
+              "bottomRight": {
+                "x": 424,
+                "y": 209
+              },
+              "bottomLeft": {
+                "x": 188,
+                "y": 209
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735712740
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "798884816632",
+            "symbology": "upca",
+            "symbologyName": "UPC-A",
+            "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 188,
+                "y": 207
+              },
+              "topRight": {
+                "x": 424,
+                "y": 207
+              },
+              "bottomRight": {
+                "x": 424,
+                "y": 209
+              },
+              "bottomLeft": {
+                "x": 188,
+                "y": 209
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735712838
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "798884816632",
+            "symbology": "upca",
+            "symbologyName": "UPC-A",
+            "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 188,
+                "y": 207
+              },
+              "topRight": {
+                "x": 424,
+                "y": 207
+              },
+              "bottomRight": {
+                "x": 424,
+                "y": 209
+              },
+              "bottomLeft": {
+                "x": 188,
+                "y": 209
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735712962
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "798884816632",
+            "symbology": "upca",
+            "symbologyName": "UPC-A",
+            "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 188,
+                "y": 207
+              },
+              "topRight": {
+                "x": 424,
+                "y": 207
+              },
+              "bottomRight": {
+                "x": 424,
+                "y": 209
+              },
+              "bottomLeft": {
+                "x": 188,
+                "y": 209
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735713071
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "798884816632",
+            "symbology": "upca",
+            "symbologyName": "UPC-A",
+            "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 188,
+                "y": 207
+              },
+              "topRight": {
+                "x": 424,
+                "y": 207
+              },
+              "bottomRight": {
+                "x": 424,
+                "y": 209
+              },
+              "bottomLeft": {
+                "x": 188,
+                "y": 209
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735713199
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "798884816632",
+            "symbology": "upca",
+            "symbologyName": "UPC-A",
+            "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 188,
+                "y": 207
+              },
+              "topRight": {
+                "x": 424,
+                "y": 207
+              },
+              "bottomRight": {
+                "x": 424,
+                "y": 209
+              },
+              "bottomLeft": {
+                "x": 188,
+                "y": 209
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735713326
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "798884816632",
+            "symbology": "upca",
+            "symbologyName": "UPC-A",
+            "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 188,
+                "y": 207
+              },
+              "topRight": {
+                "x": 424,
+                "y": 207
+              },
+              "bottomRight": {
+                "x": 424,
+                "y": 209
+              },
+              "bottomLeft": {
+                "x": 188,
+                "y": 209
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735713435
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "798884816632",
+            "symbology": "upca",
+            "symbologyName": "UPC-A",
+            "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 188,
+                "y": 207
+              },
+              "topRight": {
+                "x": 424,
+                "y": 207
+              },
+              "bottomRight": {
+                "x": 424,
+                "y": 209
+              },
+              "bottomLeft": {
+                "x": 188,
+                "y": 209
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735713560
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "798884816632",
+            "symbology": "upca",
+            "symbologyName": "UPC-A",
+            "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 188,
+                "y": 207
+              },
+              "topRight": {
+                "x": 424,
+                "y": 207
+              },
+              "bottomRight": {
+                "x": 424,
+                "y": 209
+              },
+              "bottomLeft": {
+                "x": 188,
+                "y": 209
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735713668
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "798884816632",
+            "symbology": "upca",
+            "symbologyName": "UPC-A",
+            "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 188,
+                "y": 207
+              },
+              "topRight": {
+                "x": 424,
+                "y": 207
+              },
+              "bottomRight": {
+                "x": 424,
+                "y": 209
+              },
+              "bottomLeft": {
+                "x": 188,
+                "y": 209
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735713794
+          }
+        ]
+      }
+    ],
+    "errors": [],
+    "states": [
+      {
+        "state": "starting",
+        "atMs": 0.6000000238418579
+      },
+      {
+        "state": "scanning",
+        "atMs": 81.30000001192093
+      },
+      {
+        "state": "stopped",
+        "atMs": 1179.699999988079
+      }
+    ],
+    "ready": {
+      "engine": "main",
+      "stats": {
+        "decodeMs": 0,
+        "fps": 0,
+        "engine": "main",
+        "adaptive": null
+      },
+      "atMs": 85.40000003576279,
+      "videoWidth": 640,
+      "videoHeight": 480,
+      "readyState": 4,
+      "exactPixelBytesMatch": true,
+      "resolvedOptions": {
+        "symbologies": [
+          "upca"
+        ],
+        "mode": "continuous",
+        "duplicateFilter": 0,
+        "beep": false,
+        "vibrate": false,
+        "scanArea": {
+          "x": 0,
+          "y": 0,
+          "width": 1,
+          "height": 1
+        },
+        "maxResults": 255,
+        "tryHarder": true,
+        "maxDecodeSize": 640,
+        "maxFps": 10,
+        "tryInvert": false,
+        "adaptive": null,
+        "viewfinder": "none"
+      },
+      "rgbaSha256": "ec287e182dca32d86261e719e4a9525277023ba1872394ca6d4fa4e454fc7107"
+    },
+    "expectedEngine": "main",
+    "expectedFailure": false,
+    "statsBeforeCleanup": {
+      "decodeMs": 5.620261602858033,
+      "fps": 9,
+      "engine": "main",
+      "adaptive": null
+    },
+    "resolvedOptionsEnd": {
+      "symbologies": [
+        "upca"
+      ],
+      "mode": "continuous",
+      "duplicateFilter": 0,
+      "beep": false,
+      "vibrate": false,
+      "scanArea": {
+        "x": 0,
+        "y": 0,
+        "width": 1,
+        "height": 1
+      },
+      "maxResults": 255,
+      "tryHarder": true,
+      "maxDecodeSize": 640,
+      "maxFps": 10,
+      "tryInvert": false,
+      "adaptive": null,
+      "viewfinder": "none"
+    },
+    "cleanup": {
+      "tracks": [
+        {
+          "kind": "video",
+          "readyState": "ended"
+        }
+      ],
+      "liveCameraTracks": 0,
+      "videoSrcObjectNull": true,
+      "ownedVideoDetached": true
+    },
+    "completedAt": "2026-10-11T16:21:53.794Z",
+    "elapsedMs": 1179.9000000357628
+  },
+  "platform": {
+    "workers": [],
+    "workerBlobs": [],
+    "binaryBefore": {},
+    "binaryAfter": {},
+    "liveCameraTracks": 0
+  },
+  "http": [
+    {
+      "path": "/",
+      "status": 200,
+      "bytes": 75,
+      "sha256": "ecc5ea3626da4762a369d599c1d02f728af470c340653e163e1acc20fdaa550b",
+      "offlineAtResponse": false
+    },
+    {
+      "path": "/staged/baseline/dist/browser/qrgen.js",
+      "status": 200,
+      "bytes": 217485,
+      "sha256": "173d505011791797f5ceb6d4744b7a47b94d2029f872331864363e2a359d18a1",
+      "offlineAtResponse": false,
+      "pinMatched": true
+    },
+    {
+      "path": "/fixtures/historical07Y4M-preflight.png",
+      "status": 200,
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "offlineAtResponse": false
+    },
+    {
+      "path": "/staged/baseline/dist/wasm/zxing_reader.wasm",
+      "status": 200,
+      "bytes": 966895,
+      "sha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+      "offlineAtResponse": false,
+      "pinMatched": true
+    }
+  ],
+  "blockedExternalRequests": [],
+  "pageErrors": [],
+  "console": [],
+  "workerEventsBeforeContextClose": [],
+  "sharedWorkersRetainedBeforeContextClose": 0,
+  "workerEvents": [],
+  "liveWorkersAfterContextClose": 0,
+  "browserClosed": true,
+  "completedAt": "2026-10-11T16:21:53.836Z"
+}

@@ -1,0 +1,27 @@
+{
+  "frozenBeforeDecodeAt": "2026-10-11T16:30:32.262Z",
+  "policySha256": {
+    "bytes": 18081,
+    "sha256": "5729e29319251cd0f1cecc32c446eb8f30dc7f9a27d650a47a6eb7c7c14e8361"
+  },
+  "bindingSha256": {
+    "bytes": 11897,
+    "sha256": "49cb8c14cee3faabb86bc5a266e9bc7d13d234d6fb339dd8d3bd366dcba6baed"
+  },
+  "scripts": {
+    "run": {
+      "bytes": 8277,
+      "sha256": "1be2883f6353d67098c5bfa38bb0017d0528217e8280b2f3a18dba62b63dcf71"
+    },
+    "browser": {
+      "bytes": 8219,
+      "sha256": "b0506400735ad07b5291e62878fc93739cf84bac044f293f8a47ebfdd841ad6f"
+    },
+    "common": {
+      "bytes": 3500,
+      "sha256": "2f194b63582e4ee27150a92e61b4b74d8981ef9723e15a6132eef62f67fab66a"
+    }
+  },
+  "scope": "Fresh derived portable replay; preserves recorded observations; no product promotion, raw reader calls or historical aggregate change.",
+  "mode": "offline-smoke"
+}

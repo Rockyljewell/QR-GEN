@@ -323,6 +323,12 @@ Its [three hosted checks](retail-state-postdeploy-2026-10-11/README.md) match al
 loaded modules and reader WASM to the actual successful Pages artifact, exercise
 paused pruning/reset callbacks, and release every live camera track.
 
+The [isolated public SDK follow-up](EAN-SDK-INTEGRATION-2026-10-11.md) now checks
+the actual packaged SDK, Node entries and embedded browser worker with matching
+reader assets. Its 4,648 public image calls lose no expected baseline target
+record or bytes. The physical-conflict study refutes a simple overlap filter
+for the separate /1/35 case. Neither study changes the released decoder.
+
 ## Retail AR and adjacent features
 
 The following is an assessment of repository code against the vendors' published

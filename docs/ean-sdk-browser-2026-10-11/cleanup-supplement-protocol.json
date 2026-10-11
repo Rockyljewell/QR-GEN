@@ -1,0 +1,20 @@
+{
+  "frozenAt": "2026-10-11T16:24:02.578640+00:00",
+  "beforeSupplementExecution": true,
+  "reason": "Original immediate negative-start cleanup did not observe eventual native permission completion. This adds no accuracy reads and preserves all original results.",
+  "originalRunSummarySha256": "4d037529b19c9ff8ee79f4caa4eee4575f185fbb061259c94e3ad8a955b55a47",
+  "originalBrowserHarnessSha256": "b0506400735ad07b5291e62878fc93739cf84bac044f293f8a47ebfdd841ad6f",
+  "scripts": {
+    "cleanup-harness.js": "edaeb8032e95e929c626e803d5083b5441497b2a00114c585778441751c0e261",
+    "run-cleanup.mjs": "4a42ba43ef08ba5b4e2188e15f8d3ef09eca8384bd7d0d641f43908c02a705f1"
+  },
+  "sessions": [
+    "baseline-cold-offline",
+    "baseline-corrupt",
+    "candidate-cold-offline",
+    "candidate-corrupt"
+  ],
+  "boundedWait": "After rejected public scanner.start()+stop/destroy, await ALL intercepted native getUserMedia promises settling, max5000ms, then one event turn; record all late-acquired tracks and created video attachment states.",
+  "success": "Expected engine-load-failed, no ready/frame/scan; all native permission promises settled;0livecamera tracks;allcreatedvideos detached+srcObject null;no worker growth beyond one failed init;context closesallworkers.",
+  "limitation": "Separate cleanup supplement, not repeated accuracy or additional corpus cases."
+}

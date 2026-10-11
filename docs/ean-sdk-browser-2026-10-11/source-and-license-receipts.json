@@ -1,0 +1,86 @@
+{
+  "corpusSourceRepository": "zxing/zxing",
+  "sourceCommit": "5bdcab8035f6d26107cfad32d1aa2a85455efbc5",
+  "sourceLicense": "Apache-2.0; copied LICENSE/NOTICE/REUSE metadata",
+  "sourceCases": [
+    {
+      "id": "ean13-1-35",
+      "suite": "ean13-1",
+      "sourcePath": "core/src/test/resources/blackbox/ean13-1/35.png",
+      "truthPath": "core/src/test/resources/blackbox/ean13-1/35.txt",
+      "localImage": "images/ean13-1-35.png",
+      "localTruth": "truth/ean13-1-35.txt",
+      "formatAuthority": "test-class EAN_13",
+      "physicalSingleCodeVerified": false,
+      "truth": "5030159003930",
+      "sourceSha256": "7af8136324f36808b4a6646edd423a4d17a7b7ef19dec8b65950a1bebc57205d",
+      "sourceBytes": 319851,
+      "truthSha256": "546dfb69e16d446566e7665b4f852d3f96be1e727129bac2191f6a7ad62a4c4f",
+      "truthBytes": 13
+    },
+    {
+      "id": "ean13-2-07",
+      "suite": "ean13-2",
+      "sourcePath": "core/src/test/resources/blackbox/ean13-2/07.png",
+      "truthPath": "core/src/test/resources/blackbox/ean13-2/07.txt",
+      "localImage": "images/ean13-2-07.png",
+      "localTruth": "truth/ean13-2-07.txt",
+      "formatAuthority": "test-class EAN_13",
+      "physicalSingleCodeVerified": false,
+      "truth": "9780804816632",
+      "sourceSha256": "449dc5aeddd91d7223ea63e0ff0380c9ae115771fe13827917895f9e56b30e00",
+      "sourceBytes": 76331,
+      "truthSha256": "5e3f03ce127b501c67eb2c6dd2615ece2c9c90a0a0bff5e604728bd490934b16",
+      "truthBytes": 13
+    }
+  ],
+  "artifactOnlyStudySourceHead": "6d3728f569f1cd5031fa8ca40ec090c8ff6bdf5b",
+  "originalSourceFiles": {
+    "common.mjs": {
+      "bytes": 3567,
+      "sha256": "544e4719e5a81fdd4c65c7433fdbf4af4032ed9d37658d2f40c2f6c7bc595dc7",
+      "archivedCopyIncluded": false
+    },
+    "run.mjs": {
+      "bytes": 7660,
+      "sha256": "288111e3a052e2dd04d1d3fdee1ba66f8fb78cc190529235c9ae6c6f6b0fab1a",
+      "archivedCopyIncluded": true
+    },
+    "browser-harness.js": {
+      "bytes": 8219,
+      "sha256": "b0506400735ad07b5291e62878fc93739cf84bac044f293f8a47ebfdd841ad6f",
+      "archivedCopyIncluded": true
+    },
+    "prepare.mjs": {
+      "bytes": 9957,
+      "sha256": "96e23e42682ff249ceaa25b0cd9db781f42a4b16b758775cec750c88057152da",
+      "archivedCopyIncluded": true
+    },
+    "run-cleanup.mjs": {
+      "bytes": 6871,
+      "sha256": "4a42ba43ef08ba5b4e2188e15f8d3ef09eca8384bd7d0d641f43908c02a705f1",
+      "archivedCopyIncluded": true
+    },
+    "cleanup-harness.js": {
+      "bytes": 9850,
+      "sha256": "edaeb8032e95e929c626e803d5083b5441497b2a00114c585778441751c0e261",
+      "archivedCopyIncluded": true
+    },
+    "run-iife.mjs": {
+      "bytes": 4142,
+      "sha256": "1e783f6c1ec9e9cf62064e44d23f0e7fd156ca6eebf230cfb282a961cd7c37b5",
+      "archivedCopyIncluded": true
+    }
+  },
+  "officialWriterGraphs": {
+    "baseline": {
+      "indexJsSha256": "2adfe6c3366581725bbfb1ae9f9ce553b6e7244d21ec41c464690d0e1585660e",
+      "bytes": 29313
+    },
+    "candidate": {
+      "indexJsSha256": "2adfe6c3366581725bbfb1ae9f9ce553b6e7244d21ec41c464690d0e1585660e",
+      "bytes": 29313
+    }
+  },
+  "note": "No esbuild metafile. Original source/pack inventories are hash-referenced by assets-and-inputs.json; actual reader graphs and generated Worker+bundles are bound there. Baseline is released graph, candidate is matched private graph. No downloaded corpus/SDK/WASM/Y4M bytes in this package."
+}

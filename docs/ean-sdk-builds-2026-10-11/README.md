@@ -1,0 +1,53 @@
+# Isolated SDK build, archive and clean Node entry verification
+
+Both diagnostic SDK stages built, passed type checking and all 358 SDK tests, and were packed into separately inventoried archives. All eight retained Node 18.17.0/24.19.0 × ESM/CommonJS × baseline/candidate entry smokes passed. This report preserves existing evidence only: packaging it ran no SDK imports, source/build scripts, image decoder, engine calls or new smoke cases. Stable QR-GEN and its website were not changed or published by the experiment.
+
+| Check | Baseline | Candidate |
+| --- | --- | --- |
+| Committed source input | 77 SDK files at 6d3728f | Same 77 exact source inputs |
+| Final build/type check | Pass | Pass |
+| SDK tests | 358 across 24 files | 358 across 24 files |
+| Packed files / export leaf targets | 95 / 28 | 95 / 28 |
+| Diagnostic package version | 1.0.0-ean-diagnostic-baseline.0 | 1.0.0-ean-diagnostic-candidate.0 |
+| Archive SHA256 | b1c94ed2a326fe98213013269a8e99cf28ceb23b40c4e1f3e59d22495f5b97f8 | d04e4bd4b1d693c91ab37fbb4aac40ce79f6f5024c2c4f047aa46d8f55fb8033 |
+| Reader SHA256 | aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931 | f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6 |
+
+Both packed writer assets retain SHA256 `af26f895fe471d23cb2d742bc3eca0695dbecb4ea6bad9b92eba3763ec505941`. The 28 verified export leaves are file-existence/package-layout checks, not runtime testing of all optional framework/server/CLI entry points. Dependency resolution reused the existing locked tooling and each stage's official zxing-wasm 3.1.5 dependency; this is not a dependency-free consumer test.
+
+## Exact source and bounded overlays
+
+The common product base is `6d3728f569f1cd5031fa8ca40ec090c8ff6bdf5b`. `DERIVED/source-provenance.json` identifies all 77 original Git-blob input hashes per variant. `DERIVED/predecode-source-inventory.json` preserves the final predecode inventories, root dependency lock digest, addendum digest and diagnostic reader provenance. Candidate and baseline were created outside the shared checkout.
+
+`overlays/baseline-to-candidate.patch` is a readable LF-normalized diff before generated outputs. It covers exactly seven tracked implementation/test changes: config/decoder/inversion/worker reader imports, Node local reader resolution, postbuild reader copy/hash verification and the inversion-policy mock's module boundary. SDK policy code and test assertions stay unchanged; the C++ policy change is inside the separately fingerprinted candidate reader. The diff also records the diagnostic version difference and new type-only declaration. `overlay-input-hashes.json` preserves the original staged bytes/hashes and matching two-file private ES graph hashes. Executable vendor graph, WASM and generated worker bodies are deliberately omitted; their provenance and hashes are retained separately.
+
+Candidate's version-only config import uses its private graph, so no executable external official reader import remains at the actual reader sites. The candidate Node entry eagerly loads its shipped reader asset through the package's existing self-export; writer initialization stays official. Postbuild checks the matching candidate reader hash both before and after copying. These are build-time safeguards, not runtime authentication of arbitrary caller-supplied assets. ENGINE_VERSION and public capabilities still report upstream 3.1.5, which does not uniquely identify the patch. Browser default CDN selection is unchanged and remains unsuitable evidence of candidate execution without explicit matching asset configuration.
+
+The separately frozen addendum predates final tests/decode and records the config/mock/license safeguards. Both diagnostic packages carry a nonproduction notice, wrapper MIT and C++ Apache-2.0 license/NOTICE/reuse metadata and diagnostic reader provenance. `licenses/` retains these exact licensing texts. No upstream executable wrapper/WASM implementation is redistributed here.
+
+## Build and smoke history
+
+All initial, dependency-layout-retry and final build logs, type-check and unit-test logs are retained as explicitly derived gzip files under `DERIVED/logs/`. Initial external-stage builds failed to resolve the stage's zxing-wasm dependency: baseline reader imports and candidate writer declarations. The staged dependency lookup layout was corrected; the intermediate successful retry remains separate from final successful builds after the addendum. No initial failure is relabelled as a pass or counted as a decoder failure.
+
+`DERIVED/toolchain-observation.json` is explicitly retrospective, recorded after successful builds and entry smokes. It observes Node 24.19.0, npm 10.9.2, esbuild 0.25.12 for worker generation, tsup 8.5.1 (whose own esbuild is 0.28.2), TypeScript 5.9.3, Vitest 5.0.2 and official zxing-wasm 3.1.5, with retained package metadata hashes. It is not a predecode freeze or proof of every installed dependency byte.
+
+Eight fresh smoke processes each generate and scan the same three clean identities: QR, EAN-13 and UPC-A. These are 24 repeated executions of three identities, not 24 independent images or an accuracy benchmark. Each reports the correct public text/symbology, one result and unchanged encoded input. Each observed exactly its intended reader and original writer bytes at the intercepted WebAssembly.instantiate boundary, with zero fetch attempts. Full public outputs, timestamps, generated-image hashes, entry hashes and capability reports are preserved in the derived smoke records. UPC-A uses the public 12-digit data representation while rawBytes remains unchanged.
+
+The first Node 18 attempt failed before SDK import/decode because the v1 runner used a Windows URL pathname as a filesystem path, producing a doubled drive prefix. `DERIVED/node18-first-attempt-observation.json` is a historical tool-response observation (chunk 504a57), explicitly not an original redirected stderr archive. The derived runner corrects only URL-to-path conversion. Successful Node 24 records remain associated with the preserved v1 helper; Node 18 records use the corrected helper. The first failure is not combined with successful case counts. `root-helper-hashes.json` identifies both exact helper versions and the staging/packing/toolchain recipes without presenting their host-specific scripts as portable executables.
+
+The root smoke intercepts byte inputs to WebAssembly.instantiate and denies fetch. It is **not a universal WebAssembly or network monitor** and does not prove absence of every possible socket, native operation or compilation path. The stronger separately recorded public Node matrix monitor is different evidence and is not substituted here.
+
+## Independent review and inventory integrity
+
+The original independent five-file manifest SHA256 is `7a0d9158edf25c60cce0b634384c004a65cc1358d9a89062a2ec200fd16ae325`. Packaging checked every original file against that manifest. `independent/DERIVED-review-results.json` preserves all 913 independent artifact/source assertions with zero failures. Review checked committed source provenance, declared source/mock differences, all 95 archive members against extracted/staged files, all 28 exports, exact private graph/source-map origins, known WASM hashes and eight smoke records. It imported no SDK or decoder. Its bounded current-source line-ending-normalized checks do not prove all historical actions or generated/dependency files remained unchanged.
+
+The original independent manifest and mock-boundary diff are retained exactly. Its README/results are explicitly derived path-tokenized copies. The original host-layout review/freeze scripts are omitted, with their exact bytes/hashes in the original inventory; the archived README's instructions refer to the original workspace, not a runnable script supplied by this compact report.
+
+Run `node verify-package.mjs` to check this report's complete file inventory and gzip uncompressed digests. That verifier performs no SDK or engine calls. `original-evidence-hashes.json` records exact original bytes/hashes before derivation. Files under DERIVED are labelled portable copies: only host path prefixes are replaced; semantic source hashes, options, outputs, payload bytes, metadata and diagnostic history remain intact. Derived log uncompressed hashes differ from their recorded original hashes where host prefixes changed; no byte-identical claim is made. No binaries, archives, consumer tree or node_modules are included.
+
+## Reproduction recipe and remaining gates
+
+This report does not claim that a new portable build/smoke helper was executed. To recreate the diagnostic packages, use a new isolated checkout/staging directory at the exact base, copy the 77 tracked SDK inputs, and verify their frozen hashes. Give each package its diagnostic metadata/notice/licenses. Apply the source diff and type-only declaration to candidate; supply the complete matching reader ES graph and WASM from [build run 38152527079](https://github.com/Rockyljewell/QR-GEN/actions/runs/38152527079), head 3cfe7298c1d92eb2d4ac56158a1bfcd51275f070. Preserve the graph's relative paths and exact retained hashes. The actual wrapper pin is b7dcf63aefc7b94fb97ba09e9b1fb213d9399f54; C++ is 2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4; candidate patch SHA256 is f80daf81fe49616e59b250fac96e25a6c5d73ee5e59e6511cec5b98dc2bd7fae.
+
+Supply the pinned existing dependency/tooling layout, including official writer 3.1.5. Build the staged package first (`npm run build`) so the public self-export exists; then type check and run its SDK tests. Verify generated worker/source/asset fingerprints, pack with `npm pack --ignore-scripts` into an external destination, inspect all exports and extract into independent consumers before runtime testing. Fresh build/archive bytes may differ across OS/toolchains and must be independently compared; an unexecuted recipe is not a new validation result. These instructions are a bounded recipe, not automatic production integration or permission to publish a preview.
+
+Keep the stable package/site unchanged. Default reader asset distribution, matching public build identity, arbitrary/custom binaries, self-hosted/service-worker cache migration and supported preview delivery need a separate design. Clean Node entry smokes do not validate browser camera/worker behavior, complete decode accuracy, physical phones, iOS/Android/Python changes, memory/thermal/field stability or Scandit parity. Issue 32 remains open: the candidate's `/2/07` suppression and remaining `/1/35`/UPC-A-only wrong values are evaluated in separate raw/public matrices, not fixed by this build report.

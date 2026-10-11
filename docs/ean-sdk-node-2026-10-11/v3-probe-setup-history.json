@@ -1,0 +1,12 @@
+{
+  "scope": "Initial file-only v3 guard probe setup; no SDK imports/engine/browser/matrix calls",
+  "recordedAt": "2026-10-11T16:36:20.959160+00:00",
+  "status": "setup-failed-before-guard-cases",
+  "errorCode": "EPERM",
+  "operation": "Create Windows junction between two mock directories inside external artifact probe tree",
+  "reason": "Filesystem sandbox denied junction creation. No production/report/input/consumer tree modified. Mock scaffolding retained, not reused.",
+  "sdkCalls": 0,
+  "wasmCalls": 0,
+  "fetchCalls": 0,
+  "followup": "Same script/cases in a fresh external probe directory with authorized artifact-only elevated filesystem access."
+}

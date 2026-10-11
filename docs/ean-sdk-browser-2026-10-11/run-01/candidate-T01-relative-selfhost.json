@@ -1,0 +1,3117 @@
+{
+  "variant": "candidate",
+  "id": "T01-relative-selfhost",
+  "fixture": "retailMixedY4M",
+  "startedAt": "2026-10-11T16:22:21.233Z",
+  "bootstrap": {
+    "engineVersion": "3.1.5",
+    "binaryEvidence": {},
+    "fixturePixels": [
+      {
+        "id": "cleanEAN",
+        "rgbaSha256": "536b34274f30464506edda1ab791e54b60e67d6afe45e6b9d5079f7913543e44",
+        "width": 339,
+        "height": 165
+      },
+      {
+        "id": "retailMixedY4M-preflight",
+        "rgbaSha256": "9100fa6b5e5df520af774ae8bee9bae7444b73103dcecfcec3e3728397824bbb",
+        "width": 640,
+        "height": 480
+      }
+    ]
+  },
+  "writer": [
+    {
+      "id": "qr",
+      "data": "QRGEN-STAGED-SDK-20261011",
+      "options": {
+        "symbology": "qr",
+        "scale": 4,
+        "margin": true
+      },
+      "svgSha256": "ee103eb5ecef60de874940c7880cd2bbc055d8a4c5c9b1a093dcfad6182630fe",
+      "matrix": {
+        "width": 21,
+        "height": 21,
+        "sha256": "b1be55d5900ca64e521e74369d2efd60b1467ddab8048d08b483119fc1db386a"
+      },
+      "png": {
+        "bytes": 528,
+        "sha256": "ee9ed8bea58e8ba2d26f8d6651560699e628ea1a550aa910fcc42d0daf236fe7"
+      },
+      "roundTrip": [
+        {
+          "data": "QRGEN-STAGED-SDK-20261011",
+          "symbology": "qr",
+          "symbologyName": "QR Code",
+          "rawBytes": "UVJHRU4tU1RBR0VELVNESy0yMDI2MTAxMQ==",
+          "contentType": "text",
+          "isGS1": false,
+          "location": {
+            "topLeft": {
+              "x": 16,
+              "y": 16
+            },
+            "topRight": {
+              "x": 100,
+              "y": 16
+            },
+            "bottomRight": {
+              "x": 101,
+              "y": 101
+            },
+            "bottomLeft": {
+              "x": 16,
+              "y": 100
+            }
+          },
+          "frameSize": {
+            "width": 116,
+            "height": 116
+          },
+          "orientation": 0,
+          "ecLevel": "L",
+          "symbologyIdentifier": "]Q1",
+          "timestamp": 1791735741312
+        }
+      ]
+    },
+    {
+      "id": "ean13",
+      "data": "5901234123457",
+      "options": {
+        "symbology": "ean13",
+        "scale": 3,
+        "margin": true,
+        "hrt": false
+      },
+      "svgSha256": "9192630888333621162fcf1af0d31f4402b9c3320fdf08b006f93e8c1ea0a48d",
+      "matrix": {
+        "width": 95,
+        "height": 55,
+        "sha256": "890e4317e3d604fc016e94ba8ecebba6d1705e3835193d52fdbafa82da8114ec"
+      },
+      "png": {
+        "bytes": 814,
+        "sha256": "5ea0cc8106ffd6d02d6d169c18d6ee9dd827ea8c9cb5ae7fb3f16ca696b8e404"
+      },
+      "roundTrip": null
+    }
+  ],
+  "image": {
+    "outputs": [
+      {
+        "data": "5901234123457",
+        "symbology": "ean13",
+        "symbologyName": "EAN-13",
+        "rawBytes": "NTkwMTIzNDEyMzQ1Nw==",
+        "contentType": "text",
+        "isGS1": false,
+        "location": {
+          "topLeft": {
+            "x": 33,
+            "y": 81
+          },
+          "topRight": {
+            "x": 317,
+            "y": 81
+          },
+          "bottomRight": {
+            "x": 317,
+            "y": 82
+          },
+          "bottomLeft": {
+            "x": 33,
+            "y": 82
+          }
+        },
+        "frameSize": {
+          "width": 339,
+          "height": 165
+        },
+        "orientation": 0,
+        "ecLevel": "",
+        "symbologyIdentifier": "]E0",
+        "timestamp": 1791735741331
+      }
+    ]
+  },
+  "camera": {
+    "id": "T01-relative-selfhost",
+    "startedAt": "2026-10-11T16:22:21.332Z",
+    "options": {
+      "mode": "continuous",
+      "maxResults": 255,
+      "duplicateFilter": 0,
+      "tryHarder": true,
+      "tryInvert": false,
+      "maxDecodeSize": 640,
+      "maxFps": 10,
+      "adaptive": false,
+      "scanArea": {
+        "x": 0,
+        "y": 0,
+        "width": 1,
+        "height": 1
+      },
+      "viewfinder": "none",
+      "resolution": "sd",
+      "beep": false,
+      "vibrate": false,
+      "symbologies": [
+        "qr",
+        "ean13"
+      ],
+      "worker": true
+    },
+    "frames": [
+      {
+        "barcodes": [
+          {
+            "data": "QRGEN-RETAIL-DOM-20261011",
+            "symbology": "qr",
+            "symbologyName": "QR Code",
+            "rawBytes": "UVJHRU4tUkVUQUlMLURPTS0yMDI2MTAxMQ==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 70,
+                "y": 100
+              },
+              "topRight": {
+                "x": 175,
+                "y": 100
+              },
+              "bottomRight": {
+                "x": 175,
+                "y": 205
+              },
+              "bottomLeft": {
+                "x": 70,
+                "y": 205
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "L",
+            "symbologyIdentifier": "]Q1",
+            "timestamp": 1791735741451
+          },
+          {
+            "data": "5901234123457",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTkwMTIzNDEyMzQ1Nw==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 170,
+                "y": 350
+              },
+              "topRight": {
+                "x": 454,
+                "y": 350
+              },
+              "bottomRight": {
+                "x": 454,
+                "y": 479
+              },
+              "bottomLeft": {
+                "x": 170,
+                "y": 479
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735741451
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 13.800000011920929
+      },
+      {
+        "barcodes": [
+          {
+            "data": "QRGEN-RETAIL-DOM-20261011",
+            "symbology": "qr",
+            "symbologyName": "QR Code",
+            "rawBytes": "UVJHRU4tUkVUQUlMLURPTS0yMDI2MTAxMQ==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 70,
+                "y": 100
+              },
+              "topRight": {
+                "x": 175,
+                "y": 100
+              },
+              "bottomRight": {
+                "x": 175,
+                "y": 205
+              },
+              "bottomLeft": {
+                "x": 70,
+                "y": 205
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "L",
+            "symbologyIdentifier": "]Q1",
+            "timestamp": 1791735741555
+          },
+          {
+            "data": "5901234123457",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTkwMTIzNDEyMzQ1Nw==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 170,
+                "y": 350
+              },
+              "topRight": {
+                "x": 454,
+                "y": 350
+              },
+              "bottomRight": {
+                "x": 454,
+                "y": 479
+              },
+              "bottomLeft": {
+                "x": 170,
+                "y": 479
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735741556
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 7.800000011920929
+      },
+      {
+        "barcodes": [
+          {
+            "data": "QRGEN-RETAIL-DOM-20261011",
+            "symbology": "qr",
+            "symbologyName": "QR Code",
+            "rawBytes": "UVJHRU4tUkVUQUlMLURPTS0yMDI2MTAxMQ==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 70,
+                "y": 100
+              },
+              "topRight": {
+                "x": 175,
+                "y": 100
+              },
+              "bottomRight": {
+                "x": 175,
+                "y": 205
+              },
+              "bottomLeft": {
+                "x": 70,
+                "y": 205
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "L",
+            "symbologyIdentifier": "]Q1",
+            "timestamp": 1791735741681
+          },
+          {
+            "data": "5901234123457",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTkwMTIzNDEyMzQ1Nw==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 170,
+                "y": 350
+              },
+              "topRight": {
+                "x": 454,
+                "y": 350
+              },
+              "bottomRight": {
+                "x": 454,
+                "y": 479
+              },
+              "bottomLeft": {
+                "x": 170,
+                "y": 479
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735741681
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 7.699999988079071
+      },
+      {
+        "barcodes": [
+          {
+            "data": "QRGEN-RETAIL-DOM-20261011",
+            "symbology": "qr",
+            "symbologyName": "QR Code",
+            "rawBytes": "UVJHRU4tUkVUQUlMLURPTS0yMDI2MTAxMQ==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 70,
+                "y": 100
+              },
+              "topRight": {
+                "x": 175,
+                "y": 100
+              },
+              "bottomRight": {
+                "x": 175,
+                "y": 205
+              },
+              "bottomLeft": {
+                "x": 70,
+                "y": 205
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "L",
+            "symbologyIdentifier": "]Q1",
+            "timestamp": 1791735741790
+          },
+          {
+            "data": "5901234123457",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTkwMTIzNDEyMzQ1Nw==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 170,
+                "y": 350
+              },
+              "topRight": {
+                "x": 454,
+                "y": 350
+              },
+              "bottomRight": {
+                "x": 454,
+                "y": 479
+              },
+              "bottomLeft": {
+                "x": 170,
+                "y": 479
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735741790
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 7.400000035762787
+      },
+      {
+        "barcodes": [
+          {
+            "data": "QRGEN-RETAIL-DOM-20261011",
+            "symbology": "qr",
+            "symbologyName": "QR Code",
+            "rawBytes": "UVJHRU4tUkVUQUlMLURPTS0yMDI2MTAxMQ==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 70,
+                "y": 100
+              },
+              "topRight": {
+                "x": 175,
+                "y": 100
+              },
+              "bottomRight": {
+                "x": 175,
+                "y": 205
+              },
+              "bottomLeft": {
+                "x": 70,
+                "y": 205
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "L",
+            "symbologyIdentifier": "]Q1",
+            "timestamp": 1791735741914
+          },
+          {
+            "data": "5901234123457",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTkwMTIzNDEyMzQ1Nw==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 170,
+                "y": 350
+              },
+              "topRight": {
+                "x": 454,
+                "y": 350
+              },
+              "bottomRight": {
+                "x": 454,
+                "y": 479
+              },
+              "bottomLeft": {
+                "x": 170,
+                "y": 479
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735741914
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 8.5
+      },
+      {
+        "barcodes": [
+          {
+            "data": "QRGEN-RETAIL-DOM-20261011",
+            "symbology": "qr",
+            "symbologyName": "QR Code",
+            "rawBytes": "UVJHRU4tUkVUQUlMLURPTS0yMDI2MTAxMQ==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 70,
+                "y": 100
+              },
+              "topRight": {
+                "x": 175,
+                "y": 100
+              },
+              "bottomRight": {
+                "x": 175,
+                "y": 205
+              },
+              "bottomLeft": {
+                "x": 70,
+                "y": 205
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "L",
+            "symbologyIdentifier": "]Q1",
+            "timestamp": 1791735742023
+          },
+          {
+            "data": "5901234123457",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTkwMTIzNDEyMzQ1Nw==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 170,
+                "y": 350
+              },
+              "topRight": {
+                "x": 454,
+                "y": 350
+              },
+              "bottomRight": {
+                "x": 454,
+                "y": 479
+              },
+              "bottomLeft": {
+                "x": 170,
+                "y": 479
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735742023
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 8.800000011920929
+      },
+      {
+        "barcodes": [
+          {
+            "data": "QRGEN-RETAIL-DOM-20261011",
+            "symbology": "qr",
+            "symbologyName": "QR Code",
+            "rawBytes": "UVJHRU4tUkVUQUlMLURPTS0yMDI2MTAxMQ==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 70,
+                "y": 100
+              },
+              "topRight": {
+                "x": 175,
+                "y": 100
+              },
+              "bottomRight": {
+                "x": 175,
+                "y": 205
+              },
+              "bottomLeft": {
+                "x": 70,
+                "y": 205
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "L",
+            "symbologyIdentifier": "]Q1",
+            "timestamp": 1791735742146
+          },
+          {
+            "data": "5901234123457",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTkwMTIzNDEyMzQ1Nw==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 170,
+                "y": 350
+              },
+              "topRight": {
+                "x": 454,
+                "y": 350
+              },
+              "bottomRight": {
+                "x": 454,
+                "y": 479
+              },
+              "bottomLeft": {
+                "x": 170,
+                "y": 479
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735742146
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 7.100000023841858
+      },
+      {
+        "barcodes": [
+          {
+            "data": "QRGEN-RETAIL-DOM-20261011",
+            "symbology": "qr",
+            "symbologyName": "QR Code",
+            "rawBytes": "UVJHRU4tUkVUQUlMLURPTS0yMDI2MTAxMQ==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 70,
+                "y": 100
+              },
+              "topRight": {
+                "x": 175,
+                "y": 100
+              },
+              "bottomRight": {
+                "x": 175,
+                "y": 205
+              },
+              "bottomLeft": {
+                "x": 70,
+                "y": 205
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "L",
+            "symbologyIdentifier": "]Q1",
+            "timestamp": 1791735742255
+          },
+          {
+            "data": "5901234123457",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTkwMTIzNDEyMzQ1Nw==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 170,
+                "y": 350
+              },
+              "topRight": {
+                "x": 454,
+                "y": 350
+              },
+              "bottomRight": {
+                "x": 454,
+                "y": 479
+              },
+              "bottomLeft": {
+                "x": 170,
+                "y": 479
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735742255
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 7.099999964237213
+      },
+      {
+        "barcodes": [
+          {
+            "data": "QRGEN-RETAIL-DOM-20261011",
+            "symbology": "qr",
+            "symbologyName": "QR Code",
+            "rawBytes": "UVJHRU4tUkVUQUlMLURPTS0yMDI2MTAxMQ==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 70,
+                "y": 100
+              },
+              "topRight": {
+                "x": 175,
+                "y": 100
+              },
+              "bottomRight": {
+                "x": 175,
+                "y": 205
+              },
+              "bottomLeft": {
+                "x": 70,
+                "y": 205
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "L",
+            "symbologyIdentifier": "]Q1",
+            "timestamp": 1791735742380
+          },
+          {
+            "data": "5901234123457",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTkwMTIzNDEyMzQ1Nw==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 170,
+                "y": 350
+              },
+              "topRight": {
+                "x": 454,
+                "y": 350
+              },
+              "bottomRight": {
+                "x": 454,
+                "y": 479
+              },
+              "bottomLeft": {
+                "x": 170,
+                "y": 479
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735742380
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 7.199999988079071
+      },
+      {
+        "barcodes": [
+          {
+            "data": "QRGEN-RETAIL-DOM-20261011",
+            "symbology": "qr",
+            "symbologyName": "QR Code",
+            "rawBytes": "UVJHRU4tUkVUQUlMLURPTS0yMDI2MTAxMQ==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 70,
+                "y": 100
+              },
+              "topRight": {
+                "x": 175,
+                "y": 100
+              },
+              "bottomRight": {
+                "x": 175,
+                "y": 205
+              },
+              "bottomLeft": {
+                "x": 70,
+                "y": 205
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "L",
+            "symbologyIdentifier": "]Q1",
+            "timestamp": 1791735742491
+          },
+          {
+            "data": "5901234123457",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTkwMTIzNDEyMzQ1Nw==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 170,
+                "y": 350
+              },
+              "topRight": {
+                "x": 454,
+                "y": 350
+              },
+              "bottomRight": {
+                "x": 454,
+                "y": 479
+              },
+              "bottomLeft": {
+                "x": 170,
+                "y": 479
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735742491
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 8
+      }
+    ],
+    "scans": [
+      {
+        "barcodes": [
+          {
+            "data": "QRGEN-RETAIL-DOM-20261011",
+            "symbology": "qr",
+            "symbologyName": "QR Code",
+            "rawBytes": "UVJHRU4tUkVUQUlMLURPTS0yMDI2MTAxMQ==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 70,
+                "y": 100
+              },
+              "topRight": {
+                "x": 175,
+                "y": 100
+              },
+              "bottomRight": {
+                "x": 175,
+                "y": 205
+              },
+              "bottomLeft": {
+                "x": 70,
+                "y": 205
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "L",
+            "symbologyIdentifier": "]Q1",
+            "timestamp": 1791735741451
+          },
+          {
+            "data": "5901234123457",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTkwMTIzNDEyMzQ1Nw==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 170,
+                "y": 350
+              },
+              "topRight": {
+                "x": 454,
+                "y": 350
+              },
+              "bottomRight": {
+                "x": 454,
+                "y": 479
+              },
+              "bottomLeft": {
+                "x": 170,
+                "y": 479
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735741451
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "QRGEN-RETAIL-DOM-20261011",
+            "symbology": "qr",
+            "symbologyName": "QR Code",
+            "rawBytes": "UVJHRU4tUkVUQUlMLURPTS0yMDI2MTAxMQ==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 70,
+                "y": 100
+              },
+              "topRight": {
+                "x": 175,
+                "y": 100
+              },
+              "bottomRight": {
+                "x": 175,
+                "y": 205
+              },
+              "bottomLeft": {
+                "x": 70,
+                "y": 205
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "L",
+            "symbologyIdentifier": "]Q1",
+            "timestamp": 1791735741555
+          },
+          {
+            "data": "5901234123457",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTkwMTIzNDEyMzQ1Nw==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 170,
+                "y": 350
+              },
+              "topRight": {
+                "x": 454,
+                "y": 350
+              },
+              "bottomRight": {
+                "x": 454,
+                "y": 479
+              },
+              "bottomLeft": {
+                "x": 170,
+                "y": 479
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735741556
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "QRGEN-RETAIL-DOM-20261011",
+            "symbology": "qr",
+            "symbologyName": "QR Code",
+            "rawBytes": "UVJHRU4tUkVUQUlMLURPTS0yMDI2MTAxMQ==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 70,
+                "y": 100
+              },
+              "topRight": {
+                "x": 175,
+                "y": 100
+              },
+              "bottomRight": {
+                "x": 175,
+                "y": 205
+              },
+              "bottomLeft": {
+                "x": 70,
+                "y": 205
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "L",
+            "symbologyIdentifier": "]Q1",
+            "timestamp": 1791735741681
+          },
+          {
+            "data": "5901234123457",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTkwMTIzNDEyMzQ1Nw==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 170,
+                "y": 350
+              },
+              "topRight": {
+                "x": 454,
+                "y": 350
+              },
+              "bottomRight": {
+                "x": 454,
+                "y": 479
+              },
+              "bottomLeft": {
+                "x": 170,
+                "y": 479
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735741681
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "QRGEN-RETAIL-DOM-20261011",
+            "symbology": "qr",
+            "symbologyName": "QR Code",
+            "rawBytes": "UVJHRU4tUkVUQUlMLURPTS0yMDI2MTAxMQ==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 70,
+                "y": 100
+              },
+              "topRight": {
+                "x": 175,
+                "y": 100
+              },
+              "bottomRight": {
+                "x": 175,
+                "y": 205
+              },
+              "bottomLeft": {
+                "x": 70,
+                "y": 205
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "L",
+            "symbologyIdentifier": "]Q1",
+            "timestamp": 1791735741790
+          },
+          {
+            "data": "5901234123457",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTkwMTIzNDEyMzQ1Nw==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 170,
+                "y": 350
+              },
+              "topRight": {
+                "x": 454,
+                "y": 350
+              },
+              "bottomRight": {
+                "x": 454,
+                "y": 479
+              },
+              "bottomLeft": {
+                "x": 170,
+                "y": 479
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735741790
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "QRGEN-RETAIL-DOM-20261011",
+            "symbology": "qr",
+            "symbologyName": "QR Code",
+            "rawBytes": "UVJHRU4tUkVUQUlMLURPTS0yMDI2MTAxMQ==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 70,
+                "y": 100
+              },
+              "topRight": {
+                "x": 175,
+                "y": 100
+              },
+              "bottomRight": {
+                "x": 175,
+                "y": 205
+              },
+              "bottomLeft": {
+                "x": 70,
+                "y": 205
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "L",
+            "symbologyIdentifier": "]Q1",
+            "timestamp": 1791735741914
+          },
+          {
+            "data": "5901234123457",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTkwMTIzNDEyMzQ1Nw==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 170,
+                "y": 350
+              },
+              "topRight": {
+                "x": 454,
+                "y": 350
+              },
+              "bottomRight": {
+                "x": 454,
+                "y": 479
+              },
+              "bottomLeft": {
+                "x": 170,
+                "y": 479
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735741914
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "QRGEN-RETAIL-DOM-20261011",
+            "symbology": "qr",
+            "symbologyName": "QR Code",
+            "rawBytes": "UVJHRU4tUkVUQUlMLURPTS0yMDI2MTAxMQ==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 70,
+                "y": 100
+              },
+              "topRight": {
+                "x": 175,
+                "y": 100
+              },
+              "bottomRight": {
+                "x": 175,
+                "y": 205
+              },
+              "bottomLeft": {
+                "x": 70,
+                "y": 205
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "L",
+            "symbologyIdentifier": "]Q1",
+            "timestamp": 1791735742023
+          },
+          {
+            "data": "5901234123457",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTkwMTIzNDEyMzQ1Nw==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 170,
+                "y": 350
+              },
+              "topRight": {
+                "x": 454,
+                "y": 350
+              },
+              "bottomRight": {
+                "x": 454,
+                "y": 479
+              },
+              "bottomLeft": {
+                "x": 170,
+                "y": 479
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735742023
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "QRGEN-RETAIL-DOM-20261011",
+            "symbology": "qr",
+            "symbologyName": "QR Code",
+            "rawBytes": "UVJHRU4tUkVUQUlMLURPTS0yMDI2MTAxMQ==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 70,
+                "y": 100
+              },
+              "topRight": {
+                "x": 175,
+                "y": 100
+              },
+              "bottomRight": {
+                "x": 175,
+                "y": 205
+              },
+              "bottomLeft": {
+                "x": 70,
+                "y": 205
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "L",
+            "symbologyIdentifier": "]Q1",
+            "timestamp": 1791735742146
+          },
+          {
+            "data": "5901234123457",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTkwMTIzNDEyMzQ1Nw==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 170,
+                "y": 350
+              },
+              "topRight": {
+                "x": 454,
+                "y": 350
+              },
+              "bottomRight": {
+                "x": 454,
+                "y": 479
+              },
+              "bottomLeft": {
+                "x": 170,
+                "y": 479
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735742146
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "QRGEN-RETAIL-DOM-20261011",
+            "symbology": "qr",
+            "symbologyName": "QR Code",
+            "rawBytes": "UVJHRU4tUkVUQUlMLURPTS0yMDI2MTAxMQ==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 70,
+                "y": 100
+              },
+              "topRight": {
+                "x": 175,
+                "y": 100
+              },
+              "bottomRight": {
+                "x": 175,
+                "y": 205
+              },
+              "bottomLeft": {
+                "x": 70,
+                "y": 205
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "L",
+            "symbologyIdentifier": "]Q1",
+            "timestamp": 1791735742255
+          },
+          {
+            "data": "5901234123457",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTkwMTIzNDEyMzQ1Nw==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 170,
+                "y": 350
+              },
+              "topRight": {
+                "x": 454,
+                "y": 350
+              },
+              "bottomRight": {
+                "x": 454,
+                "y": 479
+              },
+              "bottomLeft": {
+                "x": 170,
+                "y": 479
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735742255
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "QRGEN-RETAIL-DOM-20261011",
+            "symbology": "qr",
+            "symbologyName": "QR Code",
+            "rawBytes": "UVJHRU4tUkVUQUlMLURPTS0yMDI2MTAxMQ==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 70,
+                "y": 100
+              },
+              "topRight": {
+                "x": 175,
+                "y": 100
+              },
+              "bottomRight": {
+                "x": 175,
+                "y": 205
+              },
+              "bottomLeft": {
+                "x": 70,
+                "y": 205
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "L",
+            "symbologyIdentifier": "]Q1",
+            "timestamp": 1791735742380
+          },
+          {
+            "data": "5901234123457",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTkwMTIzNDEyMzQ1Nw==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 170,
+                "y": 350
+              },
+              "topRight": {
+                "x": 454,
+                "y": 350
+              },
+              "bottomRight": {
+                "x": 454,
+                "y": 479
+              },
+              "bottomLeft": {
+                "x": 170,
+                "y": 479
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735742380
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "QRGEN-RETAIL-DOM-20261011",
+            "symbology": "qr",
+            "symbologyName": "QR Code",
+            "rawBytes": "UVJHRU4tUkVUQUlMLURPTS0yMDI2MTAxMQ==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 70,
+                "y": 100
+              },
+              "topRight": {
+                "x": 175,
+                "y": 100
+              },
+              "bottomRight": {
+                "x": 175,
+                "y": 205
+              },
+              "bottomLeft": {
+                "x": 70,
+                "y": 205
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "L",
+            "symbologyIdentifier": "]Q1",
+            "timestamp": 1791735742491
+          },
+          {
+            "data": "5901234123457",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTkwMTIzNDEyMzQ1Nw==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 170,
+                "y": 350
+              },
+              "topRight": {
+                "x": 454,
+                "y": 350
+              },
+              "bottomRight": {
+                "x": 454,
+                "y": 479
+              },
+              "bottomLeft": {
+                "x": 170,
+                "y": 479
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735742491
+          }
+        ]
+      }
+    ],
+    "errors": [],
+    "states": [
+      {
+        "state": "starting",
+        "atMs": 0.6000000238418579
+      },
+      {
+        "state": "scanning",
+        "atMs": 72.69999998807907
+      },
+      {
+        "state": "stopped",
+        "atMs": 1159.300000011921
+      }
+    ],
+    "ready": {
+      "engine": "worker",
+      "stats": {
+        "decodeMs": 0,
+        "fps": 0,
+        "engine": "worker",
+        "adaptive": null
+      },
+      "atMs": 76.39999997615814,
+      "videoWidth": 640,
+      "videoHeight": 480,
+      "readyState": 4,
+      "exactPixelBytesMatch": true,
+      "resolvedOptions": {
+        "symbologies": [
+          "qr",
+          "ean13"
+        ],
+        "mode": "continuous",
+        "duplicateFilter": 0,
+        "beep": false,
+        "vibrate": false,
+        "scanArea": {
+          "x": 0,
+          "y": 0,
+          "width": 1,
+          "height": 1
+        },
+        "maxResults": 255,
+        "tryHarder": true,
+        "maxDecodeSize": 640,
+        "maxFps": 10,
+        "tryInvert": false,
+        "adaptive": null,
+        "viewfinder": "none"
+      },
+      "rgbaSha256": "9100fa6b5e5df520af774ae8bee9bae7444b73103dcecfcec3e3728397824bbb"
+    },
+    "expectedEngine": "worker",
+    "expectedFailure": false,
+    "statsBeforeCleanup": {
+      "decodeMs": 8.490655744307986,
+      "fps": 9,
+      "engine": "worker",
+      "adaptive": null
+    },
+    "resolvedOptionsEnd": {
+      "symbologies": [
+        "qr",
+        "ean13"
+      ],
+      "mode": "continuous",
+      "duplicateFilter": 0,
+      "beep": false,
+      "vibrate": false,
+      "scanArea": {
+        "x": 0,
+        "y": 0,
+        "width": 1,
+        "height": 1
+      },
+      "maxResults": 255,
+      "tryHarder": true,
+      "maxDecodeSize": 640,
+      "maxFps": 10,
+      "tryInvert": false,
+      "adaptive": null,
+      "viewfinder": "none"
+    },
+    "cleanup": {
+      "tracks": [
+        {
+          "kind": "video",
+          "readyState": "ended"
+        }
+      ],
+      "liveCameraTracks": 0,
+      "videoSrcObjectNull": true,
+      "ownedVideoDetached": true
+    },
+    "completedAt": "2026-10-11T16:22:22.492Z",
+    "elapsedMs": 1159.3999999761581
+  },
+  "platform": {
+    "workers": [
+      {
+        "url": "blob:http://127.0.0.1:4352/41e61bc2-a27a-43f0-b561-a5c29f91b4b9",
+        "name": "qrgen-decoder",
+        "posts": [
+          {
+            "type": "init",
+            "wasmUrl": "http://127.0.0.1:4352/staged/candidate/dist/wasm/zxing_reader.wasm"
+          },
+          {
+            "type": "decode",
+            "id": 1,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "QRCodeModel1",
+                "QRCodeModel2",
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "9100fa6b5e5df520af774ae8bee9bae7444b73103dcecfcec3e3728397824bbb"
+          },
+          {
+            "type": "decode",
+            "id": 2,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "QRCodeModel1",
+                "QRCodeModel2",
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "9100fa6b5e5df520af774ae8bee9bae7444b73103dcecfcec3e3728397824bbb"
+          },
+          {
+            "type": "decode",
+            "id": 3,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "QRCodeModel1",
+                "QRCodeModel2",
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "9100fa6b5e5df520af774ae8bee9bae7444b73103dcecfcec3e3728397824bbb"
+          },
+          {
+            "type": "decode",
+            "id": 4,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "QRCodeModel1",
+                "QRCodeModel2",
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "9100fa6b5e5df520af774ae8bee9bae7444b73103dcecfcec3e3728397824bbb"
+          },
+          {
+            "type": "decode",
+            "id": 5,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "QRCodeModel1",
+                "QRCodeModel2",
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "9100fa6b5e5df520af774ae8bee9bae7444b73103dcecfcec3e3728397824bbb"
+          },
+          {
+            "type": "decode",
+            "id": 6,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "QRCodeModel1",
+                "QRCodeModel2",
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "9100fa6b5e5df520af774ae8bee9bae7444b73103dcecfcec3e3728397824bbb"
+          },
+          {
+            "type": "decode",
+            "id": 7,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "QRCodeModel1",
+                "QRCodeModel2",
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "9100fa6b5e5df520af774ae8bee9bae7444b73103dcecfcec3e3728397824bbb"
+          },
+          {
+            "type": "decode",
+            "id": 8,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "QRCodeModel1",
+                "QRCodeModel2",
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "9100fa6b5e5df520af774ae8bee9bae7444b73103dcecfcec3e3728397824bbb"
+          },
+          {
+            "type": "decode",
+            "id": 9,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "QRCodeModel1",
+                "QRCodeModel2",
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "9100fa6b5e5df520af774ae8bee9bae7444b73103dcecfcec3e3728397824bbb"
+          },
+          {
+            "type": "decode",
+            "id": 10,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "QRCodeModel1",
+                "QRCodeModel2",
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "9100fa6b5e5df520af774ae8bee9bae7444b73103dcecfcec3e3728397824bbb"
+          }
+        ],
+        "messages": [
+          {
+            "type": "ready"
+          },
+          {
+            "type": "result",
+            "id": 1,
+            "results": [
+              {
+                "format": "QRCode",
+                "text": "QRGEN-RETAIL-DOM-20261011",
+                "bytes": [
+                  81,
+                  82,
+                  71,
+                  69,
+                  78,
+                  45,
+                  82,
+                  69,
+                  84,
+                  65,
+                  73,
+                  76,
+                  45,
+                  68,
+                  79,
+                  77,
+                  45,
+                  50,
+                  48,
+                  50,
+                  54,
+                  49,
+                  48,
+                  49,
+                  49
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 70,
+                    "y": 100
+                  },
+                  "topRight": {
+                    "x": 175,
+                    "y": 100
+                  },
+                  "bottomRight": {
+                    "x": 175,
+                    "y": 205
+                  },
+                  "bottomLeft": {
+                    "x": 70,
+                    "y": 205
+                  }
+                },
+                "orientation": 0,
+                "ecLevel": "L",
+                "symbologyIdentifier": "]Q1",
+                "isMirrored": false,
+                "isInverted": false
+              },
+              {
+                "format": "EAN13",
+                "text": "5901234123457",
+                "bytes": [
+                  53,
+                  57,
+                  48,
+                  49,
+                  50,
+                  51,
+                  52,
+                  49,
+                  50,
+                  51,
+                  52,
+                  53,
+                  55
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 170,
+                    "y": 350
+                  },
+                  "topRight": {
+                    "x": 454,
+                    "y": 350
+                  },
+                  "bottomRight": {
+                    "x": 454,
+                    "y": 479
+                  },
+                  "bottomLeft": {
+                    "x": 170,
+                    "y": 479
+                  }
+                },
+                "orientation": 0,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              }
+            ]
+          },
+          {
+            "type": "result",
+            "id": 2,
+            "results": [
+              {
+                "format": "QRCode",
+                "text": "QRGEN-RETAIL-DOM-20261011",
+                "bytes": [
+                  81,
+                  82,
+                  71,
+                  69,
+                  78,
+                  45,
+                  82,
+                  69,
+                  84,
+                  65,
+                  73,
+                  76,
+                  45,
+                  68,
+                  79,
+                  77,
+                  45,
+                  50,
+                  48,
+                  50,
+                  54,
+                  49,
+                  48,
+                  49,
+                  49
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 70,
+                    "y": 100
+                  },
+                  "topRight": {
+                    "x": 175,
+                    "y": 100
+                  },
+                  "bottomRight": {
+                    "x": 175,
+                    "y": 205
+                  },
+                  "bottomLeft": {
+                    "x": 70,
+                    "y": 205
+                  }
+                },
+                "orientation": 0,
+                "ecLevel": "L",
+                "symbologyIdentifier": "]Q1",
+                "isMirrored": false,
+                "isInverted": false
+              },
+              {
+                "format": "EAN13",
+                "text": "5901234123457",
+                "bytes": [
+                  53,
+                  57,
+                  48,
+                  49,
+                  50,
+                  51,
+                  52,
+                  49,
+                  50,
+                  51,
+                  52,
+                  53,
+                  55
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 170,
+                    "y": 350
+                  },
+                  "topRight": {
+                    "x": 454,
+                    "y": 350
+                  },
+                  "bottomRight": {
+                    "x": 454,
+                    "y": 479
+                  },
+                  "bottomLeft": {
+                    "x": 170,
+                    "y": 479
+                  }
+                },
+                "orientation": 0,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              }
+            ]
+          },
+          {
+            "type": "result",
+            "id": 3,
+            "results": [
+              {
+                "format": "QRCode",
+                "text": "QRGEN-RETAIL-DOM-20261011",
+                "bytes": [
+                  81,
+                  82,
+                  71,
+                  69,
+                  78,
+                  45,
+                  82,
+                  69,
+                  84,
+                  65,
+                  73,
+                  76,
+                  45,
+                  68,
+                  79,
+                  77,
+                  45,
+                  50,
+                  48,
+                  50,
+                  54,
+                  49,
+                  48,
+                  49,
+                  49
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 70,
+                    "y": 100
+                  },
+                  "topRight": {
+                    "x": 175,
+                    "y": 100
+                  },
+                  "bottomRight": {
+                    "x": 175,
+                    "y": 205
+                  },
+                  "bottomLeft": {
+                    "x": 70,
+                    "y": 205
+                  }
+                },
+                "orientation": 0,
+                "ecLevel": "L",
+                "symbologyIdentifier": "]Q1",
+                "isMirrored": false,
+                "isInverted": false
+              },
+              {
+                "format": "EAN13",
+                "text": "5901234123457",
+                "bytes": [
+                  53,
+                  57,
+                  48,
+                  49,
+                  50,
+                  51,
+                  52,
+                  49,
+                  50,
+                  51,
+                  52,
+                  53,
+                  55
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 170,
+                    "y": 350
+                  },
+                  "topRight": {
+                    "x": 454,
+                    "y": 350
+                  },
+                  "bottomRight": {
+                    "x": 454,
+                    "y": 479
+                  },
+                  "bottomLeft": {
+                    "x": 170,
+                    "y": 479
+                  }
+                },
+                "orientation": 0,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              }
+            ]
+          },
+          {
+            "type": "result",
+            "id": 4,
+            "results": [
+              {
+                "format": "QRCode",
+                "text": "QRGEN-RETAIL-DOM-20261011",
+                "bytes": [
+                  81,
+                  82,
+                  71,
+                  69,
+                  78,
+                  45,
+                  82,
+                  69,
+                  84,
+                  65,
+                  73,
+                  76,
+                  45,
+                  68,
+                  79,
+                  77,
+                  45,
+                  50,
+                  48,
+                  50,
+                  54,
+                  49,
+                  48,
+                  49,
+                  49
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 70,
+                    "y": 100
+                  },
+                  "topRight": {
+                    "x": 175,
+                    "y": 100
+                  },
+                  "bottomRight": {
+                    "x": 175,
+                    "y": 205
+                  },
+                  "bottomLeft": {
+                    "x": 70,
+                    "y": 205
+                  }
+                },
+                "orientation": 0,
+                "ecLevel": "L",
+                "symbologyIdentifier": "]Q1",
+                "isMirrored": false,
+                "isInverted": false
+              },
+              {
+                "format": "EAN13",
+                "text": "5901234123457",
+                "bytes": [
+                  53,
+                  57,
+                  48,
+                  49,
+                  50,
+                  51,
+                  52,
+                  49,
+                  50,
+                  51,
+                  52,
+                  53,
+                  55
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 170,
+                    "y": 350
+                  },
+                  "topRight": {
+                    "x": 454,
+                    "y": 350
+                  },
+                  "bottomRight": {
+                    "x": 454,
+                    "y": 479
+                  },
+                  "bottomLeft": {
+                    "x": 170,
+                    "y": 479
+                  }
+                },
+                "orientation": 0,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              }
+            ]
+          },
+          {
+            "type": "result",
+            "id": 5,
+            "results": [
+              {
+                "format": "QRCode",
+                "text": "QRGEN-RETAIL-DOM-20261011",
+                "bytes": [
+                  81,
+                  82,
+                  71,
+                  69,
+                  78,
+                  45,
+                  82,
+                  69,
+                  84,
+                  65,
+                  73,
+                  76,
+                  45,
+                  68,
+                  79,
+                  77,
+                  45,
+                  50,
+                  48,
+                  50,
+                  54,
+                  49,
+                  48,
+                  49,
+                  49
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 70,
+                    "y": 100
+                  },
+                  "topRight": {
+                    "x": 175,
+                    "y": 100
+                  },
+                  "bottomRight": {
+                    "x": 175,
+                    "y": 205
+                  },
+                  "bottomLeft": {
+                    "x": 70,
+                    "y": 205
+                  }
+                },
+                "orientation": 0,
+                "ecLevel": "L",
+                "symbologyIdentifier": "]Q1",
+                "isMirrored": false,
+                "isInverted": false
+              },
+              {
+                "format": "EAN13",
+                "text": "5901234123457",
+                "bytes": [
+                  53,
+                  57,
+                  48,
+                  49,
+                  50,
+                  51,
+                  52,
+                  49,
+                  50,
+                  51,
+                  52,
+                  53,
+                  55
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 170,
+                    "y": 350
+                  },
+                  "topRight": {
+                    "x": 454,
+                    "y": 350
+                  },
+                  "bottomRight": {
+                    "x": 454,
+                    "y": 479
+                  },
+                  "bottomLeft": {
+                    "x": 170,
+                    "y": 479
+                  }
+                },
+                "orientation": 0,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              }
+            ]
+          },
+          {
+            "type": "result",
+            "id": 6,
+            "results": [
+              {
+                "format": "QRCode",
+                "text": "QRGEN-RETAIL-DOM-20261011",
+                "bytes": [
+                  81,
+                  82,
+                  71,
+                  69,
+                  78,
+                  45,
+                  82,
+                  69,
+                  84,
+                  65,
+                  73,
+                  76,
+                  45,
+                  68,
+                  79,
+                  77,
+                  45,
+                  50,
+                  48,
+                  50,
+                  54,
+                  49,
+                  48,
+                  49,
+                  49
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 70,
+                    "y": 100
+                  },
+                  "topRight": {
+                    "x": 175,
+                    "y": 100
+                  },
+                  "bottomRight": {
+                    "x": 175,
+                    "y": 205
+                  },
+                  "bottomLeft": {
+                    "x": 70,
+                    "y": 205
+                  }
+                },
+                "orientation": 0,
+                "ecLevel": "L",
+                "symbologyIdentifier": "]Q1",
+                "isMirrored": false,
+                "isInverted": false
+              },
+              {
+                "format": "EAN13",
+                "text": "5901234123457",
+                "bytes": [
+                  53,
+                  57,
+                  48,
+                  49,
+                  50,
+                  51,
+                  52,
+                  49,
+                  50,
+                  51,
+                  52,
+                  53,
+                  55
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 170,
+                    "y": 350
+                  },
+                  "topRight": {
+                    "x": 454,
+                    "y": 350
+                  },
+                  "bottomRight": {
+                    "x": 454,
+                    "y": 479
+                  },
+                  "bottomLeft": {
+                    "x": 170,
+                    "y": 479
+                  }
+                },
+                "orientation": 0,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              }
+            ]
+          },
+          {
+            "type": "result",
+            "id": 7,
+            "results": [
+              {
+                "format": "QRCode",
+                "text": "QRGEN-RETAIL-DOM-20261011",
+                "bytes": [
+                  81,
+                  82,
+                  71,
+                  69,
+                  78,
+                  45,
+                  82,
+                  69,
+                  84,
+                  65,
+                  73,
+                  76,
+                  45,
+                  68,
+                  79,
+                  77,
+                  45,
+                  50,
+                  48,
+                  50,
+                  54,
+                  49,
+                  48,
+                  49,
+                  49
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 70,
+                    "y": 100
+                  },
+                  "topRight": {
+                    "x": 175,
+                    "y": 100
+                  },
+                  "bottomRight": {
+                    "x": 175,
+                    "y": 205
+                  },
+                  "bottomLeft": {
+                    "x": 70,
+                    "y": 205
+                  }
+                },
+                "orientation": 0,
+                "ecLevel": "L",
+                "symbologyIdentifier": "]Q1",
+                "isMirrored": false,
+                "isInverted": false
+              },
+              {
+                "format": "EAN13",
+                "text": "5901234123457",
+                "bytes": [
+                  53,
+                  57,
+                  48,
+                  49,
+                  50,
+                  51,
+                  52,
+                  49,
+                  50,
+                  51,
+                  52,
+                  53,
+                  55
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 170,
+                    "y": 350
+                  },
+                  "topRight": {
+                    "x": 454,
+                    "y": 350
+                  },
+                  "bottomRight": {
+                    "x": 454,
+                    "y": 479
+                  },
+                  "bottomLeft": {
+                    "x": 170,
+                    "y": 479
+                  }
+                },
+                "orientation": 0,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              }
+            ]
+          },
+          {
+            "type": "result",
+            "id": 8,
+            "results": [
+              {
+                "format": "QRCode",
+                "text": "QRGEN-RETAIL-DOM-20261011",
+                "bytes": [
+                  81,
+                  82,
+                  71,
+                  69,
+                  78,
+                  45,
+                  82,
+                  69,
+                  84,
+                  65,
+                  73,
+                  76,
+                  45,
+                  68,
+                  79,
+                  77,
+                  45,
+                  50,
+                  48,
+                  50,
+                  54,
+                  49,
+                  48,
+                  49,
+                  49
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 70,
+                    "y": 100
+                  },
+                  "topRight": {
+                    "x": 175,
+                    "y": 100
+                  },
+                  "bottomRight": {
+                    "x": 175,
+                    "y": 205
+                  },
+                  "bottomLeft": {
+                    "x": 70,
+                    "y": 205
+                  }
+                },
+                "orientation": 0,
+                "ecLevel": "L",
+                "symbologyIdentifier": "]Q1",
+                "isMirrored": false,
+                "isInverted": false
+              },
+              {
+                "format": "EAN13",
+                "text": "5901234123457",
+                "bytes": [
+                  53,
+                  57,
+                  48,
+                  49,
+                  50,
+                  51,
+                  52,
+                  49,
+                  50,
+                  51,
+                  52,
+                  53,
+                  55
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 170,
+                    "y": 350
+                  },
+                  "topRight": {
+                    "x": 454,
+                    "y": 350
+                  },
+                  "bottomRight": {
+                    "x": 454,
+                    "y": 479
+                  },
+                  "bottomLeft": {
+                    "x": 170,
+                    "y": 479
+                  }
+                },
+                "orientation": 0,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              }
+            ]
+          },
+          {
+            "type": "result",
+            "id": 9,
+            "results": [
+              {
+                "format": "QRCode",
+                "text": "QRGEN-RETAIL-DOM-20261011",
+                "bytes": [
+                  81,
+                  82,
+                  71,
+                  69,
+                  78,
+                  45,
+                  82,
+                  69,
+                  84,
+                  65,
+                  73,
+                  76,
+                  45,
+                  68,
+                  79,
+                  77,
+                  45,
+                  50,
+                  48,
+                  50,
+                  54,
+                  49,
+                  48,
+                  49,
+                  49
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 70,
+                    "y": 100
+                  },
+                  "topRight": {
+                    "x": 175,
+                    "y": 100
+                  },
+                  "bottomRight": {
+                    "x": 175,
+                    "y": 205
+                  },
+                  "bottomLeft": {
+                    "x": 70,
+                    "y": 205
+                  }
+                },
+                "orientation": 0,
+                "ecLevel": "L",
+                "symbologyIdentifier": "]Q1",
+                "isMirrored": false,
+                "isInverted": false
+              },
+              {
+                "format": "EAN13",
+                "text": "5901234123457",
+                "bytes": [
+                  53,
+                  57,
+                  48,
+                  49,
+                  50,
+                  51,
+                  52,
+                  49,
+                  50,
+                  51,
+                  52,
+                  53,
+                  55
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 170,
+                    "y": 350
+                  },
+                  "topRight": {
+                    "x": 454,
+                    "y": 350
+                  },
+                  "bottomRight": {
+                    "x": 454,
+                    "y": 479
+                  },
+                  "bottomLeft": {
+                    "x": 170,
+                    "y": 479
+                  }
+                },
+                "orientation": 0,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              }
+            ]
+          },
+          {
+            "type": "result",
+            "id": 10,
+            "results": [
+              {
+                "format": "QRCode",
+                "text": "QRGEN-RETAIL-DOM-20261011",
+                "bytes": [
+                  81,
+                  82,
+                  71,
+                  69,
+                  78,
+                  45,
+                  82,
+                  69,
+                  84,
+                  65,
+                  73,
+                  76,
+                  45,
+                  68,
+                  79,
+                  77,
+                  45,
+                  50,
+                  48,
+                  50,
+                  54,
+                  49,
+                  48,
+                  49,
+                  49
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 70,
+                    "y": 100
+                  },
+                  "topRight": {
+                    "x": 175,
+                    "y": 100
+                  },
+                  "bottomRight": {
+                    "x": 175,
+                    "y": 205
+                  },
+                  "bottomLeft": {
+                    "x": 70,
+                    "y": 205
+                  }
+                },
+                "orientation": 0,
+                "ecLevel": "L",
+                "symbologyIdentifier": "]Q1",
+                "isMirrored": false,
+                "isInverted": false
+              },
+              {
+                "format": "EAN13",
+                "text": "5901234123457",
+                "bytes": [
+                  53,
+                  57,
+                  48,
+                  49,
+                  50,
+                  51,
+                  52,
+                  49,
+                  50,
+                  51,
+                  52,
+                  53,
+                  55
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 170,
+                    "y": 350
+                  },
+                  "topRight": {
+                    "x": 454,
+                    "y": 350
+                  },
+                  "bottomRight": {
+                    "x": 454,
+                    "y": 479
+                  },
+                  "bottomLeft": {
+                    "x": 170,
+                    "y": 479
+                  }
+                },
+                "orientation": 0,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              }
+            ]
+          }
+        ],
+        "errors": [],
+        "terminated": false
+      }
+    ],
+    "workerBlobs": [
+      {
+        "url": "blob:http://127.0.0.1:4352/41e61bc2-a27a-43f0-b561-a5c29f91b4b9",
+        "type": "text/javascript",
+        "bytes": 37754,
+        "sha256": "d86db99a626ff60bd0cc5cf90737095962db05aa81c8926d5a4999cbe46acc2b"
+      }
+    ],
+    "binaryBefore": {},
+    "binaryAfter": {},
+    "liveCameraTracks": 0
+  },
+  "http": [
+    {
+      "path": "/",
+      "status": 200,
+      "bytes": 75,
+      "sha256": "ecc5ea3626da4762a369d599c1d02f728af470c340653e163e1acc20fdaa550b",
+      "offlineAtResponse": false
+    },
+    {
+      "path": "/staged/candidate/dist/browser/qrgen.js",
+      "status": 200,
+      "bytes": 221564,
+      "sha256": "5d8ce71c0c644e4d1254bf3d1bc28c2f4c056c26f4cf836b979d0df630202543",
+      "offlineAtResponse": false,
+      "pinMatched": true
+    },
+    {
+      "path": "/fixtures/cleanEAN.png",
+      "status": 200,
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "offlineAtResponse": false
+    },
+    {
+      "path": "/fixtures/retailMixedY4M-preflight.png",
+      "status": 200,
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "offlineAtResponse": false
+    },
+    {
+      "path": "/staged/candidate/dist/wasm/zxing_writer.wasm",
+      "status": 200,
+      "bytes": 647500,
+      "sha256": "af26f895fe471d23cb2d742bc3eca0695dbecb4ea6bad9b92eba3763ec505941",
+      "offlineAtResponse": false,
+      "pinMatched": true
+    },
+    {
+      "path": "/staged/candidate/dist/wasm/zxing_reader.wasm",
+      "status": 200,
+      "bytes": 969380,
+      "sha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+      "offlineAtResponse": false,
+      "pinMatched": true
+    },
+    {
+      "path": "/fixtures/cleanEAN.png",
+      "status": 200,
+      "bytes": 814,
+      "sha256": "5ea0cc8106ffd6d02d6d169c18d6ee9dd827ea8c9cb5ae7fb3f16ca696b8e404",
+      "offlineAtResponse": false
+    },
+    {
+      "path": "/staged/candidate/dist/wasm/zxing_reader.wasm",
+      "status": 200,
+      "bytes": 969380,
+      "sha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+      "offlineAtResponse": false,
+      "pinMatched": true
+    }
+  ],
+  "blockedExternalRequests": [],
+  "pageErrors": [],
+  "console": [],
+  "workerEventsBeforeContextClose": [
+    {
+      "type": "created",
+      "url": "blob:http://127.0.0.1:4352/41e61bc2-a27a-43f0-b561-a5c29f91b4b9"
+    }
+  ],
+  "sharedWorkersRetainedBeforeContextClose": 1,
+  "workerEvents": [
+    {
+      "type": "created",
+      "url": "blob:http://127.0.0.1:4352/41e61bc2-a27a-43f0-b561-a5c29f91b4b9"
+    },
+    {
+      "type": "closed",
+      "url": "blob:http://127.0.0.1:4352/41e61bc2-a27a-43f0-b561-a5c29f91b4b9"
+    }
+  ],
+  "liveWorkersAfterContextClose": 0,
+  "browserClosed": true,
+  "completedAt": "2026-10-11T16:22:22.560Z"
+}

@@ -1,0 +1,240 @@
+{
+  "status": "passed",
+  "variant": "baseline",
+  "format": "esm",
+  "node": "v24.19.0",
+  "platform": "win32",
+  "entry": "<ARTIFACT_ROOT>\\staged-sdk-study-v1\\consumers\\baseline\\package\\dist\\node.js",
+  "entrySha256": "7bfb0f3a7c31ed1b3c08f36183880e584a5d3813d6d98cbc0f7b30db43b722a5",
+  "instantiated": [
+    {
+      "sha256": "af26f895fe471d23cb2d742bc3eca0695dbecb4ea6bad9b92eba3763ec505941",
+      "bytes": 647500
+    },
+    {
+      "sha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+      "bytes": 966895
+    }
+  ],
+  "networkRequests": [],
+  "capabilities": {
+    "runtime": "non-browser",
+    "engine": {
+      "name": "zxing-wasm",
+      "version": "3.1.5",
+      "webAssembly": true,
+      "read": [
+        "qr",
+        "micro-qr",
+        "rmqr",
+        "data-matrix",
+        "aztec",
+        "pdf417",
+        "micro-pdf417",
+        "maxicode",
+        "ean13",
+        "ean8",
+        "upca",
+        "upce",
+        "isbn",
+        "code128",
+        "code39",
+        "code93",
+        "codabar",
+        "itf",
+        "itf14",
+        "databar",
+        "databar-expanded",
+        "databar-limited",
+        "code32",
+        "pzn",
+        "telepen",
+        "dx-film-edge"
+      ],
+      "write": [
+        "qr",
+        "micro-qr",
+        "rmqr",
+        "data-matrix",
+        "aztec",
+        "pdf417",
+        "micro-pdf417",
+        "maxicode",
+        "ean13",
+        "ean8",
+        "upca",
+        "upce",
+        "isbn",
+        "code128",
+        "code39",
+        "code93",
+        "codabar",
+        "itf",
+        "itf14",
+        "databar",
+        "databar-expanded",
+        "databar-limited",
+        "code32",
+        "pzn",
+        "telepen",
+        "dx-film-edge"
+      ]
+    },
+    "camera": {
+      "status": "not-browser",
+      "secureContext": null,
+      "getUserMedia": false,
+      "permission": "not-queried",
+      "devices": "not-queried"
+    },
+    "worker": {
+      "available": false,
+      "configured": false
+    },
+    "barcodeDetector": {
+      "available": false,
+      "formatQueryAvailable": false,
+      "formats": "not-queried",
+      "usedByQRGen": false
+    },
+    "assets": {
+      "reader": {
+        "source": "binary",
+        "binaryBytes": 966895
+      },
+      "writer": {
+        "source": "binary",
+        "binaryBytes": 647500
+      },
+      "offlineReadiness": "unverified"
+    }
+  },
+  "cases": [
+    {
+      "symbology": "qr",
+      "expected": "QR-GEN-STAGED-PUBLIC-SMOKE",
+      "generatedSha256": "a7033fe38763e49c7796dbdc2873b7c5fb71279e48088544388ba27c0218cec8",
+      "inputUnchanged": true,
+      "results": [
+        {
+          "data": "QR-GEN-STAGED-PUBLIC-SMOKE",
+          "symbology": "qr",
+          "symbologyName": "QR Code",
+          "rawBytes": "UVItR0VOLVNUQUdFRC1QVUJMSUMtU01PS0U=",
+          "contentType": "text",
+          "isGS1": false,
+          "location": {
+            "topLeft": {
+              "x": 16,
+              "y": 16
+            },
+            "topRight": {
+              "x": 116,
+              "y": 16
+            },
+            "bottomRight": {
+              "x": 116,
+              "y": 116
+            },
+            "bottomLeft": {
+              "x": 16,
+              "y": 116
+            }
+          },
+          "frameSize": {
+            "width": 132,
+            "height": 132
+          },
+          "orientation": 0,
+          "ecLevel": "Q",
+          "symbologyIdentifier": "]Q1",
+          "timestamp": 1791735345717
+        }
+      ]
+    },
+    {
+      "symbology": "ean13",
+      "expected": "9780804816632",
+      "generatedSha256": "84db4493e0a95fce5d124ece53f2e1a87229d01bbb68d6efde7a0fe958d87e58",
+      "inputUnchanged": true,
+      "results": [
+        {
+          "data": "9780804816632",
+          "symbology": "ean13",
+          "symbologyName": "EAN-13",
+          "rawBytes": "OTc4MDgwNDgxNjYzMg==",
+          "contentType": "text",
+          "isGS1": false,
+          "location": {
+            "topLeft": {
+              "x": 44,
+              "y": 0
+            },
+            "topRight": {
+              "x": 423,
+              "y": 0
+            },
+            "bottomRight": {
+              "x": 423,
+              "y": 199
+            },
+            "bottomLeft": {
+              "x": 44,
+              "y": 199
+            }
+          },
+          "frameSize": {
+            "width": 452,
+            "height": 220
+          },
+          "orientation": 0,
+          "ecLevel": "",
+          "symbologyIdentifier": "]E0",
+          "timestamp": 1791735345749
+        }
+      ]
+    },
+    {
+      "symbology": "upca",
+      "expected": "036000291452",
+      "generatedSha256": "bf1cd82321758ce69ed3901bbfdd496ad007584499f8f9b0ac2bb0a5576f395f",
+      "inputUnchanged": true,
+      "results": [
+        {
+          "data": "036000291452",
+          "symbology": "upca",
+          "symbologyName": "UPC-A",
+          "rawBytes": "MDAzNjAwMDI5MTQ1Mg==",
+          "contentType": "text",
+          "isGS1": false,
+          "location": {
+            "topLeft": {
+              "x": 36,
+              "y": 0
+            },
+            "topRight": {
+              "x": 415,
+              "y": 0
+            },
+            "bottomRight": {
+              "x": 415,
+              "y": 199
+            },
+            "bottomLeft": {
+              "x": 36,
+              "y": 199
+            }
+          },
+          "frameSize": {
+            "width": 452,
+            "height": 220
+          },
+          "orientation": 0,
+          "ecLevel": "",
+          "symbologyIdentifier": "]E0",
+          "timestamp": 1791735345759
+        }
+      ]
+    }
+  ]
+}

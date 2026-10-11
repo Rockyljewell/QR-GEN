@@ -1,0 +1,491 @@
+[
+  {
+    "id": "qrgen-sdk@1.0.0-ean-diagnostic-candidate.0",
+    "name": "qrgen-sdk",
+    "version": "1.0.0-ean-diagnostic-candidate.0",
+    "size": 1857554,
+    "unpackedSize": 5714448,
+    "shasum": "6746d3327e12ee4281ed2d56f024044106bef5c7",
+    "integrity": "sha512-IEiarZpwtlQW3NIFMJQMnqqhhaSxdk7jEvxfhftUyPDJsxXpmchNYT0QSFmDThcntUWOXSTcChuVzJGzBdVw5g==",
+    "filename": "qrgen-sdk-1.0.0-ean-diagnostic-candidate.0.tgz",
+    "files": [
+      {
+        "path": "DIAGNOSTIC-ONLY.md",
+        "size": 394,
+        "mode": 420
+      },
+      {
+        "path": "LICENSE",
+        "size": 11358,
+        "mode": 420
+      },
+      {
+        "path": "NOTICE",
+        "size": 396,
+        "mode": 420
+      },
+      {
+        "path": "README.md",
+        "size": 6296,
+        "mode": 420
+      },
+      {
+        "path": "diagnostic-licenses/ZXING-LICENSE.txt",
+        "size": 13320,
+        "mode": 420
+      },
+      {
+        "path": "diagnostic-licenses/ZXING-NOTICE.txt",
+        "size": 664,
+        "mode": 420
+      },
+      {
+        "path": "diagnostic-licenses/ZXING-REUSE-dep5.txt",
+        "size": 826,
+        "mode": 420
+      },
+      {
+        "path": "diagnostic-licenses/ZXING-WASM-MIT.txt",
+        "size": 1068,
+        "mode": 420
+      },
+      {
+        "path": "diagnostic-reader-provenance.json",
+        "size": 637,
+        "mode": 420
+      },
+      {
+        "path": "dist/bridge.cjs",
+        "size": 5092,
+        "mode": 420
+      },
+      {
+        "path": "dist/bridge.cjs.map",
+        "size": 14210,
+        "mode": 420
+      },
+      {
+        "path": "dist/bridge.d.cts",
+        "size": 2947,
+        "mode": 420
+      },
+      {
+        "path": "dist/bridge.d.ts",
+        "size": 2946,
+        "mode": 420
+      },
+      {
+        "path": "dist/bridge.js",
+        "size": 4798,
+        "mode": 420
+      },
+      {
+        "path": "dist/bridge.js.map",
+        "size": 14204,
+        "mode": 420
+      },
+      {
+        "path": "dist/browser/qrgen.iife.js",
+        "size": 222199,
+        "mode": 420
+      },
+      {
+        "path": "dist/browser/qrgen.iife.js.map",
+        "size": 632172,
+        "mode": 420
+      },
+      {
+        "path": "dist/browser/qrgen.js",
+        "size": 221564,
+        "mode": 420
+      },
+      {
+        "path": "dist/browser/qrgen.js.map",
+        "size": 630654,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-2NJEQRSK.cjs",
+        "size": 157692,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-2NJEQRSK.cjs.map",
+        "size": 365603,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-76GNB2WX.cjs",
+        "size": 47473,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-76GNB2WX.cjs.map",
+        "size": 102375,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-AO4HQIOO.js",
+        "size": 42062,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-AO4HQIOO.js.map",
+        "size": 103368,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-F3A6JPCX.cjs",
+        "size": 8506,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-F3A6JPCX.cjs.map",
+        "size": 21690,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-F4HZKRWG.js",
+        "size": 156979,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-F4HZKRWG.js.map",
+        "size": 365557,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-HR4BTXZI.cjs",
+        "size": 24882,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-HR4BTXZI.cjs.map",
+        "size": 64828,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-IH4R2DAU.js",
+        "size": 8215,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-IH4R2DAU.js.map",
+        "size": 21459,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-JPCWN64I.js",
+        "size": 47284,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-JPCWN64I.js.map",
+        "size": 102267,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-QIJXZFUV.cjs",
+        "size": 796,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-QIJXZFUV.cjs.map",
+        "size": 1089,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-WXQYTV3C.cjs",
+        "size": 42443,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-WXQYTV3C.cjs.map",
+        "size": 103372,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-YF7ATMKS.js",
+        "size": 23974,
+        "mode": 420
+      },
+      {
+        "path": "dist/chunk-YF7ATMKS.js.map",
+        "size": 64461,
+        "mode": 420
+      },
+      {
+        "path": "dist/cli.js",
+        "size": 148310,
+        "mode": 420
+      },
+      {
+        "path": "dist/elements.cjs",
+        "size": 964,
+        "mode": 420
+      },
+      {
+        "path": "dist/elements.cjs.map",
+        "size": 779,
+        "mode": 420
+      },
+      {
+        "path": "dist/elements.d.cts",
+        "size": 1402,
+        "mode": 420
+      },
+      {
+        "path": "dist/elements.d.ts",
+        "size": 1399,
+        "mode": 420
+      },
+      {
+        "path": "dist/elements.js",
+        "size": 548,
+        "mode": 420
+      },
+      {
+        "path": "dist/elements.js.map",
+        "size": 758,
+        "mode": 420
+      },
+      {
+        "path": "dist/generator-BUB5Sorc.d.cts",
+        "size": 2517,
+        "mode": 420
+      },
+      {
+        "path": "dist/generator-BYwrY3cT.d.ts",
+        "size": 2516,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.cjs",
+        "size": 6678,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.cjs.map",
+        "size": 71,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.d.cts",
+        "size": 14681,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.d.ts",
+        "size": 14673,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.js",
+        "size": 981,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.js.map",
+        "size": 70,
+        "mode": 420
+      },
+      {
+        "path": "dist/node.cjs",
+        "size": 7197,
+        "mode": 420
+      },
+      {
+        "path": "dist/node.cjs.map",
+        "size": 70,
+        "mode": 420
+      },
+      {
+        "path": "dist/node.d.cts",
+        "size": 2980,
+        "mode": 420
+      },
+      {
+        "path": "dist/node.d.ts",
+        "size": 2972,
+        "mode": 420
+      },
+      {
+        "path": "dist/node.js",
+        "size": 1054,
+        "mode": 420
+      },
+      {
+        "path": "dist/node.js.map",
+        "size": 69,
+        "mode": 420
+      },
+      {
+        "path": "dist/parsers.cjs",
+        "size": 1785,
+        "mode": 420
+      },
+      {
+        "path": "dist/parsers.cjs.map",
+        "size": 73,
+        "mode": 420
+      },
+      {
+        "path": "dist/parsers.d.cts",
+        "size": 6410,
+        "mode": 420
+      },
+      {
+        "path": "dist/parsers.d.ts",
+        "size": 6410,
+        "mode": 420
+      },
+      {
+        "path": "dist/parsers.js",
+        "size": 385,
+        "mode": 420
+      },
+      {
+        "path": "dist/parsers.js.map",
+        "size": 72,
+        "mode": 420
+      },
+      {
+        "path": "dist/react.cjs",
+        "size": 4117,
+        "mode": 420
+      },
+      {
+        "path": "dist/react.cjs.map",
+        "size": 12911,
+        "mode": 420
+      },
+      {
+        "path": "dist/react.d.cts",
+        "size": 3553,
+        "mode": 420
+      },
+      {
+        "path": "dist/react.d.ts",
+        "size": 3549,
+        "mode": 420
+      },
+      {
+        "path": "dist/react.js",
+        "size": 4038,
+        "mode": 420
+      },
+      {
+        "path": "dist/react.js.map",
+        "size": 12786,
+        "mode": 420
+      },
+      {
+        "path": "dist/scanner-B97Sd_lg.d.cts",
+        "size": 11907,
+        "mode": 420
+      },
+      {
+        "path": "dist/scanner-CSNVnDC8.d.ts",
+        "size": 11906,
+        "mode": 420
+      },
+      {
+        "path": "dist/scanner-element-B-snv2lR.d.ts",
+        "size": 4644,
+        "mode": 420
+      },
+      {
+        "path": "dist/scanner-element-Da0lbrwi.d.cts",
+        "size": 4646,
+        "mode": 420
+      },
+      {
+        "path": "dist/server.cjs",
+        "size": 10295,
+        "mode": 420
+      },
+      {
+        "path": "dist/server.cjs.map",
+        "size": 24210,
+        "mode": 420
+      },
+      {
+        "path": "dist/server.d.cts",
+        "size": 1073,
+        "mode": 420
+      },
+      {
+        "path": "dist/server.d.ts",
+        "size": 1073,
+        "mode": 420
+      },
+      {
+        "path": "dist/server.js",
+        "size": 10097,
+        "mode": 420
+      },
+      {
+        "path": "dist/server.js.map",
+        "size": 24016,
+        "mode": 420
+      },
+      {
+        "path": "dist/types-BvvGdncL.d.cts",
+        "size": 5562,
+        "mode": 420
+      },
+      {
+        "path": "dist/types-BvvGdncL.d.ts",
+        "size": 5562,
+        "mode": 420
+      },
+      {
+        "path": "dist/vue.cjs",
+        "size": 5253,
+        "mode": 420
+      },
+      {
+        "path": "dist/vue.cjs.map",
+        "size": 12179,
+        "mode": 420
+      },
+      {
+        "path": "dist/vue.d.cts",
+        "size": 7626,
+        "mode": 420
+      },
+      {
+        "path": "dist/vue.d.ts",
+        "size": 7625,
+        "mode": 420
+      },
+      {
+        "path": "dist/vue.js",
+        "size": 5143,
+        "mode": 420
+      },
+      {
+        "path": "dist/vue.js.map",
+        "size": 12089,
+        "mode": 420
+      },
+      {
+        "path": "dist/wasm/zxing_reader.wasm",
+        "size": 969380,
+        "mode": 420
+      },
+      {
+        "path": "dist/wasm/zxing_writer.wasm",
+        "size": 647500,
+        "mode": 420
+      },
+      {
+        "path": "package.json",
+        "size": 3764,
+        "mode": 420
+      }
+    ],
+    "entryCount": 95,
+    "bundled": []
+  }
+]

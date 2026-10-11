@@ -31,6 +31,15 @@ The [Chromium package](ean-browser-rebuild-2026-10-11/README.md) records real ma
 
 The actual Chrome EAN frame's wrong value is suppressed under EAN-13 in both downscale and inversion settings. Empty output is a miss, not correct recovery. Clean and mixed controls remain exact. Explicit UPC-A-only scanning still returns the same wrong value; `/1/35` remains unresolved in the broader matrix.
 
+## Public SDK integration follow-up
+
+The separate [public SDK study](EAN-SDK-INTEGRATION-2026-10-11.md) builds and packs
+isolated SDK copies, executes 4,648 public image calls, checks extracted Node
+18/24 ESM/CommonJS entries and real browser camera workers, and preserves
+expected load-failure cleanup. It validates explicitly matching assets without
+installing the candidate in production. Public defaults, asset identity/cache
+migration, the remaining false readings and physical field gates stay open.
+
 ## Production and field gates
 
 Changing the packaged decoder still requires a maintainable matching-wrapper/WASM distribution, version and provenance reporting, public SDK/Node/worker/self-host/offline validation and review against current main and concurrent work. The current audit does not silently replace the dependency or its defaults.

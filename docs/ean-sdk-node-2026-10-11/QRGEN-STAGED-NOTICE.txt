@@ -1,0 +1,10 @@
+QRGen
+Copyright 2026 Rockyljewell
+
+Created by Rockyljewell (https://github.com/Rockyljewell).
+Project: https://github.com/Rockyljewell/QR-GEN
+Website: https://rockyljewell.github.io/QR-GEN/
+
+This product includes zxing-cpp (https://github.com/zxing-cpp/zxing-cpp),
+licensed under the Apache License 2.0, through zxing-wasm
+(https://github.com/Sec-ant/zxing-wasm), licensed under the MIT License.

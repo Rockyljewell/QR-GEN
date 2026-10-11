@@ -1,0 +1,330 @@
+{
+  "checks": 954,
+  "failures": [],
+  "originalSessions": 28,
+  "cleanupOnlySessions": 4,
+  "iifeEntrypointSessions": 2,
+  "notes": "Assertions describe frozen observed outputs, including known nontruths/misses. They are integration/provenance checks, not accuracy passes. Supplements remain separate.",
+  "rows": [
+    {
+      "folder": "run-01",
+      "variant": "baseline",
+      "id": "images",
+      "pageErrors": 0,
+      "consoleMessages": 0,
+      "frames": null,
+      "engine": null,
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "run-01",
+      "variant": "baseline",
+      "id": "C01-07-ean-main",
+      "pageErrors": 0,
+      "consoleMessages": 0,
+      "frames": 10,
+      "engine": "main",
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "run-01",
+      "variant": "baseline",
+      "id": "C02-07-upca-only-main",
+      "pageErrors": 0,
+      "consoleMessages": 0,
+      "frames": 10,
+      "engine": "main",
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "run-01",
+      "variant": "baseline",
+      "id": "C03-35-ean-main",
+      "pageErrors": 0,
+      "consoleMessages": 0,
+      "frames": 10,
+      "engine": "main",
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "run-01",
+      "variant": "baseline",
+      "id": "C04-clean-mixed-main",
+      "pageErrors": 0,
+      "consoleMessages": 0,
+      "frames": 10,
+      "engine": "main",
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "run-01",
+      "variant": "baseline",
+      "id": "C01-07-ean-worker",
+      "pageErrors": 0,
+      "consoleMessages": 0,
+      "frames": 10,
+      "engine": "worker",
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "run-01",
+      "variant": "baseline",
+      "id": "C02-07-upca-only-worker",
+      "pageErrors": 0,
+      "consoleMessages": 0,
+      "frames": 10,
+      "engine": "worker",
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "run-01",
+      "variant": "baseline",
+      "id": "C03-35-ean-worker",
+      "pageErrors": 0,
+      "consoleMessages": 0,
+      "frames": 10,
+      "engine": "worker",
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "run-01",
+      "variant": "baseline",
+      "id": "C04-clean-mixed-worker",
+      "pageErrors": 0,
+      "consoleMessages": 0,
+      "frames": 10,
+      "engine": "worker",
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "run-01",
+      "variant": "baseline",
+      "id": "T01-relative-selfhost",
+      "pageErrors": 0,
+      "consoleMessages": 0,
+      "frames": 10,
+      "engine": "worker",
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "run-01",
+      "variant": "baseline",
+      "id": "T02-online-binary-subviews",
+      "pageErrors": 0,
+      "consoleMessages": 0,
+      "frames": 10,
+      "engine": "worker",
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "run-01",
+      "variant": "baseline",
+      "id": "T03-preloaded-binary-offline",
+      "pageErrors": 0,
+      "consoleMessages": 0,
+      "frames": 10,
+      "engine": "worker",
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "run-01",
+      "variant": "baseline",
+      "id": "T04-cold-reader-url-offline",
+      "pageErrors": 0,
+      "consoleMessages": 11,
+      "frames": 0,
+      "engine": null,
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "run-01",
+      "variant": "baseline",
+      "id": "T05-corrupt-reader-url",
+      "pageErrors": 0,
+      "consoleMessages": 9,
+      "frames": 0,
+      "engine": null,
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "run-01",
+      "variant": "candidate",
+      "id": "images",
+      "pageErrors": 0,
+      "consoleMessages": 0,
+      "frames": null,
+      "engine": null,
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "run-01",
+      "variant": "candidate",
+      "id": "C01-07-ean-main",
+      "pageErrors": 0,
+      "consoleMessages": 0,
+      "frames": 10,
+      "engine": "main",
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "run-01",
+      "variant": "candidate",
+      "id": "C02-07-upca-only-main",
+      "pageErrors": 0,
+      "consoleMessages": 0,
+      "frames": 10,
+      "engine": "main",
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "run-01",
+      "variant": "candidate",
+      "id": "C03-35-ean-main",
+      "pageErrors": 0,
+      "consoleMessages": 0,
+      "frames": 10,
+      "engine": "main",
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "run-01",
+      "variant": "candidate",
+      "id": "C04-clean-mixed-main",
+      "pageErrors": 0,
+      "consoleMessages": 0,
+      "frames": 10,
+      "engine": "main",
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "run-01",
+      "variant": "candidate",
+      "id": "C01-07-ean-worker",
+      "pageErrors": 0,
+      "consoleMessages": 0,
+      "frames": 10,
+      "engine": "worker",
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "run-01",
+      "variant": "candidate",
+      "id": "C02-07-upca-only-worker",
+      "pageErrors": 0,
+      "consoleMessages": 0,
+      "frames": 10,
+      "engine": "worker",
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "run-01",
+      "variant": "candidate",
+      "id": "C03-35-ean-worker",
+      "pageErrors": 0,
+      "consoleMessages": 0,
+      "frames": 10,
+      "engine": "worker",
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "run-01",
+      "variant": "candidate",
+      "id": "C04-clean-mixed-worker",
+      "pageErrors": 0,
+      "consoleMessages": 0,
+      "frames": 10,
+      "engine": "worker",
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "run-01",
+      "variant": "candidate",
+      "id": "T01-relative-selfhost",
+      "pageErrors": 0,
+      "consoleMessages": 0,
+      "frames": 10,
+      "engine": "worker",
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "run-01",
+      "variant": "candidate",
+      "id": "T02-online-binary-subviews",
+      "pageErrors": 0,
+      "consoleMessages": 0,
+      "frames": 10,
+      "engine": "worker",
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "run-01",
+      "variant": "candidate",
+      "id": "T03-preloaded-binary-offline",
+      "pageErrors": 0,
+      "consoleMessages": 0,
+      "frames": 10,
+      "engine": "worker",
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "run-01",
+      "variant": "candidate",
+      "id": "T04-cold-reader-url-offline",
+      "pageErrors": 0,
+      "consoleMessages": 11,
+      "frames": 0,
+      "engine": null,
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "run-01",
+      "variant": "candidate",
+      "id": "T05-corrupt-reader-url",
+      "pageErrors": 0,
+      "consoleMessages": 9,
+      "frames": 0,
+      "engine": null,
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "late-cleanup-01",
+      "variant": "baseline",
+      "id": "T04-cold-reader-url-offline",
+      "pageErrors": 0,
+      "consoleMessages": 11,
+      "frames": 0,
+      "engine": null,
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "late-cleanup-01",
+      "variant": "baseline",
+      "id": "T05-corrupt-reader-url",
+      "pageErrors": 0,
+      "consoleMessages": 9,
+      "frames": 0,
+      "engine": null,
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "late-cleanup-01",
+      "variant": "candidate",
+      "id": "T04-cold-reader-url-offline",
+      "pageErrors": 0,
+      "consoleMessages": 11,
+      "frames": 0,
+      "engine": null,
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "folder": "late-cleanup-01",
+      "variant": "candidate",
+      "id": "T05-corrupt-reader-url",
+      "pageErrors": 0,
+      "consoleMessages": 9,
+      "frames": 0,
+      "engine": null,
+      "liveWorkersAfterContextClose": 0
+    }
+  ]
+}

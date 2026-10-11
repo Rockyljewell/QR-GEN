@@ -1,0 +1,89 @@
+{
+  "scope": "Exact original evidence digests before portable derivations; compressed result streams reproduce exact original bytes. Portable plan/summary/provenance are separately named derived documents, not byte-identical originals.",
+  "files": {
+    "PROTOCOL.md": {
+      "bytes": 5528,
+      "sha256": "11df9b949f92c9479c08306dc3dde3f6cb201b4d93b407951da65cc9719c3730"
+    },
+    "freeze.json": {
+      "bytes": 418,
+      "sha256": "56e09adf1067162b65faf859cd4f971b7bfce203719b023f4f69d4ead7e5617a"
+    },
+    "run-consumer.mjs": {
+      "bytes": 7933,
+      "sha256": "4623edcc287a83c504e81dd7cff7e0f73ab25b85a0d46a538497278855ae42ea"
+    },
+    "summarize.mjs": {
+      "bytes": 7887,
+      "sha256": "b2b8a0a75a2661c25f7170be7684d5b81ffe5b24e252b2ee4afdd40a42aac84b"
+    },
+    "independent-transport-verification.json": {
+      "bytes": 305804,
+      "sha256": "55ebb0077d0b129bd0174c1e51b6752393c5ab251a700caf0e171090ab369152"
+    },
+    "root-study-protocol.md": {
+      "bytes": 3409,
+      "sha256": "7d15960d3a39d2e0f541279e16ea0ec12cb429f143d27041f56155aef00c5582"
+    },
+    "frozen-plan.json": {
+      "bytes": 1067926,
+      "sha256": "1e6042ae022e0e902410aaf8094918cef564c2e01d438a7932598d29fd497a65"
+    },
+    "matrix-summary.json": {
+      "bytes": 88908,
+      "sha256": "93fde890a4170fb73cdc5939a2ec78a624103d28b036b1e8ea56e436581a5de1"
+    },
+    "baseline-esm/results.jsonl": {
+      "bytes": 642507,
+      "sha256": "df2488dff79eefff09d900e10908480cd85fef7da637515aa3eb80324f3cc11e"
+    },
+    "baseline-esm/summary.json": {
+      "bytes": 3935,
+      "sha256": "0726983152244b4c07aa90229646a815d33494b3a85fbb9370d18ef9f71e436b"
+    },
+    "baseline-cjs/results.jsonl": {
+      "bytes": 642559,
+      "sha256": "30f5e7e454f3b08d887b5187d741882a4a1f8a56ddad0ecc7acea50557df9c25"
+    },
+    "baseline-cjs/summary.json": {
+      "bytes": 3936,
+      "sha256": "ca5b7cec33bbfd941141151030b0c8d684b52c1ccbd5483bb18a3c16e737df85"
+    },
+    "candidate-esm/results.jsonl": {
+      "bytes": 638872,
+      "sha256": "e8a56be11e7f7ca93824491f1b6478c961620864adad145b2fe45280b62d72ca"
+    },
+    "candidate-esm/summary.json": {
+      "bytes": 3939,
+      "sha256": "de01299fc514466948548942b78a98636b066f6e838614f2b37e59dda04eb031"
+    },
+    "candidate-cjs/results.jsonl": {
+      "bytes": 638860,
+      "sha256": "016cd129803a05cd86e863b8f47dc62800eb17ae9a51df806195a0d1a29da2da"
+    },
+    "candidate-cjs/summary.json": {
+      "bytes": 3940,
+      "sha256": "f1c7f526689cbeeb49e549c90251b6c70cec667d818f0ef74fc04cf34381bb39"
+    },
+    "staged-build/source-provenance.json": {
+      "bytes": 30392,
+      "sha256": "c75b1e1471d3ad0f1e8b5d108f8f304d6b660a7299bb344b7ccc58f446d90e9d"
+    },
+    "staged-build/packed-inventory.json": {
+      "bytes": 37601,
+      "sha256": "519ea60ff698949d19feb10abfe5e469948090879fc3e97721b7d0a3a6202c5e"
+    },
+    "staged-build/predecode-source-inventory.json": {
+      "bytes": 29485,
+      "sha256": "47f0450c2351a20bda86c3f5e854dda531aa9973762dcf0476956bdd26558e73"
+    },
+    "inherited-inputs/frozen-raster-manifest.json": {
+      "bytes": 217308,
+      "sha256": "6cbeb1697861977eb702d46cd228167c72778006ab518c0d5a69d2c75f560428"
+    },
+    "inherited-inputs/generated-manifest.json": {
+      "bytes": 81069,
+      "sha256": "7ecfbb12af6528d3b88ea66b71f821edfb5ea9dcc6979057a683a12aead92375"
+    }
+  }
+}

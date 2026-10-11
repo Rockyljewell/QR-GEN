@@ -1,0 +1,11 @@
+--- base/test/inversion-policy.test.ts
++++ candidate/test/inversion-policy.test.ts
+@@ -2,7 +2,7 @@
+ // SPDX-License-Identifier: Apache-2.0
+ import { beforeEach, describe, expect, it, vi } from "vitest";
+ const read = vi.hoisted(() => vi.fn());
+-vi.mock("zxing-wasm/reader", () => ({ readBarcodes: read }));
++vi.mock("../src/engine/candidate/reader/index.js", () => ({ readBarcodes: read }));
+ import { invertRaster, readWithInversion } from "../src/engine/inversion";
+ import type { DecodeParams } from "../src/engine/protocol";
+ const params: DecodeParams = { formats: ["Code128"], tryHarder: true, tryRotate: true, tryInvert: true, tryDownscale: true, maxNumberOfSymbols: 2 };

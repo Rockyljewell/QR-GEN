@@ -1,0 +1,2822 @@
+{
+  "variant": "baseline",
+  "id": "C03-35-ean-worker",
+  "fixture": "preflight35Y4M",
+  "startedAt": "2026-10-11T16:22:00.189Z",
+  "bootstrap": {
+    "engineVersion": "3.1.5",
+    "binaryEvidence": {},
+    "fixturePixels": [
+      {
+        "id": "preflight35Y4M-preflight",
+        "rgbaSha256": "d541c968327263f312d61784910da4307e1b1eb263171251286080c65d7e309a",
+        "width": 640,
+        "height": 480
+      }
+    ]
+  },
+  "camera": {
+    "id": "C03-35-ean",
+    "startedAt": "2026-10-11T16:22:00.228Z",
+    "options": {
+      "mode": "continuous",
+      "maxResults": 255,
+      "duplicateFilter": 0,
+      "tryHarder": true,
+      "tryInvert": false,
+      "maxDecodeSize": 640,
+      "maxFps": 10,
+      "adaptive": false,
+      "scanArea": {
+        "x": 0,
+        "y": 0,
+        "width": 1,
+        "height": 1
+      },
+      "viewfinder": "none",
+      "resolution": "sd",
+      "beep": false,
+      "vibrate": false,
+      "symbologies": [
+        "ean13"
+      ],
+      "worker": true
+    },
+    "frames": [
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735720368
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735720368
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 17.19999998807907
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735720481
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735720481
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 8
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735720594
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735720594
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 7.400000035762787
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735720716
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735720716
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 7.300000011920929
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735720860
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735720860
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 6.800000011920929
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735720981
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735720981
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 6.5
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735721127
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735721127
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 6.5
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735721248
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735721248
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 7.5
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735721362
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735721362
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 8.599999964237213
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735721481
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735721481
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 6.400000035762787
+      }
+    ],
+    "scans": [
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735720368
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735720368
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735720481
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735720481
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735720594
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735720594
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735720716
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735720716
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735720860
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735720860
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735720981
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735720981
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735721127
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735721127
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735721248
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735721248
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735721362
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735721362
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735721481
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735721481
+          }
+        ]
+      }
+    ],
+    "errors": [],
+    "states": [
+      {
+        "state": "starting",
+        "atMs": 0.8999999761581421
+      },
+      {
+        "state": "scanning",
+        "atMs": 90.29999995231628
+      },
+      {
+        "state": "stopped",
+        "atMs": 1252.3999999761581
+      }
+    ],
+    "ready": {
+      "engine": "worker",
+      "stats": {
+        "decodeMs": 0,
+        "fps": 0,
+        "engine": "worker",
+        "adaptive": null
+      },
+      "atMs": 94.29999995231628,
+      "videoWidth": 640,
+      "videoHeight": 480,
+      "readyState": 4,
+      "exactPixelBytesMatch": true,
+      "resolvedOptions": {
+        "symbologies": [
+          "ean13"
+        ],
+        "mode": "continuous",
+        "duplicateFilter": 0,
+        "beep": false,
+        "vibrate": false,
+        "scanArea": {
+          "x": 0,
+          "y": 0,
+          "width": 1,
+          "height": 1
+        },
+        "maxResults": 255,
+        "tryHarder": true,
+        "maxDecodeSize": 640,
+        "maxFps": 10,
+        "tryInvert": false,
+        "adaptive": null,
+        "viewfinder": "none"
+      },
+      "rgbaSha256": "d541c968327263f312d61784910da4307e1b1eb263171251286080c65d7e309a"
+    },
+    "expectedEngine": "worker",
+    "expectedFailure": false,
+    "statsBeforeCleanup": {
+      "decodeMs": 8.529813916336764,
+      "fps": 8,
+      "engine": "worker",
+      "adaptive": null
+    },
+    "resolvedOptionsEnd": {
+      "symbologies": [
+        "ean13"
+      ],
+      "mode": "continuous",
+      "duplicateFilter": 0,
+      "beep": false,
+      "vibrate": false,
+      "scanArea": {
+        "x": 0,
+        "y": 0,
+        "width": 1,
+        "height": 1
+      },
+      "maxResults": 255,
+      "tryHarder": true,
+      "maxDecodeSize": 640,
+      "maxFps": 10,
+      "tryInvert": false,
+      "adaptive": null,
+      "viewfinder": "none"
+    },
+    "cleanup": {
+      "tracks": [
+        {
+          "kind": "video",
+          "readyState": "ended"
+        }
+      ],
+      "liveCameraTracks": 0,
+      "videoSrcObjectNull": true,
+      "ownedVideoDetached": true
+    },
+    "completedAt": "2026-10-11T16:22:01.481Z",
+    "elapsedMs": 1252.5
+  },
+  "platform": {
+    "workers": [
+      {
+        "url": "blob:http://127.0.0.1:4352/4c91b6db-e690-4681-978a-e6b3b329d78e",
+        "name": "qrgen-decoder",
+        "posts": [
+          {
+            "type": "init",
+            "wasmUrl": "http://127.0.0.1:4352/staged/baseline/dist/wasm/zxing_reader.wasm"
+          },
+          {
+            "type": "decode",
+            "id": 1,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "d541c968327263f312d61784910da4307e1b1eb263171251286080c65d7e309a"
+          },
+          {
+            "type": "decode",
+            "id": 2,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "d541c968327263f312d61784910da4307e1b1eb263171251286080c65d7e309a"
+          },
+          {
+            "type": "decode",
+            "id": 3,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "d541c968327263f312d61784910da4307e1b1eb263171251286080c65d7e309a"
+          },
+          {
+            "type": "decode",
+            "id": 4,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "d541c968327263f312d61784910da4307e1b1eb263171251286080c65d7e309a"
+          },
+          {
+            "type": "decode",
+            "id": 5,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "d541c968327263f312d61784910da4307e1b1eb263171251286080c65d7e309a"
+          },
+          {
+            "type": "decode",
+            "id": 6,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "d541c968327263f312d61784910da4307e1b1eb263171251286080c65d7e309a"
+          },
+          {
+            "type": "decode",
+            "id": 7,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "d541c968327263f312d61784910da4307e1b1eb263171251286080c65d7e309a"
+          },
+          {
+            "type": "decode",
+            "id": 8,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "d541c968327263f312d61784910da4307e1b1eb263171251286080c65d7e309a"
+          },
+          {
+            "type": "decode",
+            "id": 9,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "d541c968327263f312d61784910da4307e1b1eb263171251286080c65d7e309a"
+          },
+          {
+            "type": "decode",
+            "id": 10,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "d541c968327263f312d61784910da4307e1b1eb263171251286080c65d7e309a"
+          }
+        ],
+        "messages": [
+          {
+            "type": "ready"
+          },
+          {
+            "type": "result",
+            "id": 1,
+            "results": [
+              {
+                "format": "EAN13",
+                "text": "7034759003930",
+                "bytes": [
+                  55,
+                  48,
+                  51,
+                  52,
+                  55,
+                  53,
+                  57,
+                  48,
+                  48,
+                  51,
+                  57,
+                  51,
+                  48
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 265,
+                    "y": 418
+                  },
+                  "topRight": {
+                    "x": 265,
+                    "y": 80
+                  },
+                  "bottomRight": {
+                    "x": 241,
+                    "y": 80
+                  },
+                  "bottomLeft": {
+                    "x": 241,
+                    "y": 417
+                  }
+                },
+                "orientation": -90,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              },
+              {
+                "format": "EAN13",
+                "text": "5030159003930",
+                "bytes": [
+                  53,
+                  48,
+                  51,
+                  48,
+                  49,
+                  53,
+                  57,
+                  48,
+                  48,
+                  51,
+                  57,
+                  51,
+                  48
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 413,
+                    "y": 420
+                  },
+                  "topRight": {
+                    "x": 413,
+                    "y": 77
+                  },
+                  "bottomRight": {
+                    "x": 296,
+                    "y": 80
+                  },
+                  "bottomLeft": {
+                    "x": 296,
+                    "y": 418
+                  }
+                },
+                "orientation": -90,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              }
+            ]
+          },
+          {
+            "type": "result",
+            "id": 2,
+            "results": [
+              {
+                "format": "EAN13",
+                "text": "7034759003930",
+                "bytes": [
+                  55,
+                  48,
+                  51,
+                  52,
+                  55,
+                  53,
+                  57,
+                  48,
+                  48,
+                  51,
+                  57,
+                  51,
+                  48
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 265,
+                    "y": 418
+                  },
+                  "topRight": {
+                    "x": 265,
+                    "y": 80
+                  },
+                  "bottomRight": {
+                    "x": 241,
+                    "y": 80
+                  },
+                  "bottomLeft": {
+                    "x": 241,
+                    "y": 417
+                  }
+                },
+                "orientation": -90,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              },
+              {
+                "format": "EAN13",
+                "text": "5030159003930",
+                "bytes": [
+                  53,
+                  48,
+                  51,
+                  48,
+                  49,
+                  53,
+                  57,
+                  48,
+                  48,
+                  51,
+                  57,
+                  51,
+                  48
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 413,
+                    "y": 420
+                  },
+                  "topRight": {
+                    "x": 413,
+                    "y": 77
+                  },
+                  "bottomRight": {
+                    "x": 296,
+                    "y": 80
+                  },
+                  "bottomLeft": {
+                    "x": 296,
+                    "y": 418
+                  }
+                },
+                "orientation": -90,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              }
+            ]
+          },
+          {
+            "type": "result",
+            "id": 3,
+            "results": [
+              {
+                "format": "EAN13",
+                "text": "7034759003930",
+                "bytes": [
+                  55,
+                  48,
+                  51,
+                  52,
+                  55,
+                  53,
+                  57,
+                  48,
+                  48,
+                  51,
+                  57,
+                  51,
+                  48
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 265,
+                    "y": 418
+                  },
+                  "topRight": {
+                    "x": 265,
+                    "y": 80
+                  },
+                  "bottomRight": {
+                    "x": 241,
+                    "y": 80
+                  },
+                  "bottomLeft": {
+                    "x": 241,
+                    "y": 417
+                  }
+                },
+                "orientation": -90,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              },
+              {
+                "format": "EAN13",
+                "text": "5030159003930",
+                "bytes": [
+                  53,
+                  48,
+                  51,
+                  48,
+                  49,
+                  53,
+                  57,
+                  48,
+                  48,
+                  51,
+                  57,
+                  51,
+                  48
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 413,
+                    "y": 420
+                  },
+                  "topRight": {
+                    "x": 413,
+                    "y": 77
+                  },
+                  "bottomRight": {
+                    "x": 296,
+                    "y": 80
+                  },
+                  "bottomLeft": {
+                    "x": 296,
+                    "y": 418
+                  }
+                },
+                "orientation": -90,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              }
+            ]
+          },
+          {
+            "type": "result",
+            "id": 4,
+            "results": [
+              {
+                "format": "EAN13",
+                "text": "7034759003930",
+                "bytes": [
+                  55,
+                  48,
+                  51,
+                  52,
+                  55,
+                  53,
+                  57,
+                  48,
+                  48,
+                  51,
+                  57,
+                  51,
+                  48
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 265,
+                    "y": 418
+                  },
+                  "topRight": {
+                    "x": 265,
+                    "y": 80
+                  },
+                  "bottomRight": {
+                    "x": 241,
+                    "y": 80
+                  },
+                  "bottomLeft": {
+                    "x": 241,
+                    "y": 417
+                  }
+                },
+                "orientation": -90,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              },
+              {
+                "format": "EAN13",
+                "text": "5030159003930",
+                "bytes": [
+                  53,
+                  48,
+                  51,
+                  48,
+                  49,
+                  53,
+                  57,
+                  48,
+                  48,
+                  51,
+                  57,
+                  51,
+                  48
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 413,
+                    "y": 420
+                  },
+                  "topRight": {
+                    "x": 413,
+                    "y": 77
+                  },
+                  "bottomRight": {
+                    "x": 296,
+                    "y": 80
+                  },
+                  "bottomLeft": {
+                    "x": 296,
+                    "y": 418
+                  }
+                },
+                "orientation": -90,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              }
+            ]
+          },
+          {
+            "type": "result",
+            "id": 5,
+            "results": [
+              {
+                "format": "EAN13",
+                "text": "7034759003930",
+                "bytes": [
+                  55,
+                  48,
+                  51,
+                  52,
+                  55,
+                  53,
+                  57,
+                  48,
+                  48,
+                  51,
+                  57,
+                  51,
+                  48
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 265,
+                    "y": 418
+                  },
+                  "topRight": {
+                    "x": 265,
+                    "y": 80
+                  },
+                  "bottomRight": {
+                    "x": 241,
+                    "y": 80
+                  },
+                  "bottomLeft": {
+                    "x": 241,
+                    "y": 417
+                  }
+                },
+                "orientation": -90,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              },
+              {
+                "format": "EAN13",
+                "text": "5030159003930",
+                "bytes": [
+                  53,
+                  48,
+                  51,
+                  48,
+                  49,
+                  53,
+                  57,
+                  48,
+                  48,
+                  51,
+                  57,
+                  51,
+                  48
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 413,
+                    "y": 420
+                  },
+                  "topRight": {
+                    "x": 413,
+                    "y": 77
+                  },
+                  "bottomRight": {
+                    "x": 296,
+                    "y": 80
+                  },
+                  "bottomLeft": {
+                    "x": 296,
+                    "y": 418
+                  }
+                },
+                "orientation": -90,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              }
+            ]
+          },
+          {
+            "type": "result",
+            "id": 6,
+            "results": [
+              {
+                "format": "EAN13",
+                "text": "7034759003930",
+                "bytes": [
+                  55,
+                  48,
+                  51,
+                  52,
+                  55,
+                  53,
+                  57,
+                  48,
+                  48,
+                  51,
+                  57,
+                  51,
+                  48
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 265,
+                    "y": 418
+                  },
+                  "topRight": {
+                    "x": 265,
+                    "y": 80
+                  },
+                  "bottomRight": {
+                    "x": 241,
+                    "y": 80
+                  },
+                  "bottomLeft": {
+                    "x": 241,
+                    "y": 417
+                  }
+                },
+                "orientation": -90,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              },
+              {
+                "format": "EAN13",
+                "text": "5030159003930",
+                "bytes": [
+                  53,
+                  48,
+                  51,
+                  48,
+                  49,
+                  53,
+                  57,
+                  48,
+                  48,
+                  51,
+                  57,
+                  51,
+                  48
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 413,
+                    "y": 420
+                  },
+                  "topRight": {
+                    "x": 413,
+                    "y": 77
+                  },
+                  "bottomRight": {
+                    "x": 296,
+                    "y": 80
+                  },
+                  "bottomLeft": {
+                    "x": 296,
+                    "y": 418
+                  }
+                },
+                "orientation": -90,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              }
+            ]
+          },
+          {
+            "type": "result",
+            "id": 7,
+            "results": [
+              {
+                "format": "EAN13",
+                "text": "7034759003930",
+                "bytes": [
+                  55,
+                  48,
+                  51,
+                  52,
+                  55,
+                  53,
+                  57,
+                  48,
+                  48,
+                  51,
+                  57,
+                  51,
+                  48
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 265,
+                    "y": 418
+                  },
+                  "topRight": {
+                    "x": 265,
+                    "y": 80
+                  },
+                  "bottomRight": {
+                    "x": 241,
+                    "y": 80
+                  },
+                  "bottomLeft": {
+                    "x": 241,
+                    "y": 417
+                  }
+                },
+                "orientation": -90,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              },
+              {
+                "format": "EAN13",
+                "text": "5030159003930",
+                "bytes": [
+                  53,
+                  48,
+                  51,
+                  48,
+                  49,
+                  53,
+                  57,
+                  48,
+                  48,
+                  51,
+                  57,
+                  51,
+                  48
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 413,
+                    "y": 420
+                  },
+                  "topRight": {
+                    "x": 413,
+                    "y": 77
+                  },
+                  "bottomRight": {
+                    "x": 296,
+                    "y": 80
+                  },
+                  "bottomLeft": {
+                    "x": 296,
+                    "y": 418
+                  }
+                },
+                "orientation": -90,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              }
+            ]
+          },
+          {
+            "type": "result",
+            "id": 8,
+            "results": [
+              {
+                "format": "EAN13",
+                "text": "7034759003930",
+                "bytes": [
+                  55,
+                  48,
+                  51,
+                  52,
+                  55,
+                  53,
+                  57,
+                  48,
+                  48,
+                  51,
+                  57,
+                  51,
+                  48
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 265,
+                    "y": 418
+                  },
+                  "topRight": {
+                    "x": 265,
+                    "y": 80
+                  },
+                  "bottomRight": {
+                    "x": 241,
+                    "y": 80
+                  },
+                  "bottomLeft": {
+                    "x": 241,
+                    "y": 417
+                  }
+                },
+                "orientation": -90,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              },
+              {
+                "format": "EAN13",
+                "text": "5030159003930",
+                "bytes": [
+                  53,
+                  48,
+                  51,
+                  48,
+                  49,
+                  53,
+                  57,
+                  48,
+                  48,
+                  51,
+                  57,
+                  51,
+                  48
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 413,
+                    "y": 420
+                  },
+                  "topRight": {
+                    "x": 413,
+                    "y": 77
+                  },
+                  "bottomRight": {
+                    "x": 296,
+                    "y": 80
+                  },
+                  "bottomLeft": {
+                    "x": 296,
+                    "y": 418
+                  }
+                },
+                "orientation": -90,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              }
+            ]
+          },
+          {
+            "type": "result",
+            "id": 9,
+            "results": [
+              {
+                "format": "EAN13",
+                "text": "7034759003930",
+                "bytes": [
+                  55,
+                  48,
+                  51,
+                  52,
+                  55,
+                  53,
+                  57,
+                  48,
+                  48,
+                  51,
+                  57,
+                  51,
+                  48
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 265,
+                    "y": 418
+                  },
+                  "topRight": {
+                    "x": 265,
+                    "y": 80
+                  },
+                  "bottomRight": {
+                    "x": 241,
+                    "y": 80
+                  },
+                  "bottomLeft": {
+                    "x": 241,
+                    "y": 417
+                  }
+                },
+                "orientation": -90,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              },
+              {
+                "format": "EAN13",
+                "text": "5030159003930",
+                "bytes": [
+                  53,
+                  48,
+                  51,
+                  48,
+                  49,
+                  53,
+                  57,
+                  48,
+                  48,
+                  51,
+                  57,
+                  51,
+                  48
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 413,
+                    "y": 420
+                  },
+                  "topRight": {
+                    "x": 413,
+                    "y": 77
+                  },
+                  "bottomRight": {
+                    "x": 296,
+                    "y": 80
+                  },
+                  "bottomLeft": {
+                    "x": 296,
+                    "y": 418
+                  }
+                },
+                "orientation": -90,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              }
+            ]
+          },
+          {
+            "type": "result",
+            "id": 10,
+            "results": [
+              {
+                "format": "EAN13",
+                "text": "7034759003930",
+                "bytes": [
+                  55,
+                  48,
+                  51,
+                  52,
+                  55,
+                  53,
+                  57,
+                  48,
+                  48,
+                  51,
+                  57,
+                  51,
+                  48
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 265,
+                    "y": 418
+                  },
+                  "topRight": {
+                    "x": 265,
+                    "y": 80
+                  },
+                  "bottomRight": {
+                    "x": 241,
+                    "y": 80
+                  },
+                  "bottomLeft": {
+                    "x": 241,
+                    "y": 417
+                  }
+                },
+                "orientation": -90,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              },
+              {
+                "format": "EAN13",
+                "text": "5030159003930",
+                "bytes": [
+                  53,
+                  48,
+                  51,
+                  48,
+                  49,
+                  53,
+                  57,
+                  48,
+                  48,
+                  51,
+                  57,
+                  51,
+                  48
+                ],
+                "contentType": "Text",
+                "position": {
+                  "topLeft": {
+                    "x": 413,
+                    "y": 420
+                  },
+                  "topRight": {
+                    "x": 413,
+                    "y": 77
+                  },
+                  "bottomRight": {
+                    "x": 296,
+                    "y": 80
+                  },
+                  "bottomLeft": {
+                    "x": 296,
+                    "y": 418
+                  }
+                },
+                "orientation": -90,
+                "ecLevel": "",
+                "symbologyIdentifier": "]E0",
+                "isMirrored": false,
+                "isInverted": false
+              }
+            ]
+          }
+        ],
+        "errors": [],
+        "terminated": false
+      }
+    ],
+    "workerBlobs": [
+      {
+        "url": "blob:http://127.0.0.1:4352/4c91b6db-e690-4681-978a-e6b3b329d78e",
+        "type": "text/javascript",
+        "bytes": 37753,
+        "sha256": "89390994cb7b0e2e05fa65ea70a4779e22aec7b13d771b18503fe041159e095d"
+      }
+    ],
+    "binaryBefore": {},
+    "binaryAfter": {},
+    "liveCameraTracks": 0
+  },
+  "http": [
+    {
+      "path": "/",
+      "status": 200,
+      "bytes": 75,
+      "sha256": "ecc5ea3626da4762a369d599c1d02f728af470c340653e163e1acc20fdaa550b",
+      "offlineAtResponse": false
+    },
+    {
+      "path": "/staged/baseline/dist/browser/qrgen.js",
+      "status": 200,
+      "bytes": 217485,
+      "sha256": "173d505011791797f5ceb6d4744b7a47b94d2029f872331864363e2a359d18a1",
+      "offlineAtResponse": false,
+      "pinMatched": true
+    },
+    {
+      "path": "/fixtures/preflight35Y4M-preflight.png",
+      "status": 200,
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "offlineAtResponse": false
+    },
+    {
+      "path": "/staged/baseline/dist/wasm/zxing_reader.wasm",
+      "status": 200,
+      "bytes": 966895,
+      "sha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+      "offlineAtResponse": false,
+      "pinMatched": true
+    }
+  ],
+  "blockedExternalRequests": [],
+  "pageErrors": [],
+  "console": [],
+  "workerEventsBeforeContextClose": [
+    {
+      "type": "created",
+      "url": "blob:http://127.0.0.1:4352/4c91b6db-e690-4681-978a-e6b3b329d78e"
+    }
+  ],
+  "sharedWorkersRetainedBeforeContextClose": 1,
+  "workerEvents": [
+    {
+      "type": "created",
+      "url": "blob:http://127.0.0.1:4352/4c91b6db-e690-4681-978a-e6b3b329d78e"
+    },
+    {
+      "type": "closed",
+      "url": "blob:http://127.0.0.1:4352/4c91b6db-e690-4681-978a-e6b3b329d78e"
+    }
+  ],
+  "liveWorkersAfterContextClose": 0,
+  "browserClosed": true,
+  "completedAt": "2026-10-11T16:22:01.536Z"
+}

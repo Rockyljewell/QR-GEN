@@ -1,0 +1,15 @@
+{
+  "frozenBeforeExecutionAt": "2026-10-11T16:27:15.039Z",
+  "script": {
+    "bytes": 4142,
+    "sha256": "1e783f6c1ec9e9cf62064e44d23f0e7fd156ca6eebf230cfb282a961cd7c37b5"
+  },
+  "harness": {
+    "bytes": 8219,
+    "sha256": "b0506400735ad07b5291e62878fc93739cf84bac044f293f8a47ebfdd841ad6f"
+  },
+  "protocol": {
+    "bytes": 1660,
+    "sha256": "cc5c0157427168db7bf0a1a4f842fba8aa990f6aef0d53f0ab4bfee5719eabf1"
+  }
+}

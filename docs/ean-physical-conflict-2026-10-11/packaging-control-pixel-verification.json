@@ -1,0 +1,79 @@
+{
+  "scope": "Retrospective packaging check of all nine retained generated control PNGs with Pillow; no SDK or barcode decoder execution.",
+  "pillowVersion": "12.3.0",
+  "controls": [
+    {
+      "id": "two-aligned-gap0",
+      "width": 492,
+      "height": 480,
+      "pngSha256": "1fbd7509fe6a2dbd35f21c639688609dff313794701e040baf283db48dc5c18d",
+      "rgbaSha256": "346e8676b7caa722890ed87a35bdf3412354d7a3f15934ecafea139e58769c0c",
+      "passed": true
+    },
+    {
+      "id": "two-aligned-gap16",
+      "width": 492,
+      "height": 496,
+      "pngSha256": "226f3c497b5904817494c336fe55b32141ab8c79c3d5268a2cb1fc87382958f3",
+      "rgbaSha256": "6113370396faf9c1a4b381b465eb2e67e13ed815baf48417d75f29e273eabc26",
+      "passed": true
+    },
+    {
+      "id": "two-aligned-gap96",
+      "width": 492,
+      "height": 576,
+      "pngSha256": "045c7b890a4454f283443b24111ec90cab0121e248a81f9f32f3ed6d6ba4663c",
+      "rgbaSha256": "fe003233980ad0d88299623d21b248ce8c88e5d106765f62af182ae1dffc9d22",
+      "passed": true
+    },
+    {
+      "id": "two-offset-half-span-gap16",
+      "width": 718,
+      "height": 496,
+      "pngSha256": "2937215d8653ea9174c8ee681d0cc287eb720a9bf5eb22b62ed4a30feb95ead0",
+      "rgbaSha256": "83545c86605d004a6267789e80921825a880a61751134754f99e34f40afa4b04",
+      "passed": true
+    },
+    {
+      "id": "two-side-by-side-gap16",
+      "width": 960,
+      "height": 260,
+      "pngSha256": "6343516cf4f9e00d8061cfcc9686ebd6277a6b9cffed5f7b6a1e6eee0f426d7f",
+      "rgbaSha256": "c8643c32206d8072ece2c9ecb2e36f1b524f7f5f531b3e7c4496afc12cf31fa6",
+      "passed": true
+    },
+    {
+      "id": "two-same-payload-aligned-gap16",
+      "width": 492,
+      "height": 496,
+      "pngSha256": "4ffa534a3c0183e21fdeb7622e1eebfee9c7fb2b54a9908c07042d7af8b2a8cd",
+      "rgbaSha256": "86d3da4abffed2ae2592e97b79771bf5df2a147de2a32467ea20b5ac431a0971",
+      "passed": true
+    },
+    {
+      "id": "two-aligned-gap16-rotate90",
+      "width": 496,
+      "height": 492,
+      "pngSha256": "050de599f3b5c4f300f449cab0e6279b86cddc8d3cb4f7f0c3bc30a96b241132",
+      "rgbaSha256": "0352f03ba428165ba81ae50a1cc9f7d4bbe901cfe92e70cc492e834ffbba87dc",
+      "passed": true
+    },
+    {
+      "id": "single-with-white-band4",
+      "width": 492,
+      "height": 260,
+      "pngSha256": "eb37f5175ea4e096f6e529450dc72295a81b621bcbb06bf128156c1e1159edc7",
+      "rgbaSha256": "458b37b860ce43a0aea0726c0fef84ee66d7e054d85d31bee198fdaefd2bdca3",
+      "passed": true
+    },
+    {
+      "id": "single-with-white-band16",
+      "width": 492,
+      "height": 260,
+      "pngSha256": "40ba646e2958d6202807a9b57a6a755a61df569ad8d7daad18c751a8ea8d6f9b",
+      "rgbaSha256": "dbd78dd610dfb7f5113ad0b736767eb4004f9f1c77afd6ace0a141b4d4d97b24",
+      "passed": true
+    }
+  ],
+  "failures": 0
+}

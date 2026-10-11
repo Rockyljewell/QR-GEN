@@ -1,0 +1,216 @@
+{
+  "scope": "Derived path-tokenized view, not original frozen plan bytes or an executable replay configuration.",
+  "originalPlanSha256": "d50418f8906c4788fca6c8611916631b60fccdbab57dd5331fe6fb7bb9acdb1f",
+  "originalPlanBytes": 8874,
+  "pathTokens": {
+    "${ARTIFACT_ROOT}": "Original frozen diagnostic artifact cache root; original identities and hashes are retained.",
+    "${QRGEN_CHECKOUT}": "Existing SDK checkout/dependencies used by the original artifact-only study."
+  },
+  "plan": {
+    "schemaVersion": 1,
+    "frozenAt": "2026-10-11T16:09:14.507Z",
+    "scope": "Read-only physical-symbol conflict feasibility; no decoder policy/filter, build, repository, or remote mutation.",
+    "motivation": "Known /1/35 conflict; not a held-out or blinded case. Existing reports/photographs were seen before this protocol. No payload or expected-truth field may enter geometry extraction, pair measurement, or control placement.",
+    "inputs": {
+      "rowTrace": {
+        "path": "${ARTIFACT_ROOT}\\ean-cpp-source-trace\\review-package\\recorded-row-trace.json",
+        "bytes": 380285,
+        "sha256": "2246fccb77899f16b202f71b18a90c70fe5e93553eb51a65acbbe3128f0c0ad3"
+      },
+      "selectedSummary": {
+        "path": "${ARTIFACT_ROOT}\\ean-cpp-source-trace\\review-package\\recorded-selected-summary.json",
+        "bytes": 10519,
+        "sha256": "36e90e16a6a202afe4c0d38715df1cd8edf3a5a2fb4af0d3f84b7a03dff6a550"
+      },
+      "baselineProfiles": {
+        "path": "${ARTIFACT_ROOT}\\rebuilt-ean\\actual-matrix-v1\\baseline-conformance.jsonl",
+        "bytes": 5601381,
+        "sha256": "5d6408faf85669bc8f90a4c1cbb911e7c4388ea77839c0ca4148efc5d9469199"
+      },
+      "frozenPlan": {
+        "path": "${ARTIFACT_ROOT}\\rebuilt-ean\\actual-matrix-v1\\evaluation-plan.json",
+        "bytes": 2606072,
+        "sha256": "03eb911057351f594004eb3450f1a83b60e00360dbadefccda8d709e0403a4ab"
+      },
+      "original35": {
+        "path": "${ARTIFACT_ROOT}\\ean-linecount-study\\images\\ean13-1-35.png",
+        "bytes": 319851,
+        "sha256": "7af8136324f36808b4a6646edd423a4d17a7b7ef19dec8b65950a1bebc57205d"
+      },
+      "derived35": {
+        "path": "${ARTIFACT_ROOT}\\ean-linecount-study\\derived\\ean13-1-35.png",
+        "bytes": 392037,
+        "sha256": "2b7d140b923768d05bb9f8a7f1fb2dc5c5155601ea80529c7a0753373928f2f9"
+      },
+      "original07": {
+        "path": "${ARTIFACT_ROOT}\\ean-linecount-study\\images\\ean13-2-07.png",
+        "bytes": 76331,
+        "sha256": "449dc5aeddd91d7223ea63e0ff0380c9ae115771fe13827917895f9e56b30e00"
+      },
+      "chrome07": {
+        "path": "${ARTIFACT_ROOT}\\ean-linecount-study\\images\\chrome-ean13-2-07-full.png",
+        "bytes": 193449,
+        "sha256": "63783fca63db9e02e42cd905cae39630fd68acdcdb5ba7bb265e5f5a076e7399"
+      },
+      "sdk": {
+        "path": "${QRGEN_CHECKOUT}\\packages\\sdk\\dist\\node.js",
+        "bytes": 1027,
+        "sha256": "caa8ca4f45a5e871f1fc19965344c4c6b670349f5e1763523140277431ddcfd9"
+      },
+      "releasedWasm": {
+        "path": "${QRGEN_CHECKOUT}\\packages\\sdk\\node_modules\\zxing-wasm\\dist\\reader\\zxing_reader.wasm",
+        "bytes": 966895,
+        "sha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931"
+      }
+    },
+    "measurementPlan": {
+      "frozenProfiles": "Existing baseline EAN13 hard, max255, minLineCount2, Ignore addons, downscale=false; original35, derived35, original07 and actualChrome07. Also summarize geometry collisions across all 479 frozen rasters under this same profile.",
+      "resultGeometry": "Use normalized returned positions only. Symbol axis is midpoint(topRight,bottomRight)-midpoint(topLeft,bottomLeft); compute axis-aligned projections on dominant image axis, perpendicular support extents, pair projected intersection/union, exact orientation agreement, and perpendicular gap. Geometry functions cannot read text, bytes, truth, validity or lineCount.",
+      "candidatePairDefinition": "Descriptive projection-only relation: same dominant axis and projected intervals have positive intersection. This deliberately overbroad relation is tested for false grouping; it is not a physical-symbol classifier.",
+      "connectedInkQuestion": "Existing output geometry and accepted-row traces do not expose a verified complete physical bar support mask. Photographs may be inspected to assess this information gap; no thresholded component segmentation or hand-picked crop is proposed as evidence.",
+      "rowTrace": "Summarize accepted-row extents/coordinates for all returned groups of the four focus rasters. Do not treat source-port max1/max2 as actual-engine scheduling evidence."
+    },
+    "controls": [
+      {
+        "id": "two-aligned-gap0",
+        "kind": "two",
+        "direction": "perpendicular",
+        "gap": 0,
+        "offset": 0,
+        "rotate": 0,
+        "payloads": [
+          "5901234123457",
+          "9780306406157"
+        ]
+      },
+      {
+        "id": "two-aligned-gap16",
+        "kind": "two",
+        "direction": "perpendicular",
+        "gap": 16,
+        "offset": 0,
+        "rotate": 0,
+        "payloads": [
+          "5901234123457",
+          "9780306406157"
+        ]
+      },
+      {
+        "id": "two-aligned-gap96",
+        "kind": "two",
+        "direction": "perpendicular",
+        "gap": 96,
+        "offset": 0,
+        "rotate": 0,
+        "payloads": [
+          "5901234123457",
+          "9780306406157"
+        ]
+      },
+      {
+        "id": "two-offset-half-span-gap16",
+        "kind": "two",
+        "direction": "perpendicular",
+        "gap": 16,
+        "offset": "half-image-width",
+        "rotate": 0,
+        "payloads": [
+          "5901234123457",
+          "9780306406157"
+        ]
+      },
+      {
+        "id": "two-side-by-side-gap16",
+        "kind": "two",
+        "direction": "along-symbol",
+        "gap": 16,
+        "offset": 0,
+        "rotate": 0,
+        "payloads": [
+          "5901234123457",
+          "9780306406157"
+        ]
+      },
+      {
+        "id": "two-same-payload-aligned-gap16",
+        "kind": "two",
+        "direction": "perpendicular",
+        "gap": 16,
+        "offset": 0,
+        "rotate": 0,
+        "payloads": [
+          "5901234123457",
+          "5901234123457"
+        ]
+      },
+      {
+        "id": "two-aligned-gap16-rotate90",
+        "kind": "two",
+        "direction": "perpendicular",
+        "gap": 16,
+        "offset": 0,
+        "rotate": 90,
+        "payloads": [
+          "5901234123457",
+          "9780306406157"
+        ]
+      },
+      {
+        "id": "single-with-white-band4",
+        "kind": "single-white-band",
+        "band": 4,
+        "rotate": 0,
+        "payloads": [
+          "5901234123457"
+        ]
+      },
+      {
+        "id": "single-with-white-band16",
+        "kind": "single-white-band",
+        "band": 16,
+        "rotate": 0,
+        "payloads": [
+          "5901234123457"
+        ]
+      }
+    ],
+    "generator": {
+      "existingBuiltSdk": true,
+      "options": {
+        "symbology": "ean13",
+        "scale": 4
+      },
+      "placement": "20px outer white padding. Two-symbol controls copy exact opaque PNGs; perpendicular gap is between complete PNGs, including their existing quiet padding. Half-span offset is floor(PNG width/2). White-band controls overwrite central 4/16 complete raster rows with opaque white. Rotate90 is an exact nearest-neighbor pixel permutation of the complete composite."
+    },
+    "controlReader": {
+      "engine": "Unmodified released zxing-wasm3.1.5",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryDownscale": false,
+        "tryInvert": false,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    "decisionRules": [
+      "A projection-only pair relation that groups a two-symbol control fails as a safe physical-symbol identity rule. Do not tune an overlap/gap/support threshold after seeing failures.",
+      "No majority/support winner or known-truth replacement may be selected. Retain contradictory values and mark the inference undecided.",
+      "No physical identity conclusion follows solely from two disjoint output strips with shared projected span. Document instrumentation needed to distinguish one distorted symbol from two real codes.",
+      "Any recommended next experiment must freeze geometry and analysis criteria before truth review on new controls/held-out images."
+    ],
+    "limitations": [
+      "Known selected development cases and generated controls; no population accuracy or Scandit comparison.",
+      "Returned boxes are accepted-scanline envelopes, not complete physical barcode boundaries.",
+      "Early exit/downscale/inversion can change scheduling. Existing actual paired max1/2 records provide outputs but no complete attempted-row trace.",
+      "Photograph inspection is qualitative and cannot justify production thresholds."
+    ]
+  }
+}

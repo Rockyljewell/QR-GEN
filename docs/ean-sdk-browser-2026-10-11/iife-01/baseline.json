@@ -1,0 +1,319 @@
+{
+  "variant": "baseline",
+  "startedAt": "2026-10-11T16:27:15.240Z",
+  "browserVersion": "153.0.8010.12",
+  "scope": "Classic script window.QRGen public integration only; no camera/Worker started.",
+  "observations": {
+    "globalName": "window.QRGen",
+    "engineVersion": "3.1.5",
+    "writer": [
+      {
+        "id": "qr",
+        "data": "QRGEN-STAGED-SDK-20261011",
+        "options": {
+          "symbology": "qr",
+          "scale": 4,
+          "margin": true
+        },
+        "svgSha256": "ee103eb5ecef60de874940c7880cd2bbc055d8a4c5c9b1a093dcfad6182630fe",
+        "matrix": {
+          "width": 21,
+          "height": 21,
+          "sha256": "b1be55d5900ca64e521e74369d2efd60b1467ddab8048d08b483119fc1db386a"
+        },
+        "png": {
+          "bytes": 528,
+          "sha256": "ee9ed8bea58e8ba2d26f8d6651560699e628ea1a550aa910fcc42d0daf236fe7"
+        },
+        "roundTrip": [
+          {
+            "data": "QRGEN-STAGED-SDK-20261011",
+            "symbology": "qr",
+            "symbologyName": "QR Code",
+            "rawBytes": "UVJHRU4tU1RBR0VELVNESy0yMDI2MTAxMQ==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 16,
+                "y": 16
+              },
+              "topRight": {
+                "x": 100,
+                "y": 16
+              },
+              "bottomRight": {
+                "x": 101,
+                "y": 101
+              },
+              "bottomLeft": {
+                "x": 16,
+                "y": 100
+              }
+            },
+            "frameSize": {
+              "width": 116,
+              "height": 116
+            },
+            "orientation": 0,
+            "ecLevel": "L",
+            "symbologyIdentifier": "]Q1",
+            "timestamp": 1791736035338
+          }
+        ]
+      },
+      {
+        "id": "ean13",
+        "data": "5901234123457",
+        "options": {
+          "symbology": "ean13",
+          "scale": 3,
+          "margin": true,
+          "hrt": false
+        },
+        "svgSha256": "9192630888333621162fcf1af0d31f4402b9c3320fdf08b006f93e8c1ea0a48d",
+        "matrix": {
+          "width": 95,
+          "height": 55,
+          "sha256": "890e4317e3d604fc016e94ba8ecebba6d1705e3835193d52fdbafa82da8114ec"
+        },
+        "png": {
+          "bytes": 814,
+          "sha256": "5ea0cc8106ffd6d02d6d169c18d6ee9dd827ea8c9cb5ae7fb3f16ca696b8e404"
+        },
+        "roundTrip": null
+      }
+    ],
+    "images": [
+      {
+        "id": "iife-cleanQR",
+        "startedAt": "2026-10-11T16:27:15.341Z",
+        "completedAt": "2026-10-11T16:27:15.342Z",
+        "elapsedMs": 0.8999999761581421,
+        "input": "ImageData",
+        "fixture": "cleanQR",
+        "options": {
+          "symbologies": [
+            "qr"
+          ],
+          "tryHarder": true,
+          "tryInvert": true,
+          "maxResults": 1
+        },
+        "outputs": [
+          {
+            "data": "QRGEN-RAW-READER-CONTROL-20261011",
+            "symbology": "qr",
+            "symbologyName": "QR Code",
+            "rawBytes": "UVJHRU4tUkFXLVJFQURFUi1DT05UUk9MLTIwMjYxMDEx",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 12,
+                "y": 12
+              },
+              "topRight": {
+                "x": 87,
+                "y": 12
+              },
+              "bottomRight": {
+                "x": 87,
+                "y": 87
+              },
+              "bottomLeft": {
+                "x": 12,
+                "y": 87
+              }
+            },
+            "frameSize": {
+              "width": 99,
+              "height": 99
+            },
+            "orientation": 0,
+            "ecLevel": "M",
+            "symbologyIdentifier": "]Q1",
+            "timestamp": 1791736035342
+          }
+        ]
+      },
+      {
+        "id": "iife-cleanEAN",
+        "startedAt": "2026-10-11T16:27:15.342Z",
+        "completedAt": "2026-10-11T16:27:15.347Z",
+        "elapsedMs": 5.399999976158142,
+        "input": "Blob",
+        "fixture": "cleanEAN",
+        "options": {
+          "symbologies": [
+            "ean13"
+          ],
+          "tryHarder": true,
+          "tryInvert": true,
+          "maxResults": 1
+        },
+        "outputs": [
+          {
+            "data": "5901234123457",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTkwMTIzNDEyMzQ1Nw==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 33,
+                "y": 81
+              },
+              "topRight": {
+                "x": 317,
+                "y": 81
+              },
+              "bottomRight": {
+                "x": 317,
+                "y": 82
+              },
+              "bottomLeft": {
+                "x": 33,
+                "y": 82
+              }
+            },
+            "frameSize": {
+              "width": 339,
+              "height": 165
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791736035347
+          }
+        ]
+      },
+      {
+        "id": "iife-actual07",
+        "startedAt": "2026-10-11T16:27:15.347Z",
+        "completedAt": "2026-10-11T16:27:15.353Z",
+        "elapsedMs": 6.300000011920929,
+        "input": "ImageData",
+        "fixture": "actual07",
+        "options": {
+          "symbologies": [
+            "ean13"
+          ],
+          "tryHarder": true,
+          "tryInvert": false,
+          "maxResults": 255
+        },
+        "outputs": [
+          {
+            "data": "0798884816632",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 188,
+                "y": 207
+              },
+              "topRight": {
+                "x": 424,
+                "y": 207
+              },
+              "bottomRight": {
+                "x": 424,
+                "y": 209
+              },
+              "bottomLeft": {
+                "x": 188,
+                "y": 209
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": 0,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791736035353
+          }
+        ]
+      }
+    ],
+    "platform": {
+      "workers": [],
+      "workerBlobs": [],
+      "binaryBefore": {},
+      "binaryAfter": {},
+      "liveCameraTracks": 0
+    },
+    "inputPixels": [
+      {
+        "id": "actual07",
+        "rgbaSha256": "ec287e182dca32d86261e719e4a9525277023ba1872394ca6d4fa4e454fc7107"
+      },
+      {
+        "id": "cleanEAN",
+        "rgbaSha256": "536b34274f30464506edda1ab791e54b60e67d6afe45e6b9d5079f7913543e44"
+      },
+      {
+        "id": "cleanQR",
+        "rgbaSha256": "4a2a4e949cae2220528225fd4d875085fa9026da4a66ee48a447dad4aa867d1a"
+      }
+    ]
+  },
+  "http": [
+    {
+      "path": "/",
+      "status": 200,
+      "bytes": 75,
+      "sha256": "ecc5ea3626da4762a369d599c1d02f728af470c340653e163e1acc20fdaa550b"
+    },
+    {
+      "path": "/staged/baseline/dist/browser/qrgen.iife.js",
+      "status": 200,
+      "bytes": 218120,
+      "sha256": "8ad0adbe54300c0271e8394a93a9351c6c3d7b38dea2abcc5d8a4067bcfb09b3",
+      "pinMatched": true
+    },
+    {
+      "path": "/fixtures/actual07.png",
+      "status": 200,
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/fixtures/cleanEAN.png",
+      "status": 200,
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/fixtures/cleanQR.png",
+      "status": 200,
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/staged/baseline/dist/wasm/zxing_writer.wasm",
+      "status": 200,
+      "bytes": 647500,
+      "sha256": "af26f895fe471d23cb2d742bc3eca0695dbecb4ea6bad9b92eba3763ec505941",
+      "pinMatched": true
+    },
+    {
+      "path": "/staged/baseline/dist/wasm/zxing_reader.wasm",
+      "status": 200,
+      "bytes": 966895,
+      "sha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+      "pinMatched": true
+    }
+  ],
+  "blockedExternalRequests": [],
+  "pageErrors": [],
+  "console": [],
+  "browserClosed": true,
+  "completedAt": "2026-10-11T16:27:15.391Z"
+}

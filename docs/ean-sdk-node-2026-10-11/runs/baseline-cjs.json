@@ -1,0 +1,149 @@
+{
+  "label": "baseline",
+  "format": "cjs",
+  "node": "v24.19.0",
+  "startedAt": "2026-10-11T16:19:38.530Z",
+  "completedAt": "2026-10-11T16:19:52.599Z",
+  "entry": "<ARTIFACT_ROOT>\\staged-sdk-study-v1\\consumers\\baseline\\package\\dist\\node.cjs",
+  "entrySha256": "c2c63791ac8f24ee05e689e6b95eeb9ff99a5e350ac3874d21dea74a6fcf4345",
+  "expectedReaderSha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+  "assets": {
+    "reader": {
+      "path": "<ARTIFACT_ROOT>\\staged-sdk-study-v1\\consumers\\baseline\\package\\dist\\wasm\\zxing_reader.wasm",
+      "bytes": 966895,
+      "sha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931"
+    },
+    "writer": {
+      "path": "<ARTIFACT_ROOT>\\staged-sdk-study-v1\\consumers\\baseline\\package\\dist\\wasm\\zxing_writer.wasm",
+      "bytes": 647500,
+      "sha256": "af26f895fe471d23cb2d742bc3eca0695dbecb4ea6bad9b92eba3763ec505941"
+    }
+  },
+  "compiledWasm": [
+    {
+      "sha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+      "bytes": 966895,
+      "count": 1,
+      "via": [
+        "instantiate"
+      ]
+    }
+  ],
+  "networkAttempts": [],
+  "planSha256": "1e6042ae022e0e902410aaf8094918cef564c2e01d438a7932598d29fd497a65",
+  "runnerSha256": "4623edcc287a83c504e81dd7cff7e0f73ab25b85a0d46a538497278855ae42ea",
+  "profiles": 1162,
+  "successful": 1162,
+  "errors": [],
+  "mutations": 0,
+  "validationFailures": 0,
+  "provenanceErrors": [],
+  "capabilities": {
+    "runtime": "non-browser",
+    "engine": {
+      "name": "zxing-wasm",
+      "version": "3.1.5",
+      "webAssembly": true,
+      "read": [
+        "qr",
+        "micro-qr",
+        "rmqr",
+        "data-matrix",
+        "aztec",
+        "pdf417",
+        "micro-pdf417",
+        "maxicode",
+        "ean13",
+        "ean8",
+        "upca",
+        "upce",
+        "isbn",
+        "code128",
+        "code39",
+        "code93",
+        "codabar",
+        "itf",
+        "itf14",
+        "databar",
+        "databar-expanded",
+        "databar-limited",
+        "code32",
+        "pzn",
+        "telepen",
+        "dx-film-edge"
+      ],
+      "write": [
+        "qr",
+        "micro-qr",
+        "rmqr",
+        "data-matrix",
+        "aztec",
+        "pdf417",
+        "micro-pdf417",
+        "maxicode",
+        "ean13",
+        "ean8",
+        "upca",
+        "upce",
+        "isbn",
+        "code128",
+        "code39",
+        "code93",
+        "codabar",
+        "itf",
+        "itf14",
+        "databar",
+        "databar-expanded",
+        "databar-limited",
+        "code32",
+        "pzn",
+        "telepen",
+        "dx-film-edge"
+      ]
+    },
+    "camera": {
+      "status": "not-browser",
+      "secureContext": null,
+      "getUserMedia": false,
+      "permission": "not-queried",
+      "devices": "not-queried"
+    },
+    "worker": {
+      "available": false,
+      "configured": false
+    },
+    "barcodeDetector": {
+      "available": false,
+      "formatQueryAvailable": false,
+      "formats": "not-queried",
+      "usedByQRGen": false
+    },
+    "assets": {
+      "reader": {
+        "source": "binary",
+        "binaryBytes": 966895
+      },
+      "writer": {
+        "source": "binary",
+        "binaryBytes": 647500
+      },
+      "offlineReadiness": "unverified"
+    }
+  },
+  "memoryBefore": {
+    "rss": 54079488,
+    "heapTotal": 12574720,
+    "heapUsed": 8697536,
+    "external": 7777851,
+    "arrayBuffers": 2828916
+  },
+  "memoryAfter": {
+    "rss": 166948864,
+    "heapTotal": 47124480,
+    "heapUsed": 12245896,
+    "external": 63288678,
+    "arrayBuffers": 38287292
+  },
+  "resultsSha256": "30f5e7e454f3b08d887b5187d741882a4a1f8a56ddad0ecc7acea50557df9c25",
+  "status": "passed"
+}

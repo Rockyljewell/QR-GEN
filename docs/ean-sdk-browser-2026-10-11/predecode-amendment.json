@@ -1,0 +1,12 @@
+{
+  "frozenAt": "2026-10-11T16:19:44.454Z",
+  "beforeAnyStagedSdkDecode": true,
+  "originalProtocolSha256": "5729e29319251cd0f1cecc32c446eb8f30dc7f9a27d650a47a6eb7c7c14e8361",
+  "reason": "Bind actual isolated consumer builds accurately; no behavioral policy changes.",
+  "changes": [
+    "Candidate config.ts changes ONLY its ZXING_WASM_VERSION metadata import to the matched private reader graph. Version remains3.1.5, default CDN remains released and MUST be overridden for this study. No config logic change.",
+    "Baseline uses exact-base official released3.1.5 dependency reader graph; its released reader WASM is byte-identical to the rebuilt baseline artifact. Do not assert baseline rebuilt wrapper identity if source bytes differ.",
+    "No esbuild metafile/input graph was retained. Provenance consists of root frozen source inventory, direct actual dependency/private graph hashes, generated embedded Worker string and built consumer assets. Do not label this an esbuild metafile.",
+    "Successful root staging and this explicit artifact-only execution authorization supersede original awaiting-execution status. Original policy bytes remain unchanged."
+  ]
+}

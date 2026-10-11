@@ -1,0 +1,5518 @@
+{
+  "scope": "Decode-free independent review of retained artifacts and current real SDK tracked source content after explicit CRLF normalization; not a historical filesystem audit or full SDK/runtime certification.",
+  "base": "6d3728f569f1cd5031fa8ca40ec090c8ff6bdf5b",
+  "checks": 913,
+  "failures": [],
+  "stageDiffs": {
+    "baseline": [
+      "package.json"
+    ],
+    "candidate": [
+      "package.json",
+      "scripts/postbuild.mjs",
+      "src/engine/config.ts",
+      "src/engine/decoder.ts",
+      "src/engine/inversion.ts",
+      "src/engine/worker.ts",
+      "src/node/index.ts",
+      "test/inversion-policy.test.ts"
+    ]
+  },
+  "archives": {
+    "baseline": {
+      "archiveSha256": "b1c94ed2a326fe98213013269a8e99cf28ceb23b40c4e1f3e59d22495f5b97f8",
+      "files": 95,
+      "exportLeaves": 28,
+      "exports": [
+        {
+          "conditions": [
+            ".",
+            "types"
+          ],
+          "target": "./dist/index.d.ts"
+        },
+        {
+          "conditions": [
+            ".",
+            "import"
+          ],
+          "target": "./dist/index.js"
+        },
+        {
+          "conditions": [
+            ".",
+            "require"
+          ],
+          "target": "./dist/index.cjs"
+        },
+        {
+          "conditions": [
+            "./elements",
+            "types"
+          ],
+          "target": "./dist/elements.d.ts"
+        },
+        {
+          "conditions": [
+            "./elements",
+            "import"
+          ],
+          "target": "./dist/elements.js"
+        },
+        {
+          "conditions": [
+            "./elements",
+            "require"
+          ],
+          "target": "./dist/elements.cjs"
+        },
+        {
+          "conditions": [
+            "./react",
+            "types"
+          ],
+          "target": "./dist/react.d.ts"
+        },
+        {
+          "conditions": [
+            "./react",
+            "import"
+          ],
+          "target": "./dist/react.js"
+        },
+        {
+          "conditions": [
+            "./react",
+            "require"
+          ],
+          "target": "./dist/react.cjs"
+        },
+        {
+          "conditions": [
+            "./vue",
+            "types"
+          ],
+          "target": "./dist/vue.d.ts"
+        },
+        {
+          "conditions": [
+            "./vue",
+            "import"
+          ],
+          "target": "./dist/vue.js"
+        },
+        {
+          "conditions": [
+            "./vue",
+            "require"
+          ],
+          "target": "./dist/vue.cjs"
+        },
+        {
+          "conditions": [
+            "./parsers",
+            "types"
+          ],
+          "target": "./dist/parsers.d.ts"
+        },
+        {
+          "conditions": [
+            "./parsers",
+            "import"
+          ],
+          "target": "./dist/parsers.js"
+        },
+        {
+          "conditions": [
+            "./parsers",
+            "require"
+          ],
+          "target": "./dist/parsers.cjs"
+        },
+        {
+          "conditions": [
+            "./node",
+            "types"
+          ],
+          "target": "./dist/node.d.ts"
+        },
+        {
+          "conditions": [
+            "./node",
+            "import"
+          ],
+          "target": "./dist/node.js"
+        },
+        {
+          "conditions": [
+            "./node",
+            "require"
+          ],
+          "target": "./dist/node.cjs"
+        },
+        {
+          "conditions": [
+            "./server",
+            "types"
+          ],
+          "target": "./dist/server.d.ts"
+        },
+        {
+          "conditions": [
+            "./server",
+            "import"
+          ],
+          "target": "./dist/server.js"
+        },
+        {
+          "conditions": [
+            "./server",
+            "require"
+          ],
+          "target": "./dist/server.cjs"
+        },
+        {
+          "conditions": [
+            "./bridge",
+            "types"
+          ],
+          "target": "./dist/bridge.d.ts"
+        },
+        {
+          "conditions": [
+            "./bridge",
+            "import"
+          ],
+          "target": "./dist/bridge.js"
+        },
+        {
+          "conditions": [
+            "./bridge",
+            "require"
+          ],
+          "target": "./dist/bridge.cjs"
+        },
+        {
+          "conditions": [
+            "./browser"
+          ],
+          "target": "./dist/browser/qrgen.js"
+        },
+        {
+          "conditions": [
+            "./wasm/reader.wasm"
+          ],
+          "target": "./dist/wasm/zxing_reader.wasm"
+        },
+        {
+          "conditions": [
+            "./wasm/writer.wasm"
+          ],
+          "target": "./dist/wasm/zxing_writer.wasm"
+        },
+        {
+          "conditions": [
+            "./package.json"
+          ],
+          "target": "./package.json"
+        }
+      ]
+    },
+    "candidate": {
+      "archiveSha256": "d04e4bd4b1d693c91ab37fbb4aac40ce79f6f5024c2c4f047aa46d8f55fb8033",
+      "files": 95,
+      "exportLeaves": 28,
+      "exports": [
+        {
+          "conditions": [
+            ".",
+            "types"
+          ],
+          "target": "./dist/index.d.ts"
+        },
+        {
+          "conditions": [
+            ".",
+            "import"
+          ],
+          "target": "./dist/index.js"
+        },
+        {
+          "conditions": [
+            ".",
+            "require"
+          ],
+          "target": "./dist/index.cjs"
+        },
+        {
+          "conditions": [
+            "./elements",
+            "types"
+          ],
+          "target": "./dist/elements.d.ts"
+        },
+        {
+          "conditions": [
+            "./elements",
+            "import"
+          ],
+          "target": "./dist/elements.js"
+        },
+        {
+          "conditions": [
+            "./elements",
+            "require"
+          ],
+          "target": "./dist/elements.cjs"
+        },
+        {
+          "conditions": [
+            "./react",
+            "types"
+          ],
+          "target": "./dist/react.d.ts"
+        },
+        {
+          "conditions": [
+            "./react",
+            "import"
+          ],
+          "target": "./dist/react.js"
+        },
+        {
+          "conditions": [
+            "./react",
+            "require"
+          ],
+          "target": "./dist/react.cjs"
+        },
+        {
+          "conditions": [
+            "./vue",
+            "types"
+          ],
+          "target": "./dist/vue.d.ts"
+        },
+        {
+          "conditions": [
+            "./vue",
+            "import"
+          ],
+          "target": "./dist/vue.js"
+        },
+        {
+          "conditions": [
+            "./vue",
+            "require"
+          ],
+          "target": "./dist/vue.cjs"
+        },
+        {
+          "conditions": [
+            "./parsers",
+            "types"
+          ],
+          "target": "./dist/parsers.d.ts"
+        },
+        {
+          "conditions": [
+            "./parsers",
+            "import"
+          ],
+          "target": "./dist/parsers.js"
+        },
+        {
+          "conditions": [
+            "./parsers",
+            "require"
+          ],
+          "target": "./dist/parsers.cjs"
+        },
+        {
+          "conditions": [
+            "./node",
+            "types"
+          ],
+          "target": "./dist/node.d.ts"
+        },
+        {
+          "conditions": [
+            "./node",
+            "import"
+          ],
+          "target": "./dist/node.js"
+        },
+        {
+          "conditions": [
+            "./node",
+            "require"
+          ],
+          "target": "./dist/node.cjs"
+        },
+        {
+          "conditions": [
+            "./server",
+            "types"
+          ],
+          "target": "./dist/server.d.ts"
+        },
+        {
+          "conditions": [
+            "./server",
+            "import"
+          ],
+          "target": "./dist/server.js"
+        },
+        {
+          "conditions": [
+            "./server",
+            "require"
+          ],
+          "target": "./dist/server.cjs"
+        },
+        {
+          "conditions": [
+            "./bridge",
+            "types"
+          ],
+          "target": "./dist/bridge.d.ts"
+        },
+        {
+          "conditions": [
+            "./bridge",
+            "import"
+          ],
+          "target": "./dist/bridge.js"
+        },
+        {
+          "conditions": [
+            "./bridge",
+            "require"
+          ],
+          "target": "./dist/bridge.cjs"
+        },
+        {
+          "conditions": [
+            "./browser"
+          ],
+          "target": "./dist/browser/qrgen.js"
+        },
+        {
+          "conditions": [
+            "./wasm/reader.wasm"
+          ],
+          "target": "./dist/wasm/zxing_reader.wasm"
+        },
+        {
+          "conditions": [
+            "./wasm/writer.wasm"
+          ],
+          "target": "./dist/wasm/zxing_writer.wasm"
+        },
+        {
+          "conditions": [
+            "./package.json"
+          ],
+          "target": "./package.json"
+        }
+      ]
+    }
+  },
+  "smokes": [
+    {
+      "file": "node18-baseline-esm-smoke.json",
+      "node": "v18.17.0",
+      "entrySha256": "7bfb0f3a7c31ed1b3c08f36183880e584a5d3813d6d98cbc0f7b30db43b722a5",
+      "instantiated": [
+        {
+          "sha256": "af26f895fe471d23cb2d742bc3eca0695dbecb4ea6bad9b92eba3763ec505941",
+          "bytes": 647500
+        },
+        {
+          "sha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+          "bytes": 966895
+        }
+      ],
+      "cases": 3,
+      "resultCounts": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "file": "node18-baseline-cjs-smoke.json",
+      "node": "v18.17.0",
+      "entrySha256": "c2c63791ac8f24ee05e689e6b95eeb9ff99a5e350ac3874d21dea74a6fcf4345",
+      "instantiated": [
+        {
+          "sha256": "af26f895fe471d23cb2d742bc3eca0695dbecb4ea6bad9b92eba3763ec505941",
+          "bytes": 647500
+        },
+        {
+          "sha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+          "bytes": 966895
+        }
+      ],
+      "cases": 3,
+      "resultCounts": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "file": "node18-candidate-esm-smoke.json",
+      "node": "v18.17.0",
+      "entrySha256": "5a174bc17e3e0ea620b318fd2bb690ec6202eadae23994e301e09e8461a71df2",
+      "instantiated": [
+        {
+          "sha256": "af26f895fe471d23cb2d742bc3eca0695dbecb4ea6bad9b92eba3763ec505941",
+          "bytes": 647500
+        },
+        {
+          "sha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+          "bytes": 969380
+        }
+      ],
+      "cases": 3,
+      "resultCounts": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "file": "node18-candidate-cjs-smoke.json",
+      "node": "v18.17.0",
+      "entrySha256": "8f7cf4fe4d005a92af74fc0680acb84dbe7fa3499ab880b1c2e2259163f2086e",
+      "instantiated": [
+        {
+          "sha256": "af26f895fe471d23cb2d742bc3eca0695dbecb4ea6bad9b92eba3763ec505941",
+          "bytes": 647500
+        },
+        {
+          "sha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+          "bytes": 969380
+        }
+      ],
+      "cases": 3,
+      "resultCounts": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "file": "node24-baseline-esm-smoke.json",
+      "node": "v24.19.0",
+      "entrySha256": "7bfb0f3a7c31ed1b3c08f36183880e584a5d3813d6d98cbc0f7b30db43b722a5",
+      "instantiated": [
+        {
+          "sha256": "af26f895fe471d23cb2d742bc3eca0695dbecb4ea6bad9b92eba3763ec505941",
+          "bytes": 647500
+        },
+        {
+          "sha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+          "bytes": 966895
+        }
+      ],
+      "cases": 3,
+      "resultCounts": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "file": "node24-baseline-cjs-smoke.json",
+      "node": "v24.19.0",
+      "entrySha256": "c2c63791ac8f24ee05e689e6b95eeb9ff99a5e350ac3874d21dea74a6fcf4345",
+      "instantiated": [
+        {
+          "sha256": "af26f895fe471d23cb2d742bc3eca0695dbecb4ea6bad9b92eba3763ec505941",
+          "bytes": 647500
+        },
+        {
+          "sha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+          "bytes": 966895
+        }
+      ],
+      "cases": 3,
+      "resultCounts": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "file": "node24-candidate-esm-smoke.json",
+      "node": "v24.19.0",
+      "entrySha256": "5a174bc17e3e0ea620b318fd2bb690ec6202eadae23994e301e09e8461a71df2",
+      "instantiated": [
+        {
+          "sha256": "af26f895fe471d23cb2d742bc3eca0695dbecb4ea6bad9b92eba3763ec505941",
+          "bytes": 647500
+        },
+        {
+          "sha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+          "bytes": 969380
+        }
+      ],
+      "cases": 3,
+      "resultCounts": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "file": "node24-candidate-cjs-smoke.json",
+      "node": "v24.19.0",
+      "entrySha256": "8f7cf4fe4d005a92af74fc0680acb84dbe7fa3499ab880b1c2e2259163f2086e",
+      "instantiated": [
+        {
+          "sha256": "af26f895fe471d23cb2d742bc3eca0695dbecb4ea6bad9b92eba3763ec505941",
+          "bytes": 647500
+        },
+        {
+          "sha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+          "bytes": 969380
+        }
+      ],
+      "cases": 3,
+      "resultCounts": [
+        1,
+        1,
+        1
+      ]
+    }
+  ],
+  "sourceMapOrigins": {
+    "baseline": {
+      "../../../../../../../../../OneDrive/Desktop/QR-GEN/node_modules/tsup/assets/cjs_shims.js": [
+        "cc78e851f2204e18a0b2ba8a289626f240df47a733978222fe56fa36e72c846d"
+      ],
+      "../src/bridge/index.ts": [
+        "1795331048e5a4d5f1e22d52eaae41e2f046d26afc7c8cbaf178355c0a8b740a"
+      ],
+      "../src/camera.ts": [
+        "c4628274c40b3e8bf815bd2a42bde1047597008a1e5776a25e9877a150d73b36"
+      ],
+      "../src/capabilities.ts": [
+        "e3d9bfe5fad96defae7d9e670e3f05111321bfa1a8651da713b2133d90957f96"
+      ],
+      "../src/capture-policy.ts": [
+        "a2eb3d7a2882950b1696961c428d9254f856955f98bcfd410a47395835311160"
+      ],
+      "../src/duplicate-filter.ts": [
+        "124d5dc7412ee87c96d5c3d7cfa9f88431840f4aaf58f2f5aeac61aea3b7cd89"
+      ],
+      "../src/elements/barcode-element.ts": [
+        "0a077d0095815ab933fb71d0144fd29700bd982ff6aee8095e54ebd5a76fa6c2"
+      ],
+      "../src/elements/define.ts": [
+        "9dc05f23b353e68168707de7cc3cc7de851b6cf2c25635954f0c979445d67c08"
+      ],
+      "../src/elements/geometry.ts": [
+        "e661a7c7c0ebeff8cd823595da9b9fa98aedff1ecb56cf08c09ddb2ff46f6e75"
+      ],
+      "../src/elements/icons.ts": [
+        "7a7948949847f6d527ee64c67fe94338bdf439732db3084c85e175282cf38e4d"
+      ],
+      "../src/elements/index.ts": [
+        "9e77e58a83b7d900dbf59d0d8585b8cadf3213c240e162e7b04704f98a953457"
+      ],
+      "../src/elements/scanner-element.ts": [
+        "9accaf3e37319fb78aed79fd0fa818da05b2381f10658f0cd00afc329ecfb3b8"
+      ],
+      "../src/elements/styles.ts": [
+        "dd0669840aadacdd7091c31681b307ca19791b378d7770c797b171418b2f3e3a"
+      ],
+      "../src/engine/config.ts": [
+        "c62e18cc1b2a8d470b4eb73ac2c5276d000686210596ac77c70e31e2bd1c160a"
+      ],
+      "../src/engine/convert.ts": [
+        "6eba3a6be9447ec93d62eba7ae0092b81038dd0fb7cde5940cf2bdf8e330e861"
+      ],
+      "../src/engine/decoder.ts": [
+        "7a3eec889b90f4bbcaa9e656a65cc65ab3324fb1d56f6e0d1ff67f48bf3165d3"
+      ],
+      "../src/engine/inversion.ts": [
+        "a20a159f76361d54d72fc15c3ba825ae3b6699efd839e636928ae287bf086ba9"
+      ],
+      "../src/engine/protocol.ts": [
+        "5a5d4a0ada70a51f339d488830446d27f4b9841efcc1dae681a380f72338c21b"
+      ],
+      "../src/errors.ts": [
+        "1e2da5e868446b2347866b17bf99d8f9b62b4a861139ed854f52e7ce19774fd7"
+      ],
+      "../src/feedback.ts": [
+        "23994544a566bd7a627c4e60bc9f48032cd1e008a884030777b4f35b9bb89362"
+      ],
+      "../src/generated/worker-source.ts": [
+        "f0ebf18043235676bd1db8ef29185b099a629df08ef4d3a02cc0e6145dfa6ea8"
+      ],
+      "../src/generator.ts": [
+        "651a6a5d2e5fe8e9669b11e84ff6619017896063f3aafa17c0b799b90e6be92b"
+      ],
+      "../src/image.ts": [
+        "9d645c03239f95a492ca596d78fa09326f42f0d16949f26c587eca404e0dcdcb"
+      ],
+      "../src/index.ts": [
+        "7a0007cb6def5bc878671d0c6bd77661c63ae47431a52c2acd6f5e41c6d28814"
+      ],
+      "../src/node/index.ts": [
+        "ebf238a125890c2093099a6c5eed9fad96afcbccdf9e85dc3600e61bc8187d93"
+      ],
+      "../src/node/raster.ts": [
+        "4f37136c60a9241f10944c513c0703238a37dcc8d3c1fbe038ab93864f3ebe88"
+      ],
+      "../src/parsers/aamva.ts": [
+        "d48c4608654a5f4e322ff003f38b829facf99479f9303fe51b53662b33ccb73e"
+      ],
+      "../src/parsers/content.ts": [
+        "42924270dce8815b6ed57ab616201c2f1251bf702eb84e683dd754338e5f6921"
+      ],
+      "../src/parsers/gs1-ais.ts": [
+        "7fc0412dfd0f81db7c62f8db2585735651354fde0aaf0ddb869e5e351cbc5c32"
+      ],
+      "../src/parsers/gs1.ts": [
+        "08f1f79bf0dfea501ebcc6fb1b1350217d27960b7de5c25ced50e79391592ea1"
+      ],
+      "../src/payloads.ts": [
+        "c6b563fcb81ea08b53c3f8a7b699c3d5884e73278b4d739e5f09d9b805b5a016"
+      ],
+      "../src/planner.ts": [
+        "d3aaa31509d27729ab87f56261d403f795d28cc379f98e02c5cc99f08f906307"
+      ],
+      "../src/react/index.ts": [
+        "725379b3454f18e831c9d935280854ce8a1e87e997f5e86fc68a2c8e838a6ba6"
+      ],
+      "../src/scanner.ts": [
+        "4cc10957bf997c0b82a00d67bb31a1c7a701ee6ff56343c4f531026db717f493"
+      ],
+      "../src/server/index.ts": [
+        "53ddfb8fbaedab19ec95d6b587618ff94ad2f84ef87f0a2c853fcb6f9eb83ffb"
+      ],
+      "../src/symbologies.ts": [
+        "3bf038000044e7a2ad82e6df3546790c7f24d3428b6ad0ccba1ef850458eff0c"
+      ],
+      "../src/tracker.ts": [
+        "80a504bc2f294442e411fad0010e333359472a73d99239301235aa79737ee7fe"
+      ],
+      "../src/util.ts": [
+        "76734a6054984a56978ce687ee446be5769257200beb2edcc66ddc3beb6f4c50"
+      ],
+      "../src/version.ts": [
+        "872f36113b95331e541f53cfb224cf60203f131453857f8b6021cfab917877be"
+      ],
+      "../src/vue/index.ts": [
+        "fe0e9688d22d89f873c0783f02c29bb12e029f8f1e657b8d90e3d314813f6d21"
+      ]
+    },
+    "candidate": {
+      "../../../../../../../../../OneDrive/Desktop/QR-GEN/node_modules/tsup/assets/cjs_shims.js": [
+        "cc78e851f2204e18a0b2ba8a289626f240df47a733978222fe56fa36e72c846d"
+      ],
+      "../src/bridge/index.ts": [
+        "1795331048e5a4d5f1e22d52eaae41e2f046d26afc7c8cbaf178355c0a8b740a"
+      ],
+      "../src/camera.ts": [
+        "c4628274c40b3e8bf815bd2a42bde1047597008a1e5776a25e9877a150d73b36"
+      ],
+      "../src/capabilities.ts": [
+        "e3d9bfe5fad96defae7d9e670e3f05111321bfa1a8651da713b2133d90957f96"
+      ],
+      "../src/capture-policy.ts": [
+        "a2eb3d7a2882950b1696961c428d9254f856955f98bcfd410a47395835311160"
+      ],
+      "../src/duplicate-filter.ts": [
+        "124d5dc7412ee87c96d5c3d7cfa9f88431840f4aaf58f2f5aeac61aea3b7cd89"
+      ],
+      "../src/elements/barcode-element.ts": [
+        "0a077d0095815ab933fb71d0144fd29700bd982ff6aee8095e54ebd5a76fa6c2"
+      ],
+      "../src/elements/define.ts": [
+        "9dc05f23b353e68168707de7cc3cc7de851b6cf2c25635954f0c979445d67c08"
+      ],
+      "../src/elements/geometry.ts": [
+        "e661a7c7c0ebeff8cd823595da9b9fa98aedff1ecb56cf08c09ddb2ff46f6e75"
+      ],
+      "../src/elements/icons.ts": [
+        "7a7948949847f6d527ee64c67fe94338bdf439732db3084c85e175282cf38e4d"
+      ],
+      "../src/elements/index.ts": [
+        "9e77e58a83b7d900dbf59d0d8585b8cadf3213c240e162e7b04704f98a953457"
+      ],
+      "../src/elements/scanner-element.ts": [
+        "9accaf3e37319fb78aed79fd0fa818da05b2381f10658f0cd00afc329ecfb3b8"
+      ],
+      "../src/elements/styles.ts": [
+        "dd0669840aadacdd7091c31681b307ca19791b378d7770c797b171418b2f3e3a"
+      ],
+      "../src/engine/candidate/reader/index.js": [
+        "616a6837775f252ae1468667ad76693ae77f938f06192d6ae7cad2cf26639298"
+      ],
+      "../src/engine/candidate/share.js": [
+        "68b09047a19c17ba74c0bf7e0a4341e77d46b36ae1cae4bdcca31d0c6757f3f2"
+      ],
+      "../src/engine/config.ts": [
+        "e1bca8a473497958717163736be1cf245f5937258b019e99bd517bd6c31acb3b"
+      ],
+      "../src/engine/convert.ts": [
+        "6eba3a6be9447ec93d62eba7ae0092b81038dd0fb7cde5940cf2bdf8e330e861"
+      ],
+      "../src/engine/decoder.ts": [
+        "80c938196f676a6e3d51478e3c7bba29774a1ca233d26619784939d35165795e"
+      ],
+      "../src/engine/inversion.ts": [
+        "e0ce28b27d7ff51d344f2edc4a5d1f2675f6beb3afd13eb7adf838eca73ca94e"
+      ],
+      "../src/engine/protocol.ts": [
+        "5a5d4a0ada70a51f339d488830446d27f4b9841efcc1dae681a380f72338c21b"
+      ],
+      "../src/errors.ts": [
+        "1e2da5e868446b2347866b17bf99d8f9b62b4a861139ed854f52e7ce19774fd7"
+      ],
+      "../src/feedback.ts": [
+        "23994544a566bd7a627c4e60bc9f48032cd1e008a884030777b4f35b9bb89362"
+      ],
+      "../src/generated/worker-source.ts": [
+        "35286ad467c5752920d1eca8436dd5fa114dc5991eb7b647edce0401e393b742"
+      ],
+      "../src/generator.ts": [
+        "651a6a5d2e5fe8e9669b11e84ff6619017896063f3aafa17c0b799b90e6be92b"
+      ],
+      "../src/image.ts": [
+        "9d645c03239f95a492ca596d78fa09326f42f0d16949f26c587eca404e0dcdcb"
+      ],
+      "../src/index.ts": [
+        "7a0007cb6def5bc878671d0c6bd77661c63ae47431a52c2acd6f5e41c6d28814"
+      ],
+      "../src/node/index.ts": [
+        "3dfea3cda1b336f64df31bfc862fa0d66f1630dc391dd5f8211c8f9a826f924f"
+      ],
+      "../src/node/raster.ts": [
+        "4f37136c60a9241f10944c513c0703238a37dcc8d3c1fbe038ab93864f3ebe88"
+      ],
+      "../src/parsers/aamva.ts": [
+        "d48c4608654a5f4e322ff003f38b829facf99479f9303fe51b53662b33ccb73e"
+      ],
+      "../src/parsers/content.ts": [
+        "42924270dce8815b6ed57ab616201c2f1251bf702eb84e683dd754338e5f6921"
+      ],
+      "../src/parsers/gs1-ais.ts": [
+        "7fc0412dfd0f81db7c62f8db2585735651354fde0aaf0ddb869e5e351cbc5c32"
+      ],
+      "../src/parsers/gs1.ts": [
+        "08f1f79bf0dfea501ebcc6fb1b1350217d27960b7de5c25ced50e79391592ea1"
+      ],
+      "../src/payloads.ts": [
+        "c6b563fcb81ea08b53c3f8a7b699c3d5884e73278b4d739e5f09d9b805b5a016"
+      ],
+      "../src/planner.ts": [
+        "d3aaa31509d27729ab87f56261d403f795d28cc379f98e02c5cc99f08f906307"
+      ],
+      "../src/react/index.ts": [
+        "725379b3454f18e831c9d935280854ce8a1e87e997f5e86fc68a2c8e838a6ba6"
+      ],
+      "../src/scanner.ts": [
+        "4cc10957bf997c0b82a00d67bb31a1c7a701ee6ff56343c4f531026db717f493"
+      ],
+      "../src/server/index.ts": [
+        "53ddfb8fbaedab19ec95d6b587618ff94ad2f84ef87f0a2c853fcb6f9eb83ffb"
+      ],
+      "../src/symbologies.ts": [
+        "3bf038000044e7a2ad82e6df3546790c7f24d3428b6ad0ccba1ef850458eff0c"
+      ],
+      "../src/tracker.ts": [
+        "80a504bc2f294442e411fad0010e333359472a73d99239301235aa79737ee7fe"
+      ],
+      "../src/util.ts": [
+        "76734a6054984a56978ce687ee446be5769257200beb2edcc66ddc3beb6f4c50"
+      ],
+      "../src/version.ts": [
+        "872f36113b95331e541f53cfb224cf60203f131453857f8b6021cfab917877be"
+      ],
+      "../src/vue/index.ts": [
+        "fe0e9688d22d89f873c0783f02c29bb12e029f8f1e657b8d90e3d314813f6d21"
+      ]
+    }
+  },
+  "checkRecords": [
+    {
+      "check": "Declared SDK source base",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Original protocol fingerprint",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Addendum fingerprint",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Locked base dependency manifest",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Same original tracked SDK inputs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Original provenance covers every tracked base SDK file",
+      "passed": true,
+      "details": 77
+    },
+    {
+      "check": "Exact base blob packages/sdk/LICENSE",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/NOTICE",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/README.md",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/package.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/scripts/banner.mjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/scripts/build-worker.mjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/scripts/postbuild.mjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/bridge/index.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/browser.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/camera.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/capabilities.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/capture-policy.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/cli/index.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/duplicate-filter.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/elements/barcode-element.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/elements/define.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/elements/geometry.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/elements/icons.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/elements/index.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/elements/scanner-element.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/elements/styles.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/engine/config.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/engine/convert.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/engine/decoder.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/engine/inversion.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/engine/protocol.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/engine/worker.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/errors.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/feedback.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/generator.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/image.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/index.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/node/index.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/node/raster.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/parsers/aamva.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/parsers/content.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/parsers/gs1-ais.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/parsers/gs1.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/parsers/index.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/payloads.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/planner.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/react/index.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/scanner.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/server/index.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/symbologies.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/tracker.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/types.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/util.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/version.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/src/vue/index.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/test/bridge.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/test/camera.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/test/capabilities.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/test/capture-policy.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/test/convert-scale.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/test/decoder.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/test/element-lifecycle.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/test/element-selection.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/test/engine.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/test/generator-style.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/test/geometry.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/test/image-dimensions.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/test/inversion-policy.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/test/inversion.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/test/parsers.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/test/payloads.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/test/planner.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/test/retail-options.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/test/scan-url.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/test/scanner-adaptive.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/test/scanner.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/test/server.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/test/symbologies.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/test/tracking.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/tsconfig.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/tsup.config.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Exact base blob packages/sdk/vitest.config.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Current real SDK source content equals base after explicit CRLF-to-LF normalization (bounded current-state check)",
+      "passed": true,
+      "details": {
+        "contentDifferences": [],
+        "crlfOnlyDifferences": [
+          "packages/sdk/LICENSE",
+          "packages/sdk/NOTICE",
+          "packages/sdk/README.md",
+          "packages/sdk/package.json",
+          "packages/sdk/scripts/banner.mjs",
+          "packages/sdk/scripts/build-worker.mjs",
+          "packages/sdk/scripts/postbuild.mjs",
+          "packages/sdk/src/bridge/index.ts",
+          "packages/sdk/src/browser.ts",
+          "packages/sdk/src/camera.ts",
+          "packages/sdk/src/capabilities.ts",
+          "packages/sdk/src/capture-policy.ts",
+          "packages/sdk/src/cli/index.ts",
+          "packages/sdk/src/duplicate-filter.ts",
+          "packages/sdk/src/elements/barcode-element.ts",
+          "packages/sdk/src/elements/define.ts",
+          "packages/sdk/src/elements/geometry.ts",
+          "packages/sdk/src/elements/icons.ts",
+          "packages/sdk/src/elements/index.ts",
+          "packages/sdk/src/elements/scanner-element.ts",
+          "packages/sdk/src/elements/styles.ts",
+          "packages/sdk/src/engine/config.ts",
+          "packages/sdk/src/engine/convert.ts",
+          "packages/sdk/src/engine/decoder.ts",
+          "packages/sdk/src/engine/inversion.ts",
+          "packages/sdk/src/engine/protocol.ts",
+          "packages/sdk/src/engine/worker.ts",
+          "packages/sdk/src/errors.ts",
+          "packages/sdk/src/feedback.ts",
+          "packages/sdk/src/generator.ts",
+          "packages/sdk/src/image.ts",
+          "packages/sdk/src/index.ts",
+          "packages/sdk/src/node/index.ts",
+          "packages/sdk/src/node/raster.ts",
+          "packages/sdk/src/parsers/aamva.ts",
+          "packages/sdk/src/parsers/content.ts",
+          "packages/sdk/src/parsers/gs1-ais.ts",
+          "packages/sdk/src/parsers/gs1.ts",
+          "packages/sdk/src/parsers/index.ts",
+          "packages/sdk/src/payloads.ts",
+          "packages/sdk/src/planner.ts",
+          "packages/sdk/src/react/index.ts",
+          "packages/sdk/src/scanner.ts",
+          "packages/sdk/src/server/index.ts",
+          "packages/sdk/src/symbologies.ts",
+          "packages/sdk/src/tracker.ts",
+          "packages/sdk/src/types.ts",
+          "packages/sdk/src/util.ts",
+          "packages/sdk/src/version.ts",
+          "packages/sdk/src/vue/index.ts",
+          "packages/sdk/test/bridge.test.ts",
+          "packages/sdk/test/camera.test.ts",
+          "packages/sdk/test/capabilities.test.ts",
+          "packages/sdk/test/capture-policy.test.ts",
+          "packages/sdk/test/convert-scale.test.ts",
+          "packages/sdk/test/decoder.test.ts",
+          "packages/sdk/test/element-lifecycle.test.ts",
+          "packages/sdk/test/element-selection.test.ts",
+          "packages/sdk/test/engine.test.ts",
+          "packages/sdk/test/generator-style.test.ts",
+          "packages/sdk/test/geometry.test.ts",
+          "packages/sdk/test/image-dimensions.test.ts",
+          "packages/sdk/test/inversion-policy.test.ts",
+          "packages/sdk/test/inversion.test.ts",
+          "packages/sdk/test/parsers.test.ts",
+          "packages/sdk/test/payloads.test.ts",
+          "packages/sdk/test/planner.test.ts",
+          "packages/sdk/test/retail-options.test.ts",
+          "packages/sdk/test/scan-url.test.ts",
+          "packages/sdk/test/scanner-adaptive.test.ts",
+          "packages/sdk/test/scanner.test.ts",
+          "packages/sdk/test/server.test.ts",
+          "packages/sdk/test/symbologies.test.ts",
+          "packages/sdk/test/tracking.test.ts",
+          "packages/sdk/tsconfig.json",
+          "packages/sdk/tsup.config.ts",
+          "packages/sdk/vitest.config.ts"
+        ]
+      }
+    },
+    {
+      "check": "Current real dependency lock content equals base after explicit CRLF-to-LF normalization",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Only declared tracked source overlays baseline",
+      "passed": true,
+      "details": [
+        "package.json"
+      ]
+    },
+    {
+      "check": "Frozen source inventory baseline/src/browser.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/camera.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/capabilities.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/capture-policy.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/duplicate-filter.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/errors.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/feedback.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/generator.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/image.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/index.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/payloads.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/planner.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/scanner.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/symbologies.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/tracker.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/types.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/util.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/version.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/bridge/index.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/cli/index.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/elements/barcode-element.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/elements/define.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/elements/geometry.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/elements/icons.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/elements/index.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/elements/scanner-element.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/elements/styles.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/engine/config.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/engine/convert.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/engine/decoder.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/engine/inversion.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/engine/protocol.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/engine/worker.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/node/index.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/node/raster.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/parsers/aamva.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/parsers/content.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/parsers/gs1-ais.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/parsers/gs1.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/parsers/index.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/react/index.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/server/index.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/src/vue/index.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/scripts/banner.mjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/scripts/build-worker.mjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/scripts/postbuild.mjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/test/bridge.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/test/camera.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/test/capabilities.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/test/capture-policy.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/test/convert-scale.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/test/decoder.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/test/element-lifecycle.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/test/element-selection.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/test/engine.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/test/generator-style.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/test/geometry.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/test/image-dimensions.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/test/inversion-policy.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/test/inversion.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/test/parsers.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/test/payloads.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/test/planner.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/test/retail-options.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/test/scan-url.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/test/scanner-adaptive.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/test/scanner.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/test/server.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/test/symbologies.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/test/tracking.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/diagnostic-licenses/ZXING-LICENSE.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/diagnostic-licenses/ZXING-NOTICE.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/diagnostic-licenses/ZXING-REUSE-dep5.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory baseline/diagnostic-licenses/ZXING-WASM-MIT.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen package metadata baseline",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Generated worker fingerprint baseline",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Only declared tracked source overlays candidate",
+      "passed": true,
+      "details": [
+        "package.json",
+        "scripts/postbuild.mjs",
+        "src/engine/config.ts",
+        "src/engine/decoder.ts",
+        "src/engine/inversion.ts",
+        "src/engine/worker.ts",
+        "src/node/index.ts",
+        "test/inversion-policy.test.ts"
+      ]
+    },
+    {
+      "check": "Frozen source inventory candidate/src/browser.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/camera.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/capabilities.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/capture-policy.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/duplicate-filter.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/errors.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/feedback.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/generator.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/image.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/index.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/payloads.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/planner.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/scanner.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/symbologies.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/tracker.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/types.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/util.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/version.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/bridge/index.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/cli/index.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/elements/barcode-element.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/elements/define.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/elements/geometry.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/elements/icons.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/elements/index.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/elements/scanner-element.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/elements/styles.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/engine/config.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/engine/convert.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/engine/decoder.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/engine/inversion.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/engine/protocol.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/engine/worker.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/node/index.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/node/raster.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/parsers/aamva.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/parsers/content.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/parsers/gs1-ais.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/parsers/gs1.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/parsers/index.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/react/index.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/server/index.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/vue/index.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/engine/candidate/share.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/engine/candidate/reader/index.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/src/engine/candidate/reader/index.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/scripts/banner.mjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/scripts/build-worker.mjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/scripts/postbuild.mjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/test/bridge.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/test/camera.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/test/capabilities.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/test/capture-policy.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/test/convert-scale.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/test/decoder.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/test/element-lifecycle.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/test/element-selection.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/test/engine.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/test/generator-style.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/test/geometry.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/test/image-dimensions.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/test/inversion-policy.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/test/inversion.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/test/parsers.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/test/payloads.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/test/planner.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/test/retail-options.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/test/scan-url.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/test/scanner-adaptive.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/test/scanner.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/test/server.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/test/symbologies.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/test/tracking.test.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/diagnostic-assets/zxing_reader.wasm",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/diagnostic-licenses/ZXING-LICENSE.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/diagnostic-licenses/ZXING-NOTICE.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/diagnostic-licenses/ZXING-REUSE-dep5.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen source inventory candidate/diagnostic-licenses/ZXING-WASM-MIT.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Frozen package metadata candidate",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Generated worker fingerprint candidate",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Mock boundary only; all test assertions byte-preserved",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Private reader graph matches actual build reader/index.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Private reader graph matches actual build share.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Private runtime reader import config.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Private runtime reader import decoder.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Private runtime reader import inversion.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Private runtime reader import worker.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Node candidate resolves packaged reader export",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Archive fingerprint baseline",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/LICENSE",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/LICENSE",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/LICENSE",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/NOTICE",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/NOTICE",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/NOTICE",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/bridge.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/bridge.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/bridge.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/chunk-3IB2ZNZN.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/chunk-3IB2ZNZN.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/chunk-3IB2ZNZN.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/chunk-744YTDY3.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/chunk-744YTDY3.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/chunk-744YTDY3.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/chunk-AWGXXDIH.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/chunk-AWGXXDIH.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/chunk-AWGXXDIH.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/chunk-FZKRP7PM.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/chunk-FZKRP7PM.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/chunk-FZKRP7PM.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/chunk-G2SQTHIF.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/chunk-G2SQTHIF.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/chunk-G2SQTHIF.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/chunk-IYVGNLPU.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/chunk-IYVGNLPU.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/chunk-IYVGNLPU.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/elements.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/elements.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/elements.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/index.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/index.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/index.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/node.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/node.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/node.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/parsers.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/parsers.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/parsers.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/react.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/react.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/react.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/server.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/server.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/server.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/vue.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/vue.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/vue.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/bridge.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/bridge.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/bridge.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/elements.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/elements.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/elements.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/generator-BUB5Sorc.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/generator-BUB5Sorc.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/generator-BUB5Sorc.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/index.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/index.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/index.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/node.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/node.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/node.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/parsers.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/parsers.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/parsers.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/react.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/react.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/react.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/scanner-B97Sd_lg.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/scanner-B97Sd_lg.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/scanner-B97Sd_lg.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/scanner-element-Da0lbrwi.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/scanner-element-Da0lbrwi.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/scanner-element-Da0lbrwi.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/server.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/server.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/server.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/types-BvvGdncL.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/types-BvvGdncL.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/types-BvvGdncL.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/vue.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/vue.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/vue.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/bridge.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/bridge.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/bridge.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/chunk-24MX376N.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/chunk-24MX376N.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/chunk-24MX376N.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/chunk-A253Y5TI.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/chunk-A253Y5TI.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/chunk-A253Y5TI.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/chunk-AQNAYT6B.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/chunk-AQNAYT6B.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/chunk-AQNAYT6B.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/chunk-OZQD74PR.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/chunk-OZQD74PR.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/chunk-OZQD74PR.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/chunk-T47BXLHR.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/chunk-T47BXLHR.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/chunk-T47BXLHR.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/cli.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/cli.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/cli.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/elements.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/elements.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/elements.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/index.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/index.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/index.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/node.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/node.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/node.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/parsers.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/parsers.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/parsers.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/browser/qrgen.iife.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/browser/qrgen.iife.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/browser/qrgen.iife.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/browser/qrgen.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/browser/qrgen.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/browser/qrgen.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/react.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/react.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/react.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/server.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/server.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/server.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/vue.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/vue.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/vue.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/diagnostic-reader-provenance.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/diagnostic-reader-provenance.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/diagnostic-reader-provenance.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/package.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/package.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/package.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/bridge.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/bridge.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/bridge.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/bridge.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/bridge.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/bridge.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/chunk-24MX376N.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/chunk-24MX376N.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/chunk-24MX376N.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/chunk-3IB2ZNZN.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/chunk-3IB2ZNZN.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/chunk-3IB2ZNZN.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/chunk-744YTDY3.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/chunk-744YTDY3.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/chunk-744YTDY3.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/chunk-A253Y5TI.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/chunk-A253Y5TI.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/chunk-A253Y5TI.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/chunk-AQNAYT6B.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/chunk-AQNAYT6B.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/chunk-AQNAYT6B.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/chunk-AWGXXDIH.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/chunk-AWGXXDIH.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/chunk-AWGXXDIH.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/chunk-FZKRP7PM.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/chunk-FZKRP7PM.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/chunk-FZKRP7PM.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/chunk-G2SQTHIF.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/chunk-G2SQTHIF.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/chunk-G2SQTHIF.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/chunk-IYVGNLPU.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/chunk-IYVGNLPU.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/chunk-IYVGNLPU.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/chunk-OZQD74PR.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/chunk-OZQD74PR.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/chunk-OZQD74PR.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/chunk-T47BXLHR.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/chunk-T47BXLHR.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/chunk-T47BXLHR.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/elements.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/elements.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/elements.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/elements.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/elements.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/elements.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/index.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/index.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/index.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/index.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/index.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/index.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/node.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/node.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/node.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/node.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/node.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/node.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/parsers.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/parsers.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/parsers.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/parsers.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/parsers.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/parsers.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/browser/qrgen.iife.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/browser/qrgen.iife.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/browser/qrgen.iife.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/browser/qrgen.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/browser/qrgen.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/browser/qrgen.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/react.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/react.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/react.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/react.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/react.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/react.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/server.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/server.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/server.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/server.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/server.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/server.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/vue.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/vue.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/vue.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/vue.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/vue.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/vue.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/DIAGNOSTIC-ONLY.md",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/DIAGNOSTIC-ONLY.md",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/DIAGNOSTIC-ONLY.md",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/README.md",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/README.md",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/README.md",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/bridge.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/bridge.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/bridge.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/elements.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/elements.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/elements.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/generator-BYwrY3cT.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/generator-BYwrY3cT.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/generator-BYwrY3cT.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/index.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/index.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/index.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/node.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/node.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/node.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/parsers.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/parsers.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/parsers.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/react.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/react.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/react.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/scanner-CSNVnDC8.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/scanner-CSNVnDC8.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/scanner-CSNVnDC8.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/scanner-element-B-snv2lR.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/scanner-element-B-snv2lR.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/scanner-element-B-snv2lR.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/server.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/server.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/server.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/types-BvvGdncL.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/types-BvvGdncL.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/types-BvvGdncL.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/vue.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/vue.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/vue.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/diagnostic-licenses/ZXING-LICENSE.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/diagnostic-licenses/ZXING-LICENSE.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/diagnostic-licenses/ZXING-LICENSE.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/diagnostic-licenses/ZXING-NOTICE.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/diagnostic-licenses/ZXING-NOTICE.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/diagnostic-licenses/ZXING-NOTICE.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/diagnostic-licenses/ZXING-REUSE-dep5.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/diagnostic-licenses/ZXING-REUSE-dep5.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/diagnostic-licenses/ZXING-REUSE-dep5.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/diagnostic-licenses/ZXING-WASM-MIT.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/diagnostic-licenses/ZXING-WASM-MIT.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/diagnostic-licenses/ZXING-WASM-MIT.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/wasm/zxing_reader.wasm",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/wasm/zxing_reader.wasm",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/wasm/zxing_reader.wasm",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry baseline/package/dist/wasm/zxing_writer.wasm",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive baseline/dist/wasm/zxing_writer.wasm",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage baseline/dist/wasm/zxing_writer.wasm",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Complete archive inventory baseline",
+      "passed": true,
+      "details": 95
+    },
+    {
+      "check": "Only declared diagnostic package metadata changes baseline",
+      "passed": true,
+      "details": [
+        "description",
+        "files",
+        "version"
+      ]
+    },
+    {
+      "check": "Public exports and CLI target unchanged baseline",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "All public export leaf targets exist baseline",
+      "passed": true,
+      "details": 28
+    },
+    {
+      "check": "Packed reader WASM baseline",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Unchanged packed writer WASM baseline",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Third party license/notice set baseline",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Archive fingerprint candidate",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/LICENSE",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/LICENSE",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/LICENSE",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/NOTICE",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/NOTICE",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/NOTICE",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/bridge.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/bridge.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/bridge.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/chunk-2NJEQRSK.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/chunk-2NJEQRSK.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/chunk-2NJEQRSK.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/chunk-76GNB2WX.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/chunk-76GNB2WX.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/chunk-76GNB2WX.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/chunk-F3A6JPCX.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/chunk-F3A6JPCX.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/chunk-F3A6JPCX.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/chunk-HR4BTXZI.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/chunk-HR4BTXZI.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/chunk-HR4BTXZI.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/chunk-QIJXZFUV.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/chunk-QIJXZFUV.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/chunk-QIJXZFUV.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/chunk-WXQYTV3C.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/chunk-WXQYTV3C.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/chunk-WXQYTV3C.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/elements.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/elements.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/elements.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/index.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/index.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/index.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/node.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/node.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/node.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/parsers.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/parsers.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/parsers.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/react.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/react.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/react.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/server.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/server.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/server.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/vue.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/vue.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/vue.cjs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/bridge.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/bridge.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/bridge.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/elements.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/elements.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/elements.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/generator-BUB5Sorc.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/generator-BUB5Sorc.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/generator-BUB5Sorc.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/index.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/index.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/index.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/node.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/node.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/node.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/parsers.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/parsers.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/parsers.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/react.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/react.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/react.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/scanner-B97Sd_lg.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/scanner-B97Sd_lg.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/scanner-B97Sd_lg.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/scanner-element-Da0lbrwi.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/scanner-element-Da0lbrwi.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/scanner-element-Da0lbrwi.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/server.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/server.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/server.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/types-BvvGdncL.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/types-BvvGdncL.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/types-BvvGdncL.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/vue.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/vue.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/vue.d.cts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/bridge.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/bridge.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/bridge.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/chunk-AO4HQIOO.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/chunk-AO4HQIOO.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/chunk-AO4HQIOO.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/chunk-F4HZKRWG.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/chunk-F4HZKRWG.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/chunk-F4HZKRWG.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/chunk-IH4R2DAU.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/chunk-IH4R2DAU.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/chunk-IH4R2DAU.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/chunk-JPCWN64I.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/chunk-JPCWN64I.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/chunk-JPCWN64I.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/chunk-YF7ATMKS.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/chunk-YF7ATMKS.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/chunk-YF7ATMKS.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/cli.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/cli.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/cli.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/elements.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/elements.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/elements.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/index.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/index.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/index.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/node.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/node.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/node.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/parsers.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/parsers.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/parsers.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/browser/qrgen.iife.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/browser/qrgen.iife.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/browser/qrgen.iife.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/browser/qrgen.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/browser/qrgen.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/browser/qrgen.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/react.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/react.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/react.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/server.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/server.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/server.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/vue.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/vue.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/vue.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/diagnostic-reader-provenance.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/diagnostic-reader-provenance.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/diagnostic-reader-provenance.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/package.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/package.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/package.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/bridge.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/bridge.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/bridge.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/bridge.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/bridge.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/bridge.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/chunk-2NJEQRSK.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/chunk-2NJEQRSK.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/chunk-2NJEQRSK.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/chunk-76GNB2WX.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/chunk-76GNB2WX.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/chunk-76GNB2WX.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/chunk-AO4HQIOO.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/chunk-AO4HQIOO.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/chunk-AO4HQIOO.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/chunk-F3A6JPCX.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/chunk-F3A6JPCX.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/chunk-F3A6JPCX.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/chunk-F4HZKRWG.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/chunk-F4HZKRWG.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/chunk-F4HZKRWG.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/chunk-HR4BTXZI.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/chunk-HR4BTXZI.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/chunk-HR4BTXZI.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/chunk-IH4R2DAU.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/chunk-IH4R2DAU.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/chunk-IH4R2DAU.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/chunk-JPCWN64I.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/chunk-JPCWN64I.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/chunk-JPCWN64I.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/chunk-QIJXZFUV.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/chunk-QIJXZFUV.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/chunk-QIJXZFUV.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/chunk-WXQYTV3C.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/chunk-WXQYTV3C.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/chunk-WXQYTV3C.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/chunk-YF7ATMKS.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/chunk-YF7ATMKS.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/chunk-YF7ATMKS.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/elements.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/elements.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/elements.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/elements.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/elements.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/elements.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/index.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/index.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/index.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/index.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/index.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/index.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/node.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/node.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/node.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/node.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/node.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/node.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/parsers.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/parsers.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/parsers.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/parsers.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/parsers.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/parsers.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/browser/qrgen.iife.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/browser/qrgen.iife.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/browser/qrgen.iife.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/browser/qrgen.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/browser/qrgen.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/browser/qrgen.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/react.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/react.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/react.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/react.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/react.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/react.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/server.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/server.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/server.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/server.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/server.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/server.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/vue.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/vue.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/vue.cjs.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/vue.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/vue.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/vue.js.map",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/DIAGNOSTIC-ONLY.md",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/DIAGNOSTIC-ONLY.md",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/DIAGNOSTIC-ONLY.md",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/README.md",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/README.md",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/README.md",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/bridge.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/bridge.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/bridge.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/elements.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/elements.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/elements.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/generator-BYwrY3cT.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/generator-BYwrY3cT.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/generator-BYwrY3cT.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/index.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/index.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/index.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/node.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/node.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/node.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/parsers.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/parsers.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/parsers.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/react.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/react.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/react.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/scanner-CSNVnDC8.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/scanner-CSNVnDC8.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/scanner-CSNVnDC8.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/scanner-element-B-snv2lR.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/scanner-element-B-snv2lR.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/scanner-element-B-snv2lR.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/server.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/server.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/server.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/types-BvvGdncL.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/types-BvvGdncL.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/types-BvvGdncL.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/vue.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/vue.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/vue.d.ts",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/diagnostic-licenses/ZXING-LICENSE.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/diagnostic-licenses/ZXING-LICENSE.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/diagnostic-licenses/ZXING-LICENSE.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/diagnostic-licenses/ZXING-NOTICE.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/diagnostic-licenses/ZXING-NOTICE.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/diagnostic-licenses/ZXING-NOTICE.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/diagnostic-licenses/ZXING-REUSE-dep5.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/diagnostic-licenses/ZXING-REUSE-dep5.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/diagnostic-licenses/ZXING-REUSE-dep5.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/diagnostic-licenses/ZXING-WASM-MIT.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/diagnostic-licenses/ZXING-WASM-MIT.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/diagnostic-licenses/ZXING-WASM-MIT.txt",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/wasm/zxing_reader.wasm",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/wasm/zxing_reader.wasm",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/wasm/zxing_reader.wasm",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Safe regular archive entry candidate/package/dist/wasm/zxing_writer.wasm",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Consumer equals archive candidate/dist/wasm/zxing_writer.wasm",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Packed file equals stage candidate/dist/wasm/zxing_writer.wasm",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Complete archive inventory candidate",
+      "passed": true,
+      "details": 95
+    },
+    {
+      "check": "Only declared diagnostic package metadata changes candidate",
+      "passed": true,
+      "details": [
+        "description",
+        "files",
+        "version"
+      ]
+    },
+    {
+      "check": "Public exports and CLI target unchanged candidate",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "All public export leaf targets exist candidate",
+      "passed": true,
+      "details": 28
+    },
+    {
+      "check": "Packed reader WASM candidate",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Unchanged packed writer WASM candidate",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Third party license/notice set candidate",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Bundled source map contains exact private graph reader/index.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Bundled source map contains exact private graph share.js",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "No official reader source origin in candidate emitted maps",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "No executable external official reader import in candidate package",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "Recorded smoke status node18-baseline-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Smoke entry fingerprint node18-baseline-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Observed reader/writer instantiation fingerprints node18-baseline-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Zero recorded fetch attempts node18-baseline-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Smoke input identities node18-baseline-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Recorded public target and immutability assertions node18-baseline-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Retained clean smoke records contain exactly one expected result node18-baseline-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Recorded smoke status node18-baseline-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Smoke entry fingerprint node18-baseline-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Observed reader/writer instantiation fingerprints node18-baseline-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Zero recorded fetch attempts node18-baseline-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Smoke input identities node18-baseline-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Recorded public target and immutability assertions node18-baseline-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Retained clean smoke records contain exactly one expected result node18-baseline-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Recorded smoke status node18-candidate-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Smoke entry fingerprint node18-candidate-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Observed reader/writer instantiation fingerprints node18-candidate-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Zero recorded fetch attempts node18-candidate-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Smoke input identities node18-candidate-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Recorded public target and immutability assertions node18-candidate-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Retained clean smoke records contain exactly one expected result node18-candidate-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Recorded smoke status node18-candidate-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Smoke entry fingerprint node18-candidate-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Observed reader/writer instantiation fingerprints node18-candidate-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Zero recorded fetch attempts node18-candidate-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Smoke input identities node18-candidate-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Recorded public target and immutability assertions node18-candidate-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Retained clean smoke records contain exactly one expected result node18-candidate-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Recorded smoke status node24-baseline-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Smoke entry fingerprint node24-baseline-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Observed reader/writer instantiation fingerprints node24-baseline-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Zero recorded fetch attempts node24-baseline-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Smoke input identities node24-baseline-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Recorded public target and immutability assertions node24-baseline-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Retained clean smoke records contain exactly one expected result node24-baseline-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Recorded smoke status node24-baseline-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Smoke entry fingerprint node24-baseline-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Observed reader/writer instantiation fingerprints node24-baseline-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Zero recorded fetch attempts node24-baseline-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Smoke input identities node24-baseline-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Recorded public target and immutability assertions node24-baseline-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Retained clean smoke records contain exactly one expected result node24-baseline-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Recorded smoke status node24-candidate-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Smoke entry fingerprint node24-candidate-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Observed reader/writer instantiation fingerprints node24-candidate-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Zero recorded fetch attempts node24-candidate-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Smoke input identities node24-candidate-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Recorded public target and immutability assertions node24-candidate-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Retained clean smoke records contain exactly one expected result node24-candidate-esm-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Recorded smoke status node24-candidate-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Smoke entry fingerprint node24-candidate-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Observed reader/writer instantiation fingerprints node24-candidate-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Zero recorded fetch attempts node24-candidate-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Smoke input identities node24-candidate-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Recorded public target and immutability assertions node24-candidate-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Retained clean smoke records contain exactly one expected result node24-candidate-cjs-smoke.json",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Node18 derived runner differs only in portable URL-to-path conversion",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Node18 initial harness failure preserved as written history",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Historical Node18 tool-response observation accurately identifies retained v1 runner (not original stderr)",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Retrospective toolchain observation labelled after execution",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Current observed dependency metadata baseline/zxing-wasm",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Current observed dependency metadata baseline/esbuild",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Current observed dependency metadata baseline/tsup",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Current observed dependency metadata baseline/typescript",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Current observed dependency metadata baseline/vitest",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Current observed dependency metadata baseline/tsupEsbuild",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Current observed dependency metadata candidate/zxing-wasm",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Current observed dependency metadata candidate/esbuild",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Current observed dependency metadata candidate/tsup",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Current observed dependency metadata candidate/typescript",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Current observed dependency metadata candidate/vitest",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Current observed dependency metadata candidate/tsupEsbuild",
+      "passed": true,
+      "details": null
+    }
+  ],
+  "limitations": [
+    "No SDK imports, decoding, builds, installations or remote mutations were performed by this review.",
+    "All 28 export leaf files exist in each package; only public Node ESM/CJS scanner/generator entries were exercised in the retained smoke evidence.",
+    "Eight smoke records are 24 repeated clean-case executions, not 24 independent test images or a broader accuracy metric.",
+    "Smoke interception fingerprints byte input to WebAssembly.instantiate; it is not a generic monitor for every WebAssembly API or network transport.",
+    "History and a retrospective tool-response observation document the first Node18 pre-import path error; original redirected stderr is explicitly not retained.",
+    "Source maps are retained build evidence, not proof against arbitrary runtime caller-supplied binaries; default CDN and capability identity remain explicitly unresolved."
+  ]
+}

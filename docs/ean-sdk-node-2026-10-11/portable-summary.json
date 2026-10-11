@@ -1,0 +1,3463 @@
+{
+  "scope": "Actual public packed-SDK Node24 scanImage execution;551 frozen rasters,1162profiles per package/format. No population accuracy, phone, default-CDN migration or complete issue32 fix claim.",
+  "createdAt": "2026-10-11T16:20:37.912Z",
+  "planSha256": "1e6042ae022e0e902410aaf8094918cef564c2e01d438a7932598d29fd497a65",
+  "runnerSha256": "4623edcc287a83c504e81dd7cff7e0f73ab25b85a0d46a538497278855ae42ea",
+  "summaryRunnerSha256": "b2b8a0a75a2661c25f7170be7684d5b81ffe5b24e252b2ee4afdd40a42aac84b",
+  "counts": {
+    "rasters": 551,
+    "profiles": 1162,
+    "runs": 4,
+    "sdkCalls": 4648,
+    "changedProfilesPerFormat": 10,
+    "esmCjsDifferences": 0,
+    "lostTargetEvents": 0,
+    "lostTargetFullRecords": 0,
+    "newValueProfiles": 0,
+    "noCodeOutputProfiles": 0,
+    "errors": 0,
+    "mutations": 0,
+    "validationFailures": 0,
+    "provenanceErrors": 0,
+    "matrixProfiles": 144,
+    "matrixTargetMisses": 0,
+    "knownFalse07Profiles": 14,
+    "knownFalse07Suppressed": 10,
+    "knownFalse07Residual": 4,
+    "knownFalse35Profiles": 6,
+    "unreviewedCompanionMismatchRecords": 8
+  },
+  "integrationGate": "passed-scoped-gates",
+  "groups": {
+    "frozen-core|original-RGBA-white-sRGB|hard=false": {
+      "profiles": 157,
+      "baselineTargetPresence": 98,
+      "candidateTargetPresence": 98,
+      "baselineTargetCount": 98,
+      "candidateTargetCount": 98,
+      "baselineAnyOutput": 98,
+      "candidateAnyOutput": 98
+    },
+    "frozen-core|original-RGBA-white-sRGB|hard=true": {
+      "profiles": 157,
+      "baselineTargetPresence": 117,
+      "candidateTargetPresence": 117,
+      "baselineTargetCount": 117,
+      "candidateTargetCount": 117,
+      "baselineAnyOutput": 118,
+      "candidateAnyOutput": 118
+    },
+    "frozen-core|derived-limited-Y-expanded-RGB|hard=false": {
+      "profiles": 157,
+      "baselineTargetPresence": 45,
+      "candidateTargetPresence": 45,
+      "baselineTargetCount": 45,
+      "candidateTargetCount": 45,
+      "baselineAnyOutput": 45,
+      "candidateAnyOutput": 45
+    },
+    "frozen-core|derived-limited-Y-expanded-RGB|hard=true": {
+      "profiles": 157,
+      "baselineTargetPresence": 64,
+      "candidateTargetPresence": 64,
+      "baselineTargetCount": 64,
+      "candidateTargetCount": 64,
+      "baselineAnyOutput": 65,
+      "candidateAnyOutput": 64
+    },
+    "frozen-core|actual-Chrome-supplement|hard=false": {
+      "profiles": 1,
+      "baselineTargetPresence": 0,
+      "candidateTargetPresence": 0,
+      "baselineTargetCount": 0,
+      "candidateTargetCount": 0,
+      "baselineAnyOutput": 0,
+      "candidateAnyOutput": 0
+    },
+    "frozen-core|actual-Chrome-supplement|hard=true": {
+      "profiles": 1,
+      "baselineTargetPresence": 0,
+      "candidateTargetPresence": 0,
+      "baselineTargetCount": 0,
+      "candidateTargetCount": 0,
+      "baselineAnyOutput": 1,
+      "candidateAnyOutput": 0
+    },
+    "frozen-core|generated-positive|hard=false": {
+      "profiles": 144,
+      "baselineTargetPresence": 120,
+      "candidateTargetPresence": 120,
+      "baselineTargetCount": 120,
+      "candidateTargetCount": 120,
+      "baselineAnyOutput": 120,
+      "candidateAnyOutput": 120
+    },
+    "frozen-core|generated-positive|hard=true": {
+      "profiles": 144,
+      "baselineTargetPresence": 120,
+      "candidateTargetPresence": 120,
+      "baselineTargetCount": 120,
+      "candidateTargetCount": 120,
+      "baselineAnyOutput": 120,
+      "candidateAnyOutput": 120
+    },
+    "frozen-core|generated-no-code|hard=false": {
+      "profiles": 12,
+      "baselineTargetPresence": 0,
+      "candidateTargetPresence": 0,
+      "baselineTargetCount": 0,
+      "candidateTargetCount": 0,
+      "baselineAnyOutput": 0,
+      "candidateAnyOutput": 0
+    },
+    "frozen-core|generated-no-code|hard=true": {
+      "profiles": 12,
+      "baselineTargetPresence": 0,
+      "candidateTargetPresence": 0,
+      "baselineTargetCount": 0,
+      "candidateTargetCount": 0,
+      "baselineAnyOutput": 0,
+      "candidateAnyOutput": 0
+    },
+    "frozen-core|real-negative-original|hard=false": {
+      "profiles": 4,
+      "baselineTargetPresence": 0,
+      "candidateTargetPresence": 0,
+      "baselineTargetCount": 0,
+      "candidateTargetCount": 0,
+      "baselineAnyOutput": 0,
+      "candidateAnyOutput": 0
+    },
+    "frozen-core|real-negative-original|hard=true": {
+      "profiles": 4,
+      "baselineTargetPresence": 0,
+      "candidateTargetPresence": 0,
+      "baselineTargetCount": 0,
+      "candidateTargetCount": 0,
+      "baselineAnyOutput": 0,
+      "candidateAnyOutput": 0
+    },
+    "frozen-core|real-negative-derived|hard=false": {
+      "profiles": 4,
+      "baselineTargetPresence": 0,
+      "candidateTargetPresence": 0,
+      "baselineTargetCount": 0,
+      "candidateTargetCount": 0,
+      "baselineAnyOutput": 0,
+      "candidateAnyOutput": 0
+    },
+    "frozen-core|real-negative-derived|hard=true": {
+      "profiles": 4,
+      "baselineTargetPresence": 0,
+      "candidateTargetPresence": 0,
+      "baselineTargetCount": 0,
+      "candidateTargetCount": 0,
+      "baselineAnyOutput": 0,
+      "candidateAnyOutput": 0
+    },
+    "generated-72-matrix|generated-72-format-matrix|hard=false": {
+      "profiles": 72,
+      "baselineTargetPresence": 72,
+      "candidateTargetPresence": 72,
+      "baselineTargetCount": 72,
+      "candidateTargetCount": 72,
+      "baselineAnyOutput": 72,
+      "candidateAnyOutput": 72
+    },
+    "generated-72-matrix|generated-72-format-matrix|hard=true": {
+      "profiles": 72,
+      "baselineTargetPresence": 72,
+      "candidateTargetPresence": 72,
+      "baselineTargetCount": 72,
+      "candidateTargetCount": 72,
+      "baselineAnyOutput": 72,
+      "candidateAnyOutput": 72
+    },
+    "focused-public-scopes-limits|original-RGBA-white-sRGB|hard=false": {
+      "profiles": 12,
+      "baselineTargetPresence": 4,
+      "candidateTargetPresence": 4,
+      "baselineTargetCount": 4,
+      "candidateTargetCount": 4,
+      "baselineAnyOutput": 4,
+      "candidateAnyOutput": 4
+    },
+    "focused-public-scopes-limits|original-RGBA-white-sRGB|hard=true": {
+      "profiles": 12,
+      "baselineTargetPresence": 8,
+      "candidateTargetPresence": 8,
+      "baselineTargetCount": 8,
+      "candidateTargetCount": 8,
+      "baselineAnyOutput": 8,
+      "candidateAnyOutput": 8
+    },
+    "focused-public-scopes-limits|derived-limited-Y-expanded-RGB|hard=false": {
+      "profiles": 12,
+      "baselineTargetPresence": 0,
+      "candidateTargetPresence": 0,
+      "baselineTargetCount": 0,
+      "candidateTargetCount": 0,
+      "baselineAnyOutput": 0,
+      "candidateAnyOutput": 0
+    },
+    "focused-public-scopes-limits|derived-limited-Y-expanded-RGB|hard=true": {
+      "profiles": 12,
+      "baselineTargetPresence": 4,
+      "candidateTargetPresence": 4,
+      "baselineTargetCount": 4,
+      "candidateTargetCount": 4,
+      "baselineAnyOutput": 10,
+      "candidateAnyOutput": 6
+    },
+    "focused-public-scopes-limits|actual-Chrome-supplement|hard=false": {
+      "profiles": 6,
+      "baselineTargetPresence": 0,
+      "candidateTargetPresence": 0,
+      "baselineTargetCount": 0,
+      "candidateTargetCount": 0,
+      "baselineAnyOutput": 0,
+      "candidateAnyOutput": 0
+    },
+    "focused-public-scopes-limits|actual-Chrome-supplement|hard=true": {
+      "profiles": 6,
+      "baselineTargetPresence": 0,
+      "candidateTargetPresence": 0,
+      "baselineTargetCount": 0,
+      "candidateTargetCount": 0,
+      "baselineAnyOutput": 6,
+      "candidateAnyOutput": 2
+    }
+  },
+  "changes": [
+    {
+      "profileId": "163",
+      "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "options": {
+        "symbologies": [
+          "ean13"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 255
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "0798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        }
+      ],
+      "candidate": [],
+      "removedValues": [
+        "[\"0798884816632\",\"ean13\",\"MDc5ODg4NDgxNjYzMg==\"]"
+      ],
+      "addedValues": []
+    },
+    {
+      "profileId": "629",
+      "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "options": {
+        "symbologies": [
+          "ean13"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 255
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "0798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        }
+      ],
+      "candidate": [],
+      "removedValues": [
+        "[\"0798884816632\",\"ean13\",\"MDc5ODg4NDgxNjYzMg==\"]"
+      ],
+      "addedValues": []
+    },
+    {
+      "profileId": "1144",
+      "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "options": {
+        "symbologies": [
+          "ean13"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 1
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "0798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        }
+      ],
+      "candidate": [],
+      "removedValues": [
+        "[\"0798884816632\",\"ean13\",\"MDc5ODg4NDgxNjYzMg==\"]"
+      ],
+      "addedValues": []
+    },
+    {
+      "profileId": "1145",
+      "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "options": {
+        "symbologies": [
+          "ean13"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 2
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "0798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        }
+      ],
+      "candidate": [],
+      "removedValues": [
+        "[\"0798884816632\",\"ean13\",\"MDc5ODg4NDgxNjYzMg==\"]"
+      ],
+      "addedValues": []
+    },
+    {
+      "profileId": "1148",
+      "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "options": {
+        "symbologies": [
+          "ean13",
+          "upca",
+          "ean8",
+          "upce",
+          "qr",
+          "code128"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 1
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "upca",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "UPC-A"
+        }
+      ],
+      "candidate": [],
+      "removedValues": [
+        "[\"798884816632\",\"upca\",\"MDc5ODg4NDgxNjYzMg==\"]"
+      ],
+      "addedValues": []
+    },
+    {
+      "profileId": "1149",
+      "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "options": {
+        "symbologies": [
+          "ean13",
+          "upca",
+          "ean8",
+          "upce",
+          "qr",
+          "code128"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 2
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "upca",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "UPC-A"
+        }
+      ],
+      "candidate": [],
+      "removedValues": [
+        "[\"798884816632\",\"upca\",\"MDc5ODg4NDgxNjYzMg==\"]"
+      ],
+      "addedValues": []
+    },
+    {
+      "profileId": "1156",
+      "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "options": {
+        "symbologies": [
+          "ean13"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 1
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "0798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        }
+      ],
+      "candidate": [],
+      "removedValues": [
+        "[\"0798884816632\",\"ean13\",\"MDc5ODg4NDgxNjYzMg==\"]"
+      ],
+      "addedValues": []
+    },
+    {
+      "profileId": "1157",
+      "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "options": {
+        "symbologies": [
+          "ean13"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 2
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "0798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        }
+      ],
+      "candidate": [],
+      "removedValues": [
+        "[\"0798884816632\",\"ean13\",\"MDc5ODg4NDgxNjYzMg==\"]"
+      ],
+      "addedValues": []
+    },
+    {
+      "profileId": "1160",
+      "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "options": {
+        "symbologies": [
+          "ean13",
+          "upca",
+          "ean8",
+          "upce",
+          "qr",
+          "code128"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 1
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "upca",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "UPC-A"
+        }
+      ],
+      "candidate": [],
+      "removedValues": [
+        "[\"798884816632\",\"upca\",\"MDc5ODg4NDgxNjYzMg==\"]"
+      ],
+      "addedValues": []
+    },
+    {
+      "profileId": "1161",
+      "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "options": {
+        "symbologies": [
+          "ean13",
+          "upca",
+          "ean8",
+          "upce",
+          "qr",
+          "code128"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 2
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "upca",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "UPC-A"
+        }
+      ],
+      "candidate": [],
+      "removedValues": [
+        "[\"798884816632\",\"upca\",\"MDc5ODg4NDgxNjYzMg==\"]"
+      ],
+      "addedValues": []
+    }
+  ],
+  "lostTargets": [],
+  "lostTargetRecords": [],
+  "newValues": [],
+  "noCodeOutputs": [],
+  "knownFalse07": [
+    {
+      "profileId": "163",
+      "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "options": {
+        "symbologies": [
+          "ean13"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 255
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "0798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        }
+      ],
+      "candidate": [],
+      "suppressed": true,
+      "recoveredTruth": false
+    },
+    {
+      "profileId": "629",
+      "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "options": {
+        "symbologies": [
+          "ean13"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 255
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "0798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        }
+      ],
+      "candidate": [],
+      "suppressed": true,
+      "recoveredTruth": false
+    },
+    {
+      "profileId": "1144",
+      "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "options": {
+        "symbologies": [
+          "ean13"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 1
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "0798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        }
+      ],
+      "candidate": [],
+      "suppressed": true,
+      "recoveredTruth": false
+    },
+    {
+      "profileId": "1145",
+      "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "options": {
+        "symbologies": [
+          "ean13"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 2
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "0798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        }
+      ],
+      "candidate": [],
+      "suppressed": true,
+      "recoveredTruth": false
+    },
+    {
+      "profileId": "1146",
+      "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "options": {
+        "symbologies": [
+          "upca"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 1
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "upca",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "UPC-A"
+        }
+      ],
+      "candidate": [
+        {
+          "contentType": "text",
+          "data": "798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "upca",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "UPC-A"
+        }
+      ],
+      "suppressed": false,
+      "recoveredTruth": false
+    },
+    {
+      "profileId": "1147",
+      "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "options": {
+        "symbologies": [
+          "upca"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 2
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "upca",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "UPC-A"
+        }
+      ],
+      "candidate": [
+        {
+          "contentType": "text",
+          "data": "798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "upca",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "UPC-A"
+        }
+      ],
+      "suppressed": false,
+      "recoveredTruth": false
+    },
+    {
+      "profileId": "1148",
+      "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "options": {
+        "symbologies": [
+          "ean13",
+          "upca",
+          "ean8",
+          "upce",
+          "qr",
+          "code128"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 1
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "upca",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "UPC-A"
+        }
+      ],
+      "candidate": [],
+      "suppressed": true,
+      "recoveredTruth": false
+    },
+    {
+      "profileId": "1149",
+      "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "options": {
+        "symbologies": [
+          "ean13",
+          "upca",
+          "ean8",
+          "upce",
+          "qr",
+          "code128"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 2
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "upca",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "UPC-A"
+        }
+      ],
+      "candidate": [],
+      "suppressed": true,
+      "recoveredTruth": false
+    },
+    {
+      "profileId": "1156",
+      "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "options": {
+        "symbologies": [
+          "ean13"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 1
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "0798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        }
+      ],
+      "candidate": [],
+      "suppressed": true,
+      "recoveredTruth": false
+    },
+    {
+      "profileId": "1157",
+      "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "options": {
+        "symbologies": [
+          "ean13"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 2
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "0798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        }
+      ],
+      "candidate": [],
+      "suppressed": true,
+      "recoveredTruth": false
+    },
+    {
+      "profileId": "1158",
+      "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "options": {
+        "symbologies": [
+          "upca"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 1
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "upca",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "UPC-A"
+        }
+      ],
+      "candidate": [
+        {
+          "contentType": "text",
+          "data": "798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "upca",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "UPC-A"
+        }
+      ],
+      "suppressed": false,
+      "recoveredTruth": false
+    },
+    {
+      "profileId": "1159",
+      "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "options": {
+        "symbologies": [
+          "upca"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 2
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "upca",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "UPC-A"
+        }
+      ],
+      "candidate": [
+        {
+          "contentType": "text",
+          "data": "798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "upca",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "UPC-A"
+        }
+      ],
+      "suppressed": false,
+      "recoveredTruth": false
+    },
+    {
+      "profileId": "1160",
+      "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "options": {
+        "symbologies": [
+          "ean13",
+          "upca",
+          "ean8",
+          "upce",
+          "qr",
+          "code128"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 1
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "upca",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "UPC-A"
+        }
+      ],
+      "candidate": [],
+      "suppressed": true,
+      "recoveredTruth": false
+    },
+    {
+      "profileId": "1161",
+      "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "options": {
+        "symbologies": [
+          "ean13",
+          "upca",
+          "ean8",
+          "upce",
+          "qr",
+          "code128"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 2
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "798884816632",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            }
+          },
+          "orientation": 0,
+          "rawBytes": "MDc5ODg4NDgxNjYzMg==",
+          "symbology": "upca",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "UPC-A"
+        }
+      ],
+      "candidate": [],
+      "suppressed": true,
+      "recoveredTruth": false
+    }
+  ],
+  "knownFalse35": [
+    {
+      "profileId": "97",
+      "itemKey": "original-RGBA-white-sRGB/ean13-1-35",
+      "options": {
+        "symbologies": [
+          "ean13"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 255
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "7034759003930",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 241,
+              "y": 417
+            },
+            "bottomRight": {
+              "x": 241,
+              "y": 80
+            },
+            "topLeft": {
+              "x": 265,
+              "y": 418
+            },
+            "topRight": {
+              "x": 265,
+              "y": 80
+            }
+          },
+          "orientation": -90,
+          "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        },
+        {
+          "contentType": "text",
+          "data": "5030159003930",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 296,
+              "y": 418
+            },
+            "bottomRight": {
+              "x": 296,
+              "y": 80
+            },
+            "topLeft": {
+              "x": 413,
+              "y": 420
+            },
+            "topRight": {
+              "x": 413,
+              "y": 77
+            }
+          },
+          "orientation": -90,
+          "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        }
+      ],
+      "candidate": [
+        {
+          "contentType": "text",
+          "data": "7034759003930",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 241,
+              "y": 417
+            },
+            "bottomRight": {
+              "x": 241,
+              "y": 80
+            },
+            "topLeft": {
+              "x": 265,
+              "y": 418
+            },
+            "topRight": {
+              "x": 265,
+              "y": 80
+            }
+          },
+          "orientation": -90,
+          "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        },
+        {
+          "contentType": "text",
+          "data": "5030159003930",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 296,
+              "y": 418
+            },
+            "bottomRight": {
+              "x": 296,
+              "y": 80
+            },
+            "topLeft": {
+              "x": 413,
+              "y": 420
+            },
+            "topRight": {
+              "x": 413,
+              "y": 77
+            }
+          },
+          "orientation": -90,
+          "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        }
+      ]
+    },
+    {
+      "profileId": "99",
+      "itemKey": "derived-limited-Y-expanded-RGB/ean13-1-35",
+      "options": {
+        "symbologies": [
+          "ean13"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 255
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "7034759003930",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 241,
+              "y": 417
+            },
+            "bottomRight": {
+              "x": 241,
+              "y": 80
+            },
+            "topLeft": {
+              "x": 265,
+              "y": 418
+            },
+            "topRight": {
+              "x": 265,
+              "y": 80
+            }
+          },
+          "orientation": -90,
+          "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        },
+        {
+          "contentType": "text",
+          "data": "5030159003930",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 296,
+              "y": 418
+            },
+            "bottomRight": {
+              "x": 296,
+              "y": 80
+            },
+            "topLeft": {
+              "x": 413,
+              "y": 420
+            },
+            "topRight": {
+              "x": 413,
+              "y": 77
+            }
+          },
+          "orientation": -90,
+          "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        }
+      ],
+      "candidate": [
+        {
+          "contentType": "text",
+          "data": "7034759003930",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 241,
+              "y": 417
+            },
+            "bottomRight": {
+              "x": 241,
+              "y": 80
+            },
+            "topLeft": {
+              "x": 265,
+              "y": 418
+            },
+            "topRight": {
+              "x": 265,
+              "y": 80
+            }
+          },
+          "orientation": -90,
+          "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        },
+        {
+          "contentType": "text",
+          "data": "5030159003930",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 296,
+              "y": 418
+            },
+            "bottomRight": {
+              "x": 296,
+              "y": 80
+            },
+            "topLeft": {
+              "x": 413,
+              "y": 420
+            },
+            "topRight": {
+              "x": 413,
+              "y": 77
+            }
+          },
+          "orientation": -90,
+          "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        }
+      ]
+    },
+    {
+      "profileId": "1109",
+      "itemKey": "original-RGBA-white-sRGB/ean13-1-35",
+      "options": {
+        "symbologies": [
+          "ean13"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 2
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "7034759003930",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 264,
+              "y": 418
+            },
+            "bottomRight": {
+              "x": 264,
+              "y": 80
+            },
+            "topLeft": {
+              "x": 265,
+              "y": 418
+            },
+            "topRight": {
+              "x": 265,
+              "y": 80
+            }
+          },
+          "orientation": -90,
+          "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        },
+        {
+          "contentType": "text",
+          "data": "5030159003930",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 296,
+              "y": 418
+            },
+            "bottomRight": {
+              "x": 296,
+              "y": 80
+            },
+            "topLeft": {
+              "x": 311,
+              "y": 419
+            },
+            "topRight": {
+              "x": 311,
+              "y": 79
+            }
+          },
+          "orientation": -90,
+          "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        }
+      ],
+      "candidate": [
+        {
+          "contentType": "text",
+          "data": "7034759003930",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 264,
+              "y": 418
+            },
+            "bottomRight": {
+              "x": 264,
+              "y": 80
+            },
+            "topLeft": {
+              "x": 265,
+              "y": 418
+            },
+            "topRight": {
+              "x": 265,
+              "y": 80
+            }
+          },
+          "orientation": -90,
+          "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        },
+        {
+          "contentType": "text",
+          "data": "5030159003930",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 296,
+              "y": 418
+            },
+            "bottomRight": {
+              "x": 296,
+              "y": 80
+            },
+            "topLeft": {
+              "x": 311,
+              "y": 419
+            },
+            "topRight": {
+              "x": 311,
+              "y": 79
+            }
+          },
+          "orientation": -90,
+          "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        }
+      ]
+    },
+    {
+      "profileId": "1113",
+      "itemKey": "original-RGBA-white-sRGB/ean13-1-35",
+      "options": {
+        "symbologies": [
+          "ean13",
+          "upca",
+          "ean8",
+          "upce",
+          "qr",
+          "code128"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 2
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "7034759003930",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 264,
+              "y": 418
+            },
+            "bottomRight": {
+              "x": 264,
+              "y": 80
+            },
+            "topLeft": {
+              "x": 265,
+              "y": 418
+            },
+            "topRight": {
+              "x": 265,
+              "y": 80
+            }
+          },
+          "orientation": -90,
+          "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        },
+        {
+          "contentType": "text",
+          "data": "5030159003930",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 296,
+              "y": 418
+            },
+            "bottomRight": {
+              "x": 296,
+              "y": 80
+            },
+            "topLeft": {
+              "x": 311,
+              "y": 419
+            },
+            "topRight": {
+              "x": 311,
+              "y": 79
+            }
+          },
+          "orientation": -90,
+          "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        }
+      ],
+      "candidate": [
+        {
+          "contentType": "text",
+          "data": "7034759003930",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 264,
+              "y": 418
+            },
+            "bottomRight": {
+              "x": 264,
+              "y": 80
+            },
+            "topLeft": {
+              "x": 265,
+              "y": 418
+            },
+            "topRight": {
+              "x": 265,
+              "y": 80
+            }
+          },
+          "orientation": -90,
+          "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        },
+        {
+          "contentType": "text",
+          "data": "5030159003930",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 296,
+              "y": 418
+            },
+            "bottomRight": {
+              "x": 296,
+              "y": 80
+            },
+            "topLeft": {
+              "x": 311,
+              "y": 419
+            },
+            "topRight": {
+              "x": 311,
+              "y": 79
+            }
+          },
+          "orientation": -90,
+          "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        }
+      ]
+    },
+    {
+      "profileId": "1121",
+      "itemKey": "derived-limited-Y-expanded-RGB/ean13-1-35",
+      "options": {
+        "symbologies": [
+          "ean13"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 2
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "7034759003930",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 264,
+              "y": 418
+            },
+            "bottomRight": {
+              "x": 264,
+              "y": 80
+            },
+            "topLeft": {
+              "x": 265,
+              "y": 418
+            },
+            "topRight": {
+              "x": 265,
+              "y": 80
+            }
+          },
+          "orientation": -90,
+          "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        },
+        {
+          "contentType": "text",
+          "data": "5030159003930",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 296,
+              "y": 418
+            },
+            "bottomRight": {
+              "x": 296,
+              "y": 80
+            },
+            "topLeft": {
+              "x": 307,
+              "y": 419
+            },
+            "topRight": {
+              "x": 307,
+              "y": 79
+            }
+          },
+          "orientation": -90,
+          "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        }
+      ],
+      "candidate": [
+        {
+          "contentType": "text",
+          "data": "7034759003930",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 264,
+              "y": 418
+            },
+            "bottomRight": {
+              "x": 264,
+              "y": 80
+            },
+            "topLeft": {
+              "x": 265,
+              "y": 418
+            },
+            "topRight": {
+              "x": 265,
+              "y": 80
+            }
+          },
+          "orientation": -90,
+          "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        },
+        {
+          "contentType": "text",
+          "data": "5030159003930",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 296,
+              "y": 418
+            },
+            "bottomRight": {
+              "x": 296,
+              "y": 80
+            },
+            "topLeft": {
+              "x": 307,
+              "y": 419
+            },
+            "topRight": {
+              "x": 307,
+              "y": 79
+            }
+          },
+          "orientation": -90,
+          "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        }
+      ]
+    },
+    {
+      "profileId": "1125",
+      "itemKey": "derived-limited-Y-expanded-RGB/ean13-1-35",
+      "options": {
+        "symbologies": [
+          "ean13",
+          "upca",
+          "ean8",
+          "upce",
+          "qr",
+          "code128"
+        ],
+        "tryHarder": true,
+        "tryInvert": true,
+        "maxResults": 2
+      },
+      "baseline": [
+        {
+          "contentType": "text",
+          "data": "7034759003930",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 264,
+              "y": 418
+            },
+            "bottomRight": {
+              "x": 264,
+              "y": 80
+            },
+            "topLeft": {
+              "x": 265,
+              "y": 418
+            },
+            "topRight": {
+              "x": 265,
+              "y": 80
+            }
+          },
+          "orientation": -90,
+          "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        },
+        {
+          "contentType": "text",
+          "data": "5030159003930",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 296,
+              "y": 418
+            },
+            "bottomRight": {
+              "x": 296,
+              "y": 80
+            },
+            "topLeft": {
+              "x": 307,
+              "y": 419
+            },
+            "topRight": {
+              "x": 307,
+              "y": 79
+            }
+          },
+          "orientation": -90,
+          "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        }
+      ],
+      "candidate": [
+        {
+          "contentType": "text",
+          "data": "7034759003930",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 264,
+              "y": 418
+            },
+            "bottomRight": {
+              "x": 264,
+              "y": 80
+            },
+            "topLeft": {
+              "x": 265,
+              "y": 418
+            },
+            "topRight": {
+              "x": 265,
+              "y": 80
+            }
+          },
+          "orientation": -90,
+          "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        },
+        {
+          "contentType": "text",
+          "data": "5030159003930",
+          "ecLevel": "",
+          "frameSize": {
+            "height": 480,
+            "width": 640
+          },
+          "isGS1": false,
+          "location": {
+            "bottomLeft": {
+              "x": 296,
+              "y": 418
+            },
+            "bottomRight": {
+              "x": 296,
+              "y": 80
+            },
+            "topLeft": {
+              "x": 307,
+              "y": 419
+            },
+            "topRight": {
+              "x": 307,
+              "y": 79
+            }
+          },
+          "orientation": -90,
+          "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+          "symbology": "ean13",
+          "symbologyIdentifier": "]E0",
+          "symbologyName": "EAN-13"
+        }
+      ]
+    }
+  ],
+  "unreviewedCompanionMismatches": [
+    {
+      "profileId": "117",
+      "itemKey": "original-RGBA-white-sRGB/ean13-1-5",
+      "label": "baseline",
+      "companion": "8410054010412",
+      "value": {
+        "contentType": "text",
+        "data": "6412012010412",
+        "ecLevel": "",
+        "frameSize": {
+          "height": 480,
+          "width": 640
+        },
+        "isGS1": false,
+        "location": {
+          "bottomLeft": {
+            "x": 165,
+            "y": 279
+          },
+          "bottomRight": {
+            "x": 483,
+            "y": 279
+          },
+          "topLeft": {
+            "x": 165,
+            "y": 270
+          },
+          "topRight": {
+            "x": 483,
+            "y": 270
+          }
+        },
+        "orientation": 0,
+        "rawBytes": "NjQxMjAxMjAxMDQxMg==",
+        "symbology": "ean13",
+        "symbologyIdentifier": "]E0",
+        "symbologyName": "EAN-13"
+      },
+      "scope": "Companion mismatch only: secondary visible barcode or unreviewed error; not proven false positive."
+    },
+    {
+      "profileId": "117",
+      "itemKey": "original-RGBA-white-sRGB/ean13-1-5",
+      "label": "candidate",
+      "companion": "8410054010412",
+      "value": {
+        "contentType": "text",
+        "data": "6412012010412",
+        "ecLevel": "",
+        "frameSize": {
+          "height": 480,
+          "width": 640
+        },
+        "isGS1": false,
+        "location": {
+          "bottomLeft": {
+            "x": 165,
+            "y": 279
+          },
+          "bottomRight": {
+            "x": 483,
+            "y": 279
+          },
+          "topLeft": {
+            "x": 165,
+            "y": 270
+          },
+          "topRight": {
+            "x": 483,
+            "y": 270
+          }
+        },
+        "orientation": 0,
+        "rawBytes": "NjQxMjAxMjAxMDQxMg==",
+        "symbology": "ean13",
+        "symbologyIdentifier": "]E0",
+        "symbologyName": "EAN-13"
+      },
+      "scope": "Companion mismatch only: secondary visible barcode or unreviewed error; not proven false positive."
+    },
+    {
+      "profileId": "189",
+      "itemKey": "original-RGBA-white-sRGB/ean13-2-14",
+      "label": "baseline",
+      "companion": "9784872348880",
+      "value": {
+        "contentType": "text",
+        "data": "1920081045006",
+        "ecLevel": "",
+        "frameSize": {
+          "height": 360,
+          "width": 480
+        },
+        "isGS1": false,
+        "location": {
+          "bottomLeft": {
+            "x": 29,
+            "y": 359
+          },
+          "bottomRight": {
+            "x": 437,
+            "y": 359
+          },
+          "topLeft": {
+            "x": 30,
+            "y": 353
+          },
+          "topRight": {
+            "x": 437,
+            "y": 353
+          }
+        },
+        "orientation": 0,
+        "rawBytes": "MTkyMDA4MTA0NTAwNg==",
+        "symbology": "ean13",
+        "symbologyIdentifier": "]E0",
+        "symbologyName": "EAN-13"
+      },
+      "scope": "Companion mismatch only: secondary visible barcode or unreviewed error; not proven false positive."
+    },
+    {
+      "profileId": "189",
+      "itemKey": "original-RGBA-white-sRGB/ean13-2-14",
+      "label": "candidate",
+      "companion": "9784872348880",
+      "value": {
+        "contentType": "text",
+        "data": "1920081045006",
+        "ecLevel": "",
+        "frameSize": {
+          "height": 360,
+          "width": 480
+        },
+        "isGS1": false,
+        "location": {
+          "bottomLeft": {
+            "x": 29,
+            "y": 359
+          },
+          "bottomRight": {
+            "x": 437,
+            "y": 359
+          },
+          "topLeft": {
+            "x": 30,
+            "y": 353
+          },
+          "topRight": {
+            "x": 437,
+            "y": 353
+          }
+        },
+        "orientation": 0,
+        "rawBytes": "MTkyMDA4MTA0NTAwNg==",
+        "symbology": "ean13",
+        "symbologyIdentifier": "]E0",
+        "symbologyName": "EAN-13"
+      },
+      "scope": "Companion mismatch only: secondary visible barcode or unreviewed error; not proven false positive."
+    },
+    {
+      "profileId": "213",
+      "itemKey": "original-RGBA-white-sRGB/ean13-2-20",
+      "label": "baseline",
+      "companion": "9784872348880",
+      "value": {
+        "contentType": "text",
+        "data": "1920081045006",
+        "ecLevel": "",
+        "frameSize": {
+          "height": 360,
+          "width": 480
+        },
+        "isGS1": false,
+        "location": {
+          "bottomLeft": {
+            "x": 44,
+            "y": 359
+          },
+          "bottomRight": {
+            "x": 398,
+            "y": 359
+          },
+          "topLeft": {
+            "x": 51,
+            "y": 299
+          },
+          "topRight": {
+            "x": 395,
+            "y": 299
+          }
+        },
+        "orientation": 0,
+        "rawBytes": "MTkyMDA4MTA0NTAwNg==",
+        "symbology": "ean13",
+        "symbologyIdentifier": "]E0",
+        "symbologyName": "EAN-13"
+      },
+      "scope": "Companion mismatch only: secondary visible barcode or unreviewed error; not proven false positive."
+    },
+    {
+      "profileId": "213",
+      "itemKey": "original-RGBA-white-sRGB/ean13-2-20",
+      "label": "candidate",
+      "companion": "9784872348880",
+      "value": {
+        "contentType": "text",
+        "data": "1920081045006",
+        "ecLevel": "",
+        "frameSize": {
+          "height": 360,
+          "width": 480
+        },
+        "isGS1": false,
+        "location": {
+          "bottomLeft": {
+            "x": 44,
+            "y": 359
+          },
+          "bottomRight": {
+            "x": 398,
+            "y": 359
+          },
+          "topLeft": {
+            "x": 51,
+            "y": 299
+          },
+          "topRight": {
+            "x": 395,
+            "y": 299
+          }
+        },
+        "orientation": 0,
+        "rawBytes": "MTkyMDA4MTA0NTAwNg==",
+        "symbology": "ean13",
+        "symbologyIdentifier": "]E0",
+        "symbologyName": "EAN-13"
+      },
+      "scope": "Companion mismatch only: secondary visible barcode or unreviewed error; not proven false positive."
+    },
+    {
+      "profileId": "229",
+      "itemKey": "original-RGBA-white-sRGB/ean13-2-24",
+      "label": "baseline",
+      "companion": "9784872348880",
+      "value": {
+        "contentType": "text",
+        "data": "1920081045006",
+        "ecLevel": "",
+        "frameSize": {
+          "height": 360,
+          "width": 480
+        },
+        "isGS1": false,
+        "location": {
+          "bottomLeft": {
+            "x": 60,
+            "y": 344
+          },
+          "bottomRight": {
+            "x": 368,
+            "y": 344
+          },
+          "topLeft": {
+            "x": 61,
+            "y": 341
+          },
+          "topRight": {
+            "x": 369,
+            "y": 341
+          }
+        },
+        "orientation": 0,
+        "rawBytes": "MTkyMDA4MTA0NTAwNg==",
+        "symbology": "ean13",
+        "symbologyIdentifier": "]E0",
+        "symbologyName": "EAN-13"
+      },
+      "scope": "Companion mismatch only: secondary visible barcode or unreviewed error; not proven false positive."
+    },
+    {
+      "profileId": "229",
+      "itemKey": "original-RGBA-white-sRGB/ean13-2-24",
+      "label": "candidate",
+      "companion": "9784872348880",
+      "value": {
+        "contentType": "text",
+        "data": "1920081045006",
+        "ecLevel": "",
+        "frameSize": {
+          "height": 360,
+          "width": 480
+        },
+        "isGS1": false,
+        "location": {
+          "bottomLeft": {
+            "x": 60,
+            "y": 344
+          },
+          "bottomRight": {
+            "x": 368,
+            "y": 344
+          },
+          "topLeft": {
+            "x": 61,
+            "y": 341
+          },
+          "topRight": {
+            "x": 369,
+            "y": 341
+          }
+        },
+        "orientation": 0,
+        "rawBytes": "MTkyMDA4MTA0NTAwNg==",
+        "symbology": "ean13",
+        "symbologyIdentifier": "]E0",
+        "symbologyName": "EAN-13"
+      },
+      "scope": "Companion mismatch only: secondary visible barcode or unreviewed error; not proven false positive."
+    }
+  ],
+  "matrixTargetMisses": [],
+  "runSummaries": {
+    "baseline-esm": {
+      "label": "baseline",
+      "format": "esm",
+      "node": "v24.19.0",
+      "startedAt": "2026-10-11T16:19:10.755Z",
+      "completedAt": "2026-10-11T16:19:24.954Z",
+      "entry": "<ARTIFACT_ROOT>\\staged-sdk-study-v1\\consumers\\baseline\\package\\dist\\node.js",
+      "entrySha256": "7bfb0f3a7c31ed1b3c08f36183880e584a5d3813d6d98cbc0f7b30db43b722a5",
+      "expectedReaderSha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+      "assets": {
+        "reader": {
+          "path": "<ARTIFACT_ROOT>\\staged-sdk-study-v1\\consumers\\baseline\\package\\dist\\wasm\\zxing_reader.wasm",
+          "bytes": 966895,
+          "sha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931"
+        },
+        "writer": {
+          "path": "<ARTIFACT_ROOT>\\staged-sdk-study-v1\\consumers\\baseline\\package\\dist\\wasm\\zxing_writer.wasm",
+          "bytes": 647500,
+          "sha256": "af26f895fe471d23cb2d742bc3eca0695dbecb4ea6bad9b92eba3763ec505941"
+        }
+      },
+      "compiledWasm": [
+        {
+          "sha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+          "bytes": 966895,
+          "count": 1,
+          "via": [
+            "instantiate"
+          ]
+        }
+      ],
+      "networkAttempts": [],
+      "planSha256": "1e6042ae022e0e902410aaf8094918cef564c2e01d438a7932598d29fd497a65",
+      "runnerSha256": "4623edcc287a83c504e81dd7cff7e0f73ab25b85a0d46a538497278855ae42ea",
+      "profiles": 1162,
+      "successful": 1162,
+      "errors": [],
+      "mutations": 0,
+      "validationFailures": 0,
+      "provenanceErrors": [],
+      "capabilities": {
+        "runtime": "non-browser",
+        "engine": {
+          "name": "zxing-wasm",
+          "version": "3.1.5",
+          "webAssembly": true,
+          "read": [
+            "qr",
+            "micro-qr",
+            "rmqr",
+            "data-matrix",
+            "aztec",
+            "pdf417",
+            "micro-pdf417",
+            "maxicode",
+            "ean13",
+            "ean8",
+            "upca",
+            "upce",
+            "isbn",
+            "code128",
+            "code39",
+            "code93",
+            "codabar",
+            "itf",
+            "itf14",
+            "databar",
+            "databar-expanded",
+            "databar-limited",
+            "code32",
+            "pzn",
+            "telepen",
+            "dx-film-edge"
+          ],
+          "write": [
+            "qr",
+            "micro-qr",
+            "rmqr",
+            "data-matrix",
+            "aztec",
+            "pdf417",
+            "micro-pdf417",
+            "maxicode",
+            "ean13",
+            "ean8",
+            "upca",
+            "upce",
+            "isbn",
+            "code128",
+            "code39",
+            "code93",
+            "codabar",
+            "itf",
+            "itf14",
+            "databar",
+            "databar-expanded",
+            "databar-limited",
+            "code32",
+            "pzn",
+            "telepen",
+            "dx-film-edge"
+          ]
+        },
+        "camera": {
+          "status": "not-browser",
+          "secureContext": null,
+          "getUserMedia": false,
+          "permission": "not-queried",
+          "devices": "not-queried"
+        },
+        "worker": {
+          "available": false,
+          "configured": false
+        },
+        "barcodeDetector": {
+          "available": false,
+          "formatQueryAvailable": false,
+          "formats": "not-queried",
+          "usedByQRGen": false
+        },
+        "assets": {
+          "reader": {
+            "source": "binary",
+            "binaryBytes": 966895
+          },
+          "writer": {
+            "source": "binary",
+            "binaryBytes": 647500
+          },
+          "offlineReadiness": "unverified"
+        }
+      },
+      "memoryBefore": {
+        "rss": 54087680,
+        "heapTotal": 12574720,
+        "heapUsed": 8699176,
+        "external": 7777851,
+        "arrayBuffers": 2828916
+      },
+      "memoryAfter": {
+        "rss": 166477824,
+        "heapTotal": 47124480,
+        "heapUsed": 12081432,
+        "external": 58179694,
+        "arrayBuffers": 33178308
+      },
+      "resultsSha256": "df2488dff79eefff09d900e10908480cd85fef7da637515aa3eb80324f3cc11e",
+      "status": "passed"
+    },
+    "baseline-cjs": {
+      "label": "baseline",
+      "format": "cjs",
+      "node": "v24.19.0",
+      "startedAt": "2026-10-11T16:19:38.530Z",
+      "completedAt": "2026-10-11T16:19:52.599Z",
+      "entry": "<ARTIFACT_ROOT>\\staged-sdk-study-v1\\consumers\\baseline\\package\\dist\\node.cjs",
+      "entrySha256": "c2c63791ac8f24ee05e689e6b95eeb9ff99a5e350ac3874d21dea74a6fcf4345",
+      "expectedReaderSha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+      "assets": {
+        "reader": {
+          "path": "<ARTIFACT_ROOT>\\staged-sdk-study-v1\\consumers\\baseline\\package\\dist\\wasm\\zxing_reader.wasm",
+          "bytes": 966895,
+          "sha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931"
+        },
+        "writer": {
+          "path": "<ARTIFACT_ROOT>\\staged-sdk-study-v1\\consumers\\baseline\\package\\dist\\wasm\\zxing_writer.wasm",
+          "bytes": 647500,
+          "sha256": "af26f895fe471d23cb2d742bc3eca0695dbecb4ea6bad9b92eba3763ec505941"
+        }
+      },
+      "compiledWasm": [
+        {
+          "sha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+          "bytes": 966895,
+          "count": 1,
+          "via": [
+            "instantiate"
+          ]
+        }
+      ],
+      "networkAttempts": [],
+      "planSha256": "1e6042ae022e0e902410aaf8094918cef564c2e01d438a7932598d29fd497a65",
+      "runnerSha256": "4623edcc287a83c504e81dd7cff7e0f73ab25b85a0d46a538497278855ae42ea",
+      "profiles": 1162,
+      "successful": 1162,
+      "errors": [],
+      "mutations": 0,
+      "validationFailures": 0,
+      "provenanceErrors": [],
+      "capabilities": {
+        "runtime": "non-browser",
+        "engine": {
+          "name": "zxing-wasm",
+          "version": "3.1.5",
+          "webAssembly": true,
+          "read": [
+            "qr",
+            "micro-qr",
+            "rmqr",
+            "data-matrix",
+            "aztec",
+            "pdf417",
+            "micro-pdf417",
+            "maxicode",
+            "ean13",
+            "ean8",
+            "upca",
+            "upce",
+            "isbn",
+            "code128",
+            "code39",
+            "code93",
+            "codabar",
+            "itf",
+            "itf14",
+            "databar",
+            "databar-expanded",
+            "databar-limited",
+            "code32",
+            "pzn",
+            "telepen",
+            "dx-film-edge"
+          ],
+          "write": [
+            "qr",
+            "micro-qr",
+            "rmqr",
+            "data-matrix",
+            "aztec",
+            "pdf417",
+            "micro-pdf417",
+            "maxicode",
+            "ean13",
+            "ean8",
+            "upca",
+            "upce",
+            "isbn",
+            "code128",
+            "code39",
+            "code93",
+            "codabar",
+            "itf",
+            "itf14",
+            "databar",
+            "databar-expanded",
+            "databar-limited",
+            "code32",
+            "pzn",
+            "telepen",
+            "dx-film-edge"
+          ]
+        },
+        "camera": {
+          "status": "not-browser",
+          "secureContext": null,
+          "getUserMedia": false,
+          "permission": "not-queried",
+          "devices": "not-queried"
+        },
+        "worker": {
+          "available": false,
+          "configured": false
+        },
+        "barcodeDetector": {
+          "available": false,
+          "formatQueryAvailable": false,
+          "formats": "not-queried",
+          "usedByQRGen": false
+        },
+        "assets": {
+          "reader": {
+            "source": "binary",
+            "binaryBytes": 966895
+          },
+          "writer": {
+            "source": "binary",
+            "binaryBytes": 647500
+          },
+          "offlineReadiness": "unverified"
+        }
+      },
+      "memoryBefore": {
+        "rss": 54079488,
+        "heapTotal": 12574720,
+        "heapUsed": 8697536,
+        "external": 7777851,
+        "arrayBuffers": 2828916
+      },
+      "memoryAfter": {
+        "rss": 166948864,
+        "heapTotal": 47124480,
+        "heapUsed": 12245896,
+        "external": 63288678,
+        "arrayBuffers": 38287292
+      },
+      "resultsSha256": "30f5e7e454f3b08d887b5187d741882a4a1f8a56ddad0ecc7acea50557df9c25",
+      "status": "passed"
+    },
+    "candidate-esm": {
+      "label": "candidate",
+      "format": "esm",
+      "node": "v24.19.0",
+      "startedAt": "2026-10-11T16:19:41.382Z",
+      "completedAt": "2026-10-11T16:19:56.040Z",
+      "entry": "<ARTIFACT_ROOT>\\staged-sdk-study-v1\\consumers\\candidate\\package\\dist\\node.js",
+      "entrySha256": "5a174bc17e3e0ea620b318fd2bb690ec6202eadae23994e301e09e8461a71df2",
+      "expectedReaderSha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+      "assets": {
+        "reader": {
+          "path": "<ARTIFACT_ROOT>\\staged-sdk-study-v1\\consumers\\candidate\\package\\dist\\wasm\\zxing_reader.wasm",
+          "bytes": 969380,
+          "sha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6"
+        },
+        "writer": {
+          "path": "<ARTIFACT_ROOT>\\staged-sdk-study-v1\\consumers\\candidate\\package\\dist\\wasm\\zxing_writer.wasm",
+          "bytes": 647500,
+          "sha256": "af26f895fe471d23cb2d742bc3eca0695dbecb4ea6bad9b92eba3763ec505941"
+        }
+      },
+      "compiledWasm": [
+        {
+          "sha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+          "bytes": 969380,
+          "count": 1,
+          "via": [
+            "instantiate"
+          ]
+        }
+      ],
+      "networkAttempts": [],
+      "planSha256": "1e6042ae022e0e902410aaf8094918cef564c2e01d438a7932598d29fd497a65",
+      "runnerSha256": "4623edcc287a83c504e81dd7cff7e0f73ab25b85a0d46a538497278855ae42ea",
+      "profiles": 1162,
+      "successful": 1162,
+      "errors": [],
+      "mutations": 0,
+      "validationFailures": 0,
+      "provenanceErrors": [],
+      "capabilities": {
+        "runtime": "non-browser",
+        "engine": {
+          "name": "zxing-wasm",
+          "version": "3.1.5",
+          "webAssembly": true,
+          "read": [
+            "qr",
+            "micro-qr",
+            "rmqr",
+            "data-matrix",
+            "aztec",
+            "pdf417",
+            "micro-pdf417",
+            "maxicode",
+            "ean13",
+            "ean8",
+            "upca",
+            "upce",
+            "isbn",
+            "code128",
+            "code39",
+            "code93",
+            "codabar",
+            "itf",
+            "itf14",
+            "databar",
+            "databar-expanded",
+            "databar-limited",
+            "code32",
+            "pzn",
+            "telepen",
+            "dx-film-edge"
+          ],
+          "write": [
+            "qr",
+            "micro-qr",
+            "rmqr",
+            "data-matrix",
+            "aztec",
+            "pdf417",
+            "micro-pdf417",
+            "maxicode",
+            "ean13",
+            "ean8",
+            "upca",
+            "upce",
+            "isbn",
+            "code128",
+            "code39",
+            "code93",
+            "codabar",
+            "itf",
+            "itf14",
+            "databar",
+            "databar-expanded",
+            "databar-limited",
+            "code32",
+            "pzn",
+            "telepen",
+            "dx-film-edge"
+          ]
+        },
+        "camera": {
+          "status": "not-browser",
+          "secureContext": null,
+          "getUserMedia": false,
+          "permission": "not-queried",
+          "devices": "not-queried"
+        },
+        "worker": {
+          "available": false,
+          "configured": false
+        },
+        "barcodeDetector": {
+          "available": false,
+          "formatQueryAvailable": false,
+          "formats": "not-queried",
+          "usedByQRGen": false
+        },
+        "assets": {
+          "reader": {
+            "source": "binary",
+            "binaryBytes": 969380
+          },
+          "writer": {
+            "source": "binary",
+            "binaryBytes": 647500
+          },
+          "offlineReadiness": "unverified"
+        }
+      },
+      "memoryBefore": {
+        "rss": 60432384,
+        "heapTotal": 12836864,
+        "heapUsed": 8720496,
+        "external": 7780336,
+        "arrayBuffers": 2831401
+      },
+      "memoryAfter": {
+        "rss": 141234176,
+        "heapTotal": 47493120,
+        "heapUsed": 11415784,
+        "external": 45609065,
+        "arrayBuffers": 19640434
+      },
+      "resultsSha256": "e8a56be11e7f7ca93824491f1b6478c961620864adad145b2fe45280b62d72ca",
+      "status": "passed"
+    },
+    "candidate-cjs": {
+      "label": "candidate",
+      "format": "cjs",
+      "node": "v24.19.0",
+      "startedAt": "2026-10-11T16:19:41.605Z",
+      "completedAt": "2026-10-11T16:19:56.398Z",
+      "entry": "<ARTIFACT_ROOT>\\staged-sdk-study-v1\\consumers\\candidate\\package\\dist\\node.cjs",
+      "entrySha256": "8f7cf4fe4d005a92af74fc0680acb84dbe7fa3499ab880b1c2e2259163f2086e",
+      "expectedReaderSha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+      "assets": {
+        "reader": {
+          "path": "<ARTIFACT_ROOT>\\staged-sdk-study-v1\\consumers\\candidate\\package\\dist\\wasm\\zxing_reader.wasm",
+          "bytes": 969380,
+          "sha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6"
+        },
+        "writer": {
+          "path": "<ARTIFACT_ROOT>\\staged-sdk-study-v1\\consumers\\candidate\\package\\dist\\wasm\\zxing_writer.wasm",
+          "bytes": 647500,
+          "sha256": "af26f895fe471d23cb2d742bc3eca0695dbecb4ea6bad9b92eba3763ec505941"
+        }
+      },
+      "compiledWasm": [
+        {
+          "sha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+          "bytes": 969380,
+          "count": 1,
+          "via": [
+            "instantiate"
+          ]
+        }
+      ],
+      "networkAttempts": [],
+      "planSha256": "1e6042ae022e0e902410aaf8094918cef564c2e01d438a7932598d29fd497a65",
+      "runnerSha256": "4623edcc287a83c504e81dd7cff7e0f73ab25b85a0d46a538497278855ae42ea",
+      "profiles": 1162,
+      "successful": 1162,
+      "errors": [],
+      "mutations": 0,
+      "validationFailures": 0,
+      "provenanceErrors": [],
+      "capabilities": {
+        "runtime": "non-browser",
+        "engine": {
+          "name": "zxing-wasm",
+          "version": "3.1.5",
+          "webAssembly": true,
+          "read": [
+            "qr",
+            "micro-qr",
+            "rmqr",
+            "data-matrix",
+            "aztec",
+            "pdf417",
+            "micro-pdf417",
+            "maxicode",
+            "ean13",
+            "ean8",
+            "upca",
+            "upce",
+            "isbn",
+            "code128",
+            "code39",
+            "code93",
+            "codabar",
+            "itf",
+            "itf14",
+            "databar",
+            "databar-expanded",
+            "databar-limited",
+            "code32",
+            "pzn",
+            "telepen",
+            "dx-film-edge"
+          ],
+          "write": [
+            "qr",
+            "micro-qr",
+            "rmqr",
+            "data-matrix",
+            "aztec",
+            "pdf417",
+            "micro-pdf417",
+            "maxicode",
+            "ean13",
+            "ean8",
+            "upca",
+            "upce",
+            "isbn",
+            "code128",
+            "code39",
+            "code93",
+            "codabar",
+            "itf",
+            "itf14",
+            "databar",
+            "databar-expanded",
+            "databar-limited",
+            "code32",
+            "pzn",
+            "telepen",
+            "dx-film-edge"
+          ]
+        },
+        "camera": {
+          "status": "not-browser",
+          "secureContext": null,
+          "getUserMedia": false,
+          "permission": "not-queried",
+          "devices": "not-queried"
+        },
+        "worker": {
+          "available": false,
+          "configured": false
+        },
+        "barcodeDetector": {
+          "available": false,
+          "formatQueryAvailable": false,
+          "formats": "not-queried",
+          "usedByQRGen": false
+        },
+        "assets": {
+          "reader": {
+            "source": "binary",
+            "binaryBytes": 969380
+          },
+          "writer": {
+            "source": "binary",
+            "binaryBytes": 647500
+          },
+          "offlineReadiness": "unverified"
+        }
+      },
+      "memoryBefore": {
+        "rss": 60653568,
+        "heapTotal": 12574720,
+        "heapUsed": 8704632,
+        "external": 7780336,
+        "arrayBuffers": 2831401
+      },
+      "memoryAfter": {
+        "rss": 160256000,
+        "heapTotal": 46710784,
+        "heapUsed": 13252016,
+        "external": 79104267,
+        "arrayBuffers": 54296330
+      },
+      "resultsSha256": "016cd129803a05cd86e863b8f47dc62800eb17ae9a51df806195a0d1a29da2da",
+      "status": "passed"
+    }
+  },
+  "limitations": [
+    "Repeated profiles/formats are not independent photographs.",
+    "All public fields except timestamp retained; rawBytes are never derived from normalized text.",
+    "Knownfalse suppression is not recovery;35andUPCA-only residuals remain.",
+    "Companion mismatches may be secondary visible labels and are not a population false-positive estimate.",
+    "DefaultCDN/buildidentity/cachemigration/custombinary compatibility and physicalphones are not established."
+  ]
+}
