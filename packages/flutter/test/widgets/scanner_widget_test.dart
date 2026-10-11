@@ -6,6 +6,8 @@
 // resolved for development); the pure-Dart tests in the parent folder do not
 // depend on Flutter or mobile_scanner.
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -99,6 +101,29 @@ Future<void> settle(WidgetTester tester) async {
   }
 }
 
+/// Immutable callback snapshots and their delivery order for CI evidence.
+class CallbackTrace {
+  final List<String> events = [];
+  final List<List<Map<String, Object?>>> scans = [];
+  final List<List<Map<String, Object?>>> tracks = [];
+  final List<Map<String, Object?>> errors = [];
+
+  void scanned(List<QRGenBarcode> codes) {
+    scans.add(List.unmodifiable(codes.map((code) => Map<String, Object?>.unmodifiable(code.toJson()))));
+    events.add('scan:${codes.map((code) => code.data).join(',')}');
+  }
+
+  void tracked(List<QRGenTrackedBarcode> codes) {
+    tracks.add(List.unmodifiable(codes.map((code) => Map<String, Object?>.unmodifiable(code.toJson()))));
+    events.add('track:${codes.map((code) => code.data).join(',')}');
+  }
+
+  void failed(QRGenError error) {
+    errors.add({'code': error.code.name, 'message': error.message});
+    events.add('error:${error.code.name}');
+  }
+}
+
 void main() {
   late FakeScannerPlatform platform;
 
@@ -106,6 +131,39 @@ void main() {
     platform = FakeScannerPlatform();
     MobileScannerPlatform.instance = platform;
   });
+
+  setUpAll(() {
+    debugPrint('FLUTTER_CALLBACK_PROBE_RUNTIME Dart ${Platform.version}');
+  });
+
+  // Every new ownership probe removes the actual widget, including on a failed
+  // assertion. Disposing the public controller alone is not widget disposal.
+  void retainCallbackEvidence(WidgetTester tester, QRGenScannerController controller, CallbackTrace trace, String name) {
+    addTearDown(() async {
+      await tester.pumpWidget(const SizedBox());
+      await settle(tester);
+      final attached = controller.isAttached;
+      final running = platform.running;
+      final barcodeListener = platform.barcodes.hasListener;
+      controller.dispose();
+      await platform.barcodes.close();
+      await platform.torch.close();
+      await platform.zoom.close();
+      debugPrint('FLUTTER_CALLBACK_PROBE ${jsonEncode({
+        'name': name,
+        'events': trace.events,
+        'scanSnapshots': trace.scans,
+        'trackSnapshots': trace.tracks,
+        'errors': trace.errors,
+        'cleanup': {'attached': attached, 'fakeCameraRunning': running, 'barcodeListener': barcodeListener},
+      })}');
+      expect(attached, isFalse);
+      expect(running, isFalse);
+      expect(barcodeListener, isFalse);
+      expect(trace.errors, isEmpty);
+      expect(tester.takeException(), isNull);
+    });
+  }
 
   testWidgets('starts the camera with the mapped formats and reports scans', (tester) async {
     final scans = <List<QRGenBarcode>>[];
@@ -318,6 +376,300 @@ void main() {
     controller.dispose();
     await tester.pumpWidget(const SizedBox());
     await settle(tester);
+  });
+
+  // The broadcast fake is intentionally asynchronous. These tests never
+  // recursively call StreamController.add on a synchronous stream. A direct
+  // nested call uses the public onDetect from the mounted MobileScanner widget;
+  // it proves Dart callback ownership, not native camera event scheduling.
+  testWidgets('batch onScan synchronous reset cancels the saved old track result', (tester) async {
+    const name = 'reset inside onScan';
+    final controller = QRGenScannerController();
+    final trace = CallbackTrace();
+    retainCallbackEvidence(tester, controller, trace, name);
+    var resetOnce = true;
+    await tester.pumpWidget(host(QRGenScanner(
+      controller: controller,
+      options: const QRGenScannerOptions(mode: QRGenScanMode.batch, duplicateFilter: -1, beep: false, vibrate: false),
+      showToast: false,
+      showHighlights: false,
+      onError: trace.failed,
+      onScan: (codes) {
+        trace.scanned(codes);
+        if (resetOnce) {
+          resetOnce = false;
+          trace.events.add('reset');
+          unawaited(controller.reset());
+        }
+      },
+      onTrack: trace.tracked,
+    )));
+    await settle(tester);
+    platform.barcodes.add(capture('A'));
+    await settle(tester);
+    expect(trace.events, ['scan:A', 'reset'], reason: 'reset already cleared A before onScan returned');
+    expect(trace.tracks, isEmpty);
+    platform.barcodes.add(capture('A'));
+    await settle(tester);
+    expect(trace.events, ['scan:A', 'reset', 'scan:A', 'track:A']);
+    expect(trace.tracks.single.single['count'], 1, reason: 'reset also clears duplicate and tracking history');
+  });
+
+  testWidgets('batch direct mounted detect supersedes the earlier saved track result', (tester) async {
+    const name = 'direct mounted nested B';
+    final controller = QRGenScannerController();
+    final trace = CallbackTrace();
+    retainCallbackEvidence(tester, controller, trace, name);
+    late void Function(BarcodeCapture) detect;
+    var nestOnce = true;
+    await tester.pumpWidget(host(QRGenScanner(
+      controller: controller,
+      options: const QRGenScannerOptions(mode: QRGenScanMode.batch, duplicateFilter: -1, beep: false, vibrate: false),
+      showToast: false,
+      showHighlights: false,
+      onError: trace.failed,
+      onScan: (codes) {
+        trace.scanned(codes);
+        if (nestOnce) {
+          nestOnce = false;
+          trace.events.add('direct:B');
+          detect(capture('B'));
+        }
+      },
+      onTrack: trace.tracked,
+    )));
+    await settle(tester);
+    detect = tester.widget<MobileScanner>(find.byType(MobileScanner)).onDetect!;
+    platform.barcodes.add(capture('A'));
+    await settle(tester);
+    expect(trace.events, ['scan:A', 'direct:B', 'scan:B', 'track:A,B']);
+    expect(trace.tracks.single.map((code) => code['data']), ['A', 'B']);
+    expect(trace.tracks.single.map((code) => code['count']), [1, 1]);
+  });
+
+  testWidgets('batch reset and direct mounted B retain only the new result', (tester) async {
+    const name = 'reset plus direct mounted nested B';
+    final controller = QRGenScannerController();
+    final trace = CallbackTrace();
+    retainCallbackEvidence(tester, controller, trace, name);
+    late void Function(BarcodeCapture) detect;
+    var nestOnce = true;
+    await tester.pumpWidget(host(QRGenScanner(
+      controller: controller,
+      options: const QRGenScannerOptions(mode: QRGenScanMode.batch, duplicateFilter: -1, beep: false, vibrate: false),
+      showToast: false,
+      showHighlights: false,
+      onError: trace.failed,
+      onScan: (codes) {
+        trace.scanned(codes);
+        if (nestOnce) {
+          nestOnce = false;
+          trace.events.add('reset');
+          unawaited(controller.reset());
+          trace.events.add('direct:B');
+          detect(capture('B'));
+        }
+      },
+      onTrack: trace.tracked,
+    )));
+    await settle(tester);
+    detect = tester.widget<MobileScanner>(find.byType(MobileScanner)).onDetect!;
+    platform.barcodes.add(capture('A'));
+    await settle(tester);
+    expect(trace.events, ['scan:A', 'reset', 'direct:B', 'scan:B', 'track:B']);
+    expect(trace.tracks.single.single['count'], 1);
+    platform.barcodes.add(capture('A'));
+    await settle(tester);
+    expect(trace.events.skip(5), ['scan:A', 'track:B,A']);
+    expect(trace.tracks.last.map((code) => code['count']), [1, 1]);
+  });
+
+  testWidgets('batch asynchronous broadcast next frame preserves both ordered results', (tester) async {
+    const name = 'ordinary asynchronous next frame';
+    final controller = QRGenScannerController();
+    final trace = CallbackTrace();
+    retainCallbackEvidence(tester, controller, trace, name);
+    var nextOnce = true;
+    await tester.pumpWidget(host(QRGenScanner(
+      controller: controller,
+      options: const QRGenScannerOptions(mode: QRGenScanMode.batch, duplicateFilter: -1, beep: false, vibrate: false),
+      showToast: false,
+      showHighlights: false,
+      onError: trace.failed,
+      onScan: (codes) {
+        trace.scanned(codes);
+        if (nextOnce) {
+          nextOnce = false;
+          trace.events.add('schedule:B');
+          platform.barcodes.add(capture('B'));
+        }
+      },
+      onTrack: trace.tracked,
+    )));
+    await settle(tester);
+    platform.barcodes.add(capture('A'));
+    await settle(tester);
+    expect(trace.events, ['scan:A', 'schedule:B', 'track:A', 'scan:B', 'track:A,B']);
+    expect(trace.tracks.first.single['count'], 1);
+    expect(trace.tracks.last.map((code) => code['count']), [1, 1]);
+  });
+
+  for (final action in ['unchanged', 'start', 'resume']) {
+    testWidgets('batch callback $action preserves the still-current track notification', (tester) async {
+      final controller = QRGenScannerController();
+      final trace = CallbackTrace();
+      retainCallbackEvidence(tester, controller, trace, 'no-op $action');
+      await tester.pumpWidget(host(QRGenScanner(
+        controller: controller,
+        options: const QRGenScannerOptions(mode: QRGenScanMode.batch, duplicateFilter: -1, beep: false, vibrate: false),
+        showToast: false,
+        showHighlights: false,
+        onError: trace.failed,
+        onScan: (codes) {
+          trace.scanned(codes);
+          if (action == 'start') unawaited(controller.start());
+          if (action == 'resume') unawaited(controller.resume());
+        },
+        onTrack: trace.tracked,
+      )));
+      await settle(tester);
+      platform.barcodes.add(capture('A'));
+      await settle(tester);
+      expect(trace.events, ['scan:A', 'track:A']);
+      platform.barcodes.add(capture('A'));
+      await settle(tester);
+      expect(trace.events, ['scan:A', 'track:A', 'track:A']);
+      expect(trace.tracks.last.single['count'], 2);
+      expect(platform.running, isTrue);
+    });
+  }
+
+  testWidgets('batch cosmetic rebuild request does not synchronously replace the current result', (tester) async {
+    const name = 'scheduled cosmetic rebuild';
+    final controller = QRGenScannerController();
+    final trace = CallbackTrace();
+    retainCallbackEvidence(tester, controller, trace, name);
+    var accent = const Color(0xFF2EC1CE);
+    await tester.pumpWidget(host(StatefulBuilder(builder: (context, update) => QRGenScanner(
+      controller: controller,
+      accentColor: accent,
+      options: const QRGenScannerOptions(mode: QRGenScanMode.batch, duplicateFilter: -1, beep: false, vibrate: false),
+      showToast: false,
+      showHighlights: false,
+      onError: trace.failed,
+      onScan: (codes) {
+        trace.scanned(codes);
+        trace.events.add('schedule:cosmetic');
+        update(() => accent = const Color(0xFFABCDEF));
+      },
+      onTrack: trace.tracked,
+    ))));
+    await settle(tester);
+    final nativeController = tester.widget<MobileScanner>(find.byType(MobileScanner)).controller;
+    platform.barcodes.add(capture('A'));
+    await settle(tester);
+    expect(trace.events, ['scan:A', 'schedule:cosmetic', 'track:A']);
+    expect(identical(tester.widget<MobileScanner>(find.byType(MobileScanner)).controller, nativeController), isTrue);
+    expect(platform.starts, hasLength(1));
+    platform.barcodes.add(capture('A'));
+    await settle(tester);
+    expect(trace.tracks.last.single['count'], 2);
+    expect(trace.scans, hasLength(1));
+  });
+
+  testWidgets('batch scheduled mode change permits the current result before the real rebuild', (tester) async {
+    const name = 'scheduled mode change';
+    final controller = QRGenScannerController();
+    final trace = CallbackTrace();
+    retainCallbackEvidence(tester, controller, trace, name);
+    var mode = QRGenScanMode.batch;
+    await tester.pumpWidget(host(StatefulBuilder(builder: (context, update) => QRGenScanner(
+      controller: controller,
+      options: QRGenScannerOptions(mode: mode, duplicateFilter: -1, beep: false, vibrate: false),
+      showToast: false,
+      showHighlights: false,
+      onError: trace.failed,
+      onScan: (codes) {
+        trace.scanned(codes);
+        if (mode == QRGenScanMode.batch) {
+          trace.events.add('schedule:continuous');
+          update(() => mode = QRGenScanMode.continuous);
+        }
+      },
+      onTrack: trace.tracked,
+    ))));
+    await settle(tester);
+    platform.barcodes.add(capture('A'));
+    await settle(tester);
+    expect(trace.events, ['scan:A', 'schedule:continuous', 'track:A']);
+    platform.barcodes.add(capture('B'));
+    await settle(tester);
+    expect(trace.events, ['scan:A', 'schedule:continuous', 'track:A', 'scan:B']);
+    expect(trace.tracks, hasLength(1));
+  });
+
+  testWidgets('batch direct no-change blank preserves the pending nonempty result', (tester) async {
+    const name = 'nested no-change blank';
+    final controller = QRGenScannerController();
+    final trace = CallbackTrace();
+    retainCallbackEvidence(tester, controller, trace, name);
+    late void Function(BarcodeCapture) detect;
+    await tester.pumpWidget(host(QRGenScanner(
+      controller: controller,
+      options: const QRGenScannerOptions(mode: QRGenScanMode.batch, duplicateFilter: -1, beep: false, vibrate: false),
+      showToast: false,
+      showHighlights: false,
+      onError: trace.failed,
+      onScan: (codes) {
+        trace.scanned(codes);
+        trace.events.add('direct:blank');
+        detect(BarcodeCapture(size: const Size(720, 1280), barcodes: const <Barcode>[]));
+      },
+      onTrack: trace.tracked,
+    )));
+    await settle(tester);
+    detect = tester.widget<MobileScanner>(find.byType(MobileScanner)).onDetect!;
+    platform.barcodes.add(capture('A'));
+    await settle(tester);
+    expect(trace.events, ['scan:A', 'direct:blank', 'track:A']);
+    expect(trace.tracks.single.single['count'], 1);
+  });
+
+  testWidgets('batch requested removal waits for rebuild and saved detect is ignored after real disposal', (tester) async {
+    const name = 'requested then committed widget removal';
+    final controller = QRGenScannerController();
+    final trace = CallbackTrace();
+    retainCallbackEvidence(tester, controller, trace, name);
+    var visible = true;
+    var attachedDuringCallback = false;
+    await tester.pumpWidget(host(StatefulBuilder(builder: (context, update) => visible ? QRGenScanner(
+      controller: controller,
+      options: const QRGenScannerOptions(mode: QRGenScanMode.batch, duplicateFilter: -1, beep: false, vibrate: false),
+      showToast: false,
+      showHighlights: false,
+      onError: trace.failed,
+      onScan: (codes) {
+        trace.scanned(codes);
+        trace.events.add('schedule:remove');
+        update(() => visible = false);
+        attachedDuringCallback = controller.isAttached;
+      },
+      onTrack: trace.tracked,
+    ) : const SizedBox())));
+    await settle(tester);
+    final savedDetect = tester.widget<MobileScanner>(find.byType(MobileScanner)).onDetect!;
+    platform.barcodes.add(capture('A'));
+    await settle(tester);
+    expect(attachedDuringCallback, isTrue, reason: 'setState requests a later rebuild; it does not dispose synchronously');
+    expect(trace.events, ['scan:A', 'schedule:remove', 'track:A']);
+    expect(controller.isAttached, isFalse);
+    expect(find.byType(MobileScanner), findsNothing);
+    expect(platform.running, isFalse);
+    savedDetect(capture('B'));
+    platform.barcodes.add(capture('C'));
+    await settle(tester);
+    expect(trace.events, ['scan:A', 'schedule:remove', 'track:A']);
+    expect(trace.errors, isEmpty);
   });
 
   testWidgets('isActive false stops the camera, true starts it again', (tester) async {
