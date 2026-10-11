@@ -28,6 +28,19 @@ namespace QRGen.Tests
         }
 
         [Fact]
+        public void MalformedGs1DoesNotBecomeTrustedContent()
+        {
+            Assert.Equal("text", P("(3932)978").Type);
+            var baseUrl = "https://id.gs1.org/01/09501101530003";
+            foreach (var suffix in new[] { "?3932=978", "?17=", "?17" })
+            {
+                var parsed = P(baseUrl + suffix);
+                Assert.Equal("url", parsed.Type);
+                Assert.Null(parsed.Gs1);
+            }
+        }
+
+        [Fact]
         public void Email()
         {
             var r = P("mailto:jane@example.com?subject=Hi%20there&body=Hello");
