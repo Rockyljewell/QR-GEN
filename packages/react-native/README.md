@@ -269,6 +269,19 @@ IDs are opaque and unique among active tracks; they stay stable while a track re
 Codes are dropped after more than 500 ms unseen, before matching the next frame. A returning
 code starts fresh timestamps and count even if its deterministic base ID is reused.
 
+Native duplicate windows and tracking expiry use elapsed monotonic time, so changing the
+system clock does not extend or shorten them. `timestamp`, `firstSeen` and `lastSeen` remain
+milliseconds since epoch. Pure helpers accept an optional `now` for an injected clock;
+switching between injected and default clocks preserves retained timestamp age. Environments
+without `performance.now()` retain the wall-clock fallback.
+
+In native batch mode, `onScan` runs before `onTrack`. If `onScan` resets the scanner,
+synchronously unmounts it, commits a different mode, or processes a newer tracking update, the obsolete
+track snapshot is discarded. An unchanged session, a cosmetic prop change, or an idempotent
+`start()` / `resume()` keeps the current track callback and duplicate history.
+A no-change empty frame also preserves the still-current notification; an empty frame
+that expires tracks delivers the replacement list.
+
 Errors are `{ code, message }` with `code` one of `camera-permission-denied`,
 `camera-not-found`, `camera-in-use`, `insecure-context`, `engine-load-failed`,
 `unsupported`, `unknown`.

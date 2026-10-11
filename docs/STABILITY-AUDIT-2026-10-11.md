@@ -388,6 +388,28 @@ wrapper ownership from decoding. GS1 checks enforce basic field structure and
 separator rules. These fixes do not establish physical-phone reliability or
 Scandit parity; the documented decoder accuracy and retail workflow gaps remain.
 
+## React Native duration and callback reliability
+
+Two additional bugs were reproduced and reported before production changes:
+
+| Issue | Reproduction | Fix and evidence |
+| --- | --- | --- |
+| [#69](https://github.com/Rockyljewell/QR-GEN/issues/69) | Independent forward/backward system-clock changes expire fresh tracks or retain stale ones and change duplicate suppression. | Default duration windows use monotonic elapsed time through the pure helpers, session and native component. Epoch metadata and explicit injected-clock behavior remain intact. The pure baseline produced 14 intended failures; a separate component baseline produced six failures with six controls passing. All 137 React Native tests pass after the fix, including 29 new clock and control cases. |
+| [#70](https://github.com/Rockyljewell/QR-GEN/issues/70) | A batch `onScan` resets/unmounts the scanner, commits a different mode, or processes a nested replacement frame, then receives the obsolete `onTrack` snapshot. | Validate delivery generation and mounted session ownership after the callback. Four original actual-component baseline assertions fail while 15 controls pass; an additional nested-frame failure was confirmed during review. The fixed checks retain ordinary batch callbacks, cosmetic changes, idempotent start/resume and a still-current snapshot after a no-change empty frame. |
+
+Component checks render the exported scanner with ReactDOM and stub native camera,
+platform and overlay boundaries. Local ownership probes also use the installed
+VisionCamera 4.7.3 hook; the CI boundary models its stable latest-callback forwarding.
+They establish callback ordering and duration plumbing, not native-driver frame provenance.
+All 34 permanent component cases pass, including two nested-empty-frame controls and
+12 independently controlled wall/elapsed-clock cases. The initial draft cancelled a
+still-current notification after a no-change empty frame; peer review caught that
+regression before publication, and only replacement tracking updates now advance delivery.
+React Native 0.73 monotonic-clock availability was verified from its release sources;
+unsupported pure-JavaScript environments without `performance.now()` retain wall time.
+The original scanner styles, overlay, dependencies and decoder remain unchanged.
+Physical phones, long store sessions and matched Scandit comparison remain unverified.
+
 ## Retail AR and adjacent features
 
 The following is an assessment of repository code against the vendors' published
