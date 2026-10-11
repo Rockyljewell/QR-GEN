@@ -119,6 +119,52 @@ describe('BarcodeTracker', () => {
     expect(t.prune(501).removed).toHaveLength(1);
   });
 
+  it('expires an old track before matching a returning code', () => {
+    const t = new BarcodeTracker({ timeout: 500 });
+    const previous = t.update([qr('a')], 0).tracked[0]!;
+    const u = t.update([qr('a'), qr('a')], 501);
+    expect(u.removed).toEqual([previous]);
+    expect(u.added).toHaveLength(1);
+    expect(u.tracked).toEqual(u.added);
+    expect(u.tracked[0]!.firstSeen).toBe(501);
+    expect(u.tracked[0]!.count).toBe(1);
+  });
+
+  it('preserves the track when a detection arrives exactly at the timeout', () => {
+    const t = new BarcodeTracker({ timeout: 500 });
+    t.update([qr('a')], 0);
+    const u = t.update([qr('a')], 500);
+    expect(u.added).toEqual([]);
+    expect(u.removed).toEqual([]);
+    expect(u.tracked[0]!.firstSeen).toBe(0);
+    expect(u.tracked[0]!.count).toBe(2);
+  });
+
+  it.each([
+    ['costarring', 'liquid', 'costarring'],
+    ['costarring', 'liquid', 'liquid'],
+    ['liquid', 'costarring', 'costarring'],
+    ['liquid', 'costarring', 'liquid'],
+  ])('keeps colliding IDs unique for %s then %s with %s expiring', (first, second, stale) => {
+    const t = new BarcodeTracker();
+    expect(trackingId('qr', first)).toBe(trackingId('qr', second));
+    const initial = t.update([qr(first), qr(second)], 0);
+    const ids = new Map(initial.tracked.map((b) => [b.data, b.id]));
+    expect(new Set(ids.values()).size).toBe(2);
+    expect(ids.get(first)).toBe(trackingId('qr', first));
+    const reordered = t.update([qr(second), qr(first)], 100);
+    expect(new Map(reordered.tracked.map((b) => [b.data, b.id]))).toEqual(ids);
+    const alive = stale === first ? second : first;
+    t.update([qr(alive)], 400);
+    const returned = t.update([qr(stale), qr(alive)], 601);
+    expect(returned.removed.map((b) => b.data)).toEqual([stale]);
+    expect(returned.added.map((b) => b.data)).toEqual([stale]);
+    expect(new Set(returned.tracked.map((b) => b.id)).size).toBe(2);
+    expect(returned.tracked.find((b) => b.data === alive)!.id).toBe(ids.get(alive));
+    t.reset();
+    expect(t.update([qr(second)], 700).tracked[0]!.id).toBe(trackingId('qr', second));
+  });
+
   it('refreshes location with the latest sighting', () => {
     const t = new BarcodeTracker();
     t.update([qr('a', 1)], 0);

@@ -248,3 +248,13 @@ Version 1.0.0.
 Apache-2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
 
 Created by [Rockyljewell](https://github.com/Rockyljewell).
+
+### Reversed-reflectance decoding
+
+The default `scan(..., try_harder=True)` also searches reversed-reflectance
+PDF417 and linear codes through an explicit inverted-pixel pass. Both polarities
+are searched when normal codes are already present; identical payloads at separate
+positions remain separate detections and `max_results` applies to their union.
+The existing alternate-binarizer retry is available for each polarity. Set
+`try_harder=False`, or low-level `decode(..., try_invert=False)`, to skip inversion.
+Caller PIL images and NumPy arrays are not modified.

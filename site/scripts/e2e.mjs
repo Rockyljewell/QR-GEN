@@ -76,11 +76,17 @@ process.on("exit", () => server?.kill());
 await startServer();
 const qrVideo = join(tmp, "qr.y4m");
 const multiVideo = join(tmp, "multi.y4m");
+const polarityVideo = join(tmp, "mixed-polarity.y4m");
 await writeFakeCamera(qrVideo, [{ data: "https://rockyljewell.github.io/QR-GEN/e2e", symbology: "qr", x: 230, y: 150, module: 6 }]);
 await writeFakeCamera(multiVideo, [
   { data: "https://rockyljewell.github.io/QR-GEN/a", symbology: "qr", x: 60, y: 120, module: 5 },
   { data: "(01)09501101530003(17)271231(10)LOT4815", symbology: "data-matrix", gs1: true, x: 400, y: 140, module: 7 },
   { data: "5901234123457", symbology: "ean13", x: 150, y: 360, module: 3 },
+]);
+
+await writeFakeCamera(polarityVideo, [
+  { data: "DUP-128", symbology: "code128", x: 30, y: 200, module: 2 },
+  { data: "DUP-128", symbology: "code128", x: 370, y: 200, module: 2, inverted: true },
 ]);
 
 console.log(`QRGen e2e against ${BASE}`);
@@ -140,6 +146,89 @@ await test("demo batch mode tracks three codes", async () => {
     assert(JSON.stringify(syms) === JSON.stringify(["Data Matrix", "EAN-13", "QR Code"]), `got ${syms}`);
     const gs1 = await page.locator(".result-item", { hasText: "Data Matrix" }).textContent();
     assert(gs1.includes("2027-12-31") && gs1.includes("LOT4815"), "GS1 parse not shown");
+  });
+});
+
+await test("worker batch tracks both polarities of the same Code 128 payload", async () => {
+  await withBrowser(polarityVideo, async (page, errors) => {
+    await page.goto(u("demo/"));
+    await page.click('[data-mode="batch"]');
+    await page.evaluate(() => {
+      const el = document.querySelector("#demo-scanner");
+      el.setAttribute("symbologies", "code128");
+      // Exercise decoding of the whole synthetic feed, including codes outside
+      // the demo element's automatically cropped visible preview.
+      el.scanArea = { x: 0, y: 0, width: 1, height: 1 };
+      window.__polarityTracks = [];
+      el.addEventListener("track", (event) => { window.__polarityTracks = event.detail.tracked; });
+    });
+    await page.locator("#demo-scanner").locator('button[data-a="start"]').click();
+    try {
+      await page.waitForFunction(() => window.__polarityTracks.filter((b) => b.data === "DUP-128").length === 2, null, { timeout: 20000 });
+    } catch {
+      const diagnostic = await page.evaluate(() => {
+        const el = document.querySelector("#demo-scanner");
+        return { tracks: window.__polarityTracks, options: el.options, state: el.state, stats: el.scanner?.stats };
+      });
+      throw new Error(`Mixed-polarity tracking did not reach two instances: ${JSON.stringify(diagnostic)}; ${errors.join("; ")}`);
+    }
+    const result = await page.evaluate(() => ({
+      tracks: window.__polarityTracks,
+      engine: document.querySelector("#demo-scanner").scanner.stats.engine,
+    }));
+    assert(result.engine === "worker", `engine was ${result.engine}`);
+    assert(new Set(result.tracks.map((b) => b.id)).size === 2, "physical instances share an ID");
+    const xs = result.tracks.map((b) => b.location.topLeft.x).sort((a, b) => a - b);
+    assert(xs[0] < 100 && xs[1] > 300, `locations off: ${xs}`);
+    assert(errors.length === 0, errors.join("; "));
+  });
+});
+
+await test("encoded browser images decode inverted Code 128 without changing input", async () => {
+  await withBrowser(null, async (page, errors) => {
+    await page.goto(u("demo/"));
+    const result = await page.evaluate(async (sdkUrl) => {
+      const sdk = await import(sdkUrl);
+      const generated = await sdk.generate("INVERTED-FILE-128", { symbology: "code128", scale: 3, foreground: "#ffffff", background: "#000000" });
+      const bytes = new Uint8Array(await generated.png.arrayBuffer());
+      const before = bytes.slice();
+      const found = await sdk.scanImage(bytes, { symbologies: ["code128"] });
+      const disabled = await sdk.scanImage(bytes, { symbologies: ["code128"], tryInvert: false });
+      const transparent = await sdk.generate("TRANSPARENT-FILE-QR", { background: "transparent" });
+      const transparentBytes = new Uint8Array(await transparent.png.arrayBuffer());
+      const transparentBlobFound = await sdk.scanImage(transparent.png, { symbologies: ["qr"] });
+      const transparentBytesFound = await sdk.scanImage(transparentBytes, { symbologies: ["qr"] });
+      const bitmap = await createImageBitmap(generated.png);
+      const canvas = document.createElement("canvas");
+      canvas.width = bitmap.width;
+      canvas.height = bitmap.height;
+      canvas.getContext("2d").drawImage(bitmap, 0, 0);
+      bitmap.close();
+      const jpeg = new Uint8Array(await (await new Promise((resolve) => canvas.toBlob(resolve, "image/jpeg", 1))).arrayBuffer());
+      // APP1 Exif, big-endian TIFF, orientation 6 (90 degrees clockwise).
+      const exif = new Uint8Array([255,225,0,34,69,120,105,102,0,0,77,77,0,42,0,0,0,8,0,1,1,18,0,3,0,0,0,1,0,6,0,0,0,0,0,0]);
+      const rotated = new Uint8Array(jpeg.length + exif.length);
+      rotated.set(jpeg.subarray(0, 2));
+      rotated.set(exif, 2);
+      rotated.set(jpeg.subarray(2), 2 + exif.length);
+      const rotatedBefore = rotated.slice();
+      const rotatedFound = await sdk.scanImage(rotated, { symbologies: ["code128"] });
+      const b = rotatedFound[0];
+      return {
+        codes: found.map((b) => [b.symbology, b.data]), disabled: disabled.length,
+        unchanged: bytes.every((v, i) => v === before[i]) && rotated.every((v, i) => v === rotatedBefore[i]),
+        rotated: b ? { data: b.data, size: b.frameSize, location: b.location } : null,
+        expectedRotatedSize: { width: canvas.height, height: canvas.width },
+        transparent: [transparentBlobFound.map((b) => b.data), transparentBytesFound.map((b) => b.data)],
+      };
+    }, u("sdk/qrgen.js"));
+    assert(JSON.stringify(result.codes) === JSON.stringify([["code128", "INVERTED-FILE-128"]]), JSON.stringify(result));
+    assert(result.disabled === 0 && result.unchanged, JSON.stringify(result));
+    assert(JSON.stringify(result.transparent) === JSON.stringify([["TRANSPARENT-FILE-QR"], ["TRANSPARENT-FILE-QR"]]), JSON.stringify(result));
+    assert(result.rotated?.data === "INVERTED-FILE-128", JSON.stringify(result));
+    assert(JSON.stringify(result.rotated.size) === JSON.stringify(result.expectedRotatedSize), JSON.stringify(result));
+    assert(Object.values(result.rotated.location).every((p) => p.x >= 0 && p.y >= 0 && p.x <= result.rotated.size.width && p.y <= result.rotated.size.height), JSON.stringify(result));
+    assert(errors.length === 0, errors.join("; "));
   });
 });
 
@@ -337,6 +426,65 @@ await test("llms.txt, llms-full.txt, agent-prompt.txt, search.json and downloads
     const r = await fetch(u(f), { method: "HEAD" });
     assert(r.ok, `${f}: ${r.status}`);
   }
+});
+
+await test("queued scanner autostart respects same-turn removal, stop and disabling", async () => {
+  await withBrowser(null, async (page, errors) => {
+    await page.goto(u("embed/"));
+    await page.addScriptTag({ url: u("sdk/qrgen.iife.js") });
+    const out = await page.evaluate(async () => {
+      const original = navigator.mediaDevices.getUserMedia;
+      let cameraRequests = 0;
+      navigator.mediaDevices.getUserMedia = async () => {
+        cameraRequests++;
+        throw new DOMException("Unexpected camera request", "NotAllowedError");
+      };
+      const elements = [];
+      try {
+        for (const action of ["remove", "stop", "disable"]) {
+          const el = document.createElement("qrgen-scanner");
+          elements.push(el);
+          document.body.append(el);
+          if (action === "remove") el.remove();
+          if (action === "stop") el.stop();
+          if (action === "disable") el.autostart = false;
+        }
+        await Promise.resolve();
+        await Promise.resolve();
+        return { cameraRequests, scanners: elements.map((el) => el.scanner !== null) };
+      } finally {
+        elements.forEach((el) => el.remove());
+        navigator.mediaDevices.getUserMedia = original;
+      }
+    });
+    assert(out.cameraRequests === 0 && out.scanners.every((created) => !created), JSON.stringify(out));
+    assert(errors.length === 0, errors.join("; "));
+  });
+});
+
+await test("reconnected scanner keeps one autostart and one handler per control click", async () => {
+  await withBrowser(null, async (page, errors) => {
+    await page.goto(u("embed/"));
+    await page.addScriptTag({ url: u("sdk/qrgen.iife.js") });
+    const out = await page.evaluate(async () => {
+      const el = document.createElement("qrgen-scanner");
+      let starts = 0;
+      let torchClicks = 0;
+      el.start = async () => { starts++; };
+      el.toggleTorch = async () => { torchClicks++; return false; };
+      document.body.append(el);
+      el.remove();
+      document.body.append(el);
+      await Promise.resolve();
+      const button = el.shadowRoot.querySelector('[data-a="torch"]');
+      button.hidden = false;
+      button.click();
+      el.remove();
+      return { starts, torchClicks };
+    });
+    assert(out.starts === 1 && out.torchClicks === 1, JSON.stringify(out));
+    assert(errors.length === 0, errors.join("; "));
+  });
 });
 
 await test("element properties accept booleans and strings (React 19 / Vue)", async () => {

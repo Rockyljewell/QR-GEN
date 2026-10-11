@@ -11,7 +11,7 @@ package dev.qrgen
  * 1. by symbology + data (when several tracks share a key, the one with the most overlap,
  *    then the nearest, wins);
  * 2. for detections left over, by bounding-box overlap (intersection over union of at least
- *    [overlapThreshold]) with a track not matched yet, which absorbs occasional misreads;
+ *    [overlapThreshold]) with an unmatched track of the same symbology, which absorbs occasional misreads;
  * 3. remaining detections start new tracks with fresh, increasing ids.
  *
  * Tracks not seen for more than [maxAgeMs] are dropped. Ids are stable for the lifetime of a
@@ -72,7 +72,7 @@ public class BarcodeTracker @JvmOverloads constructor(
         for ((di, d) in detections.withIndex()) {
             if (assignment[di] != null || d.location.isEmpty) continue
             for ((ti, t) in tracks.withIndex()) {
-                if (matchedTrack[ti] || t.barcode.location.isEmpty) continue
+                if (matchedTrack[ti] || t.barcode.location.isEmpty || t.barcode.symbology != d.symbology) continue
                 val iou = overlap(d, t.barcode)
                 if (iou >= overlapThreshold) overlapPairs += Candidate(di, ti, iou, distance(d, t.barcode))
             }

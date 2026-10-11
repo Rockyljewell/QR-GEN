@@ -112,6 +112,30 @@ class BarcodeTrackerTest {
     }
 
     @Test
+    fun `overlap never merges different symbologies`() {
+        val t = BarcodeTracker()
+        val data = "5901234123457"
+        t.update(listOf(at(data, 100f, 100f, s = Symbology.QR)), now = 0)
+
+        val next = t.update(listOf(at(data, 100f, 100f, s = Symbology.EAN13)), now = 30)
+        assertEquals(listOf(1, 2), next.tracked.map { it.id })
+        val qr = next.tracked.first { it.id == 1 }
+        assertEquals(Symbology.QR, qr.symbology)
+        assertEquals(0, qr.lastSeen)
+        assertEquals(1, qr.count)
+        val ean = next.added.single()
+        assertEquals(2, ean.id)
+        assertEquals(Symbology.EAN13, ean.symbology)
+        assertEquals(30, ean.firstSeen)
+        assertEquals(1, ean.count)
+
+        val repeated = t.update(listOf(at(data, 100f, 100f, s = Symbology.EAN13)), now = 35)
+        assertTrue(repeated.added.isEmpty())
+        assertEquals(2, repeated.tracked.first { it.id == 2 }.count)
+        assertEquals(0, repeated.tracked.first { it.id == 1 }.lastSeen)
+    }
+
+    @Test
     fun `codes without a location match by data only`() {
         val t = BarcodeTracker()
         t.update(listOf(Barcode("A", Symbology.EAN13)), now = 0)

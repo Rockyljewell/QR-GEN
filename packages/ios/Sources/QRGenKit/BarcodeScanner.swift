@@ -70,6 +70,7 @@ public final class BarcodeScanner {
     public var onError: (@MainActor (QRGenError) -> Void)?
     /// Called with every detection of every processed frame, before the duplicate filter.
     /// Useful for drawing overlays; `QRGenScannerViewController` uses it for its highlights.
+    /// An empty array clears spatial overlays when the camera source changes.
     public var onDetections: (@MainActor ([Barcode]) -> Void)?
     /// Called whenever ``state`` changes.
     public var onStateChange: (@MainActor (State) -> Void)?
@@ -101,16 +102,23 @@ public final class BarcodeScanner {
 
     private let capture: CaptureController
     private let processor: FrameProcessor
+    private let authorizationStatusProvider: @Sendable () -> AVAuthorizationStatus
     private var customRegionOfInterest: CGRect?
     private var generation = 0
 
     /// Creates a scanner. Nothing happens until ``start()``.
-    public init(options: ScannerOptions = ScannerOptions()) {
+    public convenience init(options: ScannerOptions = ScannerOptions()) {
+        self.init(options: options, authorizationStatus: { AVCaptureDevice.authorizationStatus(for: .video) })
+    }
+
+    /// Internal dependency boundary lets lifecycle regressions run without requesting a camera.
+    init(options: ScannerOptions, authorizationStatus: @escaping @Sendable () -> AVAuthorizationStatus) {
         let region = BarcodeScanner.defaultRegion(for: options)
         self.options = options
         self.regionOfInterest = region
         self.capture = CaptureController()
         self.processor = FrameProcessor(configuration: FrameProcessor.Configuration(options: options, regionOfInterest: region))
+        self.authorizationStatusProvider = authorizationStatus
         processor.setOutputHandler { [weak self] output in
             guard let self else { return }
             Task { @MainActor in self.handle(output) }
@@ -163,10 +171,12 @@ public final class BarcodeScanner {
         generation += 1
         let current = generation
         state = .starting
-        processor.reset()
+        guard generation == current, state == .starting else { return }
+        let source = beginFrameSource(resetDuplicateHistory: true)
+        guard generation == current, state == .starting, processor.sourceSession.isCurrent(source) else { return }
         ScanFeedback.prepare()
 
-        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        switch authorizationStatusProvider() {
         case .authorized:
             startCapture(generation: current)
         case .notDetermined:
@@ -176,37 +186,47 @@ public final class BarcodeScanner {
                 if granted {
                     self.startCapture(generation: current)
                 } else {
-                    self.state = .stopped
-                    self.report(.cameraPermissionDenied)
+                    let stoppedSource = self.stopSource()
+                    guard self.generation == current, self.processor.sourceSession.isCurrent(stoppedSource) else { return }
+                    self.report(.cameraPermissionDenied, source: stoppedSource)
                 }
             }
         default:
-            state = .stopped
-            report(.cameraPermissionDenied)
+            let stoppedSource = stopSource()
+            guard generation == current, processor.sourceSession.isCurrent(stoppedSource) else { return }
+            report(.cameraPermissionDenied, source: stoppedSource)
         }
     }
 
     /// Stops the camera. The duplicate filter and batch tracks are reset on the next ``start()``.
     public func stop() {
         guard state != .idle, state != .stopped else { return }
-        state = .stopped
+        stopSource()
+    }
+
+    @discardableResult
+    private func stopSource() -> UInt64 {
+        let source = processor.beginSource()
         processor.setEnabled(false)
         capture.stop()
         isTorchOn = false
+        state = .stopped
+        clearSpatialSource(source)
+        return source
     }
 
     /// Stops processing frames; the camera (and preview) keep running.
     public func pause() {
         guard state == .running else { return }
-        state = .paused
         processor.setEnabled(false)
+        state = .paused
     }
 
     /// Resumes processing after ``pause()`` or after a single-mode scan.
     public func resume() {
         guard state == .paused else { return }
-        state = .running
         processor.setEnabled(true)
+        state = .running
     }
 
     // MARK: Configuration
@@ -214,11 +234,12 @@ public final class BarcodeScanner {
     /// Applies new options while running (symbologies, mode, duplicate filter, camera, torch, ...).
     public func update(options newOptions: ScannerOptions) {
         let old = options
+        guard old != newOptions else { return }
         options = newOptions
         if customRegionOfInterest == nil {
             regionOfInterest = BarcodeScanner.defaultRegion(for: newOptions)
         }
-        processor.update(FrameProcessor.Configuration(options: newOptions, regionOfInterest: regionOfInterest))
+        processor.update(FrameProcessor.Configuration(options: newOptions, regionOfInterest: regionOfInterest), enabled: state == .running)
         if old.camera != newOptions.camera {
             use(camera: newOptions.camera)
         }
@@ -232,15 +253,22 @@ public final class BarcodeScanner {
     /// Pass `nil` to go back to ``ScannerOptions/scanArea``.
     public func setRegionOfInterest(_ rect: CGRect?) {
         customRegionOfInterest = rect.flatMap(BarcodeScanner.clampToUnit)
-        regionOfInterest = customRegionOfInterest ?? BarcodeScanner.defaultRegion(for: options)
-        processor.setRegionOfInterest(regionOfInterest)
+        let region = customRegionOfInterest ?? BarcodeScanner.defaultRegion(for: options)
+        guard region != regionOfInterest else { return }
+        regionOfInterest = region
+        processor.setRegionOfInterest(regionOfInterest, enabled: state == .running)
     }
 
     /// Turns the torch on or off. `completion` receives the resulting state.
     public func setTorch(_ on: Bool, completion: (@MainActor @Sendable (Bool) -> Void)? = nil) {
+        let source = processor.sourceSession.source
         capture.setTorch(on) { [weak self] isOn in
             guard let self else { return }
             Task { @MainActor in
+                guard self.processor.sourceSession.isCurrent(source) else {
+                    completion?(false)
+                    return
+                }
                 self.isTorchOn = isOn
                 completion?(isOn)
             }
@@ -257,9 +285,13 @@ public final class BarcodeScanner {
     /// Zooms the camera. `1` is the natural field of view; values below 1 use the ultra-wide camera
     /// when available. Clamped to the device's range (iOS only; a no-op on macOS).
     public func setZoom(_ factor: CGFloat) {
+        let source = processor.sourceSession.source
         capture.setZoom(factor) { [weak self] actual in
             guard let self else { return }
-            Task { @MainActor in self.zoomFactor = actual }
+            Task { @MainActor in
+                guard self.processor.sourceSession.isCurrent(source) else { return }
+                self.zoomFactor = actual
+            }
         }
     }
 
@@ -267,29 +299,43 @@ public final class BarcodeScanner {
 
     private func use(camera: ScannerOptions.Camera) {
         guard state == .running || state == .paused || state == .starting else { return }
-        capture.switchCamera(to: camera) { [weak self] result in
+        let source = beginFrameSource()
+        guard processor.sourceSession.isCurrent(source), state != .stopped, state != .idle else { return }
+        if state == .starting {
+            // A permission request or initial capture start may still be outstanding. Its
+            // completion uses the old token; the latest authorized start owns this source.
+            if authorizationStatusProvider() == .authorized {
+                startCapture(generation: generation)
+            }
+            return
+        }
+        capture.switchCamera(to: camera, processor: processor, source: source) { [weak self] result in
             guard let self else { return }
             Task { @MainActor in
+                guard self.processor.sourceSession.isCurrent(source), self.state != .stopped, self.state != .idle else { return }
                 switch result {
                 case .success(let info):
                     self.apply(info)
                     self.isTorchOn = false
                 case .failure(let error):
-                    self.report(error)
+                    let stoppedSource = self.stopSource()
+                    guard self.processor.sourceSession.isCurrent(stoppedSource) else { return }
+                    self.report(error, source: stoppedSource)
                 }
             }
         }
     }
 
     private func startCapture(generation current: Int) {
-        capture.start(camera: options.camera, processor: processor) { [weak self] result in
+        let source = processor.sourceSession.source
+        capture.start(camera: options.camera, processor: processor, source: source) { [weak self] result in
             guard let self else { return }
-            Task { @MainActor in self.captureDidStart(result, generation: current) }
+            Task { @MainActor in self.captureDidStart(result, generation: current, source: source) }
         }
     }
 
-    private func captureDidStart(_ result: Result<CaptureController.DeviceInfo, QRGenError>, generation current: Int) {
-        guard current == generation, state == .starting else {
+    private func captureDidStart(_ result: Result<CaptureController.DeviceInfo, QRGenError>, generation current: Int, source: UInt64) {
+        guard current == generation, state == .starting, processor.sourceSession.isCurrent(source) else {
             if state == .stopped || state == .idle { capture.stop() }
             return
         }
@@ -297,14 +343,16 @@ public final class BarcodeScanner {
         case .success(let info):
             apply(info)
             state = .running
+            guard current == generation, state == .running, processor.sourceSession.isCurrent(source) else { return }
             processor.setEnabled(true)
             if options.torch { setTorch(true) }
             onReady?()
+            guard current == generation, state == .running, processor.sourceSession.isCurrent(source) else { return }
             delegate?.barcodeScannerDidBecomeReady(self)
         case .failure(let error):
-            state = .stopped
-            capture.stop()
-            report(error)
+            let stoppedSource = stopSource()
+            guard current == generation, processor.sourceSession.isCurrent(stoppedSource) else { return }
+            report(error, source: stoppedSource)
         }
     }
 
@@ -315,26 +363,61 @@ public final class BarcodeScanner {
         activeDeviceID = info.deviceID
     }
 
-    private func handle(_ output: FrameOutput) {
-        guard state == .running else { return }
-        if let error = output.error {
-            report(error)
+    /// Invalidate queued results before notifying overlay consumers. This does not change the
+    /// scan duplicate-filter policy unless a new scanning session is explicitly requested.
+    @discardableResult
+    private func beginFrameSource(resetDuplicateHistory: Bool = false) -> UInt64 {
+        let source = processor.beginSource(resetDuplicateHistory: resetDuplicateHistory)
+        clearSpatialSource(source)
+        return source
+    }
+
+    private func clearSpatialSource(_ source: UInt64) {
+        guard processor.sourceSession.isCurrent(source) else { return }
+        onDetections?([])
+        guard processor.sourceSession.isCurrent(source) else { return }
+        if options.mode == .batch, processor.sourceSession.takeTrackClear(source: source) {
+            onTrack?([])
+            guard processor.sourceSession.isCurrent(source) else { return }
+            delegate?.barcodeScanner(self, didTrack: [])
+        }
+    }
+
+    private func handle(_ packet: DecodedCameraFrame) {
+        guard state == .running, processor.sourceSession.isCurrent(source: packet.source, epoch: packet.epoch) else { return }
+        if let error = packet.error {
+            report(error, source: packet.source, epoch: packet.epoch)
             return
         }
+        // Accept spatial state only after validating the queued decode. Report history is
+        // committed later, after earlier user callbacks have retained frame ownership.
+        guard let output = processor.sourceSession.process(
+            packet.detections, source: packet.source, epoch: packet.epoch, now: packet.timestamp,
+            mode: packet.mode, duplicateWindow: packet.duplicateWindow
+        ) else { return }
         if output.completedSingleScan {
+            processor.completeSingleScan(source: output.source, epoch: output.epoch)
             state = .paused
         }
+        guard processor.sourceSession.isCurrent(source: output.source, epoch: output.epoch) else { return }
         if !output.detections.isEmpty {
             onDetections?(output.detections)
         }
+        guard processor.sourceSession.isCurrent(source: output.source, epoch: output.epoch) else { return }
         if let tracked = output.tracked {
             onTrack?(tracked)
+            guard processor.sourceSession.isCurrent(source: output.source, epoch: output.epoch) else { return }
             delegate?.barcodeScanner(self, didTrack: tracked)
         }
+        guard processor.sourceSession.isCurrent(source: output.source, epoch: output.epoch) else { return }
         if !output.scans.isEmpty {
+            guard let scans = processor.sourceSession.commitScans(
+                output, now: packet.timestamp, duplicateWindow: packet.duplicateWindow
+            ), !scans.isEmpty else { return }
             ScanFeedback.play(beep: options.beep, vibrate: options.vibrate)
-            onScan?(output.scans)
-            delegate?.barcodeScanner(self, didScan: output.scans)
+            onScan?(scans)
+            guard processor.sourceSession.isCurrent(source: output.source, epoch: output.epoch) else { return }
+            delegate?.barcodeScanner(self, didScan: scans)
         }
     }
 
@@ -352,8 +435,12 @@ public final class BarcodeScanner {
         }
     }
 
-    private func report(_ error: QRGenError) {
+    private func report(_ error: QRGenError, source: UInt64? = nil, epoch: UInt64? = nil) {
+        if let source, !processor.sourceSession.isCurrent(source) { return }
+        if let source, let epoch, !processor.sourceSession.isCurrent(source: source, epoch: epoch) { return }
         onError?(error)
+        if let source, !processor.sourceSession.isCurrent(source) { return }
+        if let source, let epoch, !processor.sourceSession.isCurrent(source: source, epoch: epoch) { return }
         delegate?.barcodeScanner(self, didFailWithError: error)
     }
 
@@ -401,17 +488,9 @@ public extension AVCaptureVideoPreviewLayer {
 
 // MARK: - Frame processing
 
-/// Result of one processed frame, delivered to the main actor.
-struct FrameOutput: Sendable {
-    var detections: [Barcode] = []
-    var scans: [Barcode] = []
-    var tracked: [TrackedBarcode]?
-    var completedSingleScan = false
-    var error: QRGenError?
-}
-
-/// Runs Vision on camera frames. All mutable state is confined to ``queue``.
-final class FrameProcessor: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate, @unchecked Sendable {
+/// Runs Vision on camera frames. Decoder/configuration state is confined to ``queue``;
+/// the synchronized session commits tracking/report state when the main actor accepts a decode.
+final class FrameProcessor: NSObject, @unchecked Sendable {
     struct Configuration: Sendable {
         var symbologies: Set<Symbology>
         var mode: ScannerOptions.Mode
@@ -434,83 +513,114 @@ final class FrameProcessor: NSObject, AVCaptureVideoDataOutputSampleBufferDelega
 
     /// Serial queue receiving sample buffers; owns every mutable property below.
     let queue = DispatchQueue(label: "dev.qrgen.scanner.frames", qos: .userInitiated)
+    let sourceSession = CameraFrameSession()
 
     private var configuration: Configuration
+    // Updated on the decoder queue together with its configuration/enabled state. Reading the
+    // session's latest epoch at frame arrival could incorrectly stamp old settings as current.
+    private var configuredEpoch: UInt64 = 0
     private var isEnabled = false
     private var lastFrameTime: TimeInterval = 0
-    private var duplicates = DuplicateFilter()
-    private var tracker = BarcodeTracker()
-    private var hadTracks = false
     private var request: VNDetectBarcodesRequest?
     private var requestSymbologies: Set<Symbology>?
     private var failedSymbologies: Set<Symbology>?
+    private var failedEpoch: UInt64?
 
     private let handlerLock = NSLock()
-    private var outputHandler: (@Sendable (FrameOutput) -> Void)?
+    private var outputHandler: (@Sendable (DecodedCameraFrame) -> Void)?
 
     init(configuration: Configuration) {
         self.configuration = configuration
         super.init()
     }
 
-    func setOutputHandler(_ handler: @escaping @Sendable (FrameOutput) -> Void) {
+    func setOutputHandler(_ handler: @escaping @Sendable (DecodedCameraFrame) -> Void) {
         handlerLock.lock()
         outputHandler = handler
         handlerLock.unlock()
     }
 
-    func update(_ configuration: Configuration) {
+    func update(_ configuration: Configuration, enabled: Bool? = nil) {
+        let epoch = sourceSession.invalidateProcessing()
         queue.async { [self] in
             if configuration.symbologies != self.configuration.symbologies {
                 failedSymbologies = nil
             }
             if configuration.mode != self.configuration.mode {
-                tracker.reset()
-                hadTracks = false
+                sourceSession.resetTracking()
             }
             self.configuration = configuration
+            if let enabled { isEnabled = enabled }
+            configuredEpoch = epoch
         }
     }
 
-    func setRegionOfInterest(_ rect: CGRect) {
-        queue.async { [self] in configuration.regionOfInterest = rect }
+    func setRegionOfInterest(_ rect: CGRect, enabled: Bool? = nil) {
+        let epoch = sourceSession.invalidateProcessing()
+        queue.async { [self] in
+            configuration.regionOfInterest = rect
+            if let enabled { isEnabled = enabled }
+            configuredEpoch = epoch
+        }
     }
 
     func setEnabled(_ enabled: Bool) {
+        let epoch = sourceSession.invalidateProcessing()
         queue.async { [self] in
             isEnabled = enabled
             lastFrameTime = 0
+            configuredEpoch = epoch
         }
     }
 
-    func reset() {
+    /// An accepted single scan pauses its own epoch. A later resume/configuration wins even
+    /// if this queue task runs after that change was requested on the main actor.
+    func completeSingleScan(source: UInt64, epoch: UInt64) {
         queue.async { [self] in
-            duplicates.reset()
-            tracker.reset()
-            hadTracks = false
-            failedSymbologies = nil
+            guard sourceSession.isCurrent(source: source, epoch: epoch), configuredEpoch == epoch else { return }
+            isEnabled = false
         }
     }
 
-    // AVCaptureVideoDataOutputSampleBufferDelegate (called on `queue`).
-    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        guard isEnabled else { return }
+    @discardableResult
+    func beginSource(resetDuplicateHistory: Bool = false) -> UInt64 {
+        let source = sourceSession.beginSource(resetDuplicateHistory: resetDuplicateHistory)
+        let epoch = sourceSession.processingEpoch
+        queue.async { [self] in
+            lastFrameTime = 0
+            failedSymbologies = nil
+            configuredEpoch = epoch
+        }
+        return source
+    }
+
+    // Called on `queue` by an immutable per-source delegate.
+    func captureOutput(_ sampleBuffer: CMSampleBuffer, source: UInt64) {
+        guard let epoch = currentEpoch(for: source) else { return }
         let now = ProcessInfo.processInfo.systemUptime
         guard now - lastFrameTime >= configuration.minimumFrameInterval else { return }
         lastFrameTime = now
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
-        process(pixelBuffer)
+        process(pixelBuffer, source: source, epoch: epoch)
     }
 
-    private func process(_ pixelBuffer: CVPixelBuffer) {
+    /// Called on `queue`: a pending settings change invalidates its previous queue state
+    /// immediately, before that change reaches the decoder queue.
+    func currentEpoch(for source: UInt64) -> UInt64? {
+        guard isEnabled, sourceSession.isCurrent(source: source, epoch: configuredEpoch) else { return nil }
+        return configuredEpoch
+    }
+
+    private func process(_ pixelBuffer: CVPixelBuffer, source: UInt64, epoch: UInt64) {
         let config = configuration
-        guard failedSymbologies != config.symbologies else { return }
+        guard failedSymbologies != config.symbologies || failedEpoch != epoch else { return }
         let request: VNDetectBarcodesRequest
         do {
             request = try currentRequest(for: config.symbologies)
         } catch {
             failedSymbologies = config.symbologies
-            emit(FrameOutput(error: error as? QRGenError ?? .engineLoadFailed(error.localizedDescription)))
+            failedEpoch = epoch
+            emit(DecodedCameraFrame(source: source, epoch: epoch, error: error as? QRGenError ?? .engineLoadFailed(error.localizedDescription)))
             return
         }
 
@@ -544,29 +654,10 @@ final class FrameProcessor: NSObject, AVCaptureVideoDataOutputSampleBufferDelega
             barcodes = Array(barcodes.prefix(config.maxResults))
         }
 
-        var output = FrameOutput(detections: barcodes)
-        for barcode in barcodes {
-            if duplicates.shouldReport(barcode.dedupeKey, now: now, window: config.duplicateFilter) {
-                output.scans.append(barcode)
-            }
-        }
-        switch config.mode {
-        case .single:
-            if !output.scans.isEmpty {
-                isEnabled = false
-                output.completedSingleScan = true
-            }
-        case .continuous:
-            break
-        case .batch:
-            let tracked = tracker.update(with: barcodes, now: now)
-            if !tracked.isEmpty || hadTracks {
-                output.tracked = tracked
-            }
-            hadTracks = !tracked.isEmpty
-        }
-        guard !output.detections.isEmpty || output.tracked != nil else { return }
-        emit(output)
+        emit(DecodedCameraFrame(
+            source: source, epoch: epoch, detections: barcodes, timestamp: now,
+            mode: config.mode, duplicateWindow: config.duplicateFilter
+        ))
     }
 
     private func currentRequest(for symbologies: Set<Symbology>) throws -> VNDetectBarcodesRequest {
@@ -579,7 +670,8 @@ final class FrameProcessor: NSObject, AVCaptureVideoDataOutputSampleBufferDelega
         return newRequest
     }
 
-    private func emit(_ output: FrameOutput) {
+    private func emit(_ output: DecodedCameraFrame) {
+        guard sourceSession.isCurrent(source: output.source, epoch: output.epoch) else { return }
         handlerLock.lock()
         let handler = outputHandler
         handlerLock.unlock()
@@ -590,6 +682,23 @@ final class FrameProcessor: NSObject, AVCaptureVideoDataOutputSampleBufferDelega
     static func visionRegion(fromDeviceRect rect: CGRect) -> CGRect {
         guard let clamped = BarcodeScanner.clampToUnit(rect) else { return CGRect(x: 0, y: 0, width: 1, height: 1) }
         return CGRect(x: clamped.minX, y: 1 - clamped.maxY, width: clamped.width, height: clamped.height)
+    }
+}
+
+/// A delegate is never retagged when the camera changes: buffers already queued by an old
+/// AVCaptureVideoDataOutput retain their old source and are rejected before tracking/delivery.
+private final class CaptureFrameSource: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate, @unchecked Sendable {
+    private let processor: FrameProcessor
+    private let source: UInt64
+
+    init(processor: FrameProcessor, source: UInt64) {
+        self.processor = processor
+        self.source = source
+        super.init()
+    }
+
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        processor.captureOutput(sampleBuffer, source: source)
     }
 }
 
@@ -612,7 +721,8 @@ final class CaptureController: NSObject, @unchecked Sendable {
     let session = AVCaptureSession()
 
     private let queue = DispatchQueue(label: "dev.qrgen.scanner.session")
-    private let videoOutput = AVCaptureVideoDataOutput()
+    private var videoOutput = AVCaptureVideoDataOutput()
+    private var frameSource: CaptureFrameSource?
     private var input: AVCaptureDeviceInput?
     private var isConfigured = false
     private var wantsRunning = false
@@ -660,18 +770,23 @@ final class CaptureController: NSObject, @unchecked Sendable {
     func start(
         camera: ScannerOptions.Camera,
         processor: FrameProcessor,
+        source: UInt64,
         completion: @escaping @Sendable (Result<DeviceInfo, QRGenError>) -> Void
     ) {
         queue.async { [self] in
+            guard processor.sourceSession.isCurrent(source) else { return }
             wantsRunning = true
             do {
                 if isConfigured {
-                    if let device = CaptureController.device(for: camera), device.uniqueID != input?.device.uniqueID {
+                    guard let device = CaptureController.device(for: camera) else { throw QRGenError.cameraNotFound }
+                    if device.uniqueID != input?.device.uniqueID {
                         try replaceInput(with: device)
                     }
+                    try replaceVideoOutput(processor: processor, source: source)
                 } else {
-                    try configure(camera: camera, processor: processor)
+                    try configure(camera: camera, processor: processor, source: source)
                 }
+                guard processor.sourceSession.isCurrent(source) else { return }
                 if !session.isRunning {
                     session.startRunning()
                 }
@@ -693,9 +808,16 @@ final class CaptureController: NSObject, @unchecked Sendable {
         }
     }
 
-    func switchCamera(to camera: ScannerOptions.Camera, completion: @escaping @Sendable (Result<DeviceInfo, QRGenError>) -> Void) {
+    func switchCamera(
+        to camera: ScannerOptions.Camera, processor: FrameProcessor, source: UInt64,
+        completion: @escaping @Sendable (Result<DeviceInfo, QRGenError>) -> Void
+    ) {
         queue.async { [self] in
-            guard isConfigured else { return }
+            guard processor.sourceSession.isCurrent(source) else { return }
+            guard isConfigured else {
+                completion(.failure(.cameraNotFound))
+                return
+            }
             guard let device = CaptureController.device(for: camera) else {
                 completion(.failure(.cameraNotFound))
                 return
@@ -704,6 +826,7 @@ final class CaptureController: NSObject, @unchecked Sendable {
                 if device.uniqueID != input?.device.uniqueID {
                     try replaceInput(with: device)
                 }
+                try replaceVideoOutput(processor: processor, source: source)
                 completion(.success(info(for: device)))
             } catch {
                 completion(.failure(error as? QRGenError ?? .unknown(error.localizedDescription)))
@@ -753,7 +876,7 @@ final class CaptureController: NSObject, @unchecked Sendable {
 
     // MARK: Configuration (session queue only)
 
-    private func configure(camera: ScannerOptions.Camera, processor: FrameProcessor) throws {
+    private func configure(camera: ScannerOptions.Camera, processor: FrameProcessor, source: UInt64) throws {
         guard let device = CaptureController.device(for: camera) else { throw QRGenError.cameraNotFound }
         let newInput = try CaptureController.makeInput(device)
 
@@ -772,7 +895,9 @@ final class CaptureController: NSObject, @unchecked Sendable {
                 kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_420YpCbCr8BiPlanarFullRange,
             ]
             videoOutput.alwaysDiscardsLateVideoFrames = true
-            videoOutput.setSampleBufferDelegate(processor, queue: processor.queue)
+            let delegate = CaptureFrameSource(processor: processor, source: source)
+            frameSource = delegate
+            videoOutput.setSampleBufferDelegate(delegate, queue: processor.queue)
             guard session.canAddOutput(videoOutput) else {
                 throw QRGenError.engineLoadFailed("The camera video output could not be added to the capture session.")
             }
@@ -788,6 +913,33 @@ final class CaptureController: NSObject, @unchecked Sendable {
         }
         configureDevice(device)
         isConfigured = true
+    }
+
+    /// Replacing the output as well as its delegate prevents buffered old-camera frames from
+    /// reaching a new delegate and acquiring the replacement camera's source token.
+    private func replaceVideoOutput(processor: FrameProcessor, source: UInt64) throws {
+        let output = AVCaptureVideoDataOutput()
+        output.videoSettings = [
+            kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_420YpCbCr8BiPlanarFullRange,
+        ]
+        output.alwaysDiscardsLateVideoFrames = true
+        let delegate = CaptureFrameSource(processor: processor, source: source)
+        output.setSampleBufferDelegate(delegate, queue: processor.queue)
+
+        session.beginConfiguration()
+        let previous = videoOutput
+        previous.setSampleBufferDelegate(nil, queue: nil)
+        session.removeOutput(previous)
+        guard session.canAddOutput(output) else {
+            if session.canAddOutput(previous) { session.addOutput(previous) }
+            session.commitConfiguration()
+            throw QRGenError.engineLoadFailed("The camera video output could not be replaced.")
+        }
+        session.addOutput(output)
+        videoOutput = output
+        frameSource = delegate
+        configureConnection()
+        session.commitConfiguration()
     }
 
     private func replaceInput(with device: AVCaptureDevice) throws {

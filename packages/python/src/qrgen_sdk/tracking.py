@@ -10,7 +10,7 @@ used with any frame source: OpenCV, picamera2, GStreamer, a video file...
 from __future__ import annotations
 
 import hashlib
-from typing import Dict, Iterable, List, Optional, Union
+from typing import Dict, Iterable, List, Optional, Set, Union
 
 from .models import Barcode, TrackedBarcode, now_ms
 
@@ -22,7 +22,7 @@ def _key(item: Union[Barcode, str]) -> str:
 
 
 def tracking_id(symbology: str, data: str) -> str:
-    """Stable id for a code: the first 12 hex digits of ``sha1(symbology NUL data)``."""
+    """Deterministic base id for a code: the first 12 hex digits of ``sha1(symbology NUL data)``."""
     digest = hashlib.sha1(("%s\x00%s" % (symbology, data)).encode("utf-8")).hexdigest()
     return digest[:12]
 
@@ -76,7 +76,8 @@ class DuplicateFilter:
 class BatchTracker:
     """Follow many codes across frames with stable ids (``batch`` mode).
 
-    A code keeps its id (see :func:`tracking_id`) while it stays visible; it is
+    A code keeps its opaque id while visible; hash collisions receive a suffix.
+    The deterministic base comes from :func:`tracking_id`. A code is
     dropped once it has not been seen for ``timeout_ms`` milliseconds.
 
     Args:
@@ -86,6 +87,7 @@ class BatchTracker:
     def __init__(self, timeout_ms: int = 500) -> None:
         self.timeout_ms = int(timeout_ms)
         self._tracked: Dict[str, TrackedBarcode] = {}
+        self._active_ids: Set[str] = set()
         self.added: List[TrackedBarcode] = []
         self.removed: List[TrackedBarcode] = []
 
@@ -101,32 +103,43 @@ class BatchTracker:
         :attr:`removed` holds codes that timed out.
         """
         now = _now(now_ms)
+        self.removed = [t for t in self._tracked.values() if now - t.last_seen > self.timeout_ms]
+        for gone in self.removed:
+            del self._tracked[gone.key]
+            self._active_ids.discard(gone.id)
         self.added = []
         seen_this_frame = set()
         for barcode in barcodes:
-            tid = tracking_id(barcode.symbology, barcode.data)
-            if tid in seen_this_frame:
+            key = barcode.key
+            if key in seen_this_frame:
                 continue
-            seen_this_frame.add(tid)
-            previous = self._tracked.get(tid)
+            seen_this_frame.add(key)
+            previous = self._tracked.get(key)
             if previous is None:
+                tid = self._allocate_id(tracking_id(barcode.symbology, barcode.data))
                 tracked = TrackedBarcode.from_barcode(barcode, id=tid, first_seen=now, last_seen=now, count=1)
                 self.added.append(tracked)
             else:
                 tracked = TrackedBarcode.from_barcode(
-                    barcode, id=tid, first_seen=previous.first_seen, last_seen=now, count=previous.count + 1
+                    barcode, id=previous.id, first_seen=previous.first_seen, last_seen=now, count=previous.count + 1
                 )
-            self._tracked[tid] = tracked
-        self.removed = [t for t in self._tracked.values() if now - t.last_seen > self.timeout_ms]
-        for gone in self.removed:
-            del self._tracked[gone.id]
+            self._tracked[key] = tracked
         return self.tracked
 
     def clear(self) -> None:
         """Stop tracking every code."""
         self._tracked.clear()
+        self._active_ids.clear()
         self.added = []
         self.removed = []
+
+    def _allocate_id(self, base: str) -> str:
+        tid, suffix = base, 1
+        while tid in self._active_ids:
+            tid = "%s-%d" % (base, suffix)
+            suffix += 1
+        self._active_ids.add(tid)
+        return tid
 
 
 def _now(value: Optional[int]) -> int:

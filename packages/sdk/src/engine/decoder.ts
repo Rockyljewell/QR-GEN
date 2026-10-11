@@ -1,11 +1,12 @@
 // Copyright 2026 Rockyljewell
 // SPDX-License-Identifier: Apache-2.0
 
-import { prepareZXingModule, readBarcodes } from "zxing-wasm/reader";
+import { prepareZXingModule } from "zxing-wasm/reader";
+import { readWithInversion, type RasterLoader } from "./inversion.js";
 import { QRGenError } from "../errors.js";
 import { WORKER_SOURCE } from "../generated/worker-source.js";
 import { getConfig, readerWasmUrl, toArrayBuffer } from "./config.js";
-import { toRawBarcodes, toReaderOptions, type DecodeParams, type RawBarcode, type WorkerRequest, type WorkerResponse } from "./protocol.js";
+import { type DecodeParams, type RawBarcode, type WorkerRequest, type WorkerResponse } from "./protocol.js";
 
 type ReaderOverrides = { wasmBinary: ArrayBuffer } | { locateFile: (path: string, prefix: string) => string };
 let cached: { version: number; overrides: ReaderOverrides } | null = null;
@@ -40,11 +41,10 @@ function engineError(err: unknown): QRGenError {
 }
 
 /** Decode an image file (PNG, JPEG, BMP, GIF…) or ImageData on the current thread. */
-export async function decodeOnMainThread(input: Blob | ArrayBuffer | Uint8Array | ImageData, params: DecodeParams): Promise<RawBarcode[]> {
+export async function decodeOnMainThread(input: Blob | ArrayBuffer | Uint8Array | ImageData, params: DecodeParams, loadRaster?: RasterLoader): Promise<RawBarcode[]> {
   prepareReader();
   try {
-    const results = await readBarcodes(input, toReaderOptions(params));
-    return toRawBarcodes(results);
+    return await readWithInversion(input, params, loadRaster);
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     // Image decoding failures (unsupported file) are not engine failures.

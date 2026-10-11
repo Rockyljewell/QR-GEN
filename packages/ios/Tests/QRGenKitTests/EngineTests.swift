@@ -72,6 +72,28 @@ final class EngineTests: XCTestCase {
         XCTAssertEqual(misread.first { $0.id == "1" }?.data, "SAMF")
     }
 
+    func testOverlapNeverMergesDifferentSymbologies() {
+        var tracker = BarcodeTracker()
+        let data = "5901234123457"
+        _ = tracker.update(with: [barcode(data, x: 100, y: 100, symbology: .qr)], now: 0)
+
+        let next = tracker.update(with: [barcode(data, x: 100, y: 100, symbology: .ean13)], now: 30)
+        XCTAssertEqual(next.map(\.id), ["1", "2"])
+        let qr = next.first { $0.id == "1" }
+        XCTAssertEqual(qr?.symbology, .qr)
+        XCTAssertEqual(qr?.lastSeen, 0)
+        XCTAssertEqual(qr?.count, 1)
+        let ean = next.first { $0.id == "2" }
+        XCTAssertEqual(ean?.symbology, .ean13)
+        XCTAssertEqual(ean?.firstSeen, 30)
+        XCTAssertEqual(ean?.count, 1)
+
+        let repeated = tracker.update(with: [barcode(data, x: 100, y: 100, symbology: .ean13)], now: 35)
+        XCTAssertEqual(repeated.count, 2)
+        XCTAssertEqual(repeated.first { $0.id == "2" }?.count, 2)
+        XCTAssertEqual(repeated.first { $0.id == "1" }?.lastSeen, 0)
+    }
+
     func testTrackedBarcodeJSONIsFlattened() throws {
         let tracked = TrackedBarcode(id: "7", barcode: barcode("hello", x: 0, y: 0), firstSeen: 1, lastSeen: 2, count: 3)
         let object = try XCTUnwrap(JSONSerialization.jsonObject(with: Data(tracked.toJSON().utf8)) as? [String: Any])

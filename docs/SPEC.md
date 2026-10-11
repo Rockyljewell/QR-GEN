@@ -188,9 +188,21 @@ Shared option names (camelCase in JS/Kotlin/Swift/Dart/C#, snake_case in Python)
 
 Events: `scan` (`{ barcodes: Barcode[] }`), `track` (batch only,
 `{ tracked: TrackedBarcode[] }` where `TrackedBarcode = Barcode & { id, firstSeen, lastSeen, count }`;
-`id` is stable for the lifetime of a track and is a number in JS/Swift/Kotlin and a string derived from
-symbology + data in React Native, Flutter and Python; treat it as opaque),
+`id` is stable for the lifetime of a track; web and Kotlin use numeric IDs, Swift uses numeric
+string IDs, and React Native, Flutter and Python derive string base IDs from symbology + data.
+Treat every track ID as opaque),
 `error` (`{ code, message }`), `ready`.
+
+Active track IDs must be unique; deterministic hash helpers return base IDs, and trackers
+may add collision suffixes. Expire tracks before matching detections from the next frame.
+A detection after the timeout starts a fresh `firstSeen` and `count`, even on platforms that
+reuse a deterministic base ID. Camera source changes clear spatial tracks and reject delayed
+results from the previous source; duplicate-filter history is controlled separately.
+Web, iOS and Android camera scanners invalidate pending frame processing/delivery at pause,
+resume and scan-setting changes. Ordinary pause preserves spatial/report history; elapsed
+tracking time still applies. A cancelled scan must not consume its first-report history.
+Batch scanners retain an unreported initial scan separately from a live spatial track and
+deliver it only when that code is observed again and callback/session ownership remains valid.
 
 Error codes: `camera-permission-denied`, `camera-not-found`, `camera-in-use`,
 `insecure-context`, `engine-load-failed`, `unsupported`, `bad-request` (invalid input such as an

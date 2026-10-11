@@ -193,9 +193,12 @@ page as `camera-permission-denied`.
 | `orientation`, `ecLevel`, `symbologyIdentifier` | | `0` / `''` when unknown |
 | `timestamp` | `DateTime` | JSON: ms since epoch |
 
-`QRGenTrackedBarcode` adds `id` (stable, derived from symbology and data, identical to the
-React Native package), `firstSeen`, `lastSeen` and `count`; codes are dropped after 500 ms
-unseen. Errors are `QRGenError` with a `QRGenErrorCode` (`camera-permission-denied`,
+`QRGenTrackedBarcode` adds `id` (stable, derived from symbology and data, with collision
+suffixes when needed), `firstSeen`, `lastSeen` and `count`. Treat IDs as opaque; active tracks
+have unique IDs. Base IDs use the same scheme as React Native, while collision suffixes
+depend on track insertion order. Codes are dropped after more than 500 ms unseen, before
+matching the next frame; a returning code starts fresh timestamps and count.
+Errors are `QRGenError` with a `QRGenErrorCode` (`camera-permission-denied`,
 `camera-not-found`, `camera-in-use`, `insecure-context`, `engine-load-failed`, `unsupported`,
 `unknown`).
 

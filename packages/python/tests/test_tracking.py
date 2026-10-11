@@ -63,6 +63,44 @@ def test_tracker_stable_ids_counts_and_timeout():
     assert t.update([], now_ms=1101) == []
 
 
+def test_tracker_expires_before_matching_a_returning_code():
+    t = BatchTracker(500)
+    previous = t.update([_code("a")], now_ms=0)[0]
+    tracked = t.update([_code("a"), _code("a")], now_ms=501)
+    assert t.removed == [previous]
+    assert t.added == tracked
+    assert len(tracked) == 1
+    assert (tracked[0].first_seen, tracked[0].last_seen, tracked[0].count) == (501, 501, 1)
+
+
+def test_tracker_keeps_a_detection_exactly_at_the_timeout():
+    t = BatchTracker(500)
+    t.update([_code("a")], now_ms=0)
+    tracked = t.update([_code("a")], now_ms=500)
+    assert t.removed == [] and t.added == []
+    assert (tracked[0].first_seen, tracked[0].count) == (0, 2)
+
+
+def test_tracker_keeps_distinct_codes_when_base_ids_collide(monkeypatch):
+    monkeypatch.setattr("qrgen_sdk.tracking.tracking_id", lambda symbology, data: "collision")
+    t = BatchTracker(500)
+    first = t.update([_code("a"), _code("b"), _code("a")], now_ms=0)
+    assert [b.data for b in first] == ["a", "b"]
+    ids = {b.data: b.id for b in first}
+    assert len(set(ids.values())) == 2
+    second = t.update([_code("b"), _code("a")], now_ms=100)
+    assert {b.data: b.id for b in second} == ids
+    assert [b.count for b in second] == [2, 2]
+    t.update([_code("b")], now_ms=400)
+    returned = t.update([_code("a"), _code("b")], now_ms=601)
+    assert [b.data for b in t.removed] == ["a"]
+    assert [b.data for b in t.added] == ["a"]
+    assert len({b.id for b in returned}) == 2
+    assert next(b.id for b in returned if b.data == "b") == ids["b"]
+    t.clear()
+    assert t.update([_code("a")], now_ms=700)[0].id == "collision"
+
+
 def test_tracker_to_dict_and_dedupe_within_frame():
     t = BatchTracker()
     tracked = t.update([_code("x"), _code("x")], now_ms=5)

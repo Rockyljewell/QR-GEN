@@ -99,6 +99,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
   readonly tracker = new BarcodeTracker();
   private opts: ResolvedOptions;
   private filter: DuplicateFilter;
+  private pendingBatchScans = new Set<number>();
   private decoder: FrameDecoder | null = null;
   private _state: ScannerState = "idle";
   private busy = false;
@@ -112,6 +113,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
   private startToken = 0;
   private frameToken = 0;
   private switchToken = 0;
+  private pendingCameraSwitch: { token: number; promise: Promise<void> } | null = null;
   /** Rolling statistics for diagnostics. */
   readonly stats = { decodeMs: 0, fps: 0, engine: "" as "" | "worker" | "main" };
   private fpsWindow: number[] = [];
@@ -160,6 +162,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
     this.feedback.options = { ...this.feedback.options, beep: merged.beep, vibrate: merged.vibrate };
     if (modeChanged) {
       this.tracker.clear();
+      this.pendingBatchScans.clear();
       this.filter.reset();
     }
     if (partial.torch !== undefined && this._state === "scanning") void this.camera.setTorch(!!partial.torch);
@@ -180,6 +183,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
       this.stats.engine = decoder.kind;
       this.filter.reset();
       this.tracker.clear();
+      this.pendingBatchScans.clear();
       this.setState("scanning");
       if (token !== this.startToken) return;
       if (this.raw.torch) await this.camera.setTorch(true);
@@ -205,6 +209,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
     // The shared decoder factory reuses healthy workers and replaces failed ones.
     this.decoder = null;
     this.tracker.clear();
+    this.pendingBatchScans.clear();
     if (this._state !== "idle") this.setState("stopped");
   }
 
@@ -239,16 +244,28 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
   }
 
   async switchCamera(): Promise<void> {
-    const wasScanning = this._state === "scanning";
     const token = this.startToken;
+    // Rapid control presses share the camera operation and its failure outcome.
+    if (this.pendingCameraSwitch?.token === token) return this.pendingCameraSwitch.promise;
     const operation = ++this.switchToken;
     this.frameToken++;
     this.cancelFrame();
+    const switching = this.performCameraSwitch(token, operation);
+    this.pendingCameraSwitch = { token, promise: switching };
+    try {
+      await switching;
+    } finally {
+      if (this.pendingCameraSwitch?.promise === switching) this.pendingCameraSwitch = null;
+      if (token === this.startToken && operation === this.switchToken) this.schedule();
+    }
+  }
+
+  private async performCameraSwitch(token: number, operation: number): Promise<void> {
     try {
       await this.camera.switch();
       if (token !== this.startToken || operation !== this.switchToken) return;
       this.tracker.clear();
-      if (wasScanning) this.schedule();
+      this.pendingBatchScans.clear();
     } catch (err) {
       if (token !== this.startToken || operation !== this.switchToken) return;
       this.stop();
@@ -278,7 +295,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
   }
 
   private schedule(): void {
-    if (this._state !== "scanning" || this.frameHandle) return;
+    if (this._state !== "scanning" || this.frameHandle || this.pendingCameraSwitch?.token === this.startToken) return;
     const v = this.video as HTMLVideoElement & { requestVideoFrameCallback?: (cb: () => void) => number };
     const tick = () => {
       this.frameHandle = 0;
@@ -310,7 +327,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
   }
 
   private async onFrame(): Promise<void> {
-    if (this._state !== "scanning" || !this.decoder) return;
+    if (this._state !== "scanning" || !this.decoder || this.pendingCameraSwitch?.token === this.startToken) return;
     const now = performance.now();
     const minInterval = 1000 / this.opts.maxFps;
     const hidden = typeof document !== "undefined" && document.visibilityState === "hidden";
@@ -377,9 +394,15 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
     if (o.mode === "batch") {
       const token = this.frameToken;
       const update = this.tracker.update(barcodes);
+      for (const b of update.removed) this.pendingBatchScans.delete(b.id);
+      for (const b of update.added) this.pendingBatchScans.add(b.id);
       this.emit("track", update);
       if (token !== this.frameToken || this._state !== "scanning") return;
-      const fresh = update.added.filter((b) => this.filter.accept(b));
+      // An earlier track callback may cancel scan delivery without removing the track.
+      // Retry its first report only when the barcode is observed in this frame.
+      const candidates = [...update.added, ...update.updated].filter((b) => this.pendingBatchScans.has(b.id));
+      const fresh = candidates.filter((b) => this.filter.accept(b));
+      for (const b of candidates) this.pendingBatchScans.delete(b.id);
       if (fresh.length) {
         const t = Date.now();
         if (t - this.lastBatchBeep > 250) {

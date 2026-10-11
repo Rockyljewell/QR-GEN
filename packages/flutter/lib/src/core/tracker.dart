@@ -8,9 +8,10 @@ import 'barcode.dart';
 /// Default time after which an unseen code is dropped.
 const Duration qrgenDefaultTrackingTimeout = Duration(milliseconds: 500);
 
-/// Stable tracking id for a code: `<symbology>-<fnv1a32(data) as 8 hex digits>`,
+/// Deterministic base tracking id for a code: `<symbology>-<fnv1a32(data) as 8 hex digits>`,
 /// hashed over the UTF-16 code units of [data]. The same symbology and data
-/// always give the same id, on every QRGen platform that uses this scheme.
+/// always give the same base on platforms using this scheme. Trackers append
+/// a suffix on hash collision to keep active IDs unique.
 String qrgenTrackingId(String symbologyId, String data) {
   var hash = 0x811c9dc5;
   for (final unit in data.codeUnits) {
@@ -41,7 +42,7 @@ class QRGenTrackerUpdate {
 }
 
 /// Follows codes across frames. Codes are identified by symbology + data, get
-/// a stable [qrgenTrackingId], and are dropped after [timeout] unseen.
+/// a stable id derived from [qrgenTrackingId], and are dropped after [timeout] unseen.
 class QRGenBarcodeTracker {
   /// Creates a tracker.
   QRGenBarcodeTracker({this.timeout = qrgenDefaultTrackingTimeout});
@@ -50,6 +51,7 @@ class QRGenBarcodeTracker {
   final Duration timeout;
 
   final Map<String, QRGenTrackedBarcode> _items = {};
+  final Set<String> _activeIds = {};
 
   /// Number of tracked codes.
   int get length => _items.length;
@@ -62,6 +64,7 @@ class QRGenBarcodeTracker {
   /// and stale codes removed.
   QRGenTrackerUpdate update(Iterable<QRGenBarcode> barcodes, [DateTime? now]) {
     final time = now ?? DateTime.now();
+    final removed = _dropStale(time);
     final added = <QRGenTrackedBarcode>[];
     final seen = <String>{};
     for (final b in barcodes) {
@@ -79,7 +82,7 @@ class QRGenBarcodeTracker {
       } else {
         final item = QRGenTrackedBarcode.fromBarcode(
           b,
-          id: qrgenTrackingId(b.symbology.id, b.data),
+          id: _allocateId(qrgenTrackingId(b.symbology.id, b.data)),
           firstSeen: time,
           lastSeen: time,
           count: 1,
@@ -88,7 +91,6 @@ class QRGenBarcodeTracker {
         added.add(item);
       }
     }
-    final removed = _dropStale(time);
     return QRGenTrackerUpdate(tracked: tracked, added: added, removed: removed, changed: seen.isNotEmpty || removed.isNotEmpty);
   }
 
@@ -99,13 +101,29 @@ class QRGenBarcodeTracker {
   }
 
   /// Forgets every tracked code.
-  void reset() => _items.clear();
+  void reset() {
+    _items.clear();
+    _activeIds.clear();
+  }
+
+  String _allocateId(String base) {
+    var id = base;
+    var suffix = 1;
+    while (_activeIds.contains(id)) {
+      id = '$base-${suffix++}';
+    }
+    _activeIds.add(id);
+    return id;
+  }
 
   List<QRGenTrackedBarcode> _dropStale(DateTime now) {
     final removed = <QRGenTrackedBarcode>[];
     _items.removeWhere((_, item) {
       final stale = now.difference(item.lastSeen) > timeout;
-      if (stale) removed.add(item);
+      if (stale) {
+        removed.add(item);
+        _activeIds.remove(item.id);
+      }
       return stale;
     });
     return removed;
