@@ -347,7 +347,6 @@ const VisionCameraScanner = forwardRef<QRGenScannerHandle, InnerProps>(function 
     (codes: Code[], frame: CodeScannerFrame) => {
       const state = live.current;
       if (!mounted.current || !state.cameraActive || state.runState !== 'running') return;
-      const delivery = ++deliveryGeneration.current;
       const now = Date.now();
       const window = Dimensions.get('window');
       const view = viewSizeRef.current ?? { width: window.width, height: window.height };
@@ -358,6 +357,8 @@ const VisionCameraScanner = forwardRef<QRGenScannerHandle, InnerProps>(function 
         setFrameSize((prev) => (prev && prev.width === fs.width && prev.height === fs.height ? prev : fs));
       }
       const result = session.process(barcodes);
+      // A no-change empty frame must not cancel a still-current notification.
+      const delivery = result.tracked !== null ? ++deliveryGeneration.current : deliveryGeneration.current;
       // Complete this single frame before app callbacks can start a new scan.
       if (result.stop) setRunState('stopped');
       if (state.mode === 'batch') {
@@ -374,7 +375,7 @@ const VisionCameraScanner = forwardRef<QRGenScannerHandle, InnerProps>(function 
         }
         p.onScan?.(result.scanned);
       }
-      // A scan callback can process a newer frame, reset, unmount, or commit a different mode.
+      // A scan callback can process a newer track update, reset, unmount, or change mode.
       if (mounted.current && deliveryGeneration.current === delivery && result.tracked) p.onTrack?.(result.tracked);
     },
     [platform, session, showHighlightsFor],

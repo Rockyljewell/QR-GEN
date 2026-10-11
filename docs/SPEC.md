@@ -205,6 +205,14 @@ tracking time still applies. A cancelled scan must not consume its first-report 
 Batch scanners retain an unreported initial scan separately from a live spatial track and
 deliver it only when that code is observed again and callback/session ownership remains valid.
 
+React Native's native scanner uses monotonic elapsed time for duplicate windows and track
+expiry; public timestamps remain milliseconds since epoch. Its pure helpers accept an
+optional injected `now`, with retained timestamp age rebased when clock sources change.
+In native batch delivery, `onScan` precedes `onTrack`; a reset, synchronous unmount,
+committed mode change or newer tracking update during `onScan` cancels the older track
+snapshot. Idempotent start/resume, cosmetic changes and no-change empty frames preserve
+the still-current callback.
+
 The web tracker associates each symbology/payload group across a whole frame:
 it maximizes eligible matches within the movement gate, then minimizes total
 center movement. Input detection order must not invent an extra observed item
