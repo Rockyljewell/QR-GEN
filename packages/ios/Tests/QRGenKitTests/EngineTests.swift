@@ -72,6 +72,47 @@ final class EngineTests: XCTestCase {
         XCTAssertEqual(misread.first { $0.id == "1" }?.data, "SAMF")
     }
 
+    func testOverlapFallbackPreservesTwoEligibleTracksRegardlessOfDetectionOrder() {
+        let x = barcode("X", x: 52, y: 0)
+        let y = barcode("Y", x: 150, y: 0)
+        for detections in [[x, y], [y, x]] {
+            var tracker = BarcodeTracker()
+            let first = tracker.update(with: [barcode("A", x: 0, y: 0), barcode("B", x: 100, y: 0)], now: 0)
+
+            // X overlaps B slightly more than A, but Y can only continue B.
+            // Assigning X to A leaves an eligible existing track for both detections.
+            let next = tracker.update(with: detections, now: 30)
+            XCTAssertEqual(next.count, 2)
+            XCTAssertEqual(next.map(\.id), first.map(\.id))
+            XCTAssertEqual(next.first { $0.data == "X" }?.id, first[0].id)
+            XCTAssertEqual(next.first { $0.data == "Y" }?.id, first[1].id)
+            for track in next {
+                XCTAssertEqual(track.count, 2)
+                XCTAssertEqual(track.firstSeen, 0)
+                XCTAssertEqual(track.lastSeen, 30)
+            }
+        }
+    }
+
+    func testOverlapFallbackNeverStealsAnExactPayloadMatch() {
+        let a = barcode("A", x: 52, y: 0)
+        let x = barcode("X", x: 0, y: 0)
+        for detections in [[a, x], [x, a]] {
+            var tracker = BarcodeTracker()
+            let first = tracker.update(with: [barcode("A", x: 0, y: 0), barcode("B", x: 100, y: 0)], now: 0)
+
+            // X has stronger overlap with A's old box, but the exact A match owns that track.
+            let next = tracker.update(with: detections, now: 30)
+            XCTAssertEqual(next.count, 3)
+            XCTAssertEqual(next.first { $0.data == "A" }?.id, first[0].id)
+            XCTAssertEqual(next.first { $0.data == "A" }?.count, 2)
+            XCTAssertEqual(next.first { $0.data == "B" }?.id, first[1].id)
+            XCTAssertEqual(next.first { $0.data == "B" }?.count, 1)
+            XCTAssertEqual(next.first { $0.data == "X" }?.id, "3")
+            XCTAssertEqual(next.first { $0.data == "X" }?.count, 1)
+        }
+    }
+
     func testOverlapNeverMergesDifferentSymbologies() {
         var tracker = BarcodeTracker()
         let data = "5901234123457"

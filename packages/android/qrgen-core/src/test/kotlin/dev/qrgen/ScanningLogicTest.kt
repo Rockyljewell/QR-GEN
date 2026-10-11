@@ -112,6 +112,35 @@ class BarcodeTrackerTest {
     }
 
     @Test
+    fun `overlap fallback does not create an avoidable third track`() {
+        for (reverse in listOf(false, true)) {
+            val tracker = BarcodeTracker()
+            tracker.update(listOf(at("A", 0f, 0f), at("B", 100f, 0f)), now = 0)
+            val detections = listOf(at("X", 52f, 0f), at("Y", 150f, 0f))
+            val result = tracker.update(if (reverse) detections.reversed() else detections, now = 30)
+
+            // X overlaps both old tracks, but Y can only use track 2. Taking X's
+            // strongest overlap first must not strand Y and inflate the batch count.
+            assertEquals(2, result.tracked.size, "reverse=$reverse")
+            assertTrue(result.added.isEmpty())
+            assertEquals(mapOf("X" to 1, "Y" to 2), result.tracked.associate { it.data to it.id })
+            assertTrue(result.tracked.all { it.count == 2 && it.firstSeen == 0L && it.lastSeen == 30L })
+        }
+    }
+
+    @Test
+    fun `overlap repair preserves exact payload matches`() {
+        val tracker = BarcodeTracker()
+        tracker.update(listOf(at("A", 0f, 0f), at("B", 100f, 0f)), now = 0)
+        val result = tracker.update(listOf(at("B", 52f, 0f), at("Y", 150f, 0f)), now = 30)
+        assertEquals(3, result.tracked.size)
+        assertEquals("B", result.tracked.first { it.id == 2 }.data)
+        assertEquals(1, result.added.size)
+        assertEquals("Y", result.added.single().data)
+        assertEquals(1, result.tracked.first { it.id == 1 }.count)
+    }
+
+    @Test
     fun `overlap never merges different symbologies`() {
         val t = BarcodeTracker()
         val data = "5901234123457"
