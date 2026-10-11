@@ -302,7 +302,8 @@ generate the platform folders, then add the permissions above.
   The resolved test environment uses Flutter 3.47.7, Dart 3.13.5, mobile_scanner 7.4.2
   and webview_flutter 4.14.1. Widget tests drive `QRGenScanner` against a fake `mobile_scanner`
   platform (formats, start and stop, single, batch, duplicate filter, torch, `isActive`, error
-  mapping, reset and nested callback ownership) and `QRGenWebScanner` against a fake `webview_flutter` platform (URL, `QRGenBridge`
+  mapping, reset, nested callback ownership and torch state across camera/configuration
+  changes, including stopped and single-camera no-op controls) and `QRGenWebScanner` against a fake `webview_flutter` platform (URL, `QRGenBridge`
   channel, message dispatch, command queueing, permission grants). CI also compiles the
   87 spatial tracker/session/oracle cases for Node with the official Dart web compiler.
   The separate compiled-core probe runs 48 clock checks in an isolated Node context:
