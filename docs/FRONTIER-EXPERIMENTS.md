@@ -12,7 +12,7 @@ October 11, 2026. The objective is fewer steps from intent to a correct, usable 
 | Capability diagnostics | Declared formats, prerequisites, asset provenance, unknown/unsupported requests | Synchronous/read-only; no camera/permission/engine/network invocation; offline readiness stays unverified |
 | Offline example | Dedicated local shell and matching bundled engine assets | First installation requires access to the assets; browser installation/reload/update checks pass with compressed assets; browser cache eviction can remove saved tools |
 
-The branch integrates current main's inversion/pending-batch fixes and accessible batch-results controls; its baseline includes commit `98d9b9f`. Further main changes must be fetched and tested before merging.
+The branch integrates main through `8bd0a6e`, including inversion/pending-batch fixes, accessible batch-results controls, spatial reset and whole-frame tracking association. The recorded capture benchmark predates that final integration; its report retains the measured source revision and exact asset hashes. Further main changes must be fetched and tested before merging.
 
 ## Experiments and reproducibility
 
@@ -35,11 +35,13 @@ Recorded results on desktop Chromium 153 with generated 1280 × 720 camera input
 
 The tiny-code experiment improved from 5/48 exact adaptive frames in the [initial report](frontier-benchmark-2026-10-11-initial.json) to 39/47 in the [subsequent report](frontier-benchmark-2026-10-11.json). Its first correct result still took 644 ms from start versus 159 ms with fixed capture. This fixes a sustained-read regression; it does not establish a general reliability or speed advantage. All eight final runs had zero unexpected detections, scanner/browser errors, capture-accounting errors or external requests. Each scene/policy ran once for three seconds, with other validation workloads active; timing and error-rate conclusions require repeated paired trials.
 
-The planning experiment produced 19 suitable and five unsuitable decisions; all 19 suitable PNGs returned the exact expected text and bytes. The local SDK regression suite passed 280 tests, the existing browser suite passed 20 scenarios, and the new print-flow suite passed five scenarios including keyboard controls and 320-pixel layout. These counts describe the checked implementation, not physical-device coverage.
+The planning experiment produced 19 suitable and five unsuitable decisions; all 19 suitable PNGs returned the exact expected text and bytes. After integrating main's stability fixes, the local SDK regression suite passed 329 tests. The print-flow suite passed five scenarios including keyboard controls and 320-pixel layout. These counts describe the checked implementation, not physical-device coverage.
 
 Four offline browser scenarios pass with genuinely gzip-compressed shell/scripts/WASM: installed tools reload without network and create/decode an image; a failed first engine install never claims readiness; a mismatched replacement preserves the previous working copy and a valid update activates after old tabs close; a first-ever offline visit fails honestly. They also check tracking-query navigation, scope isolation, cache contents and decoded-response headers. These checks exposed and fixed an install-time request stall caused by waiting for every response header before consuming large bodies. Each fetch now drains promptly with a 30-second timeout; reconstructed decoded responses discard stale transfer headers.
 
 Independent review also identified and fixed a narrow-region pixel-budget breach, coordinate rounding distortion, leading Unicode BOM loss in the writer string path, missing viewBox validation, ambiguous hex-looking Wi-Fi passwords and stale async generator actions. Regression tests cover the supported fix paths. The planner rejects a leading BOM rather than silently changing it; the general encoder's BOM behavior is not changed by this slice.
+
+Final integration tests cover intrinsic camera-size reset before adaptive training, stale in-flight results/errors, callback-driven pause/settings changes, CSS-only resize and stable batch identity across decoder-size changes. Review also corrected incoming component startup when camera/resolution/worker settings change while permission/startup is pending, retaining explicit-stop and replacement guards.
 
 ## Next implementation and validation gates
 
@@ -50,5 +52,7 @@ Independent review also identified and fixed a narrow-region pixel-budget breach
 5. **Default changes.** Require reviewed compatibility, browser/platform build checks and paired device evidence with no material regression. Keep experimental switches available for rollback. No claim of frontier advancement is made merely because a feature exists; users must complete creation or scanning more successfully with fewer steps.
 
 Before another adaptive policy change, repeat the same corpus with earlier first discovery and with a blank → tiny → easy transition. Measure first correct result and the cost of retaining a previously necessary high resolution separately. Change one policy decision at a time and preserve fixed capture as the paired baseline.
+
+Also test mixed-size and equal-payload neighbors before recommending adaptation for batch/inventory use. Current discovery requires globally empty decode results: an easy code can keep a smaller neighboring code from ever receiving high-resolution discovery. This is a known limitation of the opt-in policy, not a tested multi-code availability improvement. Fixed capture is the recommended path when every visible item matters. A future policy must explore despite partial success without always promoting easy scenes to maximum resolution.
 
 Native candidate/zoom adapters, cross-platform planner parity and physical-device conclusions remain follow-up work. They are not implied by the implemented JavaScript APIs or this report.

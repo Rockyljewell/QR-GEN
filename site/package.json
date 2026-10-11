@@ -10,7 +10,8 @@
     "preview": "astro preview",
     "typecheck": "astro check",
     "test:e2e": "node scripts/e2e.mjs",
-    "test:frontier": "node scripts/e2e-frontier.mjs && node scripts/e2e-offline.mjs"
+    "test:frontier": "node scripts/e2e-frontier.mjs && node scripts/e2e-offline.mjs",
+    "test:stress": "node scripts/stress-browser.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

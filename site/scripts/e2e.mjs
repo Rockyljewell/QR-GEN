@@ -196,6 +196,45 @@ await test("batch results support keyboard selection outside a stable preview", 
   });
 });
 
+await test("paused camera switches clear old overlays and retain chosen results as out of view", async () => {
+  await withBrowser(qrVideo, async (page, errors) => {
+    await page.goto(u("demo/"));
+    await page.click('[data-mode="batch"]');
+    const el = page.locator("#demo-scanner");
+    await el.locator('button[data-a="start"]').click();
+    await page.waitForFunction(() => document.querySelector("#demo-scanner").tracked.length === 1, null, { timeout: 15000 });
+    const oldId = await el.evaluate((node) => node.tracked[0].id);
+    await el.locator(`.result[data-id="${oldId}"]`).click();
+    await el.locator('button[data-a="pause"]').click();
+    const paused = await el.evaluate(async (node) => {
+      await node.switchCamera();
+      return {
+        state: node.state, tracks: node.tracked.length, highlights: node.highlights.length,
+        countHidden: node.shadowRoot.querySelector(".count").hidden,
+        selected: node.selection.map((b) => b.id),
+      };
+    });
+    assert(paused.state === "paused" && paused.tracks === 0 && paused.highlights === 0 && paused.countHidden, JSON.stringify(paused));
+    assert(JSON.stringify(paused.selected) === JSON.stringify([oldId]), "chosen snapshot was lost during switch");
+    assert(await el.locator(".result").count() === 1, "old unselected results remained after switch");
+    assert((await el.locator(".result-state").textContent()).includes("out of view"), "old result still labelled in view");
+    await el.locator('button[data-a="pause"]').click();
+    await page.waitForFunction(() => document.querySelector("#demo-scanner").tracked.length === 1, null, { timeout: 15000 });
+    const fresh = await el.evaluate((node) => node.tracked[0]);
+    assert(fresh.id !== oldId && fresh.data === "https://rockyljewell.github.io/QR-GEN/e2e", JSON.stringify(fresh));
+    assert(await el.locator(".result").count() === 2, "fresh result and chosen snapshot should have separate rows");
+    assert(await el.locator(`.result[data-id="${fresh.id}"]`).getAttribute("aria-pressed") === "false", "fresh source inherited selection");
+    await el.locator(`.result[data-id="${oldId}"]`).click();
+    assert(await el.locator(".result").count() === 1, "out-of-view deselection failed");
+    const stopped = await el.evaluate((node) => {
+      node.stop();
+      return { attached: node.scanner.video.srcObject !== null, tracks: node.tracked.length, highlights: node.highlights.length };
+    });
+    assert(!stopped.attached && stopped.tracks === 0 && stopped.highlights === 0, JSON.stringify(stopped));
+    assert(errors.length === 0, errors.join("; "));
+  });
+});
+
 await test("worker batch tracks both polarities of the same Code 128 payload", async () => {
   await withBrowser(polarityVideo, async (page, errors) => {
     await page.goto(u("demo/"));

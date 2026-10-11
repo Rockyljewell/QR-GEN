@@ -84,9 +84,14 @@ export function ensureMinHeight(q: Quadrilateral, min: number): Quadrilateral {
   const h = Math.hypot(q.bottomLeft.x - q.topLeft.x, q.bottomLeft.y - q.topLeft.y);
   if (h >= min) return q;
   const w = Math.hypot(q.topRight.x - q.topLeft.x, q.topRight.y - q.topLeft.y) || 1;
-  // Normal to the top edge.
-  const nx = -(q.topRight.y - q.topLeft.y) / w;
-  const ny = (q.topRight.x - q.topLeft.x) / w;
+  // Mirroring reverses the winding. Point the normal toward the bottom edge
+  // so padding expands the decoded strip rather than collapsing it.
+  let nx = -(q.topRight.y - q.topLeft.y) / w;
+  let ny = (q.topRight.x - q.topLeft.x) / w;
+  if (nx * (q.bottomLeft.x - q.topLeft.x) + ny * (q.bottomLeft.y - q.topLeft.y) < 0) {
+    nx = -nx;
+    ny = -ny;
+  }
   const pad = (min - h) / 2;
   return {
     topLeft: { x: q.topLeft.x - nx * pad, y: q.topLeft.y - ny * pad },

@@ -29,6 +29,8 @@ export interface ScannerEvents extends Record<string, unknown> {
   track: TrackerUpdate;
   /** Every decoded frame (including duplicates), for custom overlays. */
   frame: FrameEvent;
+  /** Intrinsic camera dimensions changed: discard overlays in the previous frame coordinates. */
+  spatialreset: { frameSize: Size };
   error: QRGenError;
   state: ScannerState;
   ready: { engine: "worker" | "main"; camera: Camera };
@@ -120,6 +122,8 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
   private frameToken = 0;
   private switchToken = 0;
   private pendingCameraSwitch: { token: number; promise: Promise<void> } | null = null;
+  private frameSize: Size | null = null;
+  private readonly handleVideoResize = () => this.syncFrameSize();
   /** Rolling statistics for diagnostics. */
   readonly stats = { decodeMs: 0, fps: 0, engine: "" as "" | "worker" | "main", adaptive: null as AdaptiveCaptureStats | null };
   private fpsWindow: number[] = [];
@@ -138,6 +142,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
     this.feedback = new Feedback({ beep: this.opts.beep, vibrate: this.opts.vibrate });
     this.ownsVideo = !options.video;
     this.video = options.video ?? (typeof document !== "undefined" ? document.createElement("video") : (null as unknown as HTMLVideoElement));
+    this.video?.addEventListener?.("resize", this.handleVideoResize);
     if (options.worker === false) this.preferWorker = false;
   }
 
@@ -194,6 +199,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
       this.filter.reset();
       this.tracker.clear();
       this.pendingBatchScans.clear();
+      this.frameSize = this.currentFrameSize();
       this.setState("scanning");
       if (token !== this.startToken) return;
       if (this.raw.torch) await this.camera.setTorch(true);
@@ -221,6 +227,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
     this.decoder = null;
     this.tracker.clear();
     this.pendingBatchScans.clear();
+    this.frameSize = null;
     if (this._state !== "idle") this.setState("stopped");
   }
 
@@ -280,12 +287,16 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
       if (token !== this.startToken || operation !== this.switchToken) return;
       this.tracker.clear();
       this.pendingBatchScans.clear();
+      this.frameSize = this.currentFrameSize();
     } catch (err) {
       if (token !== this.startToken || operation !== this.switchToken) return;
-      this.stop();
       const e = toQRGenError(err);
+      const stoppedToken = this.startToken + 1;
+      this.stop();
+      // A stopped listener may have opened a replacement on this same scanner.
+      if (this.startToken !== stoppedToken || operation !== this.switchToken) throw e;
       this.setState("error");
-      this.emit("error", e);
+      if (this.startToken === stoppedToken && operation === this.switchToken) this.emit("error", e);
       throw e;
     }
   }
@@ -295,6 +306,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
     this.stop();
     this.feedback.dispose();
     this.removeAllListeners();
+    this.video?.removeEventListener?.("resize", this.handleVideoResize);
     if (this.ownsVideo) this.video?.remove();
     this.decoder = null;
     this.setState("idle");
@@ -321,6 +333,35 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
   private resetCapturePolicy(): void {
     this.capturePolicy = this.opts.adaptive ? new AdaptiveCapturePolicy(this.opts.adaptive) : null;
     this.stats.adaptive = null;
+  }
+
+  private currentFrameSize(): Size | null {
+    const width = this.video.videoWidth;
+    const height = this.video.videoHeight;
+    return width && height ? { width, height } : null;
+  }
+
+  /** A CSS resize only reprojects overlays; an intrinsic resize starts a new coordinate space. */
+  private syncFrameSize(): void {
+    if (this._state !== "scanning" && this._state !== "paused" && this._state !== "starting") return;
+    const next = this.currentFrameSize();
+    if (!next) return;
+    const previous = this.frameSize;
+    this.frameSize = next;
+    if (!previous || (previous.width === next.width && previous.height === next.height)) return;
+    this.frameToken++;
+    this.resetCapturePolicy();
+    this.tracker.clear();
+    this.pendingBatchScans.clear();
+    this.emit("spatialreset", { frameSize: next });
+  }
+
+  private isCurrentFrame(token: number, size: Size): boolean {
+    if (token !== this.frameToken || this._state !== "scanning") return false;
+    // Some browsers deliver the video resize event after a queued decode completes.
+    this.syncFrameSize();
+    return token === this.frameToken && this._state === "scanning"
+      && size.width === this.video.videoWidth && size.height === this.video.videoHeight;
   }
 
   private grab(plan?: AdaptiveCapturePlan): { image: ImageData; offsetX: number; offsetY: number; scale: number; scaleX?: number; scaleY?: number; frame: Size } | null {
@@ -359,6 +400,9 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
 
   private async onFrame(): Promise<void> {
     if (this._state !== "scanning" || !this.decoder || this.pendingCameraSwitch?.token === this.startToken) return;
+    this.syncFrameSize();
+    // A reset callback may stop, pause or replace the source.
+    if (this._state !== "scanning" || !this.decoder || this.pendingCameraSwitch?.token === this.startToken) return;
     const now = performance.now();
     const minInterval = 1000 / this.opts.maxFps;
     const hidden = typeof document !== "undefined" && document.visibilityState === "hidden";
@@ -392,7 +436,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
     try {
       const decodeStart = plan ? performance.now() : now;
       const raws = await this.decoder.decode(grabbed.image, params);
-      if (token !== this.frameToken || this._state !== "scanning") return;
+      if (!this.isCurrentFrame(token, grabbed.frame)) return;
       const finished = performance.now();
       const decodeMs = finished - now;
       this.stats.decodeMs = this.stats.decodeMs ? this.stats.decodeMs * 0.8 + decodeMs * 0.2 : decodeMs;
@@ -421,10 +465,10 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
         };
       }
       this.emit("frame", { barcodes, frameSize: grabbed.frame, decodeMs });
-      if (token !== this.frameToken || this._state !== "scanning") return;
+      if (!this.isCurrentFrame(token, grabbed.frame)) return;
       this.handleResults(barcodes);
     } catch (err) {
-      if (token !== this.frameToken || this._state !== "scanning") return;
+      if (!this.isCurrentFrame(token, grabbed.frame)) return;
       const e = toQRGenError(err);
       if (e.code === "engine-load-failed") {
         this.decoder = null;
@@ -444,6 +488,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
       for (const b of update.removed) this.pendingBatchScans.delete(b.id);
       for (const b of update.added) this.pendingBatchScans.add(b.id);
       this.emit("track", update);
+      this.syncFrameSize();
       if (token !== this.frameToken || this._state !== "scanning") return;
       // An earlier track callback may cancel scan delivery without removing the track.
       // Retry its first report only when the barcode is observed in this frame.

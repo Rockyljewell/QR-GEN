@@ -33,8 +33,12 @@ describe("Scanner session isolation", () => {
   }
 
   function scanner() {
+    const events = new EventTarget();
     const video = {
       videoWidth: 640, videoHeight: 480,
+      addEventListener: events.addEventListener.bind(events),
+      removeEventListener: events.removeEventListener.bind(events),
+      dispatchEvent: events.dispatchEvent.bind(events),
       requestVideoFrameCallback: vi.fn((cb) => { tick = cb; return 1; }),
       cancelVideoFrameCallback: vi.fn(),
     } as unknown as HTMLVideoElement;
@@ -68,6 +72,116 @@ describe("Scanner session isolation", () => {
     await new Promise((r) => setTimeout(r, 0));
     expect(frame).not.toHaveBeenCalled();
     expect(s.state).toBe("scanning");
+    s.destroy();
+  });
+
+  it.each(["resize event", "late resize event"])("rejects an old coordinate-space frame after an intrinsic size change (%s)", async (event) => {
+    let finish!: (value: ReturnType<typeof decodedCode>[]) => void;
+    mocks.decode.mockReturnValue(new Promise<ReturnType<typeof decodedCode>[]>((resolve) => { finish = resolve; }));
+    const s = scanner();
+    const frame = vi.fn();
+    s.on("frame", frame);
+    await s.start();
+    const decoding = (s as any).onFrame();
+    Object.assign(s.video, { videoWidth: 480, videoHeight: 640 });
+    if (event === "resize event") s.video.dispatchEvent(new Event("resize"));
+    finish([decodedCode("old orientation")]);
+    await decoding;
+    expect(frame).not.toHaveBeenCalled();
+    expect(s.tracker.all).toEqual([]);
+    expect(s.state).toBe("scanning");
+    s.destroy();
+  });
+
+  it("clears paused spatial state and pending reports on intrinsic resize, preserving duplicate policy", async () => {
+    mocks.decode.mockResolvedValue([decodedCode("test")]);
+    const s = scanner();
+    s.setOptions({ mode: "batch", duplicateFilter: -1 });
+    let first = true;
+    s.on("track", () => { if (first) { first = false; s.pause(); } });
+    const reset = vi.fn();
+    s.on("spatialreset", reset);
+    const scan = vi.fn();
+    s.on("scan", scan);
+    await s.start();
+    await (s as any).onFrame();
+    const id = s.tracker.all[0]!.id;
+    expect((s as any).pendingBatchScans.has(id)).toBe(true);
+    Object.assign(s.video, { videoWidth: 480, videoHeight: 640 });
+    s.video.dispatchEvent(new Event("resize"));
+    expect(s.state).toBe("paused");
+    expect(s.tracker.all).toEqual([]);
+    expect((s as any).pendingBatchScans.size).toBe(0);
+    expect(s.options.duplicateFilter).toBe(-1);
+    expect(reset).toHaveBeenCalledOnce();
+    expect(reset.mock.calls[0]![0]).toEqual({ frameSize: { width: 480, height: 640 } });
+    s.resume();
+    vi.mocked(performance.now).mockReturnValue(200);
+    await (s as any).onFrame();
+    expect(s.tracker.all[0]!.id).not.toBe(id);
+    expect(scan).toHaveBeenCalledOnce();
+    s.destroy();
+  });
+
+  it("keeps batch identity through CSS-only preview resize", async () => {
+    mocks.decode.mockResolvedValue([decodedCode("test")]);
+    const s = scanner();
+    s.setOptions({ mode: "batch" });
+    const reset = vi.fn();
+    s.on("spatialreset", reset);
+    await s.start();
+    await (s as any).onFrame();
+    const id = s.tracker.all[0]!.id;
+    Object.assign(s.video, { clientWidth: 320, clientHeight: 500 });
+    s.video.dispatchEvent(new Event("resize"));
+    vi.mocked(performance.now).mockReturnValue(200);
+    await (s as any).onFrame();
+    expect(s.tracker.all[0]).toMatchObject({ id, count: 2 });
+    expect(reset).not.toHaveBeenCalled();
+    s.destroy();
+  });
+
+  it("honors a spatial-reset listener pausing before another frame starts", async () => {
+    mocks.decode.mockResolvedValue([]);
+    const s = scanner();
+    s.on("spatialreset", () => s.pause());
+    await s.start();
+    Object.assign(s.video, { videoWidth: 480, videoHeight: 640 });
+    await (s as any).onFrame();
+    expect(s.state).toBe("paused");
+    expect(mocks.decode).not.toHaveBeenCalled();
+    s.destroy();
+  });
+
+  it("drops a stale engine failure after an intrinsic resize without failing the current camera", async () => {
+    let fail!: (error: Error) => void;
+    mocks.decode.mockReturnValue(new Promise((_, reject) => { fail = reject; }));
+    const s = scanner();
+    const error = vi.fn();
+    s.on("error", error);
+    await s.start();
+    const decoding = (s as any).onFrame();
+    Object.assign(s.video, { videoWidth: 480, videoHeight: 640 });
+    fail(new QRGenError("engine-load-failed", "obsolete frame failed"));
+    await decoding;
+    expect(error).not.toHaveBeenCalled();
+    expect(s.camera.stop).not.toHaveBeenCalled();
+    expect(s.state).toBe("scanning");
+    s.destroy();
+  });
+
+  it("does not scan a batch frame when its track callback changes intrinsic dimensions", async () => {
+    mocks.decode.mockResolvedValue([decodedCode("test")]);
+    const s = scanner();
+    s.setOptions({ mode: "batch" });
+    s.on("track", () => Object.assign(s.video, { videoWidth: 480, videoHeight: 640 }));
+    const scan = vi.fn();
+    s.on("scan", scan);
+    await s.start();
+    await (s as any).onFrame();
+    expect(scan).not.toHaveBeenCalled();
+    expect(s.tracker.all).toEqual([]);
+    expect((s as any).pendingBatchScans.size).toBe(0);
     s.destroy();
   });
 
@@ -387,6 +501,32 @@ describe("Scanner session isolation", () => {
       expect(s.state).toBe("scanning");
       expect(s.video.requestVideoFrameCallback).toHaveBeenCalledTimes(2);
     }
+    s.destroy();
+  });
+
+  it.each(["stopped", "error"])("does not deliver an old camera-switch failure over a session restarted by the %s listener", async (state) => {
+    const s = scanner();
+    const failure = new QRGenError("camera-in-use", "old camera could not reopen");
+    vi.mocked(s.camera.switch).mockRejectedValue(failure);
+    const error = vi.fn();
+    s.on("error", error);
+    await s.start();
+    const states = vi.fn();
+    s.on("state", states);
+    let replacement!: Promise<void>;
+    const off = s.on("state", (next) => {
+      if (next !== state) return;
+      off();
+      replacement = s.start();
+    });
+    await expect(s.switchCamera()).rejects.toBe(failure);
+    await replacement;
+    expect(s.state).toBe("scanning");
+    expect(states.mock.calls.map(([next]) => next)).toEqual(state === "stopped"
+      ? ["stopped", "starting", "scanning"] : ["stopped", "error", "starting", "scanning"]);
+    expect(error).not.toHaveBeenCalled();
+    expect(s.camera.stop).toHaveBeenCalledOnce();
+    expect(mocks.cameraStart).toHaveBeenCalledTimes(2);
     s.destroy();
   });
 
