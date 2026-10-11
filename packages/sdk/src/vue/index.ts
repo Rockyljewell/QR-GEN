@@ -69,6 +69,7 @@ export const QRGenScanner = defineComponent({
       switchCamera: () => el.value?.switchCamera(),
       setZoom: (z: number) => el.value?.setZoom(z),
       clearSelection: () => el.value?.clearSelection(),
+      selectBarcode: (id: number, selected?: boolean) => el.value?.selectBarcode(id, selected) ?? false,
     });
     return () => {
       const b = (v: boolean | undefined) => (v === undefined ? undefined : String(v));

@@ -94,7 +94,7 @@ The component emits the element's events with the same `detail` object as the pa
 
 ## Template ref
 
-The component exposes `start`, `stop`, `pause`, `resume`, `setTorch`, `toggleTorch`, `switchCamera`, `setZoom` and `element` (the underlying `<qrgen-scanner>`):
+The component exposes `start`, `stop`, `pause`, `resume`, `setTorch`, `toggleTorch`, `switchCamera`, `setZoom`, `clearSelection`, `selectBarcode(id, selected?)` and `element` (the underlying `<qrgen-scanner>`). In batch mode, `selectBarcode` chooses a tracked result by id and returns `false` for an unknown id. Omit `selected` to toggle it:
 
 ```vue
 <script setup lang="ts">

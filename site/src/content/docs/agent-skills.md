@@ -35,7 +35,7 @@ Update later with `npx skills update` or `/plugin marketplace update qrgen-plugi
 | `qrgen-sdk` | Adding a scanner to any stack: web frameworks, Node, Python, iOS, Android, React Native, Flutter, .NET, hybrid apps, REST. Includes one reference file per platform. |
 | `qrgen-barcode-generation` | Creating QR, Data Matrix, GS1-128, EAN and other barcodes as SVG/PNG, with printing guidance. |
 | `qrgen-data-parsing` | Turning scan results into data: URLs, Wi-Fi, contacts, payments, GS1 AIs, driver licenses. |
-| `qrgen-batch-scanning` | Counting or picking many codes at once with tracking and tap-to-select. |
+| `qrgen-batch-scanning` | Counting or choosing many codes with tracking and an accessible results list. |
 | `qrgen-id-scanning` | Driver license parsing and age verification, with privacy guidance. |
 | `qrgen-migration` | Replacing html5-qrcode, ZXing, QuaggaJS, BarcodeDetector or a commercial SDK. |
 | `qrgen-testing` | Round-trip unit tests and camera-free Playwright tests with a fake webcam. |

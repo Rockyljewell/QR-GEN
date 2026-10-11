@@ -106,7 +106,7 @@ options, result JSON, parsers, embed bridge and REST API.
 - **Pre-built scanner UI**: `<qrgen-scanner>`, SwiftUI/UIKit views, Android View + Compose, React
   Native and Flutter widgets. Viewfinder, highlights, success toast, torch, zoom, camera switching,
   beep and haptics.
-- **Scan modes**: `single`, `continuous` and `batch` (multi-code tracking with tap-to-select).
+- **Scan modes**: `single`, `continuous` and `batch` (multi-code tracking with an accessible selection list).
 - **Engines**: [zxing-cpp](https://github.com/zxing-cpp/zxing-cpp) compiled to WebAssembly (in a Web
   Worker) on the web, Node and Python; Apple Vision on iOS; ML Kit on Android.
 - **Parsers**: GS1 element strings and Digital Link (750+ AIs), AAMVA driver licenses, and QR content

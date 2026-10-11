@@ -65,6 +65,7 @@ export interface QRGenScannerHandle {
   setZoom(zoom: number): Promise<boolean>;
   /** Batch mode: clear the user's selection. */
   clearSelection(): void;
+  selectBarcode(id: number, selected?: boolean): boolean;
 }
 
 function attrs(p: QRGenScannerProps): Record<string, string | undefined> {
@@ -119,6 +120,7 @@ export const QRGenScanner = forwardRef(function QRGenScanner(props: QRGenScanner
       switchCamera: () => el.current?.switchCamera() ?? Promise.resolve(),
       setZoom: (z: number) => el.current?.setZoom(z) ?? Promise.resolve(false),
       clearSelection: () => el.current?.clearSelection(),
+      selectBarcode: (id: number, selected?: boolean) => el.current?.selectBarcode(id, selected) ?? false,
     }),
     [],
   );

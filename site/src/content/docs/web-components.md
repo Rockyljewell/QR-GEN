@@ -8,7 +8,7 @@ status: stable
 
 `qrgen-sdk/elements` registers two framework-agnostic custom elements:
 
-- `<qrgen-scanner>`: a complete camera scanner with viewfinder, code highlights, torch, camera switch, zoom, pause, a success toast, and start, loading and error screens.
+- `<qrgen-scanner>`: a complete camera scanner with viewfinder, code highlights, torch, camera switch, pause, a batch results list, a success toast, and start, loading and error screens.
 - `<qrgen-barcode>`: renders any supported barcode as crisp, scalable SVG.
 
 They work in plain HTML and in every framework. The React and Vue wrappers are thin layers over these elements.
@@ -64,7 +64,7 @@ Attributes are strings. The properties in the second column accept typed values 
 | `scan-area` | `scanArea` | `"x,y,width,height"`, normalized 0 to 1 (property: `{ x, y, width, height }`) | derived from the viewfinder | Overrides the automatic decode region. |
 | `max-results` | `maxResults` | integer | `1` (`20` in batch) | Codes decoded per frame. |
 | `autostart` | `autostart` | boolean | `true` | Start the camera when the element connects. When `false`, a **Start scanning** screen is shown. |
-| `controls` | | `none` | shown | `none` hides the built-in buttons, the batch counter and the **Scan again** button. |
+| `controls` | | `none` | shown | `none` hides the camera control bars, the batch counter and the **Scan again** button. Batch results remain available. |
 | `accent` | | CSS color, hex recommended | `#5cc9d6` | Accent color. Same as setting `--qrgen-accent`. |
 | `hint` | | text | mode-specific | Instruction pill at the bottom. `hint=""` hides it. |
 | `toast` | | boolean | `true` | Show the success toast with the scanned value (single and continuous modes). |
@@ -83,7 +83,7 @@ Read-only properties:
 | `state` | `ScannerState` | `idle`, `starting`, `scanning`, `paused`, `stopped` or `error`. |
 | `scanner` | `BarcodeScanner \| null` | The underlying [`BarcodeScanner`](../javascript/), created on first start. Use it for `frame` events, `stats` and options the element has no attribute for, such as `maxDecodeSize`. |
 | `lastResult` | `Barcode \| null` | The last barcode reported by a `scan` event. |
-| `selection` | `TrackedBarcode[]` | Batch mode: codes the user tapped. |
+| `selection` | `TrackedBarcode[]` | Batch mode: codes chosen from the results list. |
 | `options` | `BarcodeScannerOptions` | The scanner options derived from the current attributes. |
 
 ### Methods
@@ -98,7 +98,8 @@ Read-only properties:
 | `toggleTorch()` | `Promise<boolean>` | The new torch state. |
 | `setZoom(zoom)` | `Promise<boolean>` | `false` when zoom is not supported. |
 | `switchCamera()` | `Promise<void>` | Front/back, or the next camera. |
-| `clearSelection()` | `void` | Batch mode: clear the tapped selection and fire `select` with an empty selection. |
+| `clearSelection()` | `void` | Batch mode: clear the selection and fire `select` with an empty selection. |
+| `selectBarcode(id, selected?)` | `boolean` | Select or deselect a track by id. Omit `selected` to toggle. Returns `false` for an unknown id or outside batch mode. |
 
 Removing the element from the page stops the camera and releases everything. Adding it back starts it again (unless `autostart="false"`).
 
@@ -110,7 +111,7 @@ All events are `CustomEvent`s that bubble and cross shadow DOM boundaries. Read 
 | --- | --- | --- |
 | `scan` | `{ barcodes: Barcode[], barcode: Barcode }` | New codes passed the duplicate filter. `barcode` is `barcodes[0]`. |
 | `track` | `{ tracked: TrackedBarcode[], added: TrackedBarcode[], removed: TrackedBarcode[] }` | Batch mode, after every decoded frame. |
-| `select` | `{ barcode: TrackedBarcode \| null, selected: boolean, selection: TrackedBarcode[] }` | Batch mode: the user tapped a highlighted code, or `clearSelection()` was called (`barcode: null`). |
+| `select` | `{ barcode: TrackedBarcode \| null, selected: boolean, selection: TrackedBarcode[] }` | Batch mode: a result's selection changed, or `clearSelection()` was called (`barcode: null`). |
 | `ready` | `{ engine: "worker" \| "main" }` | The camera is open and decoding started. |
 | `statechange` | `{ state: ScannerState }` | The scanner state changed. |
 | `error` | `{ code: QRGenErrorCode, message: string }` | Starting failed or the engine failed to load. See [error codes](../options-events/#error-codes). |
@@ -145,7 +146,7 @@ The element manages its own screens:
 - **Error**: shows the error message and a **Try again** button.
 - **Scan again**: in single mode, after a successful scan.
 
-While scanning, the top bar has pause, torch and camera-switch buttons, and the bottom bar has a zoom pill and, in batch mode, a counter. Torch, switch and zoom only appear when the device supports them. `controls="none"` hides both bars and the **Scan again** button; in single mode you then resume with `resume()` from your own UI.
+While scanning, the top bar has pause, torch and camera-switch buttons. Torch and camera switch appear when supported. Batch mode adds an automatic in-view counter and a scrollable results list below the preview. Choose rows by touch, mouse or keyboard; selected results remain available after leaving view. `controls="none"` hides both bars and the **Scan again** button; the batch results list remains available. In single mode, resume with `resume()` from your own UI. Camera zoom remains available through `setZoom()` for custom integrations.
 
 ### Styling
 
@@ -174,6 +175,8 @@ Shadow parts, for deeper styling with `::part()`:
 | Part | Element |
 | --- | --- |
 | `root` | Container of everything inside the element |
+| `preview` | Camera area, including preview overlays and camera controls |
+| `results` | Batch selection list below the camera area |
 | `video` | The camera preview (`object-fit: cover`) |
 | `overlay` | Canvas that draws code highlights |
 | `viewfinder` | The viewfinder frame or line |

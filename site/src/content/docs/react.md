@@ -79,7 +79,7 @@ The camera starts when the component mounts and stops when it unmounts. Camera a
 | --- | --- | --- |
 | `onScan` | `(barcodes: Barcode[], barcode: Barcode) => void` | New codes passed the duplicate filter. `barcode` is the first one. |
 | `onTrack` | `(update: { tracked, added, removed }) => void` | Batch mode, every decoded frame. |
-| `onSelect` | `(detail: { barcode: TrackedBarcode \| null, selected: boolean, selection: TrackedBarcode[] }) => void` | Batch mode tap-to-select. |
+| `onSelect` | `(detail: { barcode: TrackedBarcode \| null, selected: boolean, selection: TrackedBarcode[] }) => void` | Batch results selection changed. |
 | `onError` | `(error: { code: QRGenErrorCode, message: string }) => void` | Starting failed. See [error codes](../options-events/#error-codes). |
 | `onReady` | `(detail: { engine: "worker" \| "main" }) => void` | Scanning started. |
 | `onStateChange` | `(state: ScannerState) => void` | `idle`, `starting`, `scanning`, `paused`, `stopped`, `error`. |
@@ -126,9 +126,11 @@ export function LoginScanner({ onToken }: { onToken: (token: string) => void }) 
 | `toggleTorch()` | `Promise<boolean>` |
 | `switchCamera()` | `Promise<void>` |
 | `setZoom(zoom)` | `Promise<boolean>` |
+| `clearSelection()` | `void` |
+| `selectBarcode(id, selected?)` | `boolean` |
 | `element` | The underlying `QRGenScannerElement`, or `null` before mount |
 
-Use `element` for anything else the element offers, such as `clearSelection()`, `selection`, `lastResult` or the underlying `scanner` for `frame` events and `stats`:
+Use `element` to read `selection`, `lastResult` or the underlying `scanner` for `frame` events and `stats`:
 
 ```tsx
 scanner.current?.element?.clearSelection();
