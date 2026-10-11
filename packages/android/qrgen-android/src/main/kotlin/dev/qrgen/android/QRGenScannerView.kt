@@ -165,6 +165,7 @@ public class QRGenScannerView @JvmOverloads constructor(
         c.onTrack { tracked -> trackListener?.onTrack(tracked) }
         c.onError { error -> errorListener?.onError(error) }
         c.onReady { readyListener?.onReady() }
+        c.sourceResetListener = { overlay.clearDetections() }
         c.frameListener = { event ->
             val quads = event.tracked?.map { it.location } ?: event.barcodes.map { it.location }
             overlay.showDetections(quads, event.frameSize, event.mirrored, event.fill)

@@ -10,8 +10,9 @@ import type { Barcode, TrackedBarcode } from './types';
 export const DEFAULT_TRACKING_TIMEOUT = 500;
 
 /**
- * Stable tracking id for a code: `<symbology>-<fnv1a32(data) as 8 hex digits>`.
- * The same symbology and data always give the same id, on every QRGen platform.
+ * Deterministic base tracking id for a code: `<symbology>-<fnv1a32(data) as 8 hex digits>`.
+ * Trackers append a suffix on hash collision to keep active IDs unique.
+ * The same symbology and data give the same base on platforms using this scheme.
  */
 export function trackingId(symbology: string, data: string): string {
   // FNV-1a 32 bit over the UTF-16 code units of the data.
@@ -43,11 +44,12 @@ export interface TrackerOptions {
 
 /**
  * Follows codes across frames. Codes are identified by symbology + data, get a
- * stable {@link trackingId}, and are dropped after `timeout` ms unseen.
+ * stable id derived from {@link trackingId}, and are dropped after `timeout` ms unseen.
  */
 export class BarcodeTracker {
   readonly timeout: number;
   private items = new Map<string, TrackedBarcode>();
+  private activeIds = new Set<string>();
 
   constructor(options: TrackerOptions = {}) {
     const t = options.timeout;
@@ -70,6 +72,7 @@ export class BarcodeTracker {
    * codes are added; codes unseen for longer than `timeout` are removed.
    */
   update(barcodes: readonly Barcode[], now: number = Date.now()): TrackerUpdate {
+    const removed = this.dropStale(now);
     const added: TrackedBarcode[] = [];
     const seenThisFrame = new Set<string>();
     for (const b of barcodes) {
@@ -80,12 +83,11 @@ export class BarcodeTracker {
       if (existing) {
         this.items.set(key, { ...b, id: existing.id, firstSeen: existing.firstSeen, lastSeen: now, count: existing.count + 1 });
       } else {
-        const item: TrackedBarcode = { ...b, id: trackingId(b.symbology, b.data), firstSeen: now, lastSeen: now, count: 1 };
+        const item: TrackedBarcode = { ...b, id: this.allocateId(trackingId(b.symbology, b.data)), firstSeen: now, lastSeen: now, count: 1 };
         this.items.set(key, item);
         added.push(item);
       }
     }
-    const removed = this.dropStale(now);
     return { tracked: this.tracked, added, removed, changed: seenThisFrame.size > 0 || removed.length > 0 };
   }
 
@@ -98,6 +100,15 @@ export class BarcodeTracker {
   /** Forgets every tracked code. */
   reset(): void {
     this.items.clear();
+    this.activeIds.clear();
+  }
+
+  private allocateId(base: string): string {
+    let id = base;
+    let suffix = 1;
+    while (this.activeIds.has(id)) id = `${base}-${suffix++}`;
+    this.activeIds.add(id);
+    return id;
   }
 
   private dropStale(now: number): TrackedBarcode[] {
@@ -105,6 +116,7 @@ export class BarcodeTracker {
     for (const [key, item] of this.items) {
       if (now - item.lastSeen > this.timeout) {
         this.items.delete(key);
+        this.activeIds.delete(item.id);
         removed.push(item);
       }
     }

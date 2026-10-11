@@ -109,6 +109,54 @@ void main() {
       expect(t.length, 0);
     });
 
+    test('expires a stale track before matching a returning code', () {
+      final t = QRGenBarcodeTracker();
+      final previous = t.update([qr('a')], at(0)).tracked.single;
+      final u = t.update([qr('a'), qr('a')], at(501));
+      expect(u.removed, [previous]);
+      expect(u.added, hasLength(1));
+      expect(u.tracked, u.added);
+      expect(u.tracked.single.firstSeen, at(501));
+      expect(u.tracked.single.count, 1);
+    });
+
+    test('keeps detections exactly at the timeout', () {
+      final t = QRGenBarcodeTracker();
+      t.update([qr('a')], at(0));
+      final u = t.update([qr('a')], at(500));
+      expect(u.added, isEmpty);
+      expect(u.removed, isEmpty);
+      expect(u.tracked.single.firstSeen, at(0));
+      expect(u.tracked.single.count, 2);
+    });
+
+    for (final pair in [
+      ['costarring', 'liquid'],
+      ['liquid', 'costarring'],
+    ]) {
+      for (final stale in pair) {
+        test('keeps colliding IDs unique for ${pair.first} with $stale expiring', () {
+          final t = QRGenBarcodeTracker();
+          expect(qrgenTrackingId('qr', pair.first), qrgenTrackingId('qr', pair.last));
+          final initial = t.update(pair.map(qr), at(0));
+          final ids = {for (final b in initial.tracked) b.data: b.id};
+          expect(ids.values.toSet(), hasLength(2));
+          expect(ids[pair.first], qrgenTrackingId('qr', pair.first));
+          final reordered = t.update(pair.reversed.map(qr), at(100));
+          expect({for (final b in reordered.tracked) b.data: b.id}, ids);
+          final alive = pair.firstWhere((data) => data != stale);
+          t.update([qr(alive)], at(400));
+          final returned = t.update([qr(stale), qr(alive)], at(601));
+          expect(returned.removed.map((b) => b.data), [stale]);
+          expect(returned.added.map((b) => b.data), [stale]);
+          expect(returned.tracked.map((b) => b.id).toSet(), hasLength(2));
+          expect(returned.tracked.firstWhere((b) => b.data == alive).id, ids[alive]);
+          t.reset();
+          expect(t.update([qr(pair.last)], at(700)).tracked.single.id, qrgenTrackingId('qr', pair.last));
+        });
+      }
+    }
+
     test('counts once per frame and refreshes the location', () {
       final t = QRGenBarcodeTracker();
       t.update([qr('a'), qr('a')], at(0));

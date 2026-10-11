@@ -214,6 +214,7 @@ open class QRGenScannerViewController: UIViewController {
     }
 
     private func handleTracked(_ tracked: [TrackedBarcode]) {
+        if tracked.isEmpty { clearHighlights() }
         if showsHighlights, let newest = tracked.map(\.lastSeen).max() {
             for item in tracked where item.lastSeen == newest {
                 updateHighlight(key: "track-" + item.id, barcode: item.barcode)
@@ -444,6 +445,10 @@ open class QRGenScannerViewController: UIViewController {
     // MARK: Highlights
 
     private func showHighlights(for barcodes: [Barcode]) {
+        if barcodes.isEmpty {
+            clearHighlights()
+            return
+        }
         guard showsHighlights, scanner.options.mode != .batch else { return }
         for barcode in barcodes {
             updateHighlight(key: barcode.dedupeKey, barcode: barcode)

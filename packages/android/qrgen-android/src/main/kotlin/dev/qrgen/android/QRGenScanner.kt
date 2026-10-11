@@ -114,12 +114,14 @@ public class QRGenScanner @JvmOverloads constructor(
     private var preview: Preview? = null
     private var analysis: ImageAnalysis? = null
     private var analysisExecutor: ExecutorService? = null
-    private var analyzer: BarcodeAnalyzer? = null
+    @Volatile private var analyzer: BarcodeAnalyzer? = null
 
     private val duplicateFilter = DuplicateFilter(options.duplicateFilter)
     private val tracker = BarcodeTracker()
+    private val sourceSession = SourceSession()
     private val feedback = ScanFeedback(appContext)
     private val singleShotDone = AtomicBoolean(false)
+    @Volatile private var analysisPaused = false
 
     // Geometry of the preview, read on the analysis thread for the scan area.
     @Volatile private var viewWidth = 0
@@ -139,6 +141,9 @@ public class QRGenScanner @JvmOverloads constructor(
 
     /** Frame callback for [QRGenScannerView]'s overlay (main thread). */
     internal var frameListener: ((FrameEvent) -> Unit)? = null
+
+    /** Clears source-bound overlays immediately, without waiting for another detection. */
+    internal var sourceResetListener: (() -> Unit)? = null
 
     /** Current state. */
     public var state: State = State.IDLE
@@ -248,10 +253,7 @@ public class QRGenScanner @JvmOverloads constructor(
         checkMainThread()
         if (released) return
         started = true
-        singleShotDone.set(false)
-        duplicateFilter.reset()
-        tracker.reset()
-        analyzer?.paused = false
+        resetSource(resetDuplicates = true, resumeAnalysis = true)
         val owner = lifecycleOwner ?: return
         if (!QRGen.hasCameraPermission(appContext)) {
             state = State.STOPPED
@@ -263,6 +265,8 @@ public class QRGenScanner @JvmOverloads constructor(
         }
         warnIfNothingSupported(currentOptions)
         if (camera != null && analysis != null) {
+            val executor = analysisExecutor ?: return
+            analysis?.setAnalyzer(executor, createAnalyzer(executor, currentOptions))
             state = State.RUNNING
             return
         }
@@ -274,6 +278,11 @@ public class QRGenScanner @JvmOverloads constructor(
     @MainThread
     public fun stop() {
         checkMainThread()
+        if (released) return
+        if (!started && camera == null && analysis == null && analyzer == null) {
+            state = State.STOPPED
+            return
+        }
         started = false
         unbindUseCases()
         if (!released) state = State.STOPPED
@@ -283,6 +292,7 @@ public class QRGenScanner @JvmOverloads constructor(
     @MainThread
     public fun pause() {
         checkMainThread()
+        analysisPaused = true
         analyzer?.paused = true
         if (state == State.RUNNING) state = State.PAUSED
     }
@@ -292,6 +302,7 @@ public class QRGenScanner @JvmOverloads constructor(
     public fun resume() {
         checkMainThread()
         singleShotDone.set(false)
+        analysisPaused = false
         analyzer?.paused = false
         if (state == State.PAUSED) state = State.RUNNING
     }
@@ -313,7 +324,10 @@ public class QRGenScanner @JvmOverloads constructor(
     /** `true` when the torch is on. */
     public val isTorchOn: Boolean get() = camera?.cameraInfo?.torchState?.value == TorchState.ON
 
-    /** Switches between the back and front camera (rebinding the camera). */
+    /**
+     * Switches between the back and front camera (rebinding the camera). Spatial tracks and
+     * highlights are cleared; duplicate-filter history is kept until an explicit [start].
+     */
     @MainThread
     public fun switchCamera() {
         val o = currentOptions
@@ -371,6 +385,7 @@ public class QRGenScanner @JvmOverloads constructor(
         errorListener = null
         readyListener = null
         frameListener = null
+        sourceResetListener = null
     }
 
     // ---- internals --------------------------------------------------------------------------
@@ -442,8 +457,7 @@ public class QRGenScanner @JvmOverloads constructor(
         val executor = analysisExecutor ?: Executors.newSingleThreadExecutor { r ->
             Thread(r, "qrgen-analysis").apply { isDaemon = true }
         }.also { analysisExecutor = it }
-        val an = analyzer ?: BarcodeAnalyzer(NeverRejectExecutor(executor), ::onFrame, ::onAnalysisFailure).also { analyzer = it }
-        an.symbologies = opts.symbologies
+        val an = createAnalyzer(executor, opts)
         val newAnalysis = ImageAnalysis.Builder()
             .setResolutionSelector(
                 ResolutionSelector.Builder()
@@ -464,11 +478,13 @@ public class QRGenScanner @JvmOverloads constructor(
             provider.bindToLifecycle(owner, selector, *useCases)
         } catch (e: IllegalArgumentException) {
             newAnalysis.clearAnalyzer()
+            resetSource()
             state = State.STOPPED
             emitError(ErrorCode.CAMERA_NOT_FOUND, e.message ?: "No camera matches the selection", e)
             return
         } catch (e: IllegalStateException) {
             newAnalysis.clearAnalyzer()
+            resetSource()
             state = State.STOPPED
             emitError(ErrorCode.UNKNOWN, e.message ?: "Could not bind the camera", e)
             return
@@ -484,6 +500,7 @@ public class QRGenScanner @JvmOverloads constructor(
     }
 
     private fun unbindUseCases() {
+        resetSource()
         camera?.cameraInfo?.cameraState?.removeObserver(cameraStateObserver)
         analysis?.clearAnalyzer()
         val useCases = listOfNotNull<UseCase>(preview, analysis)
@@ -492,6 +509,39 @@ public class QRGenScanner @JvmOverloads constructor(
         camera = null
         preview = null
         analysis = null
+    }
+
+    private fun createAnalyzer(executor: ExecutorService, options: ScannerOptions): BarcodeAnalyzer {
+        // An analyzer belongs to exactly one source generation. Reusing it after rebinding
+        // would let a pending ML Kit task masquerade as a frame from the replacement camera.
+        val source = sourceSession.capture()
+        return BarcodeAnalyzer(
+            NeverRejectExecutor(executor),
+            { results, frame, timestamp -> onFrame(source, results, frame, timestamp) },
+            { error -> onAnalysisFailure(source, error) },
+        ).also {
+            it.symbologies = options.symbologies
+            it.paused = analysisPaused
+            analyzer = it
+        }
+    }
+
+    private fun resetSource(resetDuplicates: Boolean = false, resumeAnalysis: Boolean = false) {
+        val source = sourceSession.advance {
+            tracker.reset()
+            singleShotDone.set(false)
+            analysisErrorReported = false
+            if (resetDuplicates) duplicateFilter.reset()
+            if (resumeAnalysis) analysisPaused = false
+        }
+        analyzer?.close()
+        analyzer = null
+        sourceResetListener?.invoke()
+        if (sourceSession.hasPublishedTracks()) {
+            postToMain(source) {
+                if (sourceSession.takeTrackClear(source)) trackListener?.onTrack(emptyList())
+            }
+        }
     }
 
     private fun applyTorch(enabled: Boolean): Boolean {
@@ -506,9 +556,11 @@ public class QRGenScanner @JvmOverloads constructor(
         analyzer?.symbologies = new.symbologies
         if (old.symbologies != new.symbologies) warnIfNothingSupported(new)
         if (old.mode != new.mode) {
-            tracker.reset()
-            singleShotDone.set(false)
-            analyzer?.paused = false
+            resetSource(resumeAnalysis = true)
+            val executor = analysisExecutor
+            if (analysis != null && executor != null) {
+                analysis?.setAnalyzer(executor, createAnalyzer(executor, new))
+            }
             if (state == State.PAUSED) state = State.RUNNING
         }
         val owner = lifecycleOwner
@@ -554,8 +606,8 @@ public class QRGenScanner @JvmOverloads constructor(
     }
 
     /** ML Kit results for one frame. Runs on the analysis thread. */
-    private fun onFrame(results: List<MlKitBarcode>, frame: Size, timestamp: Long) {
-        analysisErrorReported = false
+    private fun onFrame(source: Long, results: List<MlKitBarcode>, frame: Size, timestamp: Long) {
+        if (!sourceSession.isCurrent(source)) return
         val opts = currentOptions
         var barcodes = results.mapNotNull { BarcodeMapper.map(it, frame, opts.symbologies, timestamp) }
         val roi = regionOfInterest(opts.scanArea, frame)
@@ -573,44 +625,55 @@ public class QRGenScanner @JvmOverloads constructor(
         }
         val mirror = mirrored
         val fill = fillScale
-        when (opts.mode) {
-            ScannerOptions.Mode.BATCH -> {
-                val update = tracker.update(barcodes, timestamp)
-                val fresh = duplicateFilter.filter(update.added.map { it.barcode }, timestamp)
-                postToMain {
-                    frameListener?.invoke(FrameEvent(barcodes, update.tracked, frame, mirror, fill))
-                    trackListener?.onTrack(update.tracked)
-                    if (fresh.isNotEmpty()) deliverScan(fresh)
-                }
-            }
-            ScannerOptions.Mode.SINGLE -> {
-                val fresh = if (singleShotDone.get()) emptyList() else duplicateFilter.filter(barcodes, timestamp)
-                val report = fresh.isNotEmpty() && singleShotDone.compareAndSet(false, true)
-                if (report) analyzer?.paused = true
-                postToMain {
-                    frameListener?.invoke(FrameEvent(barcodes, null, frame, mirror, fill))
-                    if (report) {
-                        if (state == State.RUNNING) state = State.PAUSED
-                        deliverScan(fresh)
+        sourceSession.runIfCurrent(source) {
+            analysisErrorReported = false
+            when (opts.mode) {
+                ScannerOptions.Mode.BATCH -> {
+                    val update = tracker.update(barcodes, timestamp)
+                    val fresh = duplicateFilter.filter(update.added.map { it.barcode }, timestamp)
+                    postToMain(source) {
+                        frameListener?.invoke(FrameEvent(barcodes, update.tracked, frame, mirror, fill))
+                        val listener = trackListener
+                        if (!sourceSession.recordTrackDelivery(source, listener != null && update.tracked.isNotEmpty())) return@postToMain
+                        listener?.onTrack(update.tracked)
+                        if (sourceSession.isCurrent(source) && fresh.isNotEmpty()) deliverScan(fresh)
                     }
                 }
-            }
-            ScannerOptions.Mode.CONTINUOUS -> {
-                val fresh = duplicateFilter.filter(barcodes, timestamp)
-                postToMain {
-                    frameListener?.invoke(FrameEvent(barcodes, null, frame, mirror, fill))
-                    if (fresh.isNotEmpty()) deliverScan(fresh)
+                ScannerOptions.Mode.SINGLE -> {
+                    val fresh = if (singleShotDone.get()) emptyList() else duplicateFilter.filter(barcodes, timestamp)
+                    val report = fresh.isNotEmpty() && singleShotDone.compareAndSet(false, true)
+                    if (report) {
+                        analysisPaused = true
+                        analyzer?.paused = true
+                    }
+                    postToMain(source) {
+                        frameListener?.invoke(FrameEvent(barcodes, null, frame, mirror, fill))
+                        if (sourceSession.isCurrent(source) && report) {
+                            if (state == State.RUNNING) state = State.PAUSED
+                            deliverScan(fresh)
+                        }
+                    }
+                }
+                ScannerOptions.Mode.CONTINUOUS -> {
+                    val fresh = duplicateFilter.filter(barcodes, timestamp)
+                    postToMain(source) {
+                        frameListener?.invoke(FrameEvent(barcodes, null, frame, mirror, fill))
+                        if (sourceSession.isCurrent(source) && fresh.isNotEmpty()) deliverScan(fresh)
+                    }
                 }
             }
         }
     }
 
-    private fun onAnalysisFailure(e: Exception) {
+    private fun onAnalysisFailure(source: Long, e: Exception) {
         // Report the first failure of a streak only; analysis keeps running.
-        if (analysisErrorReported) return
-        analysisErrorReported = true
-        val code = if (e is MlKitException && e.errorCode == MlKitException.UNAVAILABLE) ErrorCode.ENGINE_LOAD_FAILED else ErrorCode.UNKNOWN
-        postToMain { emitError(code, "Barcode analysis failed: ${e.message}", e) }
+        sourceSession.runIfCurrent(source) {
+            if (!analysisErrorReported) {
+                analysisErrorReported = true
+                val code = if (e is MlKitException && e.errorCode == MlKitException.UNAVAILABLE) ErrorCode.ENGINE_LOAD_FAILED else ErrorCode.UNKNOWN
+                postToMain(source) { emitError(code, "Barcode analysis failed: ${e.message}", e) }
+            }
+        }
     }
 
     private fun deliverScan(barcodes: List<Barcode>) {
@@ -629,6 +692,10 @@ public class QRGenScanner @JvmOverloads constructor(
 
     private fun postToMain(block: () -> Unit) {
         mainHandler.post { if (!released) block() }
+    }
+
+    private fun postToMain(source: Long, block: () -> Unit) {
+        mainHandler.post { if (!released && sourceSession.isCurrent(source)) block() }
     }
 
     private fun checkMainThread() {

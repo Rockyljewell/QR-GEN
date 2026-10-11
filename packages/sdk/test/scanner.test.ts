@@ -181,4 +181,85 @@ describe("Scanner session isolation", () => {
     }
     s.destroy();
   });
+  it.each(["success", "failure"])("concurrent camera switches await one shared %s outcome", async (outcome) => {
+    const s = scanner();
+    let finish!: () => void;
+    let fail!: (error: Error) => void;
+    const pending = new Promise<void>((resolve, reject) => { finish = resolve; fail = reject; });
+    vi.mocked(s.camera.switch).mockReturnValueOnce(pending).mockResolvedValue(undefined);
+    const error = vi.fn();
+    s.on("error", error);
+    await s.start();
+    const first = s.switchCamera();
+    const second = s.switchCamera();
+    let secondSettled = false;
+    void second.then(() => { secondSettled = true; }, () => { secondSettled = true; });
+    await Promise.resolve();
+    await Promise.resolve();
+    const settledBeforeCamera = secondSettled;
+    const failure = new QRGenError("camera-in-use", "camera reopening failed");
+    if (outcome === "failure") fail(failure);
+    else finish();
+    const results = await Promise.allSettled([first, second]);
+    expect(settledBeforeCamera).toBe(false);
+    if (outcome === "failure") {
+      expect(results).toEqual([{ status: "rejected", reason: failure }, { status: "rejected", reason: failure }]);
+      expect(error).toHaveBeenCalledOnce();
+      expect(s.camera.stop).toHaveBeenCalledOnce();
+      expect(s.state).toBe("error");
+    } else {
+      expect(results.every((result) => result.status === "fulfilled")).toBe(true);
+      expect(error).not.toHaveBeenCalled();
+      expect(s.state).toBe("scanning");
+      expect(s.video.requestVideoFrameCallback).toHaveBeenCalledTimes(2);
+    }
+    s.destroy();
+  });
+
+  it("keeps a restarted session's switch independent of an old pending switch", async () => {
+    const s = scanner();
+    let finishOld!: () => void;
+    let finishCurrent!: () => void;
+    const oldPending = new Promise<void>((resolve) => { finishOld = resolve; });
+    const currentPending = new Promise<void>((resolve) => { finishCurrent = resolve; });
+    vi.mocked(s.camera.switch).mockReturnValueOnce(oldPending).mockReturnValueOnce(currentPending).mockResolvedValue(undefined);
+    await s.start();
+    const old = s.switchCamera();
+    s.stop();
+    await s.start();
+    const current = s.switchCamera();
+    finishOld();
+    await old;
+    const joined = s.switchCamera();
+    let joinedSettled = false;
+    void joined.then(() => { joinedSettled = true; }, () => { joinedSettled = true; });
+    await Promise.resolve();
+    await Promise.resolve();
+    const settledBeforeCamera = joinedSettled;
+    finishCurrent();
+    await Promise.all([current, joined]);
+    expect(settledBeforeCamera).toBe(false);
+    expect(s.state).toBe("scanning");
+    expect(s.video.requestVideoFrameCallback).toHaveBeenCalledTimes(3);
+    s.destroy();
+  });
+
+  it.each(["scanning", "paused"])("waits for camera readiness when resuming a switch begun while %s", async (initialState) => {
+    const s = scanner();
+    let finish!: () => void;
+    vi.mocked(s.camera.switch).mockReturnValue(new Promise<void>((resolve) => { finish = resolve; }));
+    await s.start();
+    if (initialState === "paused") s.pause();
+    const switching = s.switchCamera();
+    if (initialState === "scanning") s.pause();
+    s.resume();
+    const callbacksBeforeCamera = vi.mocked(s.video.requestVideoFrameCallback!).mock.calls.length;
+    finish();
+    await switching;
+    expect(callbacksBeforeCamera).toBe(1);
+    expect(s.video.requestVideoFrameCallback).toHaveBeenCalledTimes(2);
+    expect(s.state).toBe("scanning");
+    s.destroy();
+  });
+
 });

@@ -339,6 +339,65 @@ await test("llms.txt, llms-full.txt, agent-prompt.txt, search.json and downloads
   }
 });
 
+await test("queued scanner autostart respects same-turn removal, stop and disabling", async () => {
+  await withBrowser(null, async (page, errors) => {
+    await page.goto(u("embed/"));
+    await page.addScriptTag({ url: u("sdk/qrgen.iife.js") });
+    const out = await page.evaluate(async () => {
+      const original = navigator.mediaDevices.getUserMedia;
+      let cameraRequests = 0;
+      navigator.mediaDevices.getUserMedia = async () => {
+        cameraRequests++;
+        throw new DOMException("Unexpected camera request", "NotAllowedError");
+      };
+      const elements = [];
+      try {
+        for (const action of ["remove", "stop", "disable"]) {
+          const el = document.createElement("qrgen-scanner");
+          elements.push(el);
+          document.body.append(el);
+          if (action === "remove") el.remove();
+          if (action === "stop") el.stop();
+          if (action === "disable") el.autostart = false;
+        }
+        await Promise.resolve();
+        await Promise.resolve();
+        return { cameraRequests, scanners: elements.map((el) => el.scanner !== null) };
+      } finally {
+        elements.forEach((el) => el.remove());
+        navigator.mediaDevices.getUserMedia = original;
+      }
+    });
+    assert(out.cameraRequests === 0 && out.scanners.every((created) => !created), JSON.stringify(out));
+    assert(errors.length === 0, errors.join("; "));
+  });
+});
+
+await test("reconnected scanner keeps one autostart and one handler per control click", async () => {
+  await withBrowser(null, async (page, errors) => {
+    await page.goto(u("embed/"));
+    await page.addScriptTag({ url: u("sdk/qrgen.iife.js") });
+    const out = await page.evaluate(async () => {
+      const el = document.createElement("qrgen-scanner");
+      let starts = 0;
+      let torchClicks = 0;
+      el.start = async () => { starts++; };
+      el.toggleTorch = async () => { torchClicks++; return false; };
+      document.body.append(el);
+      el.remove();
+      document.body.append(el);
+      await Promise.resolve();
+      const button = el.shadowRoot.querySelector('[data-a="torch"]');
+      button.hidden = false;
+      button.click();
+      el.remove();
+      return { starts, torchClicks };
+    });
+    assert(out.starts === 1 && out.torchClicks === 1, JSON.stringify(out));
+    assert(errors.length === 0, errors.join("; "));
+  });
+});
+
 await test("element properties accept booleans and strings (React 19 / Vue)", async () => {
   await withBrowser(null, async (page) => {
     await page.goto(u("embed/"));

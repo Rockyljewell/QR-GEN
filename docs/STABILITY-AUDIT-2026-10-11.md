@@ -57,6 +57,28 @@ their toolchains were unavailable. Their existing GitHub CI jobs must pass for
 this branch. Real cameras, Safari/Firefox, mobile operating-system lifecycle,
 thermal behavior and long-running store workflows remain unverified.
 
+## Follow-up after the approved merge
+
+PR #4 was approved and merged as `f6ba331` after all 12 original CI jobs passed.
+Further review found these separately reported defects:
+
+| Issue | Finding | Follow-up change |
+| --- | --- | --- |
+| [#7](https://github.com/Rockyljewell/QR-GEN/issues/7) | React Native, Flutter and Python revive expired tracks. React Native/Flutter expose duplicate active IDs for the real FNV collision `costarring` / `liquid`; Python drops distinct payloads under an injected hash collision. | Expire before matching, preserve exact-timeout boundaries, store Python tracks by full payload key, allocate unique active IDs while preserving public hash helpers. Test both collision orders, expiry and reappearance. |
+| [#8](https://github.com/Rockyljewell/QR-GEN/issues/8) | Queued autostart opens a detached scanner; reconnects duplicate click actions; a delayed element camera switch dereferences a destroyed scanner or updates its replacement. | Guard connection identity, cancel queued starts, remove root listeners on disconnect and check scanner ownership after switching. Real Chromium reproductions plus unit/browser regressions. |
+| [#9](https://github.com/Rockyljewell/QR-GEN/issues/9) | Android overlap matching changes an old track's symbology and suppresses a new batch scan. | Restrict fallback to matching symbology; retain intentional same-symbology payload-jitter behavior. Kotlin regression and Swift parity test. |
+| [#10](https://github.com/Rockyljewell/QR-GEN/issues/10) | Concurrent web camera switches hide the only reopening failure, leaving scanning state with no camera. | Share one in-flight operation/outcome, isolate restarted sessions, wait for camera readiness before scheduling. Regression tests and a real Camera/Scanner deferred-failure reproduction. |
+| [#11](https://github.com/Rockyljewell/QR-GEN/issues/11) | iOS/Android camera changes retain old-source spatial tracks and delayed callbacks. | Clear spatial state on source changes and keep an immutable source identity through capture, processing and queued delivery. Preserve duplicate-filter history separately; add source-isolation tests and native CI coverage. |
+
+Follow-up local checks pass 113 SDK tests, 223 Python tests, 108 React Native tests,
+SDK/React Native type checks and builds, the full website build, and 17 Chromium scenarios.
+The new native source-isolation cases run in expanded CI: Swift pure-state tests on Linux,
+native camera compilation/tests on macOS, and Android camera-module unit tests as well as
+core tests and sample/library builds. These checks still do not provide physical-phone evidence.
+
+No connected phone or mobile test tools were found on the host. The user has no Scandit
+trial configured. Hardware scanning, real store workloads and competitor parity remain open.
+
 ## Reproducible image benchmark
 
 Run `npm run build:sdk`, then

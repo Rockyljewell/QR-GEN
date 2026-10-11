@@ -264,7 +264,10 @@ With `QRGenScanner`, `location` and `frameSize` describe the camera frame as it 
 upright on screen (the sensor's landscape size is swapped for portrait views);
 `contentType` is `text` except for GS1 DataBar, which is reported in HRI form
 (`(01)...`). Batch mode adds `TrackedBarcode` fields: `id` (stable, derived from symbology
-and data), `firstSeen`, `lastSeen` and `count`; codes are dropped after 500 ms unseen.
+and data, with collision suffixes when needed), `firstSeen`, `lastSeen` and `count`.
+IDs are opaque and unique among active tracks; they stay stable while a track remains visible.
+Codes are dropped after more than 500 ms unseen, before matching the next frame. A returning
+code starts fresh timestamps and count even if its deterministic base ID is reused.
 
 Errors are `{ code, message }` with `code` one of `camera-permission-denied`,
 `camera-not-found`, `camera-in-use`, `insecure-context`, `engine-load-failed`,

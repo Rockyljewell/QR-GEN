@@ -60,8 +60,12 @@ def test_batch_mode_tracks_multiple_codes():
     assert len(result.added) == 3
     later = camera.process(_frame("one"), now_ms=700)
     assert [t.data for t in later.tracked] == ["one"]
-    assert sorted(t.data for t in later.removed) == ["three", "two"]
-    assert later.tracked[0].count == 2
+    assert sorted(t.data for t in later.removed) == ["one", "three", "two"]
+    assert [t.data for t in later.added] == ["one"]
+    assert (later.tracked[0].first_seen, later.tracked[0].count) == (700, 1)
+    next_frame = camera.process(_frame("one"), now_ms=800)
+    assert next_frame.added == [] and next_frame.removed == []
+    assert (next_frame.tracked[0].first_seen, next_frame.tracked[0].count) == (700, 2)
 
 
 def test_scan_area_offsets_locations():

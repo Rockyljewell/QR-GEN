@@ -112,6 +112,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
   private startToken = 0;
   private frameToken = 0;
   private switchToken = 0;
+  private pendingCameraSwitch: { token: number; promise: Promise<void> } | null = null;
   /** Rolling statistics for diagnostics. */
   readonly stats = { decodeMs: 0, fps: 0, engine: "" as "" | "worker" | "main" };
   private fpsWindow: number[] = [];
@@ -239,16 +240,27 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
   }
 
   async switchCamera(): Promise<void> {
-    const wasScanning = this._state === "scanning";
     const token = this.startToken;
+    // Rapid control presses share the camera operation and its failure outcome.
+    if (this.pendingCameraSwitch?.token === token) return this.pendingCameraSwitch.promise;
     const operation = ++this.switchToken;
     this.frameToken++;
     this.cancelFrame();
+    const switching = this.performCameraSwitch(token, operation);
+    this.pendingCameraSwitch = { token, promise: switching };
+    try {
+      await switching;
+    } finally {
+      if (this.pendingCameraSwitch?.promise === switching) this.pendingCameraSwitch = null;
+      if (token === this.startToken && operation === this.switchToken) this.schedule();
+    }
+  }
+
+  private async performCameraSwitch(token: number, operation: number): Promise<void> {
     try {
       await this.camera.switch();
       if (token !== this.startToken || operation !== this.switchToken) return;
       this.tracker.clear();
-      if (wasScanning) this.schedule();
     } catch (err) {
       if (token !== this.startToken || operation !== this.switchToken) return;
       this.stop();
@@ -278,7 +290,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
   }
 
   private schedule(): void {
-    if (this._state !== "scanning" || this.frameHandle) return;
+    if (this._state !== "scanning" || this.frameHandle || this.pendingCameraSwitch?.token === this.startToken) return;
     const v = this.video as HTMLVideoElement & { requestVideoFrameCallback?: (cb: () => void) => number };
     const tick = () => {
       this.frameHandle = 0;
@@ -310,7 +322,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
   }
 
   private async onFrame(): Promise<void> {
-    if (this._state !== "scanning" || !this.decoder) return;
+    if (this._state !== "scanning" || !this.decoder || this.pendingCameraSwitch?.token === this.startToken) return;
     const now = performance.now();
     const minInterval = 1000 / this.opts.maxFps;
     const hidden = typeof document !== "undefined" && document.visibilityState === "hidden";

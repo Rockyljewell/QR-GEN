@@ -24,6 +24,9 @@ import com.google.mlkit.vision.barcode.common.Barcode as MlKitBarcode
  *
  * [executor] must be the analysis executor (a single thread): the ML Kit client is created,
  * used and closed only there.
+ *
+ * Each instance belongs to one camera source. Close and replace it when rebinding; a task
+ * accepted before [close] must never be delivered as a result from the replacement source.
  */
 internal class BarcodeAnalyzer(
     private val executor: Executor,
@@ -64,11 +67,11 @@ internal class BarcodeAnalyzer(
             val input = InputImage.fromMediaImage(media, rotation)
             scanner.process(input)
                 .addOnSuccessListener(executor) { list -> if (!closed.get() && !paused) onFrame(list, frame, timestamp) }
-                .addOnFailureListener(executor) { e -> if (!closed.get()) onFailure(e) }
+                .addOnFailureListener(executor) { e -> if (!closed.get() && !paused) onFailure(e) }
                 .addOnCompleteListener(executor) { image.close() }
             handedOff = true
         } catch (e: Exception) {
-            onFailure(e)
+            if (!closed.get() && !paused) onFailure(e)
         } finally {
             if (!handedOff) image.close()
         }

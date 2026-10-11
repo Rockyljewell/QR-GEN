@@ -130,6 +130,8 @@ export class QRGenScannerElement extends Base {
   private raf = 0;
   private toastTimer: ReturnType<typeof setTimeout> | undefined;
   private rendered = false;
+  private autostartToken = 0;
+  private readonly handleClick = (event: Event) => this.onClick(event as MouseEvent);
   private pausedBySingle = false;
   private zoomLevel = 1;
   private scanned = 0;
@@ -297,12 +299,18 @@ export class QRGenScannerElement extends Base {
   }
 
   connectedCallback(): void {
+    const token = ++this.autostartToken;
     this.render();
-    if (this.autostart) queueMicrotask(() => void this.start().catch(() => undefined));
-    else this.updateScreens("idle");
+    if (this.autostart) {
+      queueMicrotask(() => {
+        if (token === this.autostartToken && this.isConnected && this.autostart) void this.start().catch(() => undefined);
+      });
+    } else this.updateScreens("idle");
   }
 
   disconnectedCallback(): void {
+    this.autostartToken++;
+    this.root?.removeEventListener("click", this.handleClick);
     cancelAnimationFrame(this.raf);
     this.raf = 0;
     this.resizeObserver?.disconnect();
@@ -396,7 +404,7 @@ export class QRGenScannerElement extends Base {
       loading: q('[data-s="loading"]'),
       error: q('[data-s="error"]'),
     };
-    this.root.addEventListener("click", (e) => this.onClick(e as MouseEvent));
+    this.root.addEventListener("click", this.handleClick);
     this.els.hit.addEventListener("pointerup", (e) => this.onTap(e));
     this.els.video.addEventListener("resize", () => this.layout());
     if (typeof ResizeObserver !== "undefined") {
@@ -469,6 +477,7 @@ export class QRGenScannerElement extends Base {
 
   /** Start the camera and scanning. Resolves when frames are being decoded. */
   async start(): Promise<void> {
+    this.autostartToken++;
     this.render();
     const s = this.ensureScanner();
     this.pausedBySingle = false;
@@ -484,6 +493,7 @@ export class QRGenScannerElement extends Base {
 
   /** Stop scanning and release the camera. */
   stop(): void {
+    this.autostartToken++;
     this._scanner?.stop();
     this.highlights = [];
     this.tracked = [];
@@ -514,9 +524,11 @@ export class QRGenScannerElement extends Base {
   }
 
   async switchCamera(): Promise<void> {
-    if (!this._scanner) return;
-    await this._scanner.switchCamera();
-    this.els.video.classList.toggle("mirror", this._scanner.camera.isFront);
+    const scanner = this._scanner;
+    if (!scanner) return;
+    await scanner.switchCamera();
+    if (this._scanner !== scanner) return;
+    this.els.video.classList.toggle("mirror", scanner.camera.isFront);
     this.layout();
     await this.refreshCameraControls();
   }
