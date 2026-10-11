@@ -4,6 +4,7 @@
 library;
 
 import 'barcode.dart';
+import 'duplicate_filter_plan.dart';
 import 'duration_clock.dart';
 
 /// Suppresses repeated reports of the same symbology + data.
@@ -22,13 +23,20 @@ class QRGenDuplicateFilter {
   Map<String, DateTime> _lastReported = {};
   Map<String, Duration> _reportedElapsed = {};
   final QRGenDurationClock _clock = QRGenDurationClock();
+  Object _revision = Object();
   int _window;
 
   /// The window in ms (`-1` means once per session).
   int get window => _window;
 
   /// Changes the window; history is kept.
-  set window(int value) => _window = value < 0 ? -1 : value;
+  set window(int value) {
+    final next = value < 0 ? -1 : value;
+    if (next == _window) return;
+    final revision = Object();
+    _window = next;
+    _revision = revision;
+  }
 
   /// Number of codes remembered.
   int get length => _lastReported.length;
@@ -42,6 +50,7 @@ class QRGenDuplicateFilter {
 
   /// The barcodes that are not duplicates, in order; records them.
   List<T> filter<T extends QRGenBarcode>(Iterable<T> barcodes, [DateTime? now]) {
+    final revision = Object();
     final sample = _clock.preview(now);
     final observed = _elapsedHistory(sample);
     final pending = <String, DateTime>{};
@@ -76,14 +85,50 @@ class QRGenDuplicateFilter {
       _reportedElapsed = observed;
     }
     _clock.commit(sample);
+    _revision = revision;
     return result;
+  }
+
+  /// Prepares filtering without recording reports. Used by spatial sessions
+  /// to commit payload history and observation tracking together. A later
+  /// filter operation, reset or effective window change invalidates the plan.
+  QRGenDuplicateFilterPlan<T> prepareFilter<T extends QRGenBarcode>(Iterable<T> barcodes, [DateTime? now]) {
+    final previousRevision = _revision;
+    final nextRevision = Object();
+    final sample = _clock.preview(now);
+    final reported = Map.of(_lastReported);
+    final observed = Map.of(_elapsedHistory(sample));
+    final scanned = <T>[];
+    for (final barcode in barcodes) {
+      if (_acceptAt(barcode.key, sample, reported, observed)) scanned.add(barcode);
+    }
+    final result = List<T>.unmodifiable(scanned);
+    void validate() {
+      if (!identical(_revision, previousRevision)) throw StateError('Obsolete duplicate-filter plan.');
+    }
+
+    validate();
+    return QRGenDuplicateFilterPlan<T>(
+      scanned: result,
+      validate: validate,
+      commit: () {
+        validate();
+        // Every allocation, caller read and time comparison finished above.
+        _lastReported = reported;
+        _reportedElapsed = observed;
+        _clock.commit(sample);
+        _revision = nextRevision;
+      },
+    );
   }
 
   /// Forgets every code (starts a new session).
   void reset() {
+    final revision = Object();
     _lastReported.clear();
     _reportedElapsed.clear();
     _clock.reset();
+    _revision = revision;
   }
 
   Map<String, Duration> _elapsedHistory(QRGenDurationSample sample) => sample.changed && !sample.explicit
@@ -91,10 +136,12 @@ class QRGenDuplicateFilter {
       : _reportedElapsed;
 
   bool _accept(String key, QRGenDurationSample sample) {
+    final revision = Object();
     final observed = _elapsedHistory(sample);
     final accepted = _acceptAt(key, sample, _lastReported, observed);
     _reportedElapsed = observed;
     _clock.commit(sample);
+    _revision = revision;
     return accepted;
   }
 

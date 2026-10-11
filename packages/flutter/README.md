@@ -193,7 +193,7 @@ page as `camera-permission-denied`.
 | `orientation`, `ecLevel`, `symbologyIdentifier` | | `0` / `''` when unknown |
 | `timestamp` | `DateTime` | JSON: ms since epoch |
 
-`QRGenTrackedBarcode` adds `id` (stable, derived from symbology and data, with collision
+`QRGenTrackedBarcode` adds `id` (stable, by default derived from symbology and data, with collision
 suffixes when needed), `firstSeen`, `lastSeen` and `count`. Treat IDs as opaque; active tracks
 have unique IDs. Base IDs use the same scheme as React Native, while collision suffixes
 depend on track insertion order. Codes are dropped after more than 500 ms unseen, before
@@ -219,6 +219,72 @@ Pure Dart helpers (no Flutter needed): `resolveSymbologies`, `QRGenSymbology.try
 `location` to widget coordinates with the `BoxFit.cover` crop), `QRGenScannerOverlay` (reuse the
 overlay with your own camera widget).
 
+### Optional spatial observations in the pure helpers
+
+Custom camera integrations can separate identical decoded labels by their positions:
+
+```dart
+final session = QRGenScanSession(
+  mode: QRGenScanMode.batch,
+  spatialTracking: true,
+  trackMaxJump: 3,
+  trackMaxAssociationWork: 250000,
+);
+
+// Each barcode's location uses the same full upright frame dimensions.
+final result = session.process(barcodes, null, const QRGenSize(640, 480));
+final observations = result.tracked;
+```
+
+This opt-in belongs to `QRGenScanSession` and `QRGenBarcodeTracker`. The existing
+`QRGenScanner` widget, shared `QRGenScannerOptions`, WebView and embed bridge do not
+acquire these flags. Direct widget integration remains separate work; its camera
+source ownership and orientation handling need their own validation. Existing
+scanner rendering, styling and default payload grouping are unchanged.
+
+The tracker equivalent is `QRGenBarcodeTracker(spatial: true, maxJump: 3,
+maxAssociationWork: 250000)` with `update(barcodes, now?, frameSize?)`.
+The session accepts the optional full size on `process`, including empty frames.
+Each spatial record requires finite corners with nonzero extent and its own positive
+integral `frameSize`, consistent across the frame. Coordinates remain full-frame
+pixels when an application filters an ROI; do not relabel them as crop coordinates.
+An empty frame with changed dimensions clears observations. For a same-size source
+switch, call `session.resetSpatial()` before admitting frames from the new source;
+it returns an empty-list change once and keeps payload duplicate history.
+The application must reject delayed callbacks and frames from the old source.
+
+Association groups by exact symbology and payload. It maximizes eligible one-to-one
+matches, then minimizes total Euclidean center movement. Each current detection's
+movement gate is `max(extent, 1) * maxJump`, where extent is its larger bounding-box
+dimension. Equal-position ties follow numeric observation creation order. Unmatched
+observations remain until more than the tracking timeout has elapsed, so the result
+can temporarily contain more observations than visible detections.
+
+Before assignment, work is summed as `n*n*(m+n)` across payload groups with `n`
+current detections and `m > 0` surviving old observations. The default budget of
+250,000 rejects an oversized complete frame without partial tracking or payload
+reports. New-only groups cost zero. The budget is a positive safe integer and does
+not guarantee frame time or memory use; an offline override can still be expensive.
+Each spatial session frame also copies retained duplicate-history maps; once-per-session
+history persists until reset, so long sessions need separate allocation and latency measurements.
+Invalid geometry, source sizes, late caller reads, time comparisons and exhausted
+identity/count ranges also reject without consuming histories or IDs.
+
+Session `configure(spatialTracking: ..., trackMaxJump: ...,
+trackMaxAssociationWork: ...)` validates the entire proposal first. Equal effective
+policies preserve observations; changed policies clear them and use a fresh public
+ID namespace, while retaining duplicate history and stopped state. A mode change
+also resumes. Ordinary reset, source reset and expiry never reuse a spatial ID within
+the same helper lifetime. Treat IDs as opaque. Scan reports remain payload-based,
+including for identical observations; window `0` still reports every detection.
+Public timestamps remain `DateTime` values, while default expiry and duplicate ages
+use monotonic elapsed time. Injected `DateTime` arguments retain their established
+microsecond and clock-transition behavior.
+
+Spatial tracks describe short-lived decoded observations. They do not establish
+persistent physical identity through occlusion, confirmed quantities, or Scandit
+parity. Those require physical camera and workflow validation.
+
 ## Example
 
 [`example/lib/main.dart`](example/lib/main.dart): a scanner screen with a mode switch, a torch
@@ -227,23 +293,26 @@ generate the platform folders, then add the permissions above.
 
 ## Status
 
-- **Tested:** 166 tests pass with `flutter test` (Flutter 3.47.7, Dart 3.13.5,
-  mobile_scanner 7.4.2, webview_flutter 4.14.1). 133 of them are pure Dart tests for symbology resolution, the
+- **Core validation:** 220 pure Dart tests pass with `dart test` in a Flutter-free
+  package (Dart 3.13.5), with strict analysis clean. They cover symbology resolution, the
   mobile_scanner mapping for versions 5/6, 7.0-7.2 and 7.3+, JSON round trips, the duplicate filter,
-  the tracker, the scan session, geometry and bridge parsing. They also pass with `dart test` in
-  a Flutter-free package. Widget tests drive `QRGenScanner` against a fake `mobile_scanner`
+  the tracker, the scan session, geometry and bridge parsing, including optional spatial
+  association, complete-frame transactions and an independent exhaustive small-scene oracle.
+- **CI validation:** `flutter analyze` and `flutter test` check the package and example.
+  The resolved test environment uses Flutter 3.47.7, Dart 3.13.5, mobile_scanner 7.4.2
+  and webview_flutter 4.14.1. Widget tests drive `QRGenScanner` against a fake `mobile_scanner`
   platform (formats, start and stop, single, batch, duplicate filter, torch, `isActive`, error
   mapping, reset and nested callback ownership) and `QRGenWebScanner` against a fake `webview_flutter` platform (URL, `QRGenBridge`
-  channel, message dispatch, command queueing, permission grants). `flutter analyze` reports no
-  issues for the package and the example. CI additionally compiles the actual pure Dart
-  core with the official web compiler and runs 34 clock checks in an isolated Node context:
-  four calibrations, 14 default-clock regressions and 16 compatibility/metadata controls.
+  channel, message dispatch, command queueing, permission grants). CI also compiles the
+  87 spatial tracker/session/oracle cases for Node with the official Dart web compiler.
+  The separate compiled-core probe runs 48 clock checks in an isolated Node context:
+  four calibrations, 24 default-clock regressions and 20 compatibility/metadata controls.
   See `tool/clock_probe.dart` and `tool/run_clock_probe.mjs`; JavaScript supplies clock
   boundaries, while the algorithms come from the compiled Dart sources.
   Earlier compatibility checks analyzed `lib/` against the lowest
   allowed dependencies (mobile_scanner 5.1.0, webview_flutter 4.4.0, webview_flutter_android
   3.12.0, webview_flutter_wkwebview 3.9.0) and against mobile_scanner 6.0.10 and 7.0.0;
-  those older dependency combinations have not been rerun for this timing change. The
+  those older dependency combinations have not been rerun for this spatial-helper change. The
   tracking ids are checked to be the same on the Dart VM, in dart2js output and in the React
   Native package.
 - **Not tested yet:** nothing has run on a real device or simulator. Camera behavior, highlight
