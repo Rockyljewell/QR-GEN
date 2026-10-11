@@ -19,6 +19,21 @@ export function barcodeKey(code: DuplicateKeySource): string {
 
 const CLEANUP_THRESHOLD = 256;
 
+interface PreparedFilter<T> {
+  scanned: T[];
+  commit(): void;
+}
+
+// The symbol keeps the transaction hook off the named public class API.
+const prepareFrame = Symbol('prepareDuplicateFrame');
+
+/** Internal spatial-session transaction; deliberately not a root-package export. */
+export function prepareSpatialFilter<T extends DuplicateKeySource>(
+  filter: DuplicateFilter, codes: readonly T[], now?: number,
+): PreparedFilter<T> {
+  return filter[prepareFrame](codes, now, true);
+}
+
 /**
  * Suppresses repeated reports of the same symbology + data.
  *
@@ -78,17 +93,28 @@ export class DuplicateFilter {
 
   /** Returns the codes that are not duplicates, in order, and records them. */
   filter<T extends DuplicateKeySource>(codes: readonly T[], now?: number): T[] {
-    if (this.windowMs === 0) return codes.filter(() => true);
+    const plan = this[prepareFrame](codes, now, false);
+    plan.commit();
+    return plan.scanned;
+  }
+
+  [prepareFrame]<T extends DuplicateKeySource>(codes: readonly T[], now: number | undefined, strict: boolean): PreparedFilter<T> {
+    if (this.windowMs === 0) return { scanned: codes.filter(() => true), commit() {} };
     // Resolve input before clock/history mutation, and sample only once per frame.
     const keys = codes.map(barcodeKey);
     const sample = this.clock.preview(now);
     const reported = new Map(this.lastReported);
     const elapsed = new Map(this.elapsedHistory(sample));
-    const accepted = codes.filter((_, index) => this.acceptAt(keys[index]!, sample, reported, elapsed));
-    this.lastReported = reported;
-    this.lastReportedElapsed = elapsed;
-    this.clock.commit(sample);
-    return accepted;
+    if (strict && (!Number.isFinite(sample.timestamp) || !Number.isFinite(sample.elapsed)
+      || [...reported.values(), ...elapsed.values()].some(value => !Number.isFinite(value)))) {
+      throw new RangeError('Spatial duplicate filtering requires finite clocks and elapsed history');
+    }
+    const scanned = codes.filter((_, index) => this.acceptAt(keys[index]!, sample, reported, elapsed));
+    return { scanned, commit: () => {
+      this.lastReported = reported;
+      this.lastReportedElapsed = elapsed;
+      this.clock.commit(sample);
+    } };
   }
 
   /** Forgets every code (starts a new session). */

@@ -5,9 +5,10 @@
  * mode (`single` / `continuous` / `batch`), the duplicate filter and the batch
  * tracker to the codes decoded in each frame. Pure TypeScript.
  */
-import { DuplicateFilter } from './duplicateFilter';
+import { DuplicateFilter, prepareSpatialFilter } from './duplicateFilter';
+import { snapshotBarcode, spatialSize, validateSpatialFrame } from './spatialAssociation';
 import { BarcodeTracker, DEFAULT_TRACKING_TIMEOUT } from './tracker';
-import type { Barcode, ScanMode, TrackedBarcode } from './types';
+import type { Barcode, ScanMode, Size, TrackedBarcode } from './types';
 
 /** Options for {@link ScanSession}. */
 export interface ScanSessionOptions {
@@ -16,6 +17,12 @@ export interface ScanSessionOptions {
   duplicateFilter?: number;
   /** Batch tracking timeout in ms. Default 500. */
   trackingTimeout?: number;
+  /** Separate equal-payload batch observations by position. Default false. */
+  spatialTracking?: boolean;
+  /** Spatial movement gate relative to detection size. Default 3. */
+  trackMaxJump?: number;
+  /** Positive safe-integer spatial assignment-work budget. Default 250,000. */
+  trackMaxAssociationWork?: number;
 }
 
 /** What the component should do after a frame. */
@@ -36,11 +43,14 @@ export class ScanSession {
   private tracker: BarcodeTracker;
   private currentMode: ScanMode;
   private done = false;
+  private policyGeneration = 0;
 
   constructor(options: ScanSessionOptions = {}) {
-    this.currentMode = options.mode ?? 'continuous';
-    this.filter = new DuplicateFilter(options.duplicateFilter ?? 1000);
-    this.tracker = new BarcodeTracker({ timeout: options.trackingTimeout ?? DEFAULT_TRACKING_TIMEOUT });
+    const { mode, duplicateFilter, trackingTimeout, spatialTracking, trackMaxJump, trackMaxAssociationWork } = options;
+    this.currentMode = mode ?? 'continuous';
+    this.filter = new DuplicateFilter(duplicateFilter ?? 1000);
+    this.tracker = new BarcodeTracker({ timeout: trackingTimeout ?? DEFAULT_TRACKING_TIMEOUT,
+      spatial: spatialTracking, maxJump: trackMaxJump, maxAssociationWork: trackMaxAssociationWork });
   }
 
   /** Current mode. */
@@ -53,23 +63,51 @@ export class ScanSession {
     return this.done;
   }
 
+  /** Current accepted batch tracking policy. */
+  get spatialTracking(): boolean { return this.tracker.spatial; }
+  get trackMaxJump(): number { return this.tracker.maxJump; }
+  get trackMaxAssociationWork(): number { return this.tracker.maxAssociationWork; }
+
   /** Every code currently tracked (batch mode). */
   get tracked(): TrackedBarcode[] {
-    return this.tracker.tracked;
+    return this.publicTracks(this.tracker.tracked);
   }
 
-  /** Applies new options. Changing the mode clears the tracker and resumes. */
+  /**
+   * Applies options atomically. A changed spatial policy clears tracks while
+   * preserving duplicate history. Changing the mode also resumes scanning.
+   * The construction-time tracking timeout remains unchanged.
+   */
   configure(options: ScanSessionOptions): void {
-    if (options.duplicateFilter !== undefined) this.filter.window = options.duplicateFilter;
-    if (options.mode !== undefined && options.mode !== this.currentMode) {
-      this.currentMode = options.mode;
-      this.tracker.reset();
+    // Preserve the established configure contract: do not read ignored timeout.
+    const { mode, duplicateFilter, spatialTracking, trackMaxJump, trackMaxAssociationWork } = options;
+    const candidate = new BarcodeTracker({ timeout: this.tracker.timeout,
+      spatial: spatialTracking === undefined ? this.spatialTracking : spatialTracking,
+      maxJump: trackMaxJump === undefined ? this.trackMaxJump : trackMaxJump,
+      maxAssociationWork: trackMaxAssociationWork === undefined ? this.trackMaxAssociationWork : trackMaxAssociationWork });
+    const replaced = candidate.spatial !== this.spatialTracking || candidate.maxJump !== this.trackMaxJump
+      || candidate.maxAssociationWork !== this.trackMaxAssociationWork;
+    const generation = this.policyGeneration + (replaced ? 1 : 0);
+    if (!Number.isSafeInteger(generation)) throw new RangeError('Spatial policy generation range exhausted');
+    // Every fallible read/validation is complete before changing session state.
+    if (duplicateFilter !== undefined) this.filter.window = duplicateFilter;
+    if (replaced) {
+      this.tracker = candidate;
+      this.policyGeneration = generation;
+    }
+    if (mode !== undefined && mode !== this.currentMode) {
+      this.currentMode = mode;
+      if (!replaced) this.tracker.reset();
       this.done = false;
     }
   }
 
-  /** Feeds the codes decoded in one frame. */
-  process(barcodes: readonly Barcode[], now?: number): ScanSessionResult {
+  /**
+   * Feeds one frame. Spatial batch records require their own valid source size;
+   * optional frameSize also detects blank resize frames. Other modes ignore it.
+   * Rejected spatial frames leave both histories and tracking IDs unchanged.
+   */
+  process(barcodes: readonly Barcode[], now?: number, frameSize?: Size): ScanSessionResult {
     if (this.done) return EMPTY;
     switch (this.currentMode) {
       case 'single': {
@@ -79,6 +117,7 @@ export class ScanSession {
         return { scanned, tracked: null, stop: true };
       }
       case 'batch': {
+        if (this.spatialTracking) return this.processSpatial(barcodes, now, frameSize);
         const update = this.tracker.update(barcodes, now);
         const scanned = this.filter.filter(barcodes, now);
         return { scanned, tracked: update.changed ? update.tracked : null, stop: false };
@@ -95,7 +134,15 @@ export class ScanSession {
   tick(now?: number): TrackedBarcode[] | null {
     if (this.currentMode !== 'batch') return null;
     const update = this.tracker.prune(now);
-    return update.changed ? update.tracked : null;
+    return update.changed ? this.publicTracks(update.tracked) : null;
+  }
+
+  /** Clears spatial observations only; returns an empty-list change once. */
+  resetSpatial(): TrackedBarcode[] | null {
+    if (!this.spatialTracking) return null;
+    const changed = this.tracker.size > 0;
+    this.tracker.reset();
+    return changed ? [] : null;
   }
 
   /** Continues after a `single` mode scan. Duplicate history is kept. */
@@ -108,5 +155,22 @@ export class ScanSession {
     this.filter.reset();
     this.tracker.reset();
     this.done = false;
+  }
+
+  private processSpatial(barcodes: readonly Barcode[], now: number | undefined, frameSize?: Size): ScanSessionResult {
+    const canonical = Array.from(barcodes, snapshotBarcode);
+    const size = frameSize === undefined ? undefined : spatialSize(frameSize);
+    validateSpatialFrame(canonical, this.trackMaxJump, size);
+    const plan = prepareSpatialFilter(this.filter, canonical, now);
+    const update = this.tracker.update(canonical, now, size);
+    const result = { scanned: plan.scanned, tracked: update.changed ? this.publicTracks(update.tracked) : null, stop: false };
+    // Tracker output is plain data. No caller or clock reads remain after its commit.
+    plan.commit();
+    return result;
+  }
+
+  private publicTracks(tracks: TrackedBarcode[]): TrackedBarcode[] {
+    if (!this.spatialTracking) return tracks;
+    return tracks.map(track => ({ ...track, id: `spatial-${this.policyGeneration}:${track.id}` }));
   }
 }

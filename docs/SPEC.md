@@ -190,7 +190,8 @@ Events: `scan` (`{ barcodes: Barcode[] }`), `track` (batch only,
 `{ tracked: TrackedBarcode[] }` where `TrackedBarcode = Barcode & { id, firstSeen, lastSeen, count }`;
 `id` is stable for the lifetime of a track; web and Kotlin use numeric IDs, Swift uses numeric
 string IDs, and React Native, Flutter and default Python payload tracking derive string
-base IDs from symbology + data. Python's opt-in spatial tracking allocates fresh string IDs.
+base IDs from symbology + data. Python and React Native's opt-in spatial tracking allocate
+fresh string IDs.
 Treat every track ID as opaque),
 `error` (`{ code, message }`), `ready`.
 
@@ -212,6 +213,37 @@ In native batch delivery, `onScan` precedes `onTrack`; a reset, synchronous unmo
 committed mode change or newer tracking update during `onScan` cancels the older track
 snapshot. Idempotent start/resume, cosmetic changes and no-change empty frames preserve
 the still-current callback.
+
+React Native also offers optional native spatial observations with
+`QRGenScanner spatialTracking`, or `new ScanSession({ mode: 'batch', spatialTracking: true })`.
+Default payload aggregation and payload duplicate filtering remain unchanged.
+The native-only options `spatialTracking=false`, `trackMaxJump=3` and
+`trackMaxAssociationWork=250000` do not enter shared scanner or embed options.
+They are reactive: an equal effective policy is a no-op, while a successful
+replacement clears observations and changes their opaque ID namespace without
+clearing duplicate history. Rejected configuration retains the accepted settings
+and histories. Actual permission/device loss still gates the accepted source, and
+view-axis/preview-orientation changes still establish coordinate boundaries.
+Native source/coordinate boundaries clear only spatial history; stale child
+callbacks cannot mutate the current session.
+
+React Native spatial batch frames require finite usable geometry and consistent positive
+integer source sizes. The native component supplies full upright dimensions even
+for blank or ROI-excluded frames. Its pure tracker accepts
+`new BarcodeTracker({ spatial: true, maxJump: 3, maxAssociationWork: 250000 })`
+and `update(barcodes, now?, frameSize?)`; the session accepts that optional size on
+`process`. Direct same-size source switches require a tracker reset or a session
+`resetSpatial()`, which preserves duplicate history and stopped state. Spatial IDs
+are fresh after expiry/reset within one session. Tracks remain decoded observations,
+not confirmed quantities or persistent physical identity.
+
+The React Native work budget is a positive safe integer. It uses the same
+`n*n*(m+n)` estimate described below for Python and rejects the complete frame
+before assignment matrices or state changes. Invalid geometry, clock, budget or
+late metadata/ID/count validation leaves tracking and duplicate histories unchanged.
+Native component failures report through the existing `onError` contract. This
+bounds association work rather than time or memory; physical-device performance
+and camera-driver frame provenance remain separate validation gates.
 
 The web tracker associates each symbology/payload group across a whole frame:
 it maximizes eligible matches within the movement gate, then minimizes total
