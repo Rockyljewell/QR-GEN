@@ -362,14 +362,23 @@ def _mecard(text: str) -> Dict[str, Any]:
 
 def _event(text: str) -> Dict[str, Any]:
     fields: Dict[str, str] = {}
-    in_event = "BEGIN:VEVENT" not in text.upper()
+    in_event = False
+    nested = 0
     for key, _params, value in _content_lines(text):
-        if key == "BEGIN" and value.strip().upper() == "VEVENT":
-            in_event = True
+        component = value.strip().upper()
+        if key == "BEGIN":
+            if not in_event and component == "VEVENT":
+                in_event = True
+            elif in_event:
+                nested += 1
             continue
-        if key == "END" and value.strip().upper() == "VEVENT":
-            break
-        if in_event and key not in fields:
+        if key == "END":
+            if in_event and nested == 0 and component == "VEVENT":
+                break
+            if in_event and nested > 0:
+                nested -= 1
+            continue
+        if in_event and nested == 0 and key not in fields:
             fields[key] = value
     return _prune(
         {

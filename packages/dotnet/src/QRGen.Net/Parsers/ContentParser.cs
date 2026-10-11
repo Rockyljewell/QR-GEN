@@ -531,16 +531,24 @@ namespace QRGen
         private static ParsedContent Event(string text)
         {
             var fields = new Dictionary<string, string>(StringComparer.Ordinal);
-            var inEvent = text.IndexOf("BEGIN:VEVENT", StringComparison.OrdinalIgnoreCase) < 0;
+            var inEvent = false;
+            var nested = 0;
             foreach (var (key, _, value) in ContentLines(text))
             {
-                if (key == "BEGIN" && value.Trim().Equals("VEVENT", StringComparison.OrdinalIgnoreCase))
+                var component = value.Trim();
+                if (key == "BEGIN")
                 {
-                    inEvent = true;
+                    if (!inEvent && component.Equals("VEVENT", StringComparison.OrdinalIgnoreCase)) inEvent = true;
+                    else if (inEvent) nested++;
                     continue;
                 }
-                if (key == "END" && value.Trim().Equals("VEVENT", StringComparison.OrdinalIgnoreCase)) break;
-                if (inEvent && !fields.ContainsKey(key)) fields[key] = value;
+                if (key == "END")
+                {
+                    if (inEvent && nested == 0 && component.Equals("VEVENT", StringComparison.OrdinalIgnoreCase)) break;
+                    if (inEvent && nested > 0) nested--;
+                    continue;
+                }
+                if (inEvent && nested == 0 && !fields.ContainsKey(key)) fields[key] = value;
             }
             string? Field(string key) => fields.TryGetValue(key, out var v) ? NullIfEmpty(VCardUnescape(v).Trim()) : null;
             return new ParsedContent
