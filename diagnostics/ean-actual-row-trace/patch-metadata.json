@@ -1,0 +1,71 @@
+{
+  "scope": "Instrumentation only against unchanged release policy; no recognition/build performed by preparer.",
+  "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
+  "wrapperCommit": "b7dcf63aefc7b94fb97ba09e9b1fb213d9399f54",
+  "compileDefinition": "ZXING_QRGEN_ROW_TRACE=1",
+  "patchSha256": "6156e3c8e8ba373e41c05c7610fa4b2fed08850c9d39bbc084d75d28ef954912",
+  "files": [
+    {
+      "path": "core/src/ReadBarcode.cpp",
+      "baseSha256": "53b9780a67f291c3f8f91722912323783c44890b71ea1a5328c729ca3e82685c",
+      "instrumentedSha256": "06c06ae2a324c89bafb000411cae58560f6fa5c64836352506aa5c8ebde8bcd8"
+    },
+    {
+      "path": "core/src/MultiFormatReader.cpp",
+      "baseSha256": "207b7287dcfaecd47ff13fd657e728e633a22c3942b171f6843caadaa027e879",
+      "instrumentedSha256": "c7c0b1e165a35f8e382078d5064bd371ca41192c54ae8959fe88cb2829f4f46c"
+    },
+    {
+      "path": "core/src/Pattern.h",
+      "baseSha256": "e3f483989b9e673753941529124744374f3050f7830de6f935226af73011b5ba",
+      "instrumentedSha256": "c3eaedeb80ffd855ac8007648efe33ffb0965a309a40866913edf91a802715ad"
+    },
+    {
+      "path": "core/src/GlobalHistogramBinarizer.cpp",
+      "baseSha256": "f92ec3aef8bc0970172b6ed620dad67e1ae660385e2bc7c03c4baedce8e1a46b",
+      "instrumentedSha256": "ab14d7e9e171414a650cc63a6f9ac1d771acb028031bd521fd3f5c919c34c5d7"
+    },
+    {
+      "path": "core/src/oned/ODReader.cpp",
+      "baseSha256": "bb7c077d260aae12f82b473f5a38a0dd5a15790d2fc33db121f04dfc012faa6e",
+      "instrumentedSha256": "aa459963118abfd55fb6a523f8c2b90e870e00b80da34ed78c38984c9e7f1ff1"
+    },
+    {
+      "path": "core/src/oned/ODRowReader.h",
+      "baseSha256": "5b008b44f33d77445e67a10c8b46a88c77f99fb42fae299773195bc07b0c2499",
+      "instrumentedSha256": "1f50d579928183bf7ed3da802b96c52b7c93268a4132d15251457da4d9de480e"
+    },
+    {
+      "path": "core/src/oned/ODMultiUPCEANReader.cpp",
+      "baseSha256": "84d85014bcef424e6457caeaa81a78498af2838354f50db41664f4ebac0be5e9",
+      "instrumentedSha256": "b19f01a0d1a1fdf135bcb6f04134b97f7bfcce6100e0ac8972ccea7f20b31d7e"
+    }
+  ],
+  "newFiles": [
+    {
+      "path": "core/src/QRGenRowTrace.h",
+      "sha256": "3e0d114600817d6825f1b16f2aa3bcf51d95f11ec90914bdf049d6445dd53e33"
+    }
+  ],
+  "bounds": {
+    "maxEventsPerCall": 250000,
+    "maxBytesPerCall": 33554432,
+    "maxEventBytes": 16384,
+    "collectorIdCapacity": 8192,
+    "callEndOutsideCap": true
+  },
+  "verifiedPreparationChecks": [
+    "original source byte hashes verified",
+    "all replacements asserted unique"
+  ],
+  "designClaimsPendingBuildAndEquivalenceGate": [
+    "no baseline candidate ambiguity guard included",
+    "all original comparisons and thresholds retained"
+  ],
+  "limitations": [
+    "Trace allocation/stdio costs change timing; no performance claim.",
+    "Call-end dropped or oversized >0 makes the trace incomplete.",
+    "Shared guard scores log returned values and float64 result bits; digit scores retain exact float32 bit patterns. Non-finite values are explicit JSON strings.",
+    "Fullres/invert-off protocol avoids scale/inversion mapping ambiguity; expanded modes are outside this study."
+  ]
+}

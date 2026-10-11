@@ -1,0 +1,2487 @@
+{
+  "schemaVersion": 1,
+  "frozenAt": "2026-10-11T17:07:51.587Z",
+  "scope": "Unchanged-policy actual C++ instrumentation, 15 rasters × 6 profiles; no recognition during freeze.",
+  "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
+  "wrapperCommit": "b7dcf63aefc7b94fb97ba09e9b1fb213d9399f54",
+  "count": {
+    "rasters": 15,
+    "profiles": 90
+  },
+  "parentPlans": [
+    {
+      "path": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\staged-sdk-node-validation\\frozen-plan.json",
+      "sha256": "1e6042ae022e0e902410aaf8094918cef564c2e01d438a7932598d29fd497a65"
+    },
+    {
+      "path": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-physical-conflict-feasibility\\control-rasters.json",
+      "sha256": "6499eac8267543ae7b76ad68c3f5d4b44ba32dd888ecaa83b470e3c2aa4ace10"
+    }
+  ],
+  "files": [
+    {
+      "path": "PROTOCOL.md",
+      "sha256": "3fc42647c6ce964ae38d506542ac3f1b49a6d40e6480787bf5712c54a3f870b2",
+      "bytes": 5773
+    },
+    {
+      "path": "QRGenRowTrace.h",
+      "sha256": "3e0d114600817d6825f1b16f2aa3bcf51d95f11ec90914bdf049d6445dd53e33",
+      "bytes": 8110
+    },
+    {
+      "path": "prepare-instrumentation.py",
+      "sha256": "b844d2e1d249760716a7d0768760b385f600f4c7a387b9ea0a67f621ce4a805a",
+      "bytes": 21182
+    },
+    {
+      "path": "actual-row-trace.patch",
+      "sha256": "6156e3c8e8ba373e41c05c7610fa4b2fed08850c9d39bbc084d75d28ef954912",
+      "bytes": 32467
+    },
+    {
+      "path": "patch-metadata.json",
+      "sha256": "ec96fe5b3425b5c423eb5f363ac465580142e21495019bbeb04093751dd3f9e5",
+      "bytes": 3221
+    },
+    {
+      "path": "freeze-plan.mjs",
+      "sha256": "3c00698e705693eae272d25f30cfc1fb6f22c997317c938661ffa3b7b6e1227a",
+      "bytes": 4787
+    },
+    {
+      "path": "run-paired.mjs",
+      "sha256": "9d8aff8f74bc81bfc487e9772fc86d42f6c3e10701b642864d7cc26e68ab158d",
+      "bytes": 14412
+    },
+    {
+      "path": "capture-build-evidence.mjs",
+      "sha256": "ca2522f392cb5d90bbc12c18263bf6933c2ede50bc762b29b2400a4d94ce2bff",
+      "bytes": 3152
+    },
+    {
+      "path": "diagnostic-build.yml",
+      "sha256": "8682b9cee5e6080caf4085edeec991f9c2be0ecf732f7671348b391c5a481f65",
+      "bytes": 5475
+    },
+    {
+      "path": "verify-build-inputs.py",
+      "sha256": "a3883177553ffb0f2a5e2817a74880b283c15c89b90c67a846e0f45f0e65ab7b",
+      "bytes": 1327
+    },
+    {
+      "path": "snapshot-build-phase.py",
+      "sha256": "24597cba3876e9e4b31f3369225055fed350584d70d9f18d38ca27fb3c8cc109",
+      "bytes": 1226
+    },
+    {
+      "path": "freeze-package.py",
+      "sha256": "be91cad7368a5bd3c511c6d720aeeb87e35e6073cc52e6a0ccc706859d13f6dc",
+      "bytes": 1288
+    },
+    {
+      "path": "verify-validation-only.mjs",
+      "sha256": "135a4d41956d54a449ecdde26379e10c9372622b731173a0c3730d9837722bb7",
+      "bytes": 3599
+    },
+    {
+      "path": "REVIEW-AMENDMENT.md",
+      "sha256": "2e06c8e7e8bde18566585f6798ec561f1da36f20362491b5aef0ba561b672b23",
+      "bytes": 1452
+    },
+    {
+      "path": "v1-provenance.json",
+      "sha256": "de34d74405e02dfa1e6b21798c0954e7c60368c897c8661b0c965dec23f8a4ed",
+      "bytes": 4534
+    },
+    {
+      "path": "README.md",
+      "sha256": "92e3e6e27a9299d8bc16edfce6833377c26bb0575cf5be5e0d409f9cb5b945f0",
+      "bytes": 5287
+    }
+  ],
+  "inputs": [
+    {
+      "key": "original-RGBA-white-sRGB/ean13-1-35",
+      "id": "ean13-1-35",
+      "group": "original-RGBA-white-sRGB",
+      "kind": "existing-photograph",
+      "sourcePath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-linecount-study\\images\\ean13-1-35.png",
+      "sourceSha256": "7af8136324f36808b4a6646edd423a4d17a7b7ef19dec8b65950a1bebc57205d",
+      "transportPath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-linecount-study\\images\\ean13-1-35.png",
+      "transportSha256": "7af8136324f36808b4a6646edd423a4d17a7b7ef19dec8b65950a1bebc57205d",
+      "rgbaSha256": "ecabb0205f1a1f2088a4140fd736e55fe7f301c60f227e8445947e054867ceff",
+      "width": 640,
+      "height": 480,
+      "sourceLoadType": "original",
+      "sourceBytes": 319851,
+      "transportBytes": 319851
+    },
+    {
+      "key": "derived-limited-Y-expanded-RGB/ean13-1-35",
+      "id": "ean13-1-35",
+      "group": "derived-limited-Y-expanded-RGB",
+      "kind": "existing-photograph",
+      "sourcePath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-linecount-study\\derived\\ean13-1-35.png",
+      "sourceSha256": "2b7d140b923768d05bb9f8a7f1fb2dc5c5155601ea80529c7a0753373928f2f9",
+      "transportPath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-linecount-study\\derived\\ean13-1-35.png",
+      "transportSha256": "2b7d140b923768d05bb9f8a7f1fb2dc5c5155601ea80529c7a0753373928f2f9",
+      "rgbaSha256": "1a539272b92f7726ce88d339417e2cd1e9724911ee8b1accdcbaac184916ea1c",
+      "width": 640,
+      "height": 480,
+      "sourceLoadType": "png",
+      "sourceBytes": 392037,
+      "transportBytes": 392037
+    },
+    {
+      "key": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "id": "ean13-2-07",
+      "group": "derived-limited-Y-expanded-RGB",
+      "kind": "existing-photograph",
+      "sourcePath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-linecount-study\\derived\\ean13-2-07.png",
+      "sourceSha256": "a93905e88c63a7b8be3ab4e31e9ff145656d6a7f907bc426816eb179606e7dd6",
+      "transportPath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-linecount-study\\derived\\ean13-2-07.png",
+      "transportSha256": "a93905e88c63a7b8be3ab4e31e9ff145656d6a7f907bc426816eb179606e7dd6",
+      "rgbaSha256": "f54a923a00a5948c6db449beb276899bb9576d02148ea752049d628889a40bd4",
+      "width": 640,
+      "height": 480,
+      "sourceLoadType": "png",
+      "sourceBytes": 249578,
+      "transportBytes": 249578
+    },
+    {
+      "key": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "id": "actual-Chrome-ean13-2-07-full",
+      "group": "actual-Chrome-supplement",
+      "kind": "existing-photograph",
+      "sourcePath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-linecount-study\\images\\chrome-ean13-2-07-full.png",
+      "sourceSha256": "63783fca63db9e02e42cd905cae39630fd68acdcdb5ba7bb265e5f5a076e7399",
+      "transportPath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-linecount-study\\images\\chrome-ean13-2-07-full.png",
+      "transportSha256": "63783fca63db9e02e42cd905cae39630fd68acdcdb5ba7bb265e5f5a076e7399",
+      "rgbaSha256": "ec287e182dca32d86261e719e4a9525277023ba1872394ca6d4fa4e454fc7107",
+      "width": 640,
+      "height": 480,
+      "sourceLoadType": "png",
+      "sourceBytes": 193449,
+      "transportBytes": 193449
+    },
+    {
+      "key": "original-RGBA-white-sRGB/ean13-2-14",
+      "id": "ean13-2-14",
+      "group": "original-RGBA-white-sRGB",
+      "kind": "existing-photograph",
+      "sourcePath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-linecount-study\\images\\ean13-2-14.png",
+      "sourceSha256": "a777859e84b924fc4d67cf59c3db0aa36bfca4a3fafc235343028553d8dbc582",
+      "transportPath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\staged-sdk-node-validation\\transports\\0094.png",
+      "transportSha256": "760d1b076c839ab37065f9dd4322837fcbca4fe0f2f1185c75c43b1ab4715370",
+      "rgbaSha256": "80766f6bde2b4d4a6592087c74be33d1765cf342d8bc848abb3f885eac7c40b2",
+      "width": 480,
+      "height": 360,
+      "sourceLoadType": "original",
+      "sourceBytes": 74707,
+      "transportBytes": 240330
+    },
+    {
+      "key": "original-RGBA-white-sRGB/ean13-2-20",
+      "id": "ean13-2-20",
+      "group": "original-RGBA-white-sRGB",
+      "kind": "existing-photograph",
+      "sourcePath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-linecount-study\\images\\ean13-2-20.png",
+      "sourceSha256": "d128c67bc0eb6a39841c8e5fabcf98e8bc7d981c1d5441d4cab9c3b79e8f698e",
+      "transportPath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\staged-sdk-node-validation\\transports\\0106.png",
+      "transportSha256": "d3ceddfa058d613b9187ed78120ba1497e1230e6b80f27873b87f83ddeae72a3",
+      "rgbaSha256": "42953f83894b3e07466de33b5efa7c7f31d30798ee97c1d4be628fc6c155efcf",
+      "width": 480,
+      "height": 360,
+      "sourceLoadType": "original",
+      "sourceBytes": 64070,
+      "transportBytes": 218707
+    },
+    {
+      "key": "physical-control/two-aligned-gap0",
+      "id": "two-aligned-gap0",
+      "group": "physical-control",
+      "kind": "existing-generated-control",
+      "sourcePath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-physical-conflict-feasibility\\controls\\two-aligned-gap0.png",
+      "sourceSha256": "1fbd7509fe6a2dbd35f21c639688609dff313794701e040baf283db48dc5c18d",
+      "transportPath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-physical-conflict-feasibility\\controls\\two-aligned-gap0.png",
+      "transportSha256": "1fbd7509fe6a2dbd35f21c639688609dff313794701e040baf283db48dc5c18d",
+      "rgbaSha256": "346e8676b7caa722890ed87a35bdf3412354d7a3f15934ecafea139e58769c0c",
+      "width": 492,
+      "height": 480,
+      "placements": [
+        {
+          "sourceIndex": 0,
+          "x": 20,
+          "y": 20,
+          "width": 452,
+          "height": 220
+        },
+        {
+          "sourceIndex": 1,
+          "x": 20,
+          "y": 240,
+          "width": 452,
+          "height": 220
+        }
+      ],
+      "controlSpec": {
+        "id": "two-aligned-gap0",
+        "kind": "two",
+        "direction": "perpendicular",
+        "gap": 0,
+        "offset": 0,
+        "rotate": 0,
+        "payloads": [
+          "5901234123457",
+          "9780306406157"
+        ]
+      },
+      "sourceBytes": 2271,
+      "transportBytes": 2271
+    },
+    {
+      "key": "physical-control/two-aligned-gap16",
+      "id": "two-aligned-gap16",
+      "group": "physical-control",
+      "kind": "existing-generated-control",
+      "sourcePath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-physical-conflict-feasibility\\controls\\two-aligned-gap16.png",
+      "sourceSha256": "226f3c497b5904817494c336fe55b32141ab8c79c3d5268a2cb1fc87382958f3",
+      "transportPath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-physical-conflict-feasibility\\controls\\two-aligned-gap16.png",
+      "transportSha256": "226f3c497b5904817494c336fe55b32141ab8c79c3d5268a2cb1fc87382958f3",
+      "rgbaSha256": "6113370396faf9c1a4b381b465eb2e67e13ed815baf48417d75f29e273eabc26",
+      "width": 492,
+      "height": 496,
+      "placements": [
+        {
+          "sourceIndex": 0,
+          "x": 20,
+          "y": 20,
+          "width": 452,
+          "height": 220
+        },
+        {
+          "sourceIndex": 1,
+          "x": 20,
+          "y": 256,
+          "width": 452,
+          "height": 220
+        }
+      ],
+      "controlSpec": {
+        "id": "two-aligned-gap16",
+        "kind": "two",
+        "direction": "perpendicular",
+        "gap": 16,
+        "offset": 0,
+        "rotate": 0,
+        "payloads": [
+          "5901234123457",
+          "9780306406157"
+        ]
+      },
+      "sourceBytes": 2365,
+      "transportBytes": 2365
+    },
+    {
+      "key": "physical-control/two-aligned-gap96",
+      "id": "two-aligned-gap96",
+      "group": "physical-control",
+      "kind": "existing-generated-control",
+      "sourcePath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-physical-conflict-feasibility\\controls\\two-aligned-gap96.png",
+      "sourceSha256": "045c7b890a4454f283443b24111ec90cab0121e248a81f9f32f3ed6d6ba4663c",
+      "transportPath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-physical-conflict-feasibility\\controls\\two-aligned-gap96.png",
+      "transportSha256": "045c7b890a4454f283443b24111ec90cab0121e248a81f9f32f3ed6d6ba4663c",
+      "rgbaSha256": "fe003233980ad0d88299623d21b248ce8c88e5d106765f62af182ae1dffc9d22",
+      "width": 492,
+      "height": 576,
+      "placements": [
+        {
+          "sourceIndex": 0,
+          "x": 20,
+          "y": 20,
+          "width": 452,
+          "height": 220
+        },
+        {
+          "sourceIndex": 1,
+          "x": 20,
+          "y": 336,
+          "width": 452,
+          "height": 220
+        }
+      ],
+      "controlSpec": {
+        "id": "two-aligned-gap96",
+        "kind": "two",
+        "direction": "perpendicular",
+        "gap": 96,
+        "offset": 0,
+        "rotate": 0,
+        "payloads": [
+          "5901234123457",
+          "9780306406157"
+        ]
+      },
+      "sourceBytes": 2655,
+      "transportBytes": 2655
+    },
+    {
+      "key": "physical-control/two-offset-half-span-gap16",
+      "id": "two-offset-half-span-gap16",
+      "group": "physical-control",
+      "kind": "existing-generated-control",
+      "sourcePath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-physical-conflict-feasibility\\controls\\two-offset-half-span-gap16.png",
+      "sourceSha256": "2937215d8653ea9174c8ee681d0cc287eb720a9bf5eb22b62ed4a30feb95ead0",
+      "transportPath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-physical-conflict-feasibility\\controls\\two-offset-half-span-gap16.png",
+      "transportSha256": "2937215d8653ea9174c8ee681d0cc287eb720a9bf5eb22b62ed4a30feb95ead0",
+      "rgbaSha256": "83545c86605d004a6267789e80921825a880a61751134754f99e34f40afa4b04",
+      "width": 718,
+      "height": 496,
+      "placements": [
+        {
+          "sourceIndex": 0,
+          "x": 20,
+          "y": 20,
+          "width": 452,
+          "height": 220
+        },
+        {
+          "sourceIndex": 1,
+          "x": 246,
+          "y": 256,
+          "width": 452,
+          "height": 220
+        }
+      ],
+      "controlSpec": {
+        "id": "two-offset-half-span-gap16",
+        "kind": "two",
+        "direction": "perpendicular",
+        "gap": 16,
+        "offset": "half-image-width",
+        "rotate": 0,
+        "payloads": [
+          "5901234123457",
+          "9780306406157"
+        ]
+      },
+      "sourceBytes": 2678,
+      "transportBytes": 2678
+    },
+    {
+      "key": "physical-control/two-side-by-side-gap16",
+      "id": "two-side-by-side-gap16",
+      "group": "physical-control",
+      "kind": "existing-generated-control",
+      "sourcePath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-physical-conflict-feasibility\\controls\\two-side-by-side-gap16.png",
+      "sourceSha256": "6343516cf4f9e00d8061cfcc9686ebd6277a6b9cffed5f7b6a1e6eee0f426d7f",
+      "transportPath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-physical-conflict-feasibility\\controls\\two-side-by-side-gap16.png",
+      "transportSha256": "6343516cf4f9e00d8061cfcc9686ebd6277a6b9cffed5f7b6a1e6eee0f426d7f",
+      "rgbaSha256": "c8643c32206d8072ece2c9ecb2e36f1b524f7f5f531b3e7c4496afc12cf31fa6",
+      "width": 960,
+      "height": 260,
+      "placements": [
+        {
+          "sourceIndex": 0,
+          "x": 20,
+          "y": 20,
+          "width": 452,
+          "height": 220
+        },
+        {
+          "sourceIndex": 1,
+          "x": 488,
+          "y": 20,
+          "width": 452,
+          "height": 220
+        }
+      ],
+      "controlSpec": {
+        "id": "two-side-by-side-gap16",
+        "kind": "two",
+        "direction": "along-symbol",
+        "gap": 16,
+        "offset": 0,
+        "rotate": 0,
+        "payloads": [
+          "5901234123457",
+          "9780306406157"
+        ]
+      },
+      "sourceBytes": 1944,
+      "transportBytes": 1944
+    },
+    {
+      "key": "physical-control/two-same-payload-aligned-gap16",
+      "id": "two-same-payload-aligned-gap16",
+      "group": "physical-control",
+      "kind": "existing-generated-control",
+      "sourcePath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-physical-conflict-feasibility\\controls\\two-same-payload-aligned-gap16.png",
+      "sourceSha256": "4ffa534a3c0183e21fdeb7622e1eebfee9c7fb2b54a9908c07042d7af8b2a8cd",
+      "transportPath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-physical-conflict-feasibility\\controls\\two-same-payload-aligned-gap16.png",
+      "transportSha256": "4ffa534a3c0183e21fdeb7622e1eebfee9c7fb2b54a9908c07042d7af8b2a8cd",
+      "rgbaSha256": "86d3da4abffed2ae2592e97b79771bf5df2a147de2a32467ea20b5ac431a0971",
+      "width": 492,
+      "height": 496,
+      "placements": [
+        {
+          "sourceIndex": 0,
+          "x": 20,
+          "y": 20,
+          "width": 452,
+          "height": 220
+        },
+        {
+          "sourceIndex": 1,
+          "x": 20,
+          "y": 256,
+          "width": 452,
+          "height": 220
+        }
+      ],
+      "controlSpec": {
+        "id": "two-same-payload-aligned-gap16",
+        "kind": "two",
+        "direction": "perpendicular",
+        "gap": 16,
+        "offset": 0,
+        "rotate": 0,
+        "payloads": [
+          "5901234123457",
+          "5901234123457"
+        ]
+      },
+      "sourceBytes": 2365,
+      "transportBytes": 2365
+    },
+    {
+      "key": "physical-control/two-aligned-gap16-rotate90",
+      "id": "two-aligned-gap16-rotate90",
+      "group": "physical-control",
+      "kind": "existing-generated-control",
+      "sourcePath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-physical-conflict-feasibility\\controls\\two-aligned-gap16-rotate90.png",
+      "sourceSha256": "050de599f3b5c4f300f449cab0e6279b86cddc8d3cb4f7f0c3bc30a96b241132",
+      "transportPath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-physical-conflict-feasibility\\controls\\two-aligned-gap16-rotate90.png",
+      "transportSha256": "050de599f3b5c4f300f449cab0e6279b86cddc8d3cb4f7f0c3bc30a96b241132",
+      "rgbaSha256": "0352f03ba428165ba81ae50a1cc9f7d4bbe901cfe92e70cc492e834ffbba87dc",
+      "width": 496,
+      "height": 492,
+      "placements": [
+        {
+          "sourceIndex": 0,
+          "x": 20,
+          "y": 20,
+          "width": 452,
+          "height": 220
+        },
+        {
+          "sourceIndex": 1,
+          "x": 20,
+          "y": 256,
+          "width": 452,
+          "height": 220
+        }
+      ],
+      "controlSpec": {
+        "id": "two-aligned-gap16-rotate90",
+        "kind": "two",
+        "direction": "perpendicular",
+        "gap": 16,
+        "offset": 0,
+        "rotate": 90,
+        "payloads": [
+          "5901234123457",
+          "9780306406157"
+        ]
+      },
+      "sourceBytes": 2470,
+      "transportBytes": 2470
+    },
+    {
+      "key": "physical-control/single-with-white-band4",
+      "id": "single-with-white-band4",
+      "group": "physical-control",
+      "kind": "existing-generated-control",
+      "sourcePath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-physical-conflict-feasibility\\controls\\single-with-white-band4.png",
+      "sourceSha256": "eb37f5175ea4e096f6e529450dc72295a81b621bcbb06bf128156c1e1159edc7",
+      "transportPath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-physical-conflict-feasibility\\controls\\single-with-white-band4.png",
+      "transportSha256": "eb37f5175ea4e096f6e529450dc72295a81b621bcbb06bf128156c1e1159edc7",
+      "rgbaSha256": "458b37b860ce43a0aea0726c0fef84ee66d7e054d85d31bee198fdaefd2bdca3",
+      "width": 492,
+      "height": 260,
+      "placements": [
+        {
+          "sourceIndex": 0,
+          "x": 20,
+          "y": 20,
+          "width": 452,
+          "height": 220,
+          "whiteBand": {
+            "top": 128,
+            "height": 4
+          }
+        }
+      ],
+      "controlSpec": {
+        "id": "single-with-white-band4",
+        "kind": "single-white-band",
+        "band": 4,
+        "rotate": 0,
+        "payloads": [
+          "5901234123457"
+        ]
+      },
+      "sourceBytes": 1456,
+      "transportBytes": 1456
+    },
+    {
+      "key": "physical-control/single-with-white-band16",
+      "id": "single-with-white-band16",
+      "group": "physical-control",
+      "kind": "existing-generated-control",
+      "sourcePath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-physical-conflict-feasibility\\controls\\single-with-white-band16.png",
+      "sourceSha256": "40ba646e2958d6202807a9b57a6a755a61df569ad8d7daad18c751a8ea8d6f9b",
+      "transportPath": "C:\\Users\\rocky\\.codex\\visualizations\\2026\\10\\11\\01a12ae9-ca0c-7b50-98a9-34963dcc18e7\\ean-physical-conflict-feasibility\\controls\\single-with-white-band16.png",
+      "transportSha256": "40ba646e2958d6202807a9b57a6a755a61df569ad8d7daad18c751a8ea8d6f9b",
+      "rgbaSha256": "dbd78dd610dfb7f5113ad0b736767eb4004f9f1c77afd6ace0a141b4d4d97b24",
+      "width": 492,
+      "height": 260,
+      "placements": [
+        {
+          "sourceIndex": 0,
+          "x": 20,
+          "y": 20,
+          "width": 452,
+          "height": 220,
+          "whiteBand": {
+            "top": 122,
+            "height": 16
+          }
+        }
+      ],
+      "controlSpec": {
+        "id": "single-with-white-band16",
+        "kind": "single-white-band",
+        "band": 16,
+        "rotate": 0,
+        "payloads": [
+          "5901234123457"
+        ]
+      },
+      "sourceBytes": 1456,
+      "transportBytes": 1456
+    }
+  ],
+  "profiles": [
+    {
+      "id": "original-RGBA-white-sRGB/ean13-1-35/fast/max1",
+      "inputKey": "original-RGBA-white-sRGB/ean13-1-35",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "original-RGBA-white-sRGB/ean13-1-35/fast/max2",
+      "inputKey": "original-RGBA-white-sRGB/ean13-1-35",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "original-RGBA-white-sRGB/ean13-1-35/fast/max255",
+      "inputKey": "original-RGBA-white-sRGB/ean13-1-35",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "original-RGBA-white-sRGB/ean13-1-35/hard/max1",
+      "inputKey": "original-RGBA-white-sRGB/ean13-1-35",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "original-RGBA-white-sRGB/ean13-1-35/hard/max2",
+      "inputKey": "original-RGBA-white-sRGB/ean13-1-35",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "original-RGBA-white-sRGB/ean13-1-35/hard/max255",
+      "inputKey": "original-RGBA-white-sRGB/ean13-1-35",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "derived-limited-Y-expanded-RGB/ean13-1-35/fast/max1",
+      "inputKey": "derived-limited-Y-expanded-RGB/ean13-1-35",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "derived-limited-Y-expanded-RGB/ean13-1-35/fast/max2",
+      "inputKey": "derived-limited-Y-expanded-RGB/ean13-1-35",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "derived-limited-Y-expanded-RGB/ean13-1-35/fast/max255",
+      "inputKey": "derived-limited-Y-expanded-RGB/ean13-1-35",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "derived-limited-Y-expanded-RGB/ean13-1-35/hard/max1",
+      "inputKey": "derived-limited-Y-expanded-RGB/ean13-1-35",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "derived-limited-Y-expanded-RGB/ean13-1-35/hard/max2",
+      "inputKey": "derived-limited-Y-expanded-RGB/ean13-1-35",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "derived-limited-Y-expanded-RGB/ean13-1-35/hard/max255",
+      "inputKey": "derived-limited-Y-expanded-RGB/ean13-1-35",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "derived-limited-Y-expanded-RGB/ean13-2-07/fast/max1",
+      "inputKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "derived-limited-Y-expanded-RGB/ean13-2-07/fast/max2",
+      "inputKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "derived-limited-Y-expanded-RGB/ean13-2-07/fast/max255",
+      "inputKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "derived-limited-Y-expanded-RGB/ean13-2-07/hard/max1",
+      "inputKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "derived-limited-Y-expanded-RGB/ean13-2-07/hard/max2",
+      "inputKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "derived-limited-Y-expanded-RGB/ean13-2-07/hard/max255",
+      "inputKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full/fast/max1",
+      "inputKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full/fast/max2",
+      "inputKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full/fast/max255",
+      "inputKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full/hard/max1",
+      "inputKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full/hard/max2",
+      "inputKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full/hard/max255",
+      "inputKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "original-RGBA-white-sRGB/ean13-2-14/fast/max1",
+      "inputKey": "original-RGBA-white-sRGB/ean13-2-14",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "original-RGBA-white-sRGB/ean13-2-14/fast/max2",
+      "inputKey": "original-RGBA-white-sRGB/ean13-2-14",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "original-RGBA-white-sRGB/ean13-2-14/fast/max255",
+      "inputKey": "original-RGBA-white-sRGB/ean13-2-14",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "original-RGBA-white-sRGB/ean13-2-14/hard/max1",
+      "inputKey": "original-RGBA-white-sRGB/ean13-2-14",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "original-RGBA-white-sRGB/ean13-2-14/hard/max2",
+      "inputKey": "original-RGBA-white-sRGB/ean13-2-14",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "original-RGBA-white-sRGB/ean13-2-14/hard/max255",
+      "inputKey": "original-RGBA-white-sRGB/ean13-2-14",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "original-RGBA-white-sRGB/ean13-2-20/fast/max1",
+      "inputKey": "original-RGBA-white-sRGB/ean13-2-20",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "original-RGBA-white-sRGB/ean13-2-20/fast/max2",
+      "inputKey": "original-RGBA-white-sRGB/ean13-2-20",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "original-RGBA-white-sRGB/ean13-2-20/fast/max255",
+      "inputKey": "original-RGBA-white-sRGB/ean13-2-20",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "original-RGBA-white-sRGB/ean13-2-20/hard/max1",
+      "inputKey": "original-RGBA-white-sRGB/ean13-2-20",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "original-RGBA-white-sRGB/ean13-2-20/hard/max2",
+      "inputKey": "original-RGBA-white-sRGB/ean13-2-20",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "original-RGBA-white-sRGB/ean13-2-20/hard/max255",
+      "inputKey": "original-RGBA-white-sRGB/ean13-2-20",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-aligned-gap0/fast/max1",
+      "inputKey": "physical-control/two-aligned-gap0",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-aligned-gap0/fast/max2",
+      "inputKey": "physical-control/two-aligned-gap0",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-aligned-gap0/fast/max255",
+      "inputKey": "physical-control/two-aligned-gap0",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-aligned-gap0/hard/max1",
+      "inputKey": "physical-control/two-aligned-gap0",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-aligned-gap0/hard/max2",
+      "inputKey": "physical-control/two-aligned-gap0",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-aligned-gap0/hard/max255",
+      "inputKey": "physical-control/two-aligned-gap0",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-aligned-gap16/fast/max1",
+      "inputKey": "physical-control/two-aligned-gap16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-aligned-gap16/fast/max2",
+      "inputKey": "physical-control/two-aligned-gap16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-aligned-gap16/fast/max255",
+      "inputKey": "physical-control/two-aligned-gap16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-aligned-gap16/hard/max1",
+      "inputKey": "physical-control/two-aligned-gap16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-aligned-gap16/hard/max2",
+      "inputKey": "physical-control/two-aligned-gap16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-aligned-gap16/hard/max255",
+      "inputKey": "physical-control/two-aligned-gap16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-aligned-gap96/fast/max1",
+      "inputKey": "physical-control/two-aligned-gap96",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-aligned-gap96/fast/max2",
+      "inputKey": "physical-control/two-aligned-gap96",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-aligned-gap96/fast/max255",
+      "inputKey": "physical-control/two-aligned-gap96",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-aligned-gap96/hard/max1",
+      "inputKey": "physical-control/two-aligned-gap96",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-aligned-gap96/hard/max2",
+      "inputKey": "physical-control/two-aligned-gap96",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-aligned-gap96/hard/max255",
+      "inputKey": "physical-control/two-aligned-gap96",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-offset-half-span-gap16/fast/max1",
+      "inputKey": "physical-control/two-offset-half-span-gap16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-offset-half-span-gap16/fast/max2",
+      "inputKey": "physical-control/two-offset-half-span-gap16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-offset-half-span-gap16/fast/max255",
+      "inputKey": "physical-control/two-offset-half-span-gap16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-offset-half-span-gap16/hard/max1",
+      "inputKey": "physical-control/two-offset-half-span-gap16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-offset-half-span-gap16/hard/max2",
+      "inputKey": "physical-control/two-offset-half-span-gap16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-offset-half-span-gap16/hard/max255",
+      "inputKey": "physical-control/two-offset-half-span-gap16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-side-by-side-gap16/fast/max1",
+      "inputKey": "physical-control/two-side-by-side-gap16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-side-by-side-gap16/fast/max2",
+      "inputKey": "physical-control/two-side-by-side-gap16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-side-by-side-gap16/fast/max255",
+      "inputKey": "physical-control/two-side-by-side-gap16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-side-by-side-gap16/hard/max1",
+      "inputKey": "physical-control/two-side-by-side-gap16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-side-by-side-gap16/hard/max2",
+      "inputKey": "physical-control/two-side-by-side-gap16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-side-by-side-gap16/hard/max255",
+      "inputKey": "physical-control/two-side-by-side-gap16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-same-payload-aligned-gap16/fast/max1",
+      "inputKey": "physical-control/two-same-payload-aligned-gap16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-same-payload-aligned-gap16/fast/max2",
+      "inputKey": "physical-control/two-same-payload-aligned-gap16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-same-payload-aligned-gap16/fast/max255",
+      "inputKey": "physical-control/two-same-payload-aligned-gap16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-same-payload-aligned-gap16/hard/max1",
+      "inputKey": "physical-control/two-same-payload-aligned-gap16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-same-payload-aligned-gap16/hard/max2",
+      "inputKey": "physical-control/two-same-payload-aligned-gap16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-same-payload-aligned-gap16/hard/max255",
+      "inputKey": "physical-control/two-same-payload-aligned-gap16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-aligned-gap16-rotate90/fast/max1",
+      "inputKey": "physical-control/two-aligned-gap16-rotate90",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-aligned-gap16-rotate90/fast/max2",
+      "inputKey": "physical-control/two-aligned-gap16-rotate90",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-aligned-gap16-rotate90/fast/max255",
+      "inputKey": "physical-control/two-aligned-gap16-rotate90",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-aligned-gap16-rotate90/hard/max1",
+      "inputKey": "physical-control/two-aligned-gap16-rotate90",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-aligned-gap16-rotate90/hard/max2",
+      "inputKey": "physical-control/two-aligned-gap16-rotate90",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/two-aligned-gap16-rotate90/hard/max255",
+      "inputKey": "physical-control/two-aligned-gap16-rotate90",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/single-with-white-band4/fast/max1",
+      "inputKey": "physical-control/single-with-white-band4",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/single-with-white-band4/fast/max2",
+      "inputKey": "physical-control/single-with-white-band4",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/single-with-white-band4/fast/max255",
+      "inputKey": "physical-control/single-with-white-band4",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/single-with-white-band4/hard/max1",
+      "inputKey": "physical-control/single-with-white-band4",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/single-with-white-band4/hard/max2",
+      "inputKey": "physical-control/single-with-white-band4",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/single-with-white-band4/hard/max255",
+      "inputKey": "physical-control/single-with-white-band4",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/single-with-white-band16/fast/max1",
+      "inputKey": "physical-control/single-with-white-band16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/single-with-white-band16/fast/max2",
+      "inputKey": "physical-control/single-with-white-band16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/single-with-white-band16/fast/max255",
+      "inputKey": "physical-control/single-with-white-band16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": false,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/single-with-white-band16/hard/max1",
+      "inputKey": "physical-control/single-with-white-band16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 1,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/single-with-white-band16/hard/max2",
+      "inputKey": "physical-control/single-with-white-band16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 2,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    },
+    {
+      "id": "physical-control/single-with-white-band16/hard/max255",
+      "inputKey": "physical-control/single-with-white-band16",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "isPure": false,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "eanAddOnSymbol": "Ignore",
+        "returnErrors": false,
+        "textMode": "HRI",
+        "binarizer": "LocalAverage"
+      }
+    }
+  ],
+  "preparation": {
+    "readerImports": 0,
+    "recognitionCalls": 0,
+    "node": "v24.19.0",
+    "pngjs": "7.0.0"
+  },
+  "gates": [
+    "root-bound successful compiled build provenance",
+    "all 90 exact ordered public output comparisons pass",
+    "all inputs unchanged",
+    "complete trace transport before interpretation"
+  ],
+  "bounds": {
+    "maxEventsPerCall": 250000,
+    "maxBytesPerCall": 33554432,
+    "maxEventBytes": 16384,
+    "collectorIdCapacity": 8192,
+    "callEndOutsideCap": true
+  }
+}

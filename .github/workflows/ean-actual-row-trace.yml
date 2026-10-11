@@ -1,0 +1,110 @@
+name: EAN actual row trace diagnostic build
+on:
+  push:
+    branches: [codex/ean-actual-row-trace]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ean-actual-row-trace-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [baseline, instrumented]
+    env:
+      UPSTREAM_COMMIT: b7dcf63aefc7b94fb97ba09e9b1fb213d9399f54
+      CPP_COMMIT: 2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4
+      DIAGNOSTIC: diagnostics/ean-actual-row-trace
+    steps:
+      - name: Set isolated output directory
+        shell: bash
+        run: echo "OUT=$RUNNER_TEMP/ean-actual-row-trace-${{ matrix.variant }}" >> "$GITHUB_ENV"
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.14.0
+      - uses: mymindstorm/setup-emsdk@6ab9eb1bda2574c4ddb79809fc9247783eaf9021
+        with:
+          version: 5.0.4
+          actions-cache-folder: .emsdk-cache
+      - name: Clone pinned release and verify patch inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$OUT"
+          git init "$RUNNER_TEMP/zxing-wasm"
+          git -C "$RUNNER_TEMP/zxing-wasm" remote add origin https://github.com/Sec-ant/zxing-wasm.git
+          git -C "$RUNNER_TEMP/zxing-wasm" fetch --depth=1 origin "$UPSTREAM_COMMIT"
+          git -C "$RUNNER_TEMP/zxing-wasm" checkout --detach FETCH_HEAD
+          git -C "$RUNNER_TEMP/zxing-wasm" submodule update --init --recursive
+          test "$(git -C "$RUNNER_TEMP/zxing-wasm" rev-parse HEAD)" = "$UPSTREAM_COMMIT"
+          test "$(git -C "$RUNNER_TEMP/zxing-wasm/zxing-cpp" rev-parse HEAD)" = "$CPP_COMMIT"
+          python3 "$GITHUB_WORKSPACE/$DIAGNOSTIC/verify-build-inputs.py" "$RUNNER_TEMP/zxing-wasm/zxing-cpp" "$GITHUB_WORKSPACE/$DIAGNOSTIC"
+          node --version > "$OUT/node-version.txt"
+          emcc --version > "$OUT/emcc-version.txt"
+          cmake --version > "$OUT/cmake-version.txt"
+          cp "$GITHUB_WORKSPACE/$DIAGNOSTIC/patch-metadata.json" "$OUT/"
+          cp "$GITHUB_WORKSPACE/$DIAGNOSTIC/frozen-plan.json" "$OUT/"
+          cp "$GITHUB_WORKSPACE/$DIAGNOSTIC/freeze-manifest.json" "$OUT/"
+      - name: Apply instrumentation only in isolated diagnostic submodule
+        if: matrix.variant == 'instrumented'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git -C "$RUNNER_TEMP/zxing-wasm/zxing-cpp" apply --check "$GITHUB_WORKSPACE/$DIAGNOSTIC/actual-row-trace.patch"
+          git -C "$RUNNER_TEMP/zxing-wasm/zxing-cpp" apply "$GITHUB_WORKSPACE/$DIAGNOSTIC/actual-row-trace.patch"
+          python3 "$GITHUB_WORKSPACE/$DIAGNOSTIC/verify-build-inputs.py" "$RUNNER_TEMP/zxing-wasm/zxing-cpp" "$GITHUB_WORKSPACE/$DIAGNOSTIC" --instrumented
+          git -C "$RUNNER_TEMP/zxing-wasm/zxing-cpp" diff --binary > "$OUT/applied-tracked.patch"
+          cp "$RUNNER_TEMP/zxing-wasm/zxing-cpp/core/src/QRGenRowTrace.h" "$OUT/QRGenRowTrace.h"
+      - name: Build release configuration and matching wrapper without recognition
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --global pnpm@12.8.2
+          cd "$RUNNER_TEMP/zxing-wasm"
+          pnpm --version > "$OUT/pnpm-version.txt"
+          pnpm install --frozen-lockfile
+          if [ "${{ matrix.variant }}" = instrumented ]; then
+            python3 "$GITHUB_WORKSPACE/$DIAGNOSTIC/verify-build-inputs.py" zxing-cpp "$GITHUB_WORKSPACE/$DIAGNOSTIC" --instrumented
+          else
+            python3 "$GITHUB_WORKSPACE/$DIAGNOSTIC/verify-build-inputs.py" zxing-cpp "$GITHUB_WORKSPACE/$DIAGNOSTIC"
+          fi
+          if [ "${{ matrix.variant }}" = instrumented ]; then
+            export CXXFLAGS="-DZXING_QRGEN_ROW_TRACE=1"
+          else
+            unset CXXFLAGS
+          fi
+          printf '%s\n' "${CXXFLAGS-}" > "$OUT/cxxflags.txt"
+          # Official Vite config reads all three WASM hashes. Writer/full are
+          # build prerequisites; this study calls the reader graph only.
+          # Exact child commands/order of the pinned build:wasm alias. Capture
+          # actual cache/flags files immediately after each configuration.
+          pnpm build:wasm:reader
+          python3 "$GITHUB_WORKSPACE/$DIAGNOSTIC/snapshot-build-phase.py" build "$OUT/cmake/reader"
+          pnpm build:wasm:writer
+          python3 "$GITHUB_WORKSPACE/$DIAGNOSTIC/snapshot-build-phase.py" build "$OUT/cmake/writer"
+          pnpm build:wasm:full
+          python3 "$GITHUB_WORKSPACE/$DIAGNOSTIC/snapshot-build-phase.py" build "$OUT/cmake/full"
+          pnpm exec vite build
+          mkdir -p "$OUT/dist"
+          cp -R dist/es "$OUT/dist/es"
+          cp src/reader/zxing_reader.wasm "$OUT/zxing_reader.wasm"
+          cp src/reader/zxing_reader.js "$OUT/matched-emscripten-glue.js"
+          cp src/cpp/CMakeLists.txt "$OUT/CMakeLists.txt"
+          cp package.json "$OUT/upstream-package.json"
+          printf '{"type":"module"}\n' > "$OUT/package.json"
+          node "$GITHUB_WORKSPACE/$DIAGNOSTIC/capture-build-evidence.mjs" "$OUT" "${{ matrix.variant }}" "$GITHUB_WORKSPACE/$DIAGNOSTIC/patch-metadata.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ean-actual-row-trace-${{ matrix.variant }}
+          path: ${{ env.OUT }}
+          if-no-files-found: error
+          retention-days: 14

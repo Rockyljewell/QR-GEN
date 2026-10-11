@@ -65,3 +65,8 @@ docs/ean-sdk-independent-node-review-2026-10-11/**/*.gz binary
 docs/ean-sdk-independent-node-review-2026-10-11/**/*.png binary
 docs/ean-sdk-independent-node-review-2026-10-11/**/*.patch whitespace=cr-at-eol,-blank-at-eof,-trailing-space,-space-before-tab
 docs/ean-sdk-independent-node-review-2026-10-11/**/*.diff whitespace=cr-at-eol,-blank-at-eof,-trailing-space,-space-before-tab
+
+# Preserve the frozen diagnostic build package byte-for-byte, including CRLF.
+diagnostics/ean-actual-row-trace/** -text whitespace=cr-at-eol,-blank-at-eof
+diagnostics/ean-actual-row-trace/*.patch -whitespace
+.github/workflows/ean-actual-row-trace.yml -text whitespace=cr-at-eol,-blank-at-eof
