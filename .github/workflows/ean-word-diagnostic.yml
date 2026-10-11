@@ -19,8 +19,10 @@ jobs:
       UPSTREAM_COMMIT: b7dcf63aefc7b94fb97ba09e9b1fb213d9399f54
       CPP_COMMIT: 2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4
       DIAGNOSTIC: diagnostics/ean-word-ambiguity
-      OUT: ${{ runner.temp }}/ean-word-${{ matrix.variant }}
     steps:
+      - name: Set artifact directory
+        shell: bash
+        run: echo "OUT=$RUNNER_TEMP/ean-word-${{ matrix.variant }}" >> "$GITHUB_ENV"
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
