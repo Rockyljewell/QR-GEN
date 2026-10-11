@@ -1,0 +1,401 @@
+{
+  "schemaVersion": 1,
+  "policyFrozenAt": "2026-10-11T16:14:49.555790+00:00",
+  "status": "Predeclared policy; execution NOT authorized by this file. Await isolated staged bundles and separate pre-decode input/asset binding manifest.",
+  "scope": "Public SDK scanImage + BarcodeScanner real Chromium/main/embedded Worker integration, isolated artifacts only. No stable package, source, API, defaults, deployment, GitHub or phone changes.",
+  "productSourceHead": "6d3728f569f1cd5031fa8ca40ec090c8ff6bdf5b",
+  "variants": {
+    "baseline": {
+      "readerArtifactId": 11707386971,
+      "readerWasmSha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+      "matchedReaderWrapperSha256": "3c364d8477404a513d7c0629b1cf9e63ae11e01f9746146d3574f8b10a122320"
+    },
+    "candidate": {
+      "readerArtifactId": 11707446910,
+      "readerWasmSha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+      "matchedReaderWrapperSha256": "616a6837775f252ae1468667ad76693ae77f938f06192d6ae7cad2cf26639298"
+    }
+  },
+  "writerUnchanged": {
+    "engine": "Official released zxing-wasm3.1.5 writer",
+    "wasmSha256": "af26f895fe471d23cb2d742bc3eca0695dbecb4ea6bad9b92eba3763ec505941",
+    "wrapperSha256": "2adfe6c3366581725bbfb1ae9f9ce553b6e7244d21ec41c464690d0e1585660e"
+  },
+  "stagingRequirements": [
+    "Use an ART-only SDK source copy at pinned product revision. Alias zxing-wasm/reader to each entire matching rebuilt dist/es reader import graph for BOTH SDK main bundle and generated embedded Worker. Never pair candidate WASM with released reader glue or only replace a WASM file.",
+    "Keep official writer wrapper, graph and WASM unchanged; no source edits to scanner/image/inversion/config, no changed public options, no default-policy changes.",
+    "Before decoding, bind build recipe/source hashes, esbuild input graph+hashes, embedded Worker source hash, browser SDK bundle hashes, licenses and exact own reader/official writer binaries into separate immutable assets-and-inputs.json referencing this policySHA256.",
+    "Hash all actual loaded SDK/JS/WASM response bodies or explicitly supplied binary bytes. Observe platform Blob Worker source hash, actual Worker creation/init/ready/result and init binary hash without changing SDK source. ENGINE_VERSION3.1.5 alone cannot distinguish candidate.",
+    "Serve only allowlisted staged artifacts/fixtures from localhost; reject other network origins. Fresh contexts per variant/transport; never rely on module/shared-Worker cache surviving configuration changes. No trial/private SDK used."
+  ],
+  "fixtures": {
+    "actual07": {
+      "relativeSource": "docs/ean-browser-diagnostic-2026-10-11/fixtures/ean13-2-07-full.png",
+      "pngSha256": "63783fca63db9e02e42cd905cae39630fd68acdcdb5ba7bb265e5f5a076e7399",
+      "rgbaSha256": "ec287e182dca32d86261e719e4a9525277023ba1872394ca6d4fa4e454fc7107",
+      "width": 640,
+      "height": 480,
+      "truth": "9780804816632",
+      "knownNontruth": "0798884816632"
+    },
+    "original35": {
+      "cacheRelativeSource": "ean-linecount-study/images/ean13-1-35.png",
+      "pngSha256": "7af8136324f36808b4a6646edd423a4d17a7b7ef19dec8b65950a1bebc57205d",
+      "rgbaSha256": "ecabb0205f1a1f2088a4140fd736e55fe7f301c60f227e8445947e054867ceff",
+      "width": 640,
+      "height": 480,
+      "truth": "5030159003930",
+      "knownNontruth": "7034759003930"
+    },
+    "derived35": {
+      "cacheRelativeSource": "ean-linecount-study/derived/ean13-1-35.png",
+      "pngSha256": "2b7d140b923768d05bb9f8a7f1fb2dc5c5155601ea80529c7a0753373928f2f9",
+      "rgbaSha256": "1a539272b92f7726ce88d339417e2cd1e9724911ee8b1accdcbaac184916ea1c",
+      "width": 640,
+      "height": 480,
+      "truth": "5030159003930",
+      "knownNontruth": "7034759003930"
+    },
+    "cleanEAN": {
+      "packageRelativeSource": "ean-browser-rebuild-2026-10-11/fixtures/clean-ean13.png",
+      "pngSha256": "5ea0cc8106ffd6d02d6d169c18d6ee9dd827ea8c9cb5ae7fb3f16ca696b8e404",
+      "truth": "5901234123457",
+      "symbology": "ean13"
+    },
+    "cleanQR": {
+      "packageRelativeSource": "ean-browser-rebuild-2026-10-11/fixtures/clean-qr.png",
+      "pngSha256": "e5b3bcb23eac348a577dbcc891d7e1771ec0256da59e3c0366faab56a5b0686f",
+      "truth": "QRGEN-RAW-READER-CONTROL-20261011",
+      "symbology": "qr"
+    },
+    "cleanUPC": {
+      "packageRelativeSource": "ean-browser-rebuild-2026-10-11/fixtures/clean-upca.png",
+      "pngSha256": "e292d6fe54a6a69cde24b21ac8c139fe3ee5e16785b81fbfa4edbba8fb38a73b",
+      "truth": "012345678905",
+      "symbology": "upca"
+    },
+    "blank": {
+      "preparation": "Opaque white640x480RGBA; compare frozen seven-raster manifest from browser raw study",
+      "rgbaSha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1"
+    },
+    "mixedActual": {
+      "preparation": "actual07at0,0 plus cleanQRat24,20; no resizing; same frozen composition",
+      "rgbaSha256": "4160a465ec9e9a418056aa253ecf3f83879d7e3f11d30b903652b5eb9aa98fd8"
+    },
+    "mixedClean": {
+      "preparation": "white640x480; cleanQRat24,20; cleanEANat100,300; no resizing",
+      "rgbaSha256": "fcbf2cf1b95fe097c64f672a29dac2b5c730341506b3ac82da2b926f288c1e75"
+    }
+  },
+  "imageMatrix": {
+    "publicApi": "sdk.scanImage only; main thread regardless of worker config",
+    "repetitions": "One call per listed case per variant, fixed source/representation/options;24calls total",
+    "cases": [
+      {
+        "id": "I01-07-ean-hard-noinvert",
+        "fixture": "actual07",
+        "input": "ImageData",
+        "options": {
+          "symbologies": [
+            "ean13"
+          ],
+          "tryHarder": true,
+          "tryInvert": false,
+          "maxResults": 255
+        }
+      },
+      {
+        "id": "I02-07-ean-hard-inversion",
+        "fixture": "actual07",
+        "input": "ImageData",
+        "options": {
+          "symbologies": [
+            "ean13"
+          ],
+          "tryHarder": true,
+          "tryInvert": true,
+          "maxResults": 255
+        }
+      },
+      {
+        "id": "I03-07-blob-normalization",
+        "fixture": "actual07",
+        "input": "Blob",
+        "options": {
+          "symbologies": [
+            "ean13"
+          ],
+          "tryHarder": true,
+          "tryInvert": true,
+          "maxResults": 255
+        }
+      },
+      {
+        "id": "I04-07-upca-only",
+        "fixture": "actual07",
+        "input": "ImageData",
+        "options": {
+          "symbologies": [
+            "upca"
+          ],
+          "tryHarder": true,
+          "tryInvert": false,
+          "maxResults": 255
+        }
+      },
+      {
+        "id": "I05-35-original",
+        "fixture": "original35",
+        "input": "ImageData",
+        "options": {
+          "symbologies": [
+            "ean13"
+          ],
+          "tryHarder": true,
+          "tryInvert": false,
+          "maxResults": 255
+        }
+      },
+      {
+        "id": "I06-35-derived",
+        "fixture": "derived35",
+        "input": "ImageData",
+        "options": {
+          "symbologies": [
+            "ean13"
+          ],
+          "tryHarder": true,
+          "tryInvert": false,
+          "maxResults": 255
+        }
+      },
+      {
+        "id": "I07-clean-ean-blob",
+        "fixture": "cleanEAN",
+        "input": "Blob",
+        "options": {
+          "symbologies": [
+            "ean13"
+          ],
+          "tryHarder": true,
+          "tryInvert": true,
+          "maxResults": 255
+        }
+      },
+      {
+        "id": "I08-clean-qr",
+        "fixture": "cleanQR",
+        "input": "ImageData",
+        "options": {
+          "symbologies": [
+            "qr"
+          ],
+          "tryHarder": true,
+          "tryInvert": true,
+          "maxResults": 255
+        }
+      },
+      {
+        "id": "I09-clean-upca-blob",
+        "fixture": "cleanUPC",
+        "input": "Blob",
+        "options": {
+          "symbologies": [
+            "upca"
+          ],
+          "tryHarder": true,
+          "tryInvert": true,
+          "maxResults": 255
+        }
+      },
+      {
+        "id": "I10-blank",
+        "fixture": "blank",
+        "input": "ImageData",
+        "options": {
+          "symbologies": [
+            "ean13",
+            "qr",
+            "upca"
+          ],
+          "tryHarder": true,
+          "tryInvert": true,
+          "maxResults": 255
+        }
+      },
+      {
+        "id": "I11-mixed-07-qr",
+        "fixture": "mixedActual",
+        "input": "ImageData",
+        "options": {
+          "symbologies": [
+            "ean13",
+            "qr"
+          ],
+          "tryHarder": true,
+          "tryInvert": true,
+          "maxResults": 255
+        }
+      },
+      {
+        "id": "I12-mixed-clean",
+        "fixture": "mixedClean",
+        "input": "ImageData",
+        "options": {
+          "symbologies": [
+            "ean13",
+            "qr"
+          ],
+          "tryHarder": true,
+          "tryInvert": true,
+          "maxResults": 2
+        }
+      }
+    ],
+    "normalization": "Public data is conventional SDK output: upca012345678905 clean, upca798884816632 for the known false07rawHRI13. Preserve rawBytes separately; do not require decoded rawBytes to equal normalized data.",
+    "oracle": "Record all outputs. Score exact target, miss and nontruth outputs separately. Predicted candidate07 suppression is a miss, not an accuracy pass. /35 known nontruth may remain; do not hide it. Baseline-vs-candidate no-lost-target/no-new-nontruth checks are development-regression gates, not population accuracy."
+  },
+  "cameraMatrix": {
+    "publicApi": "new sdk.BarcodeScanner(options); on ready/frame/scan/error/state; start,pause,resume,stop,destroy",
+    "execution": [
+      "main:worker=false",
+      "actual embedded Worker:worker=true; ready.engine and stats.engine MUST equalworker; fallback is not a Worker pass"
+    ],
+    "options": {
+      "mode": "continuous",
+      "maxResults": 255,
+      "duplicateFilter": 0,
+      "tryHarder": true,
+      "tryInvert": false,
+      "maxDecodeSize": 640,
+      "maxFps": 10,
+      "adaptive": false,
+      "scanArea": {
+        "x": 0,
+        "y": 0,
+        "width": 1,
+        "height": 1
+      },
+      "viewfinder": "none",
+      "resolution": "sd",
+      "beep": false,
+      "vibrate": false
+    },
+    "cases": [
+      {
+        "id": "C01-07-ean",
+        "fixture": "historical07Y4M",
+        "symbologies": [
+          "ean13"
+        ]
+      },
+      {
+        "id": "C02-07-upca-only",
+        "fixture": "historical07Y4M",
+        "symbologies": [
+          "upca"
+        ]
+      },
+      {
+        "id": "C03-35-ean",
+        "fixture": "preflight35Y4M",
+        "symbologies": [
+          "ean13"
+        ]
+      },
+      {
+        "id": "C04-clean-mixed",
+        "fixture": "retailMixedY4M",
+        "symbologies": [
+          "qr",
+          "ean13"
+        ]
+      }
+    ],
+    "repetitions": "4fixedscenarios\u00d72variants\u00d72actualengines=16camera cases.10decoded-frame events percase;5seconds post-ready deadline. No repeat-until-pass.",
+    "readiness": "Start timeout25seconds. Require ready event, correctstats.engine, video640x480+readyState>=2, and full-frame options. Hash actual video/SDK captured pixels against prebound manifest before interpreting outcomes; a pixel mismatch is setup/provenance failure. Capture image bytes synchronously in ready callback before scheduled decode; no private decoder call.",
+    "preparation": {
+      "historical07Y4M": {
+        "cacheRelativeSource": "ean-browser-diagnostic-3.1.5/ean13-2-07.y4m",
+        "sha256": "3211ab1d83d1dd9545620e07f83b0a30df8497257b0b46b13762f7dba016d43c",
+        "expectedCameraRgbaSha256": "ec287e182dca32d86261e719e4a9525277023ba1872394ca6d4fa4e454fc7107"
+      },
+      "retailMixedY4M": {
+        "cacheRelativeSource": "retail-state-deployment/portable-replay-v2-output/retail-qr-ean.y4m",
+        "sha256": "782d79a10bf3b9c31938fa954ac4404dec788c88bbe14d76112fbbdd2cc6a3d6",
+        "payloads": [
+          "QRGEN-RETAIL-DOM-20261011",
+          "5901234123457"
+        ]
+      },
+      "preflight35Y4M": {
+        "sourceFixture": "original35",
+        "helper": "Existing pinned image-camera.mjs deterministicBT601 limitedY neutralchroma,640x480,30frames,noresize/upscale",
+        "steps": "Generate once before decoder use. Preflight in bare Chromium video with NO SDK imported; retain Y4Mhash,capturedPNG/RGBAhash,pixelgeometry. Bind these before any SDK decode. Do not equate new actual camera pixels to existing synthetic derived35 raster without byte equality.",
+        "failure": "One bounded preparation attempt; if unavailable/mismatched record C03unexecuted/setup-failed distinctly. No alternate image/crop chosen."
+      }
+    }
+  },
+  "transportMatrix": {
+    "defaultCoreTransport": "Explicit readerWasmUrl + official writerWasmUrl; local HTTP; same protocol for both variants.",
+    "rows": [
+      {
+        "id": "T01-relative-selfhost",
+        "configure": "wasmBaseUrl relative to documentbaseURI; staged own reader+officialwriter in same folder",
+        "actions": "scanImage(cleanEAN URL); publicgenerate QR then scanImage returnedPNG; actualWorker camera cleanmixed",
+        "expected": "Exact controls; relativeURL resolves correctly; only ownreader/officialwriter requests."
+      },
+      {
+        "id": "T02-online-binary-subviews",
+        "configure": "readerWasmBinary and writerWasmBinary as preloaded Uint8Array subviews in padded sentinel buffers",
+        "actions": "Same public image/generate/Worker camera controls",
+        "expected": "Exact controls; no network enginefetch; callerbinary lengths/hashes unchanged; bytes outsidesubviews not used."
+      },
+      {
+        "id": "T03-preloaded-binary-offline",
+        "configure": "Preload SDK+images+reader+writer; configure exactbinary; set contextoffline BEFORE any generate/scan/start",
+        "actions": "Publicgenerate QR + scanImage returnedPNG; Worker camera cleanmixed",
+        "expected": "Bothwriter+mainreader+Workerreader work with preloadedbytes; no HTTP request afteroffline transition. This is preload-then-offline, not cold offline installation."
+      },
+      {
+        "id": "T04-cold-reader-url-offline",
+        "configure": "Load SDK/image into memory but NEVER initialize reader; configure URL only then set offline",
+        "actions": "scanImage(preloadedcleanEAN); camera start with worker preference",
+        "expected": "Bounded engine-load-failed rejection; no scan/frame accepted; no silently successful stale reader; camera released. Expected failure events/networkerrors reported separately."
+      },
+      {
+        "id": "T05-corrupt-reader-url",
+        "configure": "Reader URL returns predeclared nonWASM bytes; writerURL is exact officialwriter",
+        "actions": "publicgenerate QR stillworks; scanImage(inmemorycontrol) and camera start",
+        "expected": "Bounded reader engine-load-failed; Worker init failure/fallback not success; no camera leak. No assertion that all valid-but-wrong WASMs are SDK-authenticated."
+      }
+    ],
+    "repetitions": "Eachrowoncepervariant withfreshcontext; image calls main, camera mustprove actualWorker on positive rows. Offline/errorrows are failure-path checks, not decode-accuracy passes."
+  },
+  "mismatchControls": {
+    "stagingGuard": "BeforeSDKimport/configure, intentionally propose opposite variantreader bytes/URL and verify diagnostic inventory guardrejects asset-hash-mismatch for URL andbinary. Count4guardchecks separately from SDK errorbehavior; no raw-reader decode.",
+    "publicSdkLimitation": "Current configure allows arbitrary valid sameABIreader binaries and does NOT authenticate wasmSHA. A baseline/candidate swap may execute rather than throw. Do not claim SDK rejection. Deliberate validcrosspair SDK execution, if desired, requires a separate predeclared contamination arm before reads; not part of this protocol."
+  },
+  "writerControl": "Publicgenerate identicalQR/EAN payload/options in both stagedSDKvariants; officialwriter wrapper/WASMhashes required. Compare generatedSVG/matrix/PNGhashes betweenvariants; reader matrix uses previously frozen controls, never oracle-selected replacements.",
+  "cameraLifecycle": "On cleanmixed only, pause after first5frames, assert framecountstable over250ms (allow no stale admitted frame), resume then collect final5frames. Finallystop+destroy; all getUserMedia tracks ended, video.srcObject=null and no connected ownedvideo. Healthy sharedWorker mayremaincached untilcontextclose; then all observed Worker closeevents must settle, browser/serverclose. Failurecases samecleanup.",
+  "evidenceFields": [
+    "policy+assetbindingSHA",
+    "stagedsource/recipe/inputgraph/worker/blob/bundle/reader/writerSHA",
+    "realChromiumversion",
+    "caseid,variant,publicoptionsandresolvedscanneroptions,start/ready/endtime",
+    "SDKBarcode data,symbology,rawBytes,locations,frameSize;perframefulloutputs and framecount",
+    "actualmediaframe/rasterSHA",
+    "requestedvsactualengine and platformworkerinit/result/closecounts",
+    "HTTPloadedassetSHA and blockednetworkrequests",
+    "expectedloadfailure versus unexpectedpage/console/worker/scannererrors",
+    "camera track/video/Worker/context/browser/servercleanup",
+    "truthassessment miss/exact/nontruth and comparisonlimit"
+  ],
+  "stopRules": [
+    "No decoder execution until root binds exact staged assets and preflightpixelmanifest to this frozen policy. No productionbuild/source/deploy edits fromrunner.",
+    "No repeated unchanged setup failures; at most one run perpredeclaredcase. Readiness/pixel failure is setup-inconclusive, not a decode miss.",
+    "Unexpected assetmismatch aborts thatcase beforeSDKcall; never silently fall back to releasedreader while labellingcandidate.",
+    "Retain every wrong output and exception; no payloadallowlist, truth-specificcrop, minLineCount/defaultchange, newimage selection or posthocwinningprofile.",
+    "All results remain separate from historicalScandit/raw/native matrices and no overallphone/parity/performanceclaim."
+  ]
+}

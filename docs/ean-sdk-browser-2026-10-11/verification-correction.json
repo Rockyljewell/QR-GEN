@@ -1,0 +1,13 @@
+{
+  "recordedAt": "2026-10-11T16:28:26.942426+00:00",
+  "firstVerifierRecordSha256": "897208a5826a14d829e5ea423006631461dd59c38e0ab3c14c438421fe153407",
+  "originalObservationsUnchanged": true,
+  "firstCheckCount": 954,
+  "firstFailedAssertions": [
+    "baseline-T03nohttpafterofflinetransition",
+    "candidate-T03nohttpafterofflinetransition"
+  ],
+  "reason": "Original runner samples sessionOffline only after awaiting response.body(); offlineAtResponse is actually body-hash-completion status, not request-start or response-event time. Both writer binary preloads were awaited by browser bootstrap before setOffline. First assertions are invalid telemetry oracles, not observed SDK/network failures.",
+  "correction": "Existing-record verifier now checks successful preloaded binary offline public operations, no failed HTTP requests, exactly one preloaded reader+writer response and exact supplied/init binary hashes. It makes no direct request-start-timestamp claim from original field.",
+  "separateFollowup": "Portable replay validation predeclares only T03baseline+candidate with request-start status captured synchronously; original28sessions and first954checks remain separate unchanged records."
+}

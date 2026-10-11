@@ -1,0 +1,23 @@
+{
+  "frozenAt": "2026-10-11T16:27:05.143117+00:00",
+  "beforeExecution": true,
+  "reason": "Original run imported ESM only; IIFE was inventory-bound but not executed. Check a distinct public entrypoint without full repeat.",
+  "originalRunSummarySha256": "4d037529b19c9ff8ee79f4caa4eee4575f185fbb061259c94e3ad8a955b55a47",
+  "assetBindingSha256": "49cb8c14cee3faabb86bc5a266e9bc7d13d234d6fb339dd8d3bd366dcba6baed",
+  "scripts": {
+    "run-iife.mjs": "1e783f6c1ec9e9cf62064e44d23f0e7fd156ca6eebf230cfb282a961cd7c37b5",
+    "browser-harness.js": "b0506400735ad07b5291e62878fc93739cf84bac044f293f8a47ebfdd841ad6f",
+    "common.mjs": "544e4719e5a81fdd4c65c7433fdbf4af4032ed9d37658d2f40c2f6c7bc595dc7"
+  },
+  "sessions": "Exactly2freshclassic-scriptcontexts,baseline+candidate;loadqrgen.iife.js using script element; require window.QRGen public APIs.",
+  "fixedCases": [
+    "publicgenerateQR+EAN with identical options and QR roundtrip",
+    "publicscanImagecleanQRImageData max1 hard/inverttrue",
+    "publicscanImagecleanEANBlob max1 hard/inverttrue",
+    "publicscanImageactual07ImageData ean13,max255,hardtrue,invertfalse"
+  ],
+  "observedContract": "baseline07knownnontruth0798884816632;candidate07empty(suppression/miss);cleancontrols exact. Public data representation, not rawHRI. No new accuracy population claim.",
+  "network": "Only bound own reader+officialwriter/IIFE from local allowlist; require exact loadedhashes,no external requests/page/console errors.",
+  "cleanup": "No camera or Worker started;0mediatracks;close both contexts/browser/server.",
+  "counts": "Separate2entrypoint sessions; do not add to original24-image/16-camera aggregate."
+}

@@ -38,3 +38,30 @@ docs/retail-state-postdeploy-2026-10-11/**/*.gz binary
 docs/retail-state-postdeploy-2026-10-11/**/*.png binary
 docs/retail-state-postdeploy-2026-10-11/**/*.patch whitespace=cr-at-eol,-blank-at-eof,-trailing-space,-space-before-tab
 docs/ean-native-validation-2026-10-11/**/ctest-list.json whitespace=cr-at-eol,-blank-at-eof,-trailing-space
+
+# Exact-byte public SDK and physical-conflict study evidence.
+docs/ean-sdk-builds-2026-10-11/** -text whitespace=cr-at-eol,-blank-at-eof
+docs/ean-sdk-builds-2026-10-11/**/*.gz binary
+docs/ean-sdk-builds-2026-10-11/**/*.png binary
+docs/ean-sdk-builds-2026-10-11/**/*.patch whitespace=cr-at-eol,-blank-at-eof,-trailing-space,-space-before-tab
+docs/ean-sdk-builds-2026-10-11/**/*.diff whitespace=cr-at-eol,-blank-at-eof,-trailing-space,-space-before-tab
+docs/ean-sdk-node-2026-10-11/** -text whitespace=cr-at-eol,-blank-at-eof
+docs/ean-sdk-node-2026-10-11/**/*.gz binary
+docs/ean-sdk-node-2026-10-11/**/*.png binary
+docs/ean-sdk-node-2026-10-11/**/*.patch whitespace=cr-at-eol,-blank-at-eof,-trailing-space,-space-before-tab
+docs/ean-sdk-node-2026-10-11/**/*.diff whitespace=cr-at-eol,-blank-at-eof,-trailing-space,-space-before-tab
+docs/ean-sdk-browser-2026-10-11/** -text whitespace=cr-at-eol,-blank-at-eof
+docs/ean-sdk-browser-2026-10-11/**/*.gz binary
+docs/ean-sdk-browser-2026-10-11/**/*.png binary
+docs/ean-sdk-browser-2026-10-11/**/*.patch whitespace=cr-at-eol,-blank-at-eof,-trailing-space,-space-before-tab
+docs/ean-sdk-browser-2026-10-11/**/*.diff whitespace=cr-at-eol,-blank-at-eof,-trailing-space,-space-before-tab
+docs/ean-physical-conflict-2026-10-11/** -text whitespace=cr-at-eol,-blank-at-eof
+docs/ean-physical-conflict-2026-10-11/**/*.gz binary
+docs/ean-physical-conflict-2026-10-11/**/*.png binary
+docs/ean-physical-conflict-2026-10-11/**/*.patch whitespace=cr-at-eol,-blank-at-eof,-trailing-space,-space-before-tab
+docs/ean-physical-conflict-2026-10-11/**/*.diff whitespace=cr-at-eol,-blank-at-eof,-trailing-space,-space-before-tab
+docs/ean-sdk-independent-node-review-2026-10-11/** -text whitespace=cr-at-eol,-blank-at-eof
+docs/ean-sdk-independent-node-review-2026-10-11/**/*.gz binary
+docs/ean-sdk-independent-node-review-2026-10-11/**/*.png binary
+docs/ean-sdk-independent-node-review-2026-10-11/**/*.patch whitespace=cr-at-eol,-blank-at-eof,-trailing-space,-space-before-tab
+docs/ean-sdk-independent-node-review-2026-10-11/**/*.diff whitespace=cr-at-eol,-blank-at-eof,-trailing-space,-space-before-tab

@@ -1,0 +1,1683 @@
+{
+  "variant": "candidate",
+  "id": "C03-35-ean-main",
+  "fixture": "preflight35Y4M",
+  "startedAt": "2026-10-11T16:22:11.996Z",
+  "bootstrap": {
+    "engineVersion": "3.1.5",
+    "binaryEvidence": {},
+    "fixturePixels": [
+      {
+        "id": "preflight35Y4M-preflight",
+        "rgbaSha256": "d541c968327263f312d61784910da4307e1b1eb263171251286080c65d7e309a",
+        "width": 640,
+        "height": 480
+      }
+    ]
+  },
+  "camera": {
+    "id": "C03-35-ean",
+    "startedAt": "2026-10-11T16:22:12.036Z",
+    "options": {
+      "mode": "continuous",
+      "maxResults": 255,
+      "duplicateFilter": 0,
+      "tryHarder": true,
+      "tryInvert": false,
+      "maxDecodeSize": 640,
+      "maxFps": 10,
+      "adaptive": false,
+      "scanArea": {
+        "x": 0,
+        "y": 0,
+        "width": 1,
+        "height": 1
+      },
+      "viewfinder": "none",
+      "resolution": "sd",
+      "beep": false,
+      "vibrate": false,
+      "symbologies": [
+        "ean13"
+      ],
+      "worker": false
+    },
+    "frames": [
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732163
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732163
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 18.400000035762787
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732261
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732261
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 6
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732385
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732385
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 5.599999964237213
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732495
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732495
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 5.600000023841858
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732622
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732622
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 5.800000011920929
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732750
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732750
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 5.5
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732861
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732861
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 6.099999964237213
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732986
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732986
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 5.399999976158142
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735733111
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735733111
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 7.300000011920929
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735733223
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735733223
+          }
+        ],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 6.399999976158142
+      }
+    ],
+    "scans": [
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732163
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732163
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732261
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732261
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732385
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732385
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732495
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732495
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732622
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732622
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732750
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732750
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732861
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732861
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732986
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735732986
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735733111
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735733111
+          }
+        ]
+      },
+      {
+        "barcodes": [
+          {
+            "data": "7034759003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NzAzNDc1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735733223
+          },
+          {
+            "data": "5030159003930",
+            "symbology": "ean13",
+            "symbologyName": "EAN-13",
+            "rawBytes": "NTAzMDE1OTAwMzkzMA==",
+            "contentType": "text",
+            "isGS1": false,
+            "location": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            },
+            "frameSize": {
+              "width": 640,
+              "height": 480
+            },
+            "orientation": -90,
+            "ecLevel": "",
+            "symbologyIdentifier": "]E0",
+            "timestamp": 1791735733223
+          }
+        ]
+      }
+    ],
+    "errors": [],
+    "states": [
+      {
+        "state": "starting",
+        "atMs": 0.6000000238418579
+      },
+      {
+        "state": "scanning",
+        "atMs": 78
+      },
+      {
+        "state": "stopped",
+        "atMs": 1187.199999988079
+      }
+    ],
+    "ready": {
+      "engine": "main",
+      "stats": {
+        "decodeMs": 0,
+        "fps": 0,
+        "engine": "main",
+        "adaptive": null
+      },
+      "atMs": 82.10000002384186,
+      "videoWidth": 640,
+      "videoHeight": 480,
+      "readyState": 4,
+      "exactPixelBytesMatch": true,
+      "resolvedOptions": {
+        "symbologies": [
+          "ean13"
+        ],
+        "mode": "continuous",
+        "duplicateFilter": 0,
+        "beep": false,
+        "vibrate": false,
+        "scanArea": {
+          "x": 0,
+          "y": 0,
+          "width": 1,
+          "height": 1
+        },
+        "maxResults": 255,
+        "tryHarder": true,
+        "maxDecodeSize": 640,
+        "maxFps": 10,
+        "tryInvert": false,
+        "adaptive": null,
+        "viewfinder": "none"
+      },
+      "rgbaSha256": "d541c968327263f312d61784910da4307e1b1eb263171251286080c65d7e309a"
+    },
+    "expectedEngine": "main",
+    "expectedFailure": false,
+    "statsBeforeCleanup": {
+      "decodeMs": 7.793923886956362,
+      "fps": 9,
+      "engine": "main",
+      "adaptive": null
+    },
+    "resolvedOptionsEnd": {
+      "symbologies": [
+        "ean13"
+      ],
+      "mode": "continuous",
+      "duplicateFilter": 0,
+      "beep": false,
+      "vibrate": false,
+      "scanArea": {
+        "x": 0,
+        "y": 0,
+        "width": 1,
+        "height": 1
+      },
+      "maxResults": 255,
+      "tryHarder": true,
+      "maxDecodeSize": 640,
+      "maxFps": 10,
+      "tryInvert": false,
+      "adaptive": null,
+      "viewfinder": "none"
+    },
+    "cleanup": {
+      "tracks": [
+        {
+          "kind": "video",
+          "readyState": "ended"
+        }
+      ],
+      "liveCameraTracks": 0,
+      "videoSrcObjectNull": true,
+      "ownedVideoDetached": true
+    },
+    "completedAt": "2026-10-11T16:22:13.224Z",
+    "elapsedMs": 1187.3999999761581
+  },
+  "platform": {
+    "workers": [],
+    "workerBlobs": [],
+    "binaryBefore": {},
+    "binaryAfter": {},
+    "liveCameraTracks": 0
+  },
+  "http": [
+    {
+      "path": "/",
+      "status": 200,
+      "bytes": 75,
+      "sha256": "ecc5ea3626da4762a369d599c1d02f728af470c340653e163e1acc20fdaa550b",
+      "offlineAtResponse": false
+    },
+    {
+      "path": "/staged/candidate/dist/browser/qrgen.js",
+      "status": 200,
+      "bytes": 221564,
+      "sha256": "5d8ce71c0c644e4d1254bf3d1bc28c2f4c056c26f4cf836b979d0df630202543",
+      "offlineAtResponse": false,
+      "pinMatched": true
+    },
+    {
+      "path": "/fixtures/preflight35Y4M-preflight.png",
+      "status": 200,
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "offlineAtResponse": false
+    },
+    {
+      "path": "/staged/candidate/dist/wasm/zxing_reader.wasm",
+      "status": 200,
+      "bytes": 969380,
+      "sha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+      "offlineAtResponse": false,
+      "pinMatched": true
+    }
+  ],
+  "blockedExternalRequests": [],
+  "pageErrors": [],
+  "console": [],
+  "workerEventsBeforeContextClose": [],
+  "sharedWorkersRetainedBeforeContextClose": 0,
+  "workerEvents": [],
+  "liveWorkersAfterContextClose": 0,
+  "browserClosed": true,
+  "completedAt": "2026-10-11T16:22:13.279Z"
+}

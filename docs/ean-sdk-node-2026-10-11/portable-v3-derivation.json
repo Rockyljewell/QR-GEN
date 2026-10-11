@@ -1,0 +1,17 @@
+{
+  "scope": "v3 derived portable output-isolation repair only; historical measured results and v1/v2 packages unchanged; zero SDK/engine/browser/matrix calls",
+  "createdAt": "2026-10-11T16:37:11.191746+00:00",
+  "v2PackageManifestSha256": "c4ca5b4ec0e4debb8c77e101f8c258d6077fdb9e64d0e06bacf99c8595585d7b",
+  "v2ReplaySha256": "dc54723780007a020fb9487b101311584f02894b6f8e2272219fd3d6592f5396",
+  "v2DerivationSha256": "8e155f03df8c7f2a19339affd9fea759c4e04d4a1f1df45730261fc00aca8bcf",
+  "v3ReplaySha256": "9557f8e71e4fad2b215cc1228de24de9e0d302c78e19559b36ab0df2f45dbc6d",
+  "outputGuardSha256": "2f6cbc3d43fb0e861c40497f39724933d30447cdb5b1b5118cc2edd2dcdb549f",
+  "probeRunnerSha256": "2adb0125abab5606d034691060caaaa76b0b796a8a957d1c7cdd558c6074d2ac",
+  "changes": [
+    "Use same canonical protected-root validation for explicit and default temporary output before any mkdir/mkdtemp",
+    "Resolve default temp directory through symlink/junction before appending mkdtemp prefix",
+    "Reuse unchanged pre-import95file/export/WASM validation; external CJS/deps limits unchanged",
+    "Retain original measured records/v2derivation/v2validation byte-for-byte; add file-only v3 guard validation and setup history"
+  ],
+  "validation": "29mock guard-only probes pass on Windows, including direct and junction defaultTEMP cases, ordinary default acceptance and no protected-tree writes. SDK/WASM/fetch calls0. No full matrix/browser rerun."
+}

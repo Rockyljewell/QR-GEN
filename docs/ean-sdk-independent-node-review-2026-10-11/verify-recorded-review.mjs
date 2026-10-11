@@ -1,0 +1,15 @@
+import {readFileSync} from 'node:fs';
+import {dirname,join} from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {gunzipSync} from 'node:zlib';
+import {createHash} from 'node:crypto';
+import {verifyPackage} from './verify-package.mjs';
+const here=dirname(fileURLToPath(import.meta.url)),sha=b=>createHash('sha256').update(b).digest('hex');verifyPackage();
+const original=JSON.parse(readFileSync(join(here,'original-evidence-hashes.json'))),derived=JSON.parse(gunzipSync(readFileSync(join(here,'derived-results.json.gz')))),r=derived.review;
+if(sha(readFileSync(join(here,'original-manifest.json')))!==original.originalManifest.sha256||derived.derivation.originalResultsSha256!==original.originalFiles['results.json'].sha256||sha(gunzipSync(readFileSync(join(here,'archived-original-review.py.gz'))))!==original.originalFiles['review.py'].sha256)throw Error('Original identity mismatch');
+if(r.checks!==5783||r.checkRecords.length!==5783||r.failures.length||r.checkRecords.some(c=>c.passed!==true))throw Error('Recorded checks are not all passing');
+const expected={rasters:551,sourcePngReused:502,losslessTransports:49,profilesPerRun:1162,runs:4,retainedSdkCalls:4648,noCodeProfilesPerRun:40,matrixProfilesPerRun:144,changedProfilesPerFormat:10,targetValueLosses:0,targetFullRecordLosses:0,newValueProfiles:0,noCodeOutputProfiles:0,generatedMatrixMisses:0,esmCjsDifferences:0,residual07:4,residual35:6};
+if(Object.entries(expected).some(([k,v])=>r.counts[k]!==v)||r.changes.length!==10||r.residual07.length!==4||r.residual35.length!==6)throw Error('Recorded scope/count mismatch');
+const aliases=r.changes.map(c=>{if(c.candidate.length||c.baseline.length!==1)throw Error('Unexpected changed result');return[c.baseline[0].data,c.baseline[0].symbology].join('|');});if(aliases.filter(x=>x==='0798884816632|ean13').length!==6||aliases.filter(x=>x==='798884816632|upca').length!==4)throw Error('Changed-result alias mismatch');
+if(r.residual07.some(p=>p.scope!=='upca'))throw Error('Residual UPC scope mismatch');
+console.log(JSON.stringify({status:'retained-independent-review-records-consistent',artifactAssertions:r.checks,counts:r.counts,scope:'No original image/evidence audit rerun, SDK import or decoder call'}));

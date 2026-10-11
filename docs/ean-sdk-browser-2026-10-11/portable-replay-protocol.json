@@ -1,0 +1,18 @@
+{
+  "frozenAt": "2026-10-11T16:30:18.209494+00:00",
+  "beforeFreshReplay": true,
+  "reason": "Validate derived portable launcher and directly observe HTTP request-start status for preloaded offline operation; old offlineAtResponse field was sampled after awaited body hash.",
+  "originalResultsPreserved": true,
+  "mode": "offline-smoke",
+  "sessions": "Exactly2freshT03contexts,baseline+candidate;existingfrozenPNG/Y4M+binarysubviews;publicgenerateQR/EAN+QRroundtripandactualembeddedWorker10framescleanmixed.",
+  "accuracy": "No new difficult-image observations, no combined success count or population accuracy claim.",
+  "requestTelemetry": "Capture each HTTP request event synchronously, offlineAtRequest flag before async bodyhash. Require no request after setOffline transition; reader/writer preloads complete before transition.",
+  "cleanup": "0livecameratracks,detachedownedvideo/nullstream;onehealthysharedWorker allowed untilcontextclose;allWorkers/browser/serverclose.",
+  "scripts": {
+    "replay.mjs": "04bc04b4332a83222395074983885c8293d7968e5c7795130eb57be3f4ea6297",
+    "replay/run.mjs": "1be2883f6353d67098c5bfa38bb0017d0528217e8280b2f3a18dba62b63dcf71",
+    "replay/common.mjs": "2f194b63582e4ee27150a92e61b4b74d8981ef9723e15a6132eef62f67fab66a",
+    "replay/browser-harness.js": "b0506400735ad07b5291e62878fc93739cf84bac044f293f8a47ebfdd841ad6f"
+  },
+  "output": "New directory outsidepackage/repo/stagedSDK/input;failifexisting. Recorded evidence is never overwritten."
+}

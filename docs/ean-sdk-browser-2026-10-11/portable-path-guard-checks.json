@@ -1,0 +1,47 @@
+{
+  "checks": [
+    {
+      "id": "package",
+      "status": 1,
+      "expected": 1,
+      "matched": true,
+      "decoderExecuted": false
+    },
+    {
+      "id": "repo",
+      "status": 1,
+      "expected": 1,
+      "matched": true,
+      "decoderExecuted": false
+    },
+    {
+      "id": "input",
+      "status": 1,
+      "expected": 1,
+      "matched": true,
+      "decoderExecuted": false
+    },
+    {
+      "id": "stage",
+      "status": 1,
+      "expected": 1,
+      "matched": true,
+      "decoderExecuted": false
+    },
+    {
+      "id": "existing-output",
+      "status": 1,
+      "expected": 1,
+      "matched": true,
+      "decoderExecuted": false
+    },
+    {
+      "id": "fresh-input-validation",
+      "status": 0,
+      "expected": 0,
+      "matched": true,
+      "decoderExecuted": false
+    }
+  ],
+  "allPassed": true
+}

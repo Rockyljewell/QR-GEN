@@ -1,0 +1,10 @@
+{
+  "scope": "NONPRODUCTION diagnostic only; browsers explicitly configure matching assets; upstream default CDN and capability identity remain unresolved",
+  "base": "6d3728f569f1cd5031fa8ca40ec090c8ff6bdf5b",
+  "variant": "baseline",
+  "upstreamWrapper": "b7dcf63aefc7b94fb97ba09e9b1fb213d9399f54",
+  "cppSource": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
+  "readerWasmSha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+  "candidatePatchSha256": null,
+  "buildRun": "https://github.com/Rockyljewell/QR-GEN/actions/runs/38152527079"
+}

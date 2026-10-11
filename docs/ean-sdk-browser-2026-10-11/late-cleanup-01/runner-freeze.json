@@ -1,0 +1,26 @@
+{
+  "frozenBeforeDecodeAt": "2026-10-11T16:24:15.150Z",
+  "policySha256": {
+    "bytes": 18081,
+    "sha256": "5729e29319251cd0f1cecc32c446eb8f30dc7f9a27d650a47a6eb7c7c14e8361"
+  },
+  "bindingSha256": {
+    "bytes": 11897,
+    "sha256": "49cb8c14cee3faabb86bc5a266e9bc7d13d234d6fb339dd8d3bd366dcba6baed"
+  },
+  "scripts": {
+    "run": {
+      "bytes": 6871,
+      "sha256": "4a42ba43ef08ba5b4e2188e15f8d3ef09eca8384bd7d0d641f43908c02a705f1"
+    },
+    "browser": {
+      "bytes": 9850,
+      "sha256": "edaeb8032e95e929c626e803d5083b5441497b2a00114c585778441751c0e261"
+    },
+    "common": {
+      "bytes": 3567,
+      "sha256": "544e4719e5a81fdd4c65c7433fdbf4af4032ed9d37658d2f40c2f6c7bc595dc7"
+    }
+  },
+  "scope": "Isolated staged SDK public API validation; no product promotion, raw reader calls or historical aggregate change."
+}

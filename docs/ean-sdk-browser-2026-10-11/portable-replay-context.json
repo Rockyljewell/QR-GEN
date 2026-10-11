@@ -1,0 +1,7 @@
+{
+  "freshReplayStartedAt": "2026-10-11T16:30:31.924Z",
+  "mode": "offline-smoke",
+  "scope": "Fresh derived replay; does not overwrite or amend recorded studies. No latency, phone, parity or production-promotion claim.",
+  "originalBindingSha256": "49cb8c14cee3faabb86bc5a266e9bc7d13d234d6fb339dd8d3bd366dcba6baed",
+  "synchronousRequestTelemetryAdded": true
+}

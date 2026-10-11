@@ -1,0 +1,11 @@
+{
+  "scope": "Report preparation only; no SDK import/build/decoder calls",
+  "firstAttempt": {
+    "status": "failed before packaging completion",
+    "cause": "Windows default cp1252 text decoding rejected UTF-8 final-build.log; UnicodeDecodeError at byte 0x8f, position 1658",
+    "retainedDirectory": "staged-sdk-build-review-package-preparation-attempt1",
+    "originalEvidenceChanged": false
+  },
+  "correction": "Read retained log text explicitly as UTF-8; initial partial report preserved outside this package",
+  "completedDraft": "An initial completed draft is preserved outside this package before final README wording/inventory checks; no measured evidence was rerun"
+}

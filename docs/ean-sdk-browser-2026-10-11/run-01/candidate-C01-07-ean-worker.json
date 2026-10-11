@@ -1,0 +1,541 @@
+{
+  "variant": "candidate",
+  "id": "C01-07-ean-worker",
+  "fixture": "historical07Y4M",
+  "startedAt": "2026-10-11T16:22:15.056Z",
+  "bootstrap": {
+    "engineVersion": "3.1.5",
+    "binaryEvidence": {},
+    "fixturePixels": [
+      {
+        "id": "historical07Y4M-preflight",
+        "rgbaSha256": "ec287e182dca32d86261e719e4a9525277023ba1872394ca6d4fa4e454fc7107",
+        "width": 640,
+        "height": 480
+      }
+    ]
+  },
+  "camera": {
+    "id": "C01-07-ean",
+    "startedAt": "2026-10-11T16:22:15.092Z",
+    "options": {
+      "mode": "continuous",
+      "maxResults": 255,
+      "duplicateFilter": 0,
+      "tryHarder": true,
+      "tryInvert": false,
+      "maxDecodeSize": 640,
+      "maxFps": 10,
+      "adaptive": false,
+      "scanArea": {
+        "x": 0,
+        "y": 0,
+        "width": 1,
+        "height": 1
+      },
+      "viewfinder": "none",
+      "resolution": "sd",
+      "beep": false,
+      "vibrate": false,
+      "symbologies": [
+        "ean13"
+      ],
+      "worker": true
+    },
+    "frames": [
+      {
+        "barcodes": [],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 12.400000035762787
+      },
+      {
+        "barcodes": [],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 6.200000047683716
+      },
+      {
+        "barcodes": [],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 6.200000047683716
+      },
+      {
+        "barcodes": [],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 6.300000011920929
+      },
+      {
+        "barcodes": [],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 6.5
+      },
+      {
+        "barcodes": [],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 6.900000035762787
+      },
+      {
+        "barcodes": [],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 5.600000023841858
+      },
+      {
+        "barcodes": [],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 5.5
+      },
+      {
+        "barcodes": [],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 5.799999952316284
+      },
+      {
+        "barcodes": [],
+        "frameSize": {
+          "width": 640,
+          "height": 480
+        },
+        "decodeMs": 5.5
+      }
+    ],
+    "scans": [],
+    "errors": [],
+    "states": [
+      {
+        "state": "starting",
+        "atMs": 0.7000000476837158
+      },
+      {
+        "state": "scanning",
+        "atMs": 88.5
+      },
+      {
+        "state": "stopped",
+        "atMs": 1222.2000000476837
+      }
+    ],
+    "ready": {
+      "engine": "worker",
+      "stats": {
+        "decodeMs": 0,
+        "fps": 0,
+        "engine": "worker",
+        "adaptive": null
+      },
+      "atMs": 92.5,
+      "videoWidth": 640,
+      "videoHeight": 480,
+      "readyState": 4,
+      "exactPixelBytesMatch": true,
+      "resolvedOptions": {
+        "symbologies": [
+          "ean13"
+        ],
+        "mode": "continuous",
+        "duplicateFilter": 0,
+        "beep": false,
+        "vibrate": false,
+        "scanArea": {
+          "x": 0,
+          "y": 0,
+          "width": 1,
+          "height": 1
+        },
+        "maxResults": 255,
+        "tryHarder": true,
+        "maxDecodeSize": 640,
+        "maxFps": 10,
+        "tryInvert": false,
+        "adaptive": null,
+        "viewfinder": "none"
+      },
+      "rgbaSha256": "ec287e182dca32d86261e719e4a9525277023ba1872394ca6d4fa4e454fc7107"
+    },
+    "expectedEngine": "worker",
+    "expectedFailure": false,
+    "statsBeforeCleanup": {
+      "decodeMs": 6.7593576003667,
+      "fps": 9,
+      "engine": "worker",
+      "adaptive": null
+    },
+    "resolvedOptionsEnd": {
+      "symbologies": [
+        "ean13"
+      ],
+      "mode": "continuous",
+      "duplicateFilter": 0,
+      "beep": false,
+      "vibrate": false,
+      "scanArea": {
+        "x": 0,
+        "y": 0,
+        "width": 1,
+        "height": 1
+      },
+      "maxResults": 255,
+      "tryHarder": true,
+      "maxDecodeSize": 640,
+      "maxFps": 10,
+      "tryInvert": false,
+      "adaptive": null,
+      "viewfinder": "none"
+    },
+    "cleanup": {
+      "tracks": [
+        {
+          "kind": "video",
+          "readyState": "ended"
+        }
+      ],
+      "liveCameraTracks": 0,
+      "videoSrcObjectNull": true,
+      "ownedVideoDetached": true
+    },
+    "completedAt": "2026-10-11T16:22:16.314Z",
+    "elapsedMs": 1222.300000011921
+  },
+  "platform": {
+    "workers": [
+      {
+        "url": "blob:http://127.0.0.1:4352/11808f5e-d2f6-4b13-bcb1-9ffe616e2cc0",
+        "name": "qrgen-decoder",
+        "posts": [
+          {
+            "type": "init",
+            "wasmUrl": "http://127.0.0.1:4352/staged/candidate/dist/wasm/zxing_reader.wasm"
+          },
+          {
+            "type": "decode",
+            "id": 1,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "ec287e182dca32d86261e719e4a9525277023ba1872394ca6d4fa4e454fc7107"
+          },
+          {
+            "type": "decode",
+            "id": 2,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "ec287e182dca32d86261e719e4a9525277023ba1872394ca6d4fa4e454fc7107"
+          },
+          {
+            "type": "decode",
+            "id": 3,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "ec287e182dca32d86261e719e4a9525277023ba1872394ca6d4fa4e454fc7107"
+          },
+          {
+            "type": "decode",
+            "id": 4,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "ec287e182dca32d86261e719e4a9525277023ba1872394ca6d4fa4e454fc7107"
+          },
+          {
+            "type": "decode",
+            "id": 5,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "ec287e182dca32d86261e719e4a9525277023ba1872394ca6d4fa4e454fc7107"
+          },
+          {
+            "type": "decode",
+            "id": 6,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "ec287e182dca32d86261e719e4a9525277023ba1872394ca6d4fa4e454fc7107"
+          },
+          {
+            "type": "decode",
+            "id": 7,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "ec287e182dca32d86261e719e4a9525277023ba1872394ca6d4fa4e454fc7107"
+          },
+          {
+            "type": "decode",
+            "id": 8,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "ec287e182dca32d86261e719e4a9525277023ba1872394ca6d4fa4e454fc7107"
+          },
+          {
+            "type": "decode",
+            "id": 9,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "ec287e182dca32d86261e719e4a9525277023ba1872394ca6d4fa4e454fc7107"
+          },
+          {
+            "type": "decode",
+            "id": 10,
+            "width": 640,
+            "height": 480,
+            "params": {
+              "formats": [
+                "EAN13"
+              ],
+              "tryHarder": true,
+              "tryRotate": true,
+              "tryInvert": false,
+              "tryDownscale": true,
+              "maxNumberOfSymbols": 255
+            },
+            "bytes": 1228800,
+            "sha256": "ec287e182dca32d86261e719e4a9525277023ba1872394ca6d4fa4e454fc7107"
+          }
+        ],
+        "messages": [
+          {
+            "type": "ready"
+          },
+          {
+            "type": "result",
+            "id": 1,
+            "results": []
+          },
+          {
+            "type": "result",
+            "id": 2,
+            "results": []
+          },
+          {
+            "type": "result",
+            "id": 3,
+            "results": []
+          },
+          {
+            "type": "result",
+            "id": 4,
+            "results": []
+          },
+          {
+            "type": "result",
+            "id": 5,
+            "results": []
+          },
+          {
+            "type": "result",
+            "id": 6,
+            "results": []
+          },
+          {
+            "type": "result",
+            "id": 7,
+            "results": []
+          },
+          {
+            "type": "result",
+            "id": 8,
+            "results": []
+          },
+          {
+            "type": "result",
+            "id": 9,
+            "results": []
+          },
+          {
+            "type": "result",
+            "id": 10,
+            "results": []
+          }
+        ],
+        "errors": [],
+        "terminated": false
+      }
+    ],
+    "workerBlobs": [
+      {
+        "url": "blob:http://127.0.0.1:4352/11808f5e-d2f6-4b13-bcb1-9ffe616e2cc0",
+        "type": "text/javascript",
+        "bytes": 37754,
+        "sha256": "d86db99a626ff60bd0cc5cf90737095962db05aa81c8926d5a4999cbe46acc2b"
+      }
+    ],
+    "binaryBefore": {},
+    "binaryAfter": {},
+    "liveCameraTracks": 0
+  },
+  "http": [
+    {
+      "path": "/",
+      "status": 200,
+      "bytes": 75,
+      "sha256": "ecc5ea3626da4762a369d599c1d02f728af470c340653e163e1acc20fdaa550b",
+      "offlineAtResponse": false
+    },
+    {
+      "path": "/staged/candidate/dist/browser/qrgen.js",
+      "status": 200,
+      "bytes": 221564,
+      "sha256": "5d8ce71c0c644e4d1254bf3d1bc28c2f4c056c26f4cf836b979d0df630202543",
+      "offlineAtResponse": false,
+      "pinMatched": true
+    },
+    {
+      "path": "/fixtures/historical07Y4M-preflight.png",
+      "status": 200,
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "offlineAtResponse": false
+    },
+    {
+      "path": "/staged/candidate/dist/wasm/zxing_reader.wasm",
+      "status": 200,
+      "bytes": 969380,
+      "sha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+      "offlineAtResponse": false,
+      "pinMatched": true
+    }
+  ],
+  "blockedExternalRequests": [],
+  "pageErrors": [],
+  "console": [],
+  "workerEventsBeforeContextClose": [
+    {
+      "type": "created",
+      "url": "blob:http://127.0.0.1:4352/11808f5e-d2f6-4b13-bcb1-9ffe616e2cc0"
+    }
+  ],
+  "sharedWorkersRetainedBeforeContextClose": 1,
+  "workerEvents": [
+    {
+      "type": "created",
+      "url": "blob:http://127.0.0.1:4352/11808f5e-d2f6-4b13-bcb1-9ffe616e2cc0"
+    },
+    {
+      "type": "closed",
+      "url": "blob:http://127.0.0.1:4352/11808f5e-d2f6-4b13-bcb1-9ffe616e2cc0"
+    }
+  ],
+  "liveWorkersAfterContextClose": 0,
+  "browserClosed": true,
+  "completedAt": "2026-10-11T16:22:16.353Z"
+}

@@ -1,0 +1,38 @@
+{
+  "stage-sdk-study.py": {
+    "bytes": 5061,
+    "sha256": "92423877fbc59543cfb58af8794171a0f6bac935812eba33b1605174dd609fcb",
+    "retainedInOriginalArtifactWorkspace": true,
+    "scope": "Original host-layout recipe fingerprint only; not included or claimed portable/executed here"
+  },
+  "finalize-sdk-study-overlays.py": {
+    "bytes": 4344,
+    "sha256": "8be592c9987ce27454042b4198b5d1d40e7aad9da4394ce14f6c3c4a5f8d96fc",
+    "retainedInOriginalArtifactWorkspace": true,
+    "scope": "Original host-layout recipe fingerprint only; not included or claimed portable/executed here"
+  },
+  "pack-sdk-study.py": {
+    "bytes": 4046,
+    "sha256": "c92e00c9bcf03777b31ea8f26593531280dbe59be0b3a7b0752fc4a492ce5a62",
+    "retainedInOriginalArtifactWorkspace": true,
+    "scope": "Original host-layout recipe fingerprint only; not included or claimed portable/executed here"
+  },
+  "record-sdk-build-tools.mjs": {
+    "bytes": 2545,
+    "sha256": "cdd32df07900234c19a88292e3a75e1be7375a1d3722bf218dcf9a9fc526ee64",
+    "retainedInOriginalArtifactWorkspace": true,
+    "scope": "Original host-layout recipe fingerprint only; not included or claimed portable/executed here"
+  },
+  "staged-sdk-public-smoke-v1.mjs": {
+    "bytes": 3326,
+    "sha256": "1f2fe788652a02a2ec7a641efd9f55290cd4fc222d057838f8c2382ab122063f",
+    "retainedInOriginalArtifactWorkspace": true,
+    "scope": "Original host-layout recipe fingerprint only; not included or claimed portable/executed here"
+  },
+  "staged-sdk-public-smoke.mjs": {
+    "bytes": 3315,
+    "sha256": "9fc85fa060d5ef9b2e12b8170b57f83136c8b3be82df1e47cc364b6c218e345d",
+    "retainedInOriginalArtifactWorkspace": true,
+    "scope": "Original host-layout recipe fingerprint only; not included or claimed portable/executed here"
+  }
+}

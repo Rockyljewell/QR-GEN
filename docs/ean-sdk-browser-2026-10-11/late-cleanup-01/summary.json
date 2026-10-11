@@ -1,0 +1,203 @@
+{
+  "startedAt": "2026-10-11T16:24:15.169Z",
+  "runName": "late-cleanup-01",
+  "sourceHead": "6d3728f569f1cd5031fa8ca40ec090c8ff6bdf5b",
+  "results": [
+    {
+      "variant": "baseline",
+      "id": "T04-cold-reader-url-offline",
+      "record": "baseline-T04-cold-reader-url-offline.json",
+      "harnessFailure": false,
+      "pageErrors": 0,
+      "consoleMessages": 11,
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "variant": "baseline",
+      "id": "T05-corrupt-reader-url",
+      "record": "baseline-T05-corrupt-reader-url.json",
+      "harnessFailure": false,
+      "pageErrors": 0,
+      "consoleMessages": 9,
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "variant": "candidate",
+      "id": "T04-cold-reader-url-offline",
+      "record": "candidate-T04-cold-reader-url-offline.json",
+      "harnessFailure": false,
+      "pageErrors": 0,
+      "consoleMessages": 11,
+      "liveWorkersAfterContextClose": 0
+    },
+    {
+      "variant": "candidate",
+      "id": "T05-corrupt-reader-url",
+      "record": "candidate-T05-corrupt-reader-url.json",
+      "harnessFailure": false,
+      "pageErrors": 0,
+      "consoleMessages": 9,
+      "liveWorkersAfterContextClose": 0
+    }
+  ],
+  "harnessFailures": [],
+  "guards": [
+    {
+      "variant": "baseline",
+      "transport": "URL",
+      "expected": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+      "proposed": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+      "diagnosticGuardRejected": true,
+      "sdkCalled": false,
+      "scope": "Harness inventory guard only; SDK does not authenticate valid same-ABI binaries."
+    },
+    {
+      "variant": "baseline",
+      "transport": "binary",
+      "expected": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+      "proposed": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+      "diagnosticGuardRejected": true,
+      "sdkCalled": false,
+      "scope": "Harness inventory guard only; SDK does not authenticate valid same-ABI binaries."
+    },
+    {
+      "variant": "candidate",
+      "transport": "URL",
+      "expected": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+      "proposed": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+      "diagnosticGuardRejected": true,
+      "sdkCalled": false,
+      "scope": "Harness inventory guard only; SDK does not authenticate valid same-ABI binaries."
+    },
+    {
+      "variant": "candidate",
+      "transport": "binary",
+      "expected": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+      "proposed": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+      "diagnosticGuardRejected": true,
+      "sdkCalled": false,
+      "scope": "Harness inventory guard only; SDK does not authenticate valid same-ABI binaries."
+    }
+  ],
+  "browserVersions": [
+    "153.0.8010.12",
+    "153.0.8010.12",
+    "153.0.8010.12",
+    "153.0.8010.12"
+  ],
+  "allContextsClosed": true,
+  "serverClosed": true,
+  "completedAt": "2026-10-11T16:24:16.492Z",
+  "actualServerResponses": [
+    {
+      "path": "/staged/baseline/dist/browser/qrgen.js",
+      "sha256": "173d505011791797f5ceb6d4744b7a47b94d2029f872331864363e2a359d18a1",
+      "bytes": 217485
+    },
+    {
+      "path": "/fixtures/cleanEAN.png",
+      "sha256": "5ea0cc8106ffd6d02d6d169c18d6ee9dd827ea8c9cb5ae7fb3f16ca696b8e404",
+      "bytes": 814
+    },
+    {
+      "path": "/fixtures/retailMixedY4M-preflight.png",
+      "sha256": "c1f5d54106cdc3290fdd69969615de570af5023f2a3bf2b66ddc2e13a2d57a76",
+      "bytes": 8839
+    },
+    {
+      "path": "/staged/baseline/dist/browser/qrgen.js",
+      "sha256": "173d505011791797f5ceb6d4744b7a47b94d2029f872331864363e2a359d18a1",
+      "bytes": 217485
+    },
+    {
+      "path": "/fixtures/cleanEAN.png",
+      "sha256": "5ea0cc8106ffd6d02d6d169c18d6ee9dd827ea8c9cb5ae7fb3f16ca696b8e404",
+      "bytes": 814
+    },
+    {
+      "path": "/fixtures/retailMixedY4M-preflight.png",
+      "sha256": "c1f5d54106cdc3290fdd69969615de570af5023f2a3bf2b66ddc2e13a2d57a76",
+      "bytes": 8839
+    },
+    {
+      "path": "/staged/baseline/dist/wasm/zxing_writer.wasm",
+      "sha256": "af26f895fe471d23cb2d742bc3eca0695dbecb4ea6bad9b92eba3763ec505941",
+      "bytes": 647500
+    },
+    {
+      "path": "/corrupt.wasm",
+      "sha256": "0a34792f28867bbdced706769d62e9c6ad454f418991e135e3921b83028ad58a",
+      "bytes": 50
+    },
+    {
+      "path": "/corrupt.wasm",
+      "sha256": "0a34792f28867bbdced706769d62e9c6ad454f418991e135e3921b83028ad58a",
+      "bytes": 50
+    },
+    {
+      "path": "/corrupt.wasm",
+      "sha256": "0a34792f28867bbdced706769d62e9c6ad454f418991e135e3921b83028ad58a",
+      "bytes": 50
+    },
+    {
+      "path": "/corrupt.wasm",
+      "sha256": "0a34792f28867bbdced706769d62e9c6ad454f418991e135e3921b83028ad58a",
+      "bytes": 50
+    },
+    {
+      "path": "/staged/candidate/dist/browser/qrgen.js",
+      "sha256": "5d8ce71c0c644e4d1254bf3d1bc28c2f4c056c26f4cf836b979d0df630202543",
+      "bytes": 221564
+    },
+    {
+      "path": "/fixtures/cleanEAN.png",
+      "sha256": "5ea0cc8106ffd6d02d6d169c18d6ee9dd827ea8c9cb5ae7fb3f16ca696b8e404",
+      "bytes": 814
+    },
+    {
+      "path": "/fixtures/retailMixedY4M-preflight.png",
+      "sha256": "c1f5d54106cdc3290fdd69969615de570af5023f2a3bf2b66ddc2e13a2d57a76",
+      "bytes": 8839
+    },
+    {
+      "path": "/staged/candidate/dist/browser/qrgen.js",
+      "sha256": "5d8ce71c0c644e4d1254bf3d1bc28c2f4c056c26f4cf836b979d0df630202543",
+      "bytes": 221564
+    },
+    {
+      "path": "/fixtures/cleanEAN.png",
+      "sha256": "5ea0cc8106ffd6d02d6d169c18d6ee9dd827ea8c9cb5ae7fb3f16ca696b8e404",
+      "bytes": 814
+    },
+    {
+      "path": "/fixtures/retailMixedY4M-preflight.png",
+      "sha256": "c1f5d54106cdc3290fdd69969615de570af5023f2a3bf2b66ddc2e13a2d57a76",
+      "bytes": 8839
+    },
+    {
+      "path": "/staged/candidate/dist/wasm/zxing_writer.wasm",
+      "sha256": "af26f895fe471d23cb2d742bc3eca0695dbecb4ea6bad9b92eba3763ec505941",
+      "bytes": 647500
+    },
+    {
+      "path": "/corrupt.wasm",
+      "sha256": "0a34792f28867bbdced706769d62e9c6ad454f418991e135e3921b83028ad58a",
+      "bytes": 50
+    },
+    {
+      "path": "/corrupt.wasm",
+      "sha256": "0a34792f28867bbdced706769d62e9c6ad454f418991e135e3921b83028ad58a",
+      "bytes": 50
+    },
+    {
+      "path": "/corrupt.wasm",
+      "sha256": "0a34792f28867bbdced706769d62e9c6ad454f418991e135e3921b83028ad58a",
+      "bytes": 50
+    },
+    {
+      "path": "/corrupt.wasm",
+      "sha256": "0a34792f28867bbdced706769d62e9c6ad454f418991e135e3921b83028ad58a",
+      "bytes": 50
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "startedAt": "2026-10-11T16:27:15.047Z",
+  "sessions": [
+    {
+      "variant": "baseline",
+      "record": "baseline.json",
+      "harnessFailure": false
+    },
+    {
+      "variant": "candidate",
+      "record": "candidate.json",
+      "harnessFailure": false
+    }
+  ],
+  "serverClosed": true,
+  "completedAt": "2026-10-11T16:27:15.715Z"
+}
