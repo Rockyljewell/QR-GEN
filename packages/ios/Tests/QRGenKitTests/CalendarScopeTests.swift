@@ -59,7 +59,11 @@ final class CalendarScopeTests: XCTestCase {
         XCTAssertEqual(parsed.summary, "Delivery")
     }
 
-    func testCalendarWithoutEventCannotBorrowTimezoneStart() {
-        XCTAssertNil(parse(calendar(timezone)).start)
+    func testCalendarWithoutEventPreservesTextFallback() {
+        let payload = calendar(timezone)
+        guard case let .text(value) = QRGen.parseContent(payload) else {
+            return XCTFail("calendar without an event should retain its text fallback")
+        }
+        XCTAssertEqual(value, payload)
     }
 }
