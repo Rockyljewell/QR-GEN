@@ -72,7 +72,8 @@ def _create(data: Union[str, bytes], symbology: str, ec_level: Optional[str], gs
     kwargs: dict = {}
     if ec_level not in (None, ""):
         kwargs["ec_level"] = str(ec_level)
-    if gs1:
+    # DataBar is inherently GS1; its writers reject the extra FNC1 mode flag.
+    if gs1 and sid not in ("databar", "databar-expanded", "databar-limited"):
         kwargs["gs1"] = True
     try:
         return zxingcpp.create_barcode(data, fmt, **kwargs)

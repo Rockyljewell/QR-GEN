@@ -67,6 +67,19 @@ def test_png_round_trip(symbology, data, options):
     assert 0 <= min(xs) < max(xs) <= width
 
 
+
+@pytest.mark.parametrize("symbology", ["databar", "databar-expanded", "databar-limited", "rss14", "rssexpanded", "rsslimited"])
+def test_databar_explicit_gs1_round_trip(symbology):
+    data = "(01)09501101530003"
+    if symbology in ("databar-expanded", "rssexpanded"):
+        data += "(10)ABC"
+    png = generate(data, symbology=symbology, gs1=True, format="png")
+    found = scan(png, symbologies=[symbology])
+    assert len(found) == 1
+    assert found[0].data == data
+    assert found[0].is_gs1 and found[0].content_type == "gs1"
+
+
 def test_scan_all_symbologies_reports_conventional_ids():
     assert [b.symbology for b in scan(generate("036000291452", symbology="upca", format="png"))] == ["upca"]
     # Books are EAN-13 unless only ISBN is requested (matches ML Kit / Vision).

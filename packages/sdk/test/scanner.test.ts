@@ -22,6 +22,16 @@ vi.mock("../src/engine/decoder", () => ({
 
 describe("Scanner session isolation", () => {
   let tick: () => void;
+  function decodedCode(text: string) {
+    return {
+      format: "QRCodeModel2", text, bytes: new TextEncoder().encode(text), contentType: "Text",
+      position: {
+        topLeft: { x: 10, y: 10 }, topRight: { x: 50, y: 10 },
+        bottomRight: { x: 50, y: 50 }, bottomLeft: { x: 10, y: 50 },
+      }, orientation: 0, ecLevel: "M", symbologyIdentifier: "]Q1", isMirrored: false, isInverted: false,
+    };
+  }
+
   function scanner() {
     const video = {
       videoWidth: 640, videoHeight: 480,
@@ -130,6 +140,170 @@ describe("Scanner session isolation", () => {
     expect(track).toHaveBeenCalledOnce();
     expect(scan).not.toHaveBeenCalled();
     s.destroy();
+  });
+
+
+  it("reports the first batch scan after a track listener pauses and resumes without expiring the track", async () => {
+    mocks.decode.mockResolvedValue([{
+      format: "QRCodeModel2", text: "test", bytes: new TextEncoder().encode("test"),
+      contentType: "Text", position: {
+        topLeft: { x: 10, y: 10 }, topRight: { x: 50, y: 10 },
+        bottomRight: { x: 50, y: 50 }, bottomLeft: { x: 10, y: 50 },
+      }, orientation: 0, ecLevel: "M", symbologyIdentifier: "]Q1", isMirrored: false, isInverted: false,
+    }]);
+    const clock = vi.spyOn(Date, "now").mockReturnValue(1000);
+    const s = scanner();
+    s.setOptions({ mode: "batch", duplicateFilter: -1 });
+    const scan = vi.fn();
+    const track = vi.fn();
+    s.on("track", (update) => {
+      track(update);
+      if (track.mock.calls.length === 1) s.pause();
+    });
+    s.on("scan", scan);
+    const frame = () => (s as unknown as { onFrame(): Promise<void> }).onFrame();
+    try {
+      await s.start();
+      await frame();
+      expect(s.state).toBe("paused");
+      expect(scan).not.toHaveBeenCalled();
+      const originalId = track.mock.calls[0]![0].tracked[0].id;
+
+      s.resume();
+      vi.mocked(performance.now).mockReturnValue(200);
+      clock.mockReturnValue(1020);
+      await frame();
+      expect(track).toHaveBeenCalledTimes(2);
+      expect(track.mock.calls[1]![0].tracked[0]).toMatchObject({ id: originalId, count: 2 });
+      expect(track.mock.calls[1]![0].added).toEqual([]);
+      expect(scan).toHaveBeenCalledOnce();
+      expect(scan.mock.calls[0]![0].barcodes[0].data).toBe("test");
+
+      vi.mocked(performance.now).mockReturnValue(300);
+      clock.mockReturnValue(1040);
+      await frame();
+      expect(scan).toHaveBeenCalledOnce();
+
+      s.pause();
+      s.resume();
+      vi.mocked(performance.now).mockReturnValue(400);
+      clock.mockReturnValue(1060);
+      await frame();
+      expect(s.tracker.all[0]).toMatchObject({ id: originalId, count: 4 });
+      expect(scan).toHaveBeenCalledOnce();
+    } finally {
+      s.destroy();
+    }
+  });
+
+
+  it("keeps a pending batch scan until that track is observed again", async () => {
+    const raw = decodedCode("test");
+    mocks.decode.mockResolvedValue([raw]);
+    const clock = vi.spyOn(Date, "now").mockReturnValue(1000);
+    const s = scanner();
+    s.setOptions({ mode: "batch", duplicateFilter: -1 });
+    const scan = vi.fn();
+    s.on("scan", scan);
+    let first = true;
+    s.on("track", () => { if (first) { first = false; s.pause(); } });
+    const frame = () => (s as unknown as { onFrame(): Promise<void> }).onFrame();
+    try {
+      await s.start();
+      await frame();
+      const id = s.tracker.all[0]!.id;
+      s.resume();
+
+      mocks.decode.mockResolvedValue([]);
+      vi.mocked(performance.now).mockReturnValue(200);
+      clock.mockReturnValue(1020);
+      await frame();
+      expect(s.tracker.all[0]).toMatchObject({ id, count: 1 });
+      expect(scan).not.toHaveBeenCalled();
+
+      mocks.decode.mockResolvedValue([raw]);
+      vi.mocked(performance.now).mockReturnValue(300);
+      clock.mockReturnValue(1040);
+      await frame();
+      expect(s.tracker.all[0]).toMatchObject({ id, count: 2 });
+      expect(scan).toHaveBeenCalledOnce();
+    } finally {
+      s.destroy();
+    }
+  });
+
+  it("expires an unreported batch track without scanning it and reports a later new track", async () => {
+    const raw = decodedCode("test");
+    mocks.decode.mockResolvedValue([raw]);
+    const clock = vi.spyOn(Date, "now").mockReturnValue(1000);
+    const s = scanner();
+    s.setOptions({ mode: "batch", duplicateFilter: -1 });
+    const scan = vi.fn();
+    const track = vi.fn();
+    s.on("scan", scan);
+    s.on("track", (update) => { track(update); if (track.mock.calls.length === 1) s.pause(); });
+    const frame = () => (s as unknown as { onFrame(): Promise<void> }).onFrame();
+    try {
+      await s.start();
+      await frame();
+      const id = s.tracker.all[0]!.id;
+      s.resume();
+
+      mocks.decode.mockResolvedValue([]);
+      vi.mocked(performance.now).mockReturnValue(200);
+      clock.mockReturnValue(1600);
+      await frame();
+      expect(s.tracker.all).toEqual([]);
+      expect(track.mock.calls[1]![0].removed[0].id).toBe(id);
+      expect(scan).not.toHaveBeenCalled();
+
+      mocks.decode.mockResolvedValue([raw]);
+      vi.mocked(performance.now).mockReturnValue(300);
+      clock.mockReturnValue(1620);
+      await frame();
+      expect(s.tracker.all[0]!.id).not.toBe(id);
+      expect(scan).toHaveBeenCalledOnce();
+    } finally {
+      s.destroy();
+    }
+  });
+
+  it.each(["restart", "mode change", "camera switch"])("clears a pending batch report across %s", async (reset) => {
+    const raw = decodedCode("test");
+    mocks.decode.mockResolvedValue([raw]);
+    const clock = vi.spyOn(Date, "now").mockReturnValue(1000);
+    const s = scanner();
+    s.setOptions({ mode: "batch", duplicateFilter: -1 });
+    const scan = vi.fn();
+    s.on("scan", scan);
+    let first = true;
+    s.on("track", () => { if (first) { first = false; s.pause(); } });
+    const frame = () => (s as unknown as { onFrame(): Promise<void> }).onFrame();
+    try {
+      await s.start();
+      await frame();
+      const id = s.tracker.all[0]!.id;
+      if (reset === "restart") { s.stop(); await s.start(); }
+      if (reset === "mode change") { s.setOptions({ mode: "continuous" }); s.setOptions({ mode: "batch" }); s.resume(); }
+      if (reset === "camera switch") { await s.switchCamera(); s.resume(); }
+      expect(s.tracker.all).toEqual([]);
+
+      mocks.decode.mockResolvedValue([]);
+      vi.mocked(performance.now).mockReturnValue(200);
+      clock.mockReturnValue(1020);
+      await frame();
+      expect(scan).not.toHaveBeenCalled();
+      expect(s.tracker.all).toEqual([]);
+
+      mocks.decode.mockResolvedValue([raw]);
+      vi.mocked(performance.now).mockReturnValue(300);
+      clock.mockReturnValue(1040);
+      await frame();
+      expect(s.tracker.all[0]!.id).not.toBe(id);
+      expect(scan).toHaveBeenCalledOnce();
+    } finally {
+      s.destroy();
+    }
   });
 
   it("releases the camera and reports frame capture failures", async () => {

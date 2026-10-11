@@ -28,9 +28,9 @@ for (const symbology of ids) {
     const barcodes = await scan(image, { symbologies: [symbology] });
     const decodeMs = performance.now() - start;
     const exact = barcodes.length === 1 && barcodes[0].symbology === symbology && barcodes[0].data === data;
-    // The engine supports reversed reflectance for QR/Data Matrix. Probe other
-    // formats too, but do not mistake a documented engine limit for a regression.
-    const expectedSupported = name !== "inverted" || symbology === "qr" || symbology === "data-matrix";
+    // QRGen's explicit raster fallback supports every generated PNG case,
+    // including formats the upstream engine does not invert on its own.
+    const expectedSupported = true;
     cases.push({ symbology, rotate, variant: name, expectedSupported, exact, decodeMs: Number(decodeMs.toFixed(3)), detections: barcodes.length });
   }
 }

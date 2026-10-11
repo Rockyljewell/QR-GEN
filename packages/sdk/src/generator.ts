@@ -71,7 +71,7 @@ export function styleSvg(svg: string, foreground = "#000000", background = "#fff
   out = out.replace(/<svg([^>]*?)width="([\d.]+)" height="([\d.]+)"/, (_m, pre: string, w: string, h: string) => `<svg${pre}width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"`);
   const fg = escapeAttr(foreground);
   const bg = background === "transparent" || background === "none" ? "none" : escapeAttr(background);
-  out = out.replace(/fill="#000000"/gi, `fill="${fg}"`).replace(/fill="#FFFFFF"/gi, `fill="${bg}"`);
+  out = out.replace(/fill="#(000000|ffffff)"/gi, (_m, color: string) => `fill="${color === "000000" ? fg : bg}"`);
   return out.trim();
 }
 

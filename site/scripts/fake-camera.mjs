@@ -5,7 +5,7 @@ import { generate } from "qrgen-sdk/node";
 
 /**
  * @param {string} path output .y4m
- * @param {{ data: string, symbology: string, x: number, y: number, module: number, gs1?: boolean }[]} codes
+ * @param {{ data: string, symbology: string, x: number, y: number, module: number, gs1?: boolean, inverted?: boolean }[]} codes
  */
 export async function writeFakeCamera(path, codes, { width = 640, height = 480, frames = 30 } = {}) {
   const Y = new Uint8Array(width * height).fill(200);
@@ -14,6 +14,14 @@ export async function writeFakeCamera(path, codes, { width = 640, height = 480, 
     const { width: mw, height: mh, modules } = g.matrix;
     // Linear codes come back with a 1-row matrix: stretch them vertically.
     const rows = mh === 1 ? 60 : mh * c.module;
+    if (c.inverted) {
+      // Inverted linear codes need a dark quiet zone around their light bars.
+      const pad = 10 * c.module;
+      for (let yy = -pad; yy < rows + pad; yy++) for (let xx = -pad; xx < mw * c.module + pad; xx++) {
+        const px = c.x + xx, py = c.y + yy;
+        if (px >= 0 && py >= 0 && px < width && py < height) Y[py * width + px] = 20;
+      }
+    }
     for (let yy = 0; yy < rows; yy++) {
       const my = mh === 1 ? 0 : Math.floor(yy / c.module);
       for (let xx = 0; xx < mw * c.module; xx++) {
@@ -21,7 +29,8 @@ export async function writeFakeCamera(path, codes, { width = 640, height = 480, 
         const px = c.x + xx;
         const py = c.y + yy;
         if (px < 0 || py < 0 || px >= width || py >= height) continue;
-        Y[py * width + px] = modules[my * mw + mx] ? 20 : 245;
+        const dark = modules[my * mw + mx];
+        Y[py * width + px] = c.inverted ? (dark ? 245 : 20) : (dark ? 20 : 245);
       }
     }
   }

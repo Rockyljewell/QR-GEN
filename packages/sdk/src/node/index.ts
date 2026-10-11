@@ -17,7 +17,8 @@ import { extname } from "node:path";
 import { deflateSync, inflateSync } from "node:zlib";
 import { configure, getConfig } from "../engine/config.js";
 import { generate, registerPngColorizer, type GenerateOptions, type GeneratedBarcode } from "../generator.js";
-import { scanImage, type ScanImageOptions } from "../image.js";
+import { decodeNodeRaster } from "./raster.js";
+import { registerEncodedRasterDecoder, scanImage, type ScanImageOptions } from "../image.js";
 import type { Barcode } from "../types.js";
 
 export * from "../index.js";
@@ -43,6 +44,7 @@ export function useLocalEngine(): void {
 
 useLocalEngine();
 registerPngColorizer(recolorPng);
+registerEncodedRasterDecoder(decodeNodeRaster);
 
 function parseColor(c: string): [number, number, number, number] {
   const t = c.trim().toLowerCase();
