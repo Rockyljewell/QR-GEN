@@ -6,6 +6,7 @@ package dev.qrgen.compose
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
@@ -102,10 +103,17 @@ public class QRGenScannerState internal constructor() {
     }
 
     internal fun detach(v: QRGenScannerView) {
-        if (view === v) view = null
+        if (view !== v) return
+        view = null
         isTorchOn = false
         isPaused = false
     }
+}
+
+// Ownership follows object identity, even when a LifecycleOwner implements value equality.
+private class ScannerIdentityKey(private val value: Any) {
+    override fun equals(other: Any?): Boolean = other is ScannerIdentityKey && value === other.value
+    override fun hashCode(): Int = System.identityHashCode(value)
 }
 
 /** Remembers a [QRGenScannerState] across recompositions. */
@@ -119,6 +127,7 @@ public fun rememberQRGenScannerState(): QRGenScannerState = remember { QRGenScan
  * The composable does not request the camera permission; request it first (see README) or
  * handle `camera-permission-denied` in [onError]. The camera follows the current
  * `LocalLifecycleOwner` and is released when the composable leaves the composition.
+ * Replacing the owner or [state] releases the previous view/controller and creates a new one.
  *
  * ```kotlin
  * QRGenScanner(
@@ -156,28 +165,30 @@ public fun QRGenScanner(
     val currentOnError by rememberUpdatedState(onError)
     val currentOnTrack by rememberUpdatedState(onTrack)
 
-    AndroidView(
-        factory = { context ->
-            QRGenScannerView(context).apply {
-                this.options = effectiveOptions
-                this.accentColor = accentColor.toArgb()
-                this.showToast = showToast
-                onScan { currentOnScan(it) }
-                onError { currentOnError(it) }
-                onTrack { currentOnTrack?.invoke(it) }
-                bind(lifecycleOwner)
-                state.attach(this)
-            }
-        },
-        modifier = modifier,
-        onRelease = { view ->
-            state.detach(view)
-            view.release()
-        },
-        update = { view ->
-            if (view.options != effectiveOptions) view.options = effectiveOptions
-            view.accentColor = accentColor.toArgb()
-            view.showToast = showToast
-        },
-    )
+    key(ScannerIdentityKey(lifecycleOwner), ScannerIdentityKey(state)) {
+        AndroidView(
+            factory = { context ->
+                QRGenScannerView(context).apply {
+                    this.options = effectiveOptions
+                    this.accentColor = accentColor.toArgb()
+                    this.showToast = showToast
+                    onScan { currentOnScan(it) }
+                    onError { currentOnError(it) }
+                    onTrack { currentOnTrack?.invoke(it) }
+                    bind(lifecycleOwner)
+                    state.attach(this)
+                }
+            },
+            modifier = modifier,
+            onRelease = { view ->
+                state.detach(view)
+                view.release()
+            },
+            update = { view ->
+                if (view.options != effectiveOptions) view.options = effectiveOptions
+                view.accentColor = accentColor.toArgb()
+                view.showToast = showToast
+            },
+        )
+    }
 }
