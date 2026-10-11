@@ -317,8 +317,10 @@ export class QRGenScannerElement extends Base {
     this.raf = 0;
     this.resizeObserver?.disconnect();
     this.resizeObserver = null;
-    this._scanner?.destroy();
+    const scanner = this._scanner;
     this._scanner = null;
+    scanner?.destroy();
+    this.highlights = [];
     this.tracked = [];
     this._selection.clear();
     this.resultButtons.clear();
@@ -332,14 +334,13 @@ export class QRGenScannerElement extends Base {
     if (name === "hint" || name === "mode" || name === "viewfinder") this.updateHint();
     if (name === "torch" && this._scanner) void this._scanner.setTorch(bool(value, false)).then(() => this.updateControls());
     if ((name === "camera" || name === "resolution" || name === "worker") && this._scanner) {
-      const running = this._scanner.state === "scanning" || this._scanner.state === "paused";
-      this._scanner.destroy();
+      const scanner = this._scanner;
+      const running = scanner.state === "scanning" || scanner.state === "paused";
       this._scanner = null;
-      this.tracked = [];
       this._selection.clear();
-      this.updateCount();
-      this.updateResults();
-      if (running) void this.start().catch(() => undefined);
+      this.clearSpatialResults();
+      scanner.destroy();
+      if (running && !this._scanner && this.rendered) void this.start().catch(() => undefined);
       return;
     }
     if (this._scanner) {
@@ -452,10 +453,13 @@ export class QRGenScannerElement extends Base {
     if (this._scanner) return this._scanner;
     const s = new BarcodeScanner({ ...this.options, video: this.els.video });
     s.on("state", (st) => {
+      if (this._scanner !== s) return;
+      if (st === "starting" || st === "stopped" || st === "error") this.clearSpatialResults();
       this.updateScreens(st);
       this.emitEvent("statechange", { state: st });
     });
     s.on("ready", ({ engine }) => {
+      if (this._scanner !== s) return;
       this.els.video.classList.toggle("mirror", s.camera.isFront);
       this.layout();
       void this.refreshCameraControls();
@@ -463,24 +467,31 @@ export class QRGenScannerElement extends Base {
       this.emitEvent("ready", { engine });
     });
     s.on("error", (err) => {
+      if (this._scanner !== s) return;
       const msg = this.els.error.querySelector(".msg");
       if (msg) msg.textContent = err.message;
       this.emitEvent("error", err.toJSON());
     });
     s.on("frame", ({ barcodes }) => {
-      if (s.options.mode === "batch" || !barcodes.length) return;
+      if (this._scanner !== s || s.options.mode === "batch" || !barcodes.length) return;
       const t = performance.now();
       this.highlights = barcodes.map((b) => ({ location: b.location, linear: symbologyInfo(b.symbology).kind === "linear", at: t }));
       this.requestDraw();
     });
     s.on("track", (u: TrackerUpdate) => {
+      if (this._scanner !== s) return;
       this.tracked = u.tracked;
       this.updateCount();
       this.updateResults();
       this.emitEvent("track", { tracked: u.tracked, added: u.added, removed: u.removed });
+      if (this._scanner !== s) return;
       this.requestDraw();
     });
+    s.on("spatialreset", () => {
+      if (this._scanner === s) this.clearSpatialResults();
+    });
     s.on("scan", ({ barcodes }) => {
+      if (this._scanner !== s) return;
       this.scanned += barcodes.length;
       this.lastScan = barcodes[barcodes.length - 1] ?? null;
       if (s.options.mode !== "batch") this.showToast(barcodes[0]!);
@@ -506,7 +517,7 @@ export class QRGenScannerElement extends Base {
       await s.start();
     } catch (err) {
       const e = toQRGenError(err);
-      const msg = this.els.error.querySelector(".msg");
+      const msg = this._scanner === s ? this.els.error.querySelector(".msg") : null;
       if (msg) msg.textContent = e.message;
       throw e;
     }
@@ -515,7 +526,12 @@ export class QRGenScannerElement extends Base {
   /** Stop scanning and release the camera. */
   stop(): void {
     this.autostartToken++;
+    this.clearSpatialResults();
     this._scanner?.stop();
+  }
+
+  /** Keep chosen snapshots available out of view while removing the previous source's geometry. */
+  private clearSpatialResults(): void {
     this.highlights = [];
     this.tracked = [];
     if (this.rendered) {
@@ -550,6 +566,7 @@ export class QRGenScannerElement extends Base {
   async switchCamera(): Promise<void> {
     const scanner = this._scanner;
     if (!scanner) return;
+    this.clearSpatialResults();
     await scanner.switchCamera();
     if (this._scanner !== scanner) return;
     this.els.video.classList.toggle("mirror", scanner.camera.isFront);

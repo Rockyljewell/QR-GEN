@@ -81,7 +81,7 @@ The new native source-isolation cases run in expanded CI: Swift pure-state tests
 native camera compilation/tests on macOS, and Android camera-module unit tests as well as
 core tests and sample/library builds. Native pause/settings revision `a38d5b7` also passed all 13 CI jobs, including Linux/macOS Swift and Android camera-module tests/builds. These checks still do not provide physical-phone evidence.
 
-The final follow-up candidate passes 156 SDK tests, 248 Python tests, SDK type
+The PR #12 follow-up candidate passes 156 SDK tests, 248 Python tests, SDK type
 checking, the full SDK/website build (57 pages), and all 19 Chromium scenarios.
 The React Native snapshot remains at 108 passing tests with type checking and
 build passing. The final browser cases exercise mixed-polarity identical payloads
@@ -91,6 +91,52 @@ provide the authoritative cross-platform result for each published revision.
 
 No accessible phone or mobile test tools were found on the host. The user has no Scandit
 trial configured. Hardware scanning, real store workloads and competitor parity remain open.
+
+## Further stability and accessible selection round
+
+The approved [PR #12](https://github.com/Rockyljewell/QR-GEN/pull/12) merged as
+`7296c67`, with all 13 CI checks passing. The separately approved
+[PR #18](https://github.com/Rockyljewell/QR-GEN/pull/18) merged as `98d9b9f`.
+It replaces selection by tapping moving web highlights with stable barcode buttons
+below the preview. Each track has its own labelled button, selected state and
+keyboard activation. Selected snapshots remain available to deselect after leaving
+view; the in-view count continues to describe current spatial tracks.
+
+The next review round reported six additional defects before fixing them:
+
+| Issue | Finding | Change and regression evidence |
+| --- | --- | --- |
+| [#19](https://github.com/Rockyljewell/QR-GEN/issues/19) | Mirroring reverses thin-barcode quad winding and collapses expanded highlights. | Orient minimum-height expansion toward the opposite edge; cover mirrored/unmirrored thin codes, rotations, expanded height and quad area. |
+| [#20](https://github.com/Rockyljewell/QR-GEN/issues/20) | A paused camera switch retains the previous source's highlights, selectable rows and in-view count. | Clear spatial visuals, current rows and the in-view count before in-place switches, including failed switches. In-place camera switches and intrinsic frame-size changes preserve selected snapshots as out of view; attribute-driven scanner recreation clears selection. Unit and actual Chromium regressions cover paused switches and fresh track IDs. |
+| [#21](https://github.com/Rockyljewell/QR-GEN/issues/21) | Intrinsic video-size changes combine tracks from incompatible pixel coordinate spaces and admit old-size output. | Invalidate obsolete processing and spatial state when frame dimensions change; preserve tracks for CSS-only layout changes. Cover queued results, track/count state and unchanged-size layout. |
+| [#22](https://github.com/Rockyljewell/QR-GEN/issues/22) | Greedy association turns two identical observed items into three tracks depending on detection order. | Match the maximum number of same-payload/symbology tracks within distance gates, then minimize total movement. Regressions include both orders, deterministic ties, impossible matches and 150 exhaustive small-scene oracle checks. This does not establish physical identity through occlusion. |
+| [#23](https://github.com/Rockyljewell/QR-GEN/issues/23) | Invalid Python images leak raw image errors/HTTP 500 and internally opened files can remain locked while the error is retained. | Normalize invalid-image failures at the input boundary, validate dimensions/channels and close internally owned resources while preserving caller ownership. SDK/REST, warning-as-error and held-error file cleanup regressions exercise the boundaries. |
+| [#24](https://github.com/Rockyljewell/QR-GEN/issues/24) | Failed image URL responses retain unread bodies; interrupted successful bodies leak unnormalized errors. | Cancel unread error bodies and wrap image body-read failures with the original cause. Local streaming HTTP tests cover cancellation, interrupted bodies, startup failures and valid decoding. |
+
+Whole-frame association has cubic worst-case cost for large ambiguous groups of
+identical payloads. The default batch result limit is 20; integrations raising
+limits need to validate dense duplicate scenes and frame responsiveness on target
+phones. A higher supported limit does not imply uniformly cheap matching.
+
+The current candidate passes **195 SDK tests**, **280 Python tests** and **21 real
+Chromium browser scenarios**, including the paused-source switch with retained
+out-of-view selection and a fresh replacement track ID. Python coverage includes
+three malformed-EXIF inputs whose fallback retains usable loaded pixels and closes
+owned resources. The full SDK/website build also passes.
+
+The [portable browser stress run](browser-stress-2026-10-11.json), reproducible with
+`npm run test:stress -w qrgen-site`, passes 50 start/stop cycles, 20 camera switches,
+20 pause/resume cycles and a 180.6-second continuous fake-camera session. Across the
+run it records 2,970 exact scan events, zero wrong payloads, zero scanner errors and
+zero page/console errors. These repeated events come from one static generated QR
+code and do not represent distinct physical items. All 18 continuous-session
+samples retain one worker and one live camera track. Destroy returns the scanner
+to idle, releases the camera track and detaches video; the healthy shared worker
+remains intentionally cached. The recorded SDK asset SHA256 matches the built
+candidate bundle, separately from the unpinned public-demo observations below.
+
+This bounded desktop run does not establish phone thermal behavior, multi-hour
+reliability, heap stability or matched competitor performance.
 
 ## Public demo smoke check and phone testing
 
@@ -111,6 +157,30 @@ This single clean-code smoke check establishes a usable comparison route, not
 relative speed or stability. No accessible physical phone was available. The
 [phone run sheet](PHONE-VALIDATION.md) makes the remaining browser/native lifecycle,
 camera-switch and physical-label checks repeatable; none are marked as executed.
+
+The expanded [public format matrix](public-demo-format-matrix-2026-10-11.json)
+records ten identical-input pairs: normal and inverted QR, Data Matrix, PDF417,
+EAN-13 and Code 128. QRGen displayed all ten exact payloads; the Scandit 8.6.1 demo
+displayed nine. Its inverted PDF417 case showed no exact result within the bounded
+20-second observation, despite live video and no page errors. The public list/resume
+state does not establish a proprietary decoder failure, so that case is recorded as
+**inconclusive**. An initial off-screen Clear List obstacle was followed once using
+ordinary Expand list and keyboard controls; unchanged failures were not rerun.
+
+Every pair has the same Y4M SHA256. Each fresh browser context uses a 640x480,
+30 fps generated feed and records exact input, fixture placement/module size,
+selected format, inversion setting, observation time and outcome. Scandit's
+EAN-13/UPC-A checkbox combines two formats; QRGen selects EAN-13 alone. Scandit's
+Color Inverted setting and QRGen's default alternate-frame inversion also differ.
+All observed pages had live video and zero page errors; QRGen used its worker path.
+GPU acceleration and other engine/threading settings were not matched.
+
+The public QRGen SDK asset was not hashed per case. PR #18 merged during the run
+and its automatic deployment may have changed the public UI, so the evidence does
+not pin a single hosted QRGen revision. The recorded local revision identifies
+fixture generation only. These generated-label observations do not rank decoding
+quality, speed, stability or physical-item tracking, and do not replace the
+unexecuted phone protocol.
 
 ## Reproducible image benchmark
 
@@ -174,13 +244,13 @@ provides tracking and overlay integration patterns.
 
 | Capability | QRGen today | Next useful work |
 | --- | --- | --- |
-| Multi-code overlays | Web canvas highlights, smoothing and tap selection; native overlays also exist. | Add explicit per-code inventory/task states with accessible labels and overlap handling. |
+| Multi-code overlays | Web canvas highlights, smoothing and accessible per-track list selection; native overlays also exist. | Add explicit per-code inventory/task states and test list selection with representative users and dense views. |
 | Identical-product counting | Web/iOS/Android match spatial detections; React Native/Flutter/Python trackers aggregate by symbology and payload. Web scan-event duplicate filtering also aggregates payloads. | Use track instances for visible-item counts; distinguish them from unique SKUs. Add spatial tracking to aggregating platforms before claiming item counts. |
 | Remembering off-screen items | Web tracks expire after 500 ms by default. There is no persistent scene map or physical item identity across occlusion/camera movement. | Design an explicit count session with confirmation/correction and evidence of re-identification. Increasing a timeout alone does not establish physical identity. |
 | Picking / receiving | SDK primitives can scan and select codes. No complete inventory reconciliation or guided picking workflow was found. | Build one narrow receiving workflow: expected quantities, unknown items, confirmation and idempotent export. Then add target-SKU picking. |
 | Price / expiry checks | GS1 dates, amounts and product identifiers can be parsed. | Connect an authoritative product/inventory source; show provenance and freshness before acting on an overlay. |
 | Label OCR and broader IDs | AAMVA parsing is present. Parsing a barcode is not authenticity verification; no general label OCR/passport verification engine was found. | Treat OCR and document authenticity as separate integrations and validation projects. |
-| Feedback / accessibility | Beep, vibration and visual highlights exist. | Test noisy stores, gloves, one-handed use, color vision differences and dense tap targets. Pair colors with text/icons. |
+| Feedback / accessibility | Beep, vibration, visual highlights and labelled keyboard-operable web batch buttons exist. | Test noisy stores, gloves, one-handed use, color vision differences and dense tap targets. Pair colors with text/icons. |
 
 ## Proposed gates before a stability-parity claim
 
@@ -196,7 +266,7 @@ These are proposed acceptance criteria, not measured results or a release promis
    false SKU selection, count error and duplicate/lost physical items. Compare each
    stratum; an aggregate average can conceal a serious device or format regression.
 4. **Measure responsiveness and stability.** Include cold start and camera-to-overlay
-   p50/p95/p99 latency, overlay jitter, tap accuracy, camera-switch recovery, memory
+   p50/p95/p99 latency, overlay jitter, selection accuracy, camera-switch recovery, memory
    and thermal behavior. Run repeated permission/background/navigation cycles and
    multi-hour sessions on representative low/mid/high-tier phones.
 5. **Trial the workflow.** Test receiving and picking with real users. Require no

@@ -36,41 +36,61 @@ class ScanError(ValueError):
 
 def _load_image(image: ImageInput) -> Tuple[Any, int, int]:
     """Return ``(zxing-compatible image, width, height)``."""
-    from PIL import Image, UnidentifiedImageError
+    from PIL import Image
 
+    input_errors = (OSError, ValueError, TypeError, Image.DecompressionBombError, Image.DecompressionBombWarning)
     if isinstance(image, (str, os.PathLike)):
         try:
-            pil = Image.open(os.fspath(image))
-            pil.load()
-        except FileNotFoundError:
+            # Close owned file handles even when a retained error keeps this
+            # frame alive. The context leaves loaded pixels usable afterward.
+            with Image.open(os.fspath(image)) as pil:
+                return _prepare_pil(pil)
+        except (FileNotFoundError, ScanError):
             raise
-        except (UnidentifiedImageError, OSError) as exc:
-            raise ScanError(f"Cannot read image {os.fspath(image)!r}: {exc}") from exc
-        return _prepare_pil(pil)
+        except input_errors as exc:
+            raise ScanError(f"Cannot read image {image!r}: {exc}") from exc
     if isinstance(image, (bytes, bytearray, memoryview)):
         try:
-            pil = Image.open(io.BytesIO(bytes(image)))
-            pil.load()
-        except (UnidentifiedImageError, OSError) as exc:
+            with io.BytesIO(bytes(image)) as source, Image.open(source) as pil:
+                return _prepare_pil(pil)
+        except ScanError:
+            raise
+        except input_errors as exc:
             raise ScanError(f"Cannot decode image bytes: {exc}") from exc
-        return _prepare_pil(pil)
     if isinstance(image, Image.Image):
-        return _prepare_pil(image)
+        try:
+            return _prepare_pil(image)
+        except ScanError:
+            raise
+        except input_errors as exc:
+            raise ScanError(f"Cannot read PIL image: {exc}") from exc
     if hasattr(image, "read") and callable(image.read):
-        return _load_image(image.read())
+        try:
+            data = image.read()
+        except (OSError, ValueError) as exc:
+            raise ScanError(f"Cannot read image stream: {exc}") from exc
+        return _load_image(data)
     shape = getattr(image, "shape", None)
     if shape is not None and hasattr(image, "__array_interface__"):
-        return _prepare_array(image)
+        try:
+            return _prepare_array(image)
+        except ScanError:
+            raise
+        except (TypeError, ValueError, OverflowError) as exc:
+            raise ScanError(f"Cannot prepare image array: {exc}") from exc
     raise ScanError(f"Unsupported image type: {type(image).__name__}")
 
 
 def _prepare_pil(pil: Any) -> Tuple[Any, int, int]:
     from PIL import ImageOps
 
+    if pil.width <= 0 or pil.height <= 0:
+        raise ScanError("Image width and height must be greater than zero")
+    pil.load()
     try:
         pil = ImageOps.exif_transpose(pil)
-    except Exception:  # pragma: no cover - broken EXIF data should not break scanning
-        pass
+    except Exception:  # Broken EXIF must not prevent decoding loaded pixels.
+        pil = pil.copy()
     if pil.mode not in ("L", "RGB", "RGBA"):
         if pil.mode in ("1", "I", "I;16", "F"):
             pil = pil.convert("L")
@@ -90,6 +110,11 @@ def _prepare_array(array: Any) -> Tuple[Any, int, int]:
     import numpy as np
 
     arr = np.asarray(array)
+    if arr.ndim not in (2, 3) or (arr.ndim == 3 and arr.shape[2] not in (1, 3, 4)):
+        raise ScanError(f"Unsupported array shape {arr.shape}")
+    height, width = arr.shape[:2]
+    if width <= 0 or height <= 0:
+        raise ScanError("Image width and height must be greater than zero")
     if arr.dtype != np.uint8:
         if arr.dtype.kind == "f" and arr.max(initial=0) <= 1.0:
             arr = (arr * 255).clip(0, 255)
@@ -98,10 +123,7 @@ def _prepare_array(array: Any) -> Tuple[Any, int, int]:
         arr = arr[:, :, 0]
     elif arr.ndim == 3 and arr.shape[2] == 4:
         arr = arr[:, :, :3]
-    elif arr.ndim not in (2, 3):
-        raise ScanError(f"Unsupported array shape {arr.shape}")
     arr = np.ascontiguousarray(arr)
-    height, width = arr.shape[:2]
     return arr, width, height
 
 
