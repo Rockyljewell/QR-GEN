@@ -85,3 +85,16 @@ the wrong result in this one case, but broader labeled recall/false-positive and
 thin-barcode evidence is needed before changing a public default. No ground-truth
 payload correction or one-image special case was added. Physical-device and
 matched Scandit validation remain unexecuted.
+
+## Subsequent actual-camera diagnostic
+
+A separate [browser follow-up](ean-browser-diagnostic-2026-10-11/README.md) on
+clean commit 4949870 captures the real synthetic-camera RGB frame. Full-frame
+hard search returns the same wrong EAN in the public image API and live worker;
+the ordinary aiming ROI produces no result. Its inputs, options and actual loaded
+assets are pinned. This is distinct from the unchanged historical vendor run,
+where no wrong payload was observed. There is no validated automatic wider-area
+or harder-search fallback from this evidence. The broader
+[supporting-line study](ean-linecount-study-2026-10-11/README.md) records correct
+reads lost at stricter thresholds and another mismatched value that survives
+threshold 4; current decoder defaults remain unchanged.

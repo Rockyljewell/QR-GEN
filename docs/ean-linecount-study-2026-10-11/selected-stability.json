@@ -1,0 +1,517 @@
+{
+  "selection": "Post-hoc examples from frozen broad corpus: same-barcode extra payload, two real-photo recall losses, actual Chrome wrong capture",
+  "readerVersion": "3.1.5",
+  "recordedAt": "2026-10-11T14:57:58.976Z",
+  "runs": [
+    {
+      "id": "ean13-1-35",
+      "pipeline": "original-RGBA-white-sRGB",
+      "truth": "5030159003930",
+      "minLineCount": 2,
+      "repetitions": 5,
+      "stable": true,
+      "unique": [
+        [
+          {
+            "text": "7034759003930",
+            "lineCount": 3,
+            "isValid": true,
+            "error": "",
+            "position": {
+              "topLeft": {
+                "x": 264,
+                "y": 418
+              },
+              "topRight": {
+                "x": 264,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            }
+          },
+          {
+            "text": "5030159003930",
+            "lineCount": 8,
+            "isValid": true,
+            "error": "",
+            "position": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 300,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 300,
+                "y": 418
+              }
+            }
+          }
+        ]
+      ]
+    },
+    {
+      "id": "ean13-1-35",
+      "pipeline": "original-RGBA-white-sRGB",
+      "truth": "5030159003930",
+      "minLineCount": 3,
+      "repetitions": 5,
+      "stable": true,
+      "unique": [
+        [
+          {
+            "text": "7034759003930",
+            "lineCount": 3,
+            "isValid": true,
+            "error": "",
+            "position": {
+              "topLeft": {
+                "x": 264,
+                "y": 418
+              },
+              "topRight": {
+                "x": 264,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            }
+          },
+          {
+            "text": "5030159003930",
+            "lineCount": 8,
+            "isValid": true,
+            "error": "",
+            "position": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 300,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 300,
+                "y": 418
+              }
+            }
+          }
+        ]
+      ]
+    },
+    {
+      "id": "ean13-1-35",
+      "pipeline": "original-RGBA-white-sRGB",
+      "truth": "5030159003930",
+      "minLineCount": 4,
+      "repetitions": 5,
+      "stable": true,
+      "unique": [
+        [
+          {
+            "text": "5030159003930",
+            "lineCount": 8,
+            "isValid": true,
+            "error": "",
+            "position": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 300,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 300,
+                "y": 418
+              }
+            }
+          }
+        ]
+      ]
+    },
+    {
+      "id": "ean13-1-35",
+      "pipeline": "derived-limited-Y-expanded-RGB",
+      "truth": "5030159003930",
+      "minLineCount": 2,
+      "repetitions": 5,
+      "stable": true,
+      "unique": [
+        [
+          {
+            "text": "7034759003930",
+            "lineCount": 5,
+            "isValid": true,
+            "error": "",
+            "position": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            }
+          },
+          {
+            "text": "5030159003930",
+            "lineCount": 6,
+            "isValid": true,
+            "error": "",
+            "position": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            }
+          }
+        ]
+      ]
+    },
+    {
+      "id": "ean13-1-35",
+      "pipeline": "derived-limited-Y-expanded-RGB",
+      "truth": "5030159003930",
+      "minLineCount": 3,
+      "repetitions": 5,
+      "stable": true,
+      "unique": [
+        [
+          {
+            "text": "7034759003930",
+            "lineCount": 5,
+            "isValid": true,
+            "error": "",
+            "position": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            }
+          },
+          {
+            "text": "5030159003930",
+            "lineCount": 6,
+            "isValid": true,
+            "error": "",
+            "position": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            }
+          }
+        ]
+      ]
+    },
+    {
+      "id": "ean13-1-35",
+      "pipeline": "derived-limited-Y-expanded-RGB",
+      "truth": "5030159003930",
+      "minLineCount": 4,
+      "repetitions": 5,
+      "stable": true,
+      "unique": [
+        [
+          {
+            "text": "7034759003930",
+            "lineCount": 5,
+            "isValid": true,
+            "error": "",
+            "position": {
+              "topLeft": {
+                "x": 265,
+                "y": 418
+              },
+              "topRight": {
+                "x": 265,
+                "y": 80
+              },
+              "bottomRight": {
+                "x": 241,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 241,
+                "y": 417
+              }
+            }
+          },
+          {
+            "text": "5030159003930",
+            "lineCount": 6,
+            "isValid": true,
+            "error": "",
+            "position": {
+              "topLeft": {
+                "x": 413,
+                "y": 420
+              },
+              "topRight": {
+                "x": 413,
+                "y": 77
+              },
+              "bottomRight": {
+                "x": 296,
+                "y": 80
+              },
+              "bottomLeft": {
+                "x": 296,
+                "y": 418
+              }
+            }
+          }
+        ]
+      ]
+    },
+    {
+      "id": "ean13-2-09",
+      "pipeline": "original-RGBA-white-sRGB",
+      "truth": "9780345348036",
+      "minLineCount": 2,
+      "repetitions": 5,
+      "stable": true,
+      "unique": [
+        [
+          {
+            "text": "9780345348036",
+            "lineCount": 2,
+            "isValid": true,
+            "error": "",
+            "position": {
+              "topLeft": {
+                "x": 155,
+                "y": 155
+              },
+              "topRight": {
+                "x": 376,
+                "y": 155
+              },
+              "bottomRight": {
+                "x": 373,
+                "y": 196
+              },
+              "bottomLeft": {
+                "x": 149,
+                "y": 196
+              }
+            }
+          }
+        ]
+      ]
+    },
+    {
+      "id": "ean13-2-09",
+      "pipeline": "original-RGBA-white-sRGB",
+      "truth": "9780345348036",
+      "minLineCount": 3,
+      "repetitions": 5,
+      "stable": true,
+      "unique": [
+        []
+      ]
+    },
+    {
+      "id": "ean13-2-09",
+      "pipeline": "original-RGBA-white-sRGB",
+      "truth": "9780345348036",
+      "minLineCount": 4,
+      "repetitions": 5,
+      "stable": true,
+      "unique": [
+        []
+      ]
+    },
+    {
+      "id": "ean13-4-05",
+      "pipeline": "original-RGBA-white-sRGB",
+      "truth": "9780441014989",
+      "minLineCount": 2,
+      "repetitions": 5,
+      "stable": true,
+      "unique": [
+        [
+          {
+            "text": "9780441014989",
+            "lineCount": 2,
+            "isValid": true,
+            "error": "",
+            "position": {
+              "topLeft": {
+                "x": 45,
+                "y": 167
+              },
+              "topRight": {
+                "x": 191,
+                "y": 167
+              },
+              "bottomRight": {
+                "x": 191,
+                "y": 175
+              },
+              "bottomLeft": {
+                "x": 45,
+                "y": 175
+              }
+            }
+          }
+        ]
+      ]
+    },
+    {
+      "id": "ean13-4-05",
+      "pipeline": "original-RGBA-white-sRGB",
+      "truth": "9780441014989",
+      "minLineCount": 3,
+      "repetitions": 5,
+      "stable": true,
+      "unique": [
+        []
+      ]
+    },
+    {
+      "id": "ean13-4-05",
+      "pipeline": "original-RGBA-white-sRGB",
+      "truth": "9780441014989",
+      "minLineCount": 4,
+      "repetitions": 5,
+      "stable": true,
+      "unique": [
+        []
+      ]
+    },
+    {
+      "id": "actual-Chrome-ean13-2-07-full",
+      "pipeline": "actual-Chrome-video-RGBA",
+      "truth": "9780804816632",
+      "minLineCount": 2,
+      "repetitions": 5,
+      "stable": true,
+      "unique": [
+        [
+          {
+            "text": "0798884816632",
+            "lineCount": 2,
+            "isValid": true,
+            "error": "",
+            "position": {
+              "topLeft": {
+                "x": 188,
+                "y": 207
+              },
+              "topRight": {
+                "x": 424,
+                "y": 207
+              },
+              "bottomRight": {
+                "x": 424,
+                "y": 209
+              },
+              "bottomLeft": {
+                "x": 188,
+                "y": 209
+              }
+            }
+          }
+        ]
+      ]
+    },
+    {
+      "id": "actual-Chrome-ean13-2-07-full",
+      "pipeline": "actual-Chrome-video-RGBA",
+      "truth": "9780804816632",
+      "minLineCount": 3,
+      "repetitions": 5,
+      "stable": true,
+      "unique": [
+        []
+      ]
+    },
+    {
+      "id": "actual-Chrome-ean13-2-07-full",
+      "pipeline": "actual-Chrome-video-RGBA",
+      "truth": "9780804816632",
+      "minLineCount": 4,
+      "repetitions": 5,
+      "stable": true,
+      "unique": [
+        []
+      ]
+    }
+  ]
+}

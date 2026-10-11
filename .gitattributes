@@ -6,3 +6,8 @@ docs/ean13-repro/*.png binary
 # Preserve the original upstream licensing metadata, including its final blank line.
 docs/ean13-repro/ZXING-REUSE-dep5.txt whitespace=-blank-at-eof
 docs/photographic-comparison-2026-10-11/ZXING-REUSE-dep5.txt whitespace=-blank-at-eof
+docs/ean-browser-diagnostic-2026-10-11/** text eol=lf
+docs/ean-browser-diagnostic-2026-10-11/fixtures/*.png binary
+docs/ean-browser-diagnostic-2026-10-11/licenses/ZXING-REUSE-dep5.txt whitespace=-blank-at-eof
+docs/ean-linecount-study-2026-10-11/** text eol=lf
+docs/ean-linecount-study-2026-10-11/ZXING-REUSE-dep5.txt whitespace=-blank-at-eof

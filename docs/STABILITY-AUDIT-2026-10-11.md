@@ -253,6 +253,32 @@ a valid but wrong EAN-13 payload on a derived image. The decoder update does not
 fix it; no wrong payload was observed in the public photographic demo run.
 The [portable reproduction](ean13-repro/README.md) retains the image and options.
 
+The [actual browser follow-up](ean-browser-diagnostic-2026-10-11/README.md)
+subsequently reproduces #32 in full-frame hard search on a captured camera raster;
+its ordinary aiming ROI returns no result. This does not change the historical
+vendor observations. The [broader supporting-line study](ean-linecount-study-2026-10-11/README.md)
+finds lost correct photographic/thin-code reads at stronger thresholds and another
+wrong-value candidate that survives threshold 4. Decoder defaults remain unchanged.
+
+## Encoded image dimensions and option descriptions
+
+[Issue #34](https://github.com/Rockyljewell/QR-GEN/issues/34) reproduces exact
+decodes with zero or incorrect frame dimensions for P5/P6 PNM, PSD, JPEGs with
+legal marker fill/large metadata, and OS/2 BMP headers. Header inspection now
+preserves those raster dimensions; encoded Blobs reuse one full byte read after
+browser normalization is unavailable. Twelve real-reader regressions include
+rectangular images, truncated-input behavior and Blob read reuse. Eight valid
+dimension cases failed before the fix. The full SDK suite passes 341 tests;
+the built public SDK also passes five dimension probes on Node 18.17.
+
+[Issue #35](https://github.com/Rockyljewell/QR-GEN/issues/35) corrects descriptions
+that said every camera mode defaults to fast search. Existing batch behavior is
+tryHarder=true; single/continuous default to false and explicit values are retained.
+No scan-policy default was changed. The prior decoder deployment's
+[hosted lifecycle check](public-postdeploy-9f95203-2026-10-11.json) matches loaded
+website modules against the successful CI deployment artifact; desktop fake
+cameras still do not establish phone or Scandit parity.
+
 ## Retail AR and adjacent features
 
 The following is an assessment of repository code against the vendors' published

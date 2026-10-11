@@ -74,7 +74,7 @@ createApp(App).use(QRGenPlugin).mount("#app");
 | `accent` | `string` (hex) | `#5cc9d6` |
 | `hint` | `string` | mode-specific |
 | `toast` | `boolean` | `true` |
-| `tryHarder` | `boolean` | `false` |
+| `tryHarder` | `boolean` | `false` (single/continuous), `true` (batch) |
 | `resolution` | `"sd" \| "hd" \| "fhd" \| "4k"` | `"hd"` |
 
 Props you don't set fall back to the element defaults.

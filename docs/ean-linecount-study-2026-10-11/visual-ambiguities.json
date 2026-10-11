@@ -1,0 +1,40 @@
+{
+  "reviewedAfterDecode": true,
+  "inclusionChanged": false,
+  "scope": "Post-hoc interpretation of companion-label mismatches, not relabeling or removal",
+  "cases": [
+    {
+      "id": "ean13-1-35",
+      "assessment": "One visibly complete EAN barcode with printed digits5030159003930. Hard search returns correct target plus7034759003930 from a different strip of that same visible barcode. Derived wrong strip has5 supporting lines and survives threshold4. This is a concrete false-payload candidate, not a second visible barcode."
+    },
+    {
+      "id": "ean13-2-14",
+      "assessment": "Photo visibly includes intended upper ISBN barcode and a separate partial lower barcode. Additional1920081045006 is located on the lower physical barcode; count as companion-label mismatch, not established false payload."
+    },
+    {
+      "id": "ean13-2-20",
+      "assessment": "Photo visibly includes intended upper ISBN barcode and a separate lower barcode. Additional1920081045006 is located on the lower physical barcode; count as companion-label mismatch, not established false payload."
+    },
+    {
+      "id": "ean13-2-24",
+      "assessment": "Photo visibly includes intended upper ISBN barcode and a separate lower barcode. Returned1920081045006 is located on the lower physical barcode; count as companion-label mismatch, not established false payload."
+    },
+    {
+      "id": "ean13-2-07",
+      "assessment": "Reviewed original photo has intended printed9780804816632 and adjacent EAN5 supplement. Derived-frame0798884816632 comes from inside the intended EAN13 bounds and differs from its exact companion truth; reviewed false-payload case, not UPC/EAN leading-zero truth alias."
+    },
+    {
+      "id": "actual-Chrome-ean13-2-07-full",
+      "assessment": "Known frozen ean13-2/07 source captured from static fake camera, PNG/RGBA hashes verified. Actual captured raster returns0798884816632 inside intended barcode bounds, with2 supporting lines; source truth9780804816632. Reviewed false-payload case. Separate browser package owns UI/live-worker observation."
+    }
+  ],
+  "reviewedMismatchCaseIds": [
+    "ean13-1-35",
+    "ean13-2-07",
+    "ean13-2-14",
+    "ean13-2-20",
+    "ean13-2-24",
+    "actual-Chrome-ean13-2-07-full"
+  ],
+  "unreviewedMismatchCaseIds": []
+}

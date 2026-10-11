@@ -22,7 +22,7 @@ This page collects the scanner options, events and error codes in one place. The
 | `viewfinder` | `viewfinder` | `"frame" \| "line" \| "none"` | `"frame"`; `"line"` for linear-only sets | Viewfinder style. UI only; `BarcodeScanner` has no viewfinder. |
 | `scanArea` | `scan-area` | `{ x, y, width, height }` (0 to 1); attribute `"x,y,w,h"` | Full frame; the element derives it from the viewfinder | Region of the camera frame to decode. |
 | `maxResults` | `max-results` | `number` | `1`; `20` in batch | Codes decoded per frame. |
-| `tryHarder` | `try-harder` | `boolean` | `false` for the camera | More CPU per frame for damaged, tiny or low-contrast codes. |
+| `tryHarder` | `try-harder` | `boolean` | `false` (single/continuous), `true` (batch) | More CPU per frame for damaged, tiny or low-contrast codes. |
 | `resolution` | `resolution` | `"sd" \| "hd" \| "fhd" \| "4k"` | `"hd"` | Requested camera resolution: 640x480, 1280x720, 1920x1080, 3840x2160. |
 | `worker` | `worker` | `boolean` | `true` | Decode in a Web Worker. |
 
