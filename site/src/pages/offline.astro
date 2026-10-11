@@ -25,27 +25,53 @@ const version = hash.digest("hex").slice(0, 20);
     <link rel="icon" href="data:," />
     <title>QRGen · Offline tools</title>
     <style is:inline>
+      /* Keep the site design tokens inline so this shell works without external styles or fonts. */
+      :root {
+        --ink: #0e1726;
+        --muted: #5b6878;
+        --line: #e1e6ed;
+        --bg-soft: #f3f5f8;
+        --bg-softer: #f8f9fb;
+        --white: #ffffff;
+        --teal-500: #5cc9d6;
+        --teal-600: #3db1c0;
+        --teal-ink: #05232b;
+        --radius-sm: 6px;
+        --radius-lg: 16px;
+        --shadow-soft: 0 8px 30px rgba(15, 25, 40, 0.08);
+        --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+        --font-display: "Inter Tight", "Inter", ui-sans-serif, system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        color-scheme: light;
+      }
       * { box-sizing: border-box; }
-      body { margin: 0; background: #f4f6f8; color: #142332; font: 16px/1.6 system-ui, sans-serif; }
+      body { margin: 0; background: var(--white); color: var(--ink); font: 16px/1.6 var(--font-sans); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
       main { max-width: 900px; margin: auto; padding: 32px 20px 56px; }
-      h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.2; margin: 16px 0; }
+      h1, h2 { font-family: var(--font-display); line-height: 1.12; letter-spacing: -0.02em; }
+      h1 { font-size: clamp(28px, 5vw, 40px); margin: 16px 0; }
       h2 { font-size: 22px; margin-top: 0; }
       p { margin: 12px 0; }
-      a { color: #07538a; }
-      .state, section { background: white; border: 1px solid #c5cfd9; border-radius: 12px; padding: 22px; margin-top: 22px; }
-      .state { border-left: 5px solid #44627a; }
-      label { display: block; font-weight: 650; margin: 16px 0 6px; }
-      textarea, select, input[type="file"] { width: 100%; padding: 12px; font: inherit; border: 1px solid #8296a8; border-radius: 6px; background: white; color: inherit; }
+      a { color: inherit; }
+      a:hover { text-decoration-thickness: 2px; }
+      .state, section { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-lg); box-shadow: var(--shadow-soft); padding: 22px; margin-top: 22px; }
+      .state { border-left: 5px solid var(--teal-500); }
+      label { display: block; font-weight: 600; margin: 16px 0 6px; }
+      textarea, select, input[type="file"] { width: 100%; padding: 12px; font: inherit; border: 1px solid #9ba7b4; border-radius: var(--radius-sm); background: var(--white); color: inherit; }
       textarea { resize: vertical; }
-      button { padding: 12px 18px; font: inherit; font-weight: 650; color: white; background: #064f7b; border: 0; border-radius: 6px; cursor: pointer; }
+      .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 50px; padding: 0 24px; border-radius: var(--radius-sm); border: 1px solid transparent; font: inherit; font-weight: 600; letter-spacing: -0.005em; cursor: pointer; white-space: nowrap; transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.08s, box-shadow 0.15s; }
+      .btn:active { transform: translateY(1px); }
+      .btn-primary { background: linear-gradient(180deg, #6ad2de 0%, var(--teal-500) 100%); border-color: #7fdbe5; color: var(--teal-ink); box-shadow: 0 1px 0 rgba(255, 255, 255, 0.35) inset, 0 6px 18px rgba(92, 201, 214, 0.18); }
+      .btn-primary:hover { background: linear-gradient(180deg, #7fdbe5 0%, #62ced9 100%); }
+      .btn-light { background: var(--white); border-color: var(--line); color: var(--ink); }
+      .btn-light:hover { border-color: #c9d2de; background: var(--bg-softer); }
       button:disabled { opacity: .55; cursor: default; }
-      button:focus-visible, a:focus-visible, textarea:focus-visible, select:focus-visible, input:focus-visible { outline: 3px solid #da7100; outline-offset: 3px; }
+      :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
       .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
-      .help { font-size: 14px; color: #3e5365; }
-      .error { color: #a1172a; font-weight: 650; }
+      .help { font-size: 14px; color: var(--muted); }
+      .error { color: #a3261e; font-weight: 600; }
       .preview { display: flex; justify-content: center; margin-top: 18px; }
-      .preview svg { width: min(100%, 240px); height: auto; background: white; }
-      pre { white-space: pre-wrap; overflow-wrap: anywhere; padding: 14px; background: #f0f4f7; max-height: 280px; overflow-y: auto; }
+      .preview svg { width: min(100%, 240px); height: auto; background: var(--white); }
+      pre { white-space: pre-wrap; overflow-wrap: anywhere; padding: 14px; background: var(--bg-soft); font-family: var(--font-mono); max-height: 280px; overflow-y: auto; }
       [hidden] { display: none !important; }
       @media (max-width: 480px) { main { padding: 24px 14px; } section, .state { padding: 18px; } }
     </style>
@@ -69,7 +95,7 @@ const version = hash.digest("hex").slice(0, 20);
           <label for="offline-content">Content to encode</label>
           <textarea id="offline-content" name="content" rows="3" maxlength="7089" spellcheck="false" aria-describedby="offline-content-help" required></textarea>
           <p id="offline-content-help" class="help">For links, include https:// or http://. A link can be encoded offline; opening its website may still need internet.</p>
-          <div class="actions"><button type="submit" data-offline-generate disabled>Make QR code</button><button type="button" data-offline-download disabled>Save PNG</button></div>
+          <div class="actions"><button type="submit" class="btn btn-primary" data-offline-generate disabled>Make QR code</button><button type="button" class="btn btn-light" data-offline-download disabled>Save PNG</button></div>
         </form>
         <p data-offline-create-status role="status" aria-live="polite"></p>
         <p data-offline-create-error class="error" role="alert" hidden></p>
