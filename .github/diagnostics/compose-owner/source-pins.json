@@ -1,0 +1,100 @@
+{
+  "schema": 1,
+  "baseCommit": "b2b4ca92d6fda0c3feaf9a08647a5653e739e7f7",
+  "baseFiles": [
+    {
+      "path": "packages/android/qrgen-compose/src/main/kotlin/dev/qrgen/compose/QRGenScanner.kt",
+      "bytes": 6762,
+      "sha256": "12257002fa58d4a0b71435f8618b3aedfc9ae3d22288284097e314bc23cb4a3d"
+    },
+    {
+      "path": "packages/android/qrgen-compose/build.gradle.kts",
+      "bytes": 1260,
+      "sha256": "dc3503b75b7e61dc6a7943d5ff1a377d2a881d2803157bda476fb51cc09924ea"
+    },
+    {
+      "path": "packages/android/qrgen-android/src/main/kotlin/dev/qrgen/android/QRGenScannerView.kt",
+      "bytes": 9695,
+      "sha256": "6956787cfd4ce49cafe300eb5d5f291b709d78082c783e61e75a52318cfb9106"
+    },
+    {
+      "path": "packages/android/qrgen-android/src/main/kotlin/dev/qrgen/android/QRGenScanner.kt",
+      "bytes": 28951,
+      "sha256": "0f3e926477449f4afc502d1b62937e5ec461a204ce8fd08fc27d48e73f5e3470"
+    },
+    {
+      "path": "packages/android/qrgen-android/src/main/kotlin/dev/qrgen/android/QRGen.kt",
+      "bytes": 6981,
+      "sha256": "3b6df0c0276f39b128bcf87bc2bd995a732f4f3ef353585083729499e5c89a57"
+    },
+    {
+      "path": "packages/android/qrgen-core/src/main/kotlin/dev/qrgen/ScannerOptions.kt",
+      "bytes": 9201,
+      "sha256": "deb55451fbf097506b1fdd014343eb7da44de71113c01520caacb1ecc87037ad"
+    },
+    {
+      "path": "packages/android/gradle/libs.versions.toml",
+      "bytes": 2697,
+      "sha256": "06ea5f27f0868971410a7ea8183674ec1971fc4e36a73dda0da5981cad97072f"
+    },
+    {
+      "path": "packages/android/gradle/wrapper/gradle-wrapper.properties",
+      "bytes": 253,
+      "sha256": "7e0821d895908883350587c74476b717016ab416320c44dc82a10def916c6fb5"
+    },
+    {
+      "path": "packages/android/settings.gradle.kts",
+      "bytes": 1974,
+      "sha256": "9059e275f2119687ea37fa4ddf99719efd6eddc4184dfd27849d8450e0b9d61c"
+    },
+    {
+      "path": "packages/android/gradle.properties",
+      "bytes": 611,
+      "sha256": "52bf5dbbecef0488733bdc1824ac178df96f195b71989bf5af1c13935fe1c197"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "bytes": 5706,
+      "sha256": "153d3670109cc5f4afe26ef9e4790b0de67f084e767eb175b023842f3bf7abe7"
+    }
+  ],
+  "composePath": "packages/android/qrgen-compose/src/main/kotlin/dev/qrgen/compose/QRGenScanner.kt",
+  "baselineComposeSha256": "12257002fa58d4a0b71435f8618b3aedfc9ae3d22288284097e314bc23cb4a3d",
+  "fixedComposeSha256": "ec023d802dfda43286160608af4ac1b65b8fa74820eabb64162020cf10064829",
+  "gradlePath": "packages/android/qrgen-compose/build.gradle.kts",
+  "harnessGradleSha256": "8c5f94b90168630f29f8c2b754c9f1a187afb6d1156f38aaf07d7b7053d7237f",
+  "testPath": "packages/android/qrgen-compose/src/test/kotlin/dev/qrgen/compose/QRGenScannerOwnershipTest.kt",
+  "testSha256": "ed889be825bdcc9fe0c66346d22de7259e89ea1c9d1df703315053b4e81217ff",
+  "className": "dev.qrgen.compose.QRGenScannerOwnershipTest",
+  "testNames": [
+    "ownerReplacementReleasesOldControllerAndFollowsNewOwner",
+    "stateReplacementDetachesOldStateAndAttachesNewState",
+    "removingCompositionReleasesViewControllerAndStateAttachment",
+    "ordinaryOptionsAppearanceAndCallbacksKeepTheController",
+    "distinctEqualOwnersStillReplaceWhenTheLocalExposesTheNewReference",
+    "simultaneousOwnerAndStateReplacementReleasesTheOldBinding"
+  ],
+  "expectedBaselineFailures": [
+    "ownerReplacementReleasesOldControllerAndFollowsNewOwner",
+    "stateReplacementDetachesOldStateAndAttachesNewState",
+    "distinctEqualOwnersStillReplaceWhenTheLocalExposesTheNewReference",
+    "simultaneousOwnerAndStateReplacementReleasesTheOldBinding"
+  ],
+  "declaredToolchain": {
+    "compileSdk": 35,
+    "minSdk": 24,
+    "java": 17,
+    "jvmTarget": 17,
+    "gradle": "8.14.3",
+    "agp": "8.13.2",
+    "kotlinAndComposeCompiler": "2.2.21",
+    "composeBom": "2025.10.01",
+    "lifecycle": "2.9.4",
+    "activityCompose": "1.10.1",
+    "junit4": "4.13.2",
+    "robolectricTestOnly": "4.16.1"
+  },
+  "resolvedRuntimeDependencies": "unverified; diagnostic captures complete Gradle resolution report",
+  "sourceInventorySha256": "a3b3db5dee1c8c3a09efba48a4324d58a0168183e009286a2c04e1a09975733a",
+  "runtimeVerified": false
+}

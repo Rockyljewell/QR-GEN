@@ -1,0 +1,37 @@
+name: Compose ownership diagnostic (isolated)
+
+on:
+  push:
+    branches:
+      - codex/compose-owner-diagnostic
+
+permissions:
+  contents: read
+
+concurrency:
+  group: compose-owner-diagnostic-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  owner-assertions:
+    if: github.ref == 'refs/heads/codex/compose-owner-diagnostic'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Verify actual baseline failures, then fixed pass
+        run: bash .github/diagnostics/compose-owner/run-diagnostic.sh
+      - name: Upload both phases, source and dependency evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: compose-owner-baseline-and-fixed
+          path: ${{ runner.temp }}/compose-owner-diagnostic/
+          if-no-files-found: error
