@@ -3,6 +3,7 @@
 
 import { describe, expect, it } from "vitest";
 import { attributesFromQuery, parseBridgeMessage } from "../src/bridge";
+import { QRGenScannerElement } from "../src/elements/scanner-element";
 
 describe("bridge", () => {
   it("maps embed query strings to element attributes", () => {
@@ -20,5 +21,17 @@ describe("bridge", () => {
     expect(parseBridgeMessage(m)).toEqual(m);
     expect(parseBridgeMessage({ source: "other", type: "scan" })).toBeNull();
     expect(parseBridgeMessage("not json")).toBeNull();
+  });
+
+  it.each(["maxResults=1&duplicateFilter=0", "max-results=1&duplicate-filter=0"])("applies numeric embed options to the scanner: %s", (query) => {
+    const attributes = attributesFromQuery(`?mode=batch&${query}&camera=0&hint=1&beep=0&autostart=0`);
+    const el = new QRGenScannerElement();
+    Object.assign(el, {
+      getAttribute: (name: string) => attributes[name] ?? null,
+      hasAttribute: (name: string) => name in attributes,
+    });
+    expect(el.options).toMatchObject({ mode: "batch", maxResults: 1, duplicateFilter: 0, camera: "0", beep: false });
+    expect(el.hint).toBe("1");
+    expect(el.autostart).toBe(false);
   });
 });
