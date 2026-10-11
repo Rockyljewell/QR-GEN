@@ -15,7 +15,7 @@ The whole project is free and open source under the Apache License 2.0, includin
 | --- | --- | --- |
 | Pre-built scanner UI | `<qrgen-scanner>` web component with viewfinder, highlights, torch, camera switch, zoom and success feedback. Wrappers for React and Vue. | [Web Components](../web-components/) |
 | `BarcodeScanner` API | Camera scanning without UI: bring your own `<video>`, get `scan`, `frame` and `track` events. | [JavaScript](../javascript/) |
-| Batch scanning | Track many codes at once with stable ids, tap to select, count items on a shelf. | [Batch scanning](../batch-scanning/) |
+| Batch scanning | Track many codes with stable ids, choose from an accessible results list, count decoded items in view. | [Batch scanning](../batch-scanning/) |
 | ID scanning | Read the PDF417 on North American driver licenses and ID cards and parse it into name, birth date, expiry and address. | [ID scanning](../id-scanning/) |
 | Image scanning | Decode codes in files, photos, canvases, clipboard images and URLs, several per image. | [Image scanning](../image-scanning/) |
 | Generator | Create any of 26 symbologies as SVG, PNG or a data URL, including GS1 data. | [Barcode generation](../barcode-generation/) |

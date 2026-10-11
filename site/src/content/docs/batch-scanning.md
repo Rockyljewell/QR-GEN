@@ -1,6 +1,6 @@
 ---
 title: Batch scanning
-description: "Scan and track many barcodes at once with batch mode: track events, TrackedBarcode ids, tap to select, counting items in view, and BarcodeTracker for custom interfaces."
+description: "Scan and track many barcodes at once with batch mode: track events, TrackedBarcode ids, an accessible selection list, counts of codes in view, and BarcodeTracker for custom interfaces."
 group: Features
 order: 2
 ---
@@ -17,8 +17,9 @@ In batch mode the element:
 
 - Decodes the whole visible preview (the viewfinder is hidden) and up to 20 codes per frame (`max-results`).
 - Draws a highlight on every tracked code, with a label when eight or fewer are in view.
-- Shows a counter pill: "3 barcodes in view", or "1 selected · 3 in view".
-- Lets the user tap a highlight to select it; tapped codes show a check mark.
+- Shows an automatic counter pill such as "3 barcodes in view". Choosing results leaves this detected total unchanged.
+- Lists decoded values below the camera preview. Choose a row by touch, mouse or keyboard; selected codes show a check mark in the preview.
+- Keeps selected results available after they leave the camera view, with an "out of view" label, until you deselect or clear them.
 - Beeps (at most every 250 ms) when a code value appears for the first time.
 
 The same mode is available as `mode: "batch"` on `BarcodeScanner`, the React `QRGenScanner` and the Vue component.
@@ -29,7 +30,7 @@ The same mode is available as `mode: "batch"` on `BarcodeScanner`, the React `QR
 | --- | --- | --- |
 | `track` | `{ tracked, added, removed }` | After every decoded frame. `tracked` is everything currently in view. |
 | `scan` | `{ barcodes, barcode }` | A code value appeared for the first time this session. |
-| `select` | `{ barcode, selected, selection }` | The user tapped a code (`selected` is `true` when it was added to the selection). |
+| `select` | `{ barcode, selected, selection }` | A result's selection changed (`selected` is `true` when it was added). |
 
 `track` is the source of truth for what is in view. It fires up to 24 times per second, so update your UI from it sparingly (for example with `requestAnimationFrame`).
 
@@ -48,7 +49,9 @@ Tracked results are regular [Barcode](../concepts/#the-barcode-result) objects w
 
 `location` is updated every frame, in camera-frame pixels. A track is dropped when its code hasn't been decoded for 500 ms; if the code comes back later, it gets a new `id`.
 
-## Tap to select
+## Choose results
+
+Use the buttons below the live preview. Each row has an `aria-pressed` state and supports Enter or Space. The preview highlights indicate locations and selection state; choose results from the list. Different tracks with identical values have separate rows and track ids.
 
 ```html
 <qrgen-scanner id="scanner" mode="batch" symbologies="code128" style="height: 60vh"></qrgen-scanner>
@@ -63,7 +66,7 @@ Tracked results are regular [Barcode](../concepts/#the-barcode-result) objects w
 
   scanner.addEventListener("select", ({ detail }) => {
     confirm.disabled = detail.selection.length === 0;
-    confirm.textContent = `Pick ${detail.selection.length} selected`;
+    confirm.textContent = "Pick selected";
   });
 
   confirm.addEventListener("click", () => {
@@ -76,7 +79,7 @@ Tracked results are regular [Barcode](../concepts/#the-barcode-result) objects w
 </script>
 ```
 
-`selection` holds the tapped codes as `TrackedBarcode` objects captured at the moment of the tap. Tapping a selected code again deselects it. `clearSelection()` empties the selection and fires `select` with `barcode: null`.
+`selection` holds chosen `TrackedBarcode` objects captured at the moment of selection. Activate a selected row again to deselect it. `clearSelection()` empties the selection and fires `select` with `barcode: null`. Custom controls can call `selectBarcode(trackId, selected?)`; it returns `false` for unknown tracks or outside batch mode. Changing mode, recreating the scanner through its camera, resolution or worker attributes, or removing it from the page clears the session's selection.
 
 ## Count items in view
 

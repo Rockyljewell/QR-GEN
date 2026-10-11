@@ -194,6 +194,6 @@ For images already in the renderer (drag and drop, paste), `scanImage()` from `q
 
 ## Tips
 
-- USB and built-in webcams usually have fixed focus and no torch, so the torch and zoom buttons don't appear. For small codes, raise `resolution` to `fhd`.
+- USB and built-in webcams often have fixed focus and no torch. For small codes, raise `resolution` to `fhd` and position the barcode where the camera can focus.
 - Laptop webcams face the user. `camera="back"` falls back to whatever camera exists, and the element mirrors the preview when the camera reports that it faces the user.
 - To pick a specific webcam, list them with `Camera.list()` and pass the `deviceId` as `camera`.
