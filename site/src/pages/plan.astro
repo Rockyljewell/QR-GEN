@@ -1,0 +1,117 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import { url } from "../lib/site";
+---
+
+<Base title="Make a printed QR code" description="Make a QR code for your link, text or Wi-Fi network. Plan it for the space and printer you have, then check and download it locally.">
+  <section class="section-sm hero-bg dark">
+    <div class="container">
+      <span class="tag">QR creation experiment</span>
+      <h1>A QR code that fits your print</h1>
+      <p class="intro">Choose what to share and how much space you have. QRGen keeps the white border and uses whole printer dots to avoid blurry edges. Your content stays on this device.</p>
+    </div>
+  </section>
+  <section class="section-sm">
+    <div class="container planner-grid">
+      <form data-plan-form>
+        <h2>1. What are you sharing?</h2>
+        <label class="field">Content type
+          <select name="kind">
+            <option value="url">Website link</option>
+            <option value="text">Plain text</option>
+            <option value="wifi">Wi-Fi network</option>
+          </select>
+        </label>
+        <label class="field" data-content-field><span data-content-label>Website address</span>
+          <textarea name="content" rows="3" maxlength="7089" spellcheck="false" aria-describedby="content-help">https://rockyljewell.github.io/QR-GEN/</textarea>
+          <small id="content-help" data-content-help>Use a complete address starting with https:// or http://.</small>
+        </label>
+        <fieldset data-wifi-fields hidden disabled>
+          <legend>Wi-Fi details</legend>
+          <label class="field">Network name<input name="ssid" autocomplete="off" maxlength="128" /></label>
+          <label class="field">Security
+            <select name="security"><option value="WPA">WPA / WPA2 personal</option><option value="WEP">WEP</option><option value="nopass">Open network</option></select>
+          </label>
+          <label class="field" data-password-field>Password<input name="password" type="password" autocomplete="off" maxlength="256" /></label>
+          <label class="check"><input name="hiddenNetwork" type="checkbox" /> Hidden network</label>
+          <small>Anyone with this code can read the network details. Wi-Fi joining support depends on the phone.</small>
+        </fieldset>
+        <h2>2. Where will it go?</h2>
+        <div class="field-row">
+          <label class="field">Maximum width (mm)<input name="widthMm" type="number" min="5" max="150" step="0.1" value="30" /></label>
+          <label class="field">Printer resolution
+            <select name="dpi"><option value="203">203 DPI · label printer</option><option value="300" selected>300 DPI</option><option value="600">600 DPI</option></select>
+          </label>
+        </div>
+        <small>The width includes the white border. The downloaded code may be slightly smaller so every module uses whole printer dots.</small>
+        <details>
+          <summary>Print profile</summary>
+          <div class="field-row">
+            <label class="field">Minimum dots per module<input name="minDots" type="number" min="1" max="20" step="1" value="3" /></label>
+            <label class="field">Error correction
+              <select name="ecLevel"><option value="auto">Automatic · M or higher</option><option value="L">L</option><option value="M">M</option><option value="Q">Q</option><option value="H">H</option></select>
+            </label>
+          </div>
+          <small>Three dots is a starting profile, not a scan guarantee. Automatic selection keeps modules as large as possible, then chooses stronger correction among ties.</small>
+        </details>
+        <p class="device-help" data-plan-capability></p>
+        <p><a href={url("/demo/#generate")}>Need another barcode format or custom colors?</a></p>
+        <p><a href={url("/offline/")}>Save a simple QR maker and image scanner for offline use.</a></p>
+      </form>
+      <aside class="plan-result" aria-label="QR plan">
+        <h2>3. Check and save</h2>
+        <p data-plan-status role="status" aria-live="polite">Preparing your code…</p>
+        <p data-plan-error role="alert" hidden></p>
+        <div class="code-stage" data-plan-preview></div>
+        <p class="geometry" data-plan-geometry></p>
+        <div class="actions">
+          <button type="button" class="btn btn-dark" data-plan-download="svg" disabled><Icon name="download" size={16} /> Print SVG</button>
+          <button type="button" class="btn btn-light" data-plan-download="png" disabled><Icon name="download" size={16} /> PNG</button>
+          <button type="button" class="btn btn-light" data-plan-verify disabled>Check exported PNG</button>
+        </div>
+        <p class="verification" data-plan-verification role="status" aria-live="polite"></p>
+        <p class="print-help">Print the SVG at 100% size, with no “fit to page”. For PNG, use the reported physical width at your selected DPI. Test a printed sample with the phones and scanners people will use.</p>
+        <details>
+          <summary>Content encoded in the code</summary>
+          <pre class="payload" data-plan-payload></pre>
+          <small>Keep an equivalent readable link or instruction beside the printed code so people have another way to access it.</small>
+        </details>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import "../scripts/planner";
+</script>
+
+<style>
+  h1 { font-size: clamp(32px, 5vw, 50px); margin: 20px 0 14px; max-width: 20em; }
+  .intro { max-width: 48em; font-size: 18px; }
+  .planner-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: start; }
+  h2 { margin: 0 0 18px; font-size: 21px; }
+  form h2:not(:first-child) { margin-top: 30px; }
+  .field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; font-weight: 600; }
+  input:not([type="checkbox"]), select, textarea { width: 100%; border: 1px solid #9ba7b4; border-radius: 8px; padding: 11px 12px; background: #fff; color: var(--ink); font: inherit; font-weight: 400; }
+  textarea { resize: vertical; }
+  small, .print-help, .device-help { display: block; font-size: 13px; color: var(--muted); font-weight: 400; line-height: 1.6; }
+  .field-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+  fieldset { margin: 0 0 18px; padding: 16px; border: 1px solid var(--line); border-radius: 10px; }
+  fieldset[hidden], [hidden] { display: none; }
+  legend { padding: 0 5px; font-weight: 600; }
+  .check { display: flex; gap: 8px; margin: 10px 0; }
+  details { margin: 20px 0; border-top: 1px solid var(--line); padding-top: 16px; }
+  summary { cursor: pointer; font-weight: 600; margin-bottom: 16px; }
+  .plan-result { border: 1px solid var(--line); border-radius: 16px; padding: 24px; box-shadow: var(--shadow-soft); }
+  .code-stage { display: grid; place-items: center; min-height: 280px; background: var(--bg-soft); border-radius: 10px; padding: 18px; }
+  .code-stage :global(svg) { display: block; width: min(100%, 280px); height: auto; background: #fff; }
+  .geometry { font-size: 14px; min-height: 1.5em; }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+  button:disabled { opacity: .45; cursor: default; }
+  [data-plan-error] { color: #9d2334; font-weight: 600; }
+  .verification { font-weight: 600; font-size: 14px; }
+  .payload { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 180px; overflow-y: auto; background: var(--bg-soft); color: var(--ink); padding: 12px; font-size: 13px; }
+  @media (max-width: 760px) { .planner-grid { grid-template-columns: 1fr; gap: 24px; } .plan-result { padding: 18px; } }
+  @media (max-width: 420px) { .field-row { grid-template-columns: 1fr; gap: 0; } }
+</style>

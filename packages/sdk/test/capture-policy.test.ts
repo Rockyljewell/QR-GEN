@@ -94,6 +94,48 @@ describe("Adaptive capture policy", () => {
     expect(p.next().maxDecodeSize).toBe(640);
   });
 
+  it("retains an affordable successful discovery and does not snap back after fast successes", () => {
+    const p = policy({ discoveryInterval: 2, missesBeforeDiscovery: 2, targetDecodeMs: 32 });
+    observe(p, 2, 10);
+    expect(p.next().phase).toBe("discovery");
+    observe(p, 1, 32, true);
+    expect(p.next()).toMatchObject({ phase: "normal", maxDecodeSize: 1280 });
+    observe(p, 12, 10, true);
+    expect(p.next().maxDecodeSize).toBe(1280);
+    expect(p.snapshot).toMatchObject({ consecutiveMisses: 0, completedFrames: 15 });
+  });
+
+  it.each([{ decodeMs: 33, found: true }, { decodeMs: 10, found: false }])("does not promote on unsuitable discovery %j", ({ decodeMs, found }) => {
+    const p = policy({ discoveryInterval: 2, missesBeforeDiscovery: 2 });
+    observe(p, 2, 10);
+    observe(p, 1, decodeMs, found);
+    expect(p.next()).toMatchObject({ phase: "normal", maxDecodeSize: 640 });
+  });
+
+  it("demotes promoted work after two slow normal frames, then recovers only to its verified cap", () => {
+    const p = policy({ discoveryInterval: 2, missesBeforeDiscovery: 2 });
+    observe(p, 2, 10);
+    observe(p, 1, 10, true);
+    observe(p, 1, 100, true);
+    expect(p.next().maxDecodeSize).toBe(1280);
+    observe(p, 1, 100, true);
+    expect(p.next().maxDecodeSize).toBe(1024);
+    observe(p, 3, 10, true);
+    expect(p.next().maxDecodeSize).toBe(1280);
+    observe(p, 30, 10, true);
+    expect(p.next().maxDecodeSize).toBe(1280);
+  });
+
+  it("bounds promotion by the caller cap and a new policy resets its learned ceiling", () => {
+    const options = resolveAdaptiveCaptureOptions({ discoveryInterval: 2, missesBeforeDiscovery: 2 }, 800)!;
+    const p = new AdaptiveCapturePolicy(options);
+    observe(p, 2, 10);
+    observe(p, 1, 10, true);
+    expect(p.next().maxDecodeSize).toBe(800);
+    const reset = new AdaptiveCapturePolicy(options);
+    expect(reset.next()).toMatchObject({ phase: "normal", maxDecodeSize: 640 });
+  });
+
   it.each([NaN, Infinity, -1])("ignores unusable elapsed time %s", (ms) => {
     const p = policy();
     const before = p.snapshot;

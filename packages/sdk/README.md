@@ -32,6 +32,33 @@ const codes = await scanImage(file, { symbologies: ["qr", "retail"] });
 const { svg, png } = await generate("https://example.com", { symbology: "qr" });
 ```
 
+## Plan a QR code for print
+
+```ts
+import { buildUrlPayload, buildWifiPayload, planQRCode } from "qrgen-sdk";
+
+const data = buildUrlPayload("https://example.com/menu");
+const plan = await planQRCode(data, { widthMm: 30, dpi: 203 });
+if (plan.suitable) {
+  // Standalone SVG with physical mm dimensions. Print at 100%, without rescaling.
+  saveSvg(plan.printSvg);
+  console.log(plan.geometry.widthMm, plan.geometry.dotsPerModule, plan.ecLevel);
+} else {
+  console.log(plan.diagnostics); // includes the minimum required width
+}
+const wifi = buildWifiPayload({ ssid: "Café", authentication: "WPA", password: "example-password" });
+```
+
+`saveSvg` is your application's download/file helper. The planner uses the real encoder, keeps a four-module quiet zone, and selects whole printer dots. Automatic correction starts at M, prioritizes larger modules, then stronger correction among ties. `minDotsPerModule` defaults to 3 as an illustrative profile; geometry does not prove physical scan reliability. Output is bounded to 2048 pixels. Invalid inputs throw; valid content that does not fit returns `suitable: false`. Leading Unicode BOM is rejected because the current string encoder drops it. Text is never silently shortened or rewritten.
+
+`barcode.svg` and `barcode.png` retain pixel dimensions. Use `printSvg` for physical-size SVG; PNG consumers must apply the reported width/DPI. Wi-Fi helpers escape delimiters and quote hex-looking text names/passwords according to the common WIFI convention; existing `parseContent` retains those quote wrappers. Phone support and router credentials still need testing. These new planning APIs are available in the JavaScript/browser and Node entries.
+
+## Capability diagnostics and adaptive capture
+
+`getRuntimeCapabilities()` reads declared formats, camera prerequisites, worker/detector API presence and engine asset routing without requesting permissions or loading assets. It leaves offline readiness `unverified`. `checkSymbologies("qr,unknown")` keeps unknown and unsupported requests visible.
+
+Adaptive capture is an opt-in experiment: `new BarcodeScanner({ adaptive: true })`, `<qrgen-scanner adaptive>`, or the boolean `adaptive` prop in React/Vue. It changes bounded full-frame decoder input size, periodically checks a larger frame after misses, and resets learned state on lifecycle/settings changes. `scanner.stats.adaptive` reports actual input dimensions, phase and decoder-only timing; ordinary `frame.decodeMs` includes capture as before. Fixed capture remains the default. See the repository's [experiment notes](../../docs/FRONTIER-EXPERIMENTS.md) for evidence, limitations and physical-device gates.
+
 ## Node.js, CLI and REST
 
 ```ts

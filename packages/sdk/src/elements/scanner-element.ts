@@ -32,6 +32,7 @@ const ATTRS = [
   "hint",
   "toast",
   "resolution",
+  "adaptive",
 ] as const;
 
 function bool(v: string | null, fallback: boolean): boolean {
@@ -272,6 +273,13 @@ export class QRGenScannerElement extends Base {
   set worker(v: boolean | string) {
     this.setBoolAttr("worker", v);
   }
+  /** Opt in to the experimental bounded full-frame capture policy. Default false. */
+  get adaptive(): boolean {
+    return bool(this.getAttribute("adaptive"), false);
+  }
+  set adaptive(v: boolean | string) {
+    this.setBoolAttr("adaptive", v);
+  }
 
   private setBoolAttr(name: string, v: unknown): void {
     const value = boolAttr(v);
@@ -295,6 +303,7 @@ export class QRGenScannerElement extends Base {
       tryHarder: this.hasAttribute("try-harder") ? bool(this.getAttribute("try-harder"), false) : undefined,
       worker: bool(this.getAttribute("worker"), true),
       resolution: (this.getAttribute("resolution") as BarcodeScannerOptions["resolution"]) || undefined,
+      adaptive: this.adaptive,
     };
   }
 

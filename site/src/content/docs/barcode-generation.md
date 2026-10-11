@@ -9,6 +9,8 @@ QRGen generates all 26 supported symbologies, from QR codes and Data Matrix to E
 
 ## generate()
 
+For a QR code with a known print size, use the [QR print planner](/docs/print-planning/) to choose whole printer dots and retain the quiet zone. The [interactive print flow](/plan/) starts with a link, text or Wi-Fi network.
+
 ```js
 import { generate } from "qrgen-sdk";
 

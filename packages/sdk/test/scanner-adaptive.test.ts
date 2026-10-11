@@ -130,6 +130,20 @@ describe("Scanner adaptive capture integration", () => {
     expect(mocks.decode.mock.calls.every((call) => call[0].width === 640)).toBe(true);
   });
 
+  it("keeps a readable discovery resolution and resets that evidence on pause/resume", async () => {
+    mocks.decode.mockImplementation(async (image) => { now += 10; return image.width >= 1000 ? [barcode] : []; });
+    const s = scanner({ adaptive: { discoveryInterval: 2, missesBeforeDiscovery: 2, maxDecodePixels: 2_000_000 } });
+    await s.start();
+    for (let i = 0; i < 8; i++) await frame();
+    expect(mocks.decode.mock.calls.map((call) => call[0].width)).toEqual([640, 640, 1280, 1280, 1280, 1280, 1280, 1280]);
+    expect(s.stats.adaptive).toMatchObject({ phase: "normal", normalDecodeSize: 1280, consecutiveSuccesses: 6 });
+    s.pause();
+    s.resume();
+    await frame();
+    expect(mocks.decode.mock.calls[8]![0].width).toBe(640);
+    expect(s.stats.adaptive).toMatchObject({ completedFrames: 1, normalDecodeSize: 640, consecutiveMisses: 1 });
+  });
+
   it.each([[8192, 8192], [8192, 4097], [4097, 8192]])("enforces side and pixel budgets for %s x %s camera frames", async (width, height) => {
     const s = scanner({ adaptive: { initialDecodeSize: 2048, maxDecodePixels: 1_000_000, discoveryInterval: 2, missesBeforeDiscovery: 1 }, maxDecodeSize: 8192 }, width, height);
     await s.start();
@@ -148,6 +162,28 @@ describe("Scanner adaptive capture integration", () => {
     await s.start();
     for (let i = 0; i < 4; i++) await frame();
     expect(mocks.decode.mock.calls.every((call) => Math.max(call[0].width, call[0].height) <= 256)).toBe(true);
+  });
+
+  it.each(["horizontal", "vertical"])("keeps skinny %s areas inside even the minimum pixel budget and maps actual axes", async (axis) => {
+    mocks.decode.mockImplementation(async (image) => {
+      now += 10;
+      return [{ ...barcode, position: {
+        topLeft: { x: 0, y: 0 }, topRight: { x: image.width, y: 0 },
+        bottomRight: { x: image.width, y: image.height }, bottomLeft: { x: 0, y: image.height },
+      } }];
+    });
+    const scanArea = axis === "horizontal" ? { x: 0, y: 0.25, width: 1, height: 16 / 8192 } : { x: 0.25, y: 0, width: 16 / 8192, height: 1 };
+    const s = scanner({ adaptive: { maxDecodePixels: 256 }, scanArea }, 8192, 8192);
+    const event = vi.fn();
+    s.on("frame", event);
+    await s.start();
+    await frame();
+    const image = mocks.decode.mock.calls[0]![0];
+    expect(image.width * image.height).toBeLessThanOrEqual(256);
+    expect([image.width, image.height]).toEqual(axis === "horizontal" ? [256, 1] : [1, 256]);
+    const location = event.mock.calls[0]![0].barcodes[0].location;
+    expect(location.topLeft).toEqual(axis === "horizontal" ? { x: 0, y: 2048 } : { x: 2048, y: 0 });
+    expect(location.bottomRight).toEqual(axis === "horizontal" ? { x: 8192, y: 2064 } : { x: 2064, y: 8192 });
   });
 
   it("preserves the caller scan area, source coordinates and full area discovery", async () => {
@@ -202,6 +238,48 @@ describe("Scanner adaptive capture integration", () => {
     await frame();
     expect(s.stats.adaptive).toMatchObject({ completedFrames: 1, normalDecodeSize: 640 });
     expect(mocks.decode.mock.calls[3]![0].width).toBe(640);
+  });
+
+  it.each(["restart", "resume", "options", "switch"])("discards learned slow-frame settings after %s", async (action) => {
+    const s = scanner({ adaptive: true });
+    decodeMs = 100;
+    await s.start();
+    await frame();
+    await frame();
+    expect(s.stats.adaptive).toMatchObject({ completedFrames: 2, normalDecodeSize: 512 });
+    if (action === "restart") { s.stop(); await s.start(); }
+    if (action === "resume") { s.pause(); s.resume(); }
+    if (action === "options") s.setOptions({ tryHarder: true });
+    if (action === "switch") await s.switchCamera();
+    expect(s.stats.adaptive).toBeNull();
+    await frame();
+    expect(mocks.decode.mock.calls[2]![0].width).toBe(640);
+    expect(s.stats.adaptive).toMatchObject({ completedFrames: 1, normalDecodeSize: 640 });
+  });
+
+  it("does not consume discovery cadence while throttled, hidden or busy", async () => {
+    const s = scanner({ adaptive: { discoveryInterval: 2, missesBeforeDiscovery: 2 } });
+    await s.start();
+    await frame();
+    tick(); // Only ten milliseconds since the previous decode started.
+    await flush();
+    vi.stubGlobal("document", { visibilityState: "hidden" });
+    await frame();
+    expect(mocks.decode).toHaveBeenCalledOnce();
+    expect(s.stats.adaptive!.completedFrames).toBe(1);
+    vi.stubGlobal("document", { visibilityState: "visible" });
+    let finish!: (value: []) => void;
+    mocks.decode.mockReturnValueOnce(new Promise<[]>((resolve) => { finish = resolve; }));
+    now += 100;
+    tick();
+    await frame(); // The second decode remains in flight.
+    expect(mocks.decode).toHaveBeenCalledTimes(2);
+    expect(s.stats.adaptive!.completedFrames).toBe(1);
+    finish([]);
+    await flush();
+    expect(s.stats.adaptive).toMatchObject({ completedFrames: 2, phase: "normal" });
+    await frame();
+    expect(s.stats.adaptive).toMatchObject({ completedFrames: 3, phase: "discovery" });
   });
 
   it("keeps options atomic if adaptive validation rejects an update", async () => {

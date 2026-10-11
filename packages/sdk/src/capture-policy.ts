@@ -90,10 +90,12 @@ export function resolveAdaptiveCaptureOptions(
 /**
  * Pure scheduling policy: next() does not advance it; only completed, accepted
  * decodes do. Two slow normal decodes reduce work; three fast normal successes
- * can restore it. Discovery is periodic and always scans the whole selected area.
+ * can restore it. A successful discovery within the time budget retains its
+ * proven resolution. Discovery always scans the whole selected area.
  */
 export class AdaptiveCapturePolicy {
   private normalSize: number;
+  private recoverySize: number;
   private misses = 0;
   private successes = 0;
   private frames = 0;
@@ -103,6 +105,7 @@ export class AdaptiveCapturePolicy {
 
   constructor(private readonly options: ResolvedAdaptiveCaptureOptions) {
     this.normalSize = options.initialDecodeSize;
+    this.recoverySize = options.initialDecodeSize;
   }
 
   get snapshot(): AdaptiveCaptureSnapshot {
@@ -129,7 +132,17 @@ export class AdaptiveCapturePolicy {
     this.misses = found ? 0 : Math.min(this.misses + 1, 1_000_000);
     this.successes = found ? Math.min(this.successes + 1, 1_000_000) : 0;
     this.sinceDiscovery = plan.phase === "discovery" ? 0 : Math.min(this.sinceDiscovery + 1, this.options.discoveryInterval);
-    if (plan.phase === "discovery") return;
+    if (plan.phase === "discovery") {
+      if (found && decodeMs <= this.options.targetDecodeMs) {
+        // Repeated low-resolution misses followed by a readable, affordable
+        // discovery are evidence to retain this size, never to exceed its cap.
+        this.normalSize = Math.max(this.normalSize, Math.min(plan.maxDecodeSize, this.options.maxDecodeSize));
+        this.recoverySize = this.normalSize;
+        this.slowFrames = 0;
+        this.fastSuccesses = 0;
+      }
+      return;
+    }
     this.slowFrames = decodeMs > this.options.targetDecodeMs * 1.25 ? this.slowFrames + 1 : 0;
     this.fastSuccesses = found && decodeMs < this.options.targetDecodeMs * 0.6 ? this.fastSuccesses + 1 : 0;
     if (this.slowFrames >= 2) {
@@ -137,7 +150,7 @@ export class AdaptiveCapturePolicy {
       this.slowFrames = 0;
       this.fastSuccesses = 0;
     } else if (this.fastSuccesses >= 3) {
-      this.normalSize = Math.min(this.options.initialDecodeSize, Math.ceil(this.normalSize * 1.25));
+      this.normalSize = Math.min(this.recoverySize, Math.ceil(this.normalSize * 1.25));
       this.fastSuccesses = 0;
     }
   }

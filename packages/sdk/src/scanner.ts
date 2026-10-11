@@ -323,7 +323,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
     this.stats.adaptive = null;
   }
 
-  private grab(plan?: AdaptiveCapturePlan): { image: ImageData; offsetX: number; offsetY: number; scale: number; frame: Size } | null {
+  private grab(plan?: AdaptiveCapturePlan): { image: ImageData; offsetX: number; offsetY: number; scale: number; scaleX?: number; scaleY?: number; frame: Size } | null {
     const vw = this.video.videoWidth;
     const vh = this.video.videoHeight;
     if (!vw || !vh) return null;
@@ -336,15 +336,25 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
     if (plan && (!Number.isFinite(sw) || !Number.isFinite(sh))) return null;
     const scale = Math.max(1, Math.max(sw, sh) / (plan?.maxDecodeSize ?? this.opts.maxDecodeSize), plan ? Math.sqrt(sw * sh / plan.maxDecodePixels) : 1);
     // Floor only adaptive dimensions so neither side nor total pixels can exceed its budget.
-    const dw = plan ? Math.max(1, Math.floor(sw / scale)) : Math.round(sw / scale);
-    const dh = plan ? Math.max(1, Math.floor(sh / scale)) : Math.round(sh / scale);
+    let dw = plan ? Math.max(1, Math.floor(sw / scale)) : Math.round(sw / scale);
+    let dh = plan ? Math.max(1, Math.floor(sh / scale)) : Math.round(sh / scale);
+    if (plan) {
+      // A very skinny area can clamp one dimension to 1px after scaling. Enforce
+      // the product again so that minimum-one rounding cannot bypass the budget.
+      dw = Math.min(dw, plan.maxDecodePixels);
+      dh = Math.min(dh, Math.floor(plan.maxDecodePixels / dw));
+    }
     if (!this.canvas || this.canvas.width !== dw || this.canvas.height !== dh) {
       this.canvas = typeof OffscreenCanvas !== "undefined" ? new OffscreenCanvas(dw, dh) : Object.assign(document.createElement("canvas"), { width: dw, height: dh });
       this.ctx = this.canvas.getContext("2d", { willReadFrequently: true }) as CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D | null;
     }
     if (!this.ctx) return null;
     this.ctx.drawImage(this.video, sx, sy, sw, sh, 0, 0, dw, dh);
-    return { image: this.ctx.getImageData(0, 0, dw, dh), offsetX: sx, offsetY: sy, scale, frame: { width: vw, height: vh } };
+    return {
+      image: this.ctx.getImageData(0, 0, dw, dh), offsetX: sx, offsetY: sy, scale,
+      ...(plan ? { scaleX: sw / dw, scaleY: sh / dh } : {}),
+      frame: { width: vw, height: vh },
+    };
   }
 
   private async onFrame(): Promise<void> {
@@ -396,6 +406,8 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
         offsetX: grabbed.offsetX,
         offsetY: grabbed.offsetY,
         scale: grabbed.scale,
+        scaleX: grabbed.scaleX,
+        scaleY: grabbed.scaleY,
         requested,
       });
       if (policy && plan) {

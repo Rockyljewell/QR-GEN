@@ -27,6 +27,7 @@ const scannerProps = {
   tryHarder: { type: Boolean, default: undefined },
   resolution: { type: String as PropType<"sd" | "hd" | "fhd" | "4k">, default: undefined },
   worker: { type: Boolean, default: undefined },
+  adaptive: { type: Boolean, default: undefined },
 };
 
 const EVENTS = ["scan", "track", "select", "error", "ready", "statechange"] as const;
@@ -91,6 +92,7 @@ export const QRGenScanner = defineComponent({
         "try-harder": b(props.tryHarder),
         resolution: props.resolution,
         worker: b(props.worker),
+        adaptive: b(props.adaptive),
       };
       for (const k of Object.keys(a)) if (a[k] === undefined) delete a[k];
       return h("qrgen-scanner", a);

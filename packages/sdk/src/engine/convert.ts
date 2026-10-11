@@ -22,6 +22,9 @@ export interface ConvertOptions {
   offsetY?: number;
   /** Scale from decoded-region pixels to full-frame pixels. */
   scale?: number;
+  /** Optional per-axis scales for rounded or nonuniform raster dimensions. Fall back to scale. */
+  scaleX?: number;
+  scaleY?: number;
   /** Mirror x coordinates (front camera preview). */
   mirror?: boolean;
   timestamp?: number;
@@ -31,11 +34,13 @@ export interface ConvertOptions {
 
 function mapQuad(q: Quadrilateral, o: ConvertOptions): Quadrilateral {
   const s = o.scale ?? 1;
+  const sx = o.scaleX ?? s;
+  const sy = o.scaleY ?? s;
   const dx = o.offsetX ?? 0;
   const dy = o.offsetY ?? 0;
   const m = (p: { x: number; y: number }) => {
-    const x = dx + p.x * s;
-    return { x: o.mirror ? o.frameSize.width - x : x, y: dy + p.y * s };
+    const x = dx + p.x * sx;
+    return { x: o.mirror ? o.frameSize.width - x : x, y: dy + p.y * sy };
   };
   return { topLeft: m(q.topLeft), topRight: m(q.topRight), bottomRight: m(q.bottomRight), bottomLeft: m(q.bottomLeft) };
 }

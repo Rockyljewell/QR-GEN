@@ -63,6 +63,7 @@ const sampleSvgs = await Promise.all(samples.map((s) => barcodeSvg(s.data, { sym
             <div class="settings-row">
               <label><input type="checkbox" data-opt="beep" checked /> Beep</label>
               <label><input type="checkbox" data-opt="vibrate" checked /> Vibrate</label>
+              <label><input type="checkbox" data-opt="adaptive" /> Adaptive capture (experiment)</label>
               <label
                 >Duplicates
                 <select data-opt="duplicate-filter">
@@ -148,6 +149,7 @@ const sampleSvgs = await Promise.all(samples.map((s) => barcodeSvg(s.data, { sym
   <section class="demo-panel" id="generate" data-panel-id="generate" role="tabpanel" hidden>
     <div class="container gen-grid">
       <form class="gen-form" data-gen-form onsubmit="return false">
+        <p><a href={url("/plan/")}>Making a printed QR code? Start with your link, text or Wi-Fi and print size.</a></p>
         <label class="field">
           <span>Symbology</span>
           <select name="symbology" data-gen-symbology></select>
