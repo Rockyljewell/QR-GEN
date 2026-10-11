@@ -1,0 +1,7 @@
+{
+  "baselineRuntime": "v22.14.0",
+  "minimumRuntime": "v18.17.0",
+  "allCaseOutputsSameAcrossNodeVersions": true,
+  "comparisonsPerRuntime": 72,
+  "readsPerRuntime": 432
+}

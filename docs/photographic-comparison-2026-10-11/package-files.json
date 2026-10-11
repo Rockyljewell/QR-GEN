@@ -1,0 +1,86 @@
+{
+  "frozenAt": "2026-10-11T14:42:13.096Z",
+  "files": [
+    {
+      "name": "corpus-manifest.json",
+      "bytes": 42165,
+      "sha256": "5c79c603e6c4022bb03a79a5e1d6e887d0f1ec7603265ca6f6af782b4071d9e3"
+    },
+    {
+      "name": "fixture-preparation.json",
+      "bytes": 24859,
+      "sha256": "6e4c5ff1e93f793aec832946a20fc446e0cf6b50e63f2743046a0303e1ef8f45"
+    },
+    {
+      "name": "image-camera.mjs",
+      "bytes": 2525,
+      "sha256": "17fb58c6f5281ab0329e09c0fb9da4acd7c1add18184a9329ff03e34b0f113c7"
+    },
+    {
+      "name": "make-summary.mjs",
+      "bytes": 6785,
+      "sha256": "d9a11a123dadad39ae064bc80e174d3a6d1aaa185f83d268bd8e016abb0a4465"
+    },
+    {
+      "name": "photographic-comparison-2026-10-11.json",
+      "bytes": 98650,
+      "sha256": "ff5ca9bf4b1e29e357e5d5e9a63d65005c246da1486aca6c0a1b32f4ecd8aee1"
+    },
+    {
+      "name": "prepare-photo-corpus.mjs",
+      "bytes": 4569,
+      "sha256": "c08f13b0b0ad49c0f9422d4da8bc519d10eafda18c2159383624a90bc3e70043"
+    },
+    {
+      "name": "public-photo-comparison.mjs",
+      "bytes": 16185,
+      "sha256": "3de0ed666bc4edad209dee5d0bb6263793eb1eaebc5a099f5bf72b943bae97ce"
+    },
+    {
+      "name": "public-photo-readiness-followup.mjs",
+      "bytes": 17941,
+      "sha256": "5da98f5b69329e9002a5e0f9c9685f9df745ecb619f1236381ecd32b77bb77a6"
+    },
+    {
+      "name": "qrgen-build-proof.json",
+      "bytes": 3027,
+      "sha256": "1bc2edebd09053331dc1f996cf081fbdef07a3b8e68772d127ff7e0cba18f073"
+    },
+    {
+      "name": "README.md",
+      "bytes": 9362,
+      "sha256": "21a037762b36833f5d7288c282a85df5d5ce0f472f01a4fe5f5987c198db1538"
+    },
+    {
+      "name": "verification.json",
+      "bytes": 938,
+      "sha256": "a6a2d0746cd2c7f19d0040ef26d9f2a9f63cd91dbb5bffe8e71124a3c693674b"
+    },
+    {
+      "name": "ZXING-BLACKBOX-README.txt",
+      "bytes": 70,
+      "sha256": "c9e5d0519cc821c05e0bcc1a75b1c99c5d63ef2ebe0bd0f416e429e7d505b515"
+    },
+    {
+      "name": "ZXING-LICENSE.txt",
+      "bytes": 13320,
+      "sha256": "3f62881f0566227a24b12e5a754cc79f39aaa94883038e95c94812e1f50af42f"
+    },
+    {
+      "name": "ZXING-NOTICE.txt",
+      "bytes": 664,
+      "sha256": "4db4b60aace29ec6c5c4f13ca9cac1930d3c0c54bcc67dceead0c10771120e66"
+    },
+    {
+      "name": "ZXING-REUSE-dep5.txt",
+      "bytes": 826,
+      "sha256": "386cfe0a9c0bee357e8ed7ba09e72d0b41d033dca47ca2b742841bcf73a3e819"
+    }
+  ],
+  "totalBytes": 241886,
+  "originalObservations": 40,
+  "separateFollowupObservations": 14,
+  "noBinaryFramesIncluded": true,
+  "reviewNotes": "Public Scandit no-code observations do not prove internal decoder activity; original and follow-up remain separate.",
+  "repositoryPackaging": "Portable runner whitespace normalized; observation and provenance files unchanged. Git attributes preserve LF for byte-hash inventories."
+}

@@ -1,0 +1,60 @@
+{
+  "scope": "Separate post-selection diagnostic, not official browser comparison",
+  "sourceRepository": "zxing/zxing",
+  "sourceCommit": "5bdcab8035f6d26107cfad32d1aa2a85455efbc5",
+  "sourceUrl": "https://github.com/zxing/zxing/tree/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/resources/blackbox/ean13-2",
+  "sourceLicense": "Apache-2.0",
+  "sourceCameraConversion": "Source RGB flattened white/sRGB, centered640x480 at80,60 without resizing; limited Y formula below, neutral chroma128, paddingY200; derive-frame.mjs emits only expanded RGB PNG",
+  "expandedRgb": "clamp(round((Y-16)*255/219),0,255) eachchannel, alpha255; approximation not actual Chrome raster proof",
+  "fixtures": [
+    {
+      "id": "ean13-2-07",
+      "pipeline": "original-PNG",
+      "local": "ean13-2-07-original-PNG.png",
+      "sha256": "449dc5aeddd91d7223ea63e0ff0380c9ae115771fe13827917895f9e56b30e00",
+      "truth": [
+        {
+          "format": "ean13",
+          "data": "9780804816632"
+        }
+      ],
+      "sourceImageSha256": "449dc5aeddd91d7223ea63e0ff0380c9ae115771fe13827917895f9e56b30e00",
+      "frozenY4mSha256": "3211ab1d83d1dd9545620e07f83b0a30df8497257b0b46b13762f7dba016d43c",
+      "sourceWidth": 480,
+      "sourceHeight": 360,
+      "width": 480,
+      "height": 360,
+      "bytes": 76331,
+      "modified": false
+    },
+    {
+      "id": "ean13-2-07",
+      "pipeline": "frozen-first-frame-limited-Y-expanded-RGB",
+      "local": "ean13-2-07-frozen-first-frame-limited-Y-expanded-RGB.png",
+      "sha256": "a93905e88c63a7b8be3ab4e31e9ff145656d6a7f907bc426816eb179606e7dd6",
+      "truth": [
+        {
+          "format": "ean13",
+          "data": "9780804816632"
+        }
+      ],
+      "sourceImageSha256": "449dc5aeddd91d7223ea63e0ff0380c9ae115771fe13827917895f9e56b30e00",
+      "frozenY4mSha256": "3211ab1d83d1dd9545620e07f83b0a30df8497257b0b46b13762f7dba016d43c",
+      "sourceWidth": 480,
+      "sourceHeight": 360,
+      "width": 640,
+      "height": 480,
+      "bytes": 249578,
+      "modified": true
+    }
+  ],
+  "sourceImageUrl": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/resources/blackbox/ean13-2/07.png",
+  "groundTruth": {
+    "url": "https://raw.githubusercontent.com/zxing/zxing/5bdcab8035f6d26107cfad32d1aa2a85455efbc5/core/src/test/resources/blackbox/ean13-2/07.txt",
+    "sha256": "5e3f03ce127b501c67eb2c6dd2615ece2c9c90a0a0bff5e604728bd490934b16",
+    "utf8Bytes": 13,
+    "text": "9780804816632",
+    "normalization": "none"
+  },
+  "limitedY": "round(16+(65.738*R+129.057*G+25.064*B)/255)"
+}

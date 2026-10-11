@@ -1,0 +1,19 @@
+{
+  "validatedAt": "2026-10-11T14:39:59.265Z",
+  "originalRows": 40,
+  "followupRows": 14,
+  "errors": [],
+  "assertions": [
+    "Frozen image/Y4M hashes unchanged for every vendor observation",
+    "Visible selected formats equal frozen per-case settings",
+    "Live 640x480 video at both boundaries",
+    "QR-GEN negative controls and all follow-up rows initialized worker/scanning at both boundaries",
+    "Actual loaded QR-GEN JS/WASM hashes equal pinned build proof",
+    "Scandit displayed 8.6.1 with inversion/extended-count settings unchanged",
+    "No unexpected visible payloads in reviewed results",
+    "Zero page or console errors",
+    "Follow-up effective QR-GEN options unchanged across each observation",
+    "Every follow-up observes at least 20 seconds after public readiness gate"
+  ],
+  "scanditNegativeLimitation": "No visible outputs observed; public UI and live video do not prove active internal SDK decoding."
+}

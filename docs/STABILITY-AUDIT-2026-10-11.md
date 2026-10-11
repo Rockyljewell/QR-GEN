@@ -239,6 +239,20 @@ Exact payload matches remain fixed while incomplete overlap assignments are
 repaired before creating new IDs. [Reproduction, matching scope and validation](NATIVE-TRACKING-2026-10-11.md)
 are recorded separately; physical item identity and phone parity remain unverified.
 
+## Decoder hardening and photographic follow-up
+
+The [decoder patch evaluation](DECODER-PATCH-2026-10-11.md) records the 3.1.5
+dependency hardening and minimum-runtime/build/browser verification. The
+[frozen photographic comparison](photographic-comparison-2026-10-11/README.md)
+observed QR-GEN 13/16 and Scandit 15/16 exact positive payloads, with different
+demo scan regions/options. It pins the earlier QR-GEN application revision and
+keeps its follow-up separate. It does not establish stability or phone parity.
+
+[Issue #32](https://github.com/Rockyljewell/QR-GEN/issues/32) separately reproduces
+a valid but wrong EAN-13 payload on a derived image. The decoder update does not
+fix it; no wrong payload was observed in the public photographic demo run.
+The [portable reproduction](ean13-repro/README.md) retains the image and options.
+
 ## Retail AR and adjacent features
 
 The following is an assessment of repository code against the vendors' published
