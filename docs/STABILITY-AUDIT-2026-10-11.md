@@ -6,7 +6,7 @@ Findings: [GitHub issue #3](https://github.com/Rockyljewell/QR-GEN/issues/3).
 QRGen is more resilient after these fixes, but **parity with Scandit has not been
 established**. Passing generated-image and fake-camera tests does not demonstrate
 equivalent decoding, tracking, device support or operational reliability in stores.
-There was no licensed Scandit SDK or matched physical-device corpus in this audit.
+There was no locally configured Scandit trial or matched physical-device corpus in this audit.
 
 ## Confirmed bugs and fixes
 
@@ -34,7 +34,7 @@ Their dependency chains produce 29 audit entries (9 high, 20 moderate); they are
 not 29 distinct underlying bugs. No patched versions were offered by the registry
 at audit time. The suggested React Native/Jest downgrades were not applied.
 
-## Local verification
+## Original local verification before PR #4
 
 Windows x64; Node 22.14 for unit tests and the image benchmark, Node 24.19 for the
 website build/browser checks; Python 3.12 and zxing-cpp 3.1.1.
@@ -69,33 +69,97 @@ Further review found these separately reported defects:
 | [#9](https://github.com/Rockyljewell/QR-GEN/issues/9) | Android overlap matching changes an old track's symbology and suppresses a new batch scan. | Restrict fallback to matching symbology; retain intentional same-symbology payload-jitter behavior. Kotlin regression and Swift parity test. |
 | [#10](https://github.com/Rockyljewell/QR-GEN/issues/10) | Concurrent web camera switches hide the only reopening failure, leaving scanning state with no camera. | Share one in-flight operation/outcome, isolate restarted sessions, wait for camera readiness before scheduling. Regression tests and a real Camera/Scanner deferred-failure reproduction. |
 | [#11](https://github.com/Rockyljewell/QR-GEN/issues/11) | iOS/Android camera changes retain old-source spatial tracks and delayed callbacks. | Clear spatial state on source changes and keep an immutable source identity through capture, processing and queued delivery. Preserve duplicate-filter history separately; add source-isolation tests and native CI coverage. |
+| [#13](https://github.com/Rockyljewell/QR-GEN/issues/13) | Native pause/resume and settings changes admit queued old results; a stale single-mode completion can disable replacement processing. | Separate processing epochs from camera identities, admit decoded results before state mutation, and commit duplicate history immediately before valid scan delivery. Eleven new Swift and eleven Android regressions. |
+| [#14](https://github.com/Rockyljewell/QR-GEN/issues/14) | Engine inversion is format dependent, missing sixteen generated PDF417/linear probes. | Bounded explicit polarity fallback, spatial merging, combined limits, raw main/worker paths and explicit Node codecs. Preserve the original benchmark alongside the improved result. |
+| [#15](https://github.com/Rockyljewell/QR-GEN/issues/15) | Python rejects explicit GS1 for inherently GS1 DataBar writers. | Omit the redundant FNC1 mode flag for the DataBar family; six canonical/alias round trips, including four fail-before cases. |
+| [#16](https://github.com/Rockyljewell/QR-GEN/issues/16) | Browser/SVG color swapping turns white bars on black into a solid black image. | Replace original black/white fills in one pass; six fail-before style regressions and a real browser generation/scan round trip. |
+| [#17](https://github.com/Rockyljewell/QR-GEN/issues/17) | Pausing from a web batch track callback permanently loses the first scan while the code stays visible. | Retain pending first-scan IDs separately from spatial tracks, and admit them only when observed and delivery remains valid. |
 
-Follow-up local checks pass 113 SDK tests, 223 Python tests, 108 React Native tests,
+The initial follow-up snapshot passed 113 SDK tests, 223 Python tests, 108 React Native tests,
 SDK/React Native type checks and builds, the full website build, and 17 Chromium scenarios.
 The new native source-isolation cases run in expanded CI: Swift pure-state tests on Linux,
 native camera compilation/tests on macOS, and Android camera-module unit tests as well as
-core tests and sample/library builds. These checks still do not provide physical-phone evidence.
+core tests and sample/library builds. Native pause/settings revision `a38d5b7` also passed all 13 CI jobs, including Linux/macOS Swift and Android camera-module tests/builds. These checks still do not provide physical-phone evidence.
 
-No connected phone or mobile test tools were found on the host. The user has no Scandit
+The final follow-up candidate passes 156 SDK tests, 248 Python tests, SDK type
+checking, the full SDK/website build (57 pages), and all 19 Chromium scenarios.
+The React Native snapshot remains at 108 passing tests with type checking and
+build passing. The final browser cases exercise mixed-polarity identical payloads
+through the worker and browser-generated inverted PNG, EXIF-oriented JPEG and
+transparent images. The [follow-up PR checks](https://github.com/Rockyljewell/QR-GEN/pull/12/checks)
+provide the authoritative cross-platform result for each published revision.
+
+No accessible phone or mobile test tools were found on the host. The user has no Scandit
 trial configured. Hardware scanning, real store workloads and competitor parity remain open.
+
+## Public demo smoke check and phone testing
+
+The [public Scandit web demo](https://websdk.demos.scandit.com/) works without a
+locally configured trial. Its [official web testing guide](https://docs.scandit.com/sdks/web/testing/)
+documents Chromium's fake-camera video route and cautions about GPU fallback and
+cross-origin isolation when measuring performance.
+
+Both QRGen 1.0.0 (source snapshot `f698f59`) and the hosted Scandit 8.6.1 demo
+displayed the exact `QRGEN-SCANDIT-SMOKE-20261011` payload from the same generated
+640x480, 30 fps QR feed, with no page errors. The [saved evidence](public-demo-smoke-2026-10-11.json)
+includes fixture arguments/hash, versions, visible results and settings. Scandit's
+QR preset and QRGen's continuous/all-formats defaults differ; only the hosted
+Scandit page had cross-origin isolation. A repeated Scandit quantity observation
+was the same static code detected twice, not two physical items.
+
+This single clean-code smoke check establishes a usable comparison route, not
+relative speed or stability. No accessible physical phone was available. The
+[phone run sheet](PHONE-VALIDATION.md) makes the remaining browser/native lifecycle,
+camera-switch and physical-label checks repeatable; none are marked as executed.
 
 ## Reproducible image benchmark
 
 Run `npm run build:sdk`, then
-`node scripts/benchmark-scanning.mjs docs/scanning-benchmark-2026-10-11.json`.
-The [saved result](scanning-benchmark-2026-10-11.json) includes the machine,
-engine version and individual cases.
+`node scripts/benchmark-scanning.mjs docs/scanning-benchmark-2026-10-11-after.json`.
+The [baseline](scanning-benchmark-2026-10-11.json) and
+[result after the inversion fix](scanning-benchmark-2026-10-11-after.json) retain
+machine details, engine versions, individual cases and warm decode timings.
 
 The corpus has six formats (QR, Data Matrix, PDF417, EAN-13, Code 128 and DataBar),
-four right-angle rotations and three contrast variants. **56 of 72 total probes
-decoded exactly.** All 56 expected supported cases passed. The other 16 probes
-are inverted PDF417/linear codes and did not decode. They remain in the output
-as explicit limitations. The engine's [inversion option is format dependent](https://github.com/zxing-cpp/zxing-cpp/blob/master/core/src/ReaderOptions.h).
+four right-angle rotations and three contrast variants. The original result was
+**56/72 exact**: inverted PDF417/EAN-13/Code 128/DataBar accounted for all 16 misses.
+After [#14](https://github.com/Rockyljewell/QR-GEN/issues/14), **72/72 decode exactly**
+through the public Node API, including all four rotations of every inverted case.
+The built package also passes all 72 probes on its minimum supported Node 18.17 runtime.
 
-Warm image decoding measured p50 1.282 ms and p95 2.732 ms on this desktop. These
-are single-run diagnostics, include misses, exclude engine startup and are
-**not camera latency, a performance guarantee or a Scandit comparison**. The
-images do not cover glare, damage, motion blur, perspective or dense physical shelves.
+The upstream engine's [inversion option is format dependent](https://github.com/zxing-cpp/zxing-cpp/blob/master/core/src/ReaderOptions.h).
+QRGen now performs at most one extra pixel-inverted decode for formats the engine
+does not invert, when inversion is enabled and the result limit is not full.
+It still performs that pass when normal-polarity codes are present, retaining
+separate physical codes with identical payloads and merging repeated detections
+by payload and overlapping location. Image pixels are copied for inversion;
+alpha and coordinates are preserved. Both camera main-thread and worker paths
+use the same helper, including the default/all-symbology selection.
+
+Browser encoded images are normalized once before both passes, using the actual
+raster dimensions and EXIF orientation; transparent pixels are composited on
+white. Node loads explicit PNG/JPEG/GIF/BMP codecs only when a fallback is needed.
+PNM/PSD retain their original engine decode behavior but have no Node raster
+inversion fallback; callers can convert them or supply browser-rendered pixels.
+Node fallback raster expansion is limited to 64 megapixels (JPEG also limits its
+decoder memory to 256 MB). The codec dependencies remain outside browser/worker
+bundles and the root npm audit still reports zero advisories.
+
+On this desktop with Node 22.14, warm decoding rose from baseline p50 **1.282 ms** /
+p95 **2.732 ms** to p50 **3.938 ms** / p95 **6.521 ms**. This is the cost of the
+extra search and encoded-raster work on this generated corpus; the baseline also
+includes 16 misses, so these single-run measurements are not a controlled speed
+comparison. A separate 64-case codec probe recovered all inverted PNG/JPEG/GIF/BMP
+fixtures without changing their input buffers. The public image `tryInvert: false`
+option disables the additional search when speed matters more than reversed
+reflectance. Python uses its existing `try_harder` / low-level `try_invert` controls;
+its existing second-binarizer retry can run for each polarity when no code is found.
+
+These diagnostics exclude engine startup and are **not camera latency, a performance
+guarantee or a Scandit comparison**. They do not cover glare, damage, motion blur,
+perspective, dense physical shelves or phone thermal behavior. Regression checks
+include mixed-polarity identical payloads, combined limits, disabled inversion,
+RGBA/input immutability, optional codec failures and fallback engine failures.
 
 ## Retail AR and adjacent features
 

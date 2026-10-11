@@ -1,6 +1,7 @@
 // Copyright 2026 Rockyljewell
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Raster } from "./engine/inversion.js";
 import { decodeOnMainThread } from "./engine/decoder.js";
 import { toBarcodes } from "./engine/convert.js";
 import type { DecodeParams } from "./engine/protocol.js";
@@ -15,6 +16,8 @@ export interface ScanImageOptions {
   maxResults?: number;
   /** Spend more CPU to find damaged, tiny or rotated codes. Default true. */
   tryHarder?: boolean;
+  /** Search reversed-reflectance barcodes. Default true; may add one decode pass. */
+  tryInvert?: boolean;
 }
 
 export type ImageInput =
@@ -40,6 +43,10 @@ function drawToImageData(source: CanvasImageSource, width: number, height: numbe
     typeof OffscreenCanvas !== "undefined" ? new OffscreenCanvas(width, height) : Object.assign(document.createElement("canvas"), { width, height });
   const ctx = canvas.getContext("2d", { willReadFrequently: true }) as CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D | null;
   if (!ctx) throw new QRGenError("unsupported", "Canvas 2D is not available.");
+  // Canvas discards RGB under zero alpha. Composite on white before reading
+  // pixels so transparent quiet zones remain readable, matching Python images.
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, width, height);
   ctx.drawImage(source, 0, 0, width, height);
   return ctx.getImageData(0, 0, width, height);
 }
@@ -64,13 +71,17 @@ function describeUnsupported(b: Uint8Array): string {
 }
 
 /** In browsers, decode any format the browser supports (WebP, AVIF, HEIC…) through createImageBitmap. */
+type EncodedRasterDecoder = (bytes: Uint8Array) => Promise<Raster | null>;
+let encodedRasterDecoder: EncodedRasterDecoder | null = null;
+/** Internal runtime adapter registered only by qrgen-sdk/node. */
+export function registerEncodedRasterDecoder(decoder: EncodedRasterDecoder): void { encodedRasterDecoder = decoder; }
+
 async function browserDecode(blob: Blob): Promise<ImageData | null> {
   if (!hasDOM() || typeof createImageBitmap !== "function") return null;
   try {
     const bmp = await createImageBitmap(blob);
-    const d = drawToImageData(bmp, bmp.width, bmp.height);
-    bmp.close?.();
-    return d;
+    try { return drawToImageData(bmp, bmp.width, bmp.height); }
+    finally { bmp.close?.(); }
   } catch {
     return null;
   }
@@ -94,12 +105,12 @@ async function toDecodable(input: ImageInput): Promise<{ data: Blob | ArrayBuffe
   if ((input instanceof ArrayBuffer || input instanceof Uint8Array || (typeof Blob !== "undefined" && input instanceof Blob)) && !(typeof ImageData !== "undefined" && input instanceof ImageData)) {
     const bytes = input instanceof Uint8Array ? input : input instanceof ArrayBuffer ? new Uint8Array(input) : new Uint8Array(await (input as Blob).slice(0, 1024).arrayBuffer());
     if (!bytes.length) throw new QRGenError("bad-request", "The image is empty.");
-    if (!builtinFormat(bytes)) {
-      const blob = typeof Blob !== "undefined" ? (input instanceof Blob ? input : new Blob([input as BlobPart])) : null;
-      const decoded = blob ? await browserDecode(blob) : null;
-      if (decoded) return { data: decoded, width: decoded.width, height: decoded.height };
-      throw new QRGenError("bad-request", describeUnsupported(bytes));
-    }
+    // Normalize browser images once so both polarities share the same EXIF
+    // orientation, pixels, and actual frame dimensions.
+    const blob = typeof Blob !== "undefined" ? (input instanceof Blob ? input : new Blob([input as BlobPart])) : null;
+    const decoded = blob ? await browserDecode(blob) : null;
+    if (decoded) return { data: decoded, width: decoded.width, height: decoded.height };
+    if (!builtinFormat(bytes)) throw new QRGenError("bad-request", describeUnsupported(bytes));
   }
   if (typeof ImageData !== "undefined" && input instanceof ImageData) return { data: input, width: input.width, height: input.height };
   if (input instanceof ArrayBuffer || input instanceof Uint8Array) return { data: input, width: 0, height: 0 };
@@ -166,11 +177,14 @@ export async function scanImage(input: ImageInput, options: ScanImageOptions = {
     formats: toZXingReadFormats(ids),
     tryHarder: options.tryHarder ?? true,
     tryRotate: true,
-    tryInvert: true,
+    tryInvert: options.tryInvert ?? true,
     tryDownscale: true,
     maxNumberOfSymbols: Math.max(1, Math.min(255, options.maxResults ?? 255)),
   };
-  const raws = await decodeOnMainThread(data, params);
+  const raws = await decodeOnMainThread(data, params, async () => {
+    const bytes = data instanceof Uint8Array ? data : data instanceof ArrayBuffer ? new Uint8Array(data) : new Uint8Array(await (data as Blob).arrayBuffer());
+    return encodedRasterDecoder ? encodedRasterDecoder(bytes) : null;
+  });
   const requested = ids.length === ALL_SYMBOLOGIES.length ? undefined : new Set(ids);
   return toBarcodes(raws, { frameSize: size, requested });
 }

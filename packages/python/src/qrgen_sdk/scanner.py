@@ -216,34 +216,63 @@ def decode(
     Binarizers are tried in order until one of them finds a code. Most callers
     should use :func:`scan` instead.
     """
-    formats = to_zxing_formats(requested)
     timestamp = now_ms()
     barcodes: List[Barcode] = []
-    seen = set()
-    for binarizer in binarizers or [zxingcpp.Binarizer.LocalAverage]:
-        results = zxingcpp.read_barcodes(
-            img,
-            formats=formats,
-            try_rotate=try_rotate,
-            try_downscale=try_downscale,
-            try_invert=try_invert,
-            text_mode=zxingcpp.TextMode.HRI,
-            binarizer=binarizer,
-        )
-        for result in results:
-            barcode = _to_barcode(result, requested, width, height, timestamp)
-            if barcode is None:
-                continue
-            key = (barcode.symbology, barcode.data, barcode.location.bounds)
-            if key in seen:
-                continue
-            seen.add(key)
-            barcodes.append(barcode)
-            if max_results is not None and len(barcodes) >= max_results:
-                return barcodes
-        if barcodes:
-            break
+    native_inversion = {"qr", "micro-qr", "rmqr", "data-matrix", "aztec"}
+    extra_requested = [sid for sid in requested if sid not in native_inversion]
+    passes = [(img, requested, try_invert)]
+    if try_invert and extra_requested:
+        passes.append((None, extra_requested, False))
+    for pass_image, pass_requested, engine_invert in passes:
+        if pass_image is None:
+            from PIL import Image, ImageOps
+
+            if isinstance(img, Image.Image):
+                if img.mode == "RGBA":
+                    pass_image = ImageOps.invert(img.convert("RGB"))
+                    pass_image.putalpha(img.getchannel("A"))
+                else:
+                    pass_image = ImageOps.invert(img)
+            else:
+                import numpy as np
+
+                pass_image = np.subtract(255, img, dtype=np.uint8)
+                if pass_image.ndim == 3 and pass_image.shape[2] == 4:
+                    pass_image[:, :, 3] = img[:, :, 3]
+        for binarizer in binarizers or [zxingcpp.Binarizer.LocalAverage]:
+            results = zxingcpp.read_barcodes(
+                pass_image,
+                formats=to_zxing_formats(pass_requested),
+                try_rotate=try_rotate,
+                try_downscale=try_downscale,
+                try_invert=engine_invert,
+                text_mode=zxingcpp.TextMode.HRI,
+                binarizer=binarizer,
+            )
+            found_in_pass = False
+            for result in results:
+                barcode = _to_barcode(result, requested, width, height, timestamp)
+                if barcode is None:
+                    continue
+                found_in_pass = True
+                if any(_same_detection(existing, barcode) for existing in barcodes):
+                    continue
+                barcodes.append(barcode)
+                if max_results is not None and len(barcodes) >= max_results:
+                    return barcodes
+            if found_in_pass:
+                break
     return barcodes
+
+
+def _same_detection(a: Barcode, b: Barcode) -> bool:
+    if (a.symbology, a.data, a.raw_bytes) != (b.symbology, b.data, b.raw_bytes):
+        return False
+    ax, ay, aw, ah = a.location.bounds
+    bx, by, bw, bh = b.location.bounds
+    intersection = max(0, min(ax + aw, bx + bw) - max(ax, bx)) * max(0, min(ay + ah, by + bh) - max(ay, by))
+    union = aw * ah + bw * bh - intersection
+    return intersection / union >= 0.5 if union else a.location.bounds == b.location.bounds
 
 
 def scan_file(

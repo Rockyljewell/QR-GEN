@@ -29,7 +29,7 @@ export default defineConfig([
     target: "es2020",
     shims: true,
     treeshake: true,
-    external: ["react", "vue", "zxing-wasm"],
+    external: ["react", "vue", "zxing-wasm", "pngjs", "jpeg-js", "bmp-ts", "omggif"],
     banner,
   },
   // CLI
@@ -38,7 +38,7 @@ export default defineConfig([
     format: ["esm"],
     platform: "node",
     target: "node18",
-    external: ["zxing-wasm"],
+    external: ["zxing-wasm", "pngjs", "jpeg-js", "bmp-ts", "omggif"],
     banner: { js: `#!/usr/bin/env node\n${BANNER}` },
     clean: false,
   },
