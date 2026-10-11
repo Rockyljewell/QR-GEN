@@ -69,7 +69,7 @@ export class ScanSession {
   }
 
   /** Feeds the codes decoded in one frame. */
-  process(barcodes: readonly Barcode[], now: number = Date.now()): ScanSessionResult {
+  process(barcodes: readonly Barcode[], now?: number): ScanSessionResult {
     if (this.done) return EMPTY;
     switch (this.currentMode) {
       case 'single': {
@@ -92,7 +92,7 @@ export class ScanSession {
    * Batch mode housekeeping for frames without codes: drops codes unseen for
    * longer than the tracking timeout. Returns the tracked list when it changed.
    */
-  tick(now: number = Date.now()): TrackedBarcode[] | null {
+  tick(now?: number): TrackedBarcode[] | null {
     if (this.currentMode !== 'batch') return null;
     const update = this.tracker.prune(now);
     return update.changed ? update.tracked : null;
