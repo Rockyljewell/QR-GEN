@@ -4,9 +4,10 @@
  * Batch tracker (SPEC section 4, `mode: "batch"`). Pure TypeScript.
  */
 import { barcodeKey } from './duplicateFilter';
+import { associateSpatial, associationWork, snapshotBarcode, spatialSize, validateSpatialFrame } from './spatialAssociation';
 import { DurationClock } from './durationClock';
 import type { DurationSample } from './durationClock';
-import type { Barcode, TrackedBarcode } from './types';
+import type { Barcode, Size, TrackedBarcode } from './types';
 
 /** Default time after which an unseen code is dropped, in ms. */
 export const DEFAULT_TRACKING_TIMEOUT = 500;
@@ -32,7 +33,7 @@ export interface TrackerUpdate {
   tracked: TrackedBarcode[];
   /** Codes seen for the first time in this update. */
   added: TrackedBarcode[];
-  /** Codes dropped because they were not seen for `timeout` ms. */
+  /** Codes dropped after `timeout` ms unseen or a spatial frame-size change. */
   removed: TrackedBarcode[];
   /** True when anything was seen, added or removed. */
   changed: boolean;
@@ -42,11 +43,24 @@ export interface TrackerUpdate {
 export interface TrackerOptions {
   /** Drop codes not seen for this many ms. Default 500. */
   timeout?: number;
+  /** Separate equal-payload observations by position. Default false. */
+  spatial?: boolean;
+  /** Spatial center-distance gate relative to the detection's size. Default 3. */
+  maxJump?: number;
+  /** Positive integer assignment-work limit. Default 250,000; not a time guarantee. */
+  maxAssociationWork?: number;
+}
+
+function spatialTime(sample: DurationSample): void {
+  if (!Number.isFinite(sample.timestamp) || !Number.isFinite(sample.elapsed)) throw new RangeError('Spatial tracking requires finite epoch and elapsed clocks');
 }
 
 /**
- * Follows codes across frames. Codes are identified by symbology + data, get a
- * stable id derived from {@link trackingId}, and are dropped after `timeout` ms unseen.
+ * Follows codes across frames. Default payload mode groups by symbology + data
+ * and derives IDs from {@link trackingId}. Optional spatial mode uses fresh opaque
+ * IDs and whole-frame gated one-to-one association: most matches, then least
+ * total center movement. Tracks describe observations, not confirmed quantities
+ * or persistent physical identity. Unseen tracks expire after `timeout` ms.
  * Omitted time uses monotonic durations while result timestamps remain epoch
  * milliseconds. Explicit time is an injected clock; transitions preserve timestamp age.
  */
@@ -54,13 +68,35 @@ export class BarcodeTracker {
   readonly timeout: number;
   private items = new Map<string, TrackedBarcode>();
   private activeIds = new Set<string>();
+  private readonly spatialPolicy: boolean;
+  private readonly jumpPolicy: number;
+  private readonly workPolicy: number;
+  private spatialFrameSize: Size | null = null;
+  private nextSpatialId = 1;
   private lastObserved = new Map<string, number>();
   private clock = new DurationClock();
 
   constructor(options: TrackerOptions = {}) {
     const t = options.timeout;
     this.timeout = typeof t === 'number' && t >= 0 && Number.isFinite(t) ? t : DEFAULT_TRACKING_TIMEOUT;
+    const spatialOption = options.spatial, jumpOption = options.maxJump, workOption = options.maxAssociationWork;
+    const spatial = spatialOption === undefined ? false : spatialOption;
+    const jump = jumpOption === undefined ? 3 : jumpOption;
+    const work = workOption === undefined ? 250_000 : workOption;
+    if (typeof spatial !== 'boolean') throw new TypeError('spatial must be a boolean');
+    if (typeof jump !== 'number' || !Number.isFinite(jump) || jump < 0) throw new RangeError('maxJump must be finite and nonnegative');
+    if (!Number.isSafeInteger(work) || work <= 0) throw new RangeError('maxAssociationWork must be a positive safe integer');
+    this.spatialPolicy = spatial;
+    this.jumpPolicy = jump;
+    this.workPolicy = work;
   }
+
+  /** Construction-only tracking policy. */
+  get spatial(): boolean { return this.spatialPolicy; }
+  /** Construction-only movement gate. */
+  get maxJump(): number { return this.jumpPolicy; }
+  /** Construction-only conservative assignment-work budget. */
+  get maxAssociationWork(): number { return this.workPolicy; }
 
   /** Number of codes currently tracked. */
   get size(): number {
@@ -76,8 +112,16 @@ export class BarcodeTracker {
    * Feeds the codes decoded in one frame. Known codes get their location and
    * timestamp refreshed and their `count` incremented (once per frame); new
    * codes are added; codes unseen for longer than `timeout` are removed.
+   * Spatial records require usable corners and consistent positive integer source
+   * dimensions. `frameSize` detects coordinate-space changes on empty frames;
+   * default payload mode ignores it. Clear on same-size source changes.
+   * Invalid or over-budget spatial input leaves state unchanged. Work sums
+   * `n*n*(m+n)` over exact-payload groups with `m > 0` surviving prior tracks;
+   * new-only groups require no assignment. Raise the budget explicitly for larger
+   * offline workloads; this is not a latency or memory guarantee.
    */
-  update(barcodes: readonly Barcode[], now?: number): TrackerUpdate {
+  update(barcodes: readonly Barcode[], now?: number, frameSize?: Size): TrackerUpdate {
+    if (this.spatial) return this.updateSpatial(barcodes, now, frameSize);
     const sample = this.clock.preview(now);
     const items = new Map(this.items), activeIds = new Set(this.activeIds);
     const observed = new Map(this.elapsedHistory(sample));
@@ -107,6 +151,7 @@ export class BarcodeTracker {
 
   /** Removes codes unseen for longer than `timeout`. Call it on a timer when no frames arrive. */
   prune(now?: number): TrackerUpdate {
+    if (this.spatial) return this.updateSpatial([], now);
     const sample = this.clock.preview(now);
     const items = new Map(this.items), activeIds = new Set(this.activeIds);
     const observed = new Map(this.elapsedHistory(sample));
@@ -122,8 +167,67 @@ export class BarcodeTracker {
   reset(): void {
     this.items.clear();
     this.activeIds.clear();
+    this.spatialFrameSize = null;
     this.lastObserved.clear();
     this.clock.reset();
+  }
+
+  private updateSpatial(barcodes: readonly Barcode[], value: number | undefined, frameSize?: Size): TrackerUpdate {
+    const detections = Array.from(barcodes, snapshotBarcode);
+    const size = validateSpatialFrame(detections, this.maxJump, frameSize === undefined ? undefined : spatialSize(frameSize));
+    const retained = [...this.items].map(([id, value]) => {
+      const track = snapshotBarcode(value);
+      if (track.id !== id || typeof track.id !== 'string' || !Number.isFinite(track.firstSeen) || !Number.isFinite(track.lastSeen)
+        || !Number.isSafeInteger(track.count) || track.count <= 0) {
+        throw new RangeError('Spatial retained track identity, timestamps and count must be valid');
+      }
+      return track;
+    });
+    validateSpatialFrame(retained, this.maxJump, this.spatialFrameSize ?? undefined);
+    const sample = this.clock.preview(value);
+    spatialTime(sample);
+    const now = sample.timestamp;
+    // Rebase from the validated snapshots, using the same timestamp-age policy
+    // as payload mode, without rereading caller-owned getters or mutating history.
+    const observed = sample.changed ? new Map(retained.map(track =>
+      [track.id, sample.elapsed - (sample.timestamp - track.lastSeen)])) : new Map(this.lastObserved);
+    for (const track of retained) {
+      if (!Number.isFinite(observed.get(track.id))) throw new RangeError('Spatial elapsed history must remain finite');
+    }
+    const reset = size !== null && this.spatialFrameSize !== null
+      && (size.width !== this.spatialFrameSize.width || size.height !== this.spatialFrameSize.height);
+    const removed = retained.filter(track => reset || sample.elapsed - observed.get(track.id)! > this.timeout);
+    const previous = retained.filter(track => !reset && sample.elapsed - observed.get(track.id)! <= this.timeout);
+    for (const track of removed) observed.delete(track.id);
+    const work = associationWork(detections, previous);
+    if (work > this.maxAssociationWork) throw new RangeError(`Spatial association work ${work} exceeds maxAssociationWork=${this.maxAssociationWork}`);
+    const matched = associateSpatial(detections, previous, this.maxJump);
+    const next = new Map(previous.map(track => [track.id, track]));
+    const added: TrackedBarcode[] = [];
+    let ordinal = this.nextSpatialId;
+    for (let index = 0; index < detections.length; index++) {
+      const barcode = detections[index]!;
+      const old = matched.get(index);
+      let item: TrackedBarcode;
+      if (old) {
+        if (!Number.isSafeInteger(old.count + 1)) throw new RangeError('Spatial observation count exceeds safe integer range');
+        item = { ...barcode, id: old.id, firstSeen: old.firstSeen, lastSeen: now, count: old.count + 1 };
+      } else {
+        if (!Number.isSafeInteger(ordinal + 1)) throw new RangeError('Spatial tracking ID range exhausted');
+        item = { ...barcode, id: `spatial-${ordinal++}`, firstSeen: now, lastSeen: now, count: 1 };
+        added.push(item);
+      }
+      next.set(item.id, item);
+      observed.set(item.id, sample.elapsed);
+    }
+    const result = { tracked: [...next.values()], added, removed, changed: detections.length > 0 || removed.length > 0 };
+    // The complete output and ID plan exist before the first state mutation.
+    this.items = next;
+    this.lastObserved = observed;
+    this.nextSpatialId = ordinal;
+    if (size !== null) this.spatialFrameSize = size;
+    this.clock.commit(sample);
+    return result;
   }
 
   private allocateId(base: string, activeIds: Set<string>): string {

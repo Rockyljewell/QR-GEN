@@ -17,18 +17,18 @@ import {
   type StyleProp,
   type ViewStyle,
 } from 'react-native';
-import type { CameraDevice, CameraRuntimeError, Code, CodeScannerFrame } from 'react-native-vision-camera';
+import type { CameraDevice, CameraRuntimeError, Code, CodeScannerFrame, Orientation } from 'react-native-vision-camera';
 import { quadrilateralBounds } from './barcode';
 import { createQRGenError, toQRGenError } from './errors';
 import { playScanFeedback, type BeepHandler } from './feedback';
-import { defaultViewfinderRect, frameToViewTransform, quadrilateralToView } from './geometry';
+import { defaultViewfinderRect, frameToViewTransform, quadrilateralToView, uprightFrameSize } from './geometry';
+import { NativeCameraSource, nativeConfiguration, nativeConfigurationEqual, nativeSourceKey, viewAxis,
+  type AcceptedNativeConfiguration, type CameraSourceToken, type NativeConfiguration } from './NativeCameraSource';
 import { ScannerOverlay, type OverlayHighlight, type OverlayToast } from './ScannerOverlay';
 import { ScanSession } from './session';
 import {
   isLinearOnly,
-  resolveSymbologies,
   symbologyName,
-  toVisionCameraCodeTypes,
   visionCameraSupportedSymbologies,
   type PlatformInfo,
   type SymbologyId,
@@ -81,6 +81,12 @@ export function supportedSymbologies(): SymbologyId[] {
 
 /** Props of {@link QRGenScanner}. */
 export interface QRGenScannerProps extends Omit<ScannerOptions, 'beep'> {
+  /** Batch mode: follow separate equal-payload observations by position. Default false. Native only. */
+  spatialTracking?: boolean;
+  /** Spatial movement gate relative to barcode size. Default 3; finite and nonnegative. */
+  trackMaxJump?: number;
+  /** Spatial assignment-work budget. Default 250,000; a positive safe integer. */
+  trackMaxAssociationWork?: number;
   /**
    * Play a sound on scan. `true` (default) plays the handler registered with
    * `setBeepHandler` (silent when none is registered); a function is called
@@ -196,39 +202,40 @@ interface InnerProps extends QRGenScannerProps {
 const VisionCameraScanner = forwardRef<QRGenScannerHandle, InnerProps>(function VisionCameraScanner(props, ref) {
   const { vc } = props;
   const latest = useRef(props);
-  latest.current = props;
-
+  useLayoutEffect(() => { latest.current = props; });
   const platform = useMemo<PlatformInfo>(() => ({ os: Platform.OS, version: Platform.Version }), []);
-  const symbologyKey = (props.symbologies ?? DEFAULT_SCANNER_OPTIONS.symbologies).join(',');
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const requested = useMemo(() => resolveSymbologies(props.symbologies), [symbologyKey]);
-  const codeTypes = useMemo(() => toVisionCameraCodeTypes(requested, platform), [requested, platform]);
-  const mode = props.mode ?? DEFAULT_SCANNER_OPTIONS.mode;
-  const duplicateFilter = props.duplicateFilter ?? DEFAULT_SCANNER_OPTIONS.duplicateFilter;
-  const maxResults = props.maxResults ?? (mode === 'batch' ? DEFAULT_SCANNER_OPTIONS.batchMaxResults : DEFAULT_SCANNER_OPTIONS.maxResults);
-  const viewfinder = props.viewfinder ?? (isLinearOnly(requested) ? 'line' : 'frame');
-  const accentColor = props.accentColor ?? QRGEN_ACCENT_COLOR;
-  const camera = props.camera ?? DEFAULT_SCANNER_OPTIONS.camera;
-  const isActiveProp = props.isActive ?? true;
-
   const [runState, setRunState] = useState<RunState>('running');
   const [torchOn, setTorchOn] = useState<boolean>(props.torch ?? false);
-  const [viewSize, setViewSize] = useState<Size | null>(null);
+  const [measuredView, setMeasuredView] = useState<Size | null>(null);
   const [frameSize, setFrameSize] = useState<Size | null>(null);
   const [highlights, setHighlights] = useState<OverlayHighlight[]>([]);
   const [toast, setToast] = useState<OverlayToast | null>(null);
   const [appActive, setAppActive] = useState<boolean>(AppState.currentState !== 'background' && AppState.currentState !== 'inactive');
   const [error, setError] = useState<QRGenError | null>(null);
-
+  const [orientationRevision, setOrientationRevision] = useState(0);
+  const [accepted, setAccepted] = useState<AcceptedNativeConfiguration | null>(null);
+  const acceptedRef = useRef(accepted);
   const sessionRef = useRef<ScanSession | null>(null);
-  if (!sessionRef.current) sessionRef.current = new ScanSession({ mode, duplicateFilter });
+  // Validate the initial proposal in layout before rendering any camera.
+  if (!sessionRef.current) sessionRef.current = new ScanSession();
   const session = sessionRef.current;
   const deliveryGeneration = useRef(0);
   const mounted = useRef(true);
+  const transition = useRef(true);
+  const activeSource = useRef<CameraSourceToken | null>(null);
+  const registration = useRef<{ token: CameraSourceToken; revision: number; key: string } | null>(null);
+  const pendingClear = useRef<{ generation: number; key: string } | null>(null);
+  const attempted = useRef<{ config?: NativeConfiguration; rejectedInputs?: readonly unknown[] } | null>(null);
+  const knownOrientations = useRef(new Map<string, { preview?: Orientation; output?: Orientation }>());
+  const viewSizeRef = useRef<Size | null>(null);
+  const highlightTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const toastId = useRef(0);
   useLayoutEffect(() => {
     mounted.current = true;
     return () => {
       mounted.current = false;
+      transition.current = true;
+      activeSource.current = null;
       deliveryGeneration.current += 1;
     };
   }, []);
@@ -239,91 +246,200 @@ const VisionCameraScanner = forwardRef<QRGenScannerHandle, InnerProps>(function 
     latest.current.onError?.(err);
   }, []);
 
-  // Options -> session. Changing the mode also restarts a finished `single` scan.
-  const previousMode = useRef(mode);
-  useLayoutEffect(() => {
-    session.configure({ mode, duplicateFilter });
-    if (previousMode.current !== mode) {
-      deliveryGeneration.current += 1;
-      previousMode.current = mode;
-      setRunState('running');
-    }
-  }, [session, mode, duplicateFilter]);
-
-  // Torch prop -> state (the ref's setTorch can override until the prop changes).
-  useEffect(() => {
-    setTorchOn(props.torch ?? false);
-  }, [props.torch]);
-
-  // Pause the camera while the app is in the background.
-  useEffect(() => {
-    const sub = AppState.addEventListener('change', (state) => setAppActive(state === 'active'));
-    return () => sub.remove();
-  }, []);
-
-  // Permission.
   const { hasPermission, requestPermission } = vc.useCameraPermission();
   const [permission, setPermission] = useState<'unknown' | 'granted' | 'denied'>(hasPermission ? 'granted' : 'unknown');
   useEffect(() => {
     if (hasPermission) {
       setPermission('granted');
-      setError((e) => (e?.code === 'camera-permission-denied' ? null : e));
+      setError(e => e?.code === 'camera-permission-denied' ? null : e);
       return;
     }
     let cancelled = false;
-    requestPermission()
-      .then((granted) => {
-        if (cancelled) return;
-        setPermission(granted ? 'granted' : 'denied');
-        if (!granted) emitError('camera-permission-denied', 'Camera permission was denied. Enable it in Settings to scan.');
-      })
-      .catch((e: unknown) => {
-        if (!cancelled) emitError(toQRGenError(e, 'camera-permission-denied'));
-      });
-    return () => {
-      cancelled = true;
-    };
+    requestPermission().then(granted => {
+      if (cancelled) return;
+      setPermission(granted ? 'granted' : 'denied');
+      if (!granted) emitError('camera-permission-denied', 'Camera permission was denied. Enable it in Settings to scan.');
+    }).catch((e: unknown) => { if (!cancelled) emitError(toQRGenError(e, 'camera-permission-denied')); });
+    return () => { cancelled = true; };
   }, [hasPermission, requestPermission, emitError]);
+  useEffect(() => {
+    const sub = AppState.addEventListener('change', state => setAppActive(state === 'active'));
+    return () => sub.remove();
+  }, []);
 
-  // Device.
-  const position = camera === 'front' ? 'front' : 'back';
+  const cameraProposal = props.camera ?? DEFAULT_SCANNER_OPTIONS.camera;
   const devices = vc.useCameraDevices();
-  const byPosition = vc.useCameraDevice(position);
-  const device: CameraDevice | undefined =
-    camera === 'front' || camera === 'back' ? byPosition : devices.find((d) => d.id === camera) ?? byPosition;
-  const mirrored = device?.position === 'front';
+  const byPosition = vc.useCameraDevice(cameraProposal === 'front' ? 'front' : 'back');
+  const proposedDevice: CameraDevice | undefined = cameraProposal === 'front' || cameraProposal === 'back'
+    ? byPosition : devices.find(d => d.id === cameraProposal) ?? byPosition;
+  const windowSize = Dimensions.get('window');
+  // Nested throwing inputs retain stable identity across internal error renders.
+  // Callback/presentation props do not create a new operational proposal.
+  const rejectionInputs: readonly unknown[] = [props.mode, props.duplicateFilter, props.spatialTracking,
+    props.trackMaxJump, props.trackMaxAssociationWork, props.camera, props.symbologies, props.scanArea,
+    props.maxResults, props.isActive, props.torch, props.beep, props.vibrate];
+  let proposal: NativeConfiguration | undefined;
+  let proposalError: unknown;
+  try {
+    proposal = nativeConfiguration(props, proposedDevice, platform, measuredView, windowSize, orientationRevision);
+  } catch (e: unknown) { proposalError = e; }
 
-  useEffect(() => {
-    if (permission === 'granted' && !device) emitError('camera-not-found', `No ${camera} camera was found on this device.`);
-  }, [permission, device, camera, emitError]);
-
-  useEffect(() => {
-    if (codeTypes.length === 0) {
-      emitError('unsupported', `None of the requested symbologies (${requested.join(', ') || 'none'}) can be read by react-native-vision-camera on ${Platform.OS}.`);
-    }
-  }, [codeTypes, requested, emitError]);
-
+  const device = accepted?.device;
   const hasTorch = device?.hasTorch ?? false;
+  const viewSize = accepted?.viewSize ?? null;
+  const mirrored = accepted?.mirrored ?? false;
+  const mode = accepted?.mode ?? DEFAULT_SCANNER_OPTIONS.mode;
+  const viewfinder = props.viewfinder ?? (accepted && isLinearOnly(accepted.requested) ? 'line' : 'frame');
+  const accentColor = props.accentColor ?? QRGEN_ACCENT_COLOR;
+  // Physical availability gates the accepted source even when a new prop proposal is rejected.
+  const deviceAvailable = device !== undefined && devices.some(current => current.id === device.id);
+  const canRun = accepted !== null && hasPermission && permission === 'granted' && deviceAvailable && accepted.codeTypes.length > 0;
+  const cameraActive = canRun && accepted!.isActive && appActive && runState !== 'stopped';
+  const runtime = useRef({ cameraActive, runState });
+  useLayoutEffect(() => {
+    runtime.current = { cameraActive, runState };
+    viewSizeRef.current = viewSize;
+  });
+
+  // Called only after successful configure, or for an external coordinate fact.
+  const publish = useCallback((candidate: NativeConfiguration, policyChanged: boolean, oldCount: number) => {
+    const previous = acceptedRef.current;
+    if (previous && nativeConfigurationEqual(previous, candidate)) return;
+    const modeChanged = previous !== null && previous.mode !== candidate.mode;
+    const spatialSourceChanged = previous !== null && (previous.spatialTracking || candidate.spatialTracking)
+      && previous.device?.id !== candidate.device?.id;
+    const coordinateChanged = previous !== null && candidate.spatialTracking
+      && (viewAxis(previous.viewSize ?? { width: 0, height: 0 }) !== viewAxis(candidate.viewSize ?? { width: 0, height: 0 })
+        || viewAxis(previous.conversionView) !== viewAxis(candidate.conversionView)
+        || previous.orientationRevision !== candidate.orientationRevision);
+    const owedClear = previous !== null && pendingClear.current?.generation === deliveryGeneration.current
+      && pendingClear.current.key === nativeSourceKey(previous);
+    const boundary = modeChanged || policyChanged || spatialSourceChanged || coordinateChanged;
+    if (boundary) {
+      deliveryGeneration.current += 1;
+      pendingClear.current = null;
+      activeSource.current = null;
+    }
+    transition.current = true;
+    if ((spatialSourceChanged || coordinateChanged) && !policyChanged) session.resetSpatial();
+    const next: AcceptedNativeConfiguration = { ...candidate,
+      revision: (previous?.revision ?? 0) + 1,
+      coordinateEpoch: (previous?.coordinateEpoch ?? 0) + (coordinateChanged ? 1 : 0) };
+    if (policyChanged || spatialSourceChanged || coordinateChanged) {
+      setHighlights([]);
+      if (spatialSourceChanged || coordinateChanged) setFrameSize(null);
+      if ((oldCount > 0 || owedClear) && previous?.mode === 'batch' && candidate.mode === 'batch') {
+        pendingClear.current = { generation: deliveryGeneration.current, key: nativeSourceKey(next) };
+      }
+    }
+    acceptedRef.current = next;
+    setAccepted(next);
+    if (modeChanged) setRunState('running');
+  }, [session]);
+
+  useLayoutEffect(() => {
+    const previous = acceptedRef.current;
+    const applyExternalCoordinates = () => {
+      if (!previous?.spatialTracking) return;
+      const basis = measuredView ?? windowSize;
+      // Only plain accepted settings and independent native facts participate.
+      const coordinates: NativeConfiguration = { ...previous,
+        conversionView: { width: basis.width, height: basis.height },
+        viewSize: measuredView ? { ...measuredView } : null, orientationRevision };
+      if (nativeConfigurationEqual(previous, coordinates)) return;
+      if (!Number.isSafeInteger(previous.revision + 1) || !Number.isSafeInteger(previous.coordinateEpoch + 1)) {
+        throw new RangeError('Native configuration range exhausted');
+      }
+      publish(coordinates, false, session.tracked.length);
+    };
+    if (!proposal) {
+      let failure = proposalError;
+      try { applyExternalCoordinates(); } catch (e: unknown) { failure = e; }
+      const rejected = attempted.current?.rejectedInputs;
+      if (rejected && rejected.length === rejectionInputs.length
+        && rejected.every((value, index) => value === rejectionInputs[index] || Object.is(value, rejectionInputs[index]))) return;
+      attempted.current = { rejectedInputs: rejectionInputs };
+      emitError(toQRGenError(failure));
+      return;
+    }
+    if (attempted.current?.config && nativeConfigurationEqual(attempted.current.config, proposal)) return;
+    attempted.current = { config: proposal };
+    try {
+      if (!Number.isSafeInteger((previous?.revision ?? 0) + 1)
+        || !Number.isSafeInteger((previous?.coordinateEpoch ?? 0) + 1)) throw new RangeError('Native configuration range exhausted');
+      const oldCount = session.tracked.length;
+      const oldSpatial = session.spatialTracking, oldJump = session.trackMaxJump, oldWork = session.trackMaxAssociationWork;
+      session.configure({ mode: proposal.mode, duplicateFilter: proposal.duplicateFilter,
+        spatialTracking: proposal.spatialTracking, trackMaxJump: proposal.trackMaxJump,
+        trackMaxAssociationWork: proposal.trackMaxAssociationWork });
+      const changed = oldSpatial !== session.spatialTracking || oldJump !== session.trackMaxJump || oldWork !== session.trackMaxAssociationWork;
+      publish(proposal, changed, oldCount);
+    } catch (e: unknown) {
+      // A real layout/orientation event is independent of rejected prop policy.
+      let failure = e;
+      try { applyExternalCoordinates(); } catch (coordinateError: unknown) { failure = coordinateError; }
+      emitError(toQRGenError(failure));
+    }
+  });
+
+  const registerSource = useCallback((token: CameraSourceToken, revision: number, key: string) => {
+    registration.current = { token, revision, key };
+  }, []);
+  const unregisterSource = useCallback((token: CameraSourceToken) => {
+    if (registration.current?.token === token) registration.current = null;
+    if (activeSource.current !== token) return;
+    activeSource.current = null;
+    if (!mounted.current || transition.current) return;
+    transition.current = true;
+    const config = acceptedRef.current;
+    if (config?.spatialTracking) {
+      deliveryGeneration.current += 1;
+      if (session.resetSpatial() && config.mode === 'batch') pendingClear.current = {
+        generation: deliveryGeneration.current, key: nativeSourceKey(config),
+      };
+      setHighlights([]);
+      setFrameSize(null);
+    }
+  }, [session]);
+
+  // The parent activates after runtime/configuration effects, regardless of child effect order.
+  useLayoutEffect(() => {
+    const config = acceptedRef.current, child = registration.current;
+    if (!mounted.current || !config) return;
+    const key = nativeSourceKey(config);
+    if (accepted?.revision !== config.revision) return;
+    if (config.spatialTracking && (config.orientationRevision !== orientationRevision
+      || viewAxis(config.conversionView) !== viewAxis(measuredView ?? windowSize)
+      || viewAxis(config.viewSize ?? { width: 0, height: 0 }) !== viewAxis(measuredView ?? { width: 0, height: 0 }))) return;
+    if (canRun) {
+      if (!child || child.revision !== config.revision || child.key !== key) return;
+      activeSource.current = child.token;
+      transition.current = false;
+    }
+    const clear = pendingClear.current;
+    if (clear && clear.generation === deliveryGeneration.current && clear.key === key && config.mode === 'batch'
+      && (!canRun || !transition.current)) {
+      pendingClear.current = null;
+      latest.current.onTrack?.([]);
+    }
+  });
+
+  useEffect(() => { if (accepted) setTorchOn(accepted.torch); }, [accepted?.torch]);
   useEffect(() => {
-    if (torchOn && device && !hasTorch) emitError('unsupported', 'This camera has no torch.');
-  }, [torchOn, device, hasTorch, emitError]);
-
-  const canRun = permission === 'granted' && device != null && codeTypes.length > 0;
-  const cameraActive = canRun && isActiveProp && appActive && runState !== 'stopped';
-
-  // Values read by the frame callback.
-  const live = useRef({ cameraActive, runState, requested, maxResults, mirrored, mode });
-  live.current = { cameraActive, runState, requested, maxResults, mirrored, mode };
-  const viewSizeRef = useRef<Size | null>(null);
-  const highlightTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const toastId = useRef(0);
+    if (permission === 'granted' && accepted && !deviceAvailable) emitError('camera-not-found', `No ${accepted.camera} camera was found on this device.`);
+  }, [permission, accepted?.camera, deviceAvailable, emitError]);
+  useEffect(() => {
+    if (accepted && accepted.codeTypes.length === 0) emitError('unsupported',
+      `None of the requested symbologies (${accepted.requested.join(', ') || 'none'}) can be read by react-native-vision-camera on ${Platform.OS}.`);
+  }, [accepted?.codeTypes.join(','), emitError]);
+  useEffect(() => { if (torchOn && device && !hasTorch) emitError('unsupported', 'This camera has no torch.'); }, [torchOn, device, hasTorch, emitError]);
 
   const showHighlightsFor = useCallback((list: readonly Barcode[], linger: boolean) => {
     if (latest.current.showHighlights === false) return;
     const view = viewSizeRef.current;
     if (!view) return;
     const next = list.map((b, i) => {
-      const t = frameToViewTransform(b.frameSize, view, { resizeMode: 'cover', mirrored: live.current.mirrored });
+      const t = frameToViewTransform(b.frameSize, view, { resizeMode: 'cover', mirrored: acceptedRef.current?.mirrored ?? false });
       const rect = quadrilateralBounds(quadrilateralToView(b.location, t));
       const key = 'id' in b ? String((b as TrackedBarcode).id) : `${barcodeKey(b)}#${i}`;
       return { key, rect };
@@ -331,175 +447,137 @@ const VisionCameraScanner = forwardRef<QRGenScannerHandle, InnerProps>(function 
     setHighlights(next);
     if (highlightTimer.current) clearTimeout(highlightTimer.current);
     highlightTimer.current = null;
-    if (linger && next.length > 0) {
-      highlightTimer.current = setTimeout(() => setHighlights([]), HIGHLIGHT_LINGER_MS);
-    }
+    if (linger && next.length > 0) highlightTimer.current = setTimeout(() => setHighlights([]), HIGHLIGHT_LINGER_MS);
   }, []);
+  useEffect(() => () => { if (highlightTimer.current) clearTimeout(highlightTimer.current); }, []);
 
-  useEffect(
-    () => () => {
-      if (highlightTimer.current) clearTimeout(highlightTimer.current);
-    },
-    [],
-  );
-
-  const onCodeScanned = useCallback(
-    (codes: Code[], frame: CodeScannerFrame) => {
-      const state = live.current;
-      if (!mounted.current || !state.cameraActive || state.runState !== 'running') return;
-      const now = Date.now();
-      const window = Dimensions.get('window');
-      const view = viewSizeRef.current ?? { width: window.width, height: window.height };
-      const converted = convertVisionCameraCodes(codes, frame, { requested: state.requested, platform, viewSize: view, timestamp: now });
-      const barcodes = selectBarcodes(converted, { scanArea: latest.current.scanArea, maxResults: state.maxResults });
-      if (barcodes.length > 0) {
-        const fs = barcodes[0]!.frameSize;
-        setFrameSize((prev) => (prev && prev.width === fs.width && prev.height === fs.height ? prev : fs));
+  const sourceEligible = useCallback((token: CameraSourceToken) => mounted.current && !transition.current
+    && activeSource.current === token, []);
+  const onCodeScanned = useCallback((token: CameraSourceToken, codes: Code[], frame: CodeScannerFrame) => {
+    const state = acceptedRef.current;
+    if (!state || !sourceEligible(token) || !runtime.current.cameraActive || runtime.current.runState !== 'running') return;
+    let barcodes: Barcode[], result: ReturnType<ScanSession['process']>, sourceSize: Size;
+    try {
+      const rawFrame = { width: frame.width, height: frame.height };
+      sourceSize = uprightFrameSize(rawFrame, state.conversionView);
+      const converted = convertVisionCameraCodes(codes, rawFrame, {
+        requested: state.requested, platform, viewSize: state.conversionView, timestamp: Date.now(),
+      });
+      barcodes = selectBarcodes(converted, { scanArea: state.scanArea, maxResults: state.maxResults });
+      result = session.process(barcodes, undefined, state.spatialTracking ? sourceSize : undefined);
+    } catch (e: unknown) { emitError(toQRGenError(e)); return; }
+    if (state.spatialTracking || barcodes.length > 0) {
+      const size = state.spatialTracking ? sourceSize : barcodes[0]!.frameSize;
+      setFrameSize(prev => prev && prev.width === size.width && prev.height === size.height ? prev : size);
+    }
+    const delivery = result.tracked !== null ? ++deliveryGeneration.current : deliveryGeneration.current;
+    if (result.tracked !== null) pendingClear.current = null;
+    if (result.stop) setRunState('stopped');
+    if (state.mode === 'batch') {
+      if (result.tracked) showHighlightsFor(result.tracked, false);
+    } else if (barcodes.length > 0) showHighlightsFor(barcodes, true);
+    const p = latest.current;
+    if (result.scanned.length > 0) {
+      playScanFeedback(state.beep, state.vibrate);
+      if (p.showToast !== false) {
+        toastId.current += 1;
+        setToast({ id: toastId.current, text: toastText(result.scanned) });
       }
-      const result = session.process(barcodes);
-      // A no-change empty frame must not cancel a still-current notification.
-      const delivery = result.tracked !== null ? ++deliveryGeneration.current : deliveryGeneration.current;
-      // Complete this single frame before app callbacks can start a new scan.
-      if (result.stop) setRunState('stopped');
-      if (state.mode === 'batch') {
-        if (result.tracked) showHighlightsFor(result.tracked, false);
-      } else if (barcodes.length > 0) {
-        showHighlightsFor(barcodes, true);
-      }
-      const p = latest.current;
-      if (result.scanned.length > 0) {
-        playScanFeedback(p.beep ?? DEFAULT_SCANNER_OPTIONS.beep, p.vibrate ?? DEFAULT_SCANNER_OPTIONS.vibrate);
-        if (p.showToast !== false) {
-          toastId.current += 1;
-          setToast({ id: toastId.current, text: toastText(result.scanned) });
-        }
-        p.onScan?.(result.scanned);
-      }
-      // A scan callback can process a newer track update, reset, unmount, or change mode.
-      if (mounted.current && deliveryGeneration.current === delivery && result.tracked) p.onTrack?.(result.tracked);
-    },
-    [platform, session, showHighlightsFor],
-  );
+      p.onScan?.(result.scanned);
+    }
+    // Ordinary accepted settings changes keep ownership of this admitted frame.
+    if (mounted.current && activeSource.current === token && deliveryGeneration.current === delivery && result.tracked) p.onTrack?.(result.tracked);
+  }, [platform, session, sourceEligible, showHighlightsFor, emitError]);
 
-  // vision-camera throws for an empty type list, so keep a placeholder when nothing is supported (the camera is not rendered then).
-  const codeScanner = vc.useCodeScanner({ codeTypes: codeTypes.length > 0 ? codeTypes : ['qr'], onCodeScanned });
+  const onCameraError = useCallback((token: CameraSourceToken, e: CameraRuntimeError) => {
+    if (sourceEligible(token)) emitError(toQRGenError(e));
+  }, [sourceEligible, emitError]);
+  const onInitialized = useCallback((token: CameraSourceToken) => {
+    if (!sourceEligible(token)) return;
+    setError(null);
+    latest.current.onReady?.();
+  }, [sourceEligible]);
+  const onOrientation = useCallback((token: CameraSourceToken, kind: 'preview' | 'output', value: Orientation) => {
+    const config = acceptedRef.current;
+    // VisionCamera's scanner follows preview rotation; output rotation is photo/video only.
+    if (kind !== 'preview' || !config?.spatialTracking || !sourceEligible(token) || !config.device) return;
+    const known = knownOrientations.current.get(config.device.id) ?? {};
+    const old = known[kind];
+    known[kind] = value;
+    knownOrientations.current.set(config.device.id, known);
+    if (old === undefined || old === value) return;
+    transition.current = true;
+    activeSource.current = null;
+    deliveryGeneration.current += 1;
+    setOrientationRevision(previous => previous + 1);
+  }, [sourceEligible]);
 
-  // Batch mode: drop codes that left the frame even when no new frames with codes arrive.
   useEffect(() => {
     if (mode !== 'batch' || !cameraActive) return;
     const id = setInterval(() => {
-      const tracked = session.tick();
+      if (!mounted.current || transition.current || !activeSource.current || !runtime.current.cameraActive) return;
+      let tracked: TrackedBarcode[] | null;
+      try { tracked = session.tick(); } catch (e: unknown) { emitError(toQRGenError(e)); return; }
       if (tracked) {
+        deliveryGeneration.current += 1;
+        pendingClear.current = null;
         showHighlightsFor(tracked, false);
         latest.current.onTrack?.(tracked);
       }
     }, BATCH_TICK_MS);
     return () => clearInterval(id);
-  }, [mode, cameraActive, session, showHighlightsFor]);
+  }, [mode, cameraActive, session, showHighlightsFor, emitError]);
+  useEffect(() => { if (!cameraActive) setHighlights([]); }, [cameraActive]);
 
-  // Clear highlights whenever the camera stops.
-  useEffect(() => {
-    if (!cameraActive) setHighlights([]);
-  }, [cameraActive]);
-
-  useImperativeHandle(
-    ref,
-    () => ({
-      start() {
-        session.resume();
-        setRunState('running');
-      },
-      stop() {
-        setRunState('stopped');
-      },
-      pause() {
-        setRunState('paused');
-      },
-      resume() {
-        session.resume();
-        setRunState('running');
-      },
-      reset() {
-        deliveryGeneration.current += 1;
-        session.reset();
-        setHighlights([]);
-        setRunState('running');
-      },
-      setTorch(on: boolean) {
-        setTorchOn(on);
-      },
-      supportedSymbologies: () => visionCameraSupportedSymbologies(platform),
-    }),
-    [session, platform],
-  );
-
+  useImperativeHandle(ref, () => ({
+    start() { session.resume(); setRunState('running'); },
+    stop() { setRunState('stopped'); },
+    pause() { setRunState('paused'); },
+    resume() { session.resume(); setRunState('running'); },
+    reset() {
+      deliveryGeneration.current += 1;
+      pendingClear.current = null;
+      session.reset();
+      setHighlights([]);
+      setRunState('running');
+    },
+    setTorch(on: boolean) { setTorchOn(on); },
+    supportedSymbologies: () => visionCameraSupportedSymbologies(platform),
+  }), [session, platform]);
   const onLayout = useCallback((e: LayoutChangeEvent) => {
     const { width, height } = e.nativeEvent.layout;
-    viewSizeRef.current = { width, height };
-    setViewSize((prev) => (prev && prev.width === width && prev.height === height ? prev : { width, height }));
+    setMeasuredView(prev => prev && prev.width === width && prev.height === height ? prev : { width, height });
   }, []);
-
-  const onCameraError = useCallback((e: CameraRuntimeError) => emitError(toQRGenError(e)), [emitError]);
-  const onInitialized = useCallback(() => {
-    setError(null);
-    latest.current.onReady?.();
-  }, []);
-
+  const area = accepted?.scanArea;
   const viewfinderRect = useMemo<Rect | null>(() => {
     if (!viewSize || viewfinder === 'none') return null;
-    const area = props.scanArea;
     if (area && frameSize) {
       const t = frameToViewTransform(frameSize, viewSize, { resizeMode: 'cover', mirrored });
-      const q = quadrilateralToView(
-        {
-          topLeft: { x: area.x * frameSize.width, y: area.y * frameSize.height },
-          topRight: { x: (area.x + area.width) * frameSize.width, y: area.y * frameSize.height },
-          bottomRight: { x: (area.x + area.width) * frameSize.width, y: (area.y + area.height) * frameSize.height },
-          bottomLeft: { x: area.x * frameSize.width, y: (area.y + area.height) * frameSize.height },
-        },
-        t,
-      );
+      const q = quadrilateralToView({
+        topLeft: { x: area.x * frameSize.width, y: area.y * frameSize.height },
+        topRight: { x: (area.x + area.width) * frameSize.width, y: area.y * frameSize.height },
+        bottomRight: { x: (area.x + area.width) * frameSize.width, y: (area.y + area.height) * frameSize.height },
+        bottomLeft: { x: area.x * frameSize.width, y: (area.y + area.height) * frameSize.height },
+      }, t);
       return quadrilateralBounds(q);
     }
-    if (area) {
-      // Frame size unknown until the first code: approximate with the view.
-      return { x: area.x * viewSize.width, y: area.y * viewSize.height, width: area.width * viewSize.width, height: area.height * viewSize.height };
-    }
+    if (area) return { x: area.x * viewSize.width, y: area.y * viewSize.height, width: area.width * viewSize.width, height: area.height * viewSize.height };
     return defaultViewfinderRect(viewSize, viewfinder);
-  }, [viewSize, viewfinder, props.scanArea, frameSize, mirrored]);
-
-  const openSettings = useCallback(() => {
-    Linking.openSettings().catch(() => undefined);
-  }, []);
+  }, [viewSize, viewfinder, area, frameSize, mirrored]);
+  const openSettings = useCallback(() => { Linking.openSettings().catch(() => undefined); }, []);
 
   return (
     <View style={[styles.container, props.style]} onLayout={onLayout}>
       {canRun ? (
-        <vc.Camera
-          style={StyleSheet.absoluteFill}
-          device={device}
-          isActive={cameraActive}
-          codeScanner={codeScanner}
-          torch={torchOn && hasTorch ? 'on' : 'off'}
-          resizeMode="cover"
-          onError={onCameraError}
-          onInitialized={onInitialized}
+        <NativeCameraSource
+          key={nativeSourceKey(accepted!)}
+          vc={vc} config={accepted!} active={cameraActive} torch={torchOn && hasTorch}
+          onRegister={registerSource} onUnregister={unregisterSource} onFrame={onCodeScanned}
+          onReady={onInitialized} onError={onCameraError} onOrientation={onOrientation}
         />
-      ) : (
-        props.fallback ?? (
-          <DefaultFallback error={permission === 'unknown' ? null : error} onOpenSettings={permission === 'denied' ? openSettings : undefined} />
-        )
-      )}
-      {canRun ? (
-        <ScannerOverlay
-          viewSize={viewSize}
-          viewfinder={viewfinder}
-          viewfinderRect={viewfinderRect}
-          accentColor={accentColor}
-          highlights={highlights}
-          toast={toast}
-        />
-      ) : null}
+      ) : props.fallback ?? <DefaultFallback error={permission === 'unknown' ? null : error} onOpenSettings={permission === 'denied' ? openSettings : undefined} />}
+      {canRun ? <ScannerOverlay viewSize={viewSize} viewfinder={viewfinder} viewfinderRect={viewfinderRect}
+        accentColor={accentColor} highlights={highlights} toast={toast} /> : null}
       {props.children}
     </View>
   );

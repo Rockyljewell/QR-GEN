@@ -410,6 +410,51 @@ unsupported pure-JavaScript environments without `performance.now()` retain wall
 The original scanner styles, overlay, dependencies and decoder remain unchanged.
 Physical phones, long store sessions and matched Scandit comparison remain unverified.
 
+## Optional React Native spatial observations
+
+Native React Native batch scanning now has optional `spatialTracking`, with
+default payload aggregation unchanged. Within each exact symbology/payload group,
+whole-frame assignment maximizes eligible matches before minimizing movement.
+The finite movement gate and positive safe-integer work budget are explicit;
+over-budget frames are rejected completely rather than silently truncated.
+Track observations remain separate from payload scan-event duplicate filtering
+and confirmed receiving quantities.
+
+The pure core and session add 88 spatial tracker cases and 64 session cases to
+the existing 137 React Native tests. Coverage includes an independent exhaustive
+assignment oracle, input-order controls, expiry/reset/resize ID freshness, policy
+namespace replacement, finite clock transitions and late input/metadata/ID/count
+failures. Session processing prepares duplicate history before the atomic tracker
+update and commits it only after success, so a rejected frame consumes neither
+history. Policy replacement preserves payload duplicate history.
+
+The native component keeps the parent session across source replacement. A child
+owns both the VisionCamera hook and Camera, with committed source ownership and
+accepted configuration controlling callbacks. Invalid combined camera/policy
+proposals retain the accepted settings. Actual permission/device loss and real
+layout/preview-orientation changes remain independent lifecycle facts, even when
+normalizing a proposed scan area fails. Source/coordinate boundaries clear only
+spatial observations; default payload mode keeps the existing camera instance
+behavior. Blank and ROI-excluded frames carry full upright dimensions.
+The original scanner style block, overlay and decoder are preserved.
+
+An independent browser run exercises the actual installed VisionCamera 4.7.3
+hook with per-instance Camera stand-ins: 49 scenarios pass with no page/console
+errors or network requests, and each releases its stand-ins and timers. A
+deliberately vulnerable parent-hook/keyed-Camera control demonstrates that the
+boundary detects old-callback aliasing. The remaining checks cover policy
+rejection/recovery, source activation gaps, device/permission loss, reentrant
+notifications, equal policies, malformed frames and preview/layout events
+while normalizing a proposed ROI fails. Review caught a lost empty notification
+on device removal and a repeated normalization-error loop before publication;
+both are fixed in the optional implementation. The independent bundle pins all
+loaded source files; earlier failing runs remain separate evidence.
+
+Pure and boundary-stubbed checks do not establish physical item identity, native
+camera-driver frame provenance, device alignment or dense-scene performance.
+Observation counts do not establish confirmed quantities. Phone sessions,
+representative users and matched Scandit measurements remain open gates.
+
 ## Retail AR and adjacent features
 
 The following is an assessment of repository code against the vendors' published
@@ -424,7 +469,7 @@ provides tracking and overlay integration patterns.
 | Capability | QRGen today | Next useful work |
 | --- | --- | --- |
 | Multi-code overlays | Web canvas highlights, smoothing and accessible per-track list selection; native overlays also exist. | Add explicit per-code inventory/task states and test list selection with representative users and dense views. |
-| Identical-product counting | Web/iOS/Android match spatial detections. Python offers optional short-lived spatial observations with a bounded association workload; its default tracker and React Native/Flutter still aggregate by symbology and payload. Web scan-event duplicate filtering also aggregates payloads. | Add spatial tracking to remaining aggregating platforms. Validate decoded observations against physical items, including misses, duplicate detections and identity swaps; tracks do not establish confirmed quantities or persistent physical identity. |
+| Identical-product counting | Web/iOS/Android match spatial detections. Python and native React Native offer optional short-lived spatial observations with a bounded association workload; their defaults and Flutter still aggregate by symbology and payload. Scan-event duplicate filtering remains payload-based. | Add spatial tracking to remaining aggregating platforms. Validate decoded observations against physical items, including misses, duplicate detections and identity swaps; tracks do not establish confirmed quantities or persistent physical identity. |
 | Remembering off-screen items | Web tracks expire after 500 ms by default. Confirmed receiving quantities persist locally after leaving view and reload. There is no persistent scene map or physical item identity across occlusion/camera movement. | Validate physical re-identification separately. Increasing a timeout alone does not establish physical identity. |
 | Picking / receiving | The [local receiving workflow](RECEIVING-WORKFLOW.md) supports expected quantities, unexpected products, explicit confirmation, corrections with history, parallel-tab transactions and stable exports. Scanner observations do not increment quantities. | Validate with representative users and integrate authoritative inventory data. Add target-SKU picking separately. |
 | Price / expiry checks | GS1 dates, amounts and product identifiers can be parsed. | Connect an authoritative product/inventory source; show provenance and freshness before acting on an overlay. |

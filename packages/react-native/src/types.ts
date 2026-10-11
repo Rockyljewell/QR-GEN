@@ -70,7 +70,7 @@ export interface Barcode {
 
 /** A barcode followed across frames in `batch` mode. */
 export interface TrackedBarcode extends Barcode {
-  /** Stable id derived from symbology and data. */
+  /** Payload-derived id by default; an opaque observation id in spatial mode. */
   id: string;
   /** When the code was first seen (ms since epoch). */
   firstSeen: number;

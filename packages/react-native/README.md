@@ -141,6 +141,9 @@ The component:
 | `viewfinder` | `'frame' \| 'line' \| 'none'` | `'frame'` (`'line'` for linear-only sets) | Overlay style |
 | `scanArea` | `{ x, y, width, height }` (0..1 of the frame) | full frame | Codes whose center is outside are ignored; the viewfinder is drawn there |
 | `maxResults` | `number` | `1` (`20` in batch) | Codes per frame; the ones closest to the center win |
+| `spatialTracking` | `boolean` | `false` | Batch mode: separate equal-payload observations by position |
+| `trackMaxJump` | `number` | `3` | Nonnegative finite movement gate relative to detection size |
+| `trackMaxAssociationWork` | positive safe integer | `250000` | Bound spatial association work; reject the complete frame above the limit |
 | `isActive` | `boolean` | `true` | Run the camera |
 | `onScan` | `(barcodes: Barcode[]) => void` | | New codes (after the duplicate filter) |
 | `onTrack` | `(tracked: TrackedBarcode[]) => void` | | Batch mode: every tracked code, whenever the set changes |
@@ -152,6 +155,65 @@ The component:
 | `fallback` | `ReactNode` | built-in message | Shown when the camera cannot run |
 | `children` | `ReactNode` | | Rendered on top (buttons, hints) |
 | `style` | `ViewStyle` | | Container style (give it a size, for example `flex: 1`) |
+
+### Optional native spatial observations
+
+Opt into position-based batch observations with `spatialTracking`. The default
+continues to aggregate equal symbology and payload values. `onScan` still applies
+the payload duplicate window; two visible identical labels can produce two
+`onTrack` entries and one `onScan` entry.
+
+```tsx
+<QRGenScanner
+  style={{ flex: 1 }}
+  mode="batch"
+  spatialTracking
+  onTrack={(observations) => console.log(observations)}
+/>
+```
+
+Within each exact symbology/payload group, matching maximizes eligible one-to-one
+associations inside the movement gate, then minimizes total center movement.
+The gate is `trackMaxJump` times the incoming detection's largest extent, with
+a minimum extent of one pixel. Incoming detection order does not add an extra
+observation when a complete eligible match exists. Spatial IDs are opaque and
+fresh after expiry or reset within a session. Replacing the tracking policy uses
+a new ID namespace. `count` is the number of decoded frame observations; tracks
+do not establish confirmed product quantities or physical identity through occlusion.
+
+The three native props are reactive. An equal effective policy keeps tracks.
+A successful policy replacement clears tracks and preserves duplicate history.
+A rejected proposal reports through `onError` and retains the accepted settings
+and histories. Actual permission loss or device removal still gates that camera;
+real layout or preview-orientation changes still establish coordinate boundaries.
+Camera-source and coordinate boundaries clear spatial observations while keeping
+duplicate history. Clearing a nonempty set while remaining in batch produces one
+current empty tracking notification. Default payload mode keeps its existing
+camera behavior.
+
+Spatial batch frames require finite nonzero geometry and consistent positive integer
+upright frame dimensions. Blank and ROI-excluded frames also carry full-frame
+dimensions. Invalid geometry, clock or work-budget updates retain both histories
+and IDs and report through `onError`.
+
+The work estimate sums `n*n*(m+n)` per exact payload group with `n` current
+detections and `m > 0` surviving tracks, including out-of-gate prior columns.
+New-only groups cost zero. Exceeding the budget rejects the complete frame before
+assignment matrices or state changes; it does not truncate the result. The budget
+bounds association work, not frame time or memory. Larger limits need workload testing.
+
+These options belong to `QRGenScanner`, `ScanSession` and `BarcodeTracker`;
+they are not embed URL or `QRGenWebScanner` options. Pure users can construct
+`new BarcodeTracker({ spatial: true, maxJump: 3, maxAssociationWork: 250000 })`
+or `new ScanSession({ mode: 'batch', spatialTracking: true })` and pass an optional
+source size to `update(barcodes, now?, frameSize?)` / `process(...)` for blank
+resize detection. Direct same-size source switches must call `reset()` on the
+tracker or `resetSpatial()` on the session. `resetSpatial()` preserves duplicate
+history and stopped state; full session `reset()` clears both histories and resumes.
+
+Camera callback ownership is checked in JavaScript. Physical camera alignment,
+dense-scene latency, long phone sessions and comparison with Scandit still require
+device testing.
 
 ### Ref
 
@@ -263,11 +325,12 @@ interface Barcode {
 With `QRGenScanner`, `location` and `frameSize` describe the camera frame as it appears
 upright on screen (the sensor's landscape size is swapped for portrait views);
 `contentType` is `text` except for GS1 DataBar, which is reported in HRI form
-(`(01)...`). Batch mode adds `TrackedBarcode` fields: `id` (stable, derived from symbology
-and data, with collision suffixes when needed), `firstSeen`, `lastSeen` and `count`.
+(`(01)...`). Batch mode adds `TrackedBarcode` fields: `id` (derived from symbology
+and data by default, with collision suffixes when needed; an opaque fresh observation ID
+with `spatialTracking`), `firstSeen`, `lastSeen` and `count`.
 IDs are opaque and unique among active tracks; they stay stable while a track remains visible.
 Codes are dropped after more than 500 ms unseen, before matching the next frame. A returning
-code starts fresh timestamps and count even if its deterministic base ID is reused.
+code starts fresh timestamps and count. Default payload mode can reuse a deterministic base ID.
 
 Native duplicate windows and tracking expiry use elapsed monotonic time, so changing the
 system clock does not extend or shorten them. `timestamp`, `firstSeen` and `lastSeen` remain
@@ -276,7 +339,8 @@ switching between injected and default clocks preserves retained timestamp age. 
 without `performance.now()` retain the wall-clock fallback.
 
 In native batch mode, `onScan` runs before `onTrack`. If `onScan` resets the scanner,
-synchronously unmounts it, commits a different mode, or processes a newer tracking update, the obsolete
+synchronously unmounts it, commits a different mode or spatial policy/source/coordinate boundary,
+or processes a newer tracking update, the obsolete
 track snapshot is discarded. An unchanged session, a cosmetic prop change, or an idempotent
 `start()` / `resume()` keeps the current track callback and duplicate history.
 A no-change empty frame also preserves the still-current notification; an empty frame
