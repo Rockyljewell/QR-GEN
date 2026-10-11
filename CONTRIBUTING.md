@@ -15,6 +15,9 @@ Thanks for helping. Issues, bug reports with sample images, docs fixes and pull 
 
 ## Setup
 
+Use Node.js 22.19 or newer for the website and repository tools. The published
+JavaScript SDK supports Node.js 18.17 and newer; its runtime requirement is separate.
+
 ```bash
 git clone https://github.com/Rockyljewell/QR-GEN.git
 cd QR-GEN

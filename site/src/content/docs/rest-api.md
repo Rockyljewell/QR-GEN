@@ -102,12 +102,13 @@ printf '{"image":"%s","symbologies":["qr"]}' "$(base64 < photo.jpg | tr -d '\n')
 curl -H 'content-type: application/json' --data-binary @body.json http://localhost:8080/v1/scan
 ```
 
-Options can go in the query string for every body type, or in the JSON body:
+Options can go in the query string for every body type, in the JSON body, or in multipart fields. Body options override query options:
 
 | Option | Default | Description |
 | --- | --- | --- |
 | `symbologies` | all | Comma-separated in the query (`?symbologies=qr,ean13`), an array or string in JSON. |
 | `tryHarder` | `true` | `false` is faster on clean, high-contrast images. |
+| `maxResults` | `255` | Maximum codes to return. Integer from 1 to 255. |
 | `parse` | `true` | Add a `parsed` field (from [`parseContent()`](../parsers/)) to each result. |
 
 Booleans in the query string accept `true`/`false`, `1`/`0`, `yes`/`no` and `on`/`off`.

@@ -245,6 +245,12 @@ Any language can use QRGen over HTTP. CORS is enabled for all origins.
 
 Errors: `{ "error": { "code": "bad-request", "message": "…" } }` with HTTP 4xx/5xx.
 
+`POST /v1/scan` accepts optional `maxResults` in the query or JSON body; it limits
+the number of returned codes. The Node server accepts integers from 1 to 255
+(default 255) and also supports scan options in multipart fields. Invalid limits
+return HTTP 400 with `bad-request`. Body options take precedence over query options
+on the Node server.
+
 ## 7. Generator
 
 `generate(data, { symbology = "qr", format = "svg" | "png", scale, ecLevel, gs1, hrt, margin, foreground, background })`

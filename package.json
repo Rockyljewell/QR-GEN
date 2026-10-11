@@ -12,6 +12,11 @@
     "packages/sdk",
     "site"
   ],
+  "overrides": {
+    "tsup": {
+      "esbuild": "^0.28.2"
+    }
+  },
   "scripts": {
     "build": "npm run build -w qrgen-sdk && npm run build -w qrgen-site",
     "build:sdk": "npm run build -w qrgen-sdk",
@@ -23,6 +28,6 @@
     "validate:plugin": "claude plugin validate . --strict"
   },
   "engines": {
-    "node": ">=18.17"
+    "node": ">=22.19.0"
   }
 }

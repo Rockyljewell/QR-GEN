@@ -142,6 +142,12 @@ node scripts/validate-skills.mjs
 
 Per-platform commands are in each package's README and in [CONTRIBUTING.md](CONTRIBUTING.md).
 
+The [October 2026 stability audit](docs/STABILITY-AUDIT-2026-10-11.md) records
+reproduced bugs, fixes, verification limits, an image benchmark and a retail AR
+roadmap. Run the synthetic benchmark after building the SDK with
+`node scripts/benchmark-scanning.mjs`; physical-device and competitor comparisons
+require a separate matched field trial.
+
 ## Deploying the website
 
 The site deploys to GitHub Pages from `main` via [`.github/workflows/pages.yml`](.github/workflows/pages.yml).

@@ -43,6 +43,15 @@ describe("DuplicateFilter", () => {
 });
 
 describe("BarcodeTracker", () => {
+  it("expires a previous sighting before matching a returning code", () => {
+    const t = new BarcodeTracker({ timeout: 500 });
+    const first = t.update([code("a", 0)], 0).added[0]!;
+    const returning = t.update([code("a", 0)], 501);
+    expect(returning.removed.map((b) => b.id)).toEqual([first.id]);
+    expect(returning.added).toHaveLength(1);
+    expect(returning.added[0]!.id).not.toBe(first.id);
+    expect(returning.added[0]!.count).toBe(1);
+  });
   it("keeps stable ids while codes move and drops them after the timeout", () => {
     const t = new BarcodeTracker({ timeout: 500 });
     const u1 = t.update([code("a", 0), code("b", 200)], 0);

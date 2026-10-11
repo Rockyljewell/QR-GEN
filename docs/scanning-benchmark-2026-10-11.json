@@ -1,0 +1,668 @@
+{
+  "schemaVersion": 1,
+  "scope": "Generated images only; does not measure camera capture, AR tracking, damaged labels, or Scandit parity.",
+  "environment": {
+    "node": "v22.14.0",
+    "platform": "win32",
+    "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+    "engine": "zxing-wasm 3.1.4"
+  },
+  "summary": {
+    "total": 72,
+    "exact": 56,
+    "supportedCases": 56,
+    "supportedExact": 56,
+    "p50DecodeMs": 1.282,
+    "p95DecodeMs": 2.732
+  },
+  "cases": [
+    {
+      "symbology": "qr",
+      "rotate": 0,
+      "variant": "normal",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 2.151,
+      "detections": 1
+    },
+    {
+      "symbology": "qr",
+      "rotate": 0,
+      "variant": "lower-contrast",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 1.587,
+      "detections": 1
+    },
+    {
+      "symbology": "qr",
+      "rotate": 0,
+      "variant": "inverted",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 0.719,
+      "detections": 1
+    },
+    {
+      "symbology": "qr",
+      "rotate": 90,
+      "variant": "normal",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 0.632,
+      "detections": 1
+    },
+    {
+      "symbology": "qr",
+      "rotate": 90,
+      "variant": "lower-contrast",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 1.347,
+      "detections": 1
+    },
+    {
+      "symbology": "qr",
+      "rotate": 90,
+      "variant": "inverted",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 0.602,
+      "detections": 1
+    },
+    {
+      "symbology": "qr",
+      "rotate": 180,
+      "variant": "normal",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 1.643,
+      "detections": 1
+    },
+    {
+      "symbology": "qr",
+      "rotate": 180,
+      "variant": "lower-contrast",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 1.141,
+      "detections": 1
+    },
+    {
+      "symbology": "qr",
+      "rotate": 180,
+      "variant": "inverted",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 0.671,
+      "detections": 1
+    },
+    {
+      "symbology": "qr",
+      "rotate": 270,
+      "variant": "normal",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 0.641,
+      "detections": 1
+    },
+    {
+      "symbology": "qr",
+      "rotate": 270,
+      "variant": "lower-contrast",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 0.948,
+      "detections": 1
+    },
+    {
+      "symbology": "qr",
+      "rotate": 270,
+      "variant": "inverted",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 0.888,
+      "detections": 1
+    },
+    {
+      "symbology": "data-matrix",
+      "rotate": 0,
+      "variant": "normal",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 1.906,
+      "detections": 1
+    },
+    {
+      "symbology": "data-matrix",
+      "rotate": 0,
+      "variant": "lower-contrast",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 0.45,
+      "detections": 1
+    },
+    {
+      "symbology": "data-matrix",
+      "rotate": 0,
+      "variant": "inverted",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 0.345,
+      "detections": 1
+    },
+    {
+      "symbology": "data-matrix",
+      "rotate": 90,
+      "variant": "normal",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 1.629,
+      "detections": 1
+    },
+    {
+      "symbology": "data-matrix",
+      "rotate": 90,
+      "variant": "lower-contrast",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 0.821,
+      "detections": 1
+    },
+    {
+      "symbology": "data-matrix",
+      "rotate": 90,
+      "variant": "inverted",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 0.403,
+      "detections": 1
+    },
+    {
+      "symbology": "data-matrix",
+      "rotate": 180,
+      "variant": "normal",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 0.346,
+      "detections": 1
+    },
+    {
+      "symbology": "data-matrix",
+      "rotate": 180,
+      "variant": "lower-contrast",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 0.54,
+      "detections": 1
+    },
+    {
+      "symbology": "data-matrix",
+      "rotate": 180,
+      "variant": "inverted",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 0.489,
+      "detections": 1
+    },
+    {
+      "symbology": "data-matrix",
+      "rotate": 270,
+      "variant": "normal",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 0.362,
+      "detections": 1
+    },
+    {
+      "symbology": "data-matrix",
+      "rotate": 270,
+      "variant": "lower-contrast",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 0.429,
+      "detections": 1
+    },
+    {
+      "symbology": "data-matrix",
+      "rotate": 270,
+      "variant": "inverted",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 0.624,
+      "detections": 1
+    },
+    {
+      "symbology": "pdf417",
+      "rotate": 0,
+      "variant": "normal",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 3.301,
+      "detections": 1
+    },
+    {
+      "symbology": "pdf417",
+      "rotate": 0,
+      "variant": "lower-contrast",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 1.427,
+      "detections": 1
+    },
+    {
+      "symbology": "pdf417",
+      "rotate": 0,
+      "variant": "inverted",
+      "expectedSupported": false,
+      "exact": false,
+      "decodeMs": 0.778,
+      "detections": 0
+    },
+    {
+      "symbology": "pdf417",
+      "rotate": 90,
+      "variant": "normal",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 1.236,
+      "detections": 1
+    },
+    {
+      "symbology": "pdf417",
+      "rotate": 90,
+      "variant": "lower-contrast",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 0.977,
+      "detections": 1
+    },
+    {
+      "symbology": "pdf417",
+      "rotate": 90,
+      "variant": "inverted",
+      "expectedSupported": false,
+      "exact": false,
+      "decodeMs": 0.875,
+      "detections": 0
+    },
+    {
+      "symbology": "pdf417",
+      "rotate": 180,
+      "variant": "normal",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 1.511,
+      "detections": 1
+    },
+    {
+      "symbology": "pdf417",
+      "rotate": 180,
+      "variant": "lower-contrast",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 1.122,
+      "detections": 1
+    },
+    {
+      "symbology": "pdf417",
+      "rotate": 180,
+      "variant": "inverted",
+      "expectedSupported": false,
+      "exact": false,
+      "decodeMs": 0.914,
+      "detections": 0
+    },
+    {
+      "symbology": "pdf417",
+      "rotate": 270,
+      "variant": "normal",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 0.788,
+      "detections": 1
+    },
+    {
+      "symbology": "pdf417",
+      "rotate": 270,
+      "variant": "lower-contrast",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 0.989,
+      "detections": 1
+    },
+    {
+      "symbology": "pdf417",
+      "rotate": 270,
+      "variant": "inverted",
+      "expectedSupported": false,
+      "exact": false,
+      "decodeMs": 0.743,
+      "detections": 0
+    },
+    {
+      "symbology": "ean13",
+      "rotate": 0,
+      "variant": "normal",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 4.076,
+      "detections": 1
+    },
+    {
+      "symbology": "ean13",
+      "rotate": 0,
+      "variant": "lower-contrast",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 2.395,
+      "detections": 1
+    },
+    {
+      "symbology": "ean13",
+      "rotate": 0,
+      "variant": "inverted",
+      "expectedSupported": false,
+      "exact": false,
+      "decodeMs": 1.2,
+      "detections": 0
+    },
+    {
+      "symbology": "ean13",
+      "rotate": 90,
+      "variant": "normal",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 1.891,
+      "detections": 1
+    },
+    {
+      "symbology": "ean13",
+      "rotate": 90,
+      "variant": "lower-contrast",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 2.043,
+      "detections": 1
+    },
+    {
+      "symbology": "ean13",
+      "rotate": 90,
+      "variant": "inverted",
+      "expectedSupported": false,
+      "exact": false,
+      "decodeMs": 1.211,
+      "detections": 0
+    },
+    {
+      "symbology": "ean13",
+      "rotate": 180,
+      "variant": "normal",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 1.96,
+      "detections": 1
+    },
+    {
+      "symbology": "ean13",
+      "rotate": 180,
+      "variant": "lower-contrast",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 2.155,
+      "detections": 1
+    },
+    {
+      "symbology": "ean13",
+      "rotate": 180,
+      "variant": "inverted",
+      "expectedSupported": false,
+      "exact": false,
+      "decodeMs": 1.212,
+      "detections": 0
+    },
+    {
+      "symbology": "ean13",
+      "rotate": 270,
+      "variant": "normal",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 1.579,
+      "detections": 1
+    },
+    {
+      "symbology": "ean13",
+      "rotate": 270,
+      "variant": "lower-contrast",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 1.937,
+      "detections": 1
+    },
+    {
+      "symbology": "ean13",
+      "rotate": 270,
+      "variant": "inverted",
+      "expectedSupported": false,
+      "exact": false,
+      "decodeMs": 1.194,
+      "detections": 0
+    },
+    {
+      "symbology": "code128",
+      "rotate": 0,
+      "variant": "normal",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 2.893,
+      "detections": 1
+    },
+    {
+      "symbology": "code128",
+      "rotate": 0,
+      "variant": "lower-contrast",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 2.334,
+      "detections": 1
+    },
+    {
+      "symbology": "code128",
+      "rotate": 0,
+      "variant": "inverted",
+      "expectedSupported": false,
+      "exact": false,
+      "decodeMs": 1.734,
+      "detections": 0
+    },
+    {
+      "symbology": "code128",
+      "rotate": 90,
+      "variant": "normal",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 1.688,
+      "detections": 1
+    },
+    {
+      "symbology": "code128",
+      "rotate": 90,
+      "variant": "lower-contrast",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 2.342,
+      "detections": 1
+    },
+    {
+      "symbology": "code128",
+      "rotate": 90,
+      "variant": "inverted",
+      "expectedSupported": false,
+      "exact": false,
+      "decodeMs": 1.689,
+      "detections": 0
+    },
+    {
+      "symbology": "code128",
+      "rotate": 180,
+      "variant": "normal",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 1.937,
+      "detections": 1
+    },
+    {
+      "symbology": "code128",
+      "rotate": 180,
+      "variant": "lower-contrast",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 2.144,
+      "detections": 1
+    },
+    {
+      "symbology": "code128",
+      "rotate": 180,
+      "variant": "inverted",
+      "expectedSupported": false,
+      "exact": false,
+      "decodeMs": 1.615,
+      "detections": 0
+    },
+    {
+      "symbology": "code128",
+      "rotate": 270,
+      "variant": "normal",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 1.582,
+      "detections": 1
+    },
+    {
+      "symbology": "code128",
+      "rotate": 270,
+      "variant": "lower-contrast",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 2.365,
+      "detections": 1
+    },
+    {
+      "symbology": "code128",
+      "rotate": 270,
+      "variant": "inverted",
+      "expectedSupported": false,
+      "exact": false,
+      "decodeMs": 1.637,
+      "detections": 0
+    },
+    {
+      "symbology": "databar",
+      "rotate": 0,
+      "variant": "normal",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 2.732,
+      "detections": 1
+    },
+    {
+      "symbology": "databar",
+      "rotate": 0,
+      "variant": "lower-contrast",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 1.932,
+      "detections": 1
+    },
+    {
+      "symbology": "databar",
+      "rotate": 0,
+      "variant": "inverted",
+      "expectedSupported": false,
+      "exact": false,
+      "decodeMs": 1.282,
+      "detections": 0
+    },
+    {
+      "symbology": "databar",
+      "rotate": 90,
+      "variant": "normal",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 1.254,
+      "detections": 1
+    },
+    {
+      "symbology": "databar",
+      "rotate": 90,
+      "variant": "lower-contrast",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 1.594,
+      "detections": 1
+    },
+    {
+      "symbology": "databar",
+      "rotate": 90,
+      "variant": "inverted",
+      "expectedSupported": false,
+      "exact": false,
+      "decodeMs": 1.255,
+      "detections": 0
+    },
+    {
+      "symbology": "databar",
+      "rotate": 180,
+      "variant": "normal",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 1.664,
+      "detections": 1
+    },
+    {
+      "symbology": "databar",
+      "rotate": 180,
+      "variant": "lower-contrast",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 1.513,
+      "detections": 1
+    },
+    {
+      "symbology": "databar",
+      "rotate": 180,
+      "variant": "inverted",
+      "expectedSupported": false,
+      "exact": false,
+      "decodeMs": 1.32,
+      "detections": 0
+    },
+    {
+      "symbology": "databar",
+      "rotate": 270,
+      "variant": "normal",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 1.119,
+      "detections": 1
+    },
+    {
+      "symbology": "databar",
+      "rotate": 270,
+      "variant": "lower-contrast",
+      "expectedSupported": true,
+      "exact": true,
+      "decodeMs": 1.534,
+      "detections": 1
+    },
+    {
+      "symbology": "databar",
+      "rotate": 270,
+      "variant": "inverted",
+      "expectedSupported": false,
+      "exact": false,
+      "decodeMs": 1.205,
+      "detections": 0
+    }
+  ]
+}

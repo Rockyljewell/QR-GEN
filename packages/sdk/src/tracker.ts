@@ -49,6 +49,15 @@ export class BarcodeTracker {
     const added: TrackedBarcode[] = [];
     const updated: TrackedBarcode[] = [];
     const claimed = new Set<number>();
+    // Expire before matching, otherwise a returning detection revives an old
+    // track (including its selection and count) after an arbitrarily long gap.
+    const removed: TrackedBarcode[] = [];
+    for (const [id, t] of this.tracks) {
+      if (now - t.lastSeen > this.timeout) {
+        this.tracks.delete(id);
+        removed.push(t);
+      }
+    }
 
     for (const d of detections) {
       const c = center(d.location);
@@ -78,13 +87,6 @@ export class BarcodeTracker {
       }
     }
 
-    const removed: TrackedBarcode[] = [];
-    for (const [id, t] of this.tracks) {
-      if (!claimed.has(id) && now - t.lastSeen > this.timeout) {
-        this.tracks.delete(id);
-        removed.push(t);
-      }
-    }
     return { tracked: this.all, added, updated, removed };
   }
 
