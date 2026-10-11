@@ -65,3 +65,19 @@ via [zxing-wasm](https://github.com/Sec-ant/zxing-wasm), and it loads from jsDel
 Apache-2.0, see [LICENSE](LICENSE) and [NOTICE](NOTICE).
 
 Created by [Rockyljewell](https://github.com/Rockyljewell).
+
+### Reversed-reflectance image scanning
+
+`scanImage(input, { tryInvert: true })` (the default) searches reversed-reflectance
+codes as well as normal codes, including mixed-polarity images. When capacity
+remains, formats without upstream inversion support use one extra decode pass.
+`tryInvert: false` disables that work. The combined `maxResults` limit applies to
+both passes, and identical payloads in separate positions remain separate results.
+
+Browser image decoding applies EXIF orientation once and composites transparency
+on white. The Node entry lazily loads PNG/JPEG/GIF/BMP decoders for its inversion
+fallback (first frame for GIF); PNM/PSD retain the upstream normal decode but do
+not gain a Node inversion fallback. Convert those formats to PNG when inversion
+is needed. Codec expansion is limited to 64 megapixels; the fallback preserves
+normal-pass results when a raster decoder is unavailable. Codecs are excluded
+from browser and worker bundles and support the package's Node 18.17 minimum.

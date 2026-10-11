@@ -3,8 +3,9 @@
 /// <reference lib="webworker" />
 // Decoder worker. Bundled to a string by scripts/build-worker.mjs and started from a Blob URL,
 // so it works with every bundler (and with no bundler at all).
-import { prepareZXingModule, readBarcodes } from "zxing-wasm/reader";
-import { toRawBarcodes, toReaderOptions, type WorkerRequest, type WorkerResponse } from "./protocol.js";
+import { prepareZXingModule } from "zxing-wasm/reader";
+import { readWithInversion } from "./inversion.js";
+import { type WorkerRequest, type WorkerResponse } from "./protocol.js";
 
 const ctx = self as unknown as DedicatedWorkerGlobalScope;
 const post = (msg: WorkerResponse) => ctx.postMessage(msg);
@@ -28,8 +29,8 @@ ctx.onmessage = async (event: MessageEvent<WorkerRequest>) => {
   if (msg.type === "decode") {
     try {
       const image = new ImageData(new Uint8ClampedArray(msg.buffer), msg.width, msg.height);
-      const results = await readBarcodes(image, toReaderOptions(msg.params));
-      post({ type: "result", id: msg.id, results: toRawBarcodes(results) });
+      const results = await readWithInversion(image, msg.params);
+      post({ type: "result", id: msg.id, results });
     } catch (err) {
       post({ type: "error", id: msg.id, message: err instanceof Error ? err.message : String(err) });
     }

@@ -198,6 +198,11 @@ may add collision suffixes. Expire tracks before matching detections from the ne
 A detection after the timeout starts a fresh `firstSeen` and `count`, even on platforms that
 reuse a deterministic base ID. Camera source changes clear spatial tracks and reject delayed
 results from the previous source; duplicate-filter history is controlled separately.
+Web, iOS and Android camera scanners invalidate pending frame processing/delivery at pause,
+resume and scan-setting changes. Ordinary pause preserves spatial/report history; elapsed
+tracking time still applies. A cancelled scan must not consume its first-report history.
+Batch scanners retain an unreported initial scan separately from a live spatial track and
+deliver it only when that code is observed again and callback/session ownership remains valid.
 
 Error codes: `camera-permission-denied`, `camera-not-found`, `camera-in-use`,
 `insecure-context`, `engine-load-failed`, `unsupported`, `bad-request` (invalid input such as an
