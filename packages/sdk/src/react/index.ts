@@ -103,7 +103,11 @@ function attrs(p: QRGenScannerProps): Record<string, string | undefined> {
 export const QRGenScanner = forwardRef(function QRGenScanner(props: QRGenScannerProps, ref: Ref<QRGenScannerHandle>): ReactElement {
   const el = useRef<QRGenScannerElement | null>(null);
   const handlers = useRef(props);
-  handlers.current = props;
+  // A concurrent render may suspend or be abandoned while the mounted element
+  // still emits events. Publish callbacks only when those props commit.
+  useIsomorphicLayoutEffect(() => {
+    handlers.current = props;
+  });
 
   useImperativeHandle(
     ref,
