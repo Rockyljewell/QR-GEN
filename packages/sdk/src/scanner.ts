@@ -110,6 +110,8 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
   private ownsVideo: boolean;
   private lastBatchBeep = 0;
   private startToken = 0;
+  private frameToken = 0;
+  private switchToken = 0;
   /** Rolling statistics for diagnostics. */
   readonly stats = { decodeMs: 0, fps: 0, engine: "" as "" | "worker" | "main" };
   private fpsWindow: number[] = [];
@@ -151,6 +153,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
     const { video: _video, ...rest } = partial;
     this.raw = { ...this.raw, ...rest };
     const merged = resolveOptions(this.raw);
+    this.frameToken++;
     const modeChanged = merged.mode !== this.opts.mode;
     this.opts = merged;
     this.filter.window = merged.duplicateFilter;
@@ -166,7 +169,9 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
   async start(): Promise<void> {
     if (this._state === "scanning" || this._state === "starting") return;
     const token = ++this.startToken;
+    this.frameToken++;
     this.setState("starting");
+    if (token !== this.startToken) return;
     this.feedback.unlock();
     try {
       const [decoder] = await Promise.all([this.decoder ? Promise.resolve(this.decoder) : createFrameDecoder(this.preferWorker), this.camera.start(this.video)]);
@@ -176,7 +181,9 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
       this.filter.reset();
       this.tracker.clear();
       this.setState("scanning");
+      if (token !== this.startToken) return;
       if (this.raw.torch) await this.camera.setTorch(true);
+      if (token !== this.startToken) return;
       this.emit("ready", { engine: decoder.kind, camera: this.camera });
       this.schedule();
     } catch (err) {
@@ -192,8 +199,11 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
   /** Stop decoding and release the camera. */
   stop(): void {
     this.startToken++;
+    this.frameToken++;
     this.cancelFrame();
     this.camera.stop();
+    // The shared decoder factory reuses healthy workers and replaces failed ones.
+    this.decoder = null;
     this.tracker.clear();
     if (this._state !== "idle") this.setState("stopped");
   }
@@ -201,6 +211,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
   /** Stop decoding but keep the camera running. */
   pause(): void {
     if (this._state !== "scanning") return;
+    this.frameToken++;
     this.cancelFrame();
     this.setState("paused");
   }
@@ -208,6 +219,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
   /** Resume decoding after pause() or a single-mode scan. */
   resume(): void {
     if (this._state !== "paused") return;
+    this.frameToken++;
     this.filter.reset();
     this.setState("scanning");
     this.schedule();
@@ -228,10 +240,23 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
 
   async switchCamera(): Promise<void> {
     const wasScanning = this._state === "scanning";
+    const token = this.startToken;
+    const operation = ++this.switchToken;
+    this.frameToken++;
     this.cancelFrame();
-    await this.camera.switch();
-    this.tracker.clear();
-    if (wasScanning) this.schedule();
+    try {
+      await this.camera.switch();
+      if (token !== this.startToken || operation !== this.switchToken) return;
+      this.tracker.clear();
+      if (wasScanning) this.schedule();
+    } catch (err) {
+      if (token !== this.startToken || operation !== this.switchToken) return;
+      this.stop();
+      const e = toQRGenError(err);
+      this.setState("error");
+      this.emit("error", e);
+      throw e;
+    }
   }
 
   /** Release everything, including the decoder reference. */
@@ -253,7 +278,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
   }
 
   private schedule(): void {
-    if (this._state !== "scanning") return;
+    if (this._state !== "scanning" || this.frameHandle) return;
     const v = this.video as HTMLVideoElement & { requestVideoFrameCallback?: (cb: () => void) => number };
     const tick = () => {
       this.frameHandle = 0;
@@ -295,6 +320,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
     this.busy = true;
     this.lastDecodeStart = now;
     this.frameCount++;
+    const token = this.frameToken;
     const o = this.opts;
     const params: DecodeParams = {
       formats: toZXingReadFormats(o.symbologies),
@@ -308,6 +334,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
     this.schedule();
     try {
       const raws = await this.decoder.decode(grabbed.image, params);
+      if (token !== this.frameToken || this._state !== "scanning") return;
       const decodeMs = performance.now() - now;
       this.stats.decodeMs = this.stats.decodeMs ? this.stats.decodeMs * 0.8 + decodeMs * 0.2 : decodeMs;
       this.fpsWindow.push(now);
@@ -323,12 +350,15 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
         requested,
       });
       this.emit("frame", { barcodes, frameSize: grabbed.frame, decodeMs });
+      if (token !== this.frameToken || this._state !== "scanning") return;
       this.handleResults(barcodes);
     } catch (err) {
+      if (token !== this.frameToken || this._state !== "scanning") return;
       const e = toQRGenError(err);
       if (e.code === "engine-load-failed") {
-        this.emit("error", e);
+        this.decoder = null;
         this.stop();
+        this.emit("error", e);
       }
     } finally {
       this.busy = false;
@@ -338,8 +368,10 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
   private handleResults(barcodes: Barcode[]): void {
     const o = this.opts;
     if (o.mode === "batch") {
+      const token = this.frameToken;
       const update = this.tracker.update(barcodes);
       this.emit("track", update);
+      if (token !== this.frameToken || this._state !== "scanning") return;
       const fresh = update.added.filter((b) => this.filter.accept(b));
       if (fresh.length) {
         const t = Date.now();

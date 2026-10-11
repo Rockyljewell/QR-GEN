@@ -155,6 +155,60 @@ await test("demo single mode stops after one scan and resumes", async () => {
   });
 });
 
+for (const action of ["stop", "unmount"]) {
+  await test(`late camera permission is released after ${action}`, async () => {
+    await withBrowser(qrVideo, async (page, errors) => {
+      await page.goto(u("demo/"));
+      const result = await page.evaluate(async (action) => {
+        const media = navigator.mediaDevices;
+        const original = media.getUserMedia.bind(media);
+        let release;
+        const gate = new Promise((resolve) => { release = resolve; });
+        let acquired;
+        const captured = new Promise((resolve) => { acquired = resolve; });
+        media.getUserMedia = async (constraints) => {
+          const stream = await original(constraints);
+          acquired(stream);
+          await gate;
+          return stream;
+        };
+        const el = document.createElement("qrgen-scanner");
+        el.autostart = false;
+        el.beep = false;
+        el.vibrate = false;
+        document.body.append(el);
+        let ready = 0;
+        el.addEventListener("ready", () => ready++);
+        try {
+          const starting = el.start();
+          const stream = await Promise.race([
+            captured,
+            starting.then(() => { throw new Error("camera start finished before permission was released"); }),
+          ]);
+          const scanner = el.scanner;
+          if (action === "stop") el.stop();
+          else el.remove();
+          release();
+          await starting;
+          return {
+            state: scanner.state, ready,
+            tracks: stream.getTracks().map((track) => track.readyState),
+            attached: scanner.video.srcObject !== null,
+          };
+        } finally {
+          release();
+          media.getUserMedia = original;
+          el.remove();
+        }
+      }, action);
+      assert(result.tracks.every((state) => state === "ended"), `live camera after ${action}: ${JSON.stringify(result)}`);
+      assert(!result.attached && result.ready === 0, JSON.stringify(result));
+      assert(result.state === (action === "stop" ? "stopped" : "idle"), JSON.stringify(result));
+      assert(errors.length === 0, errors.join("; "));
+    });
+  });
+}
+
 await test("demo image samples decode", async () => {
   await withBrowser(null, async (page) => {
     await page.goto(u("demo/#image"));

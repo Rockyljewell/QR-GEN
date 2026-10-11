@@ -73,22 +73,29 @@ class MainThreadDecoder implements FrameDecoder {
 class WorkerDecoder implements FrameDecoder {
   readonly kind = "worker" as const;
   private nextId = 1;
-  private pending = new Map<number, { resolve: (r: RawBarcode[]) => void; reject: (e: unknown) => void }>();
+  private pending = new Map<number, { resolve: (r: RawBarcode[]) => void; reject: (e: unknown) => void; timer: ReturnType<typeof setTimeout> }>();
+  private failure: QRGenError | null = null;
 
-  private constructor(private worker: Worker, private url: string) {
+  private constructor(private worker: Worker, private url: string, private onFailure: () => void) {
+    worker.onerror = (e) => this.fail(new Error(e.message || "worker failed"));
+    worker.onmessageerror = () => this.fail(new Error("worker response could not be read"));
     worker.onmessage = (e: MessageEvent<WorkerResponse>) => {
       const msg = e.data;
       if (msg.type === "result" || msg.type === "error") {
         const p = this.pending.get(msg.id);
         if (!p) return;
+        if (msg.type === "error") {
+          this.fail(new Error(msg.message));
+          return;
+        }
+        clearTimeout(p.timer);
         this.pending.delete(msg.id);
-        if (msg.type === "result") p.resolve(msg.results);
-        else p.reject(new Error(msg.message));
+        p.resolve(msg.results);
       }
     };
   }
 
-  static async create(timeoutMs = 20000): Promise<WorkerDecoder> {
+  static async create(timeoutMs = 20000, onFailure: () => void = () => {}): Promise<WorkerDecoder> {
     const url = URL.createObjectURL(new Blob([WORKER_SOURCE], { type: "text/javascript" }));
     let worker: Worker;
     try {
@@ -98,8 +105,9 @@ class WorkerDecoder implements FrameDecoder {
       throw err;
     }
     const cfg = getConfig();
+    let timer: ReturnType<typeof setTimeout> | undefined;
     await new Promise<void>((resolve, reject) => {
-      const timer = setTimeout(() => reject(new Error("worker init timeout")), timeoutMs);
+      timer = setTimeout(() => reject(new Error("worker init timeout")), timeoutMs);
       worker.onerror = (e) => {
         clearTimeout(timer);
         reject(new Error(e.message || "worker failed to start"));
@@ -123,26 +131,41 @@ class WorkerDecoder implements FrameDecoder {
       worker.terminate();
       URL.revokeObjectURL(url);
       throw err;
-    });
-    worker.onerror = null;
-    return new WorkerDecoder(worker, url);
+    }).finally(() => clearTimeout(timer));
+    return new WorkerDecoder(worker, url, onFailure);
   }
 
   decode(image: ImageData, params: DecodeParams): Promise<RawBarcode[]> {
+    if (this.failure) return Promise.reject(this.failure);
     const id = this.nextId++;
     return new Promise((resolve, reject) => {
-      this.pending.set(id, { resolve, reject });
+      const timer = setTimeout(() => this.fail(new Error("worker decode timeout")), 20000);
+      this.pending.set(id, { resolve, reject, timer });
       const buffer = image.data.buffer as ArrayBuffer;
       const msg: WorkerRequest = { type: "decode", id, width: image.width, height: image.height, buffer, params };
-      this.worker.postMessage(msg, [buffer]);
+      try {
+        this.worker.postMessage(msg, [buffer]);
+      } catch (err) {
+        this.fail(err);
+      }
     });
   }
 
   dispose(): void {
+    this.fail(new Error("decoder disposed"));
+  }
+
+  private fail(err: unknown): void {
+    if (this.failure) return;
+    this.failure = engineError(err);
     this.worker.terminate();
     URL.revokeObjectURL(this.url);
-    for (const p of this.pending.values()) p.reject(new Error("decoder disposed"));
+    for (const p of this.pending.values()) {
+      clearTimeout(p.timer);
+      p.reject(this.failure);
+    }
     this.pending.clear();
+    this.onFailure();
   }
 }
 
@@ -159,11 +182,14 @@ export async function createFrameDecoder(preferWorker = true): Promise<FrameDeco
   if (!canWorker) return warmMain();
   if (!sharedWorker || sharedWorkerVersion !== cfg.version) {
     sharedWorkerVersion = cfg.version;
-    sharedWorker = WorkerDecoder.create().catch((err) => {
+    const attempt = WorkerDecoder.create(20000, () => {
+      if (sharedWorker === attempt) sharedWorker = null;
+    }).catch((err) => {
       console.warn("[qrgen] decoding on the main thread:", err instanceof Error ? err.message : err);
-      sharedWorker = null;
+      if (sharedWorker === attempt) sharedWorker = null;
       return warmMain();
     });
+    sharedWorker = attempt;
   }
   return sharedWorker;
 }

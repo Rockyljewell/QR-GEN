@@ -111,6 +111,13 @@ function truthy(v: unknown): boolean | undefined {
   return !/^(0|false|no|off)$/i.test(String(v));
 }
 
+function resultLimit(v: unknown): number | undefined {
+  if (v === undefined || v === "") return undefined;
+  const n = typeof v === "number" || typeof v === "string" ? Number(v) : NaN;
+  if (!Number.isInteger(n) || n < 1 || n > 255) throw new HttpError(400, "bad-request", "maxResults must be an integer from 1 to 255");
+  return n;
+}
+
 function generateOptions(src: Record<string, unknown>): GenerateOptions & { data: string; format: "svg" | "png" | "txt" } {
   const data = src.data ?? src.text ?? src.value;
   if (typeof data !== "string" || !data) throw new HttpError(400, "bad-request", 'Missing "data"');
@@ -162,6 +169,7 @@ export function createHandler(options: ServerOptions = {}): (req: IncomingMessag
       let symbologies = list(q.symbologies);
       let tryHarder = truthy(q.tryHarder);
       let parse = truthy(q.parse) ?? true;
+      let maxResults: unknown = q.maxResults;
       if (type.includes("application/json")) {
         let json: Record<string, unknown>;
         try {
@@ -169,20 +177,25 @@ export function createHandler(options: ServerOptions = {}): (req: IncomingMessag
         } catch {
           throw new HttpError(400, "bad-request", "Invalid JSON body");
         }
+        if (!json || typeof json !== "object" || Array.isArray(json)) throw new HttpError(400, "bad-request", "JSON body must be an object");
         if (typeof json.image !== "string") throw new HttpError(400, "bad-request", 'JSON body needs "image" as base64 or a data URL');
         image = fromBase64(json.image);
         symbologies = list(json.symbologies) ?? symbologies;
         tryHarder = truthy(json.tryHarder) ?? tryHarder;
         parse = truthy(json.parse) ?? parse;
+        if (json.maxResults !== undefined) maxResults = json.maxResults;
       } else if (type.includes("multipart/form-data")) {
         const mp = multipartImage(body, type);
         image = mp.image;
         symbologies = list(mp.fields.symbologies) ?? symbologies;
+        tryHarder = truthy(mp.fields.tryHarder) ?? tryHarder;
+        parse = truthy(mp.fields.parse) ?? parse;
+        maxResults = mp.fields.maxResults ?? maxResults;
       } else {
         image = body;
       }
       if (!image.length) throw new HttpError(400, "bad-request", "Empty image");
-      const barcodes = await scanImage(image, { symbologies: symbologies ? resolveSymbologies(symbologies) : undefined, tryHarder: tryHarder ?? true });
+      const barcodes = await scanImage(image, { symbologies: symbologies ? resolveSymbologies(symbologies) : undefined, tryHarder: tryHarder ?? true, maxResults: resultLimit(maxResults) });
       send(res, 200, { barcodes: parse ? barcodes.map((b) => ({ ...b, parsed: parseContent(b.data, { symbology: b.symbology }) })) : barcodes });
       return;
     }

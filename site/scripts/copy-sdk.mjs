@@ -12,9 +12,16 @@ const site = resolve(here, "..");
 const sdk = resolve(site, "../packages/sdk");
 const dist = resolve(sdk, "dist");
 
+// npm's executable is a .cmd shim on Windows. Run its JS entry with the current
+// Node process instead, preserving spaces in paths without invoking a shell.
+const npmCli = process.env.npm_execpath ?? resolve(dirname(process.execPath), "node_modules/npm/bin/npm-cli.js");
+const runNpm = (args, options) => existsSync(npmCli)
+  ? execFileSync(process.execPath, [npmCli, ...args], options)
+  : execFileSync("npm", args, options);
+
 if (!existsSync(resolve(dist, "browser/qrgen.js"))) {
   console.log("[site] building qrgen-sdk first…");
-  execFileSync("npm", ["run", "build"], { cwd: sdk, stdio: "inherit" });
+  runNpm(["run", "build"], { cwd: sdk, stdio: "inherit" });
 }
 
 const out = resolve(site, "public/sdk");
@@ -27,7 +34,7 @@ for (const f of readdirSync(resolve(dist, "wasm"))) copyFileSync(resolve(dist, "
 const downloads = resolve(site, "public/downloads");
 rmSync(downloads, { recursive: true, force: true });
 mkdirSync(downloads, { recursive: true });
-const packed = execFileSync("npm", ["pack", "--ignore-scripts", "--pack-destination", downloads, "--silent"], { cwd: sdk, encoding: "utf8" })
+const packed = runNpm(["pack", "--ignore-scripts", "--pack-destination", downloads, "--silent"], { cwd: sdk, encoding: "utf8" })
   .trim()
   .split("\n")
   .pop();

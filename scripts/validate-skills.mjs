@@ -16,7 +16,7 @@ for (const dir of readdirSync(skillsDir, { withFileTypes: true }).filter((d) => 
     errors.push(`${dir.name}: missing SKILL.md`);
     continue;
   }
-  const md = readFileSync(file, "utf8");
+  const md = readFileSync(file, "utf8").replace(/\r\n/g, "\n");
   const fm = /^---\n([\s\S]*?)\n---\n/.exec(md)?.[1];
   if (!fm) {
     errors.push(`${dir.name}: missing YAML frontmatter`);

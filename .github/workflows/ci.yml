@@ -50,6 +50,25 @@ jobs:
       - name: End-to-end tests (fake camera)
         run: npm run test:e2e -w qrgen-site
 
+  windows-web:
+    name: Windows web build + camera lifecycle
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run typecheck -w qrgen-sdk
+      - run: npm run build
+      - run: node scripts/validate-skills.mjs
+      - run: npx playwright install chromium
+        working-directory: site
+      - run: npm run test:e2e
+
   skills:
     name: Agent Skills + plugin manifest
     runs-on: ubuntu-latest

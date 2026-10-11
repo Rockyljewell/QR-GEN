@@ -38,6 +38,8 @@ export class Camera {
   private facing: CameraFacing;
   private deviceId: string | undefined;
   private torchOn = false;
+  private startToken = 0;
+  private cancelMetadata: (() => void) | null = null;
   readonly resolution: Resolution;
 
   constructor(options: CameraOptions = {}) {
@@ -102,38 +104,60 @@ export class Camera {
     }
     if (!Camera.isSupported()) throw new QRGenError("unsupported", "This browser does not support camera access (getUserMedia).");
     this.stop();
+    const token = this.startToken;
     this.video = video;
     try {
-      this.stream = await navigator.mediaDevices.getUserMedia(this.constraints());
-    } catch (err) {
-      const e = toQRGenError(err);
-      // A pinned device may have disappeared; retry with facing mode only.
-      if (e.code === "camera-not-found" && this.deviceId) {
+      let stream: MediaStream;
+      try {
+        stream = await navigator.mediaDevices.getUserMedia(this.constraints());
+      } catch (err) {
+        if (token !== this.startToken) return;
+        const e = toQRGenError(err);
+        // A pinned device may have disappeared; retry with facing mode only.
+        if (e.code !== "camera-not-found" || !this.deviceId) throw e;
         this.deviceId = undefined;
-        this.stream = await navigator.mediaDevices.getUserMedia(this.constraints()).catch((e2) => {
-          throw toQRGenError(e2);
-        });
-      } else {
-        throw e;
+        stream = await navigator.mediaDevices.getUserMedia(this.constraints());
       }
-    }
-    video.setAttribute("playsinline", "");
-    video.setAttribute("muted", "");
-    video.muted = true;
-    video.playsInline = true;
-    video.srcObject = this.stream;
-    await new Promise<void>((resolve) => {
-      if (video.readyState >= 1 && video.videoWidth) return resolve();
-      video.addEventListener("loadedmetadata", () => resolve(), { once: true });
-    });
-    try {
+      // Permission prompts cannot be aborted: dispose a late stream locally so it
+      // cannot replace (or stop) a newer camera session.
+      if (token !== this.startToken) {
+        stream.getTracks().forEach((t) => t.stop());
+        return;
+      }
+      this.stream = stream;
+      video.setAttribute("playsinline", "");
+      video.setAttribute("muted", "");
+      video.muted = true;
+      video.playsInline = true;
+      video.srcObject = stream;
+      await new Promise<void>((resolve, reject) => {
+        if (video.readyState >= 1 && video.videoWidth) return resolve();
+        const done = (err?: QRGenError) => {
+          clearTimeout(timer);
+          video.removeEventListener("loadedmetadata", loaded);
+          video.removeEventListener("error", failed);
+          if (this.cancelMetadata === cancel) this.cancelMetadata = null;
+          if (err) reject(err);
+          else resolve();
+        };
+        const loaded = () => done();
+        const failed = () => done(new QRGenError("camera-in-use", "The camera video could not be loaded."));
+        const cancel = () => done();
+        const timer = setTimeout(() => done(new QRGenError("camera-in-use", "Timed out waiting for camera video.")), 20000);
+        this.cancelMetadata = cancel;
+        video.addEventListener("loadedmetadata", loaded);
+        video.addEventListener("error", failed);
+      });
+      if (token !== this.startToken) return;
       await video.play();
+      if (token !== this.startToken) return;
+      await this.applyFocus();
+      if (token === this.startToken) this.torchOn = false;
     } catch (err) {
-      // Autoplay of a muted inline video should always be allowed; surface anything else.
-      if ((err as { name?: string }).name !== "AbortError") throw toQRGenError(err);
+      if (token !== this.startToken) return;
+      this.stop();
+      throw toQRGenError(err);
     }
-    await this.applyFocus();
-    this.torchOn = false;
   }
 
   private async applyFocus(): Promise<void> {
@@ -147,6 +171,8 @@ export class Camera {
   }
 
   stop(): void {
+    this.startToken++;
+    this.cancelMetadata?.();
     this.stream?.getTracks().forEach((t) => t.stop());
     this.stream = null;
     if (this.video) this.video.srcObject = null;
@@ -158,6 +184,7 @@ export class Camera {
     if (!track || !this.capabilities.torch) return false;
     try {
       await track.applyConstraints({ advanced: [{ torch: on } as MediaTrackConstraintSet] });
+      if (track !== this.track) return false;
       this.torchOn = on;
       return true;
     } catch {
@@ -180,8 +207,11 @@ export class Camera {
 
   /** Switch between front and back cameras (or cycle through devices). */
   async switch(): Promise<void> {
-    if (!this.video) return;
+    const video = this.video;
+    const token = this.startToken;
+    if (!video || !this.stream) return;
     const cams = await Camera.list();
+    if (token !== this.startToken) return;
     const current = this.track?.getSettings().deviceId;
     if (cams.length > 2 && current) {
       const idx = cams.findIndex((c) => c.deviceId === current);
@@ -190,6 +220,6 @@ export class Camera {
       this.deviceId = undefined;
       this.facing = this.isFront ? "back" : "front";
     }
-    await this.start(this.video);
+    await this.start(video);
   }
 }
