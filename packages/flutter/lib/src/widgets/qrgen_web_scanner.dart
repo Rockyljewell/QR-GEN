@@ -117,10 +117,30 @@ class QRGenWebScanner extends StatefulWidget {
   State<QRGenWebScanner> createState() => _QRGenWebScannerState();
 }
 
+// A repeated const command still represents a distinct request while an older
+// platform injection is in flight.
+class _PendingWebCommand {
+  _PendingWebCommand(this.command);
+
+  final QRGenBridgeCommand command;
+}
+
 class _QRGenWebScannerState extends State<QRGenWebScanner> with WidgetsBindingObserver {
   late final WebViewController _web;
-  final List<QRGenBridgeCommand> _pending = [];
+  static const _transportRetryDelay = Duration(milliseconds: 100);
+  static const _transportRetryMaxDelay = Duration(seconds: 2);
+  static const _commandCapability = "Boolean(window.qrgen && typeof window.qrgen.command === 'function')";
+
+  final List<_PendingWebCommand> _pending = [];
   bool _ready = false;
+  bool _transportReady = false;
+  bool _documentFinished = false;
+  bool _pageFailed = false;
+  int _pageGeneration = 0;
+  int _transportAttempts = 0;
+  Object? _drainOwner;
+  Future<void>? _drainFuture;
+  Timer? _transportRetry;
   bool _loaded = false;
   bool _appActive = true;
   bool _visible = true;
@@ -157,7 +177,8 @@ class _QRGenWebScannerState extends State<QRGenWebScanner> with WidgetsBindingOb
     _quiet(
       controller.setNavigationDelegate(
         NavigationDelegate(
-          onPageStarted: (_) => _ready = false,
+          onPageStarted: _onPageStarted,
+          onPageFinished: _onPageFinished,
           onWebResourceError: _onWebResourceError,
         ),
       ),
@@ -192,7 +213,8 @@ class _QRGenWebScannerState extends State<QRGenWebScanner> with WidgetsBindingOb
 
   void _onWebResourceError(WebResourceError error) {
     // Only failures of the page itself matter; sub-resources are the page's business.
-    if (error.isForMainFrame == false) return;
+    if (_disposed || error.isForMainFrame == false) return;
+    _resetTransport(failed: true);
     _fail(QRGenError(QRGenErrorCode.engineLoadFailed, 'Could not load the QRGen embed page: ${error.description}'));
   }
 
@@ -222,9 +244,10 @@ class _QRGenWebScannerState extends State<QRGenWebScanner> with WidgetsBindingOb
       );
 
   Future<void> _load() async {
+    if (_disposed) return;
     final uri = _buildUri();
+    _resetTransport();
     _currentUrl = uri.toString();
-    _ready = false;
     _sentActive = null;
     _loaded = true;
     _failure = null;
@@ -233,9 +256,67 @@ class _QRGenWebScannerState extends State<QRGenWebScanner> with WidgetsBindingOb
   }
 
   Future<void> _reload() async {
-    _ready = false;
+    if (_disposed) return;
+    _resetTransport();
     _sentActive = null;
     await _web.reload();
+  }
+
+  void _resetTransport({bool failed = false}) {
+    _pageGeneration++;
+    _ready = false;
+    _transportReady = false;
+    _documentFinished = false;
+    _pageFailed = failed;
+    _transportAttempts = 0;
+    _cancelTransportRetry();
+    _drainOwner = null;
+    _drainFuture = null;
+  }
+
+  void _onPageStarted(String _) {
+    if (_disposed) return;
+    _resetTransport();
+  }
+
+  void _onPageFinished(String _) {
+    // Redirects may finish at a different URL without another started event.
+    // Completion only triggers the current page's actual capability query.
+    if (_disposed || !_loaded || _pageFailed) return;
+    _documentFinished = true;
+    _transportAttempts = 0;
+    unawaited(_drainCommands());
+  }
+
+  void _cancelTransportRetry() {
+    _transportRetry?.cancel();
+    _transportRetry = null;
+  }
+
+  bool _ownsDrain(Object owner, int generation) =>
+      !_disposed && mounted && _pageGeneration == generation && identical(_drainOwner, owner);
+
+  _PendingWebCommand? get _nextPending {
+    for (final entry in _pending) {
+      final type = entry.command.type;
+      if (_ready || type == QRGenBridgeCommandType.start || type == QRGenBridgeCommandType.stop) return entry;
+    }
+    return null;
+  }
+
+  void _scheduleTransportRetry() {
+    if (_disposed || !_loaded || _pageFailed || (!_documentFinished && !_ready) ||
+        _nextPending == null || _transportRetry != null) return;
+    final generation = _pageGeneration;
+    var delay = _transportRetryDelay;
+    for (var attempt = 1; attempt < _transportAttempts; attempt++) {
+      delay *= 2;
+    }
+    if (delay > _transportRetryMaxDelay) delay = _transportRetryMaxDelay;
+    _transportRetry = Timer(delay, () {
+      _transportRetry = null;
+      if (!_disposed && _pageGeneration == generation) unawaited(_drainCommands());
+    });
   }
 
   @override
@@ -279,6 +360,8 @@ class _QRGenWebScannerState extends State<QRGenWebScanner> with WidgetsBindingOb
   @override
   void dispose() {
     _disposed = true;
+    _resetTransport();
+    _pending.clear();
     WidgetsBinding.instance.removeObserver(this);
     if (widget.controller?._state == this) widget.controller?._state = null;
     super.dispose();
@@ -295,18 +378,80 @@ class _QRGenWebScannerState extends State<QRGenWebScanner> with WidgetsBindingOb
     unawaited(_send(run ? QRGenBridgeCommand.start : QRGenBridgeCommand.stop));
   }
 
+  void _enqueue(QRGenBridgeCommand command) {
+    _pending
+      ..removeWhere((entry) => entry.command.type == command.type)
+      ..add(_PendingWebCommand(command));
+  }
+
   Future<void> _send(QRGenBridgeCommand command) async {
     if (_disposed) return;
-    if (!_ready) {
-      _pending
-        ..removeWhere((c) => c.type == command.type)
-        ..add(command);
+    _enqueue(command);
+    _transportAttempts = 0;
+    _cancelTransportRetry();
+    await _drainCommands();
+  }
+
+  Future<void> _drainCommands() async {
+    if (_disposed || !_loaded || _pageFailed) return;
+    final active = _drainFuture;
+    if (_drainOwner != null && active != null) {
+      await active;
       return;
     }
+    final owner = Object();
+    final generation = _pageGeneration;
+    final completion = Completer<void>();
+    _drainOwner = owner;
+    _drainFuture = completion.future;
+    var retry = false;
     try {
-      await _web.runJavaScript(command.toScript());
-    } catch (_) {
-      // The page is reloading; the state is re-sent on the next `ready`.
+      while (_ownsDrain(owner, generation)) {
+        final entry = _nextPending;
+        if (entry == null) {
+          _cancelTransportRetry();
+          return;
+        }
+        if (!_transportReady) {
+          if (!_documentFinished && !_ready) return;
+          if (_transportAttempts < 6) _transportAttempts++;
+          Object result;
+          try {
+            result = await _web.runJavaScriptReturningResult(_commandCapability);
+          } catch (_) {
+            if (_ownsDrain(owner, generation)) retry = true;
+            return;
+          }
+          if (!_ownsDrain(owner, generation)) return;
+          // A real ready may arrive while the capability query is pending.
+          // Its transport knowledge must not be overwritten by an older false.
+          _transportReady = _transportReady || result == true || result == 'true';
+          if (!_transportReady) {
+            retry = true;
+            return;
+          }
+          // The queue may have changed while the query was pending.
+          continue;
+        }
+        try {
+          await _web.runJavaScript(entry.command.toScript());
+        } catch (_) {
+          if (_ownsDrain(owner, generation)) {
+            _transportReady = false;
+            retry = true;
+          }
+          return;
+        }
+        if (!_ownsDrain(owner, generation)) return;
+        _pending.remove(entry);
+      }
+    } finally {
+      if (_ownsDrain(owner, generation)) {
+        _drainOwner = null;
+        _drainFuture = null;
+        if (retry) _scheduleTransportRetry();
+      }
+      completion.complete();
     }
   }
 
@@ -317,16 +462,17 @@ class _QRGenWebScannerState extends State<QRGenWebScanner> with WidgetsBindingOb
       case null:
         return;
       case QRGenReadyMessage():
+        if (_pageFailed) return;
         _ready = true;
-        final queued = List.of(_pending);
-        _pending.clear();
-        if (!_shouldRun && !queued.any((c) => c.type == QRGenBridgeCommandType.stop || c.type == QRGenBridgeCommandType.start)) {
-          queued.add(QRGenBridgeCommand.stop);
+        _transportReady = true;
+        _transportAttempts = 0;
+        _cancelTransportRetry();
+        if (!_shouldRun && !_pending.any((entry) => entry.command.type == QRGenBridgeCommandType.stop ||
+            entry.command.type == QRGenBridgeCommandType.start)) {
+          _enqueue(QRGenBridgeCommand.stop);
           _sentActive = false;
         }
-        for (final c in queued) {
-          unawaited(_send(c));
-        }
+        unawaited(_drainCommands());
         if (_failure != null) {
           _failure = null;
           _refresh();

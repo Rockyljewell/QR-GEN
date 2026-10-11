@@ -291,8 +291,13 @@ It accepts the same scanner options as `QRGenScanner` (`symbologies`, `mode`,
 | `webViewProps` | `object` | | Extra props for the underlying `<WebView>` |
 
 Ref methods: `start()`, `stop()`, `pause()`, `resume()`, `setTorch(on)`, `sendCommand(command)`,
-`reload()`. They call `injectJavaScript("window.qrgen && window.qrgen.command({...}); true;")`,
-and commands sent before the page reports `ready` are queued.
+`reload()`. Ref commands use the WebView's JavaScript bridge,
+and camera-dependent commands wait for the page's actual `ready` message.
+`start`/`stop` can reach a verified command bridge before camera-ready, including
+with `autostart=0` or after an initial camera error. Transport acknowledgement
+does not call `onReady`. Private transport messages stay internal. Load and page
+message handling also runs when advanced
+`webViewProps` callbacks are supplied; those callbacks are invoked afterward.
 
 The WebView is configured with `mediaPlaybackRequiresUserAction={false}`,
 `allowsInlineMediaPlayback`, and `mediaCapturePermissionGrantType="grant"` (iOS 15+, so the

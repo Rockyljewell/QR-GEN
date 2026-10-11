@@ -5,10 +5,11 @@
  * embed page inside react-native-webview and talks to it over the SPEC
  * section 5 bridge.
  */
-import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { AppState, PermissionsAndroid, Platform, StyleSheet, Text, View, Vibration, type StyleProp, type ViewStyle } from 'react-native';
-import { buildCommandScript, buildEmbedUrl, parseEmbedMessage, type EmbedCommand } from './embed';
+import { buildEmbedUrl, parseEmbedMessage, type EmbedCommand } from './embed';
 import { createQRGenError } from './errors';
+import { WebScannerTransport } from './webScannerTransport';
 import type { Barcode, QRGenError, QRGenErrorCode, ScannerOptions, TrackedBarcode } from './types';
 
 declare const require: (id: string) => unknown;
@@ -91,8 +92,15 @@ export const QRGenWebScanner = forwardRef<QRGenWebScannerHandle, QRGenWebScanner
   latest.current = props;
 
   const webRef = useRef<WebViewInstance | null>(null);
-  const readyRef = useRef(false);
-  const pending = useRef<EmbedCommand[]>([]);
+  const live = useRef(true);
+  const transportRef = useRef<WebScannerTransport | null>(null);
+  if (!transportRef.current) transportRef.current = new WebScannerTransport(script => {
+    const web = webRef.current;
+    if (!web) return false;
+    web.injectJavaScript(script);
+    return true;
+  });
+  const transport = transportRef.current;
   const [permission, setPermission] = useState<PermissionState>(Platform.OS === 'android' ? 'unknown' : 'granted');
   const [failure, setFailure] = useState<QRGenError | null>(null);
   const [mountKey, setMountKey] = useState(0);
@@ -166,30 +174,23 @@ export const QRGenWebScanner = forwardRef<QRGenWebScannerHandle, QRGenWebScanner
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.embedUrl, symbologyKey, props.mode, props.duplicateFilter, props.beep, props.camera, props.viewfinder, scanAreaKey, props.maxResults]);
 
-  const inject = useCallback((command: EmbedCommand) => {
-    webRef.current?.injectJavaScript(buildCommandScript(command));
-  }, []);
-
-  const sendCommand = useCallback(
-    (command: EmbedCommand) => {
-      if (readyRef.current && webRef.current) {
-        inject(command);
-      } else {
-        // Keep only the latest command of each type until the page is ready.
-        pending.current = pending.current.filter((c) => c.type !== command.type).concat(command);
-      }
-    },
-    [inject],
-  );
+  const sendCommand = useCallback((command: EmbedCommand) => transport.send(command), [transport]);
+  const invalidate = useCallback(() => {
+    transport.reset();
+  }, [transport]);
 
   const active = (props.isActive ?? true) && appActive;
   const activeRef = useRef(active);
   activeRef.current = active;
 
-  // A new URL (or a remount) loads a new page: wait for its `ready`.
-  useEffect(() => {
-    readyRef.current = false;
-  }, [url, mountKey]);
+  useLayoutEffect(() => {
+    live.current = true;
+    transport.activate();
+    return () => { live.current = false; transport.deactivate(); };
+  }, [transport]);
+
+  // A committed source/remount invalidates all old admission attempts.
+  useLayoutEffect(invalidate, [url, mountKey, invalidate]);
 
   // isActive / app state -> start/stop.
   const firstActive = useRef(true);
@@ -213,17 +214,17 @@ export const QRGenWebScanner = forwardRef<QRGenWebScannerHandle, QRGenWebScanner
 
   const onMessage = useCallback(
     (event: { nativeEvent: { data: string } }) => {
+      if (!live.current) return true;
+      if (transport.receive(event.nativeEvent.data)) return true;
       const message = parseEmbedMessage(event.nativeEvent.data);
       if (!message) return;
       const p = latest.current;
       switch (message.type) {
         case 'ready': {
-          readyRef.current = true;
-          const queued = pending.current;
-          pending.current = [];
-          if (!activeRef.current && !queued.some((c) => c.type === 'stop' || c.type === 'start')) queued.push({ type: 'stop' });
-          if (torchRef.current !== urlTorch.current && !queued.some((c) => c.type === 'torch')) queued.push({ type: 'torch', value: torchRef.current });
-          queued.forEach(inject);
+          const epoch = transport.epoch;
+          if (!activeRef.current && !transport.has('stop') && !transport.has('start')) transport.send({ type: 'stop' });
+          if (torchRef.current !== urlTorch.current && !transport.has('torch')) transport.send({ type: 'torch', value: torchRef.current });
+          if (!transport.ready() || !live.current || transport.epoch !== epoch) return;
           setFailure(null);
           p.onReady?.();
           break;
@@ -247,7 +248,7 @@ export const QRGenWebScanner = forwardRef<QRGenWebScannerHandle, QRGenWebScanner
           break;
       }
     },
-    [inject],
+    [transport],
   );
 
   useImperativeHandle(
@@ -263,35 +264,46 @@ export const QRGenWebScanner = forwardRef<QRGenWebScannerHandle, QRGenWebScanner
       },
       sendCommand,
       reload: () => {
-        readyRef.current = false;
+        invalidate();
         webRef.current?.reload();
       },
     }),
-    [sendCommand],
+    [sendCommand, invalidate],
   );
 
   const onLoadError = useCallback(
     (event: { nativeEvent: { description?: string } }) => {
+      transport.failed();
       emitError('engine-load-failed', `Could not load the QRGen embed page: ${event.nativeEvent.description ?? 'unknown error'}`);
     },
-    [emitError],
+    [emitError, transport],
   );
   const onHttpError = useCallback(
     (event: { nativeEvent: { statusCode: number } }) => {
+      transport.failed();
       emitError('engine-load-failed', `The QRGen embed page returned HTTP ${event.nativeEvent.statusCode}.`);
     },
-    [emitError],
+    [emitError, transport],
   );
   // iOS: the WebContent process was killed (memory pressure). Reload it.
   const onContentProcessDidTerminate = useCallback(() => {
-    readyRef.current = false;
+    invalidate();
     webRef.current?.reload();
-  }, []);
+  }, [invalidate]);
   // Android: the renderer died. Remount instead of crashing the app.
   const onRenderProcessGone = useCallback(() => {
-    readyRef.current = false;
+    invalidate();
     setMountKey((k) => k + 1);
-  }, []);
+  }, [invalidate]);
+
+  const advanced = props.webViewProps;
+  const compose = <Event,>(internal: (event: Event) => boolean | void, name: string) => (event: Event) => {
+    if (!live.current) return;
+    const consumed = internal(event);
+    if (consumed === true || !live.current) return;
+    const callback = latest.current.webViewProps?.[name];
+    if (typeof callback === 'function') callback(event);
+  };
 
   const canRender = WebView != null && permission === 'granted';
 
@@ -314,12 +326,14 @@ export const QRGenWebScanner = forwardRef<QRGenWebScannerHandle, QRGenWebScanner
           scrollEnabled={false}
           overScrollMode="never"
           setSupportMultipleWindows={false}
-          onMessage={onMessage}
-          onError={onLoadError}
-          onHttpError={onHttpError}
-          onContentProcessDidTerminate={onContentProcessDidTerminate}
-          onRenderProcessGone={onRenderProcessGone}
-          {...props.webViewProps}
+          {...advanced}
+          onMessage={compose(onMessage, 'onMessage')}
+          onLoadStart={compose(invalidate, 'onLoadStart')}
+          onLoadEnd={compose(() => transport.loaded(), 'onLoadEnd')}
+          onError={compose(onLoadError, 'onError')}
+          onHttpError={compose(onHttpError, 'onHttpError')}
+          onContentProcessDidTerminate={compose(onContentProcessDidTerminate, 'onContentProcessDidTerminate')}
+          onRenderProcessGone={compose(onRenderProcessGone, 'onRenderProcessGone')}
         />
       ) : (
         props.fallback ?? <Placeholder text={failure ? failure.message : null} />

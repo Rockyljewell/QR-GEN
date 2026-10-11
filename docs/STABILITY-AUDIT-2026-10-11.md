@@ -564,6 +564,18 @@ a fake camera platform. They establish API/state behavior, not physical flashlig
 behavior or camera-driver reliability. The scanner rendering, overlay, styling,
 dependencies and decoder are unchanged.
 
+## WebScanner programmatic startup and retry
+
+[#79](https://github.com/Rockyljewell/QR-GEN/issues/79) was reported after actual
+Flutter, React Native component and embed baselines established a camera-ready
+queue cycle. Public start was held until the camera event that required that
+start. The [baseline and evidence limits](WEBVIEW-BOOTSTRAP-2026-10-11.md) retain
+the three Flutter and three React Native failures, their passing controls and
+the independently checked actual embed/decoder controls. The repair admits only
+start/stop after transport capability, preserves camera-dependent command
+queueing and original styling, and keeps readiness callbacks tied to real ready.
+Physical phones and a matched Scandit comparison remain outstanding.
+
 ## Retail AR and adjacent features
 
 The following is an assessment of repository code against the vendors' published
