@@ -4,7 +4,6 @@
 package dev.qrgen.compose
 
 import android.Manifest
-import android.app.Application
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.ComponentActivity
@@ -57,7 +56,7 @@ class QRGenScannerOwnershipTest {
 
     @Before
     fun denyCameraBeforeScannerConstruction() {
-        Shadows.shadowOf(RuntimeEnvironment.getApplication<Application>()).denyPermissions(Manifest.permission.CAMERA)
+        Shadows.shadowOf(RuntimeEnvironment.getApplication()).denyPermissions(Manifest.permission.CAMERA)
         assertFalse(QRGen.hasCameraPermission(compose.activity))
     }
 

@@ -64,7 +64,7 @@
   "gradlePath": "packages/android/qrgen-compose/build.gradle.kts",
   "harnessGradleSha256": "8c5f94b90168630f29f8c2b754c9f1a187afb6d1156f38aaf07d7b7053d7237f",
   "testPath": "packages/android/qrgen-compose/src/test/kotlin/dev/qrgen/compose/QRGenScannerOwnershipTest.kt",
-  "testSha256": "ed889be825bdcc9fe0c66346d22de7259e89ea1c9d1df703315053b4e81217ff",
+  "testSha256": "3c205ac140ebc909783df1f62a189716161f3e3e8ab9064b08e4d698cc4c1ddf",
   "className": "dev.qrgen.compose.QRGenScannerOwnershipTest",
   "testNames": [
     "ownerReplacementReleasesOldControllerAndFollowsNewOwner",
@@ -96,5 +96,12 @@
   },
   "resolvedRuntimeDependencies": "unverified; diagnostic captures complete Gradle resolution report",
   "sourceInventorySha256": "a3b3db5dee1c8c3a09efba48a4324d58a0168183e009286a2c04e1a09975733a",
-  "runtimeVerified": false
+  "runtimeVerified": false,
+  "harnessRevision": 2,
+  "previousAttempt": {
+    "runId": "38159083258",
+    "head": "4a4b3763499ad6ff1d97caa672d5bf053f879fdb",
+    "archiveSha256": "d2297f3b7cb5247752c076989cc9f3d05f657d8d25d16808a39617d81319abdc",
+    "classification": "HARNESS_COMPILE_FAILURE; not ownership regression evidence"
+  }
 }
