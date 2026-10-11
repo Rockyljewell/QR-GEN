@@ -65,19 +65,18 @@ class QRGenScanSession {
   /// Feeds the codes decoded in one frame.
   QRGenScanSessionResult process(List<QRGenBarcode> barcodes, [DateTime? now]) {
     if (_stopped) return QRGenScanSessionResult.empty;
-    final time = now ?? DateTime.now();
     switch (_mode) {
       case QRGenScanMode.single:
-        final scanned = _filter.filter(barcodes, time);
+        final scanned = _filter.filter(barcodes, now);
         if (scanned.isEmpty) return QRGenScanSessionResult.empty;
         _stopped = true;
         return QRGenScanSessionResult(scanned: scanned, stop: true);
       case QRGenScanMode.batch:
-        final update = _tracker.update(barcodes, time);
-        final scanned = _filter.filter(barcodes, time);
+        final update = _tracker.update(barcodes, now);
+        final scanned = _filter.filter(barcodes, now);
         return QRGenScanSessionResult(scanned: scanned, tracked: update.changed ? update.tracked : null);
       case QRGenScanMode.continuous:
-        return QRGenScanSessionResult(scanned: _filter.filter(barcodes, time));
+        return QRGenScanSessionResult(scanned: _filter.filter(barcodes, now));
     }
   }
 

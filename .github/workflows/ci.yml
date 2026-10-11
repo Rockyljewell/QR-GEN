@@ -195,6 +195,14 @@ jobs:
       - run: flutter pub get
       - run: flutter analyze
       - run: flutter test
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Calibrated default-clock regressions (compiled Dart core)
+        run: |
+          mkdir -p build/clock-probe
+          dart --suppress-analytics compile js --enable-asserts -O0 -o build/clock-probe/probe.js tool/clock_probe.dart
+          node tool/run_clock_probe.mjs build/clock-probe/probe.js
 
   docker:
     name: Docker image

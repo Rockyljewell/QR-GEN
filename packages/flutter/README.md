@@ -198,6 +198,14 @@ suffixes when needed), `firstSeen`, `lastSeen` and `count`. Treat IDs as opaque;
 have unique IDs. Base IDs use the same scheme as React Native, while collision suffixes
 depend on track insertion order. Codes are dropped after more than 500 ms unseen, before
 matching the next frame; a returning code starts fresh timestamps and count.
+Default duplicate windows and unseen-track timeouts use monotonic elapsed time;
+public barcode and tracking timestamps remain epoch-valued `DateTime` values.
+The pure helpers retain their optional explicit `DateTime` arguments and preserve
+retained timestamp ages when switching between explicit and default time.
+In native batch mode, `onScan` precedes `onTrack`. A reset, real widget disposal,
+committed mode change or newer tracking update cancels an older pending track result.
+No-op start/resume, cosmetic rebuilds and no-change blank input preserve the current
+notification. Requesting a parent rebuild takes effect when that rebuild is committed.
 Errors are `QRGenError` with a `QRGenErrorCode` (`camera-permission-denied`,
 `camera-not-found`, `camera-in-use`, `insecure-context`, `engine-load-failed`, `unsupported`,
 `unknown`).
@@ -219,17 +227,23 @@ generate the platform folders, then add the permissions above.
 
 ## Status
 
-- **Tested:** 111 tests pass with `flutter test` (Flutter 3.47.5, mobile_scanner 7.4.2,
-  webview_flutter 4.14.1). 97 of them are pure Dart tests for symbology resolution, the
+- **Tested:** 166 tests pass with `flutter test` (Flutter 3.47.7, Dart 3.13.5,
+  mobile_scanner 7.4.2, webview_flutter 4.14.1). 133 of them are pure Dart tests for symbology resolution, the
   mobile_scanner mapping for versions 5/6, 7.0-7.2 and 7.3+, JSON round trips, the duplicate filter,
   the tracker, the scan session, geometry and bridge parsing. They also pass with `dart test` in
   a Flutter-free package. Widget tests drive `QRGenScanner` against a fake `mobile_scanner`
   platform (formats, start and stop, single, batch, duplicate filter, torch, `isActive`, error
-  mapping) and `QRGenWebScanner` against a fake `webview_flutter` platform (URL, `QRGenBridge`
+  mapping, reset and nested callback ownership) and `QRGenWebScanner` against a fake `webview_flutter` platform (URL, `QRGenBridge`
   channel, message dispatch, command queueing, permission grants). `flutter analyze` reports no
-  issues for the package and the example. `lib/` also analyzes cleanly against the lowest
+  issues for the package and the example. CI additionally compiles the actual pure Dart
+  core with the official web compiler and runs 34 clock checks in an isolated Node context:
+  four calibrations, 14 default-clock regressions and 16 compatibility/metadata controls.
+  See `tool/clock_probe.dart` and `tool/run_clock_probe.mjs`; JavaScript supplies clock
+  boundaries, while the algorithms come from the compiled Dart sources.
+  Earlier compatibility checks analyzed `lib/` against the lowest
   allowed dependencies (mobile_scanner 5.1.0, webview_flutter 4.4.0, webview_flutter_android
-  3.12.0, webview_flutter_wkwebview 3.9.0) and against mobile_scanner 6.0.10 and 7.0.0. The
+  3.12.0, webview_flutter_wkwebview 3.9.0) and against mobile_scanner 6.0.10 and 7.0.0;
+  those older dependency combinations have not been rerun for this timing change. The
   tracking ids are checked to be the same on the Dart VM, in dart2js output and in the React
   Native package.
 - **Not tested yet:** nothing has run on a real device or simulator. Camera behavior, highlight

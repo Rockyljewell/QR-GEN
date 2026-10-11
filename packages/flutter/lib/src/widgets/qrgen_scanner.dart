@@ -205,6 +205,7 @@ class _QRGenScannerState extends State<QRGenScanner> with WidgetsBindingObserver
   bool? _torchOverride;
   bool _readyReported = false;
   bool _disposed = false;
+  int _trackingRevision = 0;
   Future<void> _queue = Future<void>.value();
 
   List<List<Offset>> _highlights = const [];
@@ -251,6 +252,7 @@ class _QRGenScannerState extends State<QRGenScanner> with WidgetsBindingObserver
     final oldOptions = oldWidget.options;
     final newOptions = widget.options;
     if (oldOptions.mode != newOptions.mode) {
+      _trackingRevision++;
       _singleDone = false;
       _clearHighlights(rebuild: false);
     }
@@ -277,6 +279,7 @@ class _QRGenScannerState extends State<QRGenScanner> with WidgetsBindingObserver
   @override
   void dispose() {
     _disposed = true;
+    _trackingRevision++;
     WidgetsBinding.instance.removeObserver(this);
     if (widget.controller?._state == this) widget.controller?._state = null;
     _highlightTimer?.cancel();
@@ -434,6 +437,7 @@ class _QRGenScannerState extends State<QRGenScanner> with WidgetsBindingObserver
   }
 
   Future<void> _reset() async {
+    _trackingRevision++;
     _session.reset();
     _clearHighlights();
     await _userStart();
@@ -478,7 +482,8 @@ class _QRGenScannerState extends State<QRGenScanner> with WidgetsBindingObserver
       timestamp: now,
     );
     final barcodes = selectBarcodes(converted, scanArea: _options.scanArea, maxResults: _options.effectiveMaxResults);
-    final result = _session.process(barcodes, now);
+    final result = _session.process(barcodes);
+    final trackingRevision = result.tracked == null ? _trackingRevision : ++_trackingRevision;
     // Complete this single frame before app callbacks can start a new scan.
     if (result.stop) {
       _singleDone = true;
@@ -500,7 +505,7 @@ class _QRGenScannerState extends State<QRGenScanner> with WidgetsBindingObserver
       widget.onScan?.call(result.scanned);
     }
     final tracked = result.tracked;
-    if (tracked != null) widget.onTrack?.call(tracked);
+    if (tracked != null && !_disposed && mounted && trackingRevision == _trackingRevision) widget.onTrack?.call(tracked);
   }
 
   void _feedback() {
@@ -530,6 +535,7 @@ class _QRGenScannerState extends State<QRGenScanner> with WidgetsBindingObserver
         if (_disposed || !mounted) return;
         final tracked = _session.tick();
         if (tracked != null) {
+          _trackingRevision++;
           _showHighlights(tracked, linger: false);
           widget.onTrack?.call(tracked);
         }

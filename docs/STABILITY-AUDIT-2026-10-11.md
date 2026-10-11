@@ -455,6 +455,50 @@ camera-driver frame provenance, device alignment or dense-scene performance.
 Observation counts do not establish confirmed quantities. Phone sessions,
 representative users and matched Scandit measurements remain open gates.
 
+## Flutter elapsed timing and batch callback ownership
+
+Two further defects were reproduced against `e99fa542` and reported before production
+edits: [#73](https://github.com/Rockyljewell/QR-GEN/issues/73) for wall-clock-sensitive
+duration windows, and [#74](https://github.com/Rockyljewell/QR-GEN/issues/74) for obsolete
+batch callbacks. The original design, scanner rendering and overlay are preserved.
+
+The clock reproduction compiled six unchanged production Dart core modules with the
+official Dart 3.13.5 compiler and executed its web output in Chromium 153. Four
+Dart-side calibration checks separated adjustable epoch time from Stopwatch elapsed
+time. All 14 targeted checks failed the elapsed-time oracle, while 16 ordinary,
+explicit-time and epoch-metadata controls passed. With 2 seconds elapsed and a
+60-second backward wall-clock correction, repeats stayed suppressed and unseen tracks
+were retained. With only 100 ms elapsed and a 60-second forward correction, repeats
+were reported and tracks expired early. All 103 existing pure Dart tests passed on
+the Dart VM, showing that the previous suite did not detect these default-clock cases.
+
+Test-only commit `088ed372` then ran the actual Flutter widget suite in
+[hosted CI](https://github.com/Rockyljewell/QR-GEN/actions/runs/38176383632/job/114579550916).
+Analysis passed, but three new assertions reproduced obsolete `onTrack` delivery
+after reset, direct nested detection, and reset followed by nested detection.
+Eight new controls passed, including ordinary asynchronous delivery, no-op actions,
+scheduled rebuilds, blank input and saved callbacks after actual disposal. All 11
+probes removed their real widget and released the fake camera and stream listener.
+The nested probes invoke the mounted MobileScanner's public `onDetect`; they do not
+claim that a native camera driver schedules recursive events.
+
+The correction uses default monotonic elapsed time through the filter, tracker,
+session and native caller, while preserving explicit `DateTime` behavior and epoch
+metadata. Batch delivery checks the current tracking revision after `onScan`;
+reset, real disposal, a committed mode change or a newer tracking result invalidates
+the older notification. Idempotent start/resume and no-change input preserve it.
+The fixed core passes all 133 pure Dart VM tests, including 30 new precision,
+transition, history and late-failure cases, with strict analysis clean. The
+independent compiled-Dart browser run passes all 47 checks: the original 34 plus
+13 public-API mixed-clock controls. Its complete seven-module input closure is
+unchanged before/after, with no browser errors or network requests. The permanent
+CI tool separately passes the original 34 checks in an isolated Node context.
+Hosted Flutter CI runs the combined 166-test suite, including 33 widget tests,
+plus analysis and the calibrated compiled-core probe. The widget environment uses
+Flutter 3.47.7, Dart 3.13.5, mobile_scanner 7.4.2 and webview_flutter 4.14.1.
+Compiled pure Dart and fake-platform Flutter tests remain separate from physical
+phone, native-driver and matched Scandit validation.
+
 ## Retail AR and adjacent features
 
 The following is an assessment of repository code against the vendors' published

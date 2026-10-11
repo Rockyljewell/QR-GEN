@@ -206,13 +206,14 @@ tracking time still applies. A cancelled scan must not consume its first-report 
 Batch scanners retain an unreported initial scan separately from a live spatial track and
 deliver it only when that code is observed again and callback/session ownership remains valid.
 
-React Native's native scanner uses monotonic elapsed time for duplicate windows and track
-expiry; public timestamps remain milliseconds since epoch. Its pure helpers accept an
-optional injected `now`, with retained timestamp age rebased when clock sources change.
-In native batch delivery, `onScan` precedes `onTrack`; a reset, synchronous unmount,
+React Native's and Flutter's native scanners use monotonic elapsed time for duplicate
+windows and track expiry. Public timestamps remain epoch-valued: milliseconds in
+React Native and `DateTime` in Flutter. Their pure helpers retain optional injected time
+(`DateTime` in Flutter), with retained timestamp age rebased when clock sources change.
+In both native scanners' batch delivery, `onScan` precedes `onTrack`; a reset, real disposal,
 committed mode change or newer tracking update during `onScan` cancels the older track
 snapshot. Idempotent start/resume, cosmetic changes and no-change empty frames preserve
-the still-current callback.
+the still-current callback. A scheduled parent rebuild takes effect when it is committed.
 
 React Native also offers optional native spatial observations with
 `QRGenScanner spatialTracking`, or `new ScanSession({ mode: 'batch', spatialTracking: true })`.
