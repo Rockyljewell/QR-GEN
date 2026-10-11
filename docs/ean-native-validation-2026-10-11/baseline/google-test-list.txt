@@ -1,0 +1,372 @@
+Running main() from /home/runner/work/_temp/native-build/_deps/googletest-src/googletest/src/gtest_main.cc
+BarcodeFormatTest.
+  BarcodeFormatCreation
+  BarcodeFormatIntersection
+  BarcodeFormatSubset
+CharacterSetECITest.
+  Charset2ECI
+  CharacterSetFromString
+ContentTest.
+  Base
+  GuessEncoding
+  ECI
+ErrorTest.
+  Default
+  Empty
+  WithMsg
+GTINTest.
+  CountryIdentifierEAN13
+  CountryIdentifierUPCA
+  CountryIdentifierUPCE
+  CountryIdentifierEAN8
+  CountryIdentifierGTIN14
+JSONTest.
+  Prop
+  GetStr
+  GetBool
+  GetInt
+  GetString
+  Escaping
+ReedSolomonTest.
+  Erasures
+  Errata
+  Over
+  DataMatrix
+  QRCode
+  Aztec
+TextUtfEncodingTest.
+  EscapeNonGraphical
+  EscapeNonGraphicalIdempotent
+  FromUtf8
+ZXAlgorithmsTest.
+  ToDigit
+  ToString
+  UpdateMinMax
+PatternTest.
+  AllWhite
+  AllBlack
+  BlackWhite
+  WhiteBlack
+ThresholdBinarizerTest.
+  PatternRowClear
+AZDecoderTest.
+  AztecResult
+  DecodeTooManyErrors
+  DecodeTooManyErrors2
+  InitialGS
+  SymbologyIdentifier
+  StructuredAppend
+AZDetectorTest.
+  ErrorInModeMessageZero
+  ErrorInOrientationBitsCompact
+  ErrorInOrientationBitsNotCompact
+  ReaderInitFull2Layers
+  ReaderInitFull22Layers
+  ReaderInitCompact
+  PureBlankEdge
+  Rune
+DMDecodeTest.
+  Ascii
+  AsciiError
+  Text
+  C40
+  C40AndTextShiftUpper
+  X12
+  SymbologyIdentifier
+  DMRESymbologyIdentifier
+  StructuredAppend
+  ReaderInit
+MCDecoderTest.
+  StructuredAppendSymbologyIdentifier
+  ReaderInit
+  Mode2
+  TruncatedNumericSetEscape
+  TruncatedECIEscape
+ODCode128ReaderTest.
+  SymbologyIdentifier
+  ReaderInit
+  ISO8859_1
+ODCode39FullASCIITest.
+  Decode
+ODCode39ReaderTest.
+  SymbologyIdentifier
+  Code32
+ODCode93ReaderTest.
+  Decode
+ODDataBarExpandedBitDecoderTest.
+  FNC1NumericLatch
+  DecodeAI01392x
+  DecodeAI01393x
+ODDataBarReaderTest.
+  Composite
+ODTelepenReaderTest.
+  Alpha
+  Numeric
+  NumAlpha
+  NumControl
+  AIMNumAlpha
+  AIMAlphaNum
+  WrongChecksum
+PDF417DecoderTest.
+  StandardSample1
+  StandardSample2
+  StandardSample3
+  SampleWithFilename
+  SampleWithNumericValues
+  SampleWithMacroTerminatorOnly
+  MicroPDF417Macros
+  TextCompactionSimple
+  TextCompactionShiftByte
+  ByteCompaction
+  NumericCompaction
+  CompactionCombos
+  ECISingleText
+  ECISingleByte
+  ECISingleNumeric
+  ECIMultipleTextByte
+  ECIMultipleByte
+  ECIMultipleNumeric
+  ECIInvalid
+  ECIMacroOptionalNumeric
+  ECIGeneralPurpose
+  ECIUserDefined
+  ReaderInit
+  LinkageOther
+  LinkageEANUCC
+  Reserved
+  BytesECI
+PDF417ErrorCorrectionTest.
+  NoError
+  OneError
+  OneErasure
+  OneErasureOneError
+  MaxErrors
+  MaxErasures
+  Errata
+  TooManyErrors
+PDF417ScanningDecoderTest.
+  BadSymbolLengthDescriptor
+MQRDecoderTest.
+  MQRCodeM3L
+  MQRCodeM3M
+  MQRCodeM1
+  MQRCodeM1Error4Bits
+  MQRCodeM4
+QRBitMatrixParserTest.
+  MQRCodeM3L
+  MQRCodeM3M
+QRDataMaskTest.
+  Mask0
+  Mask1
+  Mask2
+  Mask3
+  Mask4
+  Mask5
+  Mask6
+  Mask7
+  MicroMask0
+  MicroMask1
+  MicroMask2
+  MicroMask3
+QRDecodedBitStreamParserTest.
+  SimpleByteMode
+  SimpleSJIS
+  ECI
+  Hanzi
+  HanziLevel1
+  SymbologyIdentifier
+  GS1PercentGS
+QRErrorCorrectionLevelTest.
+  ForBits
+  ForMicroBits
+  ToString
+QRFormatInformationTest.
+  Decode
+  DecodeWithBitDifference
+  DecodeWithMisread
+  DecodeMicro
+  DecodeMicroWithBitDifference
+  DecodeRMQR
+  DecodeRMQRWithBitDifference
+  DecodeRMQRWithMisread
+QRModeTest.
+  ForBits
+  CharacterCount
+  MicroForBits
+  MicroCharacterCount
+  RMQRForBits
+  RMQRCharacterCount
+QRVersionTest.
+  VersionForNumber
+  GetProvisionalVersionForDimension
+  DecodeVersionInformation
+  MicroVersionForNumber
+  GetProvisionalMicroVersionForDimension
+  FunctionPattern
+  RMQRVersionForNumber
+  RMQRFunctionPattern
+RMQRDecoderTest.
+  RMQRCodeR7x43M
+  RMQRCodeR7x43MError6Bits
+  RMQRCodeR7x139H
+  RMQRCodeR9x59H
+  RMQRCodeR9x77M
+  RMQRCodeR11x27H
+  RMQRCodeR13x27M_ECI
+  RMQRCodeR15x59H_GS1
+  RMQRCodeR17x99H
+AZEncoderTest.
+  GenerateModeMessage
+  StuffBits
+  Encode1
+  Encode2
+  UserSpecifiedLayers
+  BorderCompact4Case
+  Rune
+DMHighLevelEncodeTest.
+  ASCIIEncodation
+  C40EncodationBasic1
+  C40EncodationBasic2
+  C40EncodationSpecExample
+  C40EncodationSpecialCases1
+  C40EncodationSpecialCases2
+  TextEncodation
+  X12Encodation
+  EDIFACTEncodation
+  Base256Encodation
+  UnlatchingFromC40
+  UnlatchingFromText
+  tHelloWorld
+  Bug1664266
+  X12Unlatch
+  X12Unlatch2
+  Bug3048549
+  MacroCharacters
+  EncodingWithStartAsX12AndLatchToEDIFACTInTheMiddle
+  EDIFACTWithEODBug
+DMPlacementTest.
+  Placement
+DMSymbolInfoTest.
+  SymbolInfo
+DMWriterTest.
+  ImageWriter
+  Writer2
+  TooSmallSize
+  Small
+  Rectangle
+  Large
+ODCode39WriterTest.
+  Encode
+  EncodeExtended
+ODCode93WriterTest.
+  Encode
+  EncodeExtended
+  ConvertToExtended
+ODEAN13WriterTest.
+  Encode1
+  AddChecksumAndEncode
+  EncodeIllegalCharacters
+ODEAN8WriterTest.
+  Encode1
+  AddChecksumAndEncode
+  EncodeIllegalCharacters
+ODITFWriterTest.
+  Encode
+  EncodeIllegalCharacters
+ODUPCAWriterTest.
+  Encode1
+  AddChecksumAndEncode
+ODUPCEWriterTest.
+  Encode1
+  EncodeSystem1
+  AddChecksumAndEncode
+  EncodeIllegalCharacters
+PDF417HighLevelEncoderTest.
+  EncodeAuto
+  EncodeAutoWithSpecialChars
+  EncodeIso88591WithSpecialChars
+  EncodeText
+  EncodeNumeric
+  EncodeByte
+  EncodeByteBINARYECI
+  EncodeByteUnknown
+PDF417WriterTest.
+  DataMatrixImageWriter
+QRWriterTest.
+  OverSize
+  RegressionTest
+AZEncodeDecodeTest.
+  EncodeDecode1
+  EncodeDecode2
+  EncodeDecode3
+  EncodeDecode4
+  EncodeDecode5
+  EncodeDecode10
+  EncodeDecode23
+  EncodeDecode31
+  AztecWriter
+  RunePure
+AZHighLevelEncoderTest.
+  HighLevelEncode
+  HighLevelEncodeBinary
+  HighLevelEncodePairs
+DMEncodeDecodeTest.
+  EncodeDecodeSquare
+  EncodeDecodeRectangle
+  EDIFACTWithEOD
+ODCodaBarWriterTest.
+  Encode
+  Encode2
+  AltStartEnd
+  FullCircle
+  InvalidChars
+ODCode128Writer.
+  EncodeWithFunc1
+  EncodeWithFunc2
+  EncodeWithFunc3
+  EncodeWithFunc4
+  EncodeWithFncsAndNumberInCodesetA
+  RoundtripGS1
+  RoundtripFNC1
+  EncodeSwitchCodesetFromAToB
+  EncodeSwitchCodesetFromBToA
+QREncoderTest.
+  GetAlphanumericCode
+  ChooseMode
+  Encode
+  EncodeWithVersion
+  EncodeWithVersionTooSmall
+  SimpleUTF8ECI
+  SimpleBINARYECI
+  EncodeKanjiMode
+  EncodeShiftjisNumeric
+  EncodeGS1
+  EncodeGS1ModeHeaderWithECI
+  AppendModeInfo
+  AppendLengthInfo
+  AppendNumericBytes
+  AppendAlphanumericBytes
+  Append8BitBytes
+  AppendKanjiBytes
+  AppendBytes
+  TerminateBits
+  GetNumDataBytesAndNumECBytesForBlockID
+  GenerateECBytes
+  InterleaveWithECBytes
+  BugInBitVectorNumBytes
+HRIFromGS1.
+  Single
+  MultiFixed
+  MultiVariable
+HRIFromISO15434.
+  Basic
+CreateBarcodeTest.
+  ZintASCII
+  EANUPCAddOn
+  ZintISO8859_1
+  ZintGS1
+  ZintBinary
+  CreatorOptions
+  RandomDataBar
+TextEncoderTest.
+  FullCycleEncodeDecode

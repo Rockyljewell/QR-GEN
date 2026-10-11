@@ -1,0 +1,110 @@
+{
+  "scope": "Bounded real Chromium raw-reader and actual module-Worker checks only; expected-output checks are not accuracy scores. Production code is unchanged.",
+  "firstFrozenRun": {
+    "file": "recorded-results.json",
+    "sha256": "18626e85fbbe386d9c375d1a5dcf452ac96c002df2b2e083d9bbfd2a9fe5c922",
+    "status": "unexpected-results",
+    "startedAt": "2026-10-11T15:52:41.156Z",
+    "finishedAt": "2026-10-11T15:52:41.892Z",
+    "reads": 56,
+    "expectedOutputChecksPassed": 44,
+    "expectedOutputChecksFailed": 12,
+    "mainWorkerOutputsEqual": true,
+    "pageErrors": 0,
+    "consoleErrors": 0,
+    "workerCleanup": {
+      "created": 2,
+      "terminated": 2,
+      "retainedActiveWorkers": 0
+    },
+    "browserClosed": true,
+    "serverClosed": true,
+    "assetsUnchanged": true
+  },
+  "representationCorrectedRun": {
+    "file": "corrected/recorded-results.json",
+    "sha256": "70a4df466e486f2ca03d77faa0fa15d4e449f8ed110238bcbd437b1ce458f29b",
+    "status": "passed",
+    "startedAt": "2026-10-11T15:55:41.700Z",
+    "finishedAt": "2026-10-11T15:55:42.432Z",
+    "reads": 56,
+    "expectedOutputChecksPassed": 56,
+    "expectedOutputChecksFailed": 0,
+    "mainWorkerOutputsEqual": true,
+    "pageErrors": 0,
+    "consoleErrors": 0,
+    "workerCleanup": {
+      "created": 2,
+      "terminated": 2,
+      "retainedActiveWorkers": 0
+    },
+    "browserClosed": true,
+    "serverClosed": true,
+    "assetsUnchanged": true
+  },
+  "betweenRuns": {
+    "all56RawOutputsEqual": true,
+    "fixturesEqual": true,
+    "sevenRasterHashesEqual": true,
+    "assetsEqual": true,
+    "onlyOracleChange": "Raw UPC-A HRI13 instead of SDK-normalized12digits; the first run is preserved, not relabeled."
+  },
+  "observations": {
+    "actualFrameGroundTruth": "9780804816632",
+    "ean13Scope": {
+      "baseline": "Wrong0798884816632 lineCount2 for both inversion/downscale settings",
+      "candidate": "Empty result: suppression/miss, not correct barcode recovery"
+    },
+    "mixedActualQr": "Baseline wrongEAN+exactQR; candidate exactQR only",
+    "upcaOnly": "Both variants unchanged: wrong rawUPCA0798884816632; candidate scope intentionally does not fix UPC-A-only output",
+    "cleanControls": "EAN13 5901234123457, QR QRGEN-RAW-READER-CONTROL-20261011, UPC-A raw HRI0012345678905 exact under the representation contract",
+    "noCode": "Blank frame empty in both; EAN13-only image under UPC-A-only is a scope control, not a universal negative"
+  },
+  "provenance": {
+    "run": 38152527079,
+    "head": "3cfe7298c1d92eb2d4ac56158a1bfcd51275f070",
+    "upstreamCommit": "b7dcf63aefc7b94fb97ba09e9b1fb213d9399f54",
+    "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
+    "variants": {
+      "baseline": {
+        "artifactId": 11707386971,
+        "artifactZipSha256": "5a977f4f3388d0f11b0e18ca52416ca1b9e28a1bf784d6ed1e0f4e732a7a0c6c",
+        "buildEvidence": {
+          "scope": "Isolated rebuild and blank-image smoke only. Not corpus validation or production code.",
+          "recordedAt": "2026-10-11T15:47:19.408Z",
+          "variant": "baseline",
+          "node": "v22.14.0",
+          "readerVersion": "3.1.5",
+          "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
+          "wasmSha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+          "matchedWrapperSha256": "3c364d8477404a513d7c0629b1cf9e63ae11e01f9746146d3574f8b10a122320",
+          "releasedReaderWasmSha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+          "blankResult": [],
+          "matchesReleasedWasm": true
+        }
+      },
+      "candidate": {
+        "artifactId": 11707446910,
+        "artifactZipSha256": "fda7d5c917c4dc2fc28092b64fc4f605bcbf126f2db9da043bcb2774f1b4283b",
+        "buildEvidence": {
+          "scope": "Isolated rebuild and blank-image smoke only. Not corpus validation or production code.",
+          "recordedAt": "2026-10-11T15:46:39.790Z",
+          "variant": "candidate",
+          "node": "v22.14.0",
+          "readerVersion": "3.1.5",
+          "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
+          "wasmSha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+          "matchedWrapperSha256": "616a6837775f252ae1468667ad76693ae77f938f06192d6ae7cad2cf26639298",
+          "releasedReaderWasmSha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+          "blankResult": [],
+          "matchesReleasedWasm": false
+        }
+      }
+    }
+  },
+  "portableReplay": {
+    "runner": "replay.mjs",
+    "recordedFilesImmutable": true,
+    "validation": "Final packaged runner executed in a fresh output directory after an earlier packaging smoke; both reproduced all 56 full raw outputs exactly (excluding timings). Final version additionally checks entire extracted asset graph before decoding. See portable-replay-validation.json; these are runner verification, not additional accuracy aggregates."
+  }
+}

@@ -1,0 +1,169 @@
+{
+  "scope": "Artifact-only EAN13 complete-word-ambiguity source-port candidate, not an actual patched C++/WASM. Uniform all157 frozen photos original+derived plus actual Chrome supplement and all144 generated thin positives+12 controls. Full-resolution reader only: downscale false isolates the port; do not compare directly to prior default-downscale study. Baseline checked individually against actual unmodified3.1.5WASM.",
+  "planSha256": "a7b7a6fd788d1d54736e194d79bb363aafb3d1c0c50c03847bbad2c678c7c5d3",
+  "runCount": 942,
+  "baselineMismatch": [],
+  "groups": {
+    "original-RGBA-white-sRGB/fast": {
+      "n": 157,
+      "baselineMismatch": 0,
+      "actualTargetPresent": 99,
+      "beforeTargetPresent": 99,
+      "afterTargetPresent": 99,
+      "beforeMismatches": 0,
+      "afterMismatches": 0,
+      "beforeExactOnly": 99,
+      "afterExactOnly": 99,
+      "changes": [
+        {
+          "id": "ean13-3-23",
+          "baselineMatches": true,
+          "before": [
+            {
+              "text": "9780201310054",
+              "lineCount": 8
+            }
+          ],
+          "after": [
+            {
+              "text": "9780201310054",
+              "lineCount": 7
+            }
+          ]
+        }
+      ]
+    },
+    "original-RGBA-white-sRGB/hard": {
+      "n": 157,
+      "baselineMismatch": 0,
+      "actualTargetPresent": 117,
+      "beforeTargetPresent": 117,
+      "afterTargetPresent": 117,
+      "beforeMismatches": 4,
+      "afterMismatches": 4,
+      "beforeExactOnly": 114,
+      "afterExactOnly": 114,
+      "changes": []
+    },
+    "derived-limited-Y-expanded-RGB/fast": {
+      "n": 157,
+      "baselineMismatch": 0,
+      "actualTargetPresent": 45,
+      "beforeTargetPresent": 45,
+      "afterTargetPresent": 45,
+      "beforeMismatches": 0,
+      "afterMismatches": 0,
+      "beforeExactOnly": 45,
+      "afterExactOnly": 45,
+      "changes": []
+    },
+    "derived-limited-Y-expanded-RGB/hard": {
+      "n": 157,
+      "baselineMismatch": 0,
+      "actualTargetPresent": 64,
+      "beforeTargetPresent": 64,
+      "afterTargetPresent": 64,
+      "beforeMismatches": 2,
+      "afterMismatches": 1,
+      "beforeExactOnly": 63,
+      "afterExactOnly": 63,
+      "changes": [
+        {
+          "id": "ean13-2-07",
+          "baselineMatches": true,
+          "before": [
+            {
+              "text": "0798884816632",
+              "lineCount": 2
+            }
+          ],
+          "after": []
+        }
+      ]
+    },
+    "actual-Chrome-supplement/fast": {
+      "n": 1,
+      "baselineMismatch": 0,
+      "actualTargetPresent": 0,
+      "beforeTargetPresent": 0,
+      "afterTargetPresent": 0,
+      "beforeMismatches": 0,
+      "afterMismatches": 0,
+      "beforeExactOnly": 0,
+      "afterExactOnly": 0,
+      "changes": []
+    },
+    "actual-Chrome-supplement/hard": {
+      "n": 1,
+      "baselineMismatch": 0,
+      "actualTargetPresent": 0,
+      "beforeTargetPresent": 0,
+      "afterTargetPresent": 0,
+      "beforeMismatches": 1,
+      "afterMismatches": 0,
+      "beforeExactOnly": 0,
+      "afterExactOnly": 0,
+      "changes": [
+        {
+          "id": "actual-Chrome-ean13-2-07-full",
+          "baselineMatches": true,
+          "before": [
+            {
+              "text": "0798884816632",
+              "lineCount": 2
+            }
+          ],
+          "after": []
+        }
+      ]
+    },
+    "generated-positive/fast": {
+      "n": 144,
+      "baselineMismatch": 0,
+      "actualTargetPresent": 120,
+      "beforeTargetPresent": 120,
+      "afterTargetPresent": 120,
+      "beforeMismatches": 0,
+      "afterMismatches": 0,
+      "beforeExactOnly": 120,
+      "afterExactOnly": 120,
+      "changes": []
+    },
+    "generated-positive/hard": {
+      "n": 144,
+      "baselineMismatch": 0,
+      "actualTargetPresent": 120,
+      "beforeTargetPresent": 120,
+      "afterTargetPresent": 120,
+      "beforeMismatches": 0,
+      "afterMismatches": 0,
+      "beforeExactOnly": 120,
+      "afterExactOnly": 120,
+      "changes": []
+    },
+    "generated-no-code/fast": {
+      "n": 12,
+      "baselineMismatch": 0,
+      "actualTargetPresent": 0,
+      "beforeTargetPresent": 0,
+      "afterTargetPresent": 0,
+      "beforeMismatches": 0,
+      "afterMismatches": 0,
+      "beforeExactOnly": 0,
+      "afterExactOnly": 0,
+      "changes": []
+    },
+    "generated-no-code/hard": {
+      "n": 12,
+      "baselineMismatch": 0,
+      "actualTargetPresent": 0,
+      "beforeTargetPresent": 0,
+      "afterTargetPresent": 0,
+      "beforeMismatches": 0,
+      "afterMismatches": 0,
+      "beforeExactOnly": 0,
+      "afterExactOnly": 0,
+      "changes": []
+    }
+  }
+}

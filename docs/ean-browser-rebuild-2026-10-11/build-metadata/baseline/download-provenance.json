@@ -1,0 +1,38 @@
+{
+  "runId": 38152527079,
+  "headSha": "3cfe7298c1d92eb2d4ac56158a1bfcd51275f070",
+  "artifact": {
+    "id": 11707386971,
+    "node_id": "MDg6QXJ0aWZhY3QxMTcwNzM4Njk3MQ==",
+    "name": "ean-word-baseline",
+    "size_in_bytes": 476329,
+    "url": "https://api.github.com/repos/Rockyljewell/QR-GEN/actions/artifacts/11707386971",
+    "archive_download_url": "https://api.github.com/repos/Rockyljewell/QR-GEN/actions/artifacts/11707386971/zip",
+    "expired": false,
+    "digest": "sha256:5a977f4f3388d0f11b0e18ca52416ca1b9e28a1bf784d6ed1e0f4e732a7a0c6c",
+    "created_at": "2026-10-11T15:47:21Z",
+    "updated_at": "2026-10-11T15:47:21Z",
+    "expires_at": "2026-10-25T15:47:19Z",
+    "workflow_run": {
+      "id": 38152527079,
+      "repository_id": 1389877999,
+      "head_repository_id": 1389877999,
+      "head_branch": "codex/ean-word-diagnostic",
+      "head_sha": "3cfe7298c1d92eb2d4ac56158a1bfcd51275f070"
+    }
+  },
+  "downloadedZipDigest": "sha256:5a977f4f3388d0f11b0e18ca52416ca1b9e28a1bf784d6ed1e0f4e732a7a0c6c",
+  "smoke": {
+    "scope": "Isolated rebuild and blank-image smoke only. Not corpus validation or production code.",
+    "recordedAt": "2026-10-11T15:47:19.408Z",
+    "variant": "baseline",
+    "node": "v22.14.0",
+    "readerVersion": "3.1.5",
+    "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
+    "wasmSha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+    "matchedWrapperSha256": "3c364d8477404a513d7c0629b1cf9e63ae11e01f9746146d3574f8b10a122320",
+    "releasedReaderWasmSha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+    "blankResult": [],
+    "matchesReleasedWasm": true
+  }
+}

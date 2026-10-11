@@ -1,0 +1,41 @@
+{
+  "status": "passed",
+  "recordedOutputSha256": "2c1e2bebb1e219e2c670167192cb2d98204f47f57becd5e85f9a497618037529",
+  "startedAt": "2026-10-11T16:00:34.568Z",
+  "finishedAt": "2026-10-11T16:00:35.352Z",
+  "checks": 56,
+  "allRawOutputsMatchCorrectedRecord": true,
+  "mainWorkerOutputsEqual": true,
+  "pageErrors": [],
+  "consoleErrors": [],
+  "workerCleanup": {
+    "created": 2,
+    "terminated": 2,
+    "retainedActiveWorkers": 0
+  },
+  "browserClosed": true,
+  "serverClosed": true,
+  "assetsUnchanged": true,
+  "scope": "Final portable-runner verification only; no additional accuracy aggregate. Earlier packaging smoke retained separately below.",
+  "runnerSha256": "324955989ad2e532c12ed0d6ae9eb00bdda0f718d93dfe3d3161d5b94c0d546b",
+  "entireExtractedAssetGraphCheckedBeforeDecode": true,
+  "earlierPackagingSmoke": {
+    "status": "passed",
+    "recordedOutputSha256": "cc61a207195f5ced08ef3a78bfe9dbeb14c4201ed368fecfa9f89300e0add872",
+    "startedAt": "2026-10-11T15:57:46.664Z",
+    "finishedAt": "2026-10-11T15:57:47.391Z",
+    "checks": 56,
+    "allRawOutputsMatchCorrectedRecord": true,
+    "mainWorkerOutputsEqual": true,
+    "pageErrors": [],
+    "consoleErrors": [],
+    "workerCleanup": {
+      "created": 2,
+      "terminated": 2,
+      "retainedActiveWorkers": 0
+    },
+    "browserClosed": true,
+    "serverClosed": true,
+    "assetsUnchanged": true
+  }
+}

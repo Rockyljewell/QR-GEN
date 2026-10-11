@@ -1,0 +1,28 @@
+{
+  "scope": "Independent read-only evidence review; no new decoding/native/browser execution. Target retention requires exact text, returned family and bytes. Port comparison is limited to shared EAN13/max255/downscale:false profiles.",
+  "runnerSha256": "e9961f091ff03a35e965dc6d17761fc2d3417edd256819a008ec0278ede18ca3",
+  "evaluationPlanSha256": "03eb911057351f594004eb3450f1a83b60e00360dbadefccda8d709e0403a4ab",
+  "records": 3988,
+  "strictTextFormatByteTargetLosses": [],
+  "newTextFormatPairs": [],
+  "candidateNoCodeOutputProfiles": [],
+  "errorFieldOnlyChanges": 8,
+  "lineCountOnlyChanges": [
+    {
+      "profileId": "672",
+      "itemKey": "original-RGBA-white-sRGB/ean13-3-23"
+    },
+    {
+      "profileId": "673",
+      "itemKey": "original-RGBA-white-sRGB/ean13-3-23"
+    }
+  ],
+  "sharedPortProfiles": 942,
+  "portBaselineOrCandidateDifferences": [],
+  "correction": "Earlier conversational /1/01 support-change label was mistaken. Frozen port evidence and actual WASM both identify original fast ean13-3-23,9780201310054,lineCount8→7. Actual comparison includes downscale off/on, giving2profiles.",
+  "inversionReview": "Static comparison with current SDK inversion.ts confirms the separately modelled arm uses the same native-format exclusions, new RGB copy preserving alpha, full second-pass limit, inversion flag toggle, exact text/format/bytes plus spatial dedup, and combined max budget for these opaque RGBA/max255/returnErrors:false cases. It is not product SDK execution with a replaced dependency.",
+  "limitations": [
+    "Error-field-only changes include moved source locations; raw output strings are intentionally retained.",
+    "No population accuracy, phone/vendor parity, full public SDK, browser worker or native suite claim follows from this review."
+  ]
+}

@@ -1,0 +1,758 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-10-11T16:04:48.004Z",
+  "status": "passed",
+  "baseUrl": "https://rockyljewell.github.io/QR-GEN/",
+  "revision": "6d3728f569f1cd5031fa8ca40ec090c8ff6bdf5b",
+  "sourceHashesAtStart": {
+    "packages/sdk/src/scanner.ts": "00e54b0232bdf92f62bbee4743b9caae3514ea34377d483363375225c51bfca6",
+    "packages/sdk/src/tracker.ts": "0b57a2302fbfd5ada2199e75115ca5d498f2e869edbf128d1b5a4dcc7cd888ae",
+    "packages/sdk/src/elements/scanner-element.ts": "6e1164d75236a178247143e5c179e88dfccdb496f69295c2d26dcab0ff14b80e",
+    "site/scripts/fake-camera.mjs": "725372f78d49ec1efd20b32e4e3e1c25214166495b7c04cba081f089cac8b05a"
+  },
+  "deploymentArtifact": {
+    "run": 38152103868,
+    "id": 11706946941,
+    "tarSha256": "5d9780d4074923417946e203212a3855762b894e5d7df00699a8b9aeecb76d6f",
+    "githubReportedZipDigest": "sha256:6197b64abe2dc3cf0b58eb02d5e03dbf37943095cee24966a8d3c07c061a7e7b"
+  },
+  "fixture": {
+    "file": "retail-qr-ean.y4m",
+    "sha256": "782d79a10bf3b9c31938fa954ac4404dec788c88bbe14d76112fbbdd2cc6a3d6",
+    "width": 640,
+    "height": 480,
+    "frames": 30,
+    "codes": [
+      {
+        "data": "QRGEN-RETAIL-DOM-20261011",
+        "symbology": "qr",
+        "x": 70,
+        "y": 100,
+        "module": 5
+      },
+      {
+        "data": "5901234123457",
+        "symbology": "ean13",
+        "x": 170,
+        "y": 350,
+        "module": 3
+      }
+    ]
+  },
+  "standaloneSdkProbe": [
+    {
+      "at": "2026-10-11T16:04:48.568Z",
+      "status": 200,
+      "sha256": "c6c736fb7288ad58d57552b542d2c84962d84389d29ffb7de9bcb74d064cd96b",
+      "bytes": 217433
+    }
+  ],
+  "cases": [
+    {
+      "name": "37-hosted-worker-QR-EAN-paused-pruning-and-deselection",
+      "startedAt": "2026-10-11T16:04:48.648Z",
+      "status": "passed",
+      "pageErrors": [],
+      "consoleErrors": [],
+      "loadedAssets": [
+        {
+          "path": "/QR-GEN/_astro/index.astro_astro_type_script_index_0_lang.B0G-Cf48.js",
+          "status": 200,
+          "sha256": "eae808b55eec8e6afd19a41f780cb52c55e4afba13040bc0753b328b879b6396",
+          "bytes": 45598,
+          "matchesDeploymentArtifact": true
+        },
+        {
+          "path": "/QR-GEN/_astro/chunk-G3CZVFEW.DnSaL_Nl.js",
+          "status": 200,
+          "sha256": "33883172c910144fe7ffc724bd2f387c2655557925709719465aa02aa61e7086",
+          "bytes": 13094,
+          "matchesDeploymentArtifact": true
+        },
+        {
+          "path": "/QR-GEN/_astro/elements.pjjgTECq.js",
+          "status": 200,
+          "sha256": "064dc9bdea8d74b05cfd286a7100039b578962f823e2f4ad2ed23e6ef003f757",
+          "bytes": 34879,
+          "matchesDeploymentArtifact": true
+        },
+        {
+          "path": "/QR-GEN/_astro/chunk-YMWLR7YI.DkH5rM36.js",
+          "status": 200,
+          "sha256": "2416877c6906de40cd9f56a197d12ee27f6f127f3456f55e59dc0e24966b8225",
+          "bytes": 132610,
+          "matchesDeploymentArtifact": true
+        },
+        {
+          "path": "/QR-GEN/sdk/qrgen.js",
+          "status": 200,
+          "sha256": "c6c736fb7288ad58d57552b542d2c84962d84389d29ffb7de9bcb74d064cd96b",
+          "bytes": 217433,
+          "matchesDeploymentArtifact": true
+        },
+        {
+          "path": "/QR-GEN/sdk/wasm/zxing_reader.wasm",
+          "status": 200,
+          "sha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+          "bytes": 966895,
+          "matchesDeploymentArtifact": true
+        }
+      ],
+      "demoConstructorPreserved": true,
+      "observations": {
+        "initial": {
+          "state": "scanning",
+          "engine": "worker",
+          "tracked": [
+            {
+              "id": 1,
+              "symbology": "qr",
+              "data": "QRGEN-RETAIL-DOM-20261011",
+              "firstSeen": 1791734693456,
+              "lastSeen": 1791734693456,
+              "count": 1
+            },
+            {
+              "id": 2,
+              "symbology": "ean13",
+              "data": "5901234123457",
+              "firstSeen": 1791734693456,
+              "lastSeen": 1791734693456,
+              "count": 1
+            }
+          ],
+          "snapshotAt": 1791734693475,
+          "trackerTimeout": 500,
+          "selection": [],
+          "hostSelection": [],
+          "count": "2 barcodes in view",
+          "countHidden": false,
+          "rows": [
+            {
+              "id": 1,
+              "pressed": "false",
+              "text": "QR Code · #1QRGEN-RETAIL-DOM-20261011Select"
+            },
+            {
+              "id": 2,
+              "pressed": "false",
+              "text": "EAN-13 · #25901234123457Select"
+            }
+          ],
+          "selectEvents": [],
+          "exactScans": [
+            "QRGEN-RETAIL-DOM-20261011",
+            "5901234123457"
+          ]
+        },
+        "narrowed": {
+          "state": "paused",
+          "engine": "worker",
+          "tracked": [
+            {
+              "id": 2,
+              "symbology": "ean13",
+              "data": "5901234123457",
+              "firstSeen": 1791734693456,
+              "lastSeen": 1791734693498,
+              "count": 2
+            }
+          ],
+          "snapshotAt": 1791734693526,
+          "trackerTimeout": 500,
+          "selection": [
+            {
+              "id": 1,
+              "data": "QRGEN-RETAIL-DOM-20261011"
+            }
+          ],
+          "hostSelection": [
+            {
+              "id": 1,
+              "data": "QRGEN-RETAIL-DOM-20261011"
+            }
+          ],
+          "count": "1 barcode in view",
+          "countHidden": false,
+          "rows": [
+            {
+              "id": 1,
+              "pressed": "true",
+              "text": "QR Code · #1QRGEN-RETAIL-DOM-20261011Selected · out of view"
+            },
+            {
+              "id": 2,
+              "pressed": "false",
+              "text": "EAN-13 · #25901234123457Select"
+            }
+          ],
+          "selectEvents": [
+            {
+              "custom": true,
+              "bubbles": true,
+              "composed": true,
+              "detail": {
+                "barcode": "QRGEN-RETAIL-DOM-20261011",
+                "selected": true,
+                "selection": [
+                  {
+                    "id": 1,
+                    "data": "QRGEN-RETAIL-DOM-20261011"
+                  }
+                ]
+              }
+            }
+          ],
+          "exactScans": [
+            "QRGEN-RETAIL-DOM-20261011",
+            "5901234123457"
+          ]
+        },
+        "deselected": {
+          "state": "paused",
+          "engine": "worker",
+          "tracked": [
+            {
+              "id": 2,
+              "symbology": "ean13",
+              "data": "5901234123457",
+              "firstSeen": 1791734693456,
+              "lastSeen": 1791734693498,
+              "count": 2
+            }
+          ],
+          "snapshotAt": 1791734693535,
+          "trackerTimeout": 500,
+          "selection": [],
+          "hostSelection": [],
+          "count": "1 barcode in view",
+          "countHidden": false,
+          "rows": [
+            {
+              "id": 2,
+              "pressed": "false",
+              "text": "EAN-13 · #25901234123457Select"
+            }
+          ],
+          "selectEvents": [
+            {
+              "custom": true,
+              "bubbles": true,
+              "composed": true,
+              "detail": {
+                "barcode": "QRGEN-RETAIL-DOM-20261011",
+                "selected": true,
+                "selection": [
+                  {
+                    "id": 1,
+                    "data": "QRGEN-RETAIL-DOM-20261011"
+                  }
+                ]
+              }
+            },
+            {
+              "custom": true,
+              "bubbles": true,
+              "composed": true,
+              "detail": {
+                "barcode": "QRGEN-RETAIL-DOM-20261011",
+                "selected": false,
+                "selection": []
+              }
+            }
+          ],
+          "exactScans": [
+            "QRGEN-RETAIL-DOM-20261011",
+            "5901234123457"
+          ]
+        },
+        "resumed": {
+          "state": "scanning",
+          "engine": "worker",
+          "tracked": [
+            {
+              "id": 3,
+              "symbology": "ean13",
+              "data": "5901234123457",
+              "firstSeen": 1791734694467,
+              "lastSeen": 1791734694467,
+              "count": 1
+            }
+          ],
+          "snapshotAt": 1791734694482,
+          "trackerTimeout": 500,
+          "selection": [],
+          "hostSelection": [],
+          "count": "1 barcode in view",
+          "countHidden": false,
+          "rows": [
+            {
+              "id": 3,
+              "pressed": "false",
+              "text": "EAN-13 · #35901234123457Select"
+            }
+          ],
+          "selectEvents": [
+            {
+              "custom": true,
+              "bubbles": true,
+              "composed": true,
+              "detail": {
+                "barcode": "QRGEN-RETAIL-DOM-20261011",
+                "selected": true,
+                "selection": [
+                  {
+                    "id": 1,
+                    "data": "QRGEN-RETAIL-DOM-20261011"
+                  }
+                ]
+              }
+            },
+            {
+              "custom": true,
+              "bubbles": true,
+              "composed": true,
+              "detail": {
+                "barcode": "QRGEN-RETAIL-DOM-20261011",
+                "selected": false,
+                "selection": []
+              }
+            }
+          ],
+          "exactScans": [
+            "QRGEN-RETAIL-DOM-20261011",
+            "5901234123457",
+            "5901234123457"
+          ],
+          "identityOutcome": "fresh ID after documented wall-clock expiry"
+        }
+      },
+      "cleanup": {
+        "liveMediaTracks": 0,
+        "attachedElementVideoStreams": 0
+      },
+      "finishedAt": "2026-10-11T16:04:54.485Z"
+    },
+    {
+      "name": "38-hosted-CustomEvent-mode-reset-pause-and-cosmetic-callback",
+      "startedAt": "2026-10-11T16:04:54.491Z",
+      "status": "passed",
+      "pageErrors": [],
+      "consoleErrors": [],
+      "loadedAssets": [
+        {
+          "path": "/QR-GEN/_astro/index.astro_astro_type_script_index_0_lang.B0G-Cf48.js",
+          "status": 200,
+          "sha256": "eae808b55eec8e6afd19a41f780cb52c55e4afba13040bc0753b328b879b6396",
+          "bytes": 45598,
+          "matchesDeploymentArtifact": true
+        },
+        {
+          "path": "/QR-GEN/_astro/chunk-YMWLR7YI.DkH5rM36.js",
+          "status": 200,
+          "sha256": "2416877c6906de40cd9f56a197d12ee27f6f127f3456f55e59dc0e24966b8225",
+          "bytes": 132610,
+          "matchesDeploymentArtifact": true
+        },
+        {
+          "path": "/QR-GEN/_astro/chunk-G3CZVFEW.DnSaL_Nl.js",
+          "status": 200,
+          "sha256": "33883172c910144fe7ffc724bd2f387c2655557925709719465aa02aa61e7086",
+          "bytes": 13094,
+          "matchesDeploymentArtifact": true
+        },
+        {
+          "path": "/QR-GEN/_astro/elements.pjjgTECq.js",
+          "status": 200,
+          "sha256": "064dc9bdea8d74b05cfd286a7100039b578962f823e2f4ad2ed23e6ef003f757",
+          "bytes": 34879,
+          "matchesDeploymentArtifact": true
+        },
+        {
+          "path": "/QR-GEN/sdk/qrgen.js",
+          "status": 200,
+          "sha256": "c6c736fb7288ad58d57552b542d2c84962d84389d29ffb7de9bcb74d064cd96b",
+          "bytes": 217433,
+          "matchesDeploymentArtifact": true
+        },
+        {
+          "path": "/QR-GEN/sdk/wasm/zxing_reader.wasm",
+          "status": 200,
+          "sha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+          "bytes": 966895,
+          "matchesDeploymentArtifact": true
+        }
+      ],
+      "demoConstructorPreserved": true,
+      "observations": {
+        "cases": [
+          {
+            "initialState": "scanning",
+            "reset": {
+              "state": "paused",
+              "engine": "worker",
+              "tracked": [],
+              "snapshotAt": 1791734695752,
+              "trackerTimeout": 500,
+              "selection": [],
+              "hostSelection": [],
+              "count": "0 barcodes in view",
+              "countHidden": true,
+              "rows": [],
+              "selectEvents": [
+                {
+                  "custom": true,
+                  "bubbles": true,
+                  "composed": true,
+                  "detail": {
+                    "barcode": "QRGEN-RETAIL-DOM-20261011",
+                    "selected": true,
+                    "selection": [
+                      {
+                        "id": 1,
+                        "data": "QRGEN-RETAIL-DOM-20261011"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "custom": true,
+                  "bubbles": true,
+                  "composed": true,
+                  "detail": {
+                    "barcode": null,
+                    "selected": false,
+                    "selection": []
+                  }
+                }
+              ],
+              "exactScans": [
+                "QRGEN-RETAIL-DOM-20261011"
+              ]
+            }
+          },
+          {
+            "initialState": "paused",
+            "reset": {
+              "state": "paused",
+              "engine": "worker",
+              "tracked": [],
+              "snapshotAt": 1791734695787,
+              "trackerTimeout": 500,
+              "selection": [],
+              "hostSelection": [],
+              "count": "0 barcodes in view",
+              "countHidden": true,
+              "rows": [],
+              "selectEvents": [
+                {
+                  "custom": true,
+                  "bubbles": true,
+                  "composed": true,
+                  "detail": {
+                    "barcode": "QRGEN-RETAIL-DOM-20261011",
+                    "selected": true,
+                    "selection": [
+                      {
+                        "id": 1,
+                        "data": "QRGEN-RETAIL-DOM-20261011"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "custom": true,
+                  "bubbles": true,
+                  "composed": true,
+                  "detail": {
+                    "barcode": null,
+                    "selected": false,
+                    "selection": []
+                  }
+                },
+                {
+                  "custom": true,
+                  "bubbles": true,
+                  "composed": true,
+                  "detail": {
+                    "barcode": "QRGEN-RETAIL-DOM-20261011",
+                    "selected": true,
+                    "selection": [
+                      {
+                        "id": 2,
+                        "data": "QRGEN-RETAIL-DOM-20261011"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "custom": true,
+                  "bubbles": true,
+                  "composed": true,
+                  "detail": {
+                    "barcode": null,
+                    "selected": false,
+                    "selection": []
+                  }
+                }
+              ],
+              "exactScans": [
+                "QRGEN-RETAIL-DOM-20261011",
+                "QRGEN-RETAIL-DOM-20261011"
+              ]
+            }
+          }
+        ],
+        "cosmetic": {
+          "state": "scanning",
+          "engine": "worker",
+          "tracked": [],
+          "snapshotAt": 1791734695838,
+          "trackerTimeout": 500,
+          "selection": [],
+          "hostSelection": [],
+          "count": "0 barcodes in view",
+          "countHidden": true,
+          "rows": [],
+          "selectEvents": [
+            {
+              "custom": true,
+              "bubbles": true,
+              "composed": true,
+              "detail": {
+                "barcode": "QRGEN-RETAIL-DOM-20261011",
+                "selected": true,
+                "selection": [
+                  {
+                    "id": 1,
+                    "data": "QRGEN-RETAIL-DOM-20261011"
+                  }
+                ]
+              }
+            },
+            {
+              "custom": true,
+              "bubbles": true,
+              "composed": true,
+              "detail": {
+                "barcode": null,
+                "selected": false,
+                "selection": []
+              }
+            },
+            {
+              "custom": true,
+              "bubbles": true,
+              "composed": true,
+              "detail": {
+                "barcode": "QRGEN-RETAIL-DOM-20261011",
+                "selected": true,
+                "selection": [
+                  {
+                    "id": 2,
+                    "data": "QRGEN-RETAIL-DOM-20261011"
+                  }
+                ]
+              }
+            },
+            {
+              "custom": true,
+              "bubbles": true,
+              "composed": true,
+              "detail": {
+                "barcode": null,
+                "selected": false,
+                "selection": []
+              }
+            },
+            {
+              "custom": true,
+              "bubbles": true,
+              "composed": true,
+              "detail": {
+                "barcode": "QRGEN-RETAIL-DOM-20261011",
+                "selected": true,
+                "selection": [
+                  {
+                    "id": 3,
+                    "data": "QRGEN-RETAIL-DOM-20261011"
+                  }
+                ]
+              }
+            },
+            {
+              "custom": true,
+              "bubbles": true,
+              "composed": true,
+              "detail": {
+                "barcode": null,
+                "selected": false,
+                "selection": []
+              }
+            }
+          ],
+          "exactScans": [
+            "QRGEN-RETAIL-DOM-20261011",
+            "QRGEN-RETAIL-DOM-20261011",
+            "QRGEN-RETAIL-DOM-20261011"
+          ]
+        }
+      },
+      "cleanup": {
+        "liveMediaTracks": 0,
+        "attachedElementVideoStreams": 0
+      },
+      "finishedAt": "2026-10-11T16:04:55.840Z"
+    },
+    {
+      "name": "38-hosted-source-reset-hint-accent-latest-camera-new-worker-QR",
+      "startedAt": "2026-10-11T16:04:55.844Z",
+      "status": "passed",
+      "pageErrors": [],
+      "consoleErrors": [],
+      "loadedAssets": [
+        {
+          "path": "/QR-GEN/_astro/index.astro_astro_type_script_index_0_lang.B0G-Cf48.js",
+          "status": 200,
+          "sha256": "eae808b55eec8e6afd19a41f780cb52c55e4afba13040bc0753b328b879b6396",
+          "bytes": 45598,
+          "matchesDeploymentArtifact": true
+        },
+        {
+          "path": "/QR-GEN/_astro/chunk-G3CZVFEW.DnSaL_Nl.js",
+          "status": 200,
+          "sha256": "33883172c910144fe7ffc724bd2f387c2655557925709719465aa02aa61e7086",
+          "bytes": 13094,
+          "matchesDeploymentArtifact": true
+        },
+        {
+          "path": "/QR-GEN/_astro/elements.pjjgTECq.js",
+          "status": 200,
+          "sha256": "064dc9bdea8d74b05cfd286a7100039b578962f823e2f4ad2ed23e6ef003f757",
+          "bytes": 34879,
+          "matchesDeploymentArtifact": true
+        },
+        {
+          "path": "/QR-GEN/_astro/chunk-YMWLR7YI.DkH5rM36.js",
+          "status": 200,
+          "sha256": "2416877c6906de40cd9f56a197d12ee27f6f127f3456f55e59dc0e24966b8225",
+          "bytes": 132610,
+          "matchesDeploymentArtifact": true
+        },
+        {
+          "path": "/QR-GEN/sdk/qrgen.js",
+          "status": 200,
+          "sha256": "c6c736fb7288ad58d57552b542d2c84962d84389d29ffb7de9bcb74d064cd96b",
+          "bytes": 217433,
+          "matchesDeploymentArtifact": true
+        },
+        {
+          "path": "/QR-GEN/sdk/wasm/zxing_reader.wasm",
+          "status": 200,
+          "sha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+          "bytes": 966895,
+          "matchesDeploymentArtifact": true
+        }
+      ],
+      "demoConstructorPreserved": true,
+      "observations": {
+        "result": {
+          "state": "scanning",
+          "engine": "worker",
+          "tracked": [
+            {
+              "id": 1,
+              "symbology": "qr",
+              "data": "QRGEN-RETAIL-DOM-20261011",
+              "firstSeen": 1791734697166,
+              "lastSeen": 1791734697166,
+              "count": 1
+            }
+          ],
+          "snapshotAt": 1791734697180,
+          "trackerTimeout": 500,
+          "selection": [],
+          "hostSelection": [],
+          "count": "1 barcode in view",
+          "countHidden": false,
+          "rows": [
+            {
+              "id": 1,
+              "pressed": "false",
+              "text": "QR Code · #1QRGEN-RETAIL-DOM-20261011Select"
+            }
+          ],
+          "selectEvents": [
+            {
+              "custom": true,
+              "bubbles": true,
+              "composed": true,
+              "detail": {
+                "barcode": "QRGEN-RETAIL-DOM-20261011",
+                "selected": true,
+                "selection": [
+                  {
+                    "id": 1,
+                    "data": "QRGEN-RETAIL-DOM-20261011"
+                  }
+                ]
+              }
+            },
+            {
+              "custom": true,
+              "bubbles": true,
+              "composed": true,
+              "detail": {
+                "barcode": null,
+                "selected": false,
+                "selection": []
+              }
+            }
+          ],
+          "exactScans": [
+            "QRGEN-RETAIL-DOM-20261011",
+            "QRGEN-RETAIL-DOM-20261011"
+          ]
+        },
+        "ownership": {
+          "differentScanner": true,
+          "oldTrackState": "ended",
+          "oldStream": null,
+          "resetCount": 1,
+          "camera": "back",
+          "hint": "Next camera ready",
+          "accent": "#005aee"
+        }
+      },
+      "cleanup": {
+        "liveMediaTracks": 0,
+        "attachedElementVideoStreams": 0
+      },
+      "finishedAt": "2026-10-11T16:04:57.182Z"
+    }
+  ],
+  "limitations": [
+    "Desktop Chromium synthetic static camera feed; no physical-device, latency or Scandit parity claim.",
+    "Fake front/back devices provide the same fixture pixels.",
+    "Behavior uses the compiled deployed demo element; standalone SDK is imported separately only for asset verification.",
+    "#39 real camera failure retry/stop was verified in the separate local integration run and is not repeated here."
+  ],
+  "replayOf": {
+    "recordedResultSha256": "6d156218eda3a920e2faf5d0615eb18bf4f35d420af4fe70ab4549612ebbf189",
+    "archivedRunnerSha256": "a4ddb2732cd8041f13244182679d21c830c1276d58a6caa1c2229241ad3c07aa",
+    "derivedRunnerSha256": "d7d43e218b66139e194206b71ecdef5d0045f7d4be1895235402e77caa25326d",
+    "proofSha256": "7e6a0798d4764264691974e6be66b704d90669dc027538b7806403153d330143",
+    "note": "Fresh replay recorded separately; historical recorded-results.json remains unchanged."
+  },
+  "mainAtStart": "6d3728f569f1cd5031fa8ca40ec090c8ff6bdf5b",
+  "chromiumVersion": "153.0.8010.12",
+  "mainAtFinish": "6d3728f569f1cd5031fa8ca40ec090c8ff6bdf5b",
+  "sourceHashesAtFinish": {
+    "packages/sdk/src/scanner.ts": "00e54b0232bdf92f62bbee4743b9caae3514ea34377d483363375225c51bfca6",
+    "packages/sdk/src/tracker.ts": "0b57a2302fbfd5ada2199e75115ca5d498f2e869edbf128d1b5a4dcc7cd888ae",
+    "packages/sdk/src/elements/scanner-element.ts": "6e1164d75236a178247143e5c179e88dfccdb496f69295c2d26dcab0ff14b80e",
+    "site/scripts/fake-camera.mjs": "725372f78d49ec1efd20b32e4e3e1c25214166495b7c04cba081f089cac8b05a"
+  },
+  "browserClosed": true,
+  "finishedAt": "2026-10-11T16:04:57.357Z"
+}

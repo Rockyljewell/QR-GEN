@@ -1,0 +1,4857 @@
+{
+  "reviewedAt": "2026-10-11T15:54:43.778Z",
+  "input": "$EVALUATION_OUTPUT",
+  "reviewerSha256": "16988e29ce823af3de09f43aa3fc1d30eab9a06359d2d5671e45008ce5acc878",
+  "hashes": {
+    "evaluation-plan.json": "03eb911057351f594004eb3450f1a83b60e00360dbadefccda8d709e0403a4ab",
+    "summary.json": "80081127b18b87d238056eb2af6b9ff8e2d4b8d4aee33560ec6c0b3a067e471a",
+    "baseline-conformance.jsonl": "5d6408faf85669bc8f90a4c1cbb911e7c4388ea77839c0ca4148efc5d9469199",
+    "candidate-comparison.jsonl": "7e1c94a4ace2d0a8b585c85c7e2fda8be9115441cc3423e4082f5e5e1cbefe76",
+    "changed-profiles.json": "39bab8679b8bace6d16062d02e73bffba9f0eb2ae39a7ddd1c5d1b6f211dbf46",
+    "engine-inputs.json": "563d57c75352a69848a73800709c48a9f2934464815fc9fe68d64baa46d49c3a",
+    "retained-dist-graph-fingerprints.json": "c64208a00848b2085f59a6e975fcb2376a6f2bc7d3f2a3e4ff30f291ef2a5015"
+  },
+  "node": "v24.19.0",
+  "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+  "profiles": 3988,
+  "preparedRasters": 565,
+  "baselineMismatches": 0,
+  "changes": {
+    "false07Suppression": [
+      {
+        "profileId": "326",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "full-frozen-corpus",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true
+        }
+      },
+      {
+        "profileId": "327",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "full-frozen-corpus",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true
+        }
+      },
+      {
+        "profileId": "2420",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "EAN13"
+        }
+      },
+      {
+        "profileId": "2421",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "EAN13"
+        }
+      },
+      {
+        "profileId": "2426",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13",
+            "UPCA",
+            "EAN8",
+            "UPCE",
+            "QRCode",
+            "Code128"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "mixed"
+        }
+      },
+      {
+        "profileId": "2427",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13",
+            "UPCA",
+            "EAN8",
+            "UPCE",
+            "QRCode",
+            "Code128"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "mixed"
+        }
+      },
+      {
+        "profileId": "2429",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "all"
+        }
+      },
+      {
+        "profileId": "2430",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "all"
+        }
+      },
+      {
+        "profileId": "2432",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 2,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "EAN13"
+        }
+      },
+      {
+        "profileId": "2433",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 2,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "EAN13"
+        }
+      },
+      {
+        "profileId": "2438",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13",
+            "UPCA",
+            "EAN8",
+            "UPCE",
+            "QRCode",
+            "Code128"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 2,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "mixed"
+        }
+      },
+      {
+        "profileId": "2439",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13",
+            "UPCA",
+            "EAN8",
+            "UPCE",
+            "QRCode",
+            "Code128"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 2,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "mixed"
+        }
+      },
+      {
+        "profileId": "2441",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 2,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "all"
+        }
+      },
+      {
+        "profileId": "2442",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 2,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "all"
+        }
+      },
+      {
+        "profileId": "2444",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "EAN13"
+        }
+      },
+      {
+        "profileId": "2445",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "EAN13"
+        }
+      },
+      {
+        "profileId": "2450",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13",
+            "UPCA",
+            "EAN8",
+            "UPCE",
+            "QRCode",
+            "Code128"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "mixed"
+        }
+      },
+      {
+        "profileId": "2451",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13",
+            "UPCA",
+            "EAN8",
+            "UPCE",
+            "QRCode",
+            "Code128"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "mixed"
+        }
+      },
+      {
+        "profileId": "2453",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "all"
+        }
+      },
+      {
+        "profileId": "2454",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "all"
+        }
+      },
+      {
+        "profileId": "2456",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "EAN13"
+        }
+      },
+      {
+        "profileId": "2457",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "EAN13"
+        }
+      },
+      {
+        "profileId": "2462",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13",
+            "UPCA",
+            "EAN8",
+            "UPCE",
+            "QRCode",
+            "Code128"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "mixed"
+        }
+      },
+      {
+        "profileId": "2463",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13",
+            "UPCA",
+            "EAN8",
+            "UPCE",
+            "QRCode",
+            "Code128"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "mixed"
+        }
+      },
+      {
+        "profileId": "2465",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "all"
+        }
+      },
+      {
+        "profileId": "2466",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "all"
+        }
+      },
+      {
+        "profileId": "2468",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 2,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "EAN13"
+        }
+      },
+      {
+        "profileId": "2469",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 2,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "EAN13"
+        }
+      },
+      {
+        "profileId": "2474",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13",
+            "UPCA",
+            "EAN8",
+            "UPCE",
+            "QRCode",
+            "Code128"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 2,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "mixed"
+        }
+      },
+      {
+        "profileId": "2475",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13",
+            "UPCA",
+            "EAN8",
+            "UPCE",
+            "QRCode",
+            "Code128"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 2,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "mixed"
+        }
+      },
+      {
+        "profileId": "2477",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 2,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "all"
+        }
+      },
+      {
+        "profileId": "2478",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 2,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "all"
+        }
+      },
+      {
+        "profileId": "2480",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "EAN13"
+        }
+      },
+      {
+        "profileId": "2481",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "EAN13"
+        }
+      },
+      {
+        "profileId": "2486",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13",
+            "UPCA",
+            "EAN8",
+            "UPCE",
+            "QRCode",
+            "Code128"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "mixed"
+        }
+      },
+      {
+        "profileId": "2487",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13",
+            "UPCA",
+            "EAN8",
+            "UPCE",
+            "QRCode",
+            "Code128"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "mixed"
+        }
+      },
+      {
+        "profileId": "2489",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "all"
+        }
+      },
+      {
+        "profileId": "2490",
+        "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "all"
+        }
+      },
+      {
+        "profileId": "1258",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "full-frozen-corpus",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true
+        }
+      },
+      {
+        "profileId": "1259",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "full-frozen-corpus",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true
+        }
+      },
+      {
+        "profileId": "2564",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "EAN13"
+        }
+      },
+      {
+        "profileId": "2565",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "EAN13"
+        }
+      },
+      {
+        "profileId": "2570",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13",
+            "UPCA",
+            "EAN8",
+            "UPCE",
+            "QRCode",
+            "Code128"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "mixed"
+        }
+      },
+      {
+        "profileId": "2571",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13",
+            "UPCA",
+            "EAN8",
+            "UPCE",
+            "QRCode",
+            "Code128"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "mixed"
+        }
+      },
+      {
+        "profileId": "2573",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "all"
+        }
+      },
+      {
+        "profileId": "2574",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "all"
+        }
+      },
+      {
+        "profileId": "2576",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 2,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "EAN13"
+        }
+      },
+      {
+        "profileId": "2577",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 2,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "EAN13"
+        }
+      },
+      {
+        "profileId": "2582",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13",
+            "UPCA",
+            "EAN8",
+            "UPCE",
+            "QRCode",
+            "Code128"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 2,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "mixed"
+        }
+      },
+      {
+        "profileId": "2583",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13",
+            "UPCA",
+            "EAN8",
+            "UPCE",
+            "QRCode",
+            "Code128"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 2,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "mixed"
+        }
+      },
+      {
+        "profileId": "2585",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 2,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "all"
+        }
+      },
+      {
+        "profileId": "2586",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 2,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "all"
+        }
+      },
+      {
+        "profileId": "2588",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "EAN13"
+        }
+      },
+      {
+        "profileId": "2589",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "EAN13"
+        }
+      },
+      {
+        "profileId": "2594",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13",
+            "UPCA",
+            "EAN8",
+            "UPCE",
+            "QRCode",
+            "Code128"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "mixed"
+        }
+      },
+      {
+        "profileId": "2595",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13",
+            "UPCA",
+            "EAN8",
+            "UPCE",
+            "QRCode",
+            "Code128"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "mixed"
+        }
+      },
+      {
+        "profileId": "2597",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "all"
+        }
+      },
+      {
+        "profileId": "2598",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "all"
+        }
+      },
+      {
+        "profileId": "2600",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "EAN13"
+        }
+      },
+      {
+        "profileId": "2601",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "EAN13"
+        }
+      },
+      {
+        "profileId": "2606",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13",
+            "UPCA",
+            "EAN8",
+            "UPCE",
+            "QRCode",
+            "Code128"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "mixed"
+        }
+      },
+      {
+        "profileId": "2607",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13",
+            "UPCA",
+            "EAN8",
+            "UPCE",
+            "QRCode",
+            "Code128"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "mixed"
+        }
+      },
+      {
+        "profileId": "2609",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "all"
+        }
+      },
+      {
+        "profileId": "2610",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "all"
+        }
+      },
+      {
+        "profileId": "2612",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 2,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "EAN13"
+        }
+      },
+      {
+        "profileId": "2613",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 2,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "EAN13"
+        }
+      },
+      {
+        "profileId": "2618",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13",
+            "UPCA",
+            "EAN8",
+            "UPCE",
+            "QRCode",
+            "Code128"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 2,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "mixed"
+        }
+      },
+      {
+        "profileId": "2619",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13",
+            "UPCA",
+            "EAN8",
+            "UPCE",
+            "QRCode",
+            "Code128"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 2,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "mixed"
+        }
+      },
+      {
+        "profileId": "2621",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 2,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "all"
+        }
+      },
+      {
+        "profileId": "2622",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 2,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "all"
+        }
+      },
+      {
+        "profileId": "2624",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "EAN13"
+        }
+      },
+      {
+        "profileId": "2625",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "EAN13"
+        }
+      },
+      {
+        "profileId": "2630",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13",
+            "UPCA",
+            "EAN8",
+            "UPCE",
+            "QRCode",
+            "Code128"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "mixed"
+        }
+      },
+      {
+        "profileId": "2631",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13",
+            "UPCA",
+            "EAN8",
+            "UPCE",
+            "QRCode",
+            "Code128"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "mixed"
+        }
+      },
+      {
+        "profileId": "2633",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "all"
+        }
+      },
+      {
+        "profileId": "2634",
+        "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+        "arm": "focused-limits-formats-addons",
+        "mode": "raw",
+        "options": {
+          "formats": [],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Read",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true,
+          "formatLabel": "all"
+        }
+      }
+    ],
+    "sourceLocationDiagnosticOnly": [
+      {
+        "profileId": "3789",
+        "itemKey": "synthetic-checksum-error/synthetic-ean13-invalid-checksum",
+        "arm": "checksum-error-semantics",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": true,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": false
+        },
+        "baselineErrors": [
+          "ChecksumError @ ODMultiUPCEANReader.cpp:289"
+        ],
+        "candidateErrors": [
+          "ChecksumError @ ODMultiUPCEANReader.cpp:380"
+        ]
+      },
+      {
+        "profileId": "3791",
+        "itemKey": "synthetic-checksum-error/synthetic-ean13-invalid-checksum",
+        "arm": "checksum-error-semantics",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": true,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": false
+        },
+        "baselineErrors": [
+          "ChecksumError @ ODMultiUPCEANReader.cpp:289"
+        ],
+        "candidateErrors": [
+          "ChecksumError @ ODMultiUPCEANReader.cpp:380"
+        ]
+      },
+      {
+        "profileId": "3793",
+        "itemKey": "synthetic-checksum-error/synthetic-ean13-invalid-checksum",
+        "arm": "checksum-error-semantics",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": true,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": false
+        },
+        "baselineErrors": [
+          "ChecksumError @ ODMultiUPCEANReader.cpp:289"
+        ],
+        "candidateErrors": [
+          "ChecksumError @ ODMultiUPCEANReader.cpp:380"
+        ]
+      },
+      {
+        "profileId": "3795",
+        "itemKey": "synthetic-checksum-error/synthetic-ean13-invalid-checksum",
+        "arm": "checksum-error-semantics",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": true,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": false
+        },
+        "baselineErrors": [
+          "ChecksumError @ ODMultiUPCEANReader.cpp:289"
+        ],
+        "candidateErrors": [
+          "ChecksumError @ ODMultiUPCEANReader.cpp:380"
+        ]
+      },
+      {
+        "profileId": "3797",
+        "itemKey": "synthetic-checksum-error/synthetic-ean13-invalid-checksum",
+        "arm": "checksum-error-semantics",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": true,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true
+        },
+        "baselineErrors": [
+          "ChecksumError @ ODMultiUPCEANReader.cpp:289"
+        ],
+        "candidateErrors": [
+          "ChecksumError @ ODMultiUPCEANReader.cpp:380"
+        ]
+      },
+      {
+        "profileId": "3799",
+        "itemKey": "synthetic-checksum-error/synthetic-ean13-invalid-checksum",
+        "arm": "checksum-error-semantics",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": true,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true
+        },
+        "baselineErrors": [
+          "ChecksumError @ ODMultiUPCEANReader.cpp:289"
+        ],
+        "candidateErrors": [
+          "ChecksumError @ ODMultiUPCEANReader.cpp:380"
+        ]
+      },
+      {
+        "profileId": "3801",
+        "itemKey": "synthetic-checksum-error/synthetic-ean13-invalid-checksum",
+        "arm": "checksum-error-semantics",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 1,
+          "minLineCount": 2,
+          "returnErrors": true,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true
+        },
+        "baselineErrors": [
+          "ChecksumError @ ODMultiUPCEANReader.cpp:289"
+        ],
+        "candidateErrors": [
+          "ChecksumError @ ODMultiUPCEANReader.cpp:380"
+        ]
+      },
+      {
+        "profileId": "3803",
+        "itemKey": "synthetic-checksum-error/synthetic-ean13-invalid-checksum",
+        "arm": "checksum-error-semantics",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": true,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": true
+        },
+        "baselineErrors": [
+          "ChecksumError @ ODMultiUPCEANReader.cpp:289"
+        ],
+        "candidateErrors": [
+          "ChecksumError @ ODMultiUPCEANReader.cpp:380"
+        ]
+      }
+    ],
+    "lineSupportOnly": [
+      {
+        "profileId": "672",
+        "itemKey": "original-RGBA-white-sRGB/ean13-3-23",
+        "arm": "full-frozen-corpus",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": false,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": false
+        },
+        "baselineLineCounts": [
+          8
+        ],
+        "candidateLineCounts": [
+          7
+        ]
+      },
+      {
+        "profileId": "673",
+        "itemKey": "original-RGBA-white-sRGB/ean13-3-23",
+        "arm": "full-frozen-corpus",
+        "mode": "raw",
+        "options": {
+          "formats": [
+            "EAN13"
+          ],
+          "tryRotate": true,
+          "tryInvert": false,
+          "tryDownscale": true,
+          "maxNumberOfSymbols": 255,
+          "minLineCount": 2,
+          "returnErrors": false,
+          "eanAddOnSymbol": "Ignore",
+          "textMode": "HRI",
+          "binarizer": "LocalAverage",
+          "tryHarder": false
+        },
+        "baselineLineCounts": [
+          8
+        ],
+        "candidateLineCounts": [
+          7
+        ]
+      }
+    ],
+    "other": []
+  },
+  "newTextProfiles": [],
+  "newFormatTextBytesProfiles": [],
+  "lostStrictTargetProfiles": [],
+  "strictTargetGeometryOrCountChanges": [],
+  "targetTextButWrongFormatProfiles": [
+    {
+      "profileId": "3844",
+      "itemKey": "generated-72-format-matrix/matrix-qr-0-normal",
+      "arm": "generated-72-format-matrix",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "QRCodeModel1",
+          "QRCodeModel2"
+        ],
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true
+      },
+      "results": [
+        {
+          "text": "https://rockyljewell.github.io/QR-GEN/",
+          "format": "QRCode",
+          "bytesHex": "68747470733a2f2f726f636b796c6a6577656c6c2e6769746875622e696f2f51522d47454e2f",
+          "contentType": "Text",
+          "lineCount": 0,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 16,
+              "y": 16
+            },
+            "topRight": {
+              "x": 132,
+              "y": 16
+            },
+            "bottomRight": {
+              "x": 132,
+              "y": 132
+            },
+            "bottomLeft": {
+              "x": 16,
+              "y": 132
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "M",
+          "symbologyIdentifier": "]Q1",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": "{\"DataMask\":0,\"UEC\":1.00,\"Version\":\"3\",\"ECLevel\":\"M\"}"
+        }
+      ]
+    },
+    {
+      "profileId": "3845",
+      "itemKey": "generated-72-format-matrix/matrix-qr-0-normal",
+      "arm": "generated-72-format-matrix",
+      "mode": "sdk-style-raster-inversion",
+      "options": {
+        "formats": [
+          "QRCodeModel1",
+          "QRCodeModel2"
+        ],
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true
+      },
+      "results": [
+        {
+          "text": "https://rockyljewell.github.io/QR-GEN/",
+          "format": "QRCode",
+          "bytesHex": "68747470733a2f2f726f636b796c6a6577656c6c2e6769746875622e696f2f51522d47454e2f",
+          "contentType": "Text",
+          "lineCount": 0,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 16,
+              "y": 16
+            },
+            "topRight": {
+              "x": 132,
+              "y": 16
+            },
+            "bottomRight": {
+              "x": 132,
+              "y": 132
+            },
+            "bottomLeft": {
+              "x": 16,
+              "y": 132
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "M",
+          "symbologyIdentifier": "]Q1",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": "{\"DataMask\":0,\"UEC\":1.00,\"Version\":\"3\",\"ECLevel\":\"M\"}"
+        }
+      ]
+    },
+    {
+      "profileId": "3846",
+      "itemKey": "generated-72-format-matrix/matrix-qr-0-lower-contrast",
+      "arm": "generated-72-format-matrix",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "QRCodeModel1",
+          "QRCodeModel2"
+        ],
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true
+      },
+      "results": [
+        {
+          "text": "https://rockyljewell.github.io/QR-GEN/",
+          "format": "QRCode",
+          "bytesHex": "68747470733a2f2f726f636b796c6a6577656c6c2e6769746875622e696f2f51522d47454e2f",
+          "contentType": "Text",
+          "lineCount": 0,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 16,
+              "y": 16
+            },
+            "topRight": {
+              "x": 132,
+              "y": 16
+            },
+            "bottomRight": {
+              "x": 132,
+              "y": 132
+            },
+            "bottomLeft": {
+              "x": 16,
+              "y": 132
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "M",
+          "symbologyIdentifier": "]Q1",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": "{\"DataMask\":0,\"UEC\":1.00,\"Version\":\"3\",\"ECLevel\":\"M\"}"
+        }
+      ]
+    },
+    {
+      "profileId": "3847",
+      "itemKey": "generated-72-format-matrix/matrix-qr-0-lower-contrast",
+      "arm": "generated-72-format-matrix",
+      "mode": "sdk-style-raster-inversion",
+      "options": {
+        "formats": [
+          "QRCodeModel1",
+          "QRCodeModel2"
+        ],
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true
+      },
+      "results": [
+        {
+          "text": "https://rockyljewell.github.io/QR-GEN/",
+          "format": "QRCode",
+          "bytesHex": "68747470733a2f2f726f636b796c6a6577656c6c2e6769746875622e696f2f51522d47454e2f",
+          "contentType": "Text",
+          "lineCount": 0,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 16,
+              "y": 16
+            },
+            "topRight": {
+              "x": 132,
+              "y": 16
+            },
+            "bottomRight": {
+              "x": 132,
+              "y": 132
+            },
+            "bottomLeft": {
+              "x": 16,
+              "y": 132
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "M",
+          "symbologyIdentifier": "]Q1",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": "{\"DataMask\":0,\"UEC\":1.00,\"Version\":\"3\",\"ECLevel\":\"M\"}"
+        }
+      ]
+    },
+    {
+      "profileId": "3848",
+      "itemKey": "generated-72-format-matrix/matrix-qr-0-inverted",
+      "arm": "generated-72-format-matrix",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "QRCodeModel1",
+          "QRCodeModel2"
+        ],
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true
+      },
+      "results": [
+        {
+          "text": "https://rockyljewell.github.io/QR-GEN/",
+          "format": "QRCode",
+          "bytesHex": "68747470733a2f2f726f636b796c6a6577656c6c2e6769746875622e696f2f51522d47454e2f",
+          "contentType": "Text",
+          "lineCount": 0,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 16,
+              "y": 16
+            },
+            "topRight": {
+              "x": 132,
+              "y": 16
+            },
+            "bottomRight": {
+              "x": 132,
+              "y": 132
+            },
+            "bottomLeft": {
+              "x": 16,
+              "y": 132
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "M",
+          "symbologyIdentifier": "]Q1",
+          "isMirrored": false,
+          "isInverted": true,
+          "extra": "{\"DataMask\":0,\"UEC\":1.00,\"Version\":\"3\",\"ECLevel\":\"M\"}"
+        }
+      ]
+    },
+    {
+      "profileId": "3849",
+      "itemKey": "generated-72-format-matrix/matrix-qr-0-inverted",
+      "arm": "generated-72-format-matrix",
+      "mode": "sdk-style-raster-inversion",
+      "options": {
+        "formats": [
+          "QRCodeModel1",
+          "QRCodeModel2"
+        ],
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true
+      },
+      "results": [
+        {
+          "text": "https://rockyljewell.github.io/QR-GEN/",
+          "format": "QRCode",
+          "bytesHex": "68747470733a2f2f726f636b796c6a6577656c6c2e6769746875622e696f2f51522d47454e2f",
+          "contentType": "Text",
+          "lineCount": 0,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 16,
+              "y": 16
+            },
+            "topRight": {
+              "x": 132,
+              "y": 16
+            },
+            "bottomRight": {
+              "x": 132,
+              "y": 132
+            },
+            "bottomLeft": {
+              "x": 16,
+              "y": 132
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "M",
+          "symbologyIdentifier": "]Q1",
+          "isMirrored": false,
+          "isInverted": true,
+          "extra": "{\"DataMask\":0,\"UEC\":1.00,\"Version\":\"3\",\"ECLevel\":\"M\"}"
+        }
+      ]
+    },
+    {
+      "profileId": "3850",
+      "itemKey": "generated-72-format-matrix/matrix-qr-90-normal",
+      "arm": "generated-72-format-matrix",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "QRCodeModel1",
+          "QRCodeModel2"
+        ],
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true
+      },
+      "results": [
+        {
+          "text": "https://rockyljewell.github.io/QR-GEN/",
+          "format": "QRCode",
+          "bytesHex": "68747470733a2f2f726f636b796c6a6577656c6c2e6769746875622e696f2f51522d47454e2f",
+          "contentType": "Text",
+          "lineCount": 0,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 132,
+              "y": 16
+            },
+            "topRight": {
+              "x": 132,
+              "y": 132
+            },
+            "bottomRight": {
+              "x": 16,
+              "y": 132
+            },
+            "bottomLeft": {
+              "x": 16,
+              "y": 16
+            }
+          },
+          "orientation": 90,
+          "ecLevel": "M",
+          "symbologyIdentifier": "]Q1",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": "{\"DataMask\":0,\"UEC\":1.00,\"Version\":\"3\",\"ECLevel\":\"M\"}"
+        }
+      ]
+    },
+    {
+      "profileId": "3851",
+      "itemKey": "generated-72-format-matrix/matrix-qr-90-normal",
+      "arm": "generated-72-format-matrix",
+      "mode": "sdk-style-raster-inversion",
+      "options": {
+        "formats": [
+          "QRCodeModel1",
+          "QRCodeModel2"
+        ],
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true
+      },
+      "results": [
+        {
+          "text": "https://rockyljewell.github.io/QR-GEN/",
+          "format": "QRCode",
+          "bytesHex": "68747470733a2f2f726f636b796c6a6577656c6c2e6769746875622e696f2f51522d47454e2f",
+          "contentType": "Text",
+          "lineCount": 0,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 132,
+              "y": 16
+            },
+            "topRight": {
+              "x": 132,
+              "y": 132
+            },
+            "bottomRight": {
+              "x": 16,
+              "y": 132
+            },
+            "bottomLeft": {
+              "x": 16,
+              "y": 16
+            }
+          },
+          "orientation": 90,
+          "ecLevel": "M",
+          "symbologyIdentifier": "]Q1",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": "{\"DataMask\":0,\"UEC\":1.00,\"Version\":\"3\",\"ECLevel\":\"M\"}"
+        }
+      ]
+    },
+    {
+      "profileId": "3852",
+      "itemKey": "generated-72-format-matrix/matrix-qr-90-lower-contrast",
+      "arm": "generated-72-format-matrix",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "QRCodeModel1",
+          "QRCodeModel2"
+        ],
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true
+      },
+      "results": [
+        {
+          "text": "https://rockyljewell.github.io/QR-GEN/",
+          "format": "QRCode",
+          "bytesHex": "68747470733a2f2f726f636b796c6a6577656c6c2e6769746875622e696f2f51522d47454e2f",
+          "contentType": "Text",
+          "lineCount": 0,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 132,
+              "y": 16
+            },
+            "topRight": {
+              "x": 132,
+              "y": 132
+            },
+            "bottomRight": {
+              "x": 16,
+              "y": 132
+            },
+            "bottomLeft": {
+              "x": 16,
+              "y": 16
+            }
+          },
+          "orientation": 90,
+          "ecLevel": "M",
+          "symbologyIdentifier": "]Q1",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": "{\"DataMask\":0,\"UEC\":1.00,\"Version\":\"3\",\"ECLevel\":\"M\"}"
+        }
+      ]
+    },
+    {
+      "profileId": "3853",
+      "itemKey": "generated-72-format-matrix/matrix-qr-90-lower-contrast",
+      "arm": "generated-72-format-matrix",
+      "mode": "sdk-style-raster-inversion",
+      "options": {
+        "formats": [
+          "QRCodeModel1",
+          "QRCodeModel2"
+        ],
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true
+      },
+      "results": [
+        {
+          "text": "https://rockyljewell.github.io/QR-GEN/",
+          "format": "QRCode",
+          "bytesHex": "68747470733a2f2f726f636b796c6a6577656c6c2e6769746875622e696f2f51522d47454e2f",
+          "contentType": "Text",
+          "lineCount": 0,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 132,
+              "y": 16
+            },
+            "topRight": {
+              "x": 132,
+              "y": 132
+            },
+            "bottomRight": {
+              "x": 16,
+              "y": 132
+            },
+            "bottomLeft": {
+              "x": 16,
+              "y": 16
+            }
+          },
+          "orientation": 90,
+          "ecLevel": "M",
+          "symbologyIdentifier": "]Q1",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": "{\"DataMask\":0,\"UEC\":1.00,\"Version\":\"3\",\"ECLevel\":\"M\"}"
+        }
+      ]
+    },
+    {
+      "profileId": "3854",
+      "itemKey": "generated-72-format-matrix/matrix-qr-90-inverted",
+      "arm": "generated-72-format-matrix",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "QRCodeModel1",
+          "QRCodeModel2"
+        ],
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true
+      },
+      "results": [
+        {
+          "text": "https://rockyljewell.github.io/QR-GEN/",
+          "format": "QRCode",
+          "bytesHex": "68747470733a2f2f726f636b796c6a6577656c6c2e6769746875622e696f2f51522d47454e2f",
+          "contentType": "Text",
+          "lineCount": 0,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 132,
+              "y": 16
+            },
+            "topRight": {
+              "x": 132,
+              "y": 132
+            },
+            "bottomRight": {
+              "x": 16,
+              "y": 132
+            },
+            "bottomLeft": {
+              "x": 16,
+              "y": 16
+            }
+          },
+          "orientation": 90,
+          "ecLevel": "M",
+          "symbologyIdentifier": "]Q1",
+          "isMirrored": false,
+          "isInverted": true,
+          "extra": "{\"DataMask\":0,\"UEC\":1.00,\"Version\":\"3\",\"ECLevel\":\"M\"}"
+        }
+      ]
+    },
+    {
+      "profileId": "3855",
+      "itemKey": "generated-72-format-matrix/matrix-qr-90-inverted",
+      "arm": "generated-72-format-matrix",
+      "mode": "sdk-style-raster-inversion",
+      "options": {
+        "formats": [
+          "QRCodeModel1",
+          "QRCodeModel2"
+        ],
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true
+      },
+      "results": [
+        {
+          "text": "https://rockyljewell.github.io/QR-GEN/",
+          "format": "QRCode",
+          "bytesHex": "68747470733a2f2f726f636b796c6a6577656c6c2e6769746875622e696f2f51522d47454e2f",
+          "contentType": "Text",
+          "lineCount": 0,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 132,
+              "y": 16
+            },
+            "topRight": {
+              "x": 132,
+              "y": 132
+            },
+            "bottomRight": {
+              "x": 16,
+              "y": 132
+            },
+            "bottomLeft": {
+              "x": 16,
+              "y": 16
+            }
+          },
+          "orientation": 90,
+          "ecLevel": "M",
+          "symbologyIdentifier": "]Q1",
+          "isMirrored": false,
+          "isInverted": true,
+          "extra": "{\"DataMask\":0,\"UEC\":1.00,\"Version\":\"3\",\"ECLevel\":\"M\"}"
+        }
+      ]
+    },
+    {
+      "profileId": "3856",
+      "itemKey": "generated-72-format-matrix/matrix-qr-180-normal",
+      "arm": "generated-72-format-matrix",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "QRCodeModel1",
+          "QRCodeModel2"
+        ],
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true
+      },
+      "results": [
+        {
+          "text": "https://rockyljewell.github.io/QR-GEN/",
+          "format": "QRCode",
+          "bytesHex": "68747470733a2f2f726f636b796c6a6577656c6c2e6769746875622e696f2f51522d47454e2f",
+          "contentType": "Text",
+          "lineCount": 0,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 132,
+              "y": 132
+            },
+            "topRight": {
+              "x": 16,
+              "y": 132
+            },
+            "bottomRight": {
+              "x": 16,
+              "y": 16
+            },
+            "bottomLeft": {
+              "x": 132,
+              "y": 16
+            }
+          },
+          "orientation": 180,
+          "ecLevel": "M",
+          "symbologyIdentifier": "]Q1",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": "{\"DataMask\":0,\"UEC\":1.00,\"Version\":\"3\",\"ECLevel\":\"M\"}"
+        }
+      ]
+    },
+    {
+      "profileId": "3857",
+      "itemKey": "generated-72-format-matrix/matrix-qr-180-normal",
+      "arm": "generated-72-format-matrix",
+      "mode": "sdk-style-raster-inversion",
+      "options": {
+        "formats": [
+          "QRCodeModel1",
+          "QRCodeModel2"
+        ],
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true
+      },
+      "results": [
+        {
+          "text": "https://rockyljewell.github.io/QR-GEN/",
+          "format": "QRCode",
+          "bytesHex": "68747470733a2f2f726f636b796c6a6577656c6c2e6769746875622e696f2f51522d47454e2f",
+          "contentType": "Text",
+          "lineCount": 0,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 132,
+              "y": 132
+            },
+            "topRight": {
+              "x": 16,
+              "y": 132
+            },
+            "bottomRight": {
+              "x": 16,
+              "y": 16
+            },
+            "bottomLeft": {
+              "x": 132,
+              "y": 16
+            }
+          },
+          "orientation": 180,
+          "ecLevel": "M",
+          "symbologyIdentifier": "]Q1",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": "{\"DataMask\":0,\"UEC\":1.00,\"Version\":\"3\",\"ECLevel\":\"M\"}"
+        }
+      ]
+    },
+    {
+      "profileId": "3858",
+      "itemKey": "generated-72-format-matrix/matrix-qr-180-lower-contrast",
+      "arm": "generated-72-format-matrix",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "QRCodeModel1",
+          "QRCodeModel2"
+        ],
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true
+      },
+      "results": [
+        {
+          "text": "https://rockyljewell.github.io/QR-GEN/",
+          "format": "QRCode",
+          "bytesHex": "68747470733a2f2f726f636b796c6a6577656c6c2e6769746875622e696f2f51522d47454e2f",
+          "contentType": "Text",
+          "lineCount": 0,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 132,
+              "y": 132
+            },
+            "topRight": {
+              "x": 16,
+              "y": 132
+            },
+            "bottomRight": {
+              "x": 16,
+              "y": 16
+            },
+            "bottomLeft": {
+              "x": 132,
+              "y": 16
+            }
+          },
+          "orientation": 180,
+          "ecLevel": "M",
+          "symbologyIdentifier": "]Q1",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": "{\"DataMask\":0,\"UEC\":1.00,\"Version\":\"3\",\"ECLevel\":\"M\"}"
+        }
+      ]
+    },
+    {
+      "profileId": "3859",
+      "itemKey": "generated-72-format-matrix/matrix-qr-180-lower-contrast",
+      "arm": "generated-72-format-matrix",
+      "mode": "sdk-style-raster-inversion",
+      "options": {
+        "formats": [
+          "QRCodeModel1",
+          "QRCodeModel2"
+        ],
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true
+      },
+      "results": [
+        {
+          "text": "https://rockyljewell.github.io/QR-GEN/",
+          "format": "QRCode",
+          "bytesHex": "68747470733a2f2f726f636b796c6a6577656c6c2e6769746875622e696f2f51522d47454e2f",
+          "contentType": "Text",
+          "lineCount": 0,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 132,
+              "y": 132
+            },
+            "topRight": {
+              "x": 16,
+              "y": 132
+            },
+            "bottomRight": {
+              "x": 16,
+              "y": 16
+            },
+            "bottomLeft": {
+              "x": 132,
+              "y": 16
+            }
+          },
+          "orientation": 180,
+          "ecLevel": "M",
+          "symbologyIdentifier": "]Q1",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": "{\"DataMask\":0,\"UEC\":1.00,\"Version\":\"3\",\"ECLevel\":\"M\"}"
+        }
+      ]
+    },
+    {
+      "profileId": "3860",
+      "itemKey": "generated-72-format-matrix/matrix-qr-180-inverted",
+      "arm": "generated-72-format-matrix",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "QRCodeModel1",
+          "QRCodeModel2"
+        ],
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true
+      },
+      "results": [
+        {
+          "text": "https://rockyljewell.github.io/QR-GEN/",
+          "format": "QRCode",
+          "bytesHex": "68747470733a2f2f726f636b796c6a6577656c6c2e6769746875622e696f2f51522d47454e2f",
+          "contentType": "Text",
+          "lineCount": 0,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 132,
+              "y": 132
+            },
+            "topRight": {
+              "x": 16,
+              "y": 132
+            },
+            "bottomRight": {
+              "x": 16,
+              "y": 16
+            },
+            "bottomLeft": {
+              "x": 132,
+              "y": 16
+            }
+          },
+          "orientation": 180,
+          "ecLevel": "M",
+          "symbologyIdentifier": "]Q1",
+          "isMirrored": false,
+          "isInverted": true,
+          "extra": "{\"DataMask\":0,\"UEC\":1.00,\"Version\":\"3\",\"ECLevel\":\"M\"}"
+        }
+      ]
+    },
+    {
+      "profileId": "3861",
+      "itemKey": "generated-72-format-matrix/matrix-qr-180-inverted",
+      "arm": "generated-72-format-matrix",
+      "mode": "sdk-style-raster-inversion",
+      "options": {
+        "formats": [
+          "QRCodeModel1",
+          "QRCodeModel2"
+        ],
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true
+      },
+      "results": [
+        {
+          "text": "https://rockyljewell.github.io/QR-GEN/",
+          "format": "QRCode",
+          "bytesHex": "68747470733a2f2f726f636b796c6a6577656c6c2e6769746875622e696f2f51522d47454e2f",
+          "contentType": "Text",
+          "lineCount": 0,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 132,
+              "y": 132
+            },
+            "topRight": {
+              "x": 16,
+              "y": 132
+            },
+            "bottomRight": {
+              "x": 16,
+              "y": 16
+            },
+            "bottomLeft": {
+              "x": 132,
+              "y": 16
+            }
+          },
+          "orientation": 180,
+          "ecLevel": "M",
+          "symbologyIdentifier": "]Q1",
+          "isMirrored": false,
+          "isInverted": true,
+          "extra": "{\"DataMask\":0,\"UEC\":1.00,\"Version\":\"3\",\"ECLevel\":\"M\"}"
+        }
+      ]
+    },
+    {
+      "profileId": "3862",
+      "itemKey": "generated-72-format-matrix/matrix-qr-270-normal",
+      "arm": "generated-72-format-matrix",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "QRCodeModel1",
+          "QRCodeModel2"
+        ],
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true
+      },
+      "results": [
+        {
+          "text": "https://rockyljewell.github.io/QR-GEN/",
+          "format": "QRCode",
+          "bytesHex": "68747470733a2f2f726f636b796c6a6577656c6c2e6769746875622e696f2f51522d47454e2f",
+          "contentType": "Text",
+          "lineCount": 0,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 16,
+              "y": 132
+            },
+            "topRight": {
+              "x": 16,
+              "y": 16
+            },
+            "bottomRight": {
+              "x": 132,
+              "y": 16
+            },
+            "bottomLeft": {
+              "x": 132,
+              "y": 132
+            }
+          },
+          "orientation": -90,
+          "ecLevel": "M",
+          "symbologyIdentifier": "]Q1",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": "{\"DataMask\":0,\"UEC\":1.00,\"Version\":\"3\",\"ECLevel\":\"M\"}"
+        }
+      ]
+    },
+    {
+      "profileId": "3863",
+      "itemKey": "generated-72-format-matrix/matrix-qr-270-normal",
+      "arm": "generated-72-format-matrix",
+      "mode": "sdk-style-raster-inversion",
+      "options": {
+        "formats": [
+          "QRCodeModel1",
+          "QRCodeModel2"
+        ],
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true
+      },
+      "results": [
+        {
+          "text": "https://rockyljewell.github.io/QR-GEN/",
+          "format": "QRCode",
+          "bytesHex": "68747470733a2f2f726f636b796c6a6577656c6c2e6769746875622e696f2f51522d47454e2f",
+          "contentType": "Text",
+          "lineCount": 0,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 16,
+              "y": 132
+            },
+            "topRight": {
+              "x": 16,
+              "y": 16
+            },
+            "bottomRight": {
+              "x": 132,
+              "y": 16
+            },
+            "bottomLeft": {
+              "x": 132,
+              "y": 132
+            }
+          },
+          "orientation": -90,
+          "ecLevel": "M",
+          "symbologyIdentifier": "]Q1",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": "{\"DataMask\":0,\"UEC\":1.00,\"Version\":\"3\",\"ECLevel\":\"M\"}"
+        }
+      ]
+    },
+    {
+      "profileId": "3864",
+      "itemKey": "generated-72-format-matrix/matrix-qr-270-lower-contrast",
+      "arm": "generated-72-format-matrix",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "QRCodeModel1",
+          "QRCodeModel2"
+        ],
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true
+      },
+      "results": [
+        {
+          "text": "https://rockyljewell.github.io/QR-GEN/",
+          "format": "QRCode",
+          "bytesHex": "68747470733a2f2f726f636b796c6a6577656c6c2e6769746875622e696f2f51522d47454e2f",
+          "contentType": "Text",
+          "lineCount": 0,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 16,
+              "y": 132
+            },
+            "topRight": {
+              "x": 16,
+              "y": 16
+            },
+            "bottomRight": {
+              "x": 132,
+              "y": 16
+            },
+            "bottomLeft": {
+              "x": 132,
+              "y": 132
+            }
+          },
+          "orientation": -90,
+          "ecLevel": "M",
+          "symbologyIdentifier": "]Q1",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": "{\"DataMask\":0,\"UEC\":1.00,\"Version\":\"3\",\"ECLevel\":\"M\"}"
+        }
+      ]
+    },
+    {
+      "profileId": "3865",
+      "itemKey": "generated-72-format-matrix/matrix-qr-270-lower-contrast",
+      "arm": "generated-72-format-matrix",
+      "mode": "sdk-style-raster-inversion",
+      "options": {
+        "formats": [
+          "QRCodeModel1",
+          "QRCodeModel2"
+        ],
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true
+      },
+      "results": [
+        {
+          "text": "https://rockyljewell.github.io/QR-GEN/",
+          "format": "QRCode",
+          "bytesHex": "68747470733a2f2f726f636b796c6a6577656c6c2e6769746875622e696f2f51522d47454e2f",
+          "contentType": "Text",
+          "lineCount": 0,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 16,
+              "y": 132
+            },
+            "topRight": {
+              "x": 16,
+              "y": 16
+            },
+            "bottomRight": {
+              "x": 132,
+              "y": 16
+            },
+            "bottomLeft": {
+              "x": 132,
+              "y": 132
+            }
+          },
+          "orientation": -90,
+          "ecLevel": "M",
+          "symbologyIdentifier": "]Q1",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": "{\"DataMask\":0,\"UEC\":1.00,\"Version\":\"3\",\"ECLevel\":\"M\"}"
+        }
+      ]
+    },
+    {
+      "profileId": "3866",
+      "itemKey": "generated-72-format-matrix/matrix-qr-270-inverted",
+      "arm": "generated-72-format-matrix",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "QRCodeModel1",
+          "QRCodeModel2"
+        ],
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true
+      },
+      "results": [
+        {
+          "text": "https://rockyljewell.github.io/QR-GEN/",
+          "format": "QRCode",
+          "bytesHex": "68747470733a2f2f726f636b796c6a6577656c6c2e6769746875622e696f2f51522d47454e2f",
+          "contentType": "Text",
+          "lineCount": 0,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 16,
+              "y": 132
+            },
+            "topRight": {
+              "x": 16,
+              "y": 16
+            },
+            "bottomRight": {
+              "x": 132,
+              "y": 16
+            },
+            "bottomLeft": {
+              "x": 132,
+              "y": 132
+            }
+          },
+          "orientation": -90,
+          "ecLevel": "M",
+          "symbologyIdentifier": "]Q1",
+          "isMirrored": false,
+          "isInverted": true,
+          "extra": "{\"DataMask\":0,\"UEC\":1.00,\"Version\":\"3\",\"ECLevel\":\"M\"}"
+        }
+      ]
+    },
+    {
+      "profileId": "3867",
+      "itemKey": "generated-72-format-matrix/matrix-qr-270-inverted",
+      "arm": "generated-72-format-matrix",
+      "mode": "sdk-style-raster-inversion",
+      "options": {
+        "formats": [
+          "QRCodeModel1",
+          "QRCodeModel2"
+        ],
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true
+      },
+      "results": [
+        {
+          "text": "https://rockyljewell.github.io/QR-GEN/",
+          "format": "QRCode",
+          "bytesHex": "68747470733a2f2f726f636b796c6a6577656c6c2e6769746875622e696f2f51522d47454e2f",
+          "contentType": "Text",
+          "lineCount": 0,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 16,
+              "y": 132
+            },
+            "topRight": {
+              "x": 16,
+              "y": 16
+            },
+            "bottomRight": {
+              "x": 132,
+              "y": 16
+            },
+            "bottomLeft": {
+              "x": 132,
+              "y": 132
+            }
+          },
+          "orientation": -90,
+          "ecLevel": "M",
+          "symbologyIdentifier": "]Q1",
+          "isMirrored": false,
+          "isInverted": true,
+          "extra": "{\"DataMask\":0,\"UEC\":1.00,\"Version\":\"3\",\"ECLevel\":\"M\"}"
+        }
+      ]
+    }
+  ],
+  "maxSymbolLimitViolations": [],
+  "residualFalse07": [
+    {
+      "profileId": "2423",
+      "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "arm": "focused-limits-formats-addons",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "maxNumberOfSymbols": 1,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true,
+        "formatLabel": "UPCA"
+      },
+      "results": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "bytesHex": "30373938383834383136363332",
+          "contentType": "Text",
+          "lineCount": 2,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "",
+          "symbologyIdentifier": "]E0",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": ""
+        }
+      ]
+    },
+    {
+      "profileId": "2424",
+      "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "arm": "focused-limits-formats-addons",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "maxNumberOfSymbols": 1,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Read",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true,
+        "formatLabel": "UPCA"
+      },
+      "results": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "bytesHex": "30373938383834383136363332",
+          "contentType": "Text",
+          "lineCount": 2,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "",
+          "symbologyIdentifier": "]E0",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": ""
+        }
+      ]
+    },
+    {
+      "profileId": "2435",
+      "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "arm": "focused-limits-formats-addons",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "maxNumberOfSymbols": 2,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true,
+        "formatLabel": "UPCA"
+      },
+      "results": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "bytesHex": "30373938383834383136363332",
+          "contentType": "Text",
+          "lineCount": 2,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "",
+          "symbologyIdentifier": "]E0",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": ""
+        }
+      ]
+    },
+    {
+      "profileId": "2436",
+      "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "arm": "focused-limits-formats-addons",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "maxNumberOfSymbols": 2,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Read",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true,
+        "formatLabel": "UPCA"
+      },
+      "results": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "bytesHex": "30373938383834383136363332",
+          "contentType": "Text",
+          "lineCount": 2,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "",
+          "symbologyIdentifier": "]E0",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": ""
+        }
+      ]
+    },
+    {
+      "profileId": "2447",
+      "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "arm": "focused-limits-formats-addons",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true,
+        "formatLabel": "UPCA"
+      },
+      "results": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "bytesHex": "30373938383834383136363332",
+          "contentType": "Text",
+          "lineCount": 2,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "",
+          "symbologyIdentifier": "]E0",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": ""
+        }
+      ]
+    },
+    {
+      "profileId": "2448",
+      "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "arm": "focused-limits-formats-addons",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Read",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true,
+        "formatLabel": "UPCA"
+      },
+      "results": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "bytesHex": "30373938383834383136363332",
+          "contentType": "Text",
+          "lineCount": 2,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "",
+          "symbologyIdentifier": "]E0",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": ""
+        }
+      ]
+    },
+    {
+      "profileId": "2459",
+      "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "arm": "focused-limits-formats-addons",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 1,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true,
+        "formatLabel": "UPCA"
+      },
+      "results": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "bytesHex": "30373938383834383136363332",
+          "contentType": "Text",
+          "lineCount": 2,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "",
+          "symbologyIdentifier": "]E0",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": ""
+        }
+      ]
+    },
+    {
+      "profileId": "2460",
+      "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "arm": "focused-limits-formats-addons",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 1,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Read",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true,
+        "formatLabel": "UPCA"
+      },
+      "results": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "bytesHex": "30373938383834383136363332",
+          "contentType": "Text",
+          "lineCount": 2,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "",
+          "symbologyIdentifier": "]E0",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": ""
+        }
+      ]
+    },
+    {
+      "profileId": "2471",
+      "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "arm": "focused-limits-formats-addons",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 2,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true,
+        "formatLabel": "UPCA"
+      },
+      "results": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "bytesHex": "30373938383834383136363332",
+          "contentType": "Text",
+          "lineCount": 2,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "",
+          "symbologyIdentifier": "]E0",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": ""
+        }
+      ]
+    },
+    {
+      "profileId": "2472",
+      "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "arm": "focused-limits-formats-addons",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 2,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Read",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true,
+        "formatLabel": "UPCA"
+      },
+      "results": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "bytesHex": "30373938383834383136363332",
+          "contentType": "Text",
+          "lineCount": 2,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "",
+          "symbologyIdentifier": "]E0",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": ""
+        }
+      ]
+    },
+    {
+      "profileId": "2483",
+      "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "arm": "focused-limits-formats-addons",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true,
+        "formatLabel": "UPCA"
+      },
+      "results": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "bytesHex": "30373938383834383136363332",
+          "contentType": "Text",
+          "lineCount": 2,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "",
+          "symbologyIdentifier": "]E0",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": ""
+        }
+      ]
+    },
+    {
+      "profileId": "2484",
+      "itemKey": "derived-limited-Y-expanded-RGB/ean13-2-07",
+      "arm": "focused-limits-formats-addons",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Read",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true,
+        "formatLabel": "UPCA"
+      },
+      "results": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "bytesHex": "30373938383834383136363332",
+          "contentType": "Text",
+          "lineCount": 2,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "",
+          "symbologyIdentifier": "]E0",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": ""
+        }
+      ]
+    },
+    {
+      "profileId": "2567",
+      "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "arm": "focused-limits-formats-addons",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "maxNumberOfSymbols": 1,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true,
+        "formatLabel": "UPCA"
+      },
+      "results": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "bytesHex": "30373938383834383136363332",
+          "contentType": "Text",
+          "lineCount": 2,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "",
+          "symbologyIdentifier": "]E0",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": ""
+        }
+      ]
+    },
+    {
+      "profileId": "2568",
+      "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "arm": "focused-limits-formats-addons",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "maxNumberOfSymbols": 1,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Read",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true,
+        "formatLabel": "UPCA"
+      },
+      "results": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "bytesHex": "30373938383834383136363332",
+          "contentType": "Text",
+          "lineCount": 2,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "",
+          "symbologyIdentifier": "]E0",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": ""
+        }
+      ]
+    },
+    {
+      "profileId": "2579",
+      "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "arm": "focused-limits-formats-addons",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "maxNumberOfSymbols": 2,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true,
+        "formatLabel": "UPCA"
+      },
+      "results": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "bytesHex": "30373938383834383136363332",
+          "contentType": "Text",
+          "lineCount": 2,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "",
+          "symbologyIdentifier": "]E0",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": ""
+        }
+      ]
+    },
+    {
+      "profileId": "2580",
+      "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "arm": "focused-limits-formats-addons",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "maxNumberOfSymbols": 2,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Read",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true,
+        "formatLabel": "UPCA"
+      },
+      "results": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "bytesHex": "30373938383834383136363332",
+          "contentType": "Text",
+          "lineCount": 2,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "",
+          "symbologyIdentifier": "]E0",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": ""
+        }
+      ]
+    },
+    {
+      "profileId": "2591",
+      "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "arm": "focused-limits-formats-addons",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true,
+        "formatLabel": "UPCA"
+      },
+      "results": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "bytesHex": "30373938383834383136363332",
+          "contentType": "Text",
+          "lineCount": 2,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "",
+          "symbologyIdentifier": "]E0",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": ""
+        }
+      ]
+    },
+    {
+      "profileId": "2592",
+      "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "arm": "focused-limits-formats-addons",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Read",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true,
+        "formatLabel": "UPCA"
+      },
+      "results": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "bytesHex": "30373938383834383136363332",
+          "contentType": "Text",
+          "lineCount": 2,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "",
+          "symbologyIdentifier": "]E0",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": ""
+        }
+      ]
+    },
+    {
+      "profileId": "2603",
+      "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "arm": "focused-limits-formats-addons",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 1,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true,
+        "formatLabel": "UPCA"
+      },
+      "results": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "bytesHex": "30373938383834383136363332",
+          "contentType": "Text",
+          "lineCount": 2,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "",
+          "symbologyIdentifier": "]E0",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": ""
+        }
+      ]
+    },
+    {
+      "profileId": "2604",
+      "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "arm": "focused-limits-formats-addons",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 1,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Read",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true,
+        "formatLabel": "UPCA"
+      },
+      "results": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "bytesHex": "30373938383834383136363332",
+          "contentType": "Text",
+          "lineCount": 2,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "",
+          "symbologyIdentifier": "]E0",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": ""
+        }
+      ]
+    },
+    {
+      "profileId": "2615",
+      "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "arm": "focused-limits-formats-addons",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 2,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true,
+        "formatLabel": "UPCA"
+      },
+      "results": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "bytesHex": "30373938383834383136363332",
+          "contentType": "Text",
+          "lineCount": 2,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "",
+          "symbologyIdentifier": "]E0",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": ""
+        }
+      ]
+    },
+    {
+      "profileId": "2616",
+      "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "arm": "focused-limits-formats-addons",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 2,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Read",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true,
+        "formatLabel": "UPCA"
+      },
+      "results": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "bytesHex": "30373938383834383136363332",
+          "contentType": "Text",
+          "lineCount": 2,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "",
+          "symbologyIdentifier": "]E0",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": ""
+        }
+      ]
+    },
+    {
+      "profileId": "2627",
+      "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "arm": "focused-limits-formats-addons",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true,
+        "formatLabel": "UPCA"
+      },
+      "results": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "bytesHex": "30373938383834383136363332",
+          "contentType": "Text",
+          "lineCount": 2,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "",
+          "symbologyIdentifier": "]E0",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": ""
+        }
+      ]
+    },
+    {
+      "profileId": "2628",
+      "itemKey": "actual-Chrome-supplement/actual-Chrome-ean13-2-07-full",
+      "arm": "focused-limits-formats-addons",
+      "mode": "raw",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": true,
+        "maxNumberOfSymbols": 255,
+        "minLineCount": 2,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Read",
+        "textMode": "HRI",
+        "binarizer": "LocalAverage",
+        "tryHarder": true,
+        "formatLabel": "UPCA"
+      },
+      "results": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "bytesHex": "30373938383834383136363332",
+          "contentType": "Text",
+          "lineCount": 2,
+          "isValid": true,
+          "error": "",
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "orientation": 0,
+          "ecLevel": "",
+          "symbologyIdentifier": "]E0",
+          "isMirrored": false,
+          "isInverted": false,
+          "extra": ""
+        }
+      ]
+    }
+  ],
+  "arms": {
+    "full-frozen-corpus/raw": {
+      "profiles": 1916,
+      "baselineStrictTargetProfiles": 1130,
+      "candidateStrictTargetProfiles": 1130,
+      "baselineStrictTargetDetections": 1130,
+      "candidateStrictTargetDetections": 1130
+    },
+    "focused-limits-formats-addons/raw": {
+      "profiles": 1872,
+      "baselineStrictTargetProfiles": 864,
+      "candidateStrictTargetProfiles": 864,
+      "baselineStrictTargetDetections": 936,
+      "candidateStrictTargetDetections": 936
+    },
+    "checksum-error-semantics/raw": {
+      "profiles": 16,
+      "baselineStrictTargetProfiles": 0,
+      "candidateStrictTargetProfiles": 0,
+      "baselineStrictTargetDetections": 0,
+      "candidateStrictTargetDetections": 0
+    },
+    "broader-no-code-controls/raw": {
+      "profiles": 40,
+      "baselineStrictTargetProfiles": 0,
+      "candidateStrictTargetProfiles": 0,
+      "baselineStrictTargetDetections": 0,
+      "candidateStrictTargetDetections": 0
+    },
+    "generated-72-format-matrix/raw": {
+      "profiles": 72,
+      "baselineStrictTargetProfiles": 44,
+      "candidateStrictTargetProfiles": 44,
+      "baselineStrictTargetDetections": 44,
+      "candidateStrictTargetDetections": 44
+    },
+    "generated-72-format-matrix/sdk-style-raster-inversion": {
+      "profiles": 72,
+      "baselineStrictTargetProfiles": 60,
+      "candidateStrictTargetProfiles": 60,
+      "baselineStrictTargetDetections": 60,
+      "candidateStrictTargetDetections": 60
+    }
+  },
+  "readerCalls": {
+    "released315": 4036,
+    "baseline": 4036,
+    "candidate": 4036,
+    "total": 12108
+  },
+  "warmDecodeMs": {
+    "released315": 6221.782999999925,
+    "baseline": 6148.1407000000145,
+    "candidate": 6237.310899999797
+  },
+  "knownFalse35": {
+    "baseline": 52,
+    "candidate": 52
+  },
+  "runtimeApproximation": {
+    "planFrozenAt": "2026-10-11T15:51:22.978Z",
+    "summaryFileLastWriteUtc": "2026-10-11T15:51:49.651Z",
+    "planToFinalWriteMs": 26673.473876953125,
+    "scope": "Approximate engine-initialization/evaluation/write interval after fixture preparation; filesystem timestamp, not an independently measured full-process wall time. Primary summary recordedAt is baseline-phase completion, not full-run completion."
+  },
+  "residualFalse07FormatLabels": {
+    "UPCA": 24
+  },
+  "limitations": [
+    "Payload-family presence and retained target geometry/count are checked only on this frozen option matrix.",
+    "Two correct-read line-support reductions are recorded; untested larger minLineCount policies may behave differently.",
+    "Diagnostic source-line changes are preserved in primary records; ignoring them here only classifies the observed difference.",
+    "No held-out corpus, browser integration, native memory-safety, real deployment, or Scandit comparison is established by this replay."
+  ]
+}

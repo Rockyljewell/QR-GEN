@@ -1,0 +1,51 @@
+{
+  "scope": "Geometric padding-only diagnostic. The crop uses exact actual captured pixels80,60,480,360; source pixels remain byte-identical. Full-frame per-rowhistogram depends on graypadding outside source.",
+  "sourceSha256": "63783fca63db9e02e42cd905cae39630fd68acdcdb5ba7bb265e5f5a076e7399",
+  "crop": {
+    "left": 80,
+    "top": 60,
+    "width": 480,
+    "height": 360,
+    "rgbaSha256": "d4efaeab768ea2163874c2b35c06673b105a0330d566ac093096db10cfde4d65"
+  },
+  "rows": [
+    {
+      "fullRow": 207,
+      "cropRow": 147,
+      "exactSameSourceLuminance": true,
+      "fullThreshold": 127,
+      "cropThreshold": 111,
+      "fullHistogramPeaks": [
+        2,
+        26
+      ],
+      "cropHistogramPeaks": [
+        2,
+        21
+      ],
+      "fullWords": [
+        "0798884816632"
+      ],
+      "cropWords": []
+    },
+    {
+      "fullRow": 209,
+      "cropRow": 149,
+      "exactSameSourceLuminance": true,
+      "fullThreshold": 127,
+      "cropThreshold": 119,
+      "fullHistogramPeaks": [
+        2,
+        26
+      ],
+      "cropHistogramPeaks": [
+        2,
+        21
+      ],
+      "fullWords": [
+        "0798884816632"
+      ],
+      "cropWords": []
+    }
+  ]
+}

@@ -1,0 +1,378 @@
+{
+  "scope": "Independent output-family supplement to literal format-name review; no decoder execution.",
+  "input": "$EVALUATION_OUTPUT",
+  "planSha256": "03eb911057351f594004eb3450f1a83b60e00360dbadefccda8d709e0403a4ab",
+  "literalReviewSha256": "c20afd02a3eeb5c5f0c41e3f59ab2fb819e21894a9a229e0bf48b4e9787f5902",
+  "reviewerSha256": "f88b97821f9e4ca2b267f124369a47a249dcbb55b91dbd3a52457251d0cceaf2",
+  "profileCount": 3988,
+  "familyDefinition": "EAN13, UPCA, UPCE, EAN8 and other tested formats require exact returned name. QRCodeModel1 and QRCodeModel2 are accepted as the upstream QRCode output family; no QR subtype equality claim is made.",
+  "expectedQrModelInputToQrCodeOutputProfiles": 24,
+  "unexpectedOutputFamilyProfiles": 0,
+  "lostExpectedTextFamilyByteProfiles": 0,
+  "retainedExpectedTargetGeometryOrCountChanges": 0,
+  "newTextFormatByteProfiles": 0,
+  "arms": {
+    "full-frozen-corpus/raw": {
+      "profiles": 1916,
+      "baselineStrictTargetProfiles": 1130,
+      "candidateStrictTargetProfiles": 1130,
+      "baselineStrictTargetDetections": 1130,
+      "candidateStrictTargetDetections": 1130
+    },
+    "focused-limits-formats-addons/raw": {
+      "profiles": 1872,
+      "baselineStrictTargetProfiles": 864,
+      "candidateStrictTargetProfiles": 864,
+      "baselineStrictTargetDetections": 936,
+      "candidateStrictTargetDetections": 936
+    },
+    "checksum-error-semantics/raw": {
+      "profiles": 16,
+      "baselineStrictTargetProfiles": 0,
+      "candidateStrictTargetProfiles": 0,
+      "baselineStrictTargetDetections": 0,
+      "candidateStrictTargetDetections": 0
+    },
+    "broader-no-code-controls/raw": {
+      "profiles": 40,
+      "baselineStrictTargetProfiles": 0,
+      "candidateStrictTargetProfiles": 0,
+      "baselineStrictTargetDetections": 0,
+      "candidateStrictTargetDetections": 0
+    },
+    "generated-72-format-matrix/raw": {
+      "profiles": 72,
+      "baselineStrictTargetProfiles": 56,
+      "candidateStrictTargetProfiles": 56,
+      "baselineStrictTargetDetections": 56,
+      "candidateStrictTargetDetections": 56
+    },
+    "generated-72-format-matrix/sdk-style-raster-inversion": {
+      "profiles": 72,
+      "baselineStrictTargetProfiles": 72,
+      "candidateStrictTargetProfiles": 72,
+      "baselineStrictTargetDetections": 72,
+      "candidateStrictTargetDetections": 72
+    }
+  },
+  "aliasProfiles": [
+    {
+      "profileId": "3844",
+      "itemKey": "generated-72-format-matrix/matrix-qr-0-normal",
+      "arm": "generated-72-format-matrix",
+      "mode": "raw",
+      "inputFormats": [
+        "QRCodeModel1",
+        "QRCodeModel2"
+      ],
+      "returnedFormats": [
+        "QRCode"
+      ]
+    },
+    {
+      "profileId": "3845",
+      "itemKey": "generated-72-format-matrix/matrix-qr-0-normal",
+      "arm": "generated-72-format-matrix",
+      "mode": "sdk-style-raster-inversion",
+      "inputFormats": [
+        "QRCodeModel1",
+        "QRCodeModel2"
+      ],
+      "returnedFormats": [
+        "QRCode"
+      ]
+    },
+    {
+      "profileId": "3846",
+      "itemKey": "generated-72-format-matrix/matrix-qr-0-lower-contrast",
+      "arm": "generated-72-format-matrix",
+      "mode": "raw",
+      "inputFormats": [
+        "QRCodeModel1",
+        "QRCodeModel2"
+      ],
+      "returnedFormats": [
+        "QRCode"
+      ]
+    },
+    {
+      "profileId": "3847",
+      "itemKey": "generated-72-format-matrix/matrix-qr-0-lower-contrast",
+      "arm": "generated-72-format-matrix",
+      "mode": "sdk-style-raster-inversion",
+      "inputFormats": [
+        "QRCodeModel1",
+        "QRCodeModel2"
+      ],
+      "returnedFormats": [
+        "QRCode"
+      ]
+    },
+    {
+      "profileId": "3848",
+      "itemKey": "generated-72-format-matrix/matrix-qr-0-inverted",
+      "arm": "generated-72-format-matrix",
+      "mode": "raw",
+      "inputFormats": [
+        "QRCodeModel1",
+        "QRCodeModel2"
+      ],
+      "returnedFormats": [
+        "QRCode"
+      ]
+    },
+    {
+      "profileId": "3849",
+      "itemKey": "generated-72-format-matrix/matrix-qr-0-inverted",
+      "arm": "generated-72-format-matrix",
+      "mode": "sdk-style-raster-inversion",
+      "inputFormats": [
+        "QRCodeModel1",
+        "QRCodeModel2"
+      ],
+      "returnedFormats": [
+        "QRCode"
+      ]
+    },
+    {
+      "profileId": "3850",
+      "itemKey": "generated-72-format-matrix/matrix-qr-90-normal",
+      "arm": "generated-72-format-matrix",
+      "mode": "raw",
+      "inputFormats": [
+        "QRCodeModel1",
+        "QRCodeModel2"
+      ],
+      "returnedFormats": [
+        "QRCode"
+      ]
+    },
+    {
+      "profileId": "3851",
+      "itemKey": "generated-72-format-matrix/matrix-qr-90-normal",
+      "arm": "generated-72-format-matrix",
+      "mode": "sdk-style-raster-inversion",
+      "inputFormats": [
+        "QRCodeModel1",
+        "QRCodeModel2"
+      ],
+      "returnedFormats": [
+        "QRCode"
+      ]
+    },
+    {
+      "profileId": "3852",
+      "itemKey": "generated-72-format-matrix/matrix-qr-90-lower-contrast",
+      "arm": "generated-72-format-matrix",
+      "mode": "raw",
+      "inputFormats": [
+        "QRCodeModel1",
+        "QRCodeModel2"
+      ],
+      "returnedFormats": [
+        "QRCode"
+      ]
+    },
+    {
+      "profileId": "3853",
+      "itemKey": "generated-72-format-matrix/matrix-qr-90-lower-contrast",
+      "arm": "generated-72-format-matrix",
+      "mode": "sdk-style-raster-inversion",
+      "inputFormats": [
+        "QRCodeModel1",
+        "QRCodeModel2"
+      ],
+      "returnedFormats": [
+        "QRCode"
+      ]
+    },
+    {
+      "profileId": "3854",
+      "itemKey": "generated-72-format-matrix/matrix-qr-90-inverted",
+      "arm": "generated-72-format-matrix",
+      "mode": "raw",
+      "inputFormats": [
+        "QRCodeModel1",
+        "QRCodeModel2"
+      ],
+      "returnedFormats": [
+        "QRCode"
+      ]
+    },
+    {
+      "profileId": "3855",
+      "itemKey": "generated-72-format-matrix/matrix-qr-90-inverted",
+      "arm": "generated-72-format-matrix",
+      "mode": "sdk-style-raster-inversion",
+      "inputFormats": [
+        "QRCodeModel1",
+        "QRCodeModel2"
+      ],
+      "returnedFormats": [
+        "QRCode"
+      ]
+    },
+    {
+      "profileId": "3856",
+      "itemKey": "generated-72-format-matrix/matrix-qr-180-normal",
+      "arm": "generated-72-format-matrix",
+      "mode": "raw",
+      "inputFormats": [
+        "QRCodeModel1",
+        "QRCodeModel2"
+      ],
+      "returnedFormats": [
+        "QRCode"
+      ]
+    },
+    {
+      "profileId": "3857",
+      "itemKey": "generated-72-format-matrix/matrix-qr-180-normal",
+      "arm": "generated-72-format-matrix",
+      "mode": "sdk-style-raster-inversion",
+      "inputFormats": [
+        "QRCodeModel1",
+        "QRCodeModel2"
+      ],
+      "returnedFormats": [
+        "QRCode"
+      ]
+    },
+    {
+      "profileId": "3858",
+      "itemKey": "generated-72-format-matrix/matrix-qr-180-lower-contrast",
+      "arm": "generated-72-format-matrix",
+      "mode": "raw",
+      "inputFormats": [
+        "QRCodeModel1",
+        "QRCodeModel2"
+      ],
+      "returnedFormats": [
+        "QRCode"
+      ]
+    },
+    {
+      "profileId": "3859",
+      "itemKey": "generated-72-format-matrix/matrix-qr-180-lower-contrast",
+      "arm": "generated-72-format-matrix",
+      "mode": "sdk-style-raster-inversion",
+      "inputFormats": [
+        "QRCodeModel1",
+        "QRCodeModel2"
+      ],
+      "returnedFormats": [
+        "QRCode"
+      ]
+    },
+    {
+      "profileId": "3860",
+      "itemKey": "generated-72-format-matrix/matrix-qr-180-inverted",
+      "arm": "generated-72-format-matrix",
+      "mode": "raw",
+      "inputFormats": [
+        "QRCodeModel1",
+        "QRCodeModel2"
+      ],
+      "returnedFormats": [
+        "QRCode"
+      ]
+    },
+    {
+      "profileId": "3861",
+      "itemKey": "generated-72-format-matrix/matrix-qr-180-inverted",
+      "arm": "generated-72-format-matrix",
+      "mode": "sdk-style-raster-inversion",
+      "inputFormats": [
+        "QRCodeModel1",
+        "QRCodeModel2"
+      ],
+      "returnedFormats": [
+        "QRCode"
+      ]
+    },
+    {
+      "profileId": "3862",
+      "itemKey": "generated-72-format-matrix/matrix-qr-270-normal",
+      "arm": "generated-72-format-matrix",
+      "mode": "raw",
+      "inputFormats": [
+        "QRCodeModel1",
+        "QRCodeModel2"
+      ],
+      "returnedFormats": [
+        "QRCode"
+      ]
+    },
+    {
+      "profileId": "3863",
+      "itemKey": "generated-72-format-matrix/matrix-qr-270-normal",
+      "arm": "generated-72-format-matrix",
+      "mode": "sdk-style-raster-inversion",
+      "inputFormats": [
+        "QRCodeModel1",
+        "QRCodeModel2"
+      ],
+      "returnedFormats": [
+        "QRCode"
+      ]
+    },
+    {
+      "profileId": "3864",
+      "itemKey": "generated-72-format-matrix/matrix-qr-270-lower-contrast",
+      "arm": "generated-72-format-matrix",
+      "mode": "raw",
+      "inputFormats": [
+        "QRCodeModel1",
+        "QRCodeModel2"
+      ],
+      "returnedFormats": [
+        "QRCode"
+      ]
+    },
+    {
+      "profileId": "3865",
+      "itemKey": "generated-72-format-matrix/matrix-qr-270-lower-contrast",
+      "arm": "generated-72-format-matrix",
+      "mode": "sdk-style-raster-inversion",
+      "inputFormats": [
+        "QRCodeModel1",
+        "QRCodeModel2"
+      ],
+      "returnedFormats": [
+        "QRCode"
+      ]
+    },
+    {
+      "profileId": "3866",
+      "itemKey": "generated-72-format-matrix/matrix-qr-270-inverted",
+      "arm": "generated-72-format-matrix",
+      "mode": "raw",
+      "inputFormats": [
+        "QRCodeModel1",
+        "QRCodeModel2"
+      ],
+      "returnedFormats": [
+        "QRCode"
+      ]
+    },
+    {
+      "profileId": "3867",
+      "itemKey": "generated-72-format-matrix/matrix-qr-270-inverted",
+      "arm": "generated-72-format-matrix",
+      "mode": "sdk-style-raster-inversion",
+      "inputFormats": [
+        "QRCodeModel1",
+        "QRCodeModel2"
+      ],
+      "returnedFormats": [
+        "QRCode"
+      ]
+    }
+  ],
+  "limitations": [
+    "Payload-family presence and retained target geometry/count are checked only on this frozen option matrix.",
+    "Two correct-read line-support reductions are recorded; untested larger minLineCount policies may behave differently.",
+    "Diagnostic source-line changes are preserved in primary records; ignoring them here only classifies the observed difference.",
+    "No held-out corpus, browser integration, native memory-safety, real deployment, or Scandit comparison is established by this replay."
+  ]
+}

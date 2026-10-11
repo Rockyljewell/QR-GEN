@@ -1,0 +1,34 @@
+{
+  "scope": "Independent artifact-only static/algorithm audit. The fixed-array C++ helper was translated faithfully into JavaScript and compared with the distinct-prefix word DP. No C++ compilation, patched-WASM execution, production edits, or GitHub mutations.",
+  "reviewedCandidateSha256": "b9cd713e52c5579fa9366f6b7c89f5012b10b1510a5c81fb01e2145f57cd46ce",
+  "reviewedPatchSha256": "f80daf81fe49616e59b250fac96e25a6c5d73ee5e59e6511cec5b98dc2bd7fae",
+  "pinnedCppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
+  "sourceFilesWithVerifiedHashes": 83,
+  "runnerSha256": "b8e902f15d16b18181c7f8e4de1f48ea62026b53276a0d98c5106542ee2f564f",
+  "oracleSha256": "5184bd620e5a6720e1928b5c5dac3d566792aa257ca7642cdd3a164a59b8b168",
+  "realRows": 238,
+  "syntheticCases": 2000,
+  "syntheticSeed": 1937121,
+  "denseAllPatternsCase": "pass",
+  "algorithmMismatches": 0,
+  "inspectedFrozenStudy": {
+    "planSha256": "a7b7a6fd788d1d54736e194d79bb363aafb3d1c0c50c03847bbad2c678c7c5d3",
+    "profiles": 942,
+    "baselineMismatches": 0,
+    "lostTargetPresence": 0,
+    "newOutputPayloadProfiles": 0
+  },
+  "findings": [
+    "Each full EAN13 word has a unique digit/parity table path; saturating path counts at two therefore counts distinct words correctly. Future suffix validity depends only on parity/checksum state, and after adding the leading digit only on checksum residue.",
+    "Exact shared float variance operations and strict initial threshold preserve baseline first-min selection. No epsilon or different-precision equality was introduced.",
+    "Pattern shifts are at most 19, left array indices at most 639, right array indices at most 9, and promoted additions are capped before uint8 conversion. Space/time are fixed and bounded.",
+    "Final row rejection occurs after optional add-on parsing and Require handling, preserving the baseline final cursor. Checksum-error results and explicit UPC-A-only converted results bypass rejection."
+  ],
+  "limitations": [
+    "Static inspection and translated-algorithm agreement do not prove C++ compilation, ABI, compiler float behavior, or actual patched-WASM decoding.",
+    "The 942-profile study covers EAN13 only, max255, minLineCount2, add-on Ignore, full resolution with downscale disabled. It cannot validate production max1/2, enabled downscale, other UPC/EAN families, or mixed-format scenes.",
+    "The diagnostic ports expose maxSymbols but do not implement all C++ early-exit or skip-vertical control flow. They must not be reused to validate max1/2 without a fresh exact baseline check.",
+    "Preserved row cursor prevents additional searches inside the consumed symbol, but row rejection can change adjacent check-row scheduling, line-count overlap competition, max-symbol early exit, vertical scanning and later inversion/downscale passes. Global output-subset or no-expanded-search claims are unproven.",
+    "EAN13-format rows can encode UPC-A/ISBN aliases. Explicit UPC-A-only conversion bypasses this candidate; mixed/all-format requests can retain EAN13 internally and be filtered."
+  ]
+}

@@ -1,0 +1,91 @@
+name: EAN13 ambiguity native diagnostic
+on:
+  push:
+    branches: [codex/ean-native-diagnostic]
+permissions:
+  contents: read
+concurrency:
+  group: ean-native-diagnostic-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [baseline, candidate]
+    env:
+      CPP_COMMIT: 2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4
+      DIAGNOSTIC: diagnostics/ean-native-ambiguity
+    steps:
+      - name: Set isolated output directory
+        shell: bash
+        run: echo "OUT=$RUNNER_TEMP/ean-native-${{ matrix.variant }}" >> "$GITHUB_ENV"
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Clone exact native source and record toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$OUT"
+          git init "$RUNNER_TEMP/zxing-cpp"
+          git -C "$RUNNER_TEMP/zxing-cpp" remote add origin https://github.com/zxing-cpp/zxing-cpp.git
+          git -C "$RUNNER_TEMP/zxing-cpp" fetch --depth=1 origin "$CPP_COMMIT"
+          git -C "$RUNNER_TEMP/zxing-cpp" checkout --detach FETCH_HEAD
+          git -C "$RUNNER_TEMP/zxing-cpp" submodule update --init --recursive
+          test "$(git -C "$RUNNER_TEMP/zxing-cpp" rev-parse HEAD)" = "$CPP_COMMIT"
+          test "$(git -C "$RUNNER_TEMP/zxing-cpp/zint" rev-parse HEAD)" = "55541e139e62b9209b71cd9b0ba9010cec28b1d9"
+          echo "84d85014bcef424e6457caeaa81a78498af2838354f50db41664f4ebac0be5e9  $RUNNER_TEMP/zxing-cpp/core/src/oned/ODMultiUPCEANReader.cpp" | sha256sum --check
+          echo "f80daf81fe49616e59b250fac96e25a6c5d73ee5e59e6511cec5b98dc2bd7fae  $GITHUB_WORKSPACE/$DIAGNOSTIC/ean13-whole-word-ambiguity.patch" | sha256sum --check
+          git -C "$RUNNER_TEMP/zxing-cpp" submodule status --recursive > "$OUT/submodule-status.txt"
+          cmake --version > "$OUT/cmake-version.txt"
+          c++ --version > "$OUT/cxx-version.txt"
+          python3 --version > "$OUT/python-version.txt"
+          cp "$GITHUB_WORKSPACE/$DIAGNOSTIC/patch-metadata.json" "$OUT/"
+      - name: Apply candidate and add test-only private-helper controls
+        if: matrix.variant == 'candidate'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git -C "$RUNNER_TEMP/zxing-cpp" apply --check "$GITHUB_WORKSPACE/$DIAGNOSTIC/ean13-whole-word-ambiguity.patch"
+          git -C "$RUNNER_TEMP/zxing-cpp" apply "$GITHUB_WORKSPACE/$DIAGNOSTIC/ean13-whole-word-ambiguity.patch"
+          echo "b9cd713e52c5579fa9366f6b7c89f5012b10b1510a5c81fb01e2145f57cd46ce  $RUNNER_TEMP/zxing-cpp/core/src/oned/ODMultiUPCEANReader.cpp" | sha256sum --check
+          python3 "$GITHUB_WORKSPACE/$DIAGNOSTIC/prepare-native-tests.py" "$RUNNER_TEMP/zxing-cpp" "$GITHUB_WORKSPACE/$DIAGNOSTIC/native-boundary-cases.json" "$OUT"
+          echo "b9cd713e52c5579fa9366f6b7c89f5012b10b1510a5c81fb01e2145f57cd46ce  $RUNNER_TEMP/zxing-cpp/core/src/oned/ODMultiUPCEANReader.cpp" | sha256sum --check
+          git -C "$RUNNER_TEMP/zxing-cpp" diff --binary > "$OUT/diagnostic.patch"
+          cp "$RUNNER_TEMP/zxing-cpp/test/unit/QRGenEANWordDiagnosticTest.cpp" "$OUT/"
+      - name: Configure complete upstream unit suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          cmake -S "$RUNNER_TEMP/zxing-cpp" -B "$RUNNER_TEMP/native-build" \
+            -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_STANDARD=20 \
+            -DZXING_READERS=ON -DZXING_WRITERS=BOTH -DZXING_EXPERIMENTAL_API=ON \
+            -DZXING_UNIT_TESTS=ON -DZXING_BLACKBOX_TESTS=OFF -DZXING_EXAMPLES=OFF \
+            -DZXING_C_API=ON -DZXING_DEPENDENCIES=GITHUB -DBUILD_SHARED_LIBS=OFF \
+            2>&1 | tee "$OUT/configure.log"
+          cp "$RUNNER_TEMP/native-build/CMakeCache.txt" "$OUT/"
+          git -C "$RUNNER_TEMP/native-build/_deps/googletest-src" rev-parse HEAD > "$OUT/googletest-commit.txt"
+      - name: Compile upstream unit suite and candidate controls
+        shell: bash
+        run: |
+          set -euo pipefail
+          cmake --build "$RUNNER_TEMP/native-build" --parallel 2 2>&1 | tee "$OUT/build.log"
+          "$RUNNER_TEMP/native-build/test/unit/UnitTest" --gtest_list_tests > "$OUT/google-test-list.txt"
+          ctest --test-dir "$RUNNER_TEMP/native-build" --show-only=json-v1 > "$OUT/ctest-list.json"
+      - name: Run actual native tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          export GTEST_OUTPUT="xml:$OUT/gtest.xml"
+          ctest --test-dir "$RUNNER_TEMP/native-build" -V --output-on-failure --output-junit "$OUT/ctest.xml" 2>&1 | tee "$OUT/ctest.log"
+          python3 "$GITHUB_WORKSPACE/$DIAGNOSTIC/summarize-native.py" "$OUT" "${{ matrix.variant }}"
+      - name: Upload diagnostic test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ean-native-${{ matrix.variant }}
+          path: ${{ runner.temp }}/ean-native-${{ matrix.variant }}
+          if-no-files-found: error

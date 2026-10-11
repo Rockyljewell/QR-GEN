@@ -15,3 +15,26 @@ docs/ean-linecount-study-2026-10-11/ZXING-REUSE-dep5.txt whitespace=-blank-at-eo
 docs/ean-uniform-policy-study-2026-10-11/** text eol=lf
 docs/ean-uniform-policy-study-2026-10-11/*.gz binary
 docs/ean-uniform-policy-study-2026-10-11/ZXING-REUSE-dep5.txt whitespace=-blank-at-eof
+
+# Preserve compiled-candidate and hosted evidence inventories exactly.
+docs/ean-source-mechanism-2026-10-11/** -text whitespace=cr-at-eol,-blank-at-eof
+docs/ean-source-mechanism-2026-10-11/**/*.gz binary
+docs/ean-source-mechanism-2026-10-11/**/*.png binary
+docs/ean-source-mechanism-2026-10-11/**/*.patch whitespace=cr-at-eol,-blank-at-eof,-trailing-space,-space-before-tab
+docs/ean-rebuilt-validation-2026-10-11/** -text whitespace=cr-at-eol,-blank-at-eof
+docs/ean-rebuilt-validation-2026-10-11/**/*.gz binary
+docs/ean-rebuilt-validation-2026-10-11/**/*.png binary
+docs/ean-rebuilt-validation-2026-10-11/**/*.patch whitespace=cr-at-eol,-blank-at-eof,-trailing-space,-space-before-tab
+docs/ean-native-validation-2026-10-11/** -text whitespace=cr-at-eol,-blank-at-eof
+docs/ean-native-validation-2026-10-11/**/*.gz binary
+docs/ean-native-validation-2026-10-11/**/*.png binary
+docs/ean-native-validation-2026-10-11/**/*.patch whitespace=cr-at-eol,-blank-at-eof,-trailing-space,-space-before-tab
+docs/ean-browser-rebuild-2026-10-11/** -text whitespace=cr-at-eol,-blank-at-eof
+docs/ean-browser-rebuild-2026-10-11/**/*.gz binary
+docs/ean-browser-rebuild-2026-10-11/**/*.png binary
+docs/ean-browser-rebuild-2026-10-11/**/*.patch whitespace=cr-at-eol,-blank-at-eof,-trailing-space,-space-before-tab
+docs/retail-state-postdeploy-2026-10-11/** -text whitespace=cr-at-eol,-blank-at-eof
+docs/retail-state-postdeploy-2026-10-11/**/*.gz binary
+docs/retail-state-postdeploy-2026-10-11/**/*.png binary
+docs/retail-state-postdeploy-2026-10-11/**/*.patch whitespace=cr-at-eol,-blank-at-eof,-trailing-space,-space-before-tab
+docs/ean-native-validation-2026-10-11/**/ctest-list.json whitespace=cr-at-eol,-blank-at-eof,-trailing-space

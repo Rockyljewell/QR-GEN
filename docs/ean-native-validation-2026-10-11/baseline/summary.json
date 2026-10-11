@@ -1,0 +1,14 @@
+{
+  "scope": "Actual native C++ upstream GoogleTest suite; candidate adds extracted-private-helper controls. Blackbox/photo quality is evaluated separately.",
+  "variant": "baseline",
+  "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
+  "googleTest": {
+    "tests": 312,
+    "failures": 0,
+    "disabled": 0,
+    "errors": 0
+  },
+  "ctestEntries": 2,
+  "ctestFailures": 0,
+  "registeredGoogleTestSuites": 59
+}

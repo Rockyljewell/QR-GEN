@@ -1,0 +1,3761 @@
+{
+  "protocolSha256": "976af37292c131e469e60d05e9ae7b1361dd9d0aedca0eb184c500a3d20fad25",
+  "startedAt": "2026-10-11T15:55:41.700Z",
+  "status": "passed",
+  "provenance": {
+    "run": 38152527079,
+    "head": "3cfe7298c1d92eb2d4ac56158a1bfcd51275f070",
+    "upstreamCommit": "b7dcf63aefc7b94fb97ba09e9b1fb213d9399f54",
+    "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
+    "variants": {
+      "baseline": {
+        "artifactId": 11707386971,
+        "artifactZipSha256": "5a977f4f3388d0f11b0e18ca52416ca1b9e28a1bf784d6ed1e0f4e732a7a0c6c",
+        "buildEvidence": {
+          "scope": "Isolated rebuild and blank-image smoke only. Not corpus validation or production code.",
+          "recordedAt": "2026-10-11T15:47:19.408Z",
+          "variant": "baseline",
+          "node": "v22.14.0",
+          "readerVersion": "3.1.5",
+          "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
+          "wasmSha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+          "matchedWrapperSha256": "3c364d8477404a513d7c0629b1cf9e63ae11e01f9746146d3574f8b10a122320",
+          "releasedReaderWasmSha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+          "blankResult": [],
+          "matchesReleasedWasm": true
+        }
+      },
+      "candidate": {
+        "artifactId": 11707446910,
+        "artifactZipSha256": "fda7d5c917c4dc2fc28092b64fc4f605bcbf126f2db9da043bcb2774f1b4283b",
+        "buildEvidence": {
+          "scope": "Isolated rebuild and blank-image smoke only. Not corpus validation or production code.",
+          "recordedAt": "2026-10-11T15:46:39.790Z",
+          "variant": "candidate",
+          "node": "v22.14.0",
+          "readerVersion": "3.1.5",
+          "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
+          "wasmSha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+          "matchedWrapperSha256": "616a6837775f252ae1468667ad76693ae77f938f06192d6ae7cad2cf26639298",
+          "releasedReaderWasmSha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+          "blankResult": [],
+          "matchesReleasedWasm": false
+        }
+      }
+    }
+  },
+  "assetsAtStart": {
+    "/builds/baseline/zxing_reader.wasm": {
+      "sha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+      "bytes": 966895
+    },
+    "/builds/baseline/matched-emscripten-glue.js": {
+      "sha256": "1355cda0b9a596e528a4bef37a33543bd4594cc5e66a0240dd5334b7fd565cfe",
+      "bytes": 58414
+    },
+    "/builds/baseline/dist/es/full/index.js": {
+      "sha256": "0ab3560f8d8eebbe139d4180eb5f7541424758b071f00438e25bd9f7fa1fd859",
+      "bytes": 43906
+    },
+    "/builds/baseline/dist/es/reader/index.js": {
+      "sha256": "3c364d8477404a513d7c0629b1cf9e63ae11e01f9746146d3574f8b10a122320",
+      "bytes": 40597
+    },
+    "/builds/baseline/dist/es/share.js": {
+      "sha256": "68b09047a19c17ba74c0bf7e0a4341e77d46b36ae1cae4bdcca31d0c6757f3f2",
+      "bytes": 10947
+    },
+    "/builds/baseline/dist/es/writer/index.js": {
+      "sha256": "2adfe6c3366581725bbfb1ae9f9ce553b6e7244d21ec41c464690d0e1585660e",
+      "bytes": 29313
+    },
+    "/builds/candidate/zxing_reader.wasm": {
+      "sha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+      "bytes": 969380
+    },
+    "/builds/candidate/matched-emscripten-glue.js": {
+      "sha256": "44c9d31d2d7e3021a2a8a844fdefe5b163f141f97e9f22ad57e7edb50f89401e",
+      "bytes": 58414
+    },
+    "/builds/candidate/dist/es/full/index.js": {
+      "sha256": "f056375bc49dd31463e408f950fbb7543ddc1ed2b08178c6eb8da6a03be34633",
+      "bytes": 43906
+    },
+    "/builds/candidate/dist/es/reader/index.js": {
+      "sha256": "616a6837775f252ae1468667ad76693ae77f938f06192d6ae7cad2cf26639298",
+      "bytes": 40597
+    },
+    "/builds/candidate/dist/es/share.js": {
+      "sha256": "68b09047a19c17ba74c0bf7e0a4341e77d46b36ae1cae4bdcca31d0c6757f3f2",
+      "bytes": 10947
+    },
+    "/builds/candidate/dist/es/writer/index.js": {
+      "sha256": "2adfe6c3366581725bbfb1ae9f9ce553b6e7244d21ec41c464690d0e1585660e",
+      "bytes": 29313
+    }
+  },
+  "fixtures": {
+    "actual-Chrome-ean13-2-07-full.png": {
+      "sha256": "63783fca63db9e02e42cd905cae39630fd68acdcdb5ba7bb265e5f5a076e7399",
+      "bytes": 193449
+    },
+    "clean-ean13.png": {
+      "sha256": "5ea0cc8106ffd6d02d6d169c18d6ee9dd827ea8c9cb5ae7fb3f16ca696b8e404",
+      "bytes": 814
+    },
+    "clean-qr.png": {
+      "sha256": "e5b3bcb23eac348a577dbcc891d7e1771ec0256da59e3c0366faab56a5b0686f",
+      "bytes": 580
+    },
+    "clean-upca.png": {
+      "sha256": "e292d6fe54a6a69cde24b21ac8c139fe3ee5e16785b81fbfa4edbba8fb38a73b",
+      "bytes": 829
+    }
+  },
+  "runs": [
+    {
+      "variant": "baseline",
+      "execution": "main",
+      "case": "actual-ean-invert-true-downscale-true",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "EAN13",
+          "text": "0798884816632"
+        }
+      ],
+      "elapsedMs": 11.399999976158142,
+      "barcodes": [
+        {
+          "text": "0798884816632",
+          "format": "EAN13",
+          "isValid": true,
+          "error": "",
+          "lineCount": 2,
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "bytesHex": "30373938383834383136363332"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "baseline",
+      "execution": "main",
+      "case": "actual-ean-invert-true-downscale-false",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "EAN13",
+          "text": "0798884816632"
+        }
+      ],
+      "elapsedMs": 3.100000023841858,
+      "barcodes": [
+        {
+          "text": "0798884816632",
+          "format": "EAN13",
+          "isValid": true,
+          "error": "",
+          "lineCount": 2,
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "bytesHex": "30373938383834383136363332"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "baseline",
+      "execution": "main",
+      "case": "actual-ean-invert-false-downscale-true",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "EAN13",
+          "text": "0798884816632"
+        }
+      ],
+      "elapsedMs": 4,
+      "barcodes": [
+        {
+          "text": "0798884816632",
+          "format": "EAN13",
+          "isValid": true,
+          "error": "",
+          "lineCount": 2,
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "bytesHex": "30373938383834383136363332"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "baseline",
+      "execution": "main",
+      "case": "actual-ean-invert-false-downscale-false",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "EAN13",
+          "text": "0798884816632"
+        }
+      ],
+      "elapsedMs": 2.900000035762787,
+      "barcodes": [
+        {
+          "text": "0798884816632",
+          "format": "EAN13",
+          "isValid": true,
+          "error": "",
+          "lineCount": 2,
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "bytesHex": "30373938383834383136363332"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "baseline",
+      "execution": "main",
+      "case": "actual-upca-only-downscale-true",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "UPCA",
+          "text": "0798884816632"
+        }
+      ],
+      "elapsedMs": 3.5,
+      "barcodes": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "isValid": true,
+          "error": "",
+          "lineCount": 2,
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "bytesHex": "30373938383834383136363332"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "baseline",
+      "execution": "main",
+      "case": "actual-upca-only-downscale-false",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "UPCA",
+          "text": "0798884816632"
+        }
+      ],
+      "elapsedMs": 3.300000011920929,
+      "barcodes": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "isValid": true,
+          "error": "",
+          "lineCount": 2,
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "bytesHex": "30373938383834383136363332"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "baseline",
+      "execution": "main",
+      "case": "clean-ean13",
+      "frame": "cleanEAN",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "EAN13",
+          "text": "5901234123457"
+        }
+      ],
+      "elapsedMs": 1.199999988079071,
+      "barcodes": [
+        {
+          "text": "5901234123457",
+          "format": "EAN13",
+          "isValid": true,
+          "error": "",
+          "lineCount": 150,
+          "position": {
+            "topLeft": {
+              "x": 33,
+              "y": 0
+            },
+            "topRight": {
+              "x": 317,
+              "y": 0
+            },
+            "bottomRight": {
+              "x": 317,
+              "y": 149
+            },
+            "bottomLeft": {
+              "x": 33,
+              "y": 149
+            }
+          },
+          "bytesHex": "35393031323334313233343537"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "baseline",
+      "execution": "main",
+      "case": "clean-qr",
+      "frame": "cleanQR",
+      "options": {
+        "formats": [
+          "QRCode"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "QRCode",
+          "text": "QRGEN-RAW-READER-CONTROL-20261011"
+        }
+      ],
+      "elapsedMs": 4.5,
+      "barcodes": [
+        {
+          "text": "QRGEN-RAW-READER-CONTROL-20261011",
+          "format": "QRCode",
+          "isValid": true,
+          "error": "",
+          "lineCount": 0,
+          "position": {
+            "topLeft": {
+              "x": 12,
+              "y": 12
+            },
+            "topRight": {
+              "x": 87,
+              "y": 12
+            },
+            "bottomRight": {
+              "x": 87,
+              "y": 87
+            },
+            "bottomLeft": {
+              "x": 12,
+              "y": 87
+            }
+          },
+          "bytesHex": "515247454e2d5241572d5245414445522d434f4e54524f4c2d3230323631303131"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "baseline",
+      "execution": "main",
+      "case": "clean-upca-only",
+      "frame": "cleanUPC",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "UPCA",
+          "text": "0012345678905"
+        }
+      ],
+      "elapsedMs": 1.7999999523162842,
+      "barcodes": [
+        {
+          "text": "0012345678905",
+          "format": "UPCA",
+          "isValid": true,
+          "error": "",
+          "lineCount": 150,
+          "position": {
+            "topLeft": {
+              "x": 27,
+              "y": 0
+            },
+            "topRight": {
+              "x": 311,
+              "y": 0
+            },
+            "bottomRight": {
+              "x": 311,
+              "y": 149
+            },
+            "bottomLeft": {
+              "x": 27,
+              "y": 149
+            }
+          },
+          "bytesHex": "30303132333435363738393035"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "baseline",
+      "execution": "main",
+      "case": "clean-ean13-upca-only-scope",
+      "frame": "cleanEAN",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [],
+      "elapsedMs": 1.300000011920929,
+      "barcodes": [],
+      "expectationPassed": true
+    },
+    {
+      "variant": "baseline",
+      "execution": "main",
+      "case": "no-code",
+      "frame": "blank",
+      "options": {
+        "formats": [
+          "EAN13",
+          "QRCode",
+          "UPCA"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [],
+      "elapsedMs": 5.400000035762787,
+      "barcodes": [],
+      "expectationPassed": true
+    },
+    {
+      "variant": "baseline",
+      "execution": "main",
+      "case": "mixed-clean-ean13-qr",
+      "frame": "mixedClean",
+      "options": {
+        "formats": [
+          "EAN13",
+          "QRCode"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "EAN13",
+          "text": "5901234123457"
+        },
+        {
+          "format": "QRCode",
+          "text": "QRGEN-RAW-READER-CONTROL-20261011"
+        }
+      ],
+      "elapsedMs": 6,
+      "barcodes": [
+        {
+          "text": "QRGEN-RAW-READER-CONTROL-20261011",
+          "format": "QRCode",
+          "isValid": true,
+          "error": "",
+          "lineCount": 0,
+          "position": {
+            "topLeft": {
+              "x": 36,
+              "y": 32
+            },
+            "topRight": {
+              "x": 111,
+              "y": 32
+            },
+            "bottomRight": {
+              "x": 111,
+              "y": 107
+            },
+            "bottomLeft": {
+              "x": 36,
+              "y": 107
+            }
+          },
+          "bytesHex": "515247454e2d5241572d5245414445522d434f4e54524f4c2d3230323631303131"
+        },
+        {
+          "text": "5901234123457",
+          "format": "EAN13",
+          "isValid": true,
+          "error": "",
+          "lineCount": 150,
+          "position": {
+            "topLeft": {
+              "x": 133,
+              "y": 300
+            },
+            "topRight": {
+              "x": 417,
+              "y": 300
+            },
+            "bottomRight": {
+              "x": 417,
+              "y": 449
+            },
+            "bottomLeft": {
+              "x": 133,
+              "y": 449
+            }
+          },
+          "bytesHex": "35393031323334313233343537"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "baseline",
+      "execution": "main",
+      "case": "mixed-actual-qr-invert-true",
+      "frame": "mixedActual",
+      "options": {
+        "formats": [
+          "EAN13",
+          "QRCode"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "EAN13",
+          "text": "0798884816632"
+        },
+        {
+          "format": "QRCode",
+          "text": "QRGEN-RAW-READER-CONTROL-20261011"
+        }
+      ],
+      "elapsedMs": 5.399999976158142,
+      "barcodes": [
+        {
+          "text": "QRGEN-RAW-READER-CONTROL-20261011",
+          "format": "QRCode",
+          "isValid": true,
+          "error": "",
+          "lineCount": 0,
+          "position": {
+            "topLeft": {
+              "x": 36,
+              "y": 32
+            },
+            "topRight": {
+              "x": 111,
+              "y": 32
+            },
+            "bottomRight": {
+              "x": 111,
+              "y": 107
+            },
+            "bottomLeft": {
+              "x": 36,
+              "y": 107
+            }
+          },
+          "bytesHex": "515247454e2d5241572d5245414445522d434f4e54524f4c2d3230323631303131"
+        },
+        {
+          "text": "0798884816632",
+          "format": "EAN13",
+          "isValid": true,
+          "error": "",
+          "lineCount": 2,
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "bytesHex": "30373938383834383136363332"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "baseline",
+      "execution": "main",
+      "case": "mixed-actual-qr-invert-false",
+      "frame": "mixedActual",
+      "options": {
+        "formats": [
+          "EAN13",
+          "QRCode"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "EAN13",
+          "text": "0798884816632"
+        },
+        {
+          "format": "QRCode",
+          "text": "QRGEN-RAW-READER-CONTROL-20261011"
+        }
+      ],
+      "elapsedMs": 4.799999952316284,
+      "barcodes": [
+        {
+          "text": "QRGEN-RAW-READER-CONTROL-20261011",
+          "format": "QRCode",
+          "isValid": true,
+          "error": "",
+          "lineCount": 0,
+          "position": {
+            "topLeft": {
+              "x": 36,
+              "y": 32
+            },
+            "topRight": {
+              "x": 111,
+              "y": 32
+            },
+            "bottomRight": {
+              "x": 111,
+              "y": 107
+            },
+            "bottomLeft": {
+              "x": 36,
+              "y": 107
+            }
+          },
+          "bytesHex": "515247454e2d5241572d5245414445522d434f4e54524f4c2d3230323631303131"
+        },
+        {
+          "text": "0798884816632",
+          "format": "EAN13",
+          "isValid": true,
+          "error": "",
+          "lineCount": 2,
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "bytesHex": "30373938383834383136363332"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "baseline",
+      "execution": "worker",
+      "case": "actual-ean-invert-true-downscale-true",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "EAN13",
+          "text": "0798884816632"
+        }
+      ],
+      "elapsedMs": 5.199999988079071,
+      "barcodes": [
+        {
+          "text": "0798884816632",
+          "format": "EAN13",
+          "isValid": true,
+          "error": "",
+          "lineCount": 2,
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "bytesHex": "30373938383834383136363332"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "baseline",
+      "execution": "worker",
+      "case": "actual-ean-invert-true-downscale-false",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "EAN13",
+          "text": "0798884816632"
+        }
+      ],
+      "elapsedMs": 3.199999988079071,
+      "barcodes": [
+        {
+          "text": "0798884816632",
+          "format": "EAN13",
+          "isValid": true,
+          "error": "",
+          "lineCount": 2,
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "bytesHex": "30373938383834383136363332"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "baseline",
+      "execution": "worker",
+      "case": "actual-ean-invert-false-downscale-true",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "EAN13",
+          "text": "0798884816632"
+        }
+      ],
+      "elapsedMs": 4.100000023841858,
+      "barcodes": [
+        {
+          "text": "0798884816632",
+          "format": "EAN13",
+          "isValid": true,
+          "error": "",
+          "lineCount": 2,
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "bytesHex": "30373938383834383136363332"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "baseline",
+      "execution": "worker",
+      "case": "actual-ean-invert-false-downscale-false",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "EAN13",
+          "text": "0798884816632"
+        }
+      ],
+      "elapsedMs": 3,
+      "barcodes": [
+        {
+          "text": "0798884816632",
+          "format": "EAN13",
+          "isValid": true,
+          "error": "",
+          "lineCount": 2,
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "bytesHex": "30373938383834383136363332"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "baseline",
+      "execution": "worker",
+      "case": "actual-upca-only-downscale-true",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "UPCA",
+          "text": "0798884816632"
+        }
+      ],
+      "elapsedMs": 3.300000011920929,
+      "barcodes": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "isValid": true,
+          "error": "",
+          "lineCount": 2,
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "bytesHex": "30373938383834383136363332"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "baseline",
+      "execution": "worker",
+      "case": "actual-upca-only-downscale-false",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "UPCA",
+          "text": "0798884816632"
+        }
+      ],
+      "elapsedMs": 2.800000011920929,
+      "barcodes": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "isValid": true,
+          "error": "",
+          "lineCount": 2,
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "bytesHex": "30373938383834383136363332"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "baseline",
+      "execution": "worker",
+      "case": "clean-ean13",
+      "frame": "cleanEAN",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "EAN13",
+          "text": "5901234123457"
+        }
+      ],
+      "elapsedMs": 1.5,
+      "barcodes": [
+        {
+          "text": "5901234123457",
+          "format": "EAN13",
+          "isValid": true,
+          "error": "",
+          "lineCount": 150,
+          "position": {
+            "topLeft": {
+              "x": 33,
+              "y": 0
+            },
+            "topRight": {
+              "x": 317,
+              "y": 0
+            },
+            "bottomRight": {
+              "x": 317,
+              "y": 149
+            },
+            "bottomLeft": {
+              "x": 33,
+              "y": 149
+            }
+          },
+          "bytesHex": "35393031323334313233343537"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "baseline",
+      "execution": "worker",
+      "case": "clean-qr",
+      "frame": "cleanQR",
+      "options": {
+        "formats": [
+          "QRCode"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "QRCode",
+          "text": "QRGEN-RAW-READER-CONTROL-20261011"
+        }
+      ],
+      "elapsedMs": 0.8999999761581421,
+      "barcodes": [
+        {
+          "text": "QRGEN-RAW-READER-CONTROL-20261011",
+          "format": "QRCode",
+          "isValid": true,
+          "error": "",
+          "lineCount": 0,
+          "position": {
+            "topLeft": {
+              "x": 12,
+              "y": 12
+            },
+            "topRight": {
+              "x": 87,
+              "y": 12
+            },
+            "bottomRight": {
+              "x": 87,
+              "y": 87
+            },
+            "bottomLeft": {
+              "x": 12,
+              "y": 87
+            }
+          },
+          "bytesHex": "515247454e2d5241572d5245414445522d434f4e54524f4c2d3230323631303131"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "baseline",
+      "execution": "worker",
+      "case": "clean-upca-only",
+      "frame": "cleanUPC",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "UPCA",
+          "text": "0012345678905"
+        }
+      ],
+      "elapsedMs": 1.4000000357627869,
+      "barcodes": [
+        {
+          "text": "0012345678905",
+          "format": "UPCA",
+          "isValid": true,
+          "error": "",
+          "lineCount": 150,
+          "position": {
+            "topLeft": {
+              "x": 27,
+              "y": 0
+            },
+            "topRight": {
+              "x": 311,
+              "y": 0
+            },
+            "bottomRight": {
+              "x": 311,
+              "y": 149
+            },
+            "bottomLeft": {
+              "x": 27,
+              "y": 149
+            }
+          },
+          "bytesHex": "30303132333435363738393035"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "baseline",
+      "execution": "worker",
+      "case": "clean-ean13-upca-only-scope",
+      "frame": "cleanEAN",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [],
+      "elapsedMs": 1,
+      "barcodes": [],
+      "expectationPassed": true
+    },
+    {
+      "variant": "baseline",
+      "execution": "worker",
+      "case": "no-code",
+      "frame": "blank",
+      "options": {
+        "formats": [
+          "EAN13",
+          "QRCode",
+          "UPCA"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [],
+      "elapsedMs": 4.100000023841858,
+      "barcodes": [],
+      "expectationPassed": true
+    },
+    {
+      "variant": "baseline",
+      "execution": "worker",
+      "case": "mixed-clean-ean13-qr",
+      "frame": "mixedClean",
+      "options": {
+        "formats": [
+          "EAN13",
+          "QRCode"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "EAN13",
+          "text": "5901234123457"
+        },
+        {
+          "format": "QRCode",
+          "text": "QRGEN-RAW-READER-CONTROL-20261011"
+        }
+      ],
+      "elapsedMs": 5.5,
+      "barcodes": [
+        {
+          "text": "QRGEN-RAW-READER-CONTROL-20261011",
+          "format": "QRCode",
+          "isValid": true,
+          "error": "",
+          "lineCount": 0,
+          "position": {
+            "topLeft": {
+              "x": 36,
+              "y": 32
+            },
+            "topRight": {
+              "x": 111,
+              "y": 32
+            },
+            "bottomRight": {
+              "x": 111,
+              "y": 107
+            },
+            "bottomLeft": {
+              "x": 36,
+              "y": 107
+            }
+          },
+          "bytesHex": "515247454e2d5241572d5245414445522d434f4e54524f4c2d3230323631303131"
+        },
+        {
+          "text": "5901234123457",
+          "format": "EAN13",
+          "isValid": true,
+          "error": "",
+          "lineCount": 150,
+          "position": {
+            "topLeft": {
+              "x": 133,
+              "y": 300
+            },
+            "topRight": {
+              "x": 417,
+              "y": 300
+            },
+            "bottomRight": {
+              "x": 417,
+              "y": 449
+            },
+            "bottomLeft": {
+              "x": 133,
+              "y": 449
+            }
+          },
+          "bytesHex": "35393031323334313233343537"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "baseline",
+      "execution": "worker",
+      "case": "mixed-actual-qr-invert-true",
+      "frame": "mixedActual",
+      "options": {
+        "formats": [
+          "EAN13",
+          "QRCode"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "EAN13",
+          "text": "0798884816632"
+        },
+        {
+          "format": "QRCode",
+          "text": "QRGEN-RAW-READER-CONTROL-20261011"
+        }
+      ],
+      "elapsedMs": 4.600000023841858,
+      "barcodes": [
+        {
+          "text": "QRGEN-RAW-READER-CONTROL-20261011",
+          "format": "QRCode",
+          "isValid": true,
+          "error": "",
+          "lineCount": 0,
+          "position": {
+            "topLeft": {
+              "x": 36,
+              "y": 32
+            },
+            "topRight": {
+              "x": 111,
+              "y": 32
+            },
+            "bottomRight": {
+              "x": 111,
+              "y": 107
+            },
+            "bottomLeft": {
+              "x": 36,
+              "y": 107
+            }
+          },
+          "bytesHex": "515247454e2d5241572d5245414445522d434f4e54524f4c2d3230323631303131"
+        },
+        {
+          "text": "0798884816632",
+          "format": "EAN13",
+          "isValid": true,
+          "error": "",
+          "lineCount": 2,
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "bytesHex": "30373938383834383136363332"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "baseline",
+      "execution": "worker",
+      "case": "mixed-actual-qr-invert-false",
+      "frame": "mixedActual",
+      "options": {
+        "formats": [
+          "EAN13",
+          "QRCode"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "EAN13",
+          "text": "0798884816632"
+        },
+        {
+          "format": "QRCode",
+          "text": "QRGEN-RAW-READER-CONTROL-20261011"
+        }
+      ],
+      "elapsedMs": 4.300000011920929,
+      "barcodes": [
+        {
+          "text": "QRGEN-RAW-READER-CONTROL-20261011",
+          "format": "QRCode",
+          "isValid": true,
+          "error": "",
+          "lineCount": 0,
+          "position": {
+            "topLeft": {
+              "x": 36,
+              "y": 32
+            },
+            "topRight": {
+              "x": 111,
+              "y": 32
+            },
+            "bottomRight": {
+              "x": 111,
+              "y": 107
+            },
+            "bottomLeft": {
+              "x": 36,
+              "y": 107
+            }
+          },
+          "bytesHex": "515247454e2d5241572d5245414445522d434f4e54524f4c2d3230323631303131"
+        },
+        {
+          "text": "0798884816632",
+          "format": "EAN13",
+          "isValid": true,
+          "error": "",
+          "lineCount": 2,
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "bytesHex": "30373938383834383136363332"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "main",
+      "case": "actual-ean-invert-true-downscale-true",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [],
+      "elapsedMs": 9.800000011920929,
+      "barcodes": [],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "main",
+      "case": "actual-ean-invert-true-downscale-false",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [],
+      "elapsedMs": 3.599999964237213,
+      "barcodes": [],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "main",
+      "case": "actual-ean-invert-false-downscale-true",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [],
+      "elapsedMs": 3.400000035762787,
+      "barcodes": [],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "main",
+      "case": "actual-ean-invert-false-downscale-false",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [],
+      "elapsedMs": 2.800000011920929,
+      "barcodes": [],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "main",
+      "case": "actual-upca-only-downscale-true",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "UPCA",
+          "text": "0798884816632"
+        }
+      ],
+      "elapsedMs": 5,
+      "barcodes": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "isValid": true,
+          "error": "",
+          "lineCount": 2,
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "bytesHex": "30373938383834383136363332"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "main",
+      "case": "actual-upca-only-downscale-false",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "UPCA",
+          "text": "0798884816632"
+        }
+      ],
+      "elapsedMs": 3.100000023841858,
+      "barcodes": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "isValid": true,
+          "error": "",
+          "lineCount": 2,
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "bytesHex": "30373938383834383136363332"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "main",
+      "case": "clean-ean13",
+      "frame": "cleanEAN",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "EAN13",
+          "text": "5901234123457"
+        }
+      ],
+      "elapsedMs": 1.300000011920929,
+      "barcodes": [
+        {
+          "text": "5901234123457",
+          "format": "EAN13",
+          "isValid": true,
+          "error": "",
+          "lineCount": 150,
+          "position": {
+            "topLeft": {
+              "x": 33,
+              "y": 0
+            },
+            "topRight": {
+              "x": 317,
+              "y": 0
+            },
+            "bottomRight": {
+              "x": 317,
+              "y": 149
+            },
+            "bottomLeft": {
+              "x": 33,
+              "y": 149
+            }
+          },
+          "bytesHex": "35393031323334313233343537"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "main",
+      "case": "clean-qr",
+      "frame": "cleanQR",
+      "options": {
+        "formats": [
+          "QRCode"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "QRCode",
+          "text": "QRGEN-RAW-READER-CONTROL-20261011"
+        }
+      ],
+      "elapsedMs": 3.699999988079071,
+      "barcodes": [
+        {
+          "text": "QRGEN-RAW-READER-CONTROL-20261011",
+          "format": "QRCode",
+          "isValid": true,
+          "error": "",
+          "lineCount": 0,
+          "position": {
+            "topLeft": {
+              "x": 12,
+              "y": 12
+            },
+            "topRight": {
+              "x": 87,
+              "y": 12
+            },
+            "bottomRight": {
+              "x": 87,
+              "y": 87
+            },
+            "bottomLeft": {
+              "x": 12,
+              "y": 87
+            }
+          },
+          "bytesHex": "515247454e2d5241572d5245414445522d434f4e54524f4c2d3230323631303131"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "main",
+      "case": "clean-upca-only",
+      "frame": "cleanUPC",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "UPCA",
+          "text": "0012345678905"
+        }
+      ],
+      "elapsedMs": 1.0999999642372131,
+      "barcodes": [
+        {
+          "text": "0012345678905",
+          "format": "UPCA",
+          "isValid": true,
+          "error": "",
+          "lineCount": 150,
+          "position": {
+            "topLeft": {
+              "x": 27,
+              "y": 0
+            },
+            "topRight": {
+              "x": 311,
+              "y": 0
+            },
+            "bottomRight": {
+              "x": 311,
+              "y": 149
+            },
+            "bottomLeft": {
+              "x": 27,
+              "y": 149
+            }
+          },
+          "bytesHex": "30303132333435363738393035"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "main",
+      "case": "clean-ean13-upca-only-scope",
+      "frame": "cleanEAN",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [],
+      "elapsedMs": 1,
+      "barcodes": [],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "main",
+      "case": "no-code",
+      "frame": "blank",
+      "options": {
+        "formats": [
+          "EAN13",
+          "QRCode",
+          "UPCA"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [],
+      "elapsedMs": 4.699999988079071,
+      "barcodes": [],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "main",
+      "case": "mixed-clean-ean13-qr",
+      "frame": "mixedClean",
+      "options": {
+        "formats": [
+          "EAN13",
+          "QRCode"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "EAN13",
+          "text": "5901234123457"
+        },
+        {
+          "format": "QRCode",
+          "text": "QRGEN-RAW-READER-CONTROL-20261011"
+        }
+      ],
+      "elapsedMs": 5.899999976158142,
+      "barcodes": [
+        {
+          "text": "QRGEN-RAW-READER-CONTROL-20261011",
+          "format": "QRCode",
+          "isValid": true,
+          "error": "",
+          "lineCount": 0,
+          "position": {
+            "topLeft": {
+              "x": 36,
+              "y": 32
+            },
+            "topRight": {
+              "x": 111,
+              "y": 32
+            },
+            "bottomRight": {
+              "x": 111,
+              "y": 107
+            },
+            "bottomLeft": {
+              "x": 36,
+              "y": 107
+            }
+          },
+          "bytesHex": "515247454e2d5241572d5245414445522d434f4e54524f4c2d3230323631303131"
+        },
+        {
+          "text": "5901234123457",
+          "format": "EAN13",
+          "isValid": true,
+          "error": "",
+          "lineCount": 150,
+          "position": {
+            "topLeft": {
+              "x": 133,
+              "y": 300
+            },
+            "topRight": {
+              "x": 417,
+              "y": 300
+            },
+            "bottomRight": {
+              "x": 417,
+              "y": 449
+            },
+            "bottomLeft": {
+              "x": 133,
+              "y": 449
+            }
+          },
+          "bytesHex": "35393031323334313233343537"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "main",
+      "case": "mixed-actual-qr-invert-true",
+      "frame": "mixedActual",
+      "options": {
+        "formats": [
+          "EAN13",
+          "QRCode"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "QRCode",
+          "text": "QRGEN-RAW-READER-CONTROL-20261011"
+        }
+      ],
+      "elapsedMs": 4.800000011920929,
+      "barcodes": [
+        {
+          "text": "QRGEN-RAW-READER-CONTROL-20261011",
+          "format": "QRCode",
+          "isValid": true,
+          "error": "",
+          "lineCount": 0,
+          "position": {
+            "topLeft": {
+              "x": 36,
+              "y": 32
+            },
+            "topRight": {
+              "x": 111,
+              "y": 32
+            },
+            "bottomRight": {
+              "x": 111,
+              "y": 107
+            },
+            "bottomLeft": {
+              "x": 36,
+              "y": 107
+            }
+          },
+          "bytesHex": "515247454e2d5241572d5245414445522d434f4e54524f4c2d3230323631303131"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "main",
+      "case": "mixed-actual-qr-invert-false",
+      "frame": "mixedActual",
+      "options": {
+        "formats": [
+          "EAN13",
+          "QRCode"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "QRCode",
+          "text": "QRGEN-RAW-READER-CONTROL-20261011"
+        }
+      ],
+      "elapsedMs": 4.299999952316284,
+      "barcodes": [
+        {
+          "text": "QRGEN-RAW-READER-CONTROL-20261011",
+          "format": "QRCode",
+          "isValid": true,
+          "error": "",
+          "lineCount": 0,
+          "position": {
+            "topLeft": {
+              "x": 36,
+              "y": 32
+            },
+            "topRight": {
+              "x": 111,
+              "y": 32
+            },
+            "bottomRight": {
+              "x": 111,
+              "y": 107
+            },
+            "bottomLeft": {
+              "x": 36,
+              "y": 107
+            }
+          },
+          "bytesHex": "515247454e2d5241572d5245414445522d434f4e54524f4c2d3230323631303131"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "worker",
+      "case": "actual-ean-invert-true-downscale-true",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [],
+      "elapsedMs": 5,
+      "barcodes": [],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "worker",
+      "case": "actual-ean-invert-true-downscale-false",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [],
+      "elapsedMs": 3.300000011920929,
+      "barcodes": [],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "worker",
+      "case": "actual-ean-invert-false-downscale-true",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [],
+      "elapsedMs": 3.300000011920929,
+      "barcodes": [],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "worker",
+      "case": "actual-ean-invert-false-downscale-false",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [],
+      "elapsedMs": 2.800000011920929,
+      "barcodes": [],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "worker",
+      "case": "actual-upca-only-downscale-true",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "UPCA",
+          "text": "0798884816632"
+        }
+      ],
+      "elapsedMs": 3.600000023841858,
+      "barcodes": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "isValid": true,
+          "error": "",
+          "lineCount": 2,
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "bytesHex": "30373938383834383136363332"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "worker",
+      "case": "actual-upca-only-downscale-false",
+      "frame": "actual",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": false,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "UPCA",
+          "text": "0798884816632"
+        }
+      ],
+      "elapsedMs": 3.399999976158142,
+      "barcodes": [
+        {
+          "text": "0798884816632",
+          "format": "UPCA",
+          "isValid": true,
+          "error": "",
+          "lineCount": 2,
+          "position": {
+            "topLeft": {
+              "x": 188,
+              "y": 207
+            },
+            "topRight": {
+              "x": 424,
+              "y": 207
+            },
+            "bottomRight": {
+              "x": 424,
+              "y": 209
+            },
+            "bottomLeft": {
+              "x": 188,
+              "y": 209
+            }
+          },
+          "bytesHex": "30373938383834383136363332"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "worker",
+      "case": "clean-ean13",
+      "frame": "cleanEAN",
+      "options": {
+        "formats": [
+          "EAN13"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "EAN13",
+          "text": "5901234123457"
+        }
+      ],
+      "elapsedMs": 1,
+      "barcodes": [
+        {
+          "text": "5901234123457",
+          "format": "EAN13",
+          "isValid": true,
+          "error": "",
+          "lineCount": 150,
+          "position": {
+            "topLeft": {
+              "x": 33,
+              "y": 0
+            },
+            "topRight": {
+              "x": 317,
+              "y": 0
+            },
+            "bottomRight": {
+              "x": 317,
+              "y": 149
+            },
+            "bottomLeft": {
+              "x": 33,
+              "y": 149
+            }
+          },
+          "bytesHex": "35393031323334313233343537"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "worker",
+      "case": "clean-qr",
+      "frame": "cleanQR",
+      "options": {
+        "formats": [
+          "QRCode"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "QRCode",
+          "text": "QRGEN-RAW-READER-CONTROL-20261011"
+        }
+      ],
+      "elapsedMs": 0.9000000357627869,
+      "barcodes": [
+        {
+          "text": "QRGEN-RAW-READER-CONTROL-20261011",
+          "format": "QRCode",
+          "isValid": true,
+          "error": "",
+          "lineCount": 0,
+          "position": {
+            "topLeft": {
+              "x": 12,
+              "y": 12
+            },
+            "topRight": {
+              "x": 87,
+              "y": 12
+            },
+            "bottomRight": {
+              "x": 87,
+              "y": 87
+            },
+            "bottomLeft": {
+              "x": 12,
+              "y": 87
+            }
+          },
+          "bytesHex": "515247454e2d5241572d5245414445522d434f4e54524f4c2d3230323631303131"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "worker",
+      "case": "clean-upca-only",
+      "frame": "cleanUPC",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "UPCA",
+          "text": "0012345678905"
+        }
+      ],
+      "elapsedMs": 1.0999999642372131,
+      "barcodes": [
+        {
+          "text": "0012345678905",
+          "format": "UPCA",
+          "isValid": true,
+          "error": "",
+          "lineCount": 150,
+          "position": {
+            "topLeft": {
+              "x": 27,
+              "y": 0
+            },
+            "topRight": {
+              "x": 311,
+              "y": 0
+            },
+            "bottomRight": {
+              "x": 311,
+              "y": 149
+            },
+            "bottomLeft": {
+              "x": 27,
+              "y": 149
+            }
+          },
+          "bytesHex": "30303132333435363738393035"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "worker",
+      "case": "clean-ean13-upca-only-scope",
+      "frame": "cleanEAN",
+      "options": {
+        "formats": [
+          "UPCA"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [],
+      "elapsedMs": 0.9000000357627869,
+      "barcodes": [],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "worker",
+      "case": "no-code",
+      "frame": "blank",
+      "options": {
+        "formats": [
+          "EAN13",
+          "QRCode",
+          "UPCA"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [],
+      "elapsedMs": 4.300000011920929,
+      "barcodes": [],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "worker",
+      "case": "mixed-clean-ean13-qr",
+      "frame": "mixedClean",
+      "options": {
+        "formats": [
+          "EAN13",
+          "QRCode"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "EAN13",
+          "text": "5901234123457"
+        },
+        {
+          "format": "QRCode",
+          "text": "QRGEN-RAW-READER-CONTROL-20261011"
+        }
+      ],
+      "elapsedMs": 5.199999988079071,
+      "barcodes": [
+        {
+          "text": "QRGEN-RAW-READER-CONTROL-20261011",
+          "format": "QRCode",
+          "isValid": true,
+          "error": "",
+          "lineCount": 0,
+          "position": {
+            "topLeft": {
+              "x": 36,
+              "y": 32
+            },
+            "topRight": {
+              "x": 111,
+              "y": 32
+            },
+            "bottomRight": {
+              "x": 111,
+              "y": 107
+            },
+            "bottomLeft": {
+              "x": 36,
+              "y": 107
+            }
+          },
+          "bytesHex": "515247454e2d5241572d5245414445522d434f4e54524f4c2d3230323631303131"
+        },
+        {
+          "text": "5901234123457",
+          "format": "EAN13",
+          "isValid": true,
+          "error": "",
+          "lineCount": 150,
+          "position": {
+            "topLeft": {
+              "x": 133,
+              "y": 300
+            },
+            "topRight": {
+              "x": 417,
+              "y": 300
+            },
+            "bottomRight": {
+              "x": 417,
+              "y": 449
+            },
+            "bottomLeft": {
+              "x": 133,
+              "y": 449
+            }
+          },
+          "bytesHex": "35393031323334313233343537"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "worker",
+      "case": "mixed-actual-qr-invert-true",
+      "frame": "mixedActual",
+      "options": {
+        "formats": [
+          "EAN13",
+          "QRCode"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": true,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "QRCode",
+          "text": "QRGEN-RAW-READER-CONTROL-20261011"
+        }
+      ],
+      "elapsedMs": 5.100000023841858,
+      "barcodes": [
+        {
+          "text": "QRGEN-RAW-READER-CONTROL-20261011",
+          "format": "QRCode",
+          "isValid": true,
+          "error": "",
+          "lineCount": 0,
+          "position": {
+            "topLeft": {
+              "x": 36,
+              "y": 32
+            },
+            "topRight": {
+              "x": 111,
+              "y": 32
+            },
+            "bottomRight": {
+              "x": 111,
+              "y": 107
+            },
+            "bottomLeft": {
+              "x": 36,
+              "y": 107
+            }
+          },
+          "bytesHex": "515247454e2d5241572d5245414445522d434f4e54524f4c2d3230323631303131"
+        }
+      ],
+      "expectationPassed": true
+    },
+    {
+      "variant": "candidate",
+      "execution": "worker",
+      "case": "mixed-actual-qr-invert-false",
+      "frame": "mixedActual",
+      "options": {
+        "formats": [
+          "EAN13",
+          "QRCode"
+        ],
+        "tryHarder": true,
+        "tryRotate": true,
+        "tryInvert": false,
+        "tryDownscale": true,
+        "tryDenoise": false,
+        "binarizer": "LocalAverage",
+        "isPure": false,
+        "downscaleFactor": 3,
+        "downscaleThreshold": 500,
+        "minLineCount": 2,
+        "maxNumberOfSymbols": 255,
+        "validateOptionalChecksum": false,
+        "returnErrors": false,
+        "eanAddOnSymbol": "Ignore",
+        "textMode": "HRI",
+        "characterSet": "Unknown",
+        "tryCode39ExtendedMode": true
+      },
+      "expected": [
+        {
+          "format": "QRCode",
+          "text": "QRGEN-RAW-READER-CONTROL-20261011"
+        }
+      ],
+      "elapsedMs": 4.699999988079071,
+      "barcodes": [
+        {
+          "text": "QRGEN-RAW-READER-CONTROL-20261011",
+          "format": "QRCode",
+          "isValid": true,
+          "error": "",
+          "lineCount": 0,
+          "position": {
+            "topLeft": {
+              "x": 36,
+              "y": 32
+            },
+            "topRight": {
+              "x": 111,
+              "y": 32
+            },
+            "bottomRight": {
+              "x": 111,
+              "y": 107
+            },
+            "bottomLeft": {
+              "x": 36,
+              "y": 107
+            }
+          },
+          "bytesHex": "515247454e2d5241572d5245414445522d434f4e54524f4c2d3230323631303131"
+        }
+      ],
+      "expectationPassed": true
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "workerErrors": [],
+  "serverRequests": [
+    {
+      "path": "/fixtures/actual-Chrome-ean13-2-07-full.png",
+      "sha256": "63783fca63db9e02e42cd905cae39630fd68acdcdb5ba7bb265e5f5a076e7399",
+      "bytes": 193449
+    },
+    {
+      "path": "/fixtures/clean-ean13.png",
+      "sha256": "5ea0cc8106ffd6d02d6d169c18d6ee9dd827ea8c9cb5ae7fb3f16ca696b8e404",
+      "bytes": 814
+    },
+    {
+      "path": "/fixtures/clean-qr.png",
+      "sha256": "e5b3bcb23eac348a577dbcc891d7e1771ec0256da59e3c0366faab56a5b0686f",
+      "bytes": 580
+    },
+    {
+      "path": "/fixtures/clean-upca.png",
+      "sha256": "e292d6fe54a6a69cde24b21ac8c139fe3ee5e16785b81fbfa4edbba8fb38a73b",
+      "bytes": 829
+    },
+    {
+      "path": "/builds/baseline/dist/es/reader/index.js",
+      "sha256": "3c364d8477404a513d7c0629b1cf9e63ae11e01f9746146d3574f8b10a122320",
+      "bytes": 40597
+    },
+    {
+      "path": "/builds/baseline/dist/es/share.js",
+      "sha256": "68b09047a19c17ba74c0bf7e0a4341e77d46b36ae1cae4bdcca31d0c6757f3f2",
+      "bytes": 10947
+    },
+    {
+      "path": "/builds/baseline/zxing_reader.wasm",
+      "sha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+      "bytes": 966895
+    },
+    {
+      "path": "/worker.mjs",
+      "sha256": "21e985afd0345d3e8f7bd830ff2e13e8507667720f2f3b974bdc22843651c47c",
+      "bytes": 1433
+    },
+    {
+      "path": "/builds/baseline/dist/es/reader/index.js",
+      "sha256": "3c364d8477404a513d7c0629b1cf9e63ae11e01f9746146d3574f8b10a122320",
+      "bytes": 40597
+    },
+    {
+      "path": "/builds/baseline/dist/es/share.js",
+      "sha256": "68b09047a19c17ba74c0bf7e0a4341e77d46b36ae1cae4bdcca31d0c6757f3f2",
+      "bytes": 10947
+    },
+    {
+      "path": "/builds/baseline/zxing_reader.wasm",
+      "sha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+      "bytes": 966895
+    },
+    {
+      "path": "/builds/candidate/dist/es/reader/index.js",
+      "sha256": "616a6837775f252ae1468667ad76693ae77f938f06192d6ae7cad2cf26639298",
+      "bytes": 40597
+    },
+    {
+      "path": "/builds/candidate/dist/es/share.js",
+      "sha256": "68b09047a19c17ba74c0bf7e0a4341e77d46b36ae1cae4bdcca31d0c6757f3f2",
+      "bytes": 10947
+    },
+    {
+      "path": "/builds/candidate/zxing_reader.wasm",
+      "sha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+      "bytes": 969380
+    },
+    {
+      "path": "/worker.mjs",
+      "sha256": "21e985afd0345d3e8f7bd830ff2e13e8507667720f2f3b974bdc22843651c47c",
+      "bytes": 1433
+    },
+    {
+      "path": "/builds/candidate/dist/es/reader/index.js",
+      "sha256": "616a6837775f252ae1468667ad76693ae77f938f06192d6ae7cad2cf26639298",
+      "bytes": 40597
+    },
+    {
+      "path": "/builds/candidate/dist/es/share.js",
+      "sha256": "68b09047a19c17ba74c0bf7e0a4341e77d46b36ae1cae4bdcca31d0c6757f3f2",
+      "bytes": 10947
+    },
+    {
+      "path": "/builds/candidate/zxing_reader.wasm",
+      "sha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+      "bytes": 969380
+    }
+  ],
+  "limitations": "Isolated raw-reader main-thread and actual module-Worker validation only. No production SDK integration, camera, phone, latency or parity claim.",
+  "chromiumVersion": "153.0.8010.12",
+  "rasters": {
+    "actual": {
+      "width": 640,
+      "height": 480,
+      "rgbaSha256": "ec287e182dca32d86261e719e4a9525277023ba1872394ca6d4fa4e454fc7107",
+      "alphaAllOpaque": true
+    },
+    "cleanEAN": {
+      "width": 339,
+      "height": 165,
+      "rgbaSha256": "536b34274f30464506edda1ab791e54b60e67d6afe45e6b9d5079f7913543e44",
+      "alphaAllOpaque": true
+    },
+    "cleanQR": {
+      "width": 99,
+      "height": 99,
+      "rgbaSha256": "4a2a4e949cae2220528225fd4d875085fa9026da4a66ee48a447dad4aa867d1a",
+      "alphaAllOpaque": true
+    },
+    "cleanUPC": {
+      "width": 339,
+      "height": 165,
+      "rgbaSha256": "5cbbbd4dbeb40f491e715da08bd321dee3a31b1a43b279f9370641f70b08493c",
+      "alphaAllOpaque": true
+    },
+    "blank": {
+      "width": 640,
+      "height": 480,
+      "rgbaSha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1",
+      "alphaAllOpaque": true
+    },
+    "mixedClean": {
+      "width": 640,
+      "height": 480,
+      "rgbaSha256": "fcbf2cf1b95fe097c64f672a29dac2b5c730341506b3ac82da2b926f288c1e75",
+      "alphaAllOpaque": true
+    },
+    "mixedActual": {
+      "width": 640,
+      "height": 480,
+      "rgbaSha256": "4160a465ec9e9a418056aa253ecf3f83879d7e3f11d30b903652b5eb9aa98fd8",
+      "alphaAllOpaque": true
+    }
+  },
+  "rasterManifestSha256": "a2489912a9f78d388a742870c0450c17f93dd64e5a0f69aba7469191c64ccafc",
+  "runtimeMetadata": {
+    "baseline": {
+      "main": {
+        "readerVersion": "3.1.5",
+        "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
+        "wasmSha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+        "declaredWasmSha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931"
+      },
+      "worker": {
+        "workerGlobal": true,
+        "globalName": "DedicatedWorkerGlobalScope",
+        "windowUndefined": true,
+        "readerVersion": "3.1.5",
+        "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
+        "wasmSha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+        "declaredWasmSha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931"
+      }
+    },
+    "candidate": {
+      "main": {
+        "readerVersion": "3.1.5",
+        "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
+        "wasmSha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+        "declaredWasmSha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6"
+      },
+      "worker": {
+        "workerGlobal": true,
+        "globalName": "DedicatedWorkerGlobalScope",
+        "windowUndefined": true,
+        "readerVersion": "3.1.5",
+        "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
+        "wasmSha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+        "declaredWasmSha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6"
+      }
+    }
+  },
+  "loadedAssets": [
+    {
+      "path": "/builds/baseline/dist/es/reader/index.js",
+      "sha256": "3c364d8477404a513d7c0629b1cf9e63ae11e01f9746146d3574f8b10a122320",
+      "bytes": 40597,
+      "status": 200
+    },
+    {
+      "path": "/builds/baseline/dist/es/share.js",
+      "sha256": "68b09047a19c17ba74c0bf7e0a4341e77d46b36ae1cae4bdcca31d0c6757f3f2",
+      "bytes": 10947,
+      "status": 200
+    },
+    {
+      "path": "/builds/baseline/zxing_reader.wasm",
+      "sha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+      "bytes": 966895,
+      "status": 200
+    },
+    {
+      "path": "/builds/baseline/dist/es/reader/index.js",
+      "sha256": "3c364d8477404a513d7c0629b1cf9e63ae11e01f9746146d3574f8b10a122320",
+      "bytes": 40597,
+      "status": 200
+    },
+    {
+      "path": "/builds/baseline/dist/es/share.js",
+      "sha256": "68b09047a19c17ba74c0bf7e0a4341e77d46b36ae1cae4bdcca31d0c6757f3f2",
+      "bytes": 10947,
+      "status": 200
+    },
+    {
+      "path": "/builds/baseline/zxing_reader.wasm",
+      "sha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+      "bytes": 966895,
+      "status": 200
+    },
+    {
+      "path": "/builds/candidate/dist/es/reader/index.js",
+      "sha256": "616a6837775f252ae1468667ad76693ae77f938f06192d6ae7cad2cf26639298",
+      "bytes": 40597,
+      "status": 200
+    },
+    {
+      "path": "/builds/candidate/dist/es/share.js",
+      "sha256": "68b09047a19c17ba74c0bf7e0a4341e77d46b36ae1cae4bdcca31d0c6757f3f2",
+      "bytes": 10947,
+      "status": 200
+    },
+    {
+      "path": "/builds/candidate/zxing_reader.wasm",
+      "sha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+      "bytes": 969380,
+      "status": 200
+    },
+    {
+      "path": "/builds/candidate/dist/es/reader/index.js",
+      "sha256": "616a6837775f252ae1468667ad76693ae77f938f06192d6ae7cad2cf26639298",
+      "bytes": 40597,
+      "status": 200
+    },
+    {
+      "path": "/builds/candidate/dist/es/share.js",
+      "sha256": "68b09047a19c17ba74c0bf7e0a4341e77d46b36ae1cae4bdcca31d0c6757f3f2",
+      "bytes": 10947,
+      "status": 200
+    },
+    {
+      "path": "/builds/candidate/zxing_reader.wasm",
+      "sha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+      "bytes": 969380,
+      "status": 200
+    }
+  ],
+  "mainWorkerOutputsEqual": true,
+  "workerCleanup": {
+    "created": 2,
+    "terminated": 2,
+    "retainedActiveWorkers": 0
+  },
+  "browserClosed": true,
+  "serverClosed": true,
+  "assetsAtFinish": {
+    "/builds/baseline/zxing_reader.wasm": {
+      "sha256": "aecc1876de036c62c8419f67a5e1a16b1698a325bcd190aa84810d516e263931",
+      "bytes": 966895
+    },
+    "/builds/baseline/matched-emscripten-glue.js": {
+      "sha256": "1355cda0b9a596e528a4bef37a33543bd4594cc5e66a0240dd5334b7fd565cfe",
+      "bytes": 58414
+    },
+    "/builds/baseline/dist/es/full/index.js": {
+      "sha256": "0ab3560f8d8eebbe139d4180eb5f7541424758b071f00438e25bd9f7fa1fd859",
+      "bytes": 43906
+    },
+    "/builds/baseline/dist/es/reader/index.js": {
+      "sha256": "3c364d8477404a513d7c0629b1cf9e63ae11e01f9746146d3574f8b10a122320",
+      "bytes": 40597
+    },
+    "/builds/baseline/dist/es/share.js": {
+      "sha256": "68b09047a19c17ba74c0bf7e0a4341e77d46b36ae1cae4bdcca31d0c6757f3f2",
+      "bytes": 10947
+    },
+    "/builds/baseline/dist/es/writer/index.js": {
+      "sha256": "2adfe6c3366581725bbfb1ae9f9ce553b6e7244d21ec41c464690d0e1585660e",
+      "bytes": 29313
+    },
+    "/builds/candidate/zxing_reader.wasm": {
+      "sha256": "f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6",
+      "bytes": 969380
+    },
+    "/builds/candidate/matched-emscripten-glue.js": {
+      "sha256": "44c9d31d2d7e3021a2a8a844fdefe5b163f141f97e9f22ad57e7edb50f89401e",
+      "bytes": 58414
+    },
+    "/builds/candidate/dist/es/full/index.js": {
+      "sha256": "f056375bc49dd31463e408f950fbb7543ddc1ed2b08178c6eb8da6a03be34633",
+      "bytes": 43906
+    },
+    "/builds/candidate/dist/es/reader/index.js": {
+      "sha256": "616a6837775f252ae1468667ad76693ae77f938f06192d6ae7cad2cf26639298",
+      "bytes": 40597
+    },
+    "/builds/candidate/dist/es/share.js": {
+      "sha256": "68b09047a19c17ba74c0bf7e0a4341e77d46b36ae1cae4bdcca31d0c6757f3f2",
+      "bytes": 10947
+    },
+    "/builds/candidate/dist/es/writer/index.js": {
+      "sha256": "2adfe6c3366581725bbfb1ae9f9ce553b6e7244d21ec41c464690d0e1585660e",
+      "bytes": 29313
+    }
+  },
+  "assetsUnchanged": true,
+  "finishedAt": "2026-10-11T15:55:42.432Z"
+}
