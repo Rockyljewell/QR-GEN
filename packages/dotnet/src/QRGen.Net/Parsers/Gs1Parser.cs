@@ -26,7 +26,7 @@ namespace QRGen
         [JsonPropertyName("value")]
         public string Value { get; init; } = string.Empty;
 
-        /// <summary>The value as it appeared in the input when it was normalized, else <c>null</c>.</summary>
+        /// <summary>The escaped Digital Link path value retained by System.Uri, or unpadded GTIN, when different from <see cref="Value"/>; else <c>null</c>.</summary>
         [JsonPropertyName("raw")]
         public string? Raw { get; init; }
 
@@ -109,7 +109,8 @@ namespace QRGen
                     var available = value.Length - pos;
                     part = last ? value.Substring(pos) : value.Substring(pos, Math.Min(length, available));
                     if (part.Length > length) return false;
-                    if (part.Length == 0 && i == 0) return false;
+                    // Currency codes require an amount; identifier extensions may stay optional.
+                    if (part.Length == 0 && (i == 0 || CurrencyPrefix)) return false;
                 }
                 if (kind == 'N' && part.Any(c => c < '0' || c > '9')) return false;
                 if (kind == 'X' && part.Any(c => c < 0x20 || c == 0x7F)) return false;
@@ -242,7 +243,7 @@ namespace QRGen
 
         private static double? ToNumber(Gs1AiDefinition definition, string value)
         {
-            var digits = definition.CurrencyPrefix && value.Length > 3 ? value.Substring(3) : value;
+            var digits = definition.CurrencyPrefix ? value.Substring(3) : value;
             if (digits.Length == 0 || !digits.All(Ascii.IsDigit) || definition.Decimals is null) return null;
             if (!decimal.TryParse(digits, NumberStyles.None, CultureInfo.InvariantCulture, out var number)) return null;
             for (var i = 0; i < definition.Decimals.Value; i++) number /= 10m;
@@ -353,12 +354,11 @@ namespace QRGen
         private static Gs1Result? ParseDigitalLink(string url, DateTime today)
         {
             if (!Uri.TryCreate(url, UriKind.Absolute, out var uri) || string.IsNullOrEmpty(uri.Host)) return null;
-            var segments = uri.AbsolutePath.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(Uri.UnescapeDataString).ToList();
+            var segments = uri.AbsolutePath.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries).ToList();
             var start = -1;
             for (var i = 0; i < segments.Count - 1; i++)
             {
-                var ai = DlAi(segments[i]);
+                var ai = DlAi(Uri.UnescapeDataString(segments[i]));
                 if (ai is not null && DlPrimaryKeys.Contains(ai))
                 {
                     start = i;
@@ -371,10 +371,10 @@ namespace QRGen
             var elements = new List<Gs1Element>();
             for (var i = 0; i < pairs.Count; i += 2)
             {
-                var ai = DlAi(pairs[i]);
+                var ai = DlAi(Uri.UnescapeDataString(pairs[i]));
                 if (ai is null) return null;
                 var raw = pairs[i + 1];
-                var value = raw;
+                var value = Uri.UnescapeDataString(raw);
                 if ((ai == "01" || ai == "02" || ai == "03") && value.All(Ascii.IsDigit) &&
                     (value.Length == 8 || value.Length == 12 || value.Length == 13))
                 {
@@ -388,12 +388,10 @@ namespace QRGen
             foreach (var part in query.Split(new[] { '&' }, StringSplitOptions.RemoveEmptyEntries))
             {
                 var index = part.IndexOf('=');
-                if (index <= 0) continue;
-                var key = Uri.UnescapeDataString(part.Substring(0, index).Replace('+', ' '));
-                var rawValue = Uri.UnescapeDataString(part.Substring(index + 1).Replace('+', ' '));
-                if (rawValue.Length == 0) continue;
+                var key = Uri.UnescapeDataString((index < 0 ? part : part.Substring(0, index)).Replace('+', ' '));
                 var ai = key.All(Ascii.IsDigit) && AiTable.ContainsKey(key) ? key : (DlShortNames.TryGetValue(key, out var s) ? s : null);
                 if (ai is null) continue;
+                var rawValue = index < 0 ? string.Empty : Uri.UnescapeDataString(part.Substring(index + 1).Replace('+', ' '));
                 var (element, ok) = MakeElement(ai, rawValue, today);
                 if (!ok) return null;
                 elements.Add(element);

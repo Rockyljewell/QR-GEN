@@ -19,6 +19,7 @@ class FakeScannerPlatform extends MobileScannerPlatform {
   final List<StartOptions> starts = [];
   int stops = 0;
   int torchToggles = 0;
+  bool running = false;
   TorchState torchState = TorchState.off;
   MobileScannerException? startError;
 
@@ -39,6 +40,7 @@ class FakeScannerPlatform extends MobileScannerPlatform {
     final error = startError;
     if (error != null) throw error;
     starts.add(startOptions);
+    running = true;
     torchState = startOptions.torchEnabled ? TorchState.on : TorchState.off;
     return MobileScannerViewAttributes(
       cameraDirection: startOptions.cameraDirection,
@@ -48,7 +50,10 @@ class FakeScannerPlatform extends MobileScannerPlatform {
   }
 
   @override
-  Future<void> stop() async => stops++;
+  Future<void> stop() async {
+    stops++;
+    running = false;
+  }
 
   @override
   Future<void> pause() async {}
@@ -70,7 +75,7 @@ class FakeScannerPlatform extends MobileScannerPlatform {
   Future<void> setZoomScale(double zoomScale) async {}
 
   @override
-  Future<void> dispose() async {}
+  Future<void> dispose() async => running = false;
 }
 
 BarcodeCapture capture(String value, {BarcodeFormat format = BarcodeFormat.qrCode}) => BarcodeCapture(
@@ -200,6 +205,117 @@ void main() {
     await settle(tester);
     expect(tracked.last, isEmpty);
 
+    await tester.pumpWidget(const SizedBox());
+    await settle(tester);
+  });
+
+  for (final action in ['start', 'resume', 'reset']) {
+    testWidgets('single onScan $action owns the next scan', (tester) async {
+      final scans = <String>[];
+      final controller = QRGenScannerController();
+      await tester.pumpWidget(host(QRGenScanner(
+        controller: controller,
+        options: const QRGenScannerOptions(mode: QRGenScanMode.single, duplicateFilter: 0, beep: false, vibrate: false),
+        onScan: (codes) {
+          scans.addAll(codes.map((b) => b.data));
+          unawaited(switch (action) {
+            'start' => controller.start(),
+            'resume' => controller.resume(),
+            _ => controller.reset(),
+          });
+        },
+      )));
+      await settle(tester);
+      platform.barcodes.add(capture('A'));
+      await settle(tester);
+      expect(platform.running, isTrue, reason: 'the callback requested the next scan');
+      platform.barcodes.add(capture('B'));
+      await settle(tester);
+      expect(scans, ['A', 'B']);
+      controller.dispose();
+      await tester.pumpWidget(const SizedBox());
+      await settle(tester);
+      expect(platform.running, isFalse);
+    });
+  }
+
+  for (final action in ['start', 'resume', 'reset']) {
+    testWidgets('single callback $action preserves its duplicate policy', (tester) async {
+      final scans = <String>[];
+      final controller = QRGenScannerController();
+      await tester.pumpWidget(host(QRGenScanner(
+        controller: controller,
+        options: const QRGenScannerOptions(mode: QRGenScanMode.single, duplicateFilter: -1, beep: false, vibrate: false),
+        onScan: (codes) {
+          scans.addAll(codes.map((b) => b.data));
+          unawaited(switch (action) {
+            'start' => controller.start(),
+            'resume' => controller.resume(),
+            _ => controller.reset(),
+          });
+        },
+      )));
+      await settle(tester);
+      platform.barcodes.add(capture('A'));
+      await settle(tester);
+      platform.barcodes.add(capture('A'));
+      await settle(tester);
+      platform.barcodes.add(capture('B'));
+      await settle(tester);
+      expect(scans, action == 'reset' ? ['A', 'A', 'B'] : ['A', 'B']);
+      expect(platform.running, isTrue);
+      controller.dispose();
+      await tester.pumpWidget(const SizedBox());
+      await settle(tester);
+      expect(platform.running, isFalse);
+    });
+  }
+
+  testWidgets('single callback mode change retains the newer continuous session', (tester) async {
+    final scans = <String>[];
+    var mode = QRGenScanMode.single;
+    await tester.pumpWidget(host(StatefulBuilder(builder: (context, update) => QRGenScanner(
+      options: QRGenScannerOptions(mode: mode, duplicateFilter: 0, beep: false, vibrate: false),
+      onScan: (codes) {
+        scans.addAll(codes.map((b) => b.data));
+        update(() => mode = QRGenScanMode.continuous);
+      },
+    ))));
+    await settle(tester);
+    platform.barcodes.add(capture('A'));
+    await settle(tester);
+    expect(platform.running, isTrue);
+    platform.barcodes.add(capture('B'));
+    await settle(tester);
+    expect(scans, ['A', 'B']);
+    await tester.pumpWidget(const SizedBox());
+    await settle(tester);
+    expect(platform.running, isFalse);
+  });
+
+  testWidgets('single callback unmount discards queued restarts', (tester) async {
+    final scans = <String>[];
+    final controller = QRGenScannerController();
+    var visible = true;
+    await tester.pumpWidget(host(StatefulBuilder(builder: (context, update) => visible ? QRGenScanner(
+      controller: controller,
+      options: const QRGenScannerOptions(mode: QRGenScanMode.single, duplicateFilter: 0, beep: false, vibrate: false),
+      onScan: (codes) {
+        scans.addAll(codes.map((b) => b.data));
+        unawaited(controller.start());
+        update(() => visible = false);
+      },
+    ) : const SizedBox())));
+    await settle(tester);
+    platform.barcodes.add(capture('A'));
+    await settle(tester);
+    expect(controller.isAttached, isFalse);
+    expect(platform.running, isFalse);
+    platform.barcodes.add(capture('B'));
+    await settle(tester);
+    expect(scans, ['A']);
+    expect(tester.takeException(), isNull);
+    controller.dispose();
     await tester.pumpWidget(const SizedBox());
     await settle(tester);
   });

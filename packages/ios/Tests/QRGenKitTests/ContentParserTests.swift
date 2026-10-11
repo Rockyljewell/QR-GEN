@@ -19,6 +19,16 @@ final class ContentParserTests: XCTestCase {
         XCTAssertEqual(gs1.values["10"], "ABC123")
     }
 
+    func testMalformedGS1DoesNotBecomeTrustedContent() {
+        for input in ["(3932)978", "(3922)1234567890123456", "(10)" + String(repeating: "A", count: 21)] {
+            XCTAssertEqual(QRGen.parseContent(input), .text(input))
+        }
+        let base = "https://id.gs1.org/01/09501101530003"
+        for suffix in ["?3932=978", "?17=", "?17", "/17", "?3922=1234567890123456"] {
+            XCTAssertEqual(QRGen.parseContent(base + suffix), .url(base + suffix))
+        }
+    }
+
     func testWiFiWithEscapes() {
         let parsed = QRGen.parseContent(#"WIFI:T:WPA;S:My\;Net\:work;P:pa\:ss\\wo\,rd;H:true;;"#)
         XCTAssertEqual(parsed, .wifi(.init(ssid: "My;Net:work", password: #"pa:ss\wo,rd"#, security: "WPA", hidden: true)))

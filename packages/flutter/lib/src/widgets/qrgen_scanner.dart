@@ -479,6 +479,11 @@ class _QRGenScannerState extends State<QRGenScanner> with WidgetsBindingObserver
     );
     final barcodes = selectBarcodes(converted, scanArea: _options.scanArea, maxResults: _options.effectiveMaxResults);
     final result = _session.process(barcodes, now);
+    // Complete this single frame before app callbacks can start a new scan.
+    if (result.stop) {
+      _singleDone = true;
+      _sync();
+    }
 
     if (_options.mode == QRGenScanMode.batch) {
       final tracked = result.tracked;
@@ -496,10 +501,6 @@ class _QRGenScannerState extends State<QRGenScanner> with WidgetsBindingObserver
     }
     final tracked = result.tracked;
     if (tracked != null) widget.onTrack?.call(tracked);
-    if (result.stop) {
-      _singleDone = true;
-      _sync();
-    }
   }
 
   void _feedback() {

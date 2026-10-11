@@ -176,5 +176,62 @@ namespace QRGen.Tests
             var result = Gs1Parser.Parse("(10)" + value + "(21)XYZ")!;
             Assert.Equal("10" + value + "\u001d21XYZ", Gs1Parser.ToElementString(result));
         }
+
+        [Theory]
+        [InlineData("3912")]
+        [InlineData("3932")]
+        public void CurrencyAmountRequiresBothComponents(string ai)
+        {
+            foreach (var input in new[] { "(" + ai + ")978", "]C1" + ai + "978", "https://id.gs1.org/01/09501101530003?" + ai + "=978" })
+                Assert.Null(Gs1Parser.Parse(input));
+            foreach (var input in new[] { "(" + ai + ")9781", "]C1" + ai + "9781", "https://id.gs1.org/01/09501101530003?" + ai + "=9781" })
+                Assert.Equal(0.01, El(Gs1Parser.Parse(input)!, ai).Number!.Value, 10);
+            Assert.NotNull(Gs1Parser.Parse("(253)9501101530003"));
+            Assert.NotNull(Gs1Parser.Parse("(01)09501101530004"));
+        }
+
+        [Theory]
+        [InlineData("17=")]
+        [InlineData("17")]
+        [InlineData("10=")]
+        [InlineData("3103=")]
+        [InlineData("3932=")]
+        [InlineData("exp=")]
+        public void DigitalLinkRejectsEmptyKnownFields(string query)
+        {
+            Assert.Null(Gs1Parser.Parse("https://id.gs1.org/01/09501101530003?" + query));
+            Assert.NotNull(Gs1Parser.Parse("https://id.gs1.org/01/09501101530003?linkType=&9999="));
+            Assert.Null(El(Gs1Parser.Parse("(17)251301")!, "17").Date);
+            Assert.Equal("UNKNOWN", El(Gs1Parser.Parse("(01)09501101530003(7299)X")!, "7299").Title);
+        }
+
+        [Theory]
+        [InlineData("96385074")]
+        [InlineData("012345000065")]
+        [InlineData("9501101530003")]
+        public void DigitalLinkRetainsValidShortGtinPadding(string gtin)
+        {
+            var result = Gs1Parser.Parse("https://id.gs1.org/01/" + gtin)!;
+            Assert.Equal(gtin.PadLeft(14, '0'), result["01"]);
+            Assert.Equal(gtin, El(result, "01").Raw);
+        }
+
+        [Theory]
+        [InlineData("SN%2F42", "SN/42")]
+        [InlineData("SN%252F42", "SN%2F42")]
+        [InlineData("caf%C3%A9", "café")]
+        public void DigitalLinkPreservesEncodedPathValues(string encoded, string decoded)
+        {
+            var result = Gs1Parser.Parse("https://id.gs1.org/01/09501101530003/21/" + encoded)!;
+            Assert.Equal(decoded, El(result, "21").Value);
+            Assert.Equal(encoded, El(result, "21").Raw);
+            var literalPlus = Gs1Parser.Parse("https://id.gs1.org/01/09501101530003/21/A+B")!;
+            Assert.Equal("A+B", El(literalPlus, "21").Value);
+            Assert.Null(El(literalPlus, "21").Raw);
+            // System.Uri canonicalizes escapes for unreserved characters before exposing AbsolutePath.
+            var canonical = Gs1Parser.Parse("https://id.gs1.org/01/09501101530003/21/%41")!;
+            Assert.Equal("A", El(canonical, "21").Value);
+            Assert.Null(El(canonical, "21").Raw);
+        }
     }
 }

@@ -428,7 +428,8 @@ enum GS1Parser {
 
         var pairs: [(String, String, String?)] = []
         var index = start
-        while index + 1 < segments.count, let ai = digitalLinkAI(segments[index]) {
+        while index < segments.count {
+            guard index + 1 < segments.count, let ai = digitalLinkAI(segments[index]) else { return nil }
             let rawValue = segments[index + 1]
             var value = rawValue.removingPercentEncoding ?? rawValue
             if ai == "01", value.count < 14, [8, 12, 13].contains(value.count), value.allSatisfy(\.isASCIIDigit) {
@@ -438,8 +439,8 @@ enum GS1Parser {
             index += 2
         }
         for item in components.queryItems ?? [] {
-            guard let ai = digitalLinkAI(item.name), let value = item.value, !value.isEmpty else { continue }
-            guard table[ai] != nil else { continue }
+            guard let ai = digitalLinkAI(item.name), table[ai] != nil else { continue }
+            guard let value = item.value, !value.isEmpty else { return nil }
             pairs.append((ai, value, nil))
         }
         guard !pairs.isEmpty else { return nil }
@@ -460,13 +461,17 @@ enum GS1Parser {
 
     static func makeElement(ai: String, value: String, raw: String?, currentYear: Int) -> GS1Element? {
         guard !value.isEmpty else { return nil }
-        let definition = table[ai] ?? {
+        let knownDefinition = table[ai]
+        let definition = knownDefinition ?? {
             guard let length = aiLength(forPrefix: String(ai.prefix(2))), length == ai.count else { return nil }
             return unknownDefinition(ai)
         }()
         guard let definition else { return nil }
         if definition.format == .numeric, !value.allSatisfy(\.isASCIIDigit) { return nil }
         if let length = definition.fixedLength, value.count != length { return nil }
+        // Check known field shapes before deriving amount or date annotations.
+        if knownDefinition != nil, value.count > definition.maxLength { return nil }
+        if definition.kind == .decimalWithCurrency, value.count <= 3 { return nil }
 
         var element = GS1Element(ai: ai, title: definition.title, value: value, raw: raw)
         switch definition.kind {

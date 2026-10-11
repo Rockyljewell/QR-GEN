@@ -79,6 +79,58 @@ final class GS1Tests: XCTestCase {
         XCTAssertEqual(currency.element("3932")?.number ?? 0, 123.45, accuracy: 1e-9)
     }
 
+    func testKnownVariableFieldShapesBeforeAnnotations() throws {
+        let overlongLot = String(repeating: "A", count: 21)
+        let overlongAmount = "1234567890123456"
+        for input in ["(10)" + overlongLot, "]C110" + overlongLot,
+                      "https://id.gs1.org/01/09501101530003/10/" + overlongLot,
+                      "(3922)" + overlongAmount, "]C13922" + overlongAmount,
+                      "https://id.gs1.org/01/09501101530003?3922=" + overlongAmount] {
+            XCTAssertNil(QRGen.parseGS1(input), input)
+        }
+        XCTAssertNotNil(QRGen.parseGS1("(10)" + String(repeating: "A", count: 20)))
+        XCTAssertNotNil(QRGen.parseGS1("(3922)123456789012345"))
+        for ai in ["3912", "3932"] {
+            for input in ["(\(ai))978", "]C1\(ai)978", "https://id.gs1.org/01/09501101530003?\(ai)=978"] {
+                XCTAssertNil(QRGen.parseGS1(input), input)
+            }
+            for input in ["(\(ai))9781", "]C1\(ai)9781", "https://id.gs1.org/01/09501101530003?\(ai)=9781"] {
+                let result = try XCTUnwrap(QRGen.parseGS1(input))
+                XCTAssertEqual(try XCTUnwrap(result.element(ai)?.number), 0.01, accuracy: 1e-9)
+            }
+        }
+        XCTAssertNotNil(QRGen.parseGS1("(253)9501101530003"), "identifier suffix stays optional")
+        XCTAssertNotNil(QRGen.parseGS1("(01)09501101530004"), "checksum enforcement is not added")
+        let calendar = try XCTUnwrap(QRGen.parseGS1("(17)251301"))
+        XCTAssertNil(calendar.expiryDate, "malformed calendars remain unannotated")
+        XCTAssertEqual(QRGen.parseGS1("(01)09501101530003(7299)X")?.element("7299")?.title, "UNKNOWN")
+    }
+
+    func testDigitalLinkRequiresCompleteKnownFields() throws {
+        let base = "https://id.gs1.org/01/09501101530003"
+        for suffix in ["/17", "/17/", "/tail/value", "?17=", "?17", "?10=", "?3103=", "?3932="] {
+            XCTAssertNil(QRGen.parseGS1(base + suffix), suffix)
+        }
+        XCTAssertNotNil(QRGen.parseGS1(base + "?linkType=&9999="), "non-AI parameters stay ignored")
+        XCTAssertNotNil(QRGen.parseGS1("https://example.com/shop/01/09501101530003/10/LOT"))
+        for gtin in ["96385074", "012345000065", "9501101530003"] {
+            let result = try XCTUnwrap(QRGen.parseGS1("https://id.gs1.org/01/" + gtin))
+            XCTAssertEqual(result.gtin?.count, 14)
+            XCTAssertEqual(result.element("01")?.raw, gtin)
+        }
+    }
+
+    func testDigitalLinkPreservesEncodedPathValues() throws {
+        for (encoded, decoded) in [("SN%2F42", "SN/42"), ("SN%252F42", "SN%2F42"), ("caf%C3%A9", "café")] {
+            let result = try XCTUnwrap(QRGen.parseGS1("https://id.gs1.org/01/09501101530003/21/" + encoded))
+            XCTAssertEqual(result.element("21")?.value, decoded)
+            XCTAssertEqual(result.element("21")?.raw, encoded)
+        }
+        let literalPlus = try XCTUnwrap(QRGen.parseGS1("https://id.gs1.org/01/09501101530003/21/A+B"))
+        XCTAssertEqual(literalPlus.element("21")?.value, "A+B")
+        XCTAssertNil(literalPlus.element("21")?.raw)
+    }
+
     func testInvalidInput() {
         XCTAssertNil(QRGen.parseGS1(""))
         XCTAssertNil(QRGen.parseGS1("hello world"))

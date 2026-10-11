@@ -168,6 +168,11 @@ with Camera(device=0, symbologies=["qr", "ean13"], mode="continuous",
   picamera2, GStreamer, RTSP streams or video files. `DuplicateFilter` and
   `BatchTracker` (in `qrgen_sdk.tracking`) are plain Python classes with an injectable
   clock.
+* With omitted `now_ms`, duplicate/tracking windows use monotonic elapsed time;
+  barcode and track timestamps remain milliseconds since the Unix epoch. Explicit
+  `now_ms` supplies both timeouts and timestamps. Mixing default and injected calls
+  rebases retained history using timestamp differences at each transition, preserving
+  the previous behavior; use a consistent timestamp basis when mixing clocks.
 * The `camera` extra installs `opencv-python-headless`, which has no GUI. For a preview
   window install `opencv-python` instead; without GUI support scanning continues and a
   warning is printed. Press `q` or Esc to quit the window.
