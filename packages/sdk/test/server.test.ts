@@ -16,6 +16,32 @@ beforeAll(async () => {
 });
 afterAll(() => new Promise<void>((r) => server.close(() => r())));
 
+const boundary = "AuditBoundary71";
+function multipart(parts: Buffer[], closing = `--${boundary}--\r\n`) {
+  return Buffer.concat([...parts.flatMap((part) => [Buffer.from(`--${boundary}\r\n`), part, Buffer.from("\r\n")]), Buffer.from(closing)]);
+}
+function filePart(image: Uint8Array) {
+  return Buffer.concat([Buffer.from('Content-Disposition: form-data; name="image"; filename="code.png"\r\nContent-Type: image/png\r\n\r\n'), image]);
+}
+function fieldPart(name: string, value: string) {
+  return Buffer.from(`Content-Disposition: form-data; name="${name}"\r\n\r\n${value}`);
+}
+function withPngText(png: Uint8Array, text: string) {
+  // A CRC-valid ancillary chunk leaves the real generated QR pixels unchanged.
+  const data = Buffer.from(`Comment\0${text}`);
+  const header = Buffer.alloc(8);
+  header.writeUInt32BE(data.length);
+  header.write("tEXt", 4);
+  let crc = 0xffffffff;
+  for (const byte of Buffer.concat([header.subarray(4), data])) {
+    crc ^= byte;
+    for (let bit = 0; bit < 8; bit++) crc = (crc >>> 1) ^ (crc & 1 ? 0xedb88320 : 0);
+  }
+  const checksum = Buffer.alloc(4);
+  checksum.writeUInt32BE((crc ^ 0xffffffff) >>> 0);
+  return Buffer.concat([png.subarray(0, 33), header, data, checksum, png.subarray(33)]);
+}
+
 describe("REST API", () => {
   it("GET /health", async () => {
     const res = await fetch(`${base}/health`);
@@ -42,6 +68,94 @@ describe("REST API", () => {
     form.append("image", new Blob([new Uint8Array(png)], { type: "image/png" }), "code.png");
     const mp = await (await fetch(`${base}/v1/scan`, { method: "POST", body: form })).json();
     expect(mp.barcodes[0].data).toBe("https://example.com");
+  });
+
+  it.each([
+    `mid-line--${boundary}-inside-text`,
+    `line-prefix\r\n--${boundary}-suffix-lookalike`,
+    `closing-prefix\r\n--${boundary}--suffix-lookalike`,
+  ])("preserves multipart PNG bytes containing %s", async (text) => {
+    const image = withPngText(await generatePNG("HTTP-VALID-CONTROL"), text);
+    const raw = await fetch(`${base}/v1/scan`, { method: "POST", headers: { "content-type": "image/png" }, body: image });
+    expect(raw.status).toBe(200);
+    expect((await raw.json()).barcodes).toEqual([expect.objectContaining({ data: "HTTP-VALID-CONTROL" })]);
+    const response = await fetch(`${base}/v1/scan`, {
+      method: "POST", headers: { "content-type": `multipart/form-data; boundary=${boundary}` }, body: multipart([filePart(image)]),
+    });
+    expect(response.status).toBe(200);
+    expect((await response.json()).barcodes).toEqual([expect.objectContaining({ data: "HTTP-VALID-CONTROL" })]);
+  });
+
+  it.each(["Application/JSON", "APPLICATION/JSON; charset=utf-8"])("accepts case-insensitive scan media type %s", async (contentType) => {
+    const response = await fetch(`${base}/v1/scan`, {
+      method: "POST", headers: { "content-type": contentType },
+      body: JSON.stringify({ image: toBase64(await generatePNG("json-media-type")), parse: false }),
+    });
+    expect(response.status).toBe(200);
+    const result = await response.json();
+    expect(result.barcodes).toEqual([expect.objectContaining({ data: "json-media-type" })]);
+    expect(result.barcodes[0]).not.toHaveProperty("parsed");
+  });
+
+  it.each(["before", "after"])("accepts a quoted mixed-case boundary and options %s the file", async (placement) => {
+    const image = filePart(await generatePNG("https://example.com/multipart-options"));
+    const options = [fieldPart("symbologies", "qr"), fieldPart("parse", "false"), fieldPart("tryHarder", "false"), fieldPart("maxResults", "1")];
+    const response = await fetch(`${base}/v1/scan?symbologies=ean13&parse=true&tryHarder=true&maxResults=0`, {
+      method: "POST", headers: { "content-type": `Multipart/Form-Data; charset=utf-8; BOUNDARY = "${boundary}"; other=unused` },
+      body: multipart(placement === "before" ? [...options, image] : [image, ...options]),
+    });
+    expect(response.status).toBe(200);
+    const result = await response.json();
+    expect(result.barcodes).toEqual([expect.objectContaining({ data: "https://example.com/multipart-options", symbology: "qr" })]);
+    expect(result.barcodes[0]).not.toHaveProperty("parsed");
+  });
+
+  it("does not confuse another quoted parameter with the boundary", async () => {
+    const response = await fetch(`${base}/v1/scan`, {
+      method: "POST", headers: { "content-type": `multipart/form-data; other="; boundary=decoy"; boundary="${boundary}"` },
+      body: multipart([filePart(await generatePNG("quoted-parameter-control"))]),
+    });
+    expect(response.status).toBe(200);
+    expect((await response.json()).barcodes).toEqual([expect.objectContaining({ data: "quoted-parameter-control" })]);
+  });
+
+  it.each([
+    ["ordinary", `--${boundary}--\r\n`],
+    ["EOF", `--${boundary}--`],
+    ["transport padding and epilogue", `--${boundary}-- \t\r\nepilogue ignored`],
+  ])("accepts the %s multipart closing delimiter", async (_name, closing) => {
+    const body = Buffer.concat([Buffer.from("preamble ignored\r\n"), multipart([filePart(await generatePNG("multipart-closing"))], closing)]);
+    const response = await fetch(`${base}/v1/scan`, {
+      method: "POST", headers: { "content-type": `multipart/form-data; boundary="${boundary}"` }, body,
+    });
+    expect(response.status).toBe(200);
+    expect((await response.json()).barcodes).toEqual([expect.objectContaining({ data: "multipart-closing" })]);
+  });
+
+  it.each([
+    ["missing closing delimiter", ""],
+    ["truncated closing delimiter", `--${boundary}-`],
+    ["closing suffix lookalike", `--${boundary}--extra\r\n`],
+    ["later truncated field", `--${boundary}\r\nContent-Disposition: form-data; name="parse"\r\n\r\nfalse`],
+  ])("rejects %s instead of scanning a partial multipart body", async (_name, closing) => {
+    const response = await fetch(`${base}/v1/scan`, {
+      method: "POST", headers: { "content-type": `multipart/form-data; boundary=${boundary}` },
+      body: multipart([filePart(await generatePNG("complete-image-in-incomplete-request"))], closing),
+    });
+    expect(response.status).toBe(400);
+    expect((await response.json()).error.code).toBe("bad-request");
+  });
+
+  it.each([
+    ["missing boundary parameter", "multipart/form-data", Buffer.from("not multipart")],
+    ["empty boundary parameter", 'multipart/form-data; boundary=""', Buffer.from("not multipart")],
+    ["missing delimiter CRLF", `multipart/form-data; boundary=${boundary}`, Buffer.from(`--${boundary}not-a-line\r\n--${boundary}--\r\n`)],
+    ["missing part header separator", `multipart/form-data; boundary=${boundary}`, multipart([Buffer.from("invalid part headers")])],
+    ["no file", `multipart/form-data; boundary=${boundary}`, multipart([fieldPart("parse", "false")])],
+  ])("rejects multipart with %s", async (_name, contentType, body) => {
+    const response = await fetch(`${base}/v1/scan`, { method: "POST", headers: { "content-type": contentType }, body });
+    expect(response.status).toBe(400);
+    expect((await response.json()).error.code).toBe("bad-request");
   });
 
   it("GET and POST /v1/generate", async () => {
