@@ -123,6 +123,97 @@ class QRGenScannerStartOwnershipTest {
         assertEquals(QRGenScanner.State.RELEASED, scanner.state)
     }
 
+    @Test
+    fun warningCallbackCanReplaceOptionsWithoutCancellingStartup() {
+        val scanner = QRGenScanner(RuntimeEnvironment.getApplication(), unsupportedOptions())
+        var errors = 0
+        scanner.onError { error ->
+            assertEquals(ErrorCode.UNSUPPORTED, error.code)
+            errors++
+            scanner.options = supportedOptions().copy(mode = ScannerOptions.Mode.BATCH)
+        }
+        try {
+            scanner.bind(StartedOwner())
+            assertEquals(1, errors)
+            assertEquals(ScannerOptions.Mode.BATCH, scanner.options.mode)
+            assertEquals(setOf(Symbology.QR), scanner.options.symbologies)
+            assertEquals(QRGenScanner.State.STARTING, scanner.state)
+            assertEquals(1, PendingCameraProviderShadow.requests)
+        } finally {
+            scanner.release()
+        }
+    }
+
+    @Test
+    fun warningCallbackCanReplaceCameraWithoutLosingStartingState() {
+        val scanner = QRGenScanner(RuntimeEnvironment.getApplication(), unsupportedOptions())
+        var errors = 0
+        scanner.onError { error ->
+            assertEquals(ErrorCode.UNSUPPORTED, error.code)
+            errors++
+            scanner.options = supportedOptions().copy(camera = ScannerOptions.Camera.FRONT)
+        }
+        try {
+            scanner.bind(StartedOwner())
+            assertEquals(1, errors)
+            assertEquals(ScannerOptions.Camera.FRONT, scanner.options.camera)
+            assertEquals(setOf(Symbology.QR), scanner.options.symbologies)
+            assertEquals(QRGenScanner.State.STARTING, scanner.state)
+            assertEquals("replacement camera acquires exactly once", 1, PendingCameraProviderShadow.requests)
+        } finally {
+            scanner.release()
+        }
+    }
+
+    @Test
+    fun warningCallbackCanStopAndRestartWithNewOptions() {
+        val scanner = QRGenScanner(RuntimeEnvironment.getApplication(), unsupportedOptions())
+        var errors = 0
+        scanner.onError { error ->
+            assertEquals(ErrorCode.UNSUPPORTED, error.code)
+            errors++
+            scanner.stop()
+            scanner.options = supportedOptions()
+            scanner.start()
+        }
+        try {
+            scanner.bind(StartedOwner())
+            assertEquals(1, errors)
+            assertEquals(QRGenScanner.State.STARTING, scanner.state)
+            assertEquals(setOf(Symbology.QR), scanner.options.symbologies)
+            assertEquals("replacement startup acquires exactly once", 1, PendingCameraProviderShadow.requests)
+        } finally {
+            scanner.release()
+        }
+    }
+
+    @Test
+    fun warningCallbackCanRebindToReplacementLifecycle() {
+        val firstOwner = StartedOwner()
+        val replacementOwner = StartedOwner()
+        val scanner = QRGenScanner(RuntimeEnvironment.getApplication(), unsupportedOptions())
+        var errors = 0
+        scanner.onError { error ->
+            assertEquals(ErrorCode.UNSUPPORTED, error.code)
+            errors++
+            scanner.options = supportedOptions()
+            scanner.bind(replacementOwner)
+        }
+        try {
+            scanner.bind(firstOwner)
+            assertEquals(1, errors)
+            assertEquals(QRGenScanner.State.STARTING, scanner.state)
+            assertEquals(1, PendingCameraProviderShadow.requests)
+            firstOwner.destroy()
+            assertEquals("old owner must not release the replacement", QRGenScanner.State.STARTING, scanner.state)
+            replacementOwner.destroy()
+            assertEquals(QRGenScanner.State.RELEASED, scanner.state)
+            assertEquals(1, PendingCameraProviderShadow.requests)
+        } finally {
+            scanner.release()
+        }
+    }
+
     private fun unsupportedOptions() = ScannerOptions(symbologies = setOf(Symbology.MICRO_QR), beep = false, vibrate = false)
     private fun supportedOptions() = ScannerOptions(symbologies = setOf(Symbology.QR), beep = false, vibrate = false)
 
@@ -130,6 +221,7 @@ class QRGenScannerStartOwnershipTest {
         private val registry = LifecycleRegistry(this)
         override val lifecycle: Lifecycle get() = registry
         init { registry.currentState = Lifecycle.State.STARTED }
+        fun destroy() { registry.currentState = Lifecycle.State.DESTROYED }
     }
 }
 

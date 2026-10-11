@@ -126,6 +126,8 @@ public class QRGenScanner @JvmOverloads constructor(
     @Volatile private var mirrored = false
 
     private var started = false
+    // An error callback may synchronously stop, rebind or restart this scanner.
+    private var startGeneration = 0L
     private var released = false
     private var lastError: ErrorCode? = null
     @Volatile private var analysisErrorReported = false
@@ -248,8 +250,10 @@ public class QRGenScanner @JvmOverloads constructor(
     public fun start() {
         checkMainThread()
         if (released) return
+        val request = ++startGeneration
         started = true
         resetSource(resetDuplicates = true, resumeAnalysis = true)
+        if (released || !started || startGeneration != request) return
         val owner = lifecycleOwner ?: return
         if (!QRGen.hasCameraPermission(appContext)) {
             state = State.STOPPED
@@ -260,6 +264,7 @@ public class QRGenScanner @JvmOverloads constructor(
             return
         }
         warnIfNothingSupported(currentOptions)
+        if (released || !started || startGeneration != request || lifecycleOwner !== owner) return
         if (camera != null && analysis != null) {
             val executor = analysisExecutor ?: return
             analysis?.setAnalyzer(executor, createAnalyzer(executor))
@@ -275,6 +280,7 @@ public class QRGenScanner @JvmOverloads constructor(
     public fun stop() {
         checkMainThread()
         if (released) return
+        startGeneration++
         if (!started && camera == null && analysis == null && analyzer == null) {
             state = State.STOPPED
             return
@@ -561,8 +567,12 @@ public class QRGenScanner @JvmOverloads constructor(
         val owner = lifecycleOwner
         if (old.camera != new.camera || old.cameraId != new.cameraId) {
             if (started && owner != null && !released) {
+                startGeneration++
                 val provider = cameraProvider
-                if (provider != null) bindUseCases(provider, owner) else withCameraProvider { bindUseCases(it, owner) }
+                if (provider != null) bindUseCases(provider, owner) else {
+                    state = State.STARTING
+                    withCameraProvider { bindUseCases(it, owner) }
+                }
             }
         } else if (old.torch != new.torch) {
             applyTorch(new.torch)
