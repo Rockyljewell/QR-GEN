@@ -36,6 +36,12 @@ __all__ = [
 #: ASCII 29, the FNC1 / group separator used between variable-length fields.
 GS = "\x1d"
 
+# GS1 predefined-length prefixes, not every AI with a fixed-width value.
+_PREDEFINED_LENGTH_PREFIXES = frozenset(
+    ("00", "01", "02", "03", "04", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
+     "31", "32", "33", "34", "35", "36", "41")
+)
+
 
 @dataclass(frozen=True)
 class AIDefinition:
@@ -82,7 +88,9 @@ class AIDefinition:
                 part = value[pos:] if last else value[pos : pos + length]
                 if len(part) > length:
                     return False
-                if not part and index == 0:
+                # The amount after a currency code is mandatory, unlike optional
+                # identifier extensions such as GDTI's serial component.
+                if not part and (index == 0 or self.currency_prefix):
                     return False
             if kind == "N" and part and not part.isdigit():
                 return False
@@ -534,7 +542,7 @@ def _parse_digital_link(url: str, today: _dt.date) -> Optional[Dict[str, Any]]:
         if not ok:
             return None
         elements.append(element)
-    for key, raw in parse_qsl(parts.query, keep_blank_values=False):
+    for key, raw in parse_qsl(parts.query, keep_blank_values=True):
         ai = key if key.isdigit() and key in AI_TABLE else _DL_SHORT_NAMES.get(key)
         if ai is None:
             continue  # non-AI parameters such as linkType are ignored
@@ -605,13 +613,13 @@ def format_hri(result: Dict[str, Any]) -> str:
 def to_element_string(result: Dict[str, Any]) -> str:
     """Render a :func:`parse_gs1` result as a raw element string with GS separators.
 
-    A separator is written after every variable-length field except the last.
+    A separator follows every field outside GS1's predefined-length table,
+    except the last field. A fixed-width value alone does not exempt an AI.
     """
     out = []
     elements = result.get("elements", [])
     for index, element in enumerate(elements):
         out.append(element["ai"] + element["value"])
-        defn = AI_TABLE.get(element["ai"])
-        if index < len(elements) - 1 and (defn is None or defn.fixed_length is None):
+        if index < len(elements) - 1 and element["ai"][:2] not in _PREDEFINED_LENGTH_PREFIXES:
             out.append(GS)
     return "".join(out)

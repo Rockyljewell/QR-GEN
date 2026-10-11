@@ -364,6 +364,30 @@ or default is justified by this diagnostic study; production remains released
 zxing-wasm 3.1.5 and [issue #32](https://github.com/Rockyljewell/QR-GEN/issues/32)
 remains open.
 
+## Adapter, HTTP and GS1 reliability follow-up
+
+[PR #55](https://github.com/Rockyljewell/QR-GEN/pull/55) fixes
+[#51](https://github.com/Rockyljewell/QR-GEN/issues/51): embed URLs converted
+numeric `0`/`1` to Boolean strings, losing result limits and duplicate-filter
+settings. Only Boolean attributes are now coerced. Merge `4789fb2` passes all
+13 main CI jobs, Pages and Docker.
+
+Further fixes address Python unread-body connection corruption
+([#50](https://github.com/Rockyljewell/QR-GEN/issues/50)), React events reaching
+uncommitted callbacks ([#52](https://github.com/Rockyljewell/QR-GEN/issues/52)),
+and malformed known GS1 fields producing misleading annotations
+([#53](https://github.com/Rockyljewell/QR-GEN/issues/53)). The serializer fix
+([#54](https://github.com/Rockyljewell/QR-GEN/issues/54)) applies GS1
+predefined-prefix separator rules in Python, Swift and .NET. Existing styling
+is preserved.
+
+The combined fixes pass 394 SDK and 313 Python tests, SDK typecheck/build,
+React browser regressions and existing frontier/offline checks. HTTP regressions
+cover readable rejection responses and bounded cleanup; React checks isolate
+wrapper ownership from decoding. GS1 checks enforce basic field structure and
+separator rules. These fixes do not establish physical-phone reliability or
+Scandit parity; the documented decoder accuracy and retail workflow gaps remain.
+
 ## Retail AR and adjacent features
 
 The following is an assessment of repository code against the vendors' published

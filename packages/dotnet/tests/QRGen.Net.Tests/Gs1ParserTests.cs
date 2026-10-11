@@ -138,5 +138,43 @@ namespace QRGen.Tests
             Assert.Equal("01095011015300031725010110ABC123", Gs1Parser.ToElementString(result));
             Assert.Equal("10ABC\u001d21XYZ", Gs1Parser.ToElementString(Gs1Parser.Parse("(10)ABC(21)XYZ")!));
         }
+
+        [Theory]
+        [InlineData("7003", "2610111230")]
+        [InlineData("7006", "261011")]
+        [InlineData("8005", "001234")]
+        [InlineData("3942", "1250")]
+        [InlineData("3952", "001234")]
+        public void FixedFieldsOutsidePredefinedTableNeedSeparator(string ai, string value)
+        {
+            var result = Gs1Parser.Parse("(01)09501101530003(" + ai + ")" + value + "(17)261012")!;
+            var expected = "0109501101530003" + ai + value + "\u001d17261012";
+            Assert.Equal(expected, Gs1Parser.ToElementString(result));
+            Assert.Equal(result.Elements.Select(e => (e.Ai, e.Value)),
+                Gs1Parser.Parse(expected)!.Elements.Select(e => (e.Ai, e.Value)));
+            Assert.Equal(expected.Replace('\u001d', '\u00f1'), Gs1Parser.ToElementString(result, '\u00f1'));
+            Assert.Equal(ai + value, Gs1Parser.ToElementString(Gs1Parser.Parse("(" + ai + ")" + value)!));
+        }
+
+        [Theory]
+        [InlineData("00", "123456789012345675")]
+        [InlineData("01", "09501101530003")]
+        [InlineData("11", "261011")]
+        [InlineData("20", "01")]
+        [InlineData("3103", "000195")]
+        [InlineData("410", "9501101530003")]
+        public void PredefinedFieldsNeedNoSeparator(string ai, string value)
+        {
+            var result = Gs1Parser.Parse("(" + ai + ")" + value + "(17)261012")!;
+            Assert.Equal(ai + value + "17261012", Gs1Parser.ToElementString(result));
+        }
+
+        [Fact]
+        public void FullLengthVariableFieldStillNeedsSeparator()
+        {
+            var value = new string('A', 20);
+            var result = Gs1Parser.Parse("(10)" + value + "(21)XYZ")!;
+            Assert.Equal("10" + value + "\u001d21XYZ", Gs1Parser.ToElementString(result));
+        }
     }
 }

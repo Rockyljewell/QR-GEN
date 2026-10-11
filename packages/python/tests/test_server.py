@@ -8,6 +8,8 @@ from __future__ import annotations
 import base64
 import http.client
 import json
+import socket
+import threading
 from urllib.parse import quote
 
 import pytest
@@ -164,6 +166,135 @@ def test_payload_too_large():
         status, _, body = request(srv.server_address[1], "POST", "/v1/scan", b"x" * 200, {"Content-Type": "image/png"})
         assert status == 413 and json.loads(body)["error"]["code"] == "payload-too-large"
     finally:
+        srv.shutdown()
+        srv.server_close()
+        thread.join(timeout=5)
+
+
+@pytest.mark.parametrize(
+    "method,path,body,headers,chunked,expected_status",
+    [
+        ("POST", "/v1/parse", b"x" * 200, {"Content-Type": "text/plain"}, False, 413),
+        ("POST", "/nope", b"ignored", {"Content-Type": "text/plain"}, False, 404),
+        ("POST", "/health", b"ignored", {"Content-Type": "text/plain"}, False, 405),
+        ("POST", "/v1/parse", [b"ignored"], {"Content-Type": "text/plain", "Transfer-Encoding": "chunked"}, True, 411),
+        ("PUT", "/v1/parse", b"ignored", {"Content-Type": "text/plain"}, False, 405),
+    ],
+    ids=["oversized", "unknown-route", "wrong-method", "unsupported-chunked", "put-method"],
+)
+def test_rejected_unread_body_closes_connection(method, path, body, headers, chunked, expected_status):
+    srv, thread = start_in_thread("127.0.0.1", 0, quiet=True, max_body=100)
+    conn = http.client.HTTPConnection("127.0.0.1", srv.server_address[1], timeout=5)
+    try:
+        conn.request(method, path, body=body, headers=headers, encode_chunked=chunked)
+        response = conn.getresponse()
+        assert response.status == expected_status
+        response.read()
+        connection_header = response.getheader("Connection")
+        will_close = response.will_close
+
+        # http.client reconnects when the first response explicitly closes its socket.
+        # Otherwise unread bytes from the rejected body corrupt this next method.
+        conn.request("GET", "/health")
+        follow_up = conn.getresponse()
+        follow_up_body = follow_up.read()
+        assert follow_up.status == 200, follow_up_body
+        assert json.loads(follow_up_body)["ok"] is True
+        assert connection_header == "close" and will_close
+    finally:
+        conn.close()
+        srv.shutdown()
+        srv.server_close()
+        thread.join(timeout=5)
+
+
+@pytest.mark.parametrize(
+    "body,headers,expected_status",
+    [
+        (b"{not json", {"Content-Type": "application/json"}, 400),
+        (b"hello", {"Content-Type": "text/plain"}, 200),
+    ],
+    ids=["consumed-error", "consumed-success"],
+)
+def test_consumed_body_preserves_keepalive(server, body, headers, expected_status):
+    conn = http.client.HTTPConnection("127.0.0.1", server, timeout=5)
+    try:
+        conn.request("POST", "/v1/parse", body=body, headers=headers)
+        socket = conn.sock
+        response = conn.getresponse()
+        assert response.status == expected_status
+        response.read()
+        assert response.getheader("Connection") is None
+        assert not response.will_close and conn.sock is socket
+
+        conn.request("GET", "/health")
+        follow_up = conn.getresponse()
+        assert follow_up.status == 200 and json.loads(follow_up.read())["ok"] is True
+        assert conn.sock is socket
+    finally:
+        conn.close()
+
+
+def test_oversized_upload_receives_json_before_sending_the_complete_body():
+    srv, thread = start_in_thread("127.0.0.1", 0, quiet=True, max_body=100)
+    conn = http.client.HTTPConnection("127.0.0.1", srv.server_address[1], timeout=5)
+    stop_upload = threading.Event()
+
+    def continue_upload(upload_socket):
+        try:
+            for _ in range(32):
+                if stop_upload.is_set():
+                    break
+                upload_socket.sendall(b"x" * 16_384)
+        except OSError:
+            pass  # A rejected uploader is allowed to lose its sending side.
+
+    upload = None
+    try:
+        conn.putrequest("POST", "/v1/scan")
+        conn.putheader("Content-Type", "image/png")
+        conn.putheader("Content-Length", "1000000000")
+        conn.endheaders(b"x" * 16_384)
+        upload = threading.Thread(target=continue_upload, args=(conn.sock,))
+        upload.start()
+        response = conn.getresponse()
+        assert response.status == 413 and response.getheader("Connection") == "close"
+        assert json.loads(response.read())["error"]["code"] == "payload-too-large"
+    finally:
+        stop_upload.set()
+        if upload is not None:
+            upload.join(timeout=5)
+            assert not upload.is_alive()
+        conn.close()
+        srv.shutdown()
+        srv.server_close()
+        thread.join(timeout=5)
+
+
+def test_rejected_upload_close_grace_is_bounded_for_a_client_that_stays_open():
+    srv, thread = start_in_thread("127.0.0.1", 0, quiet=True, max_body=100)
+    finished = threading.Event()
+    original_finish = srv.RequestHandlerClass.finish
+
+    def observe_finish(handler):
+        try:
+            original_finish(handler)
+        finally:
+            finished.set()
+
+    srv.RequestHandlerClass.finish = observe_finish
+    client = socket.create_connection(("127.0.0.1", srv.server_address[1]), timeout=5)
+    try:
+        client.sendall(b"POST /v1/scan HTTP/1.1\r\nHost: localhost\r\nContent-Length: 1000000000\r\n\r\nx")
+        response = http.client.HTTPResponse(client)
+        response.begin()
+        assert response.status == 413
+        assert json.loads(response.read())["error"]["code"] == "payload-too-large"
+        # The real handler must finish even though this client has not sent the
+        # declared upload or closed its write side. The timeout is a watchdog.
+        assert finished.wait(timeout=5)
+    finally:
+        client.close()
         srv.shutdown()
         srv.server_close()
         thread.join(timeout=5)

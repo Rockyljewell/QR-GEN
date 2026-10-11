@@ -63,6 +63,43 @@ describe("parseGS1", () => {
     expect(isValidCheckDigit("5901234123458")).toBe(false);
     expect(computeCheckDigit("590123412345")).toBe(7);
   });
+
+  it.each([
+    "(01)123", "(01)0950110153000A", "(3103)1", "(3103)00019A",
+    "(10)", `(10)${"A".repeat(21)}`, "(3922)1234567890123456",
+    "(3912)978", "(3932)978", "(3932)USD1299", "(3932)978A",
+    "]C13912978", "]C13932978",
+    "https://id.gs1.org/01/123", "https://id.gs1.org/01/123456789",
+    "https://id.gs1.org/01/09501101530003?3103=1",
+    "https://id.gs1.org/01/09501101530003?3932=978",
+    "https://id.gs1.org/01/09501101530003?3912=978",
+    "https://id.gs1.org/01/09501101530003?3932=USD1299",
+    "https://id.gs1.org/01/09501101530003?10=",
+  ])("rejects malformed known AI fields: %s", (input) => {
+    expect(parseGS1(input)).toBeNull();
+  });
+
+  it("keeps valid field annotations, short Digital Link GTINs and bad checksum reports", () => {
+    for (const ai of ["3912", "3932"]) {
+      for (const input of [`(${ai})9781`, `]C1${ai}9781`, `https://id.gs1.org/01/9501101530003?${ai}=9781`]) {
+        expect(parseGS1(input)?.elements.find((e) => e.ai === ai)).toMatchObject({ iso: "978", number: 0.01 });
+      }
+    }
+    const dl = parseGS1("https://id.gs1.org/01/9501101530003?3103=000195&3932=97812345&17=240200")!;
+    expect(dl.values["01"]).toBe("09501101530003");
+    expect(dl.elements.find((e) => e.ai === "3103")?.number).toBe(0.195);
+    expect(dl.elements.find((e) => e.ai === "3932")).toMatchObject({ iso: "978", number: 123.45 });
+    expect(dl.elements.find((e) => e.ai === "17")?.date).toBe("2024-02-29");
+    for (const gtin of ["96385074", "012345000065", "9501101530003"]) {
+      expect(parseGS1(`https://id.gs1.org/01/${gtin}`)?.values["01"]).toBe(gtin.padStart(14, "0"));
+    }
+    expect(parseGS1("(01)09501101530004")?.elements[0]?.checkDigitValid).toBe(false);
+    expect(parseGS1("https://id.gs1.org/01/09501101530004")?.elements[0]?.checkDigitValid).toBe(false);
+    expect(parseGS1("(17)251301")?.values["17"]).toBe("251301");
+    expect(parseGS1("(17)251301")?.elements[0]?.date).toBeUndefined();
+    expect(parseContent("(3932)978")).toEqual({ type: "text", text: "(3932)978" });
+    expect(parseContent("https://id.gs1.org/01/09501101530003?3932=978").type).toBe("url");
+  });
 });
 
 describe("parseAAMVA", () => {

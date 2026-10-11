@@ -88,6 +88,23 @@ def test_integer_decimal_value_is_int():
     assert isinstance(_by_ai(parse_gs1("(3100)000195"))["3100"]["number"], int)
 
 
+@pytest.mark.parametrize("ai", ["3912", "3932"])
+@pytest.mark.parametrize("value", ["978", "97", "", "USD1299", "978A"])
+def test_currency_amount_requires_both_numeric_components(ai, value):
+    for data in ("(%s)%s" % (ai, value), "]C1" + ai + value,
+                 "https://id.gs1.org/01/09501101530003?%s=%s" % (ai, value)):
+        assert parse_gs1(data) is None, data
+
+
+@pytest.mark.parametrize("ai", ["3912", "3932"])
+def test_currency_amount_minimum_and_optional_identifier_extensions(ai):
+    for data in ("(%s)9781" % ai, "]C1" + ai + "9781",
+                 "https://id.gs1.org/01/9501101530003?%s=9781" % ai):
+        assert _by_ai(parse_gs1(data))[ai]["number"] == pytest.approx(0.01)
+    # Identifier extensions stay optional; they are not currency amounts.
+    assert parse_gs1("(253)9501101530003")["values"]["253"] == "9501101530003"
+
+
 def test_digital_link(today):
     url = "https://id.gs1.org/01/09501101530003/10/ABC123?17=250101"
     result = parse_gs1(url, today=today)
@@ -175,3 +192,32 @@ def test_round_trip_helpers(gs1_vector):
     assert parse_gs1(raw)["values"] == result["values"]
     result2 = parse_gs1("(10)ABC(21)XYZ")
     assert to_element_string(result2) == "10ABC" + GS + "21XYZ"
+
+
+@pytest.mark.parametrize(
+    "ai,value",
+    [("7003", "2610111230"), ("7006", "261011"), ("8005", "001234"),
+     ("3942", "1250"), ("3952", "001234")],
+)
+def test_fixed_fields_outside_predefined_table_need_separator(ai, value):
+    result = parse_gs1("(01)09501101530003(%s)%s(17)261012" % (ai, value))
+    expected = "0109501101530003" + ai + value + GS + "17261012"
+    assert to_element_string(result) == expected
+    assert parse_gs1(expected)["values"] == result["values"]
+    assert to_element_string(parse_gs1("(%s)%s" % (ai, value))) == ai + value
+
+
+@pytest.mark.parametrize(
+    "ai,value",
+    [("00", "123456789012345675"), ("01", "09501101530003"), ("11", "261011"),
+     ("20", "01"), ("3103", "000195"), ("410", "9501101530003")],
+)
+def test_predefined_fields_need_no_separator(ai, value):
+    result = parse_gs1("(%s)%s(17)261012" % (ai, value))
+    assert to_element_string(result) == ai + value + "17261012"
+
+
+def test_full_length_variable_field_still_needs_separator():
+    value = "A" * 20
+    result = parse_gs1("(10)%s(21)XYZ" % value)
+    assert to_element_string(result) == "10" + value + GS + "21XYZ"

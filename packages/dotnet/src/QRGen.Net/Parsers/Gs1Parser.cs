@@ -133,6 +133,13 @@ namespace QRGen
         private static readonly Regex HriAi = new Regex(@"\((\d{2,4})\)", RegexOptions.CultureInvariant);
         private static readonly Regex SymbologyIdentifier = new Regex(@"^\][A-Za-z][0-9A-Za-z]", RegexOptions.CultureInvariant);
 
+        // GS1 predefined-length prefixes, not every AI with a fixed-width value.
+        private static readonly HashSet<string> PredefinedLengthPrefixes = new HashSet<string>
+        {
+            "00", "01", "02", "03", "04", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
+            "31", "32", "33", "34", "35", "36", "41",
+        };
+
         private static readonly HashSet<string> DlPrimaryKeys = new HashSet<string>
         {
             "00", "01", "253", "255", "401", "402", "414", "417", "8003", "8004", "8006", "8010", "8013", "8017", "8018",
@@ -194,7 +201,7 @@ namespace QRGen
         public static string ToHri(Gs1Result result) =>
             string.Concat(result.Elements.Select(e => "(" + e.Ai + ")" + e.Value));
 
-        /// <summary>Renders a result as a raw element string with a separator after every variable-length field except the last.</summary>
+        /// <summary>Renders a raw element string with separators after fields outside GS1's predefined-length table, except the last.</summary>
         public static string ToElementString(Gs1Result result, char separator = GroupSeparator)
         {
             var builder = new StringBuilder();
@@ -202,8 +209,8 @@ namespace QRGen
             {
                 var element = result.Elements[i];
                 builder.Append(element.Ai).Append(element.Value);
-                var definition = Lookup(element.Ai);
-                if (i < result.Elements.Count - 1 && (definition is null || definition.FixedLength is null))
+                var predefined = element.Ai.Length >= 2 && PredefinedLengthPrefixes.Contains(element.Ai.Substring(0, 2));
+                if (i < result.Elements.Count - 1 && !predefined)
                     builder.Append(separator);
             }
             return builder.ToString();

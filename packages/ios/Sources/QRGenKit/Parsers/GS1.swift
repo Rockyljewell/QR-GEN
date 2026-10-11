@@ -54,13 +54,13 @@ public struct GS1Result: Codable, Hashable, Sendable {
     /// Human readable form, e.g. `(01)09501101530003(17)250101(10)ABC123`.
     public var hri: String { elements.map { "(\($0.ai))\($0.value)" }.joined() }
 
-    /// Raw element string with ASCII 29 (GS) separators after variable-length fields.
+    /// Raw element string with ASCII 29 (GS) after fields outside GS1's predefined-length table, except the last.
     public var elementString: String {
         var output = ""
         for (index, element) in elements.enumerated() {
             output += element.ai + element.value
             let isLast = index == elements.count - 1
-            if !isLast, GS1Parser.definition(for: element.ai)?.fixedLength == nil {
+            if !isLast, !GS1Parser.predefinedLengthPrefixes.contains(String(element.ai.prefix(2))) {
                 output += "\u{1D}"
             }
         }
@@ -113,6 +113,12 @@ struct GS1ApplicationIdentifier: Sendable {
 
 enum GS1Parser {
     static let groupSeparator: Unicode.Scalar = "\u{1D}"
+
+    // GS1 predefined-length prefixes, not every AI with a fixed-width value.
+    static let predefinedLengthPrefixes: Set<String> = [
+        "00", "01", "02", "03", "04", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
+        "31", "32", "33", "34", "35", "36", "41",
+    ]
 
     // MARK: AI table
 
