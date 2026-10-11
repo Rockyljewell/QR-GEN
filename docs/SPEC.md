@@ -223,7 +223,7 @@ They are reactive: an equal effective policy is a no-op, while a successful
 replacement clears observations and changes their opaque ID namespace without
 clearing duplicate history. Rejected configuration retains the accepted settings
 and histories. Actual permission/device loss still gates the accepted source, and
-real layout/preview-orientation changes still establish coordinate boundaries.
+view-axis/preview-orientation changes still establish coordinate boundaries.
 Native source/coordinate boundaries clear only spatial history; stale child
 callbacks cannot mutate the current session.
 

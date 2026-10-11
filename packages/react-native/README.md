@@ -185,7 +185,7 @@ The three native props are reactive. An equal effective policy keeps tracks.
 A successful policy replacement clears tracks and preserves duplicate history.
 A rejected proposal reports through `onError` and retains the accepted settings
 and histories. Actual permission loss or device removal still gates that camera;
-real layout or preview-orientation changes still establish coordinate boundaries.
+view-axis or preview-orientation changes still establish coordinate boundaries.
 Camera-source and coordinate boundaries clear spatial observations while keeping
 duplicate history. Clearing a nonempty set while remaining in batch produces one
 current empty tracking notification. Default payload mode keeps its existing

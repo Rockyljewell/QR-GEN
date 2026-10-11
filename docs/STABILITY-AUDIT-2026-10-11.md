@@ -432,7 +432,7 @@ The native component keeps the parent session across source replacement. A child
 owns both the VisionCamera hook and Camera, with committed source ownership and
 accepted configuration controlling callbacks. Invalid combined camera/policy
 proposals retain the accepted settings. Actual permission/device loss and real
-layout/preview-orientation changes remain independent lifecycle facts, even when
+view-axis/preview-orientation changes remain independent lifecycle facts, even when
 normalizing a proposed scan area fails. Source/coordinate boundaries clear only
 spatial observations; default payload mode keeps the existing camera instance
 behavior. Blank and ROI-excluded frames carry full upright dimensions.
