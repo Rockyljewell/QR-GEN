@@ -129,6 +129,65 @@ class BarcodeTrackerTest {
     }
 
     @Test
+    fun `overlap repair follows a chain without counting any item twice`() {
+        for (reverse in listOf(false, true)) {
+            val tracker = BarcodeTracker()
+            tracker.update(listOf(at("A", 0f, 0f), at("B", 100f, 0f), at("C", 200f, 0f)), now = 0)
+            val detections = listOf(at("X", 52f, 0f), at("Y", 152f, 0f), at("Z", 250f, 0f))
+            val result = tracker.update(if (reverse) detections.reversed() else detections, now = 30)
+            assertEquals(mapOf("X" to 1, "Y" to 2, "Z" to 3), result.tracked.associate { it.data to it.id })
+            assertTrue(result.added.isEmpty())
+            assertTrue(result.tracked.all { it.count == 2 && it.firstSeen == 0L && it.lastSeen == 30L })
+        }
+    }
+
+    @Test
+    fun `fallback cardinality agrees with an exhaustive small scene oracle`() {
+        val random = kotlin.random.Random(20261011)
+        repeat(150) { scene ->
+            val old = List(random.nextInt(1, 5)) { index ->
+                at("old-$index", random.nextInt(10) * 20f, random.nextInt(3) * 40f,
+                    size = 60f + random.nextInt(3) * 20f)
+            }
+            val detections = List(random.nextInt(1, 5)) { index ->
+                at("new-$index", random.nextInt(10) * 20f, random.nextInt(3) * 40f,
+                    size = 60f + random.nextInt(3) * 20f)
+            }
+            val eligible = detections.map { d -> old.map { it.location.overlap(d.location) >= 0.3f } }
+            // Exhaustively enumerate every eligible one-to-one assignment, including
+            // leaving a detection unmatched. This does not use the tracker matcher.
+            fun maximum(detection: Int, used: Int): Int {
+                if (detection == detections.size) return 0
+                var best = maximum(detection + 1, used)
+                for (track in old.indices) {
+                    if (used and (1 shl track) == 0 && eligible[detection][track]) {
+                        best = maxOf(best, 1 + maximum(detection + 1, used or (1 shl track)))
+                    }
+                }
+                return best
+            }
+            val expected = maximum(0, 0)
+            for (reverse in listOf(false, true)) {
+                val tracker = BarcodeTracker()
+                tracker.update(old, now = 0)
+                val result = tracker.update(if (reverse) detections.reversed() else detections, now = 30)
+                assertEquals(old.size + detections.size - expected, result.tracked.size, "scene=$scene reverse=$reverse")
+                assertEquals(detections.size - expected, result.added.size)
+                val updated = result.tracked.filter { it.lastSeen == 30L }
+                assertEquals(detections.map { it.data }.toSet(), updated.map { it.data }.toSet())
+                assertEquals(detections.size, updated.size)
+                for (track in result.tracked.filter { it.id <= old.size }) {
+                    assertEquals(0L, track.firstSeen)
+                    assertEquals(if (track.lastSeen == 30L) 2 else 1, track.count)
+                    if (track.lastSeen == 30L) {
+                        assertTrue(old[track.id - 1].location.overlap(track.location) >= 0.3f)
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
     fun `overlap repair preserves exact payload matches`() {
         val tracker = BarcodeTracker()
         tracker.update(listOf(at("A", 0f, 0f), at("B", 100f, 0f)), now = 0)
