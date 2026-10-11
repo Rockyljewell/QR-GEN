@@ -5,7 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { BarcodeScanner } from "../src/scanner";
 import { QRGenError } from "../src/errors";
 
-const mocks = vi.hoisted(() => ({ decode: vi.fn(), cameraStart: vi.fn() }));
+const mocks = vi.hoisted(() => ({ decode: vi.fn(), cameraStart: vi.fn(), decoderStart: vi.fn() }));
 vi.mock("../src/camera", () => ({ Camera: class {
   start = mocks.cameraStart;
   stop = vi.fn();
@@ -17,7 +17,7 @@ vi.mock("../src/feedback", () => ({ Feedback: class {
   unlock() {} success() {} dispose() {}
 } }));
 vi.mock("../src/engine/decoder", () => ({
-  createFrameDecoder: async () => ({ kind: "worker", decode: mocks.decode }),
+  createFrameDecoder: () => mocks.decoderStart(),
 }));
 
 describe("Scanner session isolation", () => {
@@ -47,6 +47,7 @@ describe("Scanner session isolation", () => {
   beforeEach(() => {
     mocks.decode.mockReset();
     mocks.cameraStart.mockReset().mockResolvedValue(undefined);
+    mocks.decoderStart.mockReset().mockResolvedValue({ kind: "worker", decode: mocks.decode });
     vi.stubGlobal("cancelAnimationFrame", vi.fn());
     vi.stubGlobal("OffscreenCanvas", class {
       getContext() { return { drawImage() {}, getImageData() { return {}; } }; }
@@ -436,6 +437,172 @@ describe("Scanner session isolation", () => {
     expect(s.camera.stop).toHaveBeenCalledOnce();
     expect(s.state).toBe("stopped");
     expect(mocks.decode).not.toHaveBeenCalled();
+    s.destroy();
+  });
+
+  it.each(["capture", "decode"] as const)("reports a current %s failure exactly once", async (failure) => {
+    const cause = new QRGenError("engine-load-failed", "current frame failed");
+    if (failure === "capture") {
+      vi.stubGlobal("OffscreenCanvas", class {
+        getContext() { return { drawImage() { throw cause; } }; }
+      });
+    } else mocks.decode.mockRejectedValue(cause);
+    const s = scanner();
+    const error = vi.fn();
+    s.on("error", error);
+    await s.start();
+    await (s as any).onFrame();
+    expect(error).toHaveBeenCalledExactlyOnceWith(cause);
+    expect(s.camera.stop).toHaveBeenCalledOnce();
+    expect(s.state).toBe("stopped");
+    expect((s as any).decoder).toBeNull();
+    s.destroy();
+  });
+
+  it.each([
+    ["capture", "restart"], ["capture", "stop"], ["capture", "destroy"],
+    ["decode", "restart"], ["decode", "stop"], ["decode", "destroy"],
+  ] as const)("does not emit an obsolete %s error after a stopped listener uses %s", async (failure, action) => {
+    const cause = new QRGenError("engine-load-failed", "obsolete frame failed");
+    if (failure === "capture") {
+      vi.stubGlobal("OffscreenCanvas", class {
+        getContext() { return { drawImage() { throw cause; } }; }
+      });
+    } else mocks.decode.mockRejectedValue(cause);
+    const s = scanner();
+    const error = vi.fn();
+    s.on("error", error);
+    await s.start();
+    let finish!: () => void;
+    let replacement: Promise<void> | undefined;
+    s.once("state", (state) => {
+      expect(state).toBe("stopped");
+      if (action === "restart") {
+        mocks.cameraStart.mockReturnValueOnce(new Promise<void>((resolve) => { finish = resolve; }));
+        replacement = s.start();
+      } else if (action === "stop") s.stop();
+      else s.destroy();
+    });
+    await (s as any).onFrame();
+    expect(error).not.toHaveBeenCalled();
+    if (action === "restart") {
+      expect(s.state).toBe("starting");
+      finish();
+      await replacement;
+      expect(s.state).toBe("scanning");
+      expect(s.camera.stop).toHaveBeenCalledOnce();
+    } else expect(s.state).toBe(action === "destroy" ? "idle" : "stopped");
+    s.destroy();
+  });
+
+  async function realCameraScanner() {
+    const { Camera } = await vi.importActual<typeof import("../src/camera")>("../src/camera");
+    const s = scanner();
+    Object.assign(s.video, {
+      readyState: 1, srcObject: null, setAttribute: vi.fn(), play: vi.fn().mockResolvedValue(undefined),
+    });
+    Object.defineProperty(s, "camera", { value: new Camera() });
+    return s;
+  }
+
+  function mediaStream() {
+    const track = { stop: vi.fn(), getSettings: () => ({}), getCapabilities: () => ({}) };
+    return { track, stream: { getTracks: () => [track], getVideoTracks: () => [track] } as unknown as MediaStream };
+  }
+
+  it("prevents a stopped listener from reopening the real camera during destroy", async () => {
+    const active = mediaStream(), late = mediaStream();
+    let finish!: (stream: MediaStream) => void;
+    const getUserMedia = vi.fn().mockResolvedValueOnce(active.stream)
+      .mockReturnValueOnce(new Promise<MediaStream>((resolve) => { finish = resolve; }));
+    vi.stubGlobal("navigator", { mediaDevices: { getUserMedia } });
+    const s = await realCameraScanner();
+    await s.start();
+    let replacement: Promise<void> | undefined;
+    s.once("state", () => { replacement = s.start(); });
+    s.destroy();
+    finish(late.stream);
+    await replacement;
+    expect(s.state).toBe("idle");
+    expect((s as any).decoder).toBeNull();
+    expect(getUserMedia).toHaveBeenCalledOnce();
+    expect(active.track.stop).toHaveBeenCalledOnce();
+    expect(s.camera.stream).toBeNull();
+    expect(s.video.srcObject).toBeNull();
+    expect(s.video.requestVideoFrameCallback).toHaveBeenCalledOnce();
+    s.destroy();
+  });
+
+  it("cancels deferred camera permission and decoder initialization on destroy", async () => {
+    const late = mediaStream();
+    let finishCamera!: (stream: MediaStream) => void;
+    let finishDecoder!: (decoder: unknown) => void;
+    const getUserMedia = vi.fn(() => new Promise<MediaStream>((resolve) => { finishCamera = resolve; }));
+    vi.stubGlobal("navigator", { mediaDevices: { getUserMedia } });
+    mocks.decoderStart.mockReturnValueOnce(new Promise((resolve) => { finishDecoder = resolve; }));
+    const s = await realCameraScanner();
+    const ready = vi.fn(), error = vi.fn();
+    s.on("ready", ready);
+    s.on("error", error);
+    const starting = s.start();
+    s.destroy();
+    finishDecoder({ kind: "worker", decode: mocks.decode });
+    finishCamera(late.stream);
+    await starting;
+    expect(s.state).toBe("idle");
+    expect((s as any).decoder).toBeNull();
+    expect(late.track.stop).toHaveBeenCalledOnce();
+    expect(s.camera.stream).toBeNull();
+    expect(s.video.srcObject).toBeNull();
+    expect(s.video.requestVideoFrameCallback).not.toHaveBeenCalled();
+    expect(ready).not.toHaveBeenCalled();
+    expect(error).not.toHaveBeenCalled();
+  });
+
+  it("ignores a nested destroy and camera switch requested during teardown", async () => {
+    const s = scanner();
+    await s.start();
+    let switching: Promise<void> | undefined;
+    s.once("state", () => { s.destroy(); switching = s.switchCamera(); });
+    s.destroy();
+    await switching;
+    expect(s.camera.switch).not.toHaveBeenCalled();
+    expect(s.camera.stop).toHaveBeenCalledOnce();
+    expect(s.state).toBe("idle");
+    expect((s as any).decoder).toBeNull();
+  });
+
+  it("preserves explicit start after destroy completes", async () => {
+    const s = scanner();
+    await s.start();
+    s.destroy();
+    const ready = vi.fn();
+    s.on("ready", ready);
+    await s.start();
+    expect(s.state).toBe("scanning");
+    expect(ready).toHaveBeenCalledOnce();
+    expect(mocks.cameraStart).toHaveBeenCalledTimes(2);
+    s.destroy();
+  });
+
+  it("restores intrinsic resize resets after explicit reuse following destroy", async () => {
+    const s = scanner();
+    s.setOptions({ mode: "batch" });
+    mocks.decode.mockResolvedValue([decodedCode("test")]);
+    await s.start();
+    s.destroy();
+    const reset = vi.fn();
+    s.on("spatialreset", reset);
+    await s.start();
+    await (s as any).onFrame();
+    expect(s.tracker.all).toHaveLength(1);
+    s.pause();
+    Object.assign(s.video, { videoWidth: 480, videoHeight: 640 });
+    s.video.dispatchEvent(new Event("resize"));
+    expect(s.state).toBe("paused");
+    expect(reset).toHaveBeenCalledExactlyOnceWith({ frameSize: { width: 480, height: 640 } });
+    expect(s.tracker.all).toEqual([]);
+    expect((s as any).pendingBatchScans.size).toBe(0);
     s.destroy();
   });
 
