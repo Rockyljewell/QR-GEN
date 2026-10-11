@@ -306,7 +306,9 @@ class _QRGenWebScannerState extends State<QRGenWebScanner> with WidgetsBindingOb
 
   void _scheduleTransportRetry() {
     if (_disposed || !_loaded || _pageFailed || (!_documentFinished && !_ready) ||
-        _nextPending == null || _transportRetry != null) return;
+        _nextPending == null || _transportRetry != null) {
+      return;
+    }
     final generation = _pageGeneration;
     var delay = _transportRetryDelay;
     for (var attempt = 1; attempt < _transportAttempts; attempt++) {
