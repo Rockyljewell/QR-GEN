@@ -5,7 +5,7 @@ group: Features
 order: 5
 ---
 
-Start with the [print planner](/plan/) to make a website, text or Wi-Fi QR code using the available space and printer resolution. Content stays on your device. The interface keeps the white quiet zone, explains when a payload needs more room, and can scan the exported PNG back to check its content.
+Start with the [print planner](../../plan/) to make a website, text or Wi-Fi QR code using the available space and printer resolution. Content stays on your device. The interface keeps the white quiet zone, explains when a payload needs more room, and can scan the exported PNG back to check its content.
 
 ## Plan with the SDK
 

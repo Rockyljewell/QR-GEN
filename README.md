@@ -19,7 +19,7 @@ scanner UI, tracks many codes at once, parses GS1 data and North American driver
 generates print-ready barcodes. It runs on the web, iOS, Android, React Native, Flutter, .NET, Node.js,
 Python and any language through a REST API. Camera frames never leave the device.
 
-New JavaScript/Node experiments include [physical-size QR planning](packages/sdk/README.md#plan-a-qr-code-for-print), common payload helpers, read-only capability diagnostics and opt-in adaptive capture. See the [experiment roadmap and validation gates](docs/FRONTIER-EXPERIMENTS.md). The standard portable decoder remains the foundation; physical-device improvements require measured evidence.
+New JavaScript/Node experiments include [physical-size QR planning](packages/sdk/README.md#plan-a-qr-code-for-print), common payload helpers, read-only capability diagnostics and opt-in adaptive capture. Try the [print planner](https://rockyljewell.github.io/QR-GEN/plan/) and [offline creation and image scanning](https://rockyljewell.github.io/QR-GEN/offline/) (open online first to save the tools). See the [experiment roadmap and validation gates](docs/FRONTIER-EXPERIMENTS.md). The standard portable decoder remains the foundation; physical-device improvements require measured evidence.
 
 ## Agent Skills
 

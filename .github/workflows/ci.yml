@@ -49,7 +49,7 @@ jobs:
         working-directory: site
       - name: End-to-end tests (fake camera)
         run: npm run test:e2e -w qrgen-site
-      - name: Print planning and adaptive opt-in browser checks
+      - name: Print planning, adaptive opt-in and offline browser checks
         run: npm run test:frontier
 
   windows-web:
