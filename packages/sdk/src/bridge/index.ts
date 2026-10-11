@@ -85,6 +85,7 @@ export function parseBridgeMessage(data: unknown): BridgeMessage | null {
 /** Element attributes from an embed URL query string (`?symbologies=qr,ean13&mode=single`). */
 export function attributesFromQuery(search: string): Record<string, string> {
   const params = new URLSearchParams(search);
+  const booleanAttributes = new Set(["beep", "vibrate", "torch", "autostart", "try-harder", "toast", "worker"]);
   const map: Record<string, string> = {
     symbologies: "symbologies",
     mode: "mode",
@@ -112,7 +113,11 @@ export function attributesFromQuery(search: string): Record<string, string> {
   const out: Record<string, string> = {};
   params.forEach((value, key) => {
     const attr = map[key];
-    if (attr) out[attr] = value === "1" ? "true" : value === "0" ? "false" : value;
+    // Numeric options and opaque text may also be exactly "0" or "1".
+    if (attr) {
+      const booleanValue = value === "1" ? "true" : value === "0" ? "false" : value;
+      out[attr] = booleanAttributes.has(attr) ? booleanValue : value;
+    }
   });
   return out;
 }

@@ -448,6 +448,56 @@ await test("embed page talks to its host through postMessage", async () => {
   });
 });
 
+await test("embed maxResults=1 limits batch frames", async () => {
+  await withBrowser(multiVideo, async (page, errors) => {
+    await page.goto(u("embed/?mode=batch&maxResults=1&duplicateFilter=0&autostart=0&beep=0&vibrate=0&viewfinder=none"));
+    const batch = await page.evaluate(async () => {
+      const el = document.querySelector("qrgen-scanner");
+      await el.start();
+      const frames = [];
+      await new Promise((resolve, reject) => {
+        const timeout = setTimeout(() => reject(new Error("No three batch frames")), 15000);
+        el.scanner.on("frame", ({ barcodes }) => {
+          if (!barcodes.length) return;
+          frames.push(barcodes.map((b) => b.data));
+          if (frames.length === 3) { clearTimeout(timeout); el.stop(); resolve(); }
+        });
+      });
+      return { frames, options: el.options, attached: el.scanner.video.srcObject !== null };
+    });
+    assert(batch.frames.every((frame) => frame.length === 1), `maxResults=1 ignored: ${JSON.stringify(batch.frames)}`);
+    assert(batch.options.maxResults === 1 && batch.options.duplicateFilter === 0, JSON.stringify(batch.options));
+    assert(!batch.attached, "batch camera still attached");
+    assert(errors.length === 0, errors.join("; "));
+  });
+});
+
+await test("embed duplicate-filter=0 allows continuous repeats", async () => {
+  await withBrowser(qrVideo, async (page, errors) => {
+    await page.goto(u("embed/?symbologies=qr&mode=continuous&duplicate-filter=0&max-results=1&autostart=0&beep=0&vibrate=0&viewfinder=none"));
+    const continuous = await page.evaluate(async () => {
+      const el = document.querySelector("qrgen-scanner");
+      await el.start();
+      let frames = 0, scans = 0;
+      await new Promise((resolve, reject) => {
+        const timeout = setTimeout(() => reject(new Error("No five continuous frames")), 15000);
+        el.scanner.on("scan", () => { scans++; });
+        el.scanner.on("frame", ({ barcodes }) => {
+          if (!barcodes.length) return;
+          if (++frames === 5) {
+            // Scan delivery follows frame delivery in the same decode.
+            queueMicrotask(() => { clearTimeout(timeout); el.stop(); resolve(); });
+          }
+        });
+      });
+      return { frames, scans, attached: el.scanner.video.srcObject !== null };
+    });
+    assert(continuous.frames === 5 && continuous.scans === 5, `duplicate-filter=0 ignored: ${JSON.stringify(continuous)}`);
+    assert(!continuous.attached, "continuous camera still attached");
+    assert(errors.length === 0, errors.join("; "));
+  });
+});
+
 await test("share dialog links every network, copies the link and shows a scannable QR", async () => {
   await withBrowser(null, async (page, errors) => {
     await page.context().grantPermissions(["clipboard-read", "clipboard-write"]);
