@@ -47,7 +47,7 @@ export const PRODUCTS: Product[] = [
   {
     slug: "batch-scanning",
     tag: "Batch Scanning",
-    title: "Scan a whole shelf in one sweep",
+    title: "Review several barcodes at once",
     lead: "Track multiple barcodes in one camera frame, with a highlight on each decoded result. Review values in an accessible list, choose the codes you need and see how many decoded codes are in view.",
     demo: "/demo/",
     docs: "/docs/batch-scanning/",
@@ -58,7 +58,7 @@ export const PRODUCTS: Product[] = [
       { icon: "check", title: "Choose results", text: "Select decoded values from a list using touch, mouse or keyboard. Selected results stay available after leaving view." },
       { icon: "bolt", title: "Tuned for many codes", text: "Full-frame decoding and try-harder mode find codes anywhere in the image." },
       { icon: "code", title: "Bring your own UI", text: "BarcodeTracker and the track event give you coordinates to draw your own AR overlay." },
-      { icon: "box", title: "Everywhere", text: "Batch mode works the same on the web, iOS, Android, React Native, Flutter and Python." },
+      { icon: "box", title: "Across platforms", text: "Batch decoding is available on the web, iOS, Android, React Native, Flutter and Python. The web component includes the results list." },
     ],
     code: [
       { label: "Count items", icon: "js", lang: "html", code: `<qrgen-scanner mode="batch" symbologies="retail"></qrgen-scanner>\n<script type="module">\n  import "qrgen-sdk/elements";\n  const el = document.querySelector("qrgen-scanner");\n  el.addEventListener("track", (e) => {\n    counter.textContent = \`\${e.detail.tracked.length} items in view\`;\n  });\n  el.addEventListener("select", (e) => console.log(e.detail.selection));\n</script>` },
@@ -69,7 +69,7 @@ export const PRODUCTS: Product[] = [
     specs: [
       ["Matching", "Same symbology and data, nearest position (so duplicates stay separate)"],
       ["Lifetime", "Tracks are dropped 500 ms after they leave the view"],
-      ["Events", "track: { tracked, added, removed } · scan: new unique codes · select: tap"],
+      ["Events", "track: { tracked, added, removed } · scan: new unique codes · select: result selection"],
       ["Fields", "TrackedBarcode = Barcode + id, firstSeen, lastSeen, count"],
     ],
   },
