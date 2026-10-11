@@ -257,7 +257,7 @@ void main() {
     await settle(tester);
     expect(tracked.last.single.id, qrgenTrackingId('qr', 'X'));
 
-    // The tracker uses wall-clock time, so let real time pass, then fire the tick timer.
+    // Let actual elapsed time pass, then fire the tracker tick timer.
     await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 650)));
     await tester.pump(const Duration(milliseconds: 150));
     await settle(tester);

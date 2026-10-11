@@ -4,6 +4,7 @@
 library;
 
 import 'barcode.dart';
+import 'duration_clock.dart';
 
 /// Default time after which an unseen code is dropped.
 const Duration qrgenDefaultTrackingTimeout = Duration(milliseconds: 500);
@@ -50,8 +51,10 @@ class QRGenBarcodeTracker {
   /// How long a code may stay unseen before it is dropped.
   final Duration timeout;
 
-  final Map<String, QRGenTrackedBarcode> _items = {};
-  final Set<String> _activeIds = {};
+  Map<String, QRGenTrackedBarcode> _items = {};
+  Set<String> _activeIds = {};
+  Map<String, Duration> _observedElapsed = {};
+  final QRGenDurationClock _clock = QRGenDurationClock();
 
   /// Number of tracked codes.
   int get length => _items.length;
@@ -63,66 +66,95 @@ class QRGenBarcodeTracker {
   /// refreshed and `count` incremented (once per frame), new codes are added
   /// and stale codes removed.
   QRGenTrackerUpdate update(Iterable<QRGenBarcode> barcodes, [DateTime? now]) {
-    final time = now ?? DateTime.now();
-    final removed = _dropStale(time);
+    final sample = _clock.preview(now);
+    final items = Map.of(_items);
+    final ids = Set.of(_activeIds);
+    final observed = _elapsedHistory(sample);
+    final removed = _dropStale(sample, items, ids, observed);
     final added = <QRGenTrackedBarcode>[];
     final seen = <String>{};
     for (final b in barcodes) {
       final key = b.key;
       if (!seen.add(key)) continue;
-      final existing = _items[key];
+      final existing = items[key];
       if (existing != null) {
-        _items[key] = QRGenTrackedBarcode.fromBarcode(
+        items[key] = QRGenTrackedBarcode.fromBarcode(
           b,
           id: existing.id,
           firstSeen: existing.firstSeen,
-          lastSeen: time,
+          lastSeen: sample.timestamp,
           count: existing.count + 1,
         );
       } else {
         final item = QRGenTrackedBarcode.fromBarcode(
           b,
-          id: _allocateId(qrgenTrackingId(b.symbology.id, b.data)),
-          firstSeen: time,
-          lastSeen: time,
+          id: _allocateId(qrgenTrackingId(b.symbology.id, b.data), ids),
+          firstSeen: sample.timestamp,
+          lastSeen: sample.timestamp,
           count: 1,
         );
-        _items[key] = item;
+        items[key] = item;
         added.add(item);
       }
+      observed[key] = sample.elapsed;
     }
-    return QRGenTrackerUpdate(tracked: tracked, added: added, removed: removed, changed: seen.isNotEmpty || removed.isNotEmpty);
+    final result = QRGenTrackerUpdate(
+      tracked: List.unmodifiable(items.values), added: added, removed: removed, changed: seen.isNotEmpty || removed.isNotEmpty,
+    );
+    _items = items;
+    _activeIds = ids;
+    _observedElapsed = observed;
+    _clock.commit(sample);
+    return result;
   }
 
   /// Removes stale codes; call it on a timer when no frames with codes arrive.
   QRGenTrackerUpdate prune([DateTime? now]) {
-    final removed = _dropStale(now ?? DateTime.now());
-    return QRGenTrackerUpdate(tracked: tracked, added: const [], removed: removed, changed: removed.isNotEmpty);
+    final sample = _clock.preview(now);
+    final items = Map.of(_items);
+    final ids = Set.of(_activeIds);
+    final observed = _elapsedHistory(sample);
+    final removed = _dropStale(sample, items, ids, observed);
+    final result = QRGenTrackerUpdate(tracked: List.unmodifiable(items.values), added: const [], removed: removed, changed: removed.isNotEmpty);
+    _items = items;
+    _activeIds = ids;
+    _observedElapsed = observed;
+    _clock.commit(sample);
+    return result;
   }
 
   /// Forgets every tracked code.
   void reset() {
     _items.clear();
     _activeIds.clear();
+    _observedElapsed.clear();
+    _clock.reset();
   }
 
-  String _allocateId(String base) {
+  String _allocateId(String base, Set<String> activeIds) {
     var id = base;
     var suffix = 1;
-    while (_activeIds.contains(id)) {
+    while (activeIds.contains(id)) {
       id = '$base-${suffix++}';
     }
-    _activeIds.add(id);
+    activeIds.add(id);
     return id;
   }
 
-  List<QRGenTrackedBarcode> _dropStale(DateTime now) {
+  Map<String, Duration> _elapsedHistory(QRGenDurationSample sample) => sample.changed && !sample.explicit
+      ? {for (final entry in _items.entries) entry.key: sample.rebase(entry.value.lastSeen)}
+      : Map.of(_observedElapsed);
+
+  List<QRGenTrackedBarcode> _dropStale(
+    QRGenDurationSample sample, Map<String, QRGenTrackedBarcode> items, Set<String> activeIds, Map<String, Duration> observed,
+  ) {
     final removed = <QRGenTrackedBarcode>[];
-    _items.removeWhere((_, item) {
-      final stale = now.difference(item.lastSeen) > timeout;
+    items.removeWhere((key, item) {
+      final stale = sample.age(item.lastSeen, observed[key]!) > timeout;
       if (stale) {
         removed.add(item);
-        _activeIds.remove(item.id);
+        activeIds.remove(item.id);
+        observed.remove(key);
       }
       return stale;
     });

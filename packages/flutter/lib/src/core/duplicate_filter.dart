@@ -4,6 +4,7 @@
 library;
 
 import 'barcode.dart';
+import 'duration_clock.dart';
 
 /// Suppresses repeated reports of the same symbology + data.
 ///
@@ -18,7 +19,9 @@ class QRGenDuplicateFilter {
 
   static const int _cleanupThreshold = 256;
 
-  final Map<String, DateTime> _lastReported = {};
+  Map<String, DateTime> _lastReported = {};
+  Map<String, Duration> _reportedElapsed = {};
+  final QRGenDurationClock _clock = QRGenDurationClock();
   int _window;
 
   /// The window in ms (`-1` means once per session).
@@ -32,27 +35,86 @@ class QRGenDuplicateFilter {
 
   /// Returns `true` when the code with [key] should be reported at [now], and
   /// records it. Use [QRGenBarcode.key] for barcodes.
-  bool acceptKey(String key, DateTime now) {
-    if (_window == 0) return true;
-    final last = _lastReported[key];
-    if (last != null && (_window < 0 || now.difference(last).inMilliseconds < _window)) return false;
-    _lastReported[key] = now;
-    if (_window > 0 && _lastReported.length > _cleanupThreshold) _cleanup(now);
-    return true;
-  }
+  bool acceptKey(String key, DateTime now) => _accept(key, _clock.preview(now));
 
   /// Returns `true` when [barcode] should be reported, and records it.
-  bool accept(QRGenBarcode barcode, [DateTime? now]) => acceptKey(barcode.key, now ?? DateTime.now());
+  bool accept(QRGenBarcode barcode, [DateTime? now]) => _accept(barcode.key, _clock.preview(now));
 
   /// The barcodes that are not duplicates, in order; records them.
   List<T> filter<T extends QRGenBarcode>(Iterable<T> barcodes, [DateTime? now]) {
-    final time = now ?? DateTime.now();
-    return barcodes.where((b) => acceptKey(b.key, time)).toList();
+    final sample = _clock.preview(now);
+    final observed = _elapsedHistory(sample);
+    final pending = <String, DateTime>{};
+    final pendingElapsed = <String, Duration>{};
+    Map<String, DateTime>? reported;
+    Map<String, Duration>? elapsed;
+    final result = <T>[];
+    for (final barcode in barcodes) {
+      final key = barcode.key;
+      if (reported == null && _window < 0) {
+        if (_lastReported.containsKey(key) || pending.containsKey(key)) continue;
+        pending[key] = sample.timestamp;
+        pendingElapsed[key] = sample.elapsed;
+        result.add(barcode);
+      } else if (_window == 0) {
+        result.add(barcode);
+      } else {
+        // Once-per-session histories can be large. Only a positive window
+        // needs a complete working map for age-based replacement and cleanup.
+        reported ??= Map.of(_lastReported)..addAll(pending);
+        elapsed ??= Map.of(observed)..addAll(pendingElapsed);
+        if (_acceptAt(key, sample, reported, elapsed)) result.add(barcode);
+      }
+    }
+    // Caller iteration and all DateTime comparisons finish before committing.
+    if (reported != null) {
+      _lastReported = reported;
+      _reportedElapsed = elapsed!;
+    } else {
+      _lastReported.addAll(pending);
+      observed.addAll(pendingElapsed);
+      _reportedElapsed = observed;
+    }
+    _clock.commit(sample);
+    return result;
   }
 
   /// Forgets every code (starts a new session).
-  void reset() => _lastReported.clear();
+  void reset() {
+    _lastReported.clear();
+    _reportedElapsed.clear();
+    _clock.reset();
+  }
 
-  void _cleanup(DateTime now) =>
-      _lastReported.removeWhere((_, time) => now.difference(time).inMilliseconds >= _window);
+  Map<String, Duration> _elapsedHistory(QRGenDurationSample sample) => sample.changed && !sample.explicit
+      ? {for (final entry in _lastReported.entries) entry.key: sample.rebase(entry.value)}
+      : _reportedElapsed;
+
+  bool _accept(String key, QRGenDurationSample sample) {
+    final observed = _elapsedHistory(sample);
+    final accepted = _acceptAt(key, sample, _lastReported, observed);
+    _reportedElapsed = observed;
+    _clock.commit(sample);
+    return accepted;
+  }
+
+  bool _acceptAt(String key, QRGenDurationSample sample, Map<String, DateTime> reported, Map<String, Duration> observed) {
+    if (_window == 0) return true;
+    final last = reported[key];
+    if (last != null && (_window < 0 || sample.age(last, observed[key]!).inMilliseconds < _window)) return false;
+    final length = reported.length + (last == null ? 1 : 0);
+    final stale = _window > 0 && length > _cleanupThreshold
+        ? reported.entries
+            .where((entry) => entry.key != key && sample.age(entry.value, observed[entry.key]!).inMilliseconds >= _window)
+            .map((entry) => entry.key)
+            .toList()
+        : const <String>[];
+    reported[key] = sample.timestamp;
+    observed[key] = sample.elapsed;
+    for (final old in stale) {
+      reported.remove(old);
+      observed.remove(old);
+    }
+    return true;
+  }
 }
