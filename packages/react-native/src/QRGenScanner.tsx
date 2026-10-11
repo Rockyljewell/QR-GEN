@@ -3,7 +3,7 @@
 /**
  * `QRGenScanner`: native-performance scanner built on react-native-vision-camera 4.
  */
-import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import {
   AppState,
   Dimensions,
@@ -223,6 +223,15 @@ const VisionCameraScanner = forwardRef<QRGenScannerHandle, InnerProps>(function 
   const sessionRef = useRef<ScanSession | null>(null);
   if (!sessionRef.current) sessionRef.current = new ScanSession({ mode, duplicateFilter });
   const session = sessionRef.current;
+  const deliveryGeneration = useRef(0);
+  const mounted = useRef(true);
+  useLayoutEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+      deliveryGeneration.current += 1;
+    };
+  }, []);
 
   const emitError = useCallback((code: QRGenErrorCode | QRGenError, message?: string) => {
     const err = typeof code === 'string' ? createQRGenError(code, message) : code;
@@ -232,9 +241,10 @@ const VisionCameraScanner = forwardRef<QRGenScannerHandle, InnerProps>(function 
 
   // Options -> session. Changing the mode also restarts a finished `single` scan.
   const previousMode = useRef(mode);
-  useEffect(() => {
+  useLayoutEffect(() => {
     session.configure({ mode, duplicateFilter });
     if (previousMode.current !== mode) {
+      deliveryGeneration.current += 1;
       previousMode.current = mode;
       setRunState('running');
     }
@@ -336,7 +346,8 @@ const VisionCameraScanner = forwardRef<QRGenScannerHandle, InnerProps>(function 
   const onCodeScanned = useCallback(
     (codes: Code[], frame: CodeScannerFrame) => {
       const state = live.current;
-      if (!state.cameraActive || state.runState !== 'running') return;
+      if (!mounted.current || !state.cameraActive || state.runState !== 'running') return;
+      const delivery = ++deliveryGeneration.current;
       const now = Date.now();
       const window = Dimensions.get('window');
       const view = viewSizeRef.current ?? { width: window.width, height: window.height };
@@ -346,7 +357,7 @@ const VisionCameraScanner = forwardRef<QRGenScannerHandle, InnerProps>(function 
         const fs = barcodes[0]!.frameSize;
         setFrameSize((prev) => (prev && prev.width === fs.width && prev.height === fs.height ? prev : fs));
       }
-      const result = session.process(barcodes, now);
+      const result = session.process(barcodes);
       // Complete this single frame before app callbacks can start a new scan.
       if (result.stop) setRunState('stopped');
       if (state.mode === 'batch') {
@@ -363,7 +374,8 @@ const VisionCameraScanner = forwardRef<QRGenScannerHandle, InnerProps>(function 
         }
         p.onScan?.(result.scanned);
       }
-      if (result.tracked) p.onTrack?.(result.tracked);
+      // A scan callback can process a newer frame, reset, unmount, or commit a different mode.
+      if (mounted.current && deliveryGeneration.current === delivery && result.tracked) p.onTrack?.(result.tracked);
     },
     [platform, session, showHighlightsFor],
   );
@@ -375,7 +387,7 @@ const VisionCameraScanner = forwardRef<QRGenScannerHandle, InnerProps>(function 
   useEffect(() => {
     if (mode !== 'batch' || !cameraActive) return;
     const id = setInterval(() => {
-      const tracked = session.tick(Date.now());
+      const tracked = session.tick();
       if (tracked) {
         showHighlightsFor(tracked, false);
         latest.current.onTrack?.(tracked);
@@ -407,6 +419,7 @@ const VisionCameraScanner = forwardRef<QRGenScannerHandle, InnerProps>(function 
         setRunState('running');
       },
       reset() {
+        deliveryGeneration.current += 1;
         session.reset();
         setHighlights([]);
         setRunState('running');

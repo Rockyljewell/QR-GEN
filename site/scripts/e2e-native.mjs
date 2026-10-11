@@ -26,14 +26,19 @@ const native = `
   export const Vibration = {vibrate(){}};
 `;
 const camera = `
-  import React,{useLayoutEffect} from ${react};
+  import React,{useCallback,useLayoutEffect,useMemo,useRef} from ${react};
   const back={id:'back',position:'back',hasTorch:true};
   const front={id:'front',position:'front',hasTorch:true};
   const permission={hasPermission:true,requestPermission:()=>Promise.resolve(true)};
   export function useCameraPermission(){return permission}
   export function useCameraDevices(){return [back,front]}
   export function useCameraDevice(position){return position==='front'?front:back}
-  export function useCodeScanner(options){return options}
+  // Mirror VisionCamera 4.7.3's stable hook callback without loading native code.
+  export function useCodeScanner({onCodeScanned,...options}){
+    const ref=useRef(onCodeScanned);ref.current=onCodeScanned;
+    const callback=useCallback((codes,frame)=>ref.current(codes,frame),[]);
+    return useMemo(()=>({...options,onCodeScanned:callback}),[JSON.stringify(options),callback]);
+  }
   export function Camera(props){
     useLayoutEffect(()=>{window.cameraProps=props;return()=>{window.cameraProps=null}});
     return React.createElement('div',{'data-camera':true,'data-active':String(props.isActive)});
@@ -45,23 +50,39 @@ const app = `
   import {flushSync} from ${JSON.stringify(dependency.resolve("react-dom"))};
   import {QRGenScanner} from ${JSON.stringify(adapter)};
   const ref=createRef();const root=createRoot(document.getElementById('app'));
-  let calls=[],mode='single',action,duplicateFilter=0,key=0;
+  let calls=[],tracks=[],events=[],mode='single',action,duplicateFilter=0,key=0,accentColor='#2EC1CE';
   const scan=codes=>{
     calls.push(codes.map(c=>c.data));
-    if(action==='mode'){mode='continuous';render()}
+    events.push({type:'scan',data:codes.map(c=>c.data)});
+    if(action?.startsWith('batch-')){
+      const next=action;action=null;
+      events.push({type:'action',name:next});
+      if(next==='batch-reset')ref.current.reset();
+      else if(next==='batch-reset-next'){ref.current.reset();window.probe.frame('B')}
+      else if(next==='batch-next')window.probe.frame('B');
+      else if(next==='batch-unmount')flushSync(()=>root.unmount());
+      else if(next==='batch-mode'){mode='continuous';flushSync(render)}
+      else if(next==='batch-mode-queued'){mode='continuous';render()}
+      else if(next==='batch-accent'){accentColor='#ABCDEF';flushSync(render)}
+      else ref.current[next.slice(6)]();
+    }
+    else if(action==='mode'){mode='continuous';render()}
     else if(action==='unmount')root.unmount();
     else if(action)ref.current[action]();
   };
+  const track=list=>{const data=list.map(c=>c.data);tracks.push(data);events.push({type:'track',data})};
   function render(){root.render(React.createElement(QRGenScanner,{
     key,ref,mode,symbologies:['qr'],duplicateFilter,beep:false,vibrate:false,
-    showToast:false,showHighlights:false,onScan:scan,
+    accentColor,showToast:false,showHighlights:false,onScan:scan,onTrack:track,
   }))}
   window.probe={
-    mount(nextAction,windowMs=0){calls=[];mode='single';action=nextAction;duplicateFilter=windowMs;key++;flushSync(render)},
+    mount(nextAction,windowMs=0){calls=[];tracks=[];events=[];mode='single';action=nextAction;duplicateFilter=windowMs;key++;flushSync(render)},
+    mountBatch(nextAction){calls=[];tracks=[];events=[];mode='batch';action=nextAction;duplicateFilter=-1;key++;flushSync(render)},
     frame(value){flushSync(()=>window.cameraProps.codeScanner.onCodeScanned([
       {type:'qr',value,corners:[{x:20,y:20},{x:120,y:20},{x:120,y:120},{x:20,y:120}]}
     ],{width:720,height:1280}))},
     snapshot(){return {calls:[...calls],cameraActive:window.cameraProps?.isActive??false,attached:!!ref.current}},
+    batchState(){return {...this.snapshot(),tracks:[...tracks],events:[...events]}},
     unmount(){flushSync(()=>root.unmount())},
   };
 `;
@@ -69,7 +90,7 @@ const bundle = await build({
   stdin: { contents: app, resolveDir: root, loader: "tsx" }, bundle: true, write: false, format: "iife", platform: "browser",
   define: { "process.env.NODE_ENV": '"development"' },
   plugins: [{ name: "native-camera-boundaries", setup(builder) {
-    builder.onResolve({ filter: /^react$/ }, () => ({ path: dependency.resolve("react") }));
+    builder.onResolve({ filter: /^react(?:\/jsx(?:-dev)?-runtime)?$/ }, args => ({ path: dependency.resolve(args.path) }));
     builder.onResolve({ filter: /^react-native$/ }, () => ({ path: "native", namespace: "boundary" }));
     builder.onResolve({ filter: /^react-native-vision-camera$/ }, () => ({ path: "camera", namespace: "boundary" }));
     builder.onResolve({ filter: /\.\/ScannerOverlay$/ }, () => ({ path: "overlay", namespace: "boundary" }));
@@ -107,6 +128,11 @@ try {
   };
   const frame = (page, value) => page.evaluate(value => window.probe.frame(value), value);
   const state = page => page.evaluate(() => window.probe.snapshot());
+  const mountBatch = async (page, action) => {
+    await page.evaluate(nextAction => window.probe.mountBatch(nextAction), action);
+    await page.waitForSelector('[data-active="true"]', { state: "attached" });
+  };
+  const batchState = page => page.evaluate(() => window.probe.batchState());
 
   await test("native single scan stops when the callback does not restart", async page => {
     await mount(page, null);
@@ -156,4 +182,64 @@ try {
     await frame(page, "A");
     assert.deepEqual(await state(page), { calls: [["A"]], cameraActive: false, attached: false });
   });
+  await test("native batch reset cancels the old track snapshot and accepts the next same code", async page => {
+    await mountBatch(page, "batch-reset");
+    await frame(page, "A");
+    assert.deepEqual((await batchState(page)).tracks, []);
+    await frame(page, "A");
+    assert.deepEqual(await batchState(page), {
+      calls: [["A"], ["A"]], cameraActive: true, attached: true, tracks: [["A"]],
+      events: [{ type: "scan", data: ["A"] }, { type: "action", name: "batch-reset" },
+        { type: "scan", data: ["A"] }, { type: "track", data: ["A"] }],
+    });
+  });
+  await test("native batch reset and a nested frame retain only the newer track snapshot", async page => {
+    await mountBatch(page, "batch-reset-next");
+    await frame(page, "A");
+    assert.deepEqual(await batchState(page), {
+      calls: [["A"], ["B"]], cameraActive: true, attached: true, tracks: [["B"]],
+      events: [{ type: "scan", data: ["A"] }, { type: "action", name: "batch-reset-next" },
+        { type: "scan", data: ["B"] }, { type: "track", data: ["B"] }],
+    });
+  });
+  await test("native batch nested frame supersedes the earlier track snapshot without resetting history", async page => {
+    await mountBatch(page, "batch-next");
+    await frame(page, "A");
+    assert.deepEqual(await batchState(page), {
+      calls: [["A"], ["B"]], cameraActive: true, attached: true, tracks: [["A", "B"]],
+      events: [{ type: "scan", data: ["A"] }, { type: "action", name: "batch-next" },
+        { type: "scan", data: ["B"] }, { type: "track", data: ["A", "B"] }],
+    });
+    await frame(page, "A");
+    await frame(page, "B");
+    assert.deepEqual((await batchState(page)).calls, [["A"], ["B"]]);
+  });
+  await test("native batch synchronous unmount cancels the old track callback", async page => {
+    await mountBatch(page, "batch-unmount");
+    await frame(page, "A");
+    assert.deepEqual(await batchState(page), {
+      calls: [["A"]], cameraActive: false, attached: false, tracks: [],
+      events: [{ type: "scan", data: ["A"] }, { type: "action", name: "batch-unmount" }],
+    });
+  });
+  await test("native batch committed mode change cancels the old track callback", async page => {
+    await mountBatch(page, "batch-mode");
+    await frame(page, "A");
+    await frame(page, "B");
+    assert.deepEqual(await batchState(page), {
+      calls: [["A"], ["B"]], cameraActive: true, attached: true, tracks: [],
+      events: [{ type: "scan", data: ["A"] }, { type: "action", name: "batch-mode" },
+        { type: "scan", data: ["B"] }],
+    });
+  });
+  for (const action of [null, "batch-accent", "batch-start", "batch-resume", "batch-mode-queued"]) {
+    await test(`native batch ${action ?? "unchanged"} preserves the current track callback and duplicate history`, async page => {
+      await mountBatch(page, action);
+      await frame(page, "A");
+      assert.deepEqual((await batchState(page)).tracks, [["A"]]);
+      await frame(page, "A");
+      assert.deepEqual((await batchState(page)).calls, [["A"]]);
+      assert.equal((await batchState(page)).cameraActive, true);
+    });
+  }
 } finally { await browser.close(); }
