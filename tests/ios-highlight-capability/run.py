@@ -179,7 +179,7 @@ def main():
         _, runtime_id, device_type = sorted(choices)[-1]
         receipt["selectedSimulator"] = {"runtime": runtime_id, "deviceType": device_type}
         _, created = command("create-owned-simulator", ["xcrun", "simctl", "create", "QRGenCapability-" + uuid.uuid4().hex[:12], device_type, runtime_id])
-        owned = str(uuid.UUID(created.strip()))
+        owned = str(uuid.UUID(created.strip())).upper()
         receipt["ownedSimulatorUDID"] = owned
         command("boot-owned-simulator", ["xcrun", "simctl", "boot", owned])
         command("bootstatus-owned-simulator", ["xcrun", "simctl", "bootstatus", owned, "-b"], timeout=240)
@@ -200,8 +200,8 @@ def main():
                 _, remaining = command("devices-after-cleanup", ["xcrun", "simctl", "list", "devices", "--json"])
                 remaining_ids = {str(uuid.UUID(device["udid"]))
                                  for group in json.loads(remaining)["devices"].values() for device in group}
-                receipt["ownedSimulatorAbsentAfterCleanup"] = owned not in remaining_ids
-                assert owned not in remaining_ids and code == 0, "Owned Simulator cleanup incomplete"
+                receipt["ownedSimulatorAbsentAfterCleanup"] = str(uuid.UUID(owned)) not in remaining_ids
+                assert receipt["ownedSimulatorAbsentAfterCleanup"] and code == 0, "Owned Simulator cleanup incomplete"
             except Exception as error:
                 receipt["cleanupError"] = str(error)
         if manifest is not None:
