@@ -17,6 +17,8 @@ function database(): Promise<IDBDatabase> {
       const db = request.result;
       if (failed) { db.close(); return; }
       db.onversionchange = () => { db.close(); opening = undefined; };
+      // The browser can close the connection itself (site data cleared, storage pressure).
+      db.onclose = () => { opening = undefined; };
       resolve(db);
     };
   });

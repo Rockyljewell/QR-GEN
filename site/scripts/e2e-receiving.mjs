@@ -566,6 +566,36 @@ try {
     return { validSessionId: validId, validQuantity: 3, corruptRecordsPreserved: true, currentCorruptionReported: true, corruptOnlyNewSessionId: newId };
   });
 
+  await test("saving keeps working after the browser closes the storage connection", async (page) => {
+    await goto(page);
+    await createDelivery(page, "Before storage was cleared");
+    await addExpected(page);
+    await page.evaluate(() => {
+      window.__receivingClosed = 0;
+      const original = IDBDatabase.prototype.transaction;
+      IDBDatabase.prototype.transaction = function (...args) {
+        if (!this.__closeProbe) { this.__closeProbe = true; this.addEventListener("close", () => { window.__receivingClosed++; }); }
+        return Reflect.apply(original, this, args);
+      };
+    });
+    await selectProduct(page, COFFEE);
+    await confirm(page, 1);
+    await waitReceived(page, COFFEE, 1);
+    // Clearing site data force-closes the page's open connection: a "close" event, not "versionchange".
+    const cdp = await page.context().newCDPSession(page);
+    await cdp.send("Storage.clearDataForOrigin", { origin: new URL(BASE).origin, storageTypes: "indexeddb" });
+    await page.waitForFunction(() => window.__receivingClosed === 1);
+    await page.locator("#delivery-name").fill("After storage was cleared");
+    await page.evaluate(() => { document.querySelector("#receiving-message").textContent = ""; });
+    await submit(page, "#new-delivery");
+    await page.waitForFunction(() => document.querySelector("#receiving-app")?.getAttribute("aria-busy") === "false" && document.querySelector("#receiving-message")?.textContent.trim());
+    const message = await page.locator("#receiving-message").textContent();
+    assert(await page.locator("#receiving-message").getAttribute("data-error") !== "true", `Saving after a forced close failed: ${message}`);
+    const id = await page.locator("#delivery-select").inputValue();
+    assert((await readSaved(page, id))?.name === "After storage was cleared", "New delivery was not persisted after a forced close.");
+    return { closeEvents: await page.evaluate(() => window.__receivingClosed), savedAfterClose: id };
+  });
+
   await test("keyboard confirmation and export keep focus on the activated control", async (page) => {
     await goto(page);
     await createDelivery(page, "Keyboard delivery");
