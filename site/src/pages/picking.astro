@@ -18,7 +18,7 @@ import Base from "../layouts/Base.astro";
           <h2>1. Choose your target</h2>
           <form id="target-form">
             <label class="field">Exact barcode value<textarea id="target-code" rows="3" maxlength="4096" required autocomplete="off" spellcheck="false" aria-describedby="target-help"></textarea></label>
-            <p id="target-help" class="help">Spaces, line breaks, case and leading zeros are part of the value. Nothing is trimmed or converted to a number.</p>
+            <p id="target-help" class="help">Spaces, line breaks, case and leading zeros are part of the value. Press Enter to set the target, or Shift+Enter for a line break.</p>
             <label class="field"><span>Product name <span class="optional">(optional)</span></span><input id="target-name" maxlength="120" autocomplete="off" /></label>
             <div class="actions"><button class="btn btn-dark" type="submit">Set target</button><button id="clear-target" class="btn btn-light" type="button" disabled>Clear target</button></div>
           </form>

@@ -542,6 +542,12 @@ try {
     const home = await page.goto(BASE); assert.ok(home?.ok()); const original = await design(page);
     await goto(page); assert.deepEqual(await design(page), original);
     await page.locator("#target-code").fill(TARGET);
+    await page.locator("#target-code").press("Shift+Enter");
+    assert.equal(await page.locator("#target-code").inputValue(), `${TARGET}\n`);
+    await page.locator("#target-code").press("Backspace");
+    await page.locator("#target-code").press("Enter");
+    assert.equal(await page.locator("#target-code").inputValue(), TARGET);
+    assert.equal(await page.locator("#target-value").textContent(), TARGET);
     await page.locator("#target-name").fill("Keyboard target");
     await page.locator("#target-name").press("Tab");
     assert.equal(await page.evaluate(() => document.activeElement === document.querySelector('#target-form button[type="submit"]')), true);

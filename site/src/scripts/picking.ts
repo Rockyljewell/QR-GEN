@@ -125,6 +125,12 @@ function refreshSource(): boolean {
   return changed;
 }
 
+// Enter sets the target; Shift+Enter keeps a line break for codes that contain one.
+$<HTMLTextAreaElement>("#target-code").addEventListener("keydown", event => {
+  if (event.key !== "Enter" || event.shiftKey || event.isComposing) return;
+  event.preventDefault();
+  $<HTMLFormElement>("#target-form").requestSubmit();
+});
 $("#target-form").addEventListener("submit", event => {
   event.preventDefault();
   try {
