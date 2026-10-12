@@ -431,7 +431,14 @@ const VisionCameraScanner = forwardRef<QRGenScannerHandle, InnerProps>(function 
     }
   });
 
-  useEffect(() => { if (accepted) setTorchOn(accepted.torch); }, [accepted?.torch]);
+  // Only an accepted torch prop change overrides setTorch; the first acceptance
+  // of the initial value must not revert an earlier imperative setTorch call.
+  const appliedTorch = useRef(torchOn);
+  useEffect(() => {
+    if (!accepted || accepted.torch === appliedTorch.current) return;
+    appliedTorch.current = accepted.torch;
+    setTorchOn(accepted.torch);
+  }, [accepted?.torch]);
   useEffect(() => {
     if (permission === 'granted' && accepted && !deviceAvailable) emitError('camera-not-found', `No ${accepted.camera} camera was found on this device.`);
   }, [permission, accepted?.camera, deviceAvailable, emitError]);
