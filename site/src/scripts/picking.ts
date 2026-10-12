@@ -1,7 +1,8 @@
 import { scanImage, type BarcodeScanner } from "qrgen-sdk";
 import "qrgen-sdk/elements";
 import type { QRGenScannerElement } from "qrgen-sdk/elements";
-import { PickingSession, classifyPickingBarcodes, type PickingBarcode, type PickingObservation } from "../lib/picking";
+import { typedGtin } from "../lib/gtin";
+import { PickingSession, classifyPickingBarcodes, type PickingBarcode, type PickingObservation, type PickingTarget } from "../lib/picking";
 
 const $ = <T extends HTMLElement = HTMLElement>(selector: string) => document.querySelector<T>(selector)!;
 const scanner = $<QRGenScannerElement>("#scanner");
@@ -48,8 +49,18 @@ function retire(): void {
   render();
 }
 
+function targetStatus(target: PickingTarget | null): string {
+  if (!target) return "Set a target barcode to begin.";
+  const gtin = typedGtin(target.data);
+  return gtin ? `Target set. Retail barcodes with product number ${gtin} match in any printed form, such as UPC-A or EAN-13.` : "Target set. Only this exact value matches, including spaces, line breaks, case and leading zeros.";
+}
+/** A match whose decoded value differs from the target matched by its GTIN; the value itself is shown as decoded. */
+function productNote(target: PickingTarget, item: PickingBarcode): string {
+  return item.data === target.data ? "" : " · same product number";
+}
+
 /** A selected snapshot is deliberately absent here: only current track events enter the model. */
-function renderRows(selector: string, items: PickingObservation[], matching: boolean): void {
+function renderRows(selector: string, items: PickingObservation[], matching: boolean, target: PickingTarget | null = null): void {
   const list = $(selector);
   const wanted = new Set(items.map(item => String(item.id)));
   for (const child of [...list.children]) if (!wanted.has((child as HTMLElement).dataset.id!)) child.remove();
@@ -69,7 +80,7 @@ function renderRows(selector: string, items: PickingObservation[], matching: boo
     }
     row.dataset.code = item.data;
     row.querySelector("code")!.textContent = item.data;
-    row.querySelector("span")!.textContent = `${item.symbologyName} · observation ${item.id}`;
+    row.querySelector("span")!.textContent = `${item.symbologyName} · observation ${item.id}${matching && target ? productNote(target, item) : ""}`;
     row.querySelector("button")?.setAttribute("aria-pressed", String(selected.has(item.id)));
     // Keep an already-focused button in its existing DOM node between frames.
     if (list.children[index] !== row) list.insertBefore(row, list.children[index] ?? null);
@@ -80,8 +91,8 @@ function render(): void {
   const camera = source.value === "camera";
   text("#target-value", current.target?.data ?? "No target set");
   text("#target-label", current.target?.name ?? "");
-  text("#target-status", current.target ? "Target set. Matching preserves spaces, line breaks, case and leading zeros." : "Set a target barcode to begin.");
-  renderRows("#match-list", current.matches, true);
+  text("#target-status", targetStatus(current.target));
+  renderRows("#match-list", current.matches, true, current.target);
   renderRows("#other-list", current.others, false);
   text("#match-status", current.matches.length ? `${current.matches.length} recent matching ${current.matches.length === 1 ? "observation" : "observations"}.` : "No recent matching observations.");
   text("#other-status", current.others.length ? `${current.others.length} recent other ${current.others.length === 1 ? "observation" : "observations"}.` : "No recent other observations.");
@@ -199,7 +210,7 @@ imageFile.addEventListener("change", () => {
     for (const [matches, items] of [[true, result.matches], [false, result.others]] as [boolean, PickingBarcode[]][]) {
       for (const item of items) {
         const row = node("li"); row.dataset.code = item.data; row.dataset.match = String(matches);
-        row.append(node("strong", matches ? "Target match" : "Other barcode"), node("code", item.data), node("span", item.symbologyName)); rows.push(row);
+        row.append(node("strong", matches ? "Target match" : "Other barcode"), node("code", item.data), node("span", `${item.symbologyName}${matches ? productNote(target, item) : ""}`)); rows.push(row);
       }
     }
     $("#image-results").replaceChildren(...rows);

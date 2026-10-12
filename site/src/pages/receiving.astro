@@ -37,7 +37,8 @@ const labels = await Promise.all(samples.map(item => barcodeSvg(item.code, { sym
             <h2>1. Set expected quantities</h2>
             <form id="expected-item">
               <fieldset data-editor disabled>
-                <label class="field">Barcode value<input id="item-code" maxlength="4096" required autocomplete="off" spellcheck="false" /></label>
+                <label class="field">Barcode value<input id="item-code" maxlength="4096" required autocomplete="off" spellcheck="false" aria-describedby="item-code-help" /></label>
+                <p id="item-code-help" class="help field-help">Retail barcodes match by product number (GTIN): a scanned UPC-A finds the 13-digit EAN typed here, and UPC-E, ITF-14 and GS1 codes find the same number. Other values must match exactly, including spaces, case and leading zeros.</p>
                 <div class="field-row">
                   <label class="field">Product name<input id="item-name" maxlength="120" required /></label>
                   <label class="field">Expected quantity<input id="item-expected" type="number" min="1" max="1000000" step="1" value="1" required /></label>
@@ -123,6 +124,7 @@ const labels = await Promise.all(samples.map(item => barcodeSvg(item.code, { sym
   .field-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
   fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
   .help { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .field-help { margin: -8px 0 16px; }
   .image-field { margin-top: 20px; }
   /* Batch mode keeps its results list inside the element, so leave room for a usable camera view. */
   qrgen-scanner { display: block; height: 520px; height: min(520px, 75svh); border-radius: var(--radius); overflow: hidden; }

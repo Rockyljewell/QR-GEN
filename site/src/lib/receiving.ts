@@ -1,3 +1,5 @@
+import { typedGtin } from "./gtin.ts";
+
 /** Confirmed receiving quantities. Scanner observations never change quantities. */
 export interface ReceivingItem {
   code: string;
@@ -7,7 +9,12 @@ export interface ReceivingItem {
 }
 
 export type ReceivingCommand =
-  | { id: string; kind: "add"; code: string; name: string; expected: number | null }
+  /**
+   * `gtin` is recorded when a product is added from a scan: the scanned barcode's
+   * GTIN-14, or null when it carries none. Without it (typed values and deliveries
+   * saved before it existed), a row's GTIN is the one its digits spell.
+   */
+  | { id: string; kind: "add"; code: string; name: string; expected: number | null; gtin?: string | null }
   | { id: string; kind: "receive"; code: string; quantity: number }
   | { id: string; kind: "correct"; code: string; quantity: number; reason: string; expectedRevision: number };
 
@@ -42,11 +49,19 @@ function identifier(value: unknown): string {
 function timestamp(value: unknown): number {
   return integer(value, "Timestamp", 0, Number.MAX_SAFE_INTEGER);
 }
+function productNumber(value: unknown): string | null {
+  if (value === null || (typeof value === "string" && value.length === 14 && typedGtin(value) === value)) return value;
+  throw new Error("A scanned product number must be a 14-digit GTIN with a valid check digit, or null.");
+}
 
 function normalize(command: ReceivingCommand): ReceivingCommand {
   const id = identifier(command.id);
   const code = text(command.code, "Barcode value", 4096);
-  if (command.kind === "add") return { id, kind: "add", code, name: text(command.name, "Product name", 120).trim(), expected: command.expected === null ? null : integer(command.expected, "Expected quantity", 1) };
+  if (command.kind === "add") {
+    const add: Extract<ReceivingCommand, { kind: "add" }> = { id, kind: "add", code, name: text(command.name, "Product name", 120).trim(), expected: command.expected === null ? null : integer(command.expected, "Expected quantity", 1) };
+    // The key stays absent for typed values, so their saved history and exports are unchanged.
+    return command.gtin === undefined ? add : { ...add, gtin: productNumber(command.gtin) };
+  }
   if (command.kind === "receive") return { id, kind: "receive", code, quantity: integer(command.quantity, "Received quantity", 1) };
   if (command.kind === "correct") return { id, kind: "correct", code, quantity: integer(command.quantity, "Corrected quantity"), reason: text(command.reason, "Correction reason", 240).trim(), expectedRevision: integer(command.expectedRevision, "Revision", 0, MAX_ACTIONS) };
   throw new Error("Unknown receiving action.");
@@ -54,6 +69,29 @@ function normalize(command: ReceivingCommand): ReceivingCommand {
 
 export function createReceivingSession(id: string, name: string, at = Date.now()): ReceivingSession {
   return { schema: 1, id: identifier(id), name: text(name, "Delivery name", 120).trim(), createdAt: timestamp(at), updatedAt: at, revision: 0, items: [], actions: [] };
+}
+
+/** Each row's GTIN: the one recorded when it was scanned, otherwise the one its digits spell. */
+function productNumbers(actions: ReceivingSession["actions"]): Map<string, string | null> {
+  const numbers = new Map<string, string | null>();
+  for (const { command } of actions) {
+    if (command.kind === "add" && !numbers.has(command.code)) numbers.set(command.code, command.gtin === undefined ? typedGtin(command.code) : command.gtin);
+  }
+  return numbers;
+}
+
+/**
+ * The delivery row a barcode value refers to: the row with exactly this value,
+ * otherwise the first row with the same GTIN, so a scanned UPC-A finds the row
+ * typed as its 13-digit EAN. Pass a scanned barcode's GTIN (see scannedGtin);
+ * a typed value defaults to the GTIN its digits spell. Values without a GTIN
+ * match exactly, including spaces, case and leading zeros.
+ */
+export function findReceivingItem(session: ReceivingSession, code: string, gtin: string | null = typedGtin(code)): ReceivingItem | undefined {
+  const exact = session.items.find(item => item.code === code);
+  if (exact || gtin === null) return exact;
+  const numbers = productNumbers(session.actions);
+  return session.items.find(item => numbers.get(item.code) === gtin);
 }
 
 function changeItems(items: Map<string, ReceivingItem>, command: ReceivingCommand, revision: number): void {
@@ -82,6 +120,13 @@ export function applyReceivingCommand(session: ReceivingSession, input: Receivin
   }
   if (session.actions.length >= MAX_ACTIONS) throw new Error("This delivery has reached 10,000 changes. Export it and start another delivery.");
   timestamp(at);
+  if (command.kind === "add" && !session.items.some(item => item.code === command.code)) {
+    // One row per product: a new value with an existing row's GTIN is that product.
+    // Saved history replays without this rule, so older deliveries still open.
+    const gtin = command.gtin === undefined ? typedGtin(command.code) : command.gtin;
+    const existing = gtin === null ? undefined : findReceivingItem(session, command.code, gtin);
+    if (existing) throw new Error(`This product is already in the delivery as ${existing.code} (same product number).`);
+  }
   const items = new Map(session.items.map(item => [item.code, { ...item }]));
   changeItems(items, command, session.revision);
   return { ...session, items: [...items.values()], updatedAt: at, revision: session.revision + 1, actions: [...session.actions, { command, at }] };

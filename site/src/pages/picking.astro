@@ -2,12 +2,12 @@
 import Base from "../layouts/Base.astro";
 ---
 
-<Base title="Find a target product" description="Find an exact product barcode among recent camera observations or decoded results from a still image.">
+<Base title="Find a target product" description="Find a product barcode among recent camera observations or decoded results from a still image.">
   <section class="section-sm hero-bg dark">
     <div class="container">
       <span class="tag">Retail product finder</span>
       <h1>Find the barcode you’re looking for</h1>
-      <p class="intro">Set one target, then look for an exact match among nearby barcodes. Use the camera or review a still image. Everything is processed on this device.</p>
+      <p class="intro">Set one target, then look for a match among nearby barcodes. Use the camera or review a still image. Everything is processed on this device.</p>
     </div>
   </section>
   <section class="section-sm">
@@ -17,8 +17,8 @@ import Base from "../layouts/Base.astro";
         <section class="panel">
           <h2>1. Choose your target</h2>
           <form id="target-form">
-            <label class="field">Exact barcode value<textarea id="target-code" rows="3" maxlength="4096" required autocomplete="off" spellcheck="false" aria-describedby="target-help"></textarea></label>
-            <p id="target-help" class="help">Spaces, line breaks, case and leading zeros are part of the value. Press Enter to set the target, or Shift+Enter for a line break.</p>
+            <label class="field">Barcode value<textarea id="target-code" rows="3" maxlength="4096" required autocomplete="off" spellcheck="false" aria-describedby="target-help"></textarea></label>
+            <p id="target-help" class="help">Retail barcodes match by product number (GTIN), so a UPC-A also matches its 13-digit EAN form, and UPC-E, ITF-14 and GS1 codes match the same number. Other values must match exactly: spaces, line breaks, case and leading zeros are part of the value. Press Enter to set the target, or Shift+Enter for a line break.</p>
             <label class="field"><span>Product name <span class="optional">(optional)</span></span><input id="target-name" maxlength="120" autocomplete="off" /></label>
             <div class="actions"><button class="btn btn-dark" type="submit">Set target</button><button id="clear-target" class="btn btn-light" type="button" disabled>Clear target</button></div>
           </form>
