@@ -1,0 +1,50 @@
+name: iOS UIKit capability (isolated)
+
+on:
+  push:
+    branches: [codex/ios-simulator-capability]
+    paths:
+      - .github/workflows/ios-simulator-capability.yml
+      - tests/ios-highlight-capability/**
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-uikit-capability-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  capability:
+    name: Actual UIKit capability only
+    runs-on: macos-latest
+    timeout-minutes: 60
+    steps:
+      - name: Exact feature fixture checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: fixture
+          persist-credentials: false
+      - name: Immutable QRGenKit source checkout
+        uses: actions/checkout@v4
+        with:
+          ref: 978214dcaf20451b72a185e1066cc09eabd0a30f
+          path: source
+          persist-credentials: false
+      - name: Run isolated app-host capability probe
+        shell: bash
+        run: |
+          python3 fixture/tests/ios-highlight-capability/run.py \
+            --feature-root "$GITHUB_WORKSPACE/fixture" \
+            --source-root "$GITHUB_WORKSPACE/source" \
+            --feature-sha "$GITHUB_SHA" \
+            --output "$RUNNER_TEMP/qrgen-ios-capability-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+      - name: Preserve capability evidence including harness failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-uikit-capability-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/qrgen-ios-capability-${{ github.run_id }}-${{ github.run_attempt }}/evidence/
+          retention-days: 7
+          if-no-files-found: warn

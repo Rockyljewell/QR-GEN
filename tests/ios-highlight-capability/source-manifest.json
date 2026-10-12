@@ -1,0 +1,629 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Neutral actual UIKit outline capability only",
+  "baseSha": "978214dcaf20451b72a185e1066cc09eabd0a30f",
+  "baseTree": "64a8c96ee8b331ac98cc09bfeee0f79137a51dfb",
+  "sourcePins": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "gitBlobOid": "dac53a4f687f8e9d75e58836c5c798a65a49aac5",
+      "bytes": 6891,
+      "sha256": "db5d57b53317714909074c32e5815bc29331774b042cc0147161ae49dc7c7bfc",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 7111,
+        "rawSha256": "5cf9884753cdb4dd6134c2a264a22c480b24d4b297c5d4307dc898e81958da36",
+        "crlfPairs": 220,
+        "lfCount": 220,
+        "loneCRCount": 0,
+        "canonicalBytes": 6891,
+        "canonicalSha256": "db5d57b53317714909074c32e5815bc29331774b042cc0147161ae49dc7c7bfc",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "Package.swift",
+      "gitBlobOid": "873ab912514c38aa9310ad2008cf3ee304e08d95",
+      "bytes": 824,
+      "sha256": "6224cddc7674d6f76f3dbcf04da2366e49f0884290cce0de942c450d73114262",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 854,
+        "rawSha256": "f1c76cfde9958ca059280bb6e31a2c1c2cc321fc32e489c72dd234d598160e66",
+        "crlfPairs": 30,
+        "lfCount": 30,
+        "loneCRCount": 0,
+        "canonicalBytes": 824,
+        "canonicalSha256": "6224cddc7674d6f76f3dbcf04da2366e49f0884290cce0de942c450d73114262",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Example/ContentView.swift",
+      "gitBlobOid": "300b39dc0d93cb27c0625c580472bf178ab3eb55",
+      "bytes": 6676,
+      "sha256": "918a17109fa74dba013c48baee3d2137e4ebf32bfa5d3e4467815578f79a74fc",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 6838,
+        "rawSha256": "c2e9ef6cf7ecf53d13d71775885013af0f64bf27e4c5d1a9aaeffedd6248d4de",
+        "crlfPairs": 162,
+        "lfCount": 162,
+        "loneCRCount": 0,
+        "canonicalBytes": 6676,
+        "canonicalSha256": "918a17109fa74dba013c48baee3d2137e4ebf32bfa5d3e4467815578f79a74fc",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Example/QRGenExampleApp.swift",
+      "gitBlobOid": "c96ee31f478b25c37590c2f40326e1f5304b9ed5",
+      "bytes": 613,
+      "sha256": "79e268602d4c6bc5694f46f1fa04d9ad281d292a1666b709b7f1f6b7bc322ff6",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 633,
+        "rawSha256": "12fba37d0f1fbe6bad80fae1da43487f2b5fb0054c6f196965f05deeb81d65f6",
+        "crlfPairs": 20,
+        "lfCount": 20,
+        "loneCRCount": 0,
+        "canonicalBytes": 613,
+        "canonicalSha256": "79e268602d4c6bc5694f46f1fa04d9ad281d292a1666b709b7f1f6b7bc322ff6",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/README.md",
+      "gitBlobOid": "89ddfe4a9a9f4a87300d00c59c9547bdf7f388b5",
+      "bytes": 14780,
+      "sha256": "7037350b23b4de5ae7b4ecffb627449e5f1f0edd9493aa325d701410a20aa7d6",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 15099,
+        "rawSha256": "79730263eccc526d2e29187b7531cf5c15b2b727d3d837458962ce22079bab01",
+        "crlfPairs": 319,
+        "lfCount": 319,
+        "loneCRCount": 0,
+        "canonicalBytes": 14780,
+        "canonicalSha256": "7037350b23b4de5ae7b4ecffb627449e5f1f0edd9493aa325d701410a20aa7d6",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Sources/QRGenKit/Barcode.swift",
+      "gitBlobOid": "c5f2a2cb0cbd178996cf5a16920de8ada1b04566",
+      "bytes": 9784,
+      "sha256": "c2487073735af4c472f31c382850ff7596b275577cc31e7bc3f9176d334184af",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 10031,
+        "rawSha256": "1d74d46d63f78de2948f96452e4ad95d6869b6d5983250666cb177e148e922f2",
+        "crlfPairs": 247,
+        "lfCount": 247,
+        "loneCRCount": 0,
+        "canonicalBytes": 9784,
+        "canonicalSha256": "c2487073735af4c472f31c382850ff7596b275577cc31e7bc3f9176d334184af",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Sources/QRGenKit/BarcodeScanner.swift",
+      "gitBlobOid": "d121aae8d87fe344e18424e9e42f4edef5e684f5",
+      "bytes": 46793,
+      "sha256": "5ca2677f564f3f8894bb8b262fbeeccbe53b1b41d3245969b397d46ee072e70e",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 47881,
+        "rawSha256": "cd53a12a12eaa823ba2de3ac85b7cfbb8060f9d4a2d9bcbfa7027c1c1c1f4273",
+        "crlfPairs": 1088,
+        "lfCount": 1088,
+        "loneCRCount": 0,
+        "canonicalBytes": 46793,
+        "canonicalSha256": "5ca2677f564f3f8894bb8b262fbeeccbe53b1b41d3245969b397d46ee072e70e",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Sources/QRGenKit/Engine/BarcodeTracker.swift",
+      "gitBlobOid": "411f531c52565ca415e157c55d5466f76090ee63",
+      "bytes": 7214,
+      "sha256": "e980073c7a581d43d819c6056e12c5a95c3abe6d89a71128b3a71d5c6bb9a0c4",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 7365,
+        "rawSha256": "cf43716953b67353d13ec8ce4a38d7a6301a1acdead1a6bfd3e56fa6ebb9f66d",
+        "crlfPairs": 151,
+        "lfCount": 151,
+        "loneCRCount": 0,
+        "canonicalBytes": 7214,
+        "canonicalSha256": "e980073c7a581d43d819c6056e12c5a95c3abe6d89a71128b3a71d5c6bb9a0c4",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Sources/QRGenKit/Engine/CameraFrameSession.swift",
+      "gitBlobOid": "70a24c514cb19e6549548e0ff29ac721bc009a71",
+      "bytes": 4891,
+      "sha256": "9693a372e739880c7a104b93094170afc441e7e65ee65090b5c0860af3472035",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 5031,
+        "rawSha256": "757154b05a7f96eb591ec3ff391c218b8867078b39e121dae81822ad371c3895",
+        "crlfPairs": 140,
+        "lfCount": 140,
+        "loneCRCount": 0,
+        "canonicalBytes": 4891,
+        "canonicalSha256": "9693a372e739880c7a104b93094170afc441e7e65ee65090b5c0860af3472035",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Sources/QRGenKit/Engine/DuplicateFilter.swift",
+      "gitBlobOid": "37c17145b0fd8b0584854faecc6204a20af1d4ad",
+      "bytes": 1279,
+      "sha256": "2d18a7d65d13d0aa96e52a007bcb5b88803ddb5db5f9ab6d160f5f2d2cc5a143",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 1316,
+        "rawSha256": "9d76cb8f41a7119c5ebcd11fab1a7dcb8c232f5bfd23ec70514b91f49caa9ef1",
+        "crlfPairs": 37,
+        "lfCount": 37,
+        "loneCRCount": 0,
+        "canonicalBytes": 1279,
+        "canonicalSha256": "2d18a7d65d13d0aa96e52a007bcb5b88803ddb5db5f9ab6d160f5f2d2cc5a143",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Sources/QRGenKit/Engine/VisionBarcodeMapper.swift",
+      "gitBlobOid": "6945fdd58d5659bb490180f01024d4ff975acd26",
+      "bytes": 7333,
+      "sha256": "ff99be99ad8009832f3ffd31c0fcea2596af880426fa13a5016e039baac3d053",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 7498,
+        "rawSha256": "ce13988a0ac5c9230cccba5a95a16b12eaae6edb548fc1548422a21837bb3163",
+        "crlfPairs": 165,
+        "lfCount": 165,
+        "loneCRCount": 0,
+        "canonicalBytes": 7333,
+        "canonicalSha256": "ff99be99ad8009832f3ffd31c0fcea2596af880426fa13a5016e039baac3d053",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Sources/QRGenKit/Feedback.swift",
+      "gitBlobOid": "b151ffc3fd2cb99da558d86a5ef2d5abd7f3fbb9",
+      "bytes": 1815,
+      "sha256": "1ffa2a16f0c3ad4f054a9cfc3df39e46cad9b947672c7ee8aaffb53cf53c55bb",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 1879,
+        "rawSha256": "d926ff0119279fb2360a85ce00e7ac54ed313bf041fa2a1177f14449e9ebd046",
+        "crlfPairs": 64,
+        "lfCount": 64,
+        "loneCRCount": 0,
+        "canonicalBytes": 1815,
+        "canonicalSha256": "1ffa2a16f0c3ad4f054a9cfc3df39e46cad9b947672c7ee8aaffb53cf53c55bb",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Sources/QRGenKit/Generator.swift",
+      "gitBlobOid": "6f4556727e17bc7494b69176bc3e887af8a3b9fe",
+      "bytes": 9408,
+      "sha256": "97f6504798cc5be5cccce05202afceb9f2ead12fa817bbb053fe58503a5205f7",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 9626,
+        "rawSha256": "1640d353a8b4dec59b533569886699b810a750eea8dfa9a8a51b3c1570074b2f",
+        "crlfPairs": 218,
+        "lfCount": 218,
+        "loneCRCount": 0,
+        "canonicalBytes": 9408,
+        "canonicalSha256": "97f6504798cc5be5cccce05202afceb9f2ead12fa817bbb053fe58503a5205f7",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Sources/QRGenKit/ImageScanner.swift",
+      "gitBlobOid": "b6171a95ae8dc62ccf9579ffd0cfeee300b79d71",
+      "bytes": 6303,
+      "sha256": "1c00d744ad43a744c944972615d9d76b444f525571f275f7faaa19c5ba35ffea",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 6454,
+        "rawSha256": "2b8e2cb58e9b9d06fcf2ce63c719a4644d0deac3a3edd7c116f0d4342bc6a72c",
+        "crlfPairs": 151,
+        "lfCount": 151,
+        "loneCRCount": 0,
+        "canonicalBytes": 6303,
+        "canonicalSha256": "1c00d744ad43a744c944972615d9d76b444f525571f275f7faaa19c5ba35ffea",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Sources/QRGenKit/Parsers/AAMVA.swift",
+      "gitBlobOid": "b35aa08dd93f278acb4f047d608664fd783abf60",
+      "bytes": 18248,
+      "sha256": "d9b37c90a5925221c4454ccb8cb4491184a87e541a2fbc7d6be434d896acdc00",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 18670,
+        "rawSha256": "52799f0af991e72d7c067add517f2538cce0bced1ff0cf31339a6e3d25b4b805",
+        "crlfPairs": 422,
+        "lfCount": 422,
+        "loneCRCount": 0,
+        "canonicalBytes": 18248,
+        "canonicalSha256": "d9b37c90a5925221c4454ccb8cb4491184a87e541a2fbc7d6be434d896acdc00",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Sources/QRGenKit/Parsers/ContentParser.swift",
+      "gitBlobOid": "d6088a11c43937156d24723a6e9bddeef0e287a5",
+      "bytes": 38592,
+      "sha256": "ce66b902ada083dc4507e10084172f98ea032f543ef855ab19dad9114f1e2e81",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 39492,
+        "rawSha256": "98214c5750cfa8a938eeeb3ca2b6b9e36582c0c8f2f88f4f9e8bb72bc8f00cf2",
+        "crlfPairs": 900,
+        "lfCount": 900,
+        "loneCRCount": 0,
+        "canonicalBytes": 38592,
+        "canonicalSha256": "ce66b902ada083dc4507e10084172f98ea032f543ef855ab19dad9114f1e2e81",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Sources/QRGenKit/Parsers/GS1.swift",
+      "gitBlobOid": "29ceb4f50f72a25c31fb4d7051c4c163aa30e17f",
+      "bytes": 23428,
+      "sha256": "7a1c688ebe11349aec2b9626135a678cb77b51971e7d07ef4ca7592373a15f46",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 23966,
+        "rawSha256": "2ef26335d6f4ee2ae90b6f3035adbcd354e621759e89c183e76a73e5c5a2f7ed",
+        "crlfPairs": 538,
+        "lfCount": 538,
+        "loneCRCount": 0,
+        "canonicalBytes": 23428,
+        "canonicalSha256": "7a1c688ebe11349aec2b9626135a678cb77b51971e7d07ef4ca7592373a15f46",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Sources/QRGenKit/QRGen.swift",
+      "gitBlobOid": "a987262d07b78b11392530919e97a403f5bd8fda",
+      "bytes": 1976,
+      "sha256": "439e4e01698f192119528321cd9abdad923b138f49d75df3b2d5850ea7f02434",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 2031,
+        "rawSha256": "e4f23148aaa8f46ec7d397c3605ba24ba7e9929eade6172c27f2df50cfe17de2",
+        "crlfPairs": 55,
+        "lfCount": 55,
+        "loneCRCount": 0,
+        "canonicalBytes": 1976,
+        "canonicalSha256": "439e4e01698f192119528321cd9abdad923b138f49d75df3b2d5850ea7f02434",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Sources/QRGenKit/QRGenError.swift",
+      "gitBlobOid": "960a16f4861317a73d2ed2adf42531f83e1b82d6",
+      "bytes": 3810,
+      "sha256": "f32afbffafbf043df451dd6bc26d27ea091064f8db0f317ddaa523c934f6f400",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 3907,
+        "rawSha256": "4668c84facb9e1748a395bf4ad6f8951a4ff3e43448cac75fccc9c7142ac9e7c",
+        "crlfPairs": 97,
+        "lfCount": 97,
+        "loneCRCount": 0,
+        "canonicalBytes": 3810,
+        "canonicalSha256": "f32afbffafbf043df451dd6bc26d27ea091064f8db0f317ddaa523c934f6f400",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Sources/QRGenKit/QRGenScannerView.swift",
+      "gitBlobOid": "042a33954d7b97fabc5780780a1e8c0e82fa6387",
+      "bytes": 4976,
+      "sha256": "9c9eff501aa61f865e912803596a1a37b21371a5e92bed9e012cb35a4d956e1b",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 5109,
+        "rawSha256": "3e2d2b63469a53168785990ddd7151e7129dfd15253e52c25744af4f9c97bf2c",
+        "crlfPairs": 133,
+        "lfCount": 133,
+        "loneCRCount": 0,
+        "canonicalBytes": 4976,
+        "canonicalSha256": "9c9eff501aa61f865e912803596a1a37b21371a5e92bed9e012cb35a4d956e1b",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Sources/QRGenKit/QRGenScannerViewController.swift",
+      "gitBlobOid": "1c9fa11973425d6756907da53515845210acbd2b",
+      "bytes": 30180,
+      "sha256": "0b296f7108869a4c2d40b4c7d48865607fbada96445133c94ed27cedc9323559",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 30934,
+        "rawSha256": "a68f5dd0fe79e4f947c274b79a397ba220b652bcb54eccbd192bcbfd332a9302",
+        "crlfPairs": 754,
+        "lfCount": 754,
+        "loneCRCount": 0,
+        "canonicalBytes": 30180,
+        "canonicalSha256": "0b296f7108869a4c2d40b4c7d48865607fbada96445133c94ed27cedc9323559",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Sources/QRGenKit/ScannerOptions.swift",
+      "gitBlobOid": "e10bdfc0feaa82c42f3207367437c1bd92b06546",
+      "bytes": 6819,
+      "sha256": "63b3d08e5a6835fcde11d412b8bb6d74599a4b079247c8896ef76ec3eb97b490",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 6995,
+        "rawSha256": "ce07bfb651e75a502a243de3ef31b228bf5019ae57a460ae309e07e4feb8ffa0",
+        "crlfPairs": 176,
+        "lfCount": 176,
+        "loneCRCount": 0,
+        "canonicalBytes": 6819,
+        "canonicalSha256": "63b3d08e5a6835fcde11d412b8bb6d74599a4b079247c8896ef76ec3eb97b490",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Sources/QRGenKit/Symbology.swift",
+      "gitBlobOid": "24550458e05990e4160de6fe92579b59491859d4",
+      "bytes": 13724,
+      "sha256": "7ac5426c92ac69644c291ecbb72d79bb3f92e8018944032c4198df9f830f865d",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 14073,
+        "rawSha256": "22dd0634ca40198cc489221a31b48b1b3113021e1397579b441c9de4fac0fca0",
+        "crlfPairs": 349,
+        "lfCount": 349,
+        "loneCRCount": 0,
+        "canonicalBytes": 13724,
+        "canonicalSha256": "7ac5426c92ac69644c291ecbb72d79bb3f92e8018944032c4198df9f830f865d",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Tests/QRGenKitTests/AAMVATests.swift",
+      "gitBlobOid": "058b3d295ba54b37bc719dd729c5fe3cb40ffa90",
+      "bytes": 4007,
+      "sha256": "6f28d28e779d7be62dc118492def4972822de417e0150e73cbc6ede3432fade0",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 4091,
+        "rawSha256": "dc903c2c7e9d31edbcaaee71c83dc45c48252c93913593512f98ed511bbe4e1e",
+        "crlfPairs": 84,
+        "lfCount": 84,
+        "loneCRCount": 0,
+        "canonicalBytes": 4007,
+        "canonicalSha256": "6f28d28e779d7be62dc118492def4972822de417e0150e73cbc6ede3432fade0",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Tests/QRGenKitTests/BarcodeScannerLifecycleTests.swift",
+      "gitBlobOid": "7189de2f5ba8dde733ea3d7c418c5241ca36a9a5",
+      "bytes": 2456,
+      "sha256": "175744397a74bc032c4136bc3b925b8154666e36db1be492197d1005bad23942",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 2521,
+        "rawSha256": "371625a908c8206c5d3ef33d8c3bd8dce06616a79971054393dfeb3d35db9bfa",
+        "crlfPairs": 65,
+        "lfCount": 65,
+        "loneCRCount": 0,
+        "canonicalBytes": 2456,
+        "canonicalSha256": "175744397a74bc032c4136bc3b925b8154666e36db1be492197d1005bad23942",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Tests/QRGenKitTests/CalendarScopeTests.swift",
+      "gitBlobOid": "eee6f1332e47b4972aaacdb6a59de77bd865d6b6",
+      "bytes": 3174,
+      "sha256": "a632a3f693fb4a6ad747c0c8c82231ad1f8bb07e7e761e30b8c00ab192ec5b0e",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 3243,
+        "rawSha256": "e9dfe827681e1aa99a3e5eb8ae5bd1ddf7f676e69cc57c83e2cab86d627d09c2",
+        "crlfPairs": 69,
+        "lfCount": 69,
+        "loneCRCount": 0,
+        "canonicalBytes": 3174,
+        "canonicalSha256": "a632a3f693fb4a6ad747c0c8c82231ad1f8bb07e7e761e30b8c00ab192ec5b0e",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Tests/QRGenKitTests/CameraFrameSessionTests.swift",
+      "gitBlobOid": "7b932c306ddf3d7824a519619b0dd5a86b63f736",
+      "bytes": 10039,
+      "sha256": "a082a095ed037d180e4ed5dafaf4af2ebac2624cdfdd185eb098d9badf09e91a",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 10225,
+        "rawSha256": "a9b658f016dfbce8774a5f1bb19b27183d28fcfaa959923869de09d74e87ff49",
+        "crlfPairs": 186,
+        "lfCount": 186,
+        "loneCRCount": 0,
+        "canonicalBytes": 10039,
+        "canonicalSha256": "a082a095ed037d180e4ed5dafaf4af2ebac2624cdfdd185eb098d9badf09e91a",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Tests/QRGenKitTests/ContentParserTests.swift",
+      "gitBlobOid": "5ca9aba7dadc0137f8d372816ea363d487ac8303",
+      "bytes": 9385,
+      "sha256": "ad7b66bd29731de5fff5cd3146793cc643a8336e44c54dde9748521fe5245bf1",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 9553,
+        "rawSha256": "7a373ef95a830badefd1107fe5dec27e15923d7b7a61a849697af760060a7908",
+        "crlfPairs": 168,
+        "lfCount": 168,
+        "loneCRCount": 0,
+        "canonicalBytes": 9385,
+        "canonicalSha256": "ad7b66bd29731de5fff5cd3146793cc643a8336e44c54dde9748521fe5245bf1",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Tests/QRGenKitTests/EngineTests.swift",
+      "gitBlobOid": "1faf8e9102e8542aa7e031b58bb7b3431f129f56",
+      "bytes": 12548,
+      "sha256": "42dbffbd9b9bad7af121c5f9e6d0ca8526b0d61df5c387e67a905d43d0f4d494",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 12785,
+        "rawSha256": "52e2627fcc223df3b0ec8bf62268355de4d10c08ad1a6806530682ca9b17571f",
+        "crlfPairs": 237,
+        "lfCount": 237,
+        "loneCRCount": 0,
+        "canonicalBytes": 12548,
+        "canonicalSha256": "42dbffbd9b9bad7af121c5f9e6d0ca8526b0d61df5c387e67a905d43d0f4d494",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Tests/QRGenKitTests/FrameProcessorEpochTests.swift",
+      "gitBlobOid": "26614cdf65c678661b6dd7cd9deca20e96b38ecd",
+      "bytes": 5262,
+      "sha256": "3ad4c6f3dbe0f304071343ee7467973d2662bdb01d3aa4f5fe66f072ee789c8e",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 5362,
+        "rawSha256": "1dc7bb6662ab622b7ebe281e6dc32cbdf8753b4080a2bd85ec26469d8e13ef12",
+        "crlfPairs": 100,
+        "lfCount": 100,
+        "loneCRCount": 0,
+        "canonicalBytes": 5262,
+        "canonicalSha256": "3ad4c6f3dbe0f304071343ee7467973d2662bdb01d3aa4f5fe66f072ee789c8e",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Tests/QRGenKitTests/GS1Tests.swift",
+      "gitBlobOid": "17ecdd5f12b06226a97a5d6e5001285c574de55a",
+      "bytes": 8890,
+      "sha256": "c27038d9a4c90ca5eb72defbdc45131ed896acb2debea52e5d20a1df9a953504",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 9049,
+        "rawSha256": "c5173fced0dfa5aaf2584ce04b525e0cbe463b8c4bf02999bc7af053e8abbb2c",
+        "crlfPairs": 159,
+        "lfCount": 159,
+        "loneCRCount": 0,
+        "canonicalBytes": 8890,
+        "canonicalSha256": "c27038d9a4c90ca5eb72defbdc45131ed896acb2debea52e5d20a1df9a953504",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    },
+    {
+      "path": "packages/ios/Tests/QRGenKitTests/SymbologyTests.swift",
+      "gitBlobOid": "6f956399ba2f58f03b5131998f9ab1651971a51d",
+      "bytes": 6033,
+      "sha256": "457f30a4202a458aa76bb62aa054f258cd4e8060a64168b3cdba3e4b738fe1e0",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 6142,
+        "rawSha256": "33d08918f49bf29815880585dc5de947f041da1898b1bd94b991ea48b6be8066",
+        "crlfPairs": 109,
+        "lfCount": 109,
+        "loneCRCount": 0,
+        "canonicalBytes": 6033,
+        "canonicalSha256": "457f30a4202a458aa76bb62aa054f258cd4e8060a64168b3cdba3e4b738fe1e0",
+        "normalization": "UTF-8 bytes with CRLF replaced by LF; verified equal to immutable Git blob"
+      }
+    }
+  ],
+  "swiftImplementationPaths": [
+    "packages/ios/Sources/QRGenKit/Barcode.swift",
+    "packages/ios/Sources/QRGenKit/BarcodeScanner.swift",
+    "packages/ios/Sources/QRGenKit/Engine/BarcodeTracker.swift",
+    "packages/ios/Sources/QRGenKit/Engine/CameraFrameSession.swift",
+    "packages/ios/Sources/QRGenKit/Engine/DuplicateFilter.swift",
+    "packages/ios/Sources/QRGenKit/Engine/VisionBarcodeMapper.swift",
+    "packages/ios/Sources/QRGenKit/Feedback.swift",
+    "packages/ios/Sources/QRGenKit/Generator.swift",
+    "packages/ios/Sources/QRGenKit/ImageScanner.swift",
+    "packages/ios/Sources/QRGenKit/Parsers/AAMVA.swift",
+    "packages/ios/Sources/QRGenKit/Parsers/ContentParser.swift",
+    "packages/ios/Sources/QRGenKit/Parsers/GS1.swift",
+    "packages/ios/Sources/QRGenKit/QRGen.swift",
+    "packages/ios/Sources/QRGenKit/QRGenError.swift",
+    "packages/ios/Sources/QRGenKit/QRGenScannerView.swift",
+    "packages/ios/Sources/QRGenKit/QRGenScannerViewController.swift",
+    "packages/ios/Sources/QRGenKit/ScannerOptions.swift",
+    "packages/ios/Sources/QRGenKit/Symbology.swift"
+  ],
+  "executableFixturePins": [
+    {
+      "path": "App/Info.plist",
+      "bytes": 1499,
+      "sha256": "422eeaac333aa4dd7bdcbcfec95a322605c3b224a758fb7b1d8d6ac4e3c3224c",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 1499,
+        "rawSha256": "422eeaac333aa4dd7bdcbcfec95a322605c3b224a758fb7b1d8d6ac4e3c3224c",
+        "crlfPairs": 0,
+        "lfCount": 30,
+        "loneCRCount": 0,
+        "canonicalBytes": 1499,
+        "canonicalSha256": "422eeaac333aa4dd7bdcbcfec95a322605c3b224a758fb7b1d8d6ac4e3c3224c",
+        "normalization": "Frozen draft executable bytes already LF; canonical fixture bytes unchanged; branch Git binding verified separately before execution."
+      }
+    },
+    {
+      "path": "App/ProbeApp.swift",
+      "bytes": 1157,
+      "sha256": "dc555b398ff2586cf0e87130fb60ad3f6b282577ccb49b0980a3fac4aefc6810",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 1157,
+        "rawSha256": "dc555b398ff2586cf0e87130fb60ad3f6b282577ccb49b0980a3fac4aefc6810",
+        "crlfPairs": 0,
+        "lfCount": 30,
+        "loneCRCount": 0,
+        "canonicalBytes": 1157,
+        "canonicalSha256": "dc555b398ff2586cf0e87130fb60ad3f6b282577ccb49b0980a3fac4aefc6810",
+        "normalization": "Frozen draft executable bytes already LF; canonical fixture bytes unchanged; branch Git binding verified separately before execution."
+      }
+    },
+    {
+      "path": "QRGenHighlightProbe.xcodeproj/project.pbxproj",
+      "bytes": 7416,
+      "sha256": "ea6926efb15000760ab6d22d4682d1e782f21f6520ccc480df4daefca531bbc6",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 7416,
+        "rawSha256": "ea6926efb15000760ab6d22d4682d1e782f21f6520ccc480df4daefca531bbc6",
+        "crlfPairs": 0,
+        "lfCount": 40,
+        "loneCRCount": 0,
+        "canonicalBytes": 7416,
+        "canonicalSha256": "ea6926efb15000760ab6d22d4682d1e782f21f6520ccc480df4daefca531bbc6",
+        "normalization": "Frozen draft executable bytes already LF; canonical fixture bytes unchanged; branch Git binding verified separately before execution."
+      }
+    },
+    {
+      "path": "QRGenHighlightProbe.xcodeproj/xcshareddata/xcschemes/QRGenHighlightProbe.xcscheme",
+      "bytes": 2345,
+      "sha256": "1e8784d89b9a565f72c416a601a43d47089fe6e634cd0d6dd2e648b7d2910366",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 2345,
+        "rawSha256": "1e8784d89b9a565f72c416a601a43d47089fe6e634cd0d6dd2e648b7d2910366",
+        "crlfPairs": 0,
+        "lfCount": 17,
+        "loneCRCount": 0,
+        "canonicalBytes": 2345,
+        "canonicalSha256": "1e8784d89b9a565f72c416a601a43d47089fe6e634cd0d6dd2e648b7d2910366",
+        "normalization": "Frozen draft executable bytes already LF; canonical fixture bytes unchanged; branch Git binding verified separately before execution."
+      }
+    },
+    {
+      "path": "Tests/HighlightCapabilityTests.swift",
+      "bytes": 21015,
+      "sha256": "5a4d1481e5dd1fd61ec50a2b59578895b7bc6c6110ad72fb702bd50ef732604a",
+      "frozenWorkingRepresentation": {
+        "rawBytes": 21015,
+        "rawSha256": "5a4d1481e5dd1fd61ec50a2b59578895b7bc6c6110ad72fb702bd50ef732604a",
+        "crlfPairs": 0,
+        "lfCount": 385,
+        "loneCRCount": 0,
+        "canonicalBytes": 21015,
+        "canonicalSha256": "5a4d1481e5dd1fd61ec50a2b59578895b7bc6c6110ad72fb702bd50ef732604a",
+        "normalization": "Frozen draft executable bytes already LF; canonical fixture bytes unchanged; branch Git binding verified separately before execution."
+      }
+    }
+  ],
+  "neutralReadme": {
+    "path": "README.md",
+    "bytes": 2474,
+    "sha256": "f275daa896a1c486bf7d9f99969f5ed840dea6ee7a323f54b289794cf6407e30"
+  },
+  "privateArtifactsExcluded": [
+    "Private protocol",
+    "Personal absolute source-pin provenance",
+    "Private feasibility notes"
+  ],
+  "runtimePerformed": false,
+  "lineEndingPolicy": "Hosted source must match canonical Git blob bytes; frozen Windows representations remain separately pinned and explicitly normalized; no silent byteidentity claim"
+}
