@@ -248,7 +248,7 @@ private func comparison(_ sdk: [Barcode]?, _ raw: [VNBarcodeObservation]?, image
 }
 
 @MainActor
-private func observe(_ input: LoadedImage, ledger: DecodeLedger) async throws -> [String: Any] {
+private func observePairedStillImage(_ input: LoadedImage, ledger: DecodeLedger) async throws -> [String: Any] {
     var record = input.record
     var sdkResults: [Barcode]?
     let sdkCallIndex = try ledger.begin(inputID: input.record["id"] as? String ?? "unknown", arm: "public_QRGen_scan")
@@ -380,7 +380,7 @@ final class StillImageControlTests: XCTestCase {
             guard saved.image.width == 720, saved.image.height == 1280 else {
                 throw ProtocolError.invalid("Bundled PNG dimensions differ from the immutable 720x1280 contract.")
             }
-            inputs.append(try await observe(saved, ledger: ledger))
+            inputs.append(try await observePairedStillImage(saved, ledger: ledger))
             availableInputs.append("immutable_saved_png")
 
             // Generate once. Attach/hash these exact new bytes before their two decode calls.
@@ -404,7 +404,7 @@ final class StillImageControlTests: XCTestCase {
                                    "generationStatus": "returned", "error": errorRecord(error)])
                 }
                 if let generated {
-                    var observed = try await observe(generated, ledger: ledger)
+                    var observed = try await observePairedStillImage(generated, ledger: ledger)
                     observed["generation"] = ["api": "QRGen.generatePNG(_:symbology:scale:ecLevel:)",
                                               "arguments": ["data": savedInputPayload, "symbology": "qr", "scale": 8, "ecLevel": "M"],
                                               "status": "returned", "error": null]

@@ -27,7 +27,7 @@ RUNTIME = {
     "App/StillImageApp.swift": "90c807706ee20bef46bfd6130b38832e556157dd0dc07d13cc686d3a5a344940",
     "QRGenStillImageControl.xcodeproj/project.pbxproj": "725149d7546dd676c8a962a9562305c6a6fbea5c73acd817e6572a7f1a9e0527",
     "QRGenStillImageControl.xcodeproj/xcshareddata/xcschemes/QRGenStillImageControl.xcscheme": "3e9486fa45b28e37dcbfccdc5b29ca9083b92920378becb272bb75d274b28b36",
-    "Tests/StillImageControlTests.swift": "42aed651e260bb47d37bfde26a41848620424bea54fedd7d63ba30ce193ba4b7",
+    "Tests/StillImageControlTests.swift": "c1db09cb98c932e7c9a54c09090d75d86fa10340ec9519d161328a19ca01ab5a",
     "Tests/Resources/simulator-generated-input.png": INPUT,
 }
 
