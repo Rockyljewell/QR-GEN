@@ -46,7 +46,7 @@ bitmap.close();
 | `maxResults` | `255` | Maximum number of codes to return (1 to 255). |
 | `tryHarder` | `true` | Extra passes for small, damaged or low-contrast codes. Set `false` for speed on clean images. |
 
-Rotated and inverted (white on black) codes are always searched, and large images are also tried downscaled.
+Rotated codes are always searched, and large images are also tried downscaled. Inverted (white on black) codes are searched too unless you pass `tryInvert: false`. QR, Data Matrix and Aztec are checked in both polarities in one pass. Inverted linear and PDF417 codes need a second pass, which runs only when the first found nothing, so an image with a normal code next to an inverted linear or PDF417 code returns the normal code only.
 
 ## File input
 

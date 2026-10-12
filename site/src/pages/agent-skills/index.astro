@@ -109,7 +109,7 @@ const faqs = [
           <span><Icon name="bot" size={18} /> Prompt for your coding agent</span>
           <button type="button" class="btn btn-primary btn-sm" data-copy-target="#agent-prompt"><Icon name="copy" size={16} /> <span>Copy prompt</span></button>
         </div>
-        <pre id="agent-prompt">{AGENT_PROMPT}</pre>
+        <pre id="agent-prompt" tabindex="0" aria-label="Agent prompt">{AGENT_PROMPT}</pre>
       </div>
     </div>
   </section>
@@ -154,7 +154,7 @@ const faqs = [
           <span class="num">1</span>
           <h3>Install once</h3>
           <p>One command adds the skills to your project or your user profile.</p>
-          <code>npx skills add https://github.com/Rockyljewell/QR-GEN</code>
+          <code tabindex="0">npx skills add https://github.com/Rockyljewell/QR-GEN</code>
         </div>
         <div class="step">
           <span class="num">2</span>

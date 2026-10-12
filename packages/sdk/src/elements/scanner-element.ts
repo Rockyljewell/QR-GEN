@@ -115,6 +115,7 @@ export class QRGenScannerElement extends Base {
     torch: HTMLButtonElement;
     switch: HTMLButtonElement;
     pause: HTMLButtonElement;
+    zoom: HTMLButtonElement;
     count: HTMLDivElement;
     results: HTMLElement;
     resultsList: HTMLDivElement;
@@ -139,6 +140,7 @@ export class QRGenScannerElement extends Base {
   private autostartToken = 0;
   private readonly handleClick = (event: Event) => this.onClick(event as MouseEvent);
   private pausedBySingle = false;
+  private zoomLevel = 1;
   private scanned = 0;
   private lastScan: Barcode | null = null;
 
@@ -259,8 +261,9 @@ export class QRGenScannerElement extends Base {
   set toast(v: boolean | string) {
     this.setBoolAttr("toast", v);
   }
+  /** Without the attribute the scanner uses its mode default: on in batch mode, off otherwise. */
   get tryHarder(): boolean {
-    return bool(this.getAttribute("try-harder"), false);
+    return bool(this.getAttribute("try-harder"), this.mode === "batch");
   }
   set tryHarder(v: boolean | string) {
     this.setBoolAttr("try-harder", v);
@@ -407,19 +410,20 @@ export class QRGenScannerElement extends Base {
           </div>
         </div>
         <div class="bar bottom" part="controls">
+          <button class="pill" data-a="zoom" aria-label="Zoom" hidden>1×</button>
           <div class="count" hidden></div>
         </div>
         <button class="again" data-a="again" hidden>Scan again</button>
         <div class="screen" data-s="start" hidden>
           <div class="icon">${ICONS.scan}</div>
-          <h3>Scan barcodes &amp; QR codes</h3>
+          <p class="title">Scan barcodes &amp; QR codes</p>
           <p>Your camera feed is processed on this device and never uploaded.</p>
           <button class="cta" data-a="start">Start scanning</button>
         </div>
         <div class="screen" data-s="loading" hidden><div class="spinner"></div><p>Starting camera…</p></div>
         <div class="screen" data-s="error" hidden>
           <div class="icon">${ICONS.alert}</div>
-          <h3>Camera unavailable</h3>
+          <p class="title">Camera unavailable</p>
           <p class="msg"></p>
           <button class="cta" data-a="retry">Try again</button>
         </div>
@@ -441,6 +445,7 @@ export class QRGenScannerElement extends Base {
       torch: q('[data-a="torch"]'),
       switch: q('[data-a="switch"]'),
       pause: q('[data-a="pause"]'),
+      zoom: q('[data-a="zoom"]'),
       count: q(".count"),
       results: q(".results"),
       resultsList: q(".results-list"),
@@ -638,6 +643,9 @@ export class QRGenScannerElement extends Base {
     if (!s) return;
     const caps = s.camera.capabilities;
     this.els.torch.hidden = !caps.torch;
+    // A new camera track starts unzoomed.
+    this.zoomLevel = 1;
+    this.els.zoom.hidden = !caps.zoom || caps.zoom.max < 2;
     try {
       const cams = await Camera.list();
       this.els.switch.hidden = cams.length < 2;
@@ -656,6 +664,7 @@ export class QRGenScannerElement extends Base {
     const paused = s?.state === "paused";
     this.els.pause.innerHTML = paused ? ICONS.play : ICONS.pause;
     this.els.pause.setAttribute("aria-label", paused ? "Resume scanning" : "Pause scanning");
+    this.els.zoom.textContent = `${this.zoomLevel}×`;
   }
 
   private updateScreens(state: ScannerState): void {
@@ -913,6 +922,13 @@ export class QRGenScannerElement extends Base {
       case "switch":
         void this.switchCamera();
         break;
+      case "zoom": {
+        const z = s?.camera.capabilities.zoom;
+        if (!z) break;
+        this.zoomLevel = this.zoomLevel === 1 ? Math.min(2, z.max) : 1;
+        void this.setZoom(this.zoomLevel).then(() => this.updateControls());
+        break;
+      }
       case "select-barcode":
         this.selectBarcode(Number(target.dataset.id));
         break;

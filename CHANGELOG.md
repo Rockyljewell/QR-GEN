@@ -21,3 +21,25 @@ First public version.
   banner comment in the built SDK files. Created by Rockyljewell.
 - **Sharing:** share button and share options (native share sheet, copy link, page QR code, social
   networks, messaging and email) on every page.
+- **Retail tools (website):** a delivery receiving page (expected quantities, explicit
+  confirmations, correction history and a local export) and a target product finder (matching
+  across live camera observations or a still image). Both match retail barcodes by product
+  number (GTIN), so a UPC-A finds its 13-digit EAN form, and other values exactly. Both run on
+  the device.
+- **QR print planner and offline tools (website):** plan a QR code for a print width and printer
+  DPI with whole-dot modules, then export and check it; a standalone offline page makes QR codes
+  and reads images without a network.
+- **Spatial tracking:** opt-in spatial observations for batch scans in the Python, React Native
+  and Flutter SDKs.
+- **Adaptive capture (experiment):** opt-in, bounded adaptive camera resolution in the web
+  scanner (`adaptive`). It can miss small codes beside large ones, so it is off by default.
+- **Inverted codes in images:** light-on-dark linear, PDF417 and MaxiCode codes are read by the
+  web, Node and Python image scanners through one extra inverted-pixel pass, which runs only when
+  the normal pass found nothing (a normal code next to an inverted linear code returns the normal
+  code only). In Node, that pass decodes PNG, JPEG, GIF and BMP through `pngjs`, `jpeg-js`,
+  `omggif` and `bmp-ts`.
+- **Decoder:** `zxing-wasm` 3.1.5.
+- **Reliability:** scanner lifecycle, re-entrant destroy, camera retry, torch and highlight state
+  fixes across platforms; monotonic clocks for duplicate filtering and tracking windows; stale
+  native results rejected across pause and settings changes; GS1 field validation and separator
+  fixes; preserved contact escapes, calendar components and multipart uploads.

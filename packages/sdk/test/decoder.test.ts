@@ -42,7 +42,11 @@ describe("Worker failure recovery", () => {
     void decoder.decode(frame(), params).catch((e) => { error = e; });
     if (failure === "error") worker.onerror?.({ message: "worker crashed" });
     if (failure === "messageerror") worker.onmessageerror?.();
-    if (failure === "response") worker.onmessage?.({ data: { type: "error", id: 1, message: "WASM failed" } });
+    if (failure === "response") {
+      for (let id = 2; id <= 3; id++) void decoder.decode(frame(), params).catch(() => {});
+      // The third consecutive failure (request 1) replaces the engine.
+      for (const id of [2, 3, 1]) worker.onmessage?.({ data: { type: "error", id, message: "WASM failed" } });
+    }
     await vi.advanceTimersByTimeAsync(20000);
     expect(error).toMatchObject({ code: "engine-load-failed" });
     expect(worker.terminate).toHaveBeenCalledOnce();
@@ -51,6 +55,27 @@ describe("Worker failure recovery", () => {
     expect(replacement).not.toBe(decoder);
     expect(FakeWorker.all).toHaveLength(2);
     replacement.dispose();
+  });
+
+  it("drops a single failed frame without replacing the shared worker", async () => {
+    vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
+    const { createFrameDecoder } = await import("../src/engine/decoder");
+    const decoder = await createFrameDecoder();
+    const worker = FakeWorker.all[0]!;
+    for (let round = 0; round < 3; round++) {
+      const bad = decoder.decode(frame(), params);
+      worker.onmessage?.({ data: { type: "error", id: round * 2 + 1, message: "bad frame" } });
+      const error = await bad.catch((e) => e);
+      expect(error).toBeInstanceOf(Error);
+      expect(error).not.toMatchObject({ code: "engine-load-failed" });
+      const good = decoder.decode(frame(), params);
+      worker.onmessage?.({ data: { type: "result", id: round * 2 + 2, results: [] } });
+      expect(await good).toEqual([]);
+    }
+    expect(worker.terminate).not.toHaveBeenCalled();
+    expect(await createFrameDecoder()).toBe(decoder);
+    expect(vi.getTimerCount()).toBe(0);
+    decoder.dispose();
   });
 
   it("clears successful request timers and supports multiple consumers", async () => {

@@ -78,7 +78,14 @@ const app = `
     key,ref,mode,symbologies:['qr'],duplicateFilter,beep:false,vibrate:false,
     accentColor,showToast:false,showHighlights:false,onScan:scan,onTrack:track,
   }))}
+  // A parent restoring a saved torch preference once, from its own mount effect.
+  function TorchRestore({camera}){
+    React.useEffect(()=>{ref.current.setTorch(true)},[]);
+    return React.createElement(QRGenScanner,{ref,camera,symbologies:['qr'],beep:false,vibrate:false,showToast:false,showHighlights:false});
+  }
   window.probe={
+    mountTorchRestore(camera='back'){flushSync(()=>root.render(React.createElement(TorchRestore,{camera})))},
+    torch(){return window.cameraProps?.torch??null},
     mount(nextAction,windowMs=0){calls=[];tracks=[];events=[];mode='single';action=nextAction;duplicateFilter=windowMs;key++;flushSync(render)},
     mountBatch(nextAction){calls=[];tracks=[];events=[];mode='batch';action=nextAction;duplicateFilter=-1;key++;flushSync(render)},
     frame(value){flushSync(()=>window.cameraProps.codeScanner.onCodeScanned([
@@ -155,6 +162,13 @@ try {
   };
   const batchState = page => page.evaluate(() => window.probe.batchState());
 
+  await test("native ref setTorch from a parent mount effect survives initial configuration", async page => {
+    await page.evaluate(() => window.probe.mountTorchRestore());
+    await page.waitForSelector('[data-active="true"]', { state: "attached" });
+    assert.equal(await page.evaluate(() => window.probe.torch()), "on");
+    await page.evaluate(() => window.probe.mountTorchRestore("front"));
+    assert.equal(await page.evaluate(() => window.probe.torch()), "on");
+  });
   await test("native single scan stops when the callback does not restart", async page => {
     await mount(page, null);
     await frame(page, "A");
@@ -627,6 +641,11 @@ for(const [name,field,value] of invalids) add(`invalid mixed proposal ${name}`, 
   await page.evaluate(()=>window.fixture.update({camera:'front',mode:'batch',duplicateFilter:-1,maxResults:20,symbologies:['qr'],scanArea:undefined,
     spatialTracking:true,trackMaxJump:3,trackMaxAssociationWork:250000}));
   const recovered=await state(page);assert.notEqual(recovered.camera,before.camera);assert.notEqual(recovered.hook,before.hook);assert.equal(currentCamera(recovered).device,'front');
+});
+add('isActive false stops the camera even when mixed with an invalid prop', 'A rejected proposal must not keep the camera running after the app asks it to stop.', async page => {
+  await mount(page);await frame(page);const before=await state(page);assert.equal(currentCamera(before).isActive,true);
+  await update(page,{isActive:false,trackMaxJump:NaN});await settle(page);const stopped=await state(page);
+  assert.equal(errors(stopped).length,1);assert.equal(currentCamera(stopped).isActive,false);
 });
 add('rejected spatial enable retains legacy instance and payload identity', 'Invalid enable mixed with source/mode does not partially accept.', async page => {
   await mount(page,{spatialTracking:false});await frame(page);const before=await state(page);

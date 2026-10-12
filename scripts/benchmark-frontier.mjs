@@ -24,7 +24,7 @@ const durationMs = Number(process.env.FRONTIER_BENCHMARK_MS ?? 3000);
 if (!Number.isInteger(durationMs) || durationMs < 2000 || durationMs > 4000) {
   throw new Error("FRONTIER_BENCHMARK_MS must be an integer between 2000 and 4000.");
 }
-const output = resolve(root, process.argv[2] ?? "docs/frontier-benchmark-2026-10-11.json");
+const output = process.argv[2] ? resolve(process.argv[2]) : null;
 const temporary = mkdtempSync(join(tmpdir(), "qrgen-frontier-"));
 const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
 let server;
@@ -239,9 +239,11 @@ try {
     ],
     scenarios: results,
   };
-  mkdirSync(dirname(output), { recursive: true });
-  writeFileSync(output, JSON.stringify(report, null, 2) + "\n");
-  console.log(`Saved ${output}`);
+  if (output) {
+    mkdirSync(dirname(output), { recursive: true });
+    writeFileSync(output, JSON.stringify(report, null, 2) + "\n");
+    console.log(`Saved ${output}`);
+  } else console.log(JSON.stringify(report, null, 2));
   if (results.some((scenario) => scenario.runs.some((run) => run.errors.length || run.pageErrors.length || run.blockedExternalRequests.length || !run.samples.length || run.stateAtEnd !== "scanning" || run.summary.unexpectedDetections))) process.exitCode = 1;
 } finally {
   server?.kill();

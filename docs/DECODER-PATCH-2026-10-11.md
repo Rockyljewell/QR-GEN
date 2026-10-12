@@ -9,7 +9,7 @@ of reading outside the supplied buffer. Upstream unit tests reproduce the decode
 case; no image-level exploit was demonstrated in this audit. This patch also
 includes MicroQR and MicroPDF417 corrections.
 
-The [release evaluation](decoder-evaluation-2026-10-11/RESEARCH.md) records primary
+The [release evaluation](https://github.com/Rockyljewell/QR-GEN/blob/fc54ac2d60f237651985df9a9bef684c02dd1dc2/docs/decoder-evaluation-2026-10-11/RESEARCH.md) records primary
 release/commit links, verified npm integrity and matching WASM hashes. Wrapper
 source, package exports, defaults and all 46 shipped declaration files are unchanged.
 The type-fest minimum Node metadata already existed before this patch. The SDK
@@ -38,11 +38,11 @@ encoded and RGBA inputs, and three repetitions per version: 72 paired cases and
 432 reads on each runtime. Node 22.14 and Node 18.17 both produced identical
 before/after results, stable repetitions and unchanged input buffers. This narrow
 comparison cannot establish quality across all formats or real cameras.
-The [Node 22 evidence](decoder-evaluation-2026-10-11/comparison.json),
-[Node 18 evidence](decoder-evaluation-2026-10-11/comparison-node18.17.0.json),
-[cross-runtime check](decoder-evaluation-2026-10-11/runtime-comparison.json) and
-generated [Node 18](decoder-evaluation-2026-10-11/generated-node18.json) /
-[Node 24](decoder-evaluation-2026-10-11/generated-node24.json) results are retained.
+The [Node 22 evidence](https://github.com/Rockyljewell/QR-GEN/blob/fc54ac2d60f237651985df9a9bef684c02dd1dc2/docs/decoder-evaluation-2026-10-11/comparison.json),
+[Node 18 evidence](https://github.com/Rockyljewell/QR-GEN/blob/fc54ac2d60f237651985df9a9bef684c02dd1dc2/docs/decoder-evaluation-2026-10-11/comparison-node18.17.0.json),
+[cross-runtime check](https://github.com/Rockyljewell/QR-GEN/blob/fc54ac2d60f237651985df9a9bef684c02dd1dc2/docs/decoder-evaluation-2026-10-11/runtime-comparison.json) and
+generated [Node 18](https://github.com/Rockyljewell/QR-GEN/blob/fc54ac2d60f237651985df9a9bef684c02dd1dc2/docs/decoder-evaluation-2026-10-11/generated-node18.json) /
+[Node 24](https://github.com/Rockyljewell/QR-GEN/blob/fc54ac2d60f237651985df9a9bef684c02dd1dc2/docs/decoder-evaluation-2026-10-11/generated-node24.json) results are retained.
 Absolute local paths in the historical probe JSON were replaced with portable
 placeholders; decoder outputs, hashes and options were preserved. The research
 note describes the pre-adoption evaluation, when 3.1.4 was still installed.
@@ -50,7 +50,7 @@ Generated timings are single-run diagnostics, not camera latency or a speed clai
 
 ## Separate photographic comparison
 
-The [frozen photographic demo comparison](photographic-comparison-2026-10-11/README.md)
+The [frozen photographic demo comparison](https://github.com/Rockyljewell/QR-GEN/blob/fc54ac2d60f237651985df9a9bef684c02dd1dc2/docs/photographic-comparison-2026-10-11/README.md)
 observed 16 positive inputs and four no-code controls with both public workflows.
 QR-GEN displayed 13 exact positive payloads; Scandit's public demo displayed 15.
 All missing exact results were EAN-13 cases. A predefined follow-up reproduced
@@ -78,7 +78,7 @@ recorded hard-search profiles. The original photograph decodes correctly.
 This wrong result was not observed in the public demo comparison; the derived
 RGB transformation is not a measured copy of Chromium's camera pixels.
 
-The [focused reproduction](ean13-repro/README.md) includes the original and
+The [focused reproduction](https://github.com/Rockyljewell/QR-GEN/blob/fc54ac2d60f237651985df9a9bef684c02dd1dc2/docs/ean13-repro/README.md) includes the original and
 derived image, hashes, license, effective options and repeatable runners.
 This dependency patch **does not fix #32**. A higher minimum line count suppresses
 the wrong result in this one case, but broader labeled recall/false-positive and
@@ -88,13 +88,13 @@ matched Scandit validation remain unexecuted.
 
 ## Subsequent actual-camera diagnostic
 
-A separate [browser follow-up](ean-browser-diagnostic-2026-10-11/README.md) on
+A separate [browser follow-up](https://github.com/Rockyljewell/QR-GEN/blob/fc54ac2d60f237651985df9a9bef684c02dd1dc2/docs/ean-browser-diagnostic-2026-10-11/README.md) on
 clean commit 4949870 captures the real synthetic-camera RGB frame. Full-frame
 hard search returns the same wrong EAN in the public image API and live worker;
 the ordinary aiming ROI produces no result. Its inputs, options and actual loaded
 assets are pinned. This is distinct from the unchanged historical vendor run,
 where no wrong payload was observed. There is no validated automatic wider-area
 or harder-search fallback from this evidence. The broader
-[supporting-line study](ean-linecount-study-2026-10-11/README.md) records correct
+[supporting-line study](https://github.com/Rockyljewell/QR-GEN/blob/fc54ac2d60f237651985df9a9bef684c02dd1dc2/docs/ean-linecount-study-2026-10-11/README.md) records correct
 reads lost at stricter thresholds and another mismatched value that survives
 threshold 4; current decoder defaults remain unchanged.

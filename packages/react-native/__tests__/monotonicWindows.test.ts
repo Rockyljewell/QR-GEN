@@ -167,6 +167,18 @@ describe('clock planning, source changes and retained-history cleanup', () => {
     expect(internal.lastReportedElapsed.size).toBe(0);
   });
 
+  it('filter updates a large once-per-session history in place instead of copying it per frame', () => {
+    const filter = new DuplicateFilter(-1);
+    filter.filter(Array.from({ length: 5000 }, (_, index) => barcode(`seen${index}`)));
+    const internal = filter as unknown as { lastReported: Map<string, number>; lastReportedElapsed: Map<string, number> };
+    const reported = internal.lastReported, elapsed = internal.lastReportedElapsed;
+    move(10);
+    expect(filter.filter([barcode('seen1'), barcode('fresh'), barcode('fresh')]).map(code => code.data)).toEqual(['fresh']);
+    expect(internal.lastReported).toBe(reported);
+    expect(internal.lastReportedElapsed).toBe(elapsed);
+    expect(filter.size).toBe(5001);
+  });
+
   it('expiry and reset release tracker elapsed history and preserve hash collision controls', () => {
     const tracker = new BarcodeTracker({ timeout: 500 });
     tracker.update([barcode('costarring'), barcode('liquid')]);

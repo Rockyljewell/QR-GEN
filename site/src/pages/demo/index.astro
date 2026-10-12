@@ -63,7 +63,6 @@ const sampleSvgs = await Promise.all(samples.map((s) => barcodeSvg(s.data, { sym
             <div class="settings-row">
               <label><input type="checkbox" data-opt="beep" checked /> Beep</label>
               <label><input type="checkbox" data-opt="vibrate" checked /> Vibrate</label>
-              <label><input type="checkbox" data-opt="adaptive" aria-describedby="adaptive-help" /> Adaptive capture (experiment)</label>
               <label
                 >Duplicates
                 <select data-opt="duplicate-filter">
@@ -82,7 +81,10 @@ const sampleSvgs = await Promise.all(samples.map((s) => barcodeSvg(s.data, { sym
                 </select>
               </label>
             </div>
-            <p class="small muted" id="adaptive-help">This experiment may miss small codes beside larger ones. Leave it off when you need to scan every item.</p>
+            <div class="adaptive-setting">
+              <label><input type="checkbox" data-opt="adaptive" aria-describedby="adaptive-help" /> Adaptive capture (experiment)</label>
+              <p id="adaptive-help">May miss small codes beside larger ones. Leave it off when you need to scan every item.</p>
+            </div>
           </div>
         </details>
       </div>
@@ -404,6 +406,9 @@ const sampleSvgs = await Promise.all(samples.map((s) => barcodeSvg(s.data, { sym
     font-size: 14px;
   }
   .sym-grid label,
+  .adaptive-setting { margin-top: 14px; }
+  .adaptive-setting label { display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer; }
+  .adaptive-setting p { margin: 4px 0 0 26px; font-size: 13px; line-height: 1.5; color: var(--muted); }
   .settings-row label,
   .checks-row label {
     display: flex;

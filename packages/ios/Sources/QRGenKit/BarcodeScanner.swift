@@ -105,6 +105,9 @@ public final class BarcodeScanner {
     private let authorizationStatusProvider: @Sendable () -> AVAuthorizationStatus
     private var customRegionOfInterest: CGRect?
     private var generation = 0
+    /// The processor re-emits a Vision request failure in each processing epoch so a stale-dropped
+    /// one is not lost; report it once per camera source and symbology set, as before epochs.
+    private var reportedRequestFailure: (source: UInt64, symbologies: Set<Symbology>)?
 
     /// Creates a scanner. Nothing happens until ``start()``.
     public convenience init(options: ScannerOptions = ScannerOptions()) {
@@ -386,6 +389,10 @@ public final class BarcodeScanner {
     private func handle(_ packet: DecodedCameraFrame) {
         guard state == .running, processor.sourceSession.isCurrent(source: packet.source, epoch: packet.epoch) else { return }
         if let error = packet.error {
+            // A current packet was produced with the latest options, so these are its symbologies.
+            let symbologies = options.resolvedSymbologies
+            if let last = reportedRequestFailure, last.source == packet.source, last.symbologies == symbologies { return }
+            reportedRequestFailure = (source: packet.source, symbologies: symbologies)
             report(error, source: packet.source, epoch: packet.epoch)
             return
         }

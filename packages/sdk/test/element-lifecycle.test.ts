@@ -3,6 +3,7 @@
 
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { QRGenScannerElement } from "../src/elements/scanner-element";
+import { BarcodeScanner } from "../src/scanner";
 import type { TrackedBarcode } from "../src/types";
 
 describe("Scanner element autostart lifecycle", () => {
@@ -235,6 +236,21 @@ describe("Scanner element autostart lifecycle", () => {
     scanner.emit("state", "stopped");
     expect(internals.tracked).toEqual([replacement]);
     expect(internals.highlights).toEqual([{ at: 200 }]);
+  });
+
+  it.each([
+    ["continuous", undefined, false],
+    ["single", undefined, false],
+    ["batch", undefined, true],
+    ["batch", "false", false],
+    ["continuous", "", true],
+  ])("reports the tryHarder the scanner uses (mode=%s, try-harder=%s)", (mode, value, expected) => {
+    const { el, attributes } = element();
+    attributes.set("mode", mode);
+    if (value !== undefined) attributes.set("try-harder", value);
+    const scanner = new BarcodeScanner(el.options);
+    expect(scanner.options.tryHarder).toBe(expected);
+    expect(el.tryHarder).toBe(expected);
   });
 
 });

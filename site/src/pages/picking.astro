@@ -2,12 +2,12 @@
 import Base from "../layouts/Base.astro";
 ---
 
-<Base title="Find a target product" description="Find an exact product barcode among recent camera observations or decoded results from a still image.">
+<Base title="Find a target product" description="Find a product barcode among recent camera observations or decoded results from a still image.">
   <section class="section-sm hero-bg dark">
     <div class="container">
       <span class="tag">Retail product finder</span>
       <h1>Find the barcode you’re looking for</h1>
-      <p class="intro">Set one target, then look for an exact match among nearby barcodes. Use the camera or review a still image. Everything is processed on this device.</p>
+      <p class="intro">Set one target, then look for a match among nearby barcodes. Use the camera or review a still image. Everything is processed on this device.</p>
     </div>
   </section>
   <section class="section-sm">
@@ -17,9 +17,9 @@ import Base from "../layouts/Base.astro";
         <section class="panel">
           <h2>1. Choose your target</h2>
           <form id="target-form">
-            <label class="field">Exact barcode value<textarea id="target-code" rows="3" maxlength="4096" required autocomplete="off" spellcheck="false" aria-describedby="target-help"></textarea></label>
-            <p id="target-help" class="help">Spaces, line breaks, case and leading zeros are part of the value. Nothing is trimmed or converted to a number.</p>
-            <label class="field">Product name <span class="optional">(optional, for this page)</span><input id="target-name" maxlength="120" autocomplete="off" /></label>
+            <label class="field">Barcode value<textarea id="target-code" rows="3" maxlength="4096" required autocomplete="off" spellcheck="false" aria-describedby="target-help"></textarea></label>
+            <p id="target-help" class="help">Retail barcodes match by product number, so a UPC-A also matches its 13-digit EAN. Anything else must match exactly, including spaces, case and leading zeros. Press Enter to set the target, or Shift+Enter for a line break.</p>
+            <label class="field"><span>Product name <span class="optional">(optional)</span></span><input id="target-name" maxlength="120" autocomplete="off" /></label>
             <div class="actions"><button class="btn btn-dark" type="submit">Set target</button><button id="clear-target" class="btn btn-light" type="button" disabled>Clear target</button></div>
           </form>
           <p id="target-status" class="help" role="status">Set a target barcode to begin.</p>
@@ -31,9 +31,11 @@ import Base from "../layouts/Base.astro";
           <label class="field">Source<select id="source-mode"><option value="camera">Live camera</option><option value="image">Still image</option></select></label>
           <div id="camera-source">
             <label class="field">Starting camera<select id="camera-facing"><option value="back">Back camera</option><option value="front">Front camera</option></select></label>
-            <div class="actions camera-actions"><button id="start-picking" class="btn btn-dark" type="button" disabled>Start finding</button><button id="switch-picking" class="btn btn-light" type="button" disabled>Switch camera</button></div>
-            <qrgen-scanner id="scanner" autostart="false" mode="batch" symbologies="all" duplicate-filter="-1" beep="false" vibrate="false"></qrgen-scanner>
-            <p class="help">Choose a matching observation below to highlight it. The scanner’s own list also supports selection. A saved selection is not evidence that a barcode is still in view.</p>
+            <p id="camera-gate" class="gate">Set a target in step 1 to turn on the camera.</p>
+            <div id="camera-stage" hidden>
+              <qrgen-scanner id="scanner" autostart="false" mode="batch" symbologies="all" duplicate-filter="-1" beep="false" vibrate="false"></qrgen-scanner>
+              <p class="help">Point the camera at the shelf. Choose a match below, or in the scanner’s list, to highlight it on screen.</p>
+            </div>
           </div>
           <div id="image-source" hidden>
             <label class="field">Barcode image<input id="image-file" type="file" accept="image/*" disabled /></label>
@@ -41,15 +43,15 @@ import Base from "../layouts/Base.astro";
             <ul id="image-results" aria-label="Decoded results from the still image"></ul>
           </div>
           <div class="actions"><button id="stop-picking" class="btn btn-light btn-sm" type="button" disabled>Stop</button><button id="reset-picking" class="btn btn-light btn-sm" type="button" disabled>Clear observations</button></div>
-          <p id="picking-status" role="status" aria-live="polite">Set a target barcode to begin.</p>
+          <p id="picking-status" role="status" aria-live="polite"></p>
         </section>
       </div>
       <section class="panel observations" id="camera-observations" aria-label="Recent camera observations">
         <h2>3. Review recent camera observations</h2>
-        <p class="help">An observation stays recent for 0.5 seconds after it is decoded. Observations disappear on expiry or a target, source, stop or reset change. Highlights and repeated labels do not establish physical item counts or received quantities.</p>
+        <p class="help">Barcodes stay listed for half a second after the camera last reads them. This finds products; it does not count stock or record received quantities.</p>
         <div class="picking-grid">
           <div><h3>Target matches</h3><p id="match-status" class="help" role="status">No recent matching observations.</p><ul id="match-list" aria-label="Recent target matches"></ul></div>
-          <div><h3>Other barcodes</h3><p id="other-status" class="help" role="status">No recent other observations.</p><ul id="other-list" aria-label="Recent other barcodes"></ul></div>
+          <div><h3>Other barcodes</h3><p id="other-status" class="help">No recent other observations.</p><ul id="other-list" aria-label="Recent other barcodes"></ul></div>
         </div>
       </section>
     </div>
@@ -67,9 +69,11 @@ import Base from "../layouts/Base.astro";
   input, select, textarea { width: 100%; border: 1px solid #9ba7b4; border-radius: 8px; padding: 11px 12px; background: var(--white); color: var(--ink); font: inherit; font-weight: 400; min-width: 0; }
   textarea { resize: vertical; }
   input[type="file"] { font-size: 13px; }
+  .gate { display: grid; place-items: center; min-height: 200px; padding: 24px; margin: 0; border: 1px dashed #c9d2de; border-radius: var(--radius); background: var(--bg-softer); color: var(--muted); text-align: center; font-size: 14px; }
   .help, .optional { font-size: 13px; color: var(--muted); line-height: 1.6; font-weight: 400; }
   .actions { display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0; }
-  qrgen-scanner { display: block; height: 360px; border-radius: var(--radius); overflow: hidden; }
+  /* Batch mode keeps its results list inside the element, so leave room for a usable camera view. */
+  qrgen-scanner { display: block; height: 520px; height: min(520px, 75svh); border-radius: var(--radius); overflow: hidden; }
   .target-summary { border-top: 1px solid var(--line); padding-top: 16px; display: grid; gap: 8px; }
   #target-value { white-space: pre-wrap; overflow-wrap: anywhere; }
   #target-label { overflow-wrap: anywhere; }

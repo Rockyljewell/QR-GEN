@@ -102,6 +102,14 @@ def test_vcard_structured_name_only_and_quoted_printable():
     assert result["phones"] == [] and result["emails"] == [] and result["urls"] == []
 
 
+def test_vcard_escaped_backslash_before_separator():
+    # `\\` is a literal backslash; the following `;` still separates components.
+    assert parse_content("BEGIN:VCARD\r\nN:Doe\\\\;Jane;;;\r\nEND:VCARD")["name"] == "Jane Doe\\"
+    assert parse_content("BEGIN:VCARD\r\nN:Doe\\\\\\;Smith;Jane;;;\r\nEND:VCARD")["name"] == "Jane Doe\\;Smith"
+    assert parse_content("BEGIN:VCARD\r\nFN:X\r\nORG:C:\\\\;Team\r\nEND:VCARD")["organization"] == "C:\\ Team"
+    assert parse_content("BEGIN:VCARD\r\nFN:X\r\nADR:;;Dir\\\\;Town;;;\r\nEND:VCARD")["address"] == "Dir\\, Town"
+
+
 def test_mecard():
     assert parse_content("MECARD:N:Doe,Jane;TEL:+15550100;EMAIL:jane@example.com;URL:https\\://example.com;ADR:1 Main St;NOTE:Hi;ORG:ACME;;") == {
         "type": "contact",

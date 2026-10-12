@@ -1,9 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { scannedGtin, typedGtin } from "../src/lib/gtin.ts";
 import {
   applyReceivingCommand,
   createReceivingSession,
   exportReceivingSession,
+  findReceivingItem,
   receivingStatus,
   validateReceivingSession,
 } from "../src/lib/receiving.ts";
@@ -244,4 +246,141 @@ test("a full 10,000-action ledger replays and exports without truncation; retrie
   assert.equal(applyReceivingCommand(frozen, receive("receive-9999", 1), 999_999), frozen);
   rejectsWithoutMutation(frozen, receive("one-too-many", 1), /reached 10,000 changes/);
   rejectsWithoutMutation(frozen, correct("one-too-many", 0, frozen.revision), /reached 10,000 changes/);
+});
+
+// GTIN equivalence. ZXing reports an EAN-13 printed "0012345678905" as UPC-A "012345678905".
+const EAN13 = "0012345678905";
+const UPCA = "012345678905";
+const GTIN = "00012345678905";
+const NEIGHBOR = "012345678912"; // A different product with a valid check digit.
+const scan = (data, symbology, isGS1 = false) => ({ data, gtin: scannedGtin({ data, symbology, isGS1 }) });
+const find = (session, observed) => findReceivingItem(session, observed.data, observed.gtin)?.code;
+const scannedAdd = (id, code, gtin) => ({ ...add(id, code, null), gtin });
+function rows(...codes) {
+  let session = createReceivingSession("gtin", "GTIN delivery", 1);
+  codes.forEach((code, index) => { session = applyReceivingCommand(session, add(`add-${index}`, code, 4), index + 2); });
+  return session;
+}
+
+test("typed values are GTINs only as unaltered 8, 12, 13 or 14 digits with a valid check digit", () => {
+  assert.equal(typedGtin(EAN13), GTIN);
+  assert.equal(typedGtin(UPCA), GTIN);
+  assert.equal(typedGtin(GTIN), GTIN);
+  assert.equal(typedGtin("96385074"), "00000096385074");
+  assert.equal(typedGtin("15400141288763"), "15400141288763");
+  for (const value of [` ${UPCA}`, `${EAN13} `, `${UPCA}\n`, "0012345678906", "12345678905", "123456789012345", "0123456789", "00000000000000", "QRGEN-COFFEE", "0012-345678905", ""]) {
+    assert.equal(typedGtin(value), null, JSON.stringify(value));
+  }
+});
+
+test("scans carry a GTIN only from retail symbologies, GS1 AI (01) or a GS1 Digital Link", () => {
+  for (const [data, symbology, isGS1] of [
+    [UPCA, "upca"], [EAN13, "ean13"], ["00012345678905", "itf"], ["00012345678905", "itf14"],
+    ["(01)00012345678905(10)LOT1", "code128", true], ["(01)00012345678905", "databar", true],
+    ["(01)00012345678905(17)271231", "data-matrix", true], ["https://id.gs1.org/01/00012345678905/10/ABC", "qr"],
+    ["https://example.com/01/012345678905", "qr"],
+  ]) assert.equal(scan(data, symbology, isGS1).gtin, GTIN, `${symbology} ${data}`);
+  assert.equal(scan("01234565", "upce").gtin, typedGtin("012345000065"), "UPC-E expands to its UPC-A, not to an EAN-8.");
+  assert.equal(scan("96385074", "ean8").gtin, "00000096385074");
+  assert.equal(scan("10012345678902", "itf").gtin, "10012345678902", "An ITF-14 case indicator is a different GTIN.");
+  for (const [data, symbology, isGS1] of [
+    [UPCA, "code128"], [EAN13, "qr"], [UPCA, "data-matrix"], [UPCA, "itf"], ["(01)00012345678905", "code128", false],
+    ["012345678906", "upca"], ["(01)00012345678906", "code128", true], ["(02)00012345678905(37)10", "code128", true],
+    ["https://id.gs1.org/01/00012345678906", "qr"], ["https://id.gs1.org/414/0012345678905", "qr"], ["https://example.com/", "qr"],
+    ["21234565", "upce"], [UPCA, undefined], [UPCA, "toString"],
+  ]) assert.equal(scan(data, symbology, isGS1).gtin, null, `${symbology} ${data}`);
+});
+
+test("a scanned UPC-A finds the row typed as its 13-digit EAN and confirms into that row", () => {
+  const session = deepFreeze(rows(EAN13));
+  assert.equal(find(session, scan(UPCA, "upca")), EAN13);
+  assert.equal(findReceivingItem(session, UPCA)?.code, EAN13, "Typed lookups use the GTIN the digits spell.");
+  assert.equal(find(rows(UPCA), scan(EAN13, "ean13")), UPCA);
+  const counted = applyReceivingCommand(session, receive("count", 2, find(session, scan(UPCA, "upca"))), 10);
+  assert.deepEqual(counted.items.map(({ code, received }) => ({ code, received })), [{ code: EAN13, received: 2 }]);
+  // The ledger still records the row's own value: other forms are resolved before a command.
+  rejectsWithoutMutation(session, receive("other-form", 1, UPCA), /Add this barcode/);
+});
+
+test("UPC-E, ITF-14, GS1 element strings and Digital Links find the row with the same GTIN", () => {
+  const session = rows(EAN13, "012345000065", NEIGHBOR);
+  assert.equal(find(session, scan("01234565", "upce")), "012345000065");
+  for (const observed of [scan("00012345678905", "itf"), scan("(01)00012345678905(10)LOT1", "code128", true), scan("(01)00012345678905", "databar", true), scan("https://id.gs1.org/01/00012345678905/10/ABC", "qr")]) {
+    assert.equal(find(session, observed), EAN13, observed.data);
+  }
+  assert.equal(find(session, scan("10012345678902", "itf")), undefined, "A case GTIN is not its unit's row.");
+  assert.equal(find(session, scan(NEIGHBOR, "upca")), NEIGHBOR);
+});
+
+test("values without a GTIN stay exact and neighbouring values never find a row", () => {
+  const session = rows(EAN13, " 00123 ", "SKU-a", "0012345678906");
+  for (const observed of [scan(UPCA, "code128"), scan(UPCA, "qr"), scan("(01)00012345678905", "data-matrix"), scan("012345678906", "upca"), scan(NEIGHBOR, "upca"), { data: UPCA, gtin: null }]) {
+    assert.equal(find(session, observed), undefined, observed.data);
+  }
+  for (const typed of [` ${UPCA}`, "012345678906", "00123", " 00123", "SKU-A", "sku-a"]) assert.equal(findReceivingItem(session, typed), undefined, typed);
+  assert.equal(findReceivingItem(session, " 00123 ")?.code, " 00123 ");
+  assert.equal(findReceivingItem(session, "0012345678906")?.code, "0012345678906", "An invalid check digit still matches its exact value.");
+  assert.equal(find(session, scan(EAN13, "qr")), EAN13, "Exact values match in any symbology.");
+});
+
+test("a second row with an existing row's GTIN is rejected as the same product", () => {
+  const session = deepFreeze(rows(EAN13));
+  for (const command of [add("upc-form", UPCA), add("gtin-14", GTIN), scannedAdd("gs1-scan", "(01)00012345678905(10)LOT1", GTIN), scannedAdd("itf-scan", "00012345678905", GTIN)]) {
+    rejectsWithoutMutation(session, command, /already in the delivery as 0012345678905 \(same product number\)/);
+  }
+  rejectsWithoutMutation(session, add("same-value", EAN13), /This barcode is already in the delivery\./);
+  // Values that are not this GTIN remain separate products.
+  let distinct = session;
+  for (const [index, code] of [` ${UPCA}`, "0012345678906", NEIGHBOR, "QRGEN-COFFEE"].entries()) distinct = applyReceivingCommand(distinct, add(`distinct-${index}`, code), 10 + index);
+  distinct = applyReceivingCommand(distinct, scannedAdd("no-gtin-scan", "QRGEN-TEA", null), 20);
+  assert.equal(distinct.items.length, 6);
+});
+
+test("deliveries saved with GTIN-equivalent rows before this rule still open, export and count", () => {
+  const legacy = {
+    schema: 1, id: "legacy", name: "Older delivery", createdAt: 1, updatedAt: 4, revision: 3,
+    items: [{ code: EAN13, name: "First product", expected: 5, received: 2 }, { code: UPCA, name: "First product", expected: 5, received: 0 }],
+    actions: [{ command: add("legacy-ean", EAN13), at: 2 }, { command: add("legacy-upc", UPCA), at: 3 }, { command: receive("legacy-count", 2, EAN13), at: 4 }],
+  };
+  const saved = deepFreeze(copy(legacy));
+  const opened = validateReceivingSession(saved);
+  assert.deepEqual(opened, legacy);
+  const bytes = exportReceivingSession(saved);
+  assert.equal(bytes, exportReceivingSession(opened));
+  assert.equal(JSON.parse(bytes).exportId, "legacy:3");
+  assert.ok(JSON.parse(bytes).history.every(({ command }) => !("gtin" in command)), "Typed history keeps its saved shape.");
+  assert.equal(find(opened, scan(UPCA, "upca")), UPCA, "The exact row wins.");
+  assert.equal(find(opened, scan("00012345678905", "itf")), EAN13, "Otherwise the first row with the GTIN.");
+  const counted = applyReceivingCommand(opened, receive("later", 1, UPCA), 5);
+  assert.deepEqual(counted.items.map(({ received }) => received), [2, 1]);
+  assert.deepEqual(validateReceivingSession(copy(counted)), counted);
+});
+
+test("products added from a scan keep the scanned GTIN through retries, replay and export", () => {
+  let session = createReceivingSession("scanned", "Scanned delivery", 1);
+  const upce = scannedAdd("upce", "01234565", scan("01234565", "upce").gtin);
+  session = applyReceivingCommand(session, upce, 2);
+  assert.equal(applyReceivingCommand(session, copy(upce), 3), session);
+  rejectsWithoutMutation(deepFreeze(session), { ...upce, gtin: null }, /already used for a different change/);
+  // The 8 printed digits typed alone read as an EAN-8; the recorded scan keeps UPC-E's own GTIN.
+  assert.equal(find(session, scan("012345000065", "upca")), "01234565");
+  rejectsWithoutMutation(deepFreeze(session), add("typed-upca", "012345000065"), /already in the delivery as 01234565/);
+  session = applyReceivingCommand(session, scannedAdd("gs1", "(01)00012345678905(10)LOT1", GTIN), 4);
+  assert.equal(find(session, scan(UPCA, "upca")), "(01)00012345678905(10)LOT1");
+  // Same digits from a non-retail symbology record no GTIN and stay exact.
+  session = applyReceivingCommand(session, scannedAdd("code128", NEIGHBOR, scan(NEIGHBOR, "code128").gtin), 5);
+  assert.equal(findReceivingItem(session, `0${NEIGHBOR}`), undefined);
+  session = applyReceivingCommand(session, add("typed-ean", `0${NEIGHBOR}`), 6);
+  assert.equal(session.items.length, 4);
+  const replayed = validateReceivingSession(copy(session));
+  assert.deepEqual(replayed, session);
+  const history = JSON.parse(exportReceivingSession(session)).history.map(({ command }) => command.gtin);
+  assert.deepEqual(history, ["00012345000065", GTIN, null, undefined]);
+  assert.equal(exportReceivingSession(replayed), exportReceivingSession(session));
+  for (const gtin of ["00012345678906", "0012345678905", "00000000000000", 12345678905, "", false]) {
+    rejectsWithoutMutation(deepFreeze(session), scannedAdd("bad-gtin", "EXTRA", gtin), /scanned product number/);
+  }
+  const corrupt = copy(session);
+  corrupt.actions[0].command.gtin = "00012345000066";
+  assert.throws(() => validateReceivingSession(corrupt), /scanned product number/);
 });

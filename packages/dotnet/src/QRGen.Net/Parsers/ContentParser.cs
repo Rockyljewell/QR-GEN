@@ -246,7 +246,26 @@ namespace QRGen
         private static string VCardUnescape(string value) =>
             Regex.Replace(value, @"\\([nN,;:\\])", m => m.Groups[1].Value == "n" || m.Groups[1].Value == "N" ? "\n" : m.Groups[1].Value);
 
-        private static List<string> SplitSemicolons(string value) => Regex.Split(value, @"(?<!\\);").ToList();
+        // Splits on `;` unless a backslash escapes it. Escape pairs are kept for VCardUnescape,
+        // so `\\;` is a literal backslash followed by a separator.
+        private static List<string> SplitSemicolons(string value)
+        {
+            var parts = new List<string>();
+            var current = new StringBuilder();
+            for (var i = 0; i < value.Length; i++)
+            {
+                var c = value[i];
+                if (c == '\\' && i + 1 < value.Length) current.Append(c).Append(value[++i]);
+                else if (c == ';')
+                {
+                    parts.Add(current.ToString());
+                    current.Clear();
+                }
+                else current.Append(c);
+            }
+            parts.Add(current.ToString());
+            return parts;
+        }
 
         private static List<(string Name, Dictionary<string, string> Params, string Value)> ContentLines(string text)
         {

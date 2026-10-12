@@ -234,3 +234,86 @@ test("static images partition exact values without creating tracked IDs or quant
   assert.ok([...result.matches, ...result.others].every((value) => !("id" in value) && !("quantity" in value)));
   assert.deepEqual(classifyPickingBarcodes({ data: "OTHER", name: "" }, input).matches, []);
 });
+
+// GTIN equivalence. ZXing reports an EAN-13 printed "0012345678905" as UPC-A "012345678905".
+const EAN13 = "0012345678905";
+const UPCA = "012345678905";
+const NEIGHBOR = "012345678912"; // A different product with a valid check digit.
+const NAMES = { upca: "UPC-A", ean13: "EAN-13", ean8: "EAN-8", upce: "UPC-E", itf: "Interleaved 2 of 5", itf14: "ITF-14", code128: "Code 128", databar: "GS1 DataBar", qr: "QR Code", "data-matrix": "Data Matrix" };
+const scanned = (id, data, symbology, isGS1 = false) => ({ id, data, symbology, symbologyName: NAMES[symbology], isGS1, lastSeen: 100 });
+const ids = (observations) => observations.map(({ id }) => id);
+
+test("a UPC-A scan matches a target typed as its 13-digit EAN and keeps its decoded value", () => {
+  const session = active(EAN13);
+  session.update([scanned(1, UPCA, "upca"), scanned(2, UPCA, "code128"), scanned(3, EAN13, "qr"), scanned(4, NEIGHBOR, "upca")], 10);
+  const state = session.snapshot(10);
+  assert.deepEqual(ids(state.matches), [1, 3]);
+  assert.deepEqual(state.matches[0], { ...scanned(1, UPCA, "upca"), observedAt: 10 }, "The decoded value and symbology are shown as-is.");
+  assert.deepEqual(ids(state.others), [2, 4]);
+  const reverse = active(UPCA);
+  reverse.update([scanned(1, EAN13, "ean13"), scanned(2, `0${NEIGHBOR}`, "ean13")], 10);
+  assert.deepEqual(ids(reverse.snapshot(10).matches), [1]);
+});
+
+test("UPC-E, ITF-14, GS1 element strings and Digital Links match the target's GTIN", () => {
+  const session = active(EAN13);
+  const equivalent = [
+    scanned(1, "00012345678905", "itf"), scanned(2, "00012345678905", "itf14"), scanned(3, "(01)00012345678905(10)LOT1", "code128", true),
+    scanned(4, "(01)00012345678905", "databar", true), scanned(5, "https://id.gs1.org/01/00012345678905/10/ABC", "qr"),
+    scanned(6, "(01)00012345678905(17)271231", "data-matrix", true),
+  ];
+  session.update([...equivalent, scanned(7, "10012345678902", "itf")], 10);
+  assert.deepEqual(ids(session.snapshot(10).matches), [1, 2, 3, 4, 5, 6]);
+  assert.deepEqual(ids(session.snapshot(10).others), [7], "An ITF-14 case indicator is a different GTIN.");
+  const upce = active("012345000065");
+  upce.update([scanned(1, "01234565", "upce"), scanned(2, "01234565", "ean8")], 10);
+  assert.deepEqual(ids(upce.snapshot(10).matches), [1], "UPC-E expands to its UPC-A; the same digits as EAN-8 are another product.");
+  const gtin14 = active("00012345678905");
+  gtin14.update([scanned(1, UPCA, "upca")], 10);
+  assert.equal(gtin14.snapshot(10).matches.length, 1);
+});
+
+test("invalid check digits, other symbologies and non-GTIN targets stay exact-only", () => {
+  const session = active(EAN13);
+  const unmatched = [
+    scanned(1, UPCA, "code128"), scanned(2, UPCA, "qr"), scanned(3, "(01)00012345678905", "data-matrix"),
+    scanned(4, "(01)00012345678906", "code128", true), scanned(5, "(02)00012345678905(37)10", "code128", true),
+    scanned(6, "https://id.gs1.org/01/00012345678906", "qr"), scanned(7, UPCA, "itf"), track(8, UPCA),
+    { id: 9, data: UPCA, symbologyName: "UPC-A", lastSeen: 100 },
+  ];
+  session.update(unmatched, 10);
+  assert.deepEqual(session.snapshot(10).matches, []);
+  assert.equal(session.snapshot(10).others.length, unmatched.length);
+  const invalid = active("0012345678906");
+  invalid.update([scanned(1, "012345678906", "upca"), scanned(2, UPCA, "upca"), scanned(3, "0012345678906", "code128")], 10);
+  assert.deepEqual(ids(invalid.snapshot(10).matches), [3], "An invalid check digit matches only its exact value.");
+  for (const target of [` ${EAN13}`, `${EAN13}\n`, "12345678905"]) {
+    const spaced = active(target);
+    spaced.update([scanned(1, UPCA, "upca"), scanned(2, target, "qr")], 10);
+    assert.deepEqual(ids(spaced.snapshot(10).matches), [2], JSON.stringify(target));
+  }
+});
+
+test("a target change re-evaluates GTIN matches and a changed symbology is a fresh observation", () => {
+  const session = active(EAN13);
+  session.update([scanned(1, UPCA, "upca")], 10);
+  assert.equal(session.snapshot(10).matches.length, 1);
+  session.update([scanned(1, UPCA, "code128")], 20);
+  assert.deepEqual(session.snapshot(20).matches, []);
+  assert.equal(session.snapshot(20).others[0].observedAt, 20);
+  session.setTarget("QRGEN-COFFEE");
+  session.update([scanned(1, UPCA, "upca")], 30);
+  assert.deepEqual(session.snapshot(30).matches, []);
+  session.setTarget(UPCA);
+  session.update([scanned(1, UPCA, "code128")], 40);
+  assert.equal(session.snapshot(40).matches.length, 1, "Exact values match in any symbology.");
+});
+
+test("still images match GTIN-equivalent results and keep their decoded values", () => {
+  const input = deepFreeze([UPCA, NEIGHBOR].flatMap((data) => ["upca", "code128"].map((symbology) => ({ data, symbology, symbologyName: NAMES[symbology], isGS1: false }))));
+  const result = classifyPickingBarcodes({ data: EAN13, name: "" }, input);
+  assert.deepEqual(result.matches, [input[0]]);
+  assert.deepEqual(result.others, input.slice(1));
+  assert.throws(() => classifyPickingBarcodes({ data: EAN13, name: "" }, [{ data: UPCA, symbologyName: "UPC-A", symbology: 1 }]), /Invalid barcode/);
+  assert.throws(() => classifyPickingBarcodes({ data: EAN13, name: "" }, [{ data: UPCA, symbologyName: "UPC-A", isGS1: "yes" }]), /Invalid barcode/);
+});

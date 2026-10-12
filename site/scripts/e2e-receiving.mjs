@@ -16,8 +16,12 @@ const site = fileURLToPath(new URL("../", import.meta.url));
 const fixtureDirectory = mkdtempSync(join(tmpdir(), "qrgen-receiving-"));
 const video = join(fixtureDirectory, "coffee.y4m");
 const teaImage = join(fixtureDirectory, "tea.png");
+const retailImage = join(fixtureDirectory, "retail.png");
 const COFFEE = "QRGEN-COFFEE";
 const TEA = "QRGEN-TEA";
+// An EAN-13 printed with a leading 0 decodes as this UPC-A under symbologies="all".
+const RETAIL_EAN = "0012345678905";
+const RETAIL_UPC = "012345678905";
 const scannerSelector = "qrgen-scanner#scanner, #scanner qrgen-scanner";
 const results = [];
 let BASE = process.env.E2E_BASE_URL;
@@ -275,6 +279,7 @@ try {
   await startServer();
   await writeFakeCamera(video, [{ data: COFFEE, symbology: "qr", x: 230, y: 150, module: 6 }]);
   writeFileSync(teaImage, await generatePNG(TEA, { symbology: "qr", scale: 6 }));
+  writeFileSync(retailImage, await generatePNG(RETAIL_EAN, { symbology: "ean13", scale: 3 }));
   browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || undefined, args: [
     "--use-fake-ui-for-media-stream", "--use-fake-device-for-media-stream", `--use-file-for-fake-video-capture=${video}`,
   ] });
@@ -379,6 +384,30 @@ try {
     return { sessionId: id, finalRevision: saved.value.revision, exportSha256: saved.sha256, camera: cameraSummary, receivingDesign, originalDesign, sessionSwitchSelectionCleared: true, sessionSwitchTracksEnded: true };
   });
 
+  await test("a decoded UPC-A confirms into the expected row typed as its 13-digit EAN", async (page) => {
+    await goto(page);
+    await createDelivery(page, "Retail delivery");
+    await addExpected(page, RETAIL_EAN, "Retail product", 4);
+    await observeImage(page, retailImage, RETAIL_UPC);
+    assert((await page.locator("#observations button[data-code]").textContent()).trim() === `UPC-A · ${RETAIL_UPC}`, "The observation does not show the decoded value and symbology.");
+    assert(await page.locator("#unknown-item").isHidden(), "A GTIN-equivalent scan was offered as an unknown product.");
+    const selection = (await page.locator("#selected-code").textContent()).trim();
+    assert(selection.startsWith(`Retail product · ${RETAIL_EAN}`) && selection.includes("same product number"), `Selection did not name the matched row: ${selection}`);
+    await confirm(page, 2);
+    await waitReceived(page, RETAIL_EAN, 2);
+    // Typing the UPC-A form of the same product is rejected rather than adding a second row.
+    await page.locator("#item-code").fill(RETAIL_UPC);
+    await page.locator("#item-name").fill("Retail product again");
+    await submit(page, "#expected-item");
+    await page.waitForFunction(() => document.querySelector("#receiving-message")?.dataset.error === "true" && document.querySelector("#receiving-message").textContent.includes("same product number"));
+    assert(await page.locator("#product-rows tr[data-code]").count() === 1, "A GTIN-equivalent product was added as a second row.");
+    const exported = await exportDelivery(page);
+    assert(exported.value.items.length === 1 && item(exported, RETAIL_EAN).received === 2, "The confirmation did not reach the typed row.");
+    const receipts = exported.value.history.filter((action) => action.command.kind === "receive");
+    assert(receipts.length === 1 && receipts[0].command.code === RETAIL_EAN, "The receipt was not recorded against the typed row.");
+    return { selection, revision: exported.value.revision, exportSha256: exported.sha256 };
+  });
+
   await test("an already open empty tab adopts the first saved delivery through broadcast", async (page, context) => {
     await goto(page);
     const other = await context.newPage();
@@ -468,13 +497,16 @@ try {
     await other.waitForFunction(() => document.querySelector("#receiving-message")?.textContent.includes("changed in another tab"));
     await waitReceived(other, COFFEE, 6);
     assert((await exportDelivery(other)).text === latest.text, "Stale correction overwrote a newer confirmation.");
-    await other.locator("#correction-quantity").fill("4");
+    // The rejected draft remains; an explicit retry must not record the refreshed total under its reason.
+    assert(await other.locator("#correction-quantity").inputValue() === "1", "Rejected correction discarded the entered total.");
     await other.locator("#correction-reason").fill("Reviewed current quantities");
     await submit(other, "#correct-quantity");
-    await waitReceived(other, COFFEE, 4);
-    await waitReceived(page, COFFEE, 4);
+    await waitReceived(other, COFFEE, 1);
+    await waitReceived(page, COFFEE, 1);
     const corrected = await exportDelivery(other);
-    assert(corrected.value.history.filter((action) => action.command.kind === "correct").length === 1, "Rejected correction entered audit history.");
+    const corrections = corrected.value.history.filter((action) => action.command.kind === "correct");
+    assert(corrections.length === 1, "Rejected correction entered audit history.");
+    assert(corrections[0].command.quantity === 1 && corrections[0].command.expectedRevision === latest.value.revision, "Retried correction did not apply the reviewed draft at the displayed revision.");
     return { concurrentQuantities: quantities, refreshEvidence, revisionBeforeStaleCorrection: latest.value.revision, finalRevision: corrected.value.revision, exportSha256: corrected.sha256 };
   });
 
@@ -563,11 +595,71 @@ try {
     return { validSessionId: validId, validQuantity: 3, corruptRecordsPreserved: true, currentCorruptionReported: true, corruptOnlyNewSessionId: newId };
   });
 
+  await test("saving keeps working after the browser closes the storage connection", async (page) => {
+    await goto(page);
+    await createDelivery(page, "Before storage was cleared");
+    await addExpected(page);
+    await page.evaluate(() => {
+      window.__receivingClosed = 0;
+      const original = IDBDatabase.prototype.transaction;
+      IDBDatabase.prototype.transaction = function (...args) {
+        if (!this.__closeProbe) { this.__closeProbe = true; this.addEventListener("close", () => { window.__receivingClosed++; }); }
+        return Reflect.apply(original, this, args);
+      };
+    });
+    await selectProduct(page, COFFEE);
+    await confirm(page, 1);
+    await waitReceived(page, COFFEE, 1);
+    // Clearing site data force-closes the page's open connection: a "close" event, not "versionchange".
+    const cdp = await page.context().newCDPSession(page);
+    await cdp.send("Storage.clearDataForOrigin", { origin: new URL(BASE).origin, storageTypes: "indexeddb" });
+    await page.waitForFunction(() => window.__receivingClosed === 1);
+    await page.locator("#delivery-name").fill("After storage was cleared");
+    await page.evaluate(() => { document.querySelector("#receiving-message").textContent = ""; });
+    await submit(page, "#new-delivery");
+    await page.waitForFunction(() => document.querySelector("#receiving-app")?.getAttribute("aria-busy") === "false" && document.querySelector("#receiving-message")?.textContent.trim());
+    const message = await page.locator("#receiving-message").textContent();
+    assert(await page.locator("#receiving-message").getAttribute("data-error") !== "true", `Saving after a forced close failed: ${message}`);
+    const id = await page.locator("#delivery-select").inputValue();
+    assert((await readSaved(page, id))?.name === "After storage was cleared", "New delivery was not persisted after a forced close.");
+    return { closeEvents: await page.evaluate(() => window.__receivingClosed), savedAfterClose: id };
+  });
+
+  await test("keyboard confirmation and export keep focus on the activated control", async (page) => {
+    await goto(page);
+    await createDelivery(page, "Keyboard delivery");
+    await addExpected(page);
+    await selectProduct(page, COFFEE);
+    await page.locator("#receive-quantity").fill("2");
+    await page.locator("#confirm-quantity button").focus();
+    await page.keyboard.press("Enter");
+    await waitReceived(page, COFFEE, 2);
+    await ready(page);
+    const afterConfirm = await page.evaluate(() => document.activeElement === document.querySelector("#confirm-quantity button"));
+    assert(afterConfirm, "Saving dropped keyboard focus from the confirm button.");
+    await page.locator("#export-delivery").focus();
+    const waiting = page.waitForEvent("download");
+    await page.keyboard.press("Enter");
+    await waiting;
+    await ready(page);
+    assert(await page.evaluate(() => document.activeElement?.id === "export-delivery"), "Export dropped keyboard focus.");
+    return { afterConfirm };
+  });
+
   await test("mobile receiving controls remain usable without horizontal overflow", async (page) => {
     await goto(page);
     await createDelivery(page, "Mobile delivery");
     await addExpected(page);
-    await selectProduct(page, COFFEE);
+    // Choose without scrolling first, as from the scanner list near the top of the page;
+    // the confirmation form, further down on a phone, must come into view.
+    await page.evaluate(() => scrollTo({ top: 0, behavior: "instant" }));
+    await row(page, COFFEE).locator("button[data-select]").evaluate((button) => button.click());
+    await page.waitForFunction((code) => document.querySelector("#selected-code")?.textContent.includes(code), COFFEE);
+    await page.waitForFunction(() => {
+      const box = document.querySelector('#confirm-quantity button[type="submit"]').getBoundingClientRect();
+      const header = document.querySelector(".site-header").getBoundingClientRect().bottom;
+      return box.top >= header && box.bottom <= innerHeight;
+    }, null, { timeout: 5000 });
     await confirm(page, 1);
     await waitReceived(page, COFFEE, 1);
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), "390px horizontal overflow.");

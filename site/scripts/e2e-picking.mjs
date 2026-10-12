@@ -21,6 +21,11 @@ const mixedVideo = join(fixtureDirectory, "mixed.y4m");
 const expiryVideo = join(fixtureDirectory, "expiry.y4m");
 const targetImage = join(fixtureDirectory, "target.png");
 const otherImage = join(fixtureDirectory, "other.png");
+const gtinVideo = join(fixtureDirectory, "gtin.y4m");
+const gtinImage = join(fixtureDirectory, "gtin.png");
+// An EAN-13 printed with a leading 0 decodes as this UPC-A under symbologies="all".
+const RETAIL_TARGET = "0012345678905";
+const RETAIL_SCAN = "012345678905";
 const TARGET = " 00123a ";
 const OTHER = "00123a";
 const CASE_NEIGHBOR = " 00123A ";
@@ -211,7 +216,8 @@ async function waitMatches(page, count) {
 async function rows(page, selector) {
   return page.locator(`${selector} [data-id]`).evaluateAll((nodes) => nodes.map((node) => ({ id: Number(node.dataset.id), data: node.dataset.code, text: node.textContent })));
 }
-async function start(page) { await page.locator("#start-picking").click(); }
+const startButton = (page) => page.locator('#scanner [data-a="start"]');
+async function start(page) { await startButton(page).click(); }
 async function chooseSource(page, source) { await page.locator("#source-mode").selectOption(source); }
 async function stopped(page) {
   await page.waitForFunction(() => ["idle", "stopped"].includes(document.querySelector("#scanner").state) && window.__pickingAudit.pendingCamera === 0 && window.__pickingAudit.streams.every((stream) => stream.getTracks().every((track) => track.readyState === "ended")));
@@ -360,7 +366,13 @@ try {
   writeFileSync(expiryVideo, Buffer.concat([readFileSync(mixedVideo), blankBytes.subarray(blankBytes.indexOf(10) + 1)]));
   writeFileSync(targetImage, await generatePNG(TARGET, { symbology: "qr", scale: 6 }));
   writeFileSync(otherImage, await generatePNG(OTHER, { symbology: "qr", scale: 6 }));
-  fixtures = Object.fromEntries([mixedVideo, expiryVideo, targetImage, otherImage].map((path) => {
+  // The same digits as a non-GS1 Code 128 are not a retail product number.
+  await writeFakeCamera(gtinVideo, [
+    { data: RETAIL_TARGET, symbology: "ean13", x: 220, y: 140, module: 2 },
+    { data: RETAIL_SCAN, symbology: "code128", x: 220, y: 270, module: 2 },
+  ], { frames: 60 });
+  writeFileSync(gtinImage, await generatePNG(RETAIL_TARGET, { symbology: "ean13", scale: 3 }));
+  fixtures = Object.fromEntries([mixedVideo, expiryVideo, targetImage, otherImage, gtinVideo, gtinImage].map((path) => {
     const bytes = readFileSync(path); return [basename(path), { bytes: bytes.length, sha256: hash(bytes) }];
   }));
 
@@ -379,7 +391,7 @@ try {
     assert.deepEqual((await rows(page, "#match-list")).map((row) => row.id).sort(), matching.map((row) => row.id).sort());
     assert.equal(await page.locator("#match-status").textContent(), "2 recent matching observations.");
     assert.doesNotMatch(await page.locator("#match-list").textContent(), /\b(quantity|received|physical items)\b/i);
-    assert.match(await page.locator("#camera-observations").textContent(), /do not establish physical item counts or received quantities/);
+    assert.match(await page.locator("#camera-observations").textContent(), /does not count stock or record received quantities/);
     const audit = await page.evaluate(() => ({ scans: window.__pickingAudit.scans, tracks: window.__pickingAudit.trackEvents.length }));
     assert.ok(audit.scans.includes(TARGET) && audit.scans.includes(OTHER) && audit.scans.includes(CASE_NEIGHBOR));
     const storage = await page.evaluate(async () => ({ databases: (await indexedDB.databases()).map((db) => db.name), localEntries: localStorage.length, sessionEntries: sessionStorage.length }));
@@ -387,6 +399,22 @@ try {
     await screenshot(page, "picking-desktop.png");
     return { matching, others, audit, storage };
   });
+
+  await test("a decoded UPC-A matches its 13-digit EAN target while the same digits in Code 128 do not", async (page) => {
+    await goto(page); await setTarget(page, RETAIL_TARGET, "Retail target");
+    assert.match(await page.locator("#target-status").textContent(), /product number 00012345678905/);
+    await start(page); await waitMatches(page, 1);
+    await page.waitForFunction((data) => [...document.querySelectorAll("#other-list [data-id]")].some((row) => row.dataset.code === data), RETAIL_SCAN, { timeout: 20_000 });
+    const matching = await rows(page, "#match-list"), others = await rows(page, "#other-list");
+    assert.deepEqual(matching.map((row) => row.data), [RETAIL_SCAN], "The decoded value is shown as decoded.");
+    assert.match(matching[0].text, /UPC-A · observation \d+ · same product number/);
+    assert.deepEqual(others.map((row) => row.data), [RETAIL_SCAN]);
+    assert.match(others[0].text, /Code 128 · observation \d+$/);
+    await chooseSource(page, "image"); await stopped(page);
+    const image = await readImage(page, gtinImage, RETAIL_SCAN, true);
+    assert.match(await page.locator("#image-results li").textContent(), /Target match.*UPC-A · same product number/);
+    return { matching, others, image };
+  }, { video: gtinVideo });
 
   await test("wrong target stays unmatched and exact target replacement retires selection and camera", async (page) => {
     await goto(page); await setTarget(page, "00123A"); await start(page);
@@ -514,7 +542,7 @@ try {
     return { boundary: "Actual getUserMedia resolved stream held before SDK admission; target changed then stream released.", matching: await rows(page, "#match-list") };
   });
 
-  await test("controlled camera denial reports an error and a new public start recovers", async (page) => {
+  await test("controlled camera denial reports an error and the scanner retry recovers", async (page) => {
     await goto(page); await setTarget(page);
     await page.evaluate(() => { window.__pickingAudit.denyNextCamera = true; });
     await start(page);
@@ -522,7 +550,7 @@ try {
     assert.equal(await matchRows(page).count(), 0);
     assert.equal(await page.locator("#picking-status").getAttribute("data-error"), "true");
     assert.ok((await page.locator("#picking-status").textContent()).length > 0);
-    await start(page); await waitMatches(page, 2);
+    await page.locator('#scanner [data-a="retry"]').click(); await waitMatches(page, 2);
     return { boundary: "Controlled getUserMedia NotAllowedError, followed by actual fake-camera success.", error: await page.evaluate(() => window.__pickingAudit.scannerErrors[0]) };
   }, { expectedCameraError: true });
 
@@ -541,12 +569,18 @@ try {
     const home = await page.goto(BASE); assert.ok(home?.ok()); const original = await design(page);
     await goto(page); assert.deepEqual(await design(page), original);
     await page.locator("#target-code").fill(TARGET);
+    await page.locator("#target-code").press("Shift+Enter");
+    assert.equal(await page.locator("#target-code").inputValue(), `${TARGET}\n`);
+    await page.locator("#target-code").press("Backspace");
+    await page.locator("#target-code").press("Enter");
+    assert.equal(await page.locator("#target-code").inputValue(), TARGET);
+    assert.equal(await page.locator("#target-value").textContent(), TARGET);
     await page.locator("#target-name").fill("Keyboard target");
     await page.locator("#target-name").press("Tab");
     assert.equal(await page.evaluate(() => document.activeElement === document.querySelector('#target-form button[type="submit"]')), true);
     await page.keyboard.press("Enter");
     assert.equal(await page.locator("#target-value").textContent(), TARGET);
-    await page.locator("#start-picking").focus(); await page.keyboard.press("Enter"); await waitMatches(page, 2);
+    await startButton(page).focus(); await page.keyboard.press("Enter"); await waitMatches(page, 2);
     const button = matchRows(page).first().locator("button");
     await button.focus(); await page.keyboard.press("Space");
     await page.waitForFunction(() => document.querySelector("#scanner").selection.length === 1);

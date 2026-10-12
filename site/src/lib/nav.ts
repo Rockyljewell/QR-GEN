@@ -42,7 +42,7 @@ export const NAV: NavItem[] = [
         links: [
           { label: "Live demo", href: "/demo/", desc: "Scan with your camera right now" },
           { label: "Receive a delivery", href: "/receiving/", desc: "Confirm quantities against your delivery list" },
-          { label: "Find a product", href: "/picking/", desc: "Find an exact barcode among recent observations" },
+          { label: "Find a product", href: "/picking/", desc: "Find a target barcode among recent observations" },
           { label: "Generate a code", href: "/demo/#generate", desc: "QR, Data Matrix, EAN, GS1…" },
           { label: "Pricing", href: "/pricing/", desc: "Free and open source" },
         ],

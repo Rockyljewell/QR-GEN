@@ -93,9 +93,17 @@ export class DuplicateFilter {
 
   /** Returns the codes that are not duplicates, in order, and records them. */
   filter<T extends DuplicateKeySource>(codes: readonly T[], now?: number): T[] {
-    const plan = this[prepareFrame](codes, now, false);
-    plan.commit();
-    return plan.scanned;
+    if (this.windowMs === 0) return codes.filter(() => true);
+    // Read every caller-owned key before any history mutation; the remaining
+    // work cannot throw, so update the live histories without copying them.
+    // Copying made each frame O(history), which grows without bound for -1.
+    const entries = codes.map(code => [code, barcodeKey(code)] as const);
+    const sample = this.clock.preview(now);
+    const elapsed = this.elapsedHistory(sample);
+    const scanned = entries.filter(([, key]) => this.acceptAt(key, sample, this.lastReported, elapsed)).map(([code]) => code);
+    this.lastReportedElapsed = elapsed;
+    this.clock.commit(sample);
+    return scanned;
   }
 
   [prepareFrame]<T extends DuplicateKeySource>(codes: readonly T[], now: number | undefined, strict: boolean): PreparedFilter<T> {

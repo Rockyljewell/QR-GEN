@@ -1,14 +1,14 @@
 import { scanImage, type BarcodeScanner } from "qrgen-sdk";
 import "qrgen-sdk/elements";
 import type { QRGenScannerElement } from "qrgen-sdk/elements";
-import { PickingSession, classifyPickingBarcodes, type PickingBarcode, type PickingObservation } from "../lib/picking";
+import { typedGtin } from "../lib/gtin";
+import { PickingSession, classifyPickingBarcodes, type PickingBarcode, type PickingObservation, type PickingTarget } from "../lib/picking";
 
 const $ = <T extends HTMLElement = HTMLElement>(selector: string) => document.querySelector<T>(selector)!;
 const scanner = $<QRGenScannerElement>("#scanner");
 const source = $<HTMLSelectElement>("#source-mode");
 const imageFile = $<HTMLInputElement>("#image-file");
 const session = new PickingSession();
-let operation = 0;
 let imageOperation = 0;
 let suspended = false;
 let interval: ReturnType<typeof setInterval> | null = null;
@@ -41,7 +41,6 @@ function clearObservations(): void {
   session.reset();
 }
 function retire(): void {
-  operation++;
   clearImage();
   clearObservations();
   scanner.stop();
@@ -50,8 +49,18 @@ function retire(): void {
   render();
 }
 
+function targetStatus(target: PickingTarget | null): string {
+  if (!target) return "Set a target barcode to begin.";
+  const gtin = typedGtin(target.data);
+  return gtin ? `Target set. Retail barcodes with product number ${gtin} match in any printed form, such as UPC-A or EAN-13.` : "Target set. Only this exact value matches, including spaces, line breaks, case and leading zeros.";
+}
+/** A match whose decoded value differs from the target matched by its GTIN; the value itself is shown as decoded. */
+function productNote(target: PickingTarget, item: PickingBarcode): string {
+  return item.data === target.data ? "" : " · same product number";
+}
+
 /** A selected snapshot is deliberately absent here: only current track events enter the model. */
-function renderRows(selector: string, items: PickingObservation[], matching: boolean): void {
+function renderRows(selector: string, items: PickingObservation[], matching: boolean, target: PickingTarget | null = null): void {
   const list = $(selector);
   const wanted = new Set(items.map(item => String(item.id)));
   for (const child of [...list.children]) if (!wanted.has((child as HTMLElement).dataset.id!)) child.remove();
@@ -71,7 +80,7 @@ function renderRows(selector: string, items: PickingObservation[], matching: boo
     }
     row.dataset.code = item.data;
     row.querySelector("code")!.textContent = item.data;
-    row.querySelector("span")!.textContent = `${item.symbologyName} · observation ${item.id}`;
+    row.querySelector("span")!.textContent = `${item.symbologyName} · observation ${item.id}${matching && target ? productNote(target, item) : ""}`;
     row.querySelector("button")?.setAttribute("aria-pressed", String(selected.has(item.id)));
     // Keep an already-focused button in its existing DOM node between frames.
     if (list.children[index] !== row) list.insertBefore(row, list.children[index] ?? null);
@@ -82,17 +91,16 @@ function render(): void {
   const camera = source.value === "camera";
   text("#target-value", current.target?.data ?? "No target set");
   text("#target-label", current.target?.name ?? "");
-  text("#target-status", current.target ? "Target set. Matching preserves spaces, line breaks, case and leading zeros." : "Set a target barcode to begin.");
-  renderRows("#match-list", current.matches, true);
+  text("#target-status", targetStatus(current.target));
+  renderRows("#match-list", current.matches, true, current.target);
   renderRows("#other-list", current.others, false);
   text("#match-status", current.matches.length ? `${current.matches.length} recent matching ${current.matches.length === 1 ? "observation" : "observations"}.` : "No recent matching observations.");
   text("#other-status", current.others.length ? `${current.others.length} recent other ${current.others.length === 1 ? "observation" : "observations"}.` : "No recent other observations.");
   $("#camera-source").hidden = !camera;
   $("#image-source").hidden = camera;
   $("#camera-observations").hidden = !camera;
-  const active = scanner.state === "scanning" || scanner.state === "paused";
-  $<HTMLButtonElement>("#start-picking").disabled = suspended || !camera || !current.target || active || scanner.state === "starting";
-  $<HTMLButtonElement>("#switch-picking").disabled = suspended || !camera || !current.target || !active;
+  $("#camera-gate").hidden = Boolean(current.target);
+  $("#camera-stage").hidden = !current.target;
   $<HTMLButtonElement>("#stop-picking").disabled = suspended || !current.target;
   $<HTMLButtonElement>("#reset-picking").disabled = suspended || !current.target;
   $<HTMLButtonElement>("#clear-target").disabled = !current.target;
@@ -128,12 +136,18 @@ function refreshSource(): boolean {
   return changed;
 }
 
+// Enter sets the target; Shift+Enter keeps a line break for codes that contain one.
+$<HTMLTextAreaElement>("#target-code").addEventListener("keydown", event => {
+  if (event.key !== "Enter" || event.shiftKey || event.isComposing) return;
+  event.preventDefault();
+  $<HTMLFormElement>("#target-form").requestSubmit();
+});
 $("#target-form").addEventListener("submit", event => {
   event.preventDefault();
   try {
     session.setTarget($<HTMLTextAreaElement>("#target-code").value, $<HTMLInputElement>("#target-name").value);
     retire();
-    report("Target saved for this page. Choose a source and start finding it.");
+    report(source.value === "camera" ? "Target set. Press Start scanning and point the camera at the shelf." : "Target set. Choose an image to review.");
   } catch (error) { report(error instanceof Error ? error.message : String(error), true); }
 });
 $("#clear-target").addEventListener("click", () => { session.clearTarget(); retire(); report("Target cleared."); });
@@ -145,32 +159,6 @@ $<HTMLSelectElement>("#camera-facing").addEventListener("change", event => {
   scanner.camera = (event.target as HTMLSelectElement).value;
   report("Camera changed. Start when ready.");
 });
-$("#start-picking").addEventListener("click", () => {
-  if (suspended || !session.target || source.value !== "camera") return;
-  retire();
-  const token = ++operation;
-  report("Starting camera…");
-  const started = scanner.start();
-  refreshSource(); render();
-  void started.then(() => {
-    if (token !== operation || suspended || source.value !== "camera") return;
-    refreshSource(); render();
-    if (scanner.state === "scanning") report("Camera running. Matching observations appear below.");
-  }).catch(error => { if (token === operation && !suspended) report(error instanceof Error ? error.message : String(error), true); });
-});
-$("#switch-picking").addEventListener("click", () => {
-  if (suspended || !session.target || source.value !== "camera") return;
-  const token = ++operation;
-  clearImage(); clearObservations(); scanner.clearSelection();
-  const switched = scanner.switchCamera();
-  refreshSource(); render();
-  report("Switching camera…");
-  void switched.then(() => {
-    if (token !== operation || suspended) return;
-    refreshSource(); render(); report("Camera switched. Waiting for new observations.");
-  }).catch(error => { if (token === operation && !suspended) report(error instanceof Error ? error.message : String(error), true); });
-});
-
 scanner.addEventListener("track", event => {
   refreshSource();
   if (suspended || !session.target || source.value !== "camera" || scanner.scanner !== owner || owner?.state !== "scanning") return;
@@ -187,7 +175,6 @@ scanner.addEventListener("statechange", event => {
     return;
   }
   if (state === "starting" || state === "stopped" || state === "error") clearObservations();
-  if (state === "stopped" || state === "error") operation++;
   if (state === "starting") report("Starting camera…");
   if (state === "scanning") report("Camera running. Matching observations appear below.");
   if (state === "paused") report("Camera paused. Recent observations expire while paused.");
@@ -200,11 +187,11 @@ scanner.addEventListener("error", event => {
 // Use the existing accessible UI name, without altering the scanner's controls.
 scanner.addEventListener("click", event => {
   if (event.composedPath().some(part => part instanceof HTMLElement && part.getAttribute("aria-label") === "Switch camera")) {
-    operation++; clearObservations(); render(); report("Switching camera…");
+    clearObservations(); render(); report("Switching camera…");
   }
   queueMicrotask(() => { if (!suspended && refreshSource()) render(); });
 }, true);
-const attributes = new MutationObserver(() => { operation++; clearObservations(); refreshSource(); render(); });
+const attributes = new MutationObserver(() => { clearObservations(); refreshSource(); render(); });
 function observeAttributes(): void { attributes.observe(scanner, { attributes: true, attributeFilter: ["camera", "resolution", "worker", "mode", "symbologies"] }); }
 
 imageFile.addEventListener("change", () => {
@@ -223,7 +210,7 @@ imageFile.addEventListener("change", () => {
     for (const [matches, items] of [[true, result.matches], [false, result.others]] as [boolean, PickingBarcode[]][]) {
       for (const item of items) {
         const row = node("li"); row.dataset.code = item.data; row.dataset.match = String(matches);
-        row.append(node("strong", matches ? "Target match" : "Other barcode"), node("code", item.data), node("span", item.symbologyName)); rows.push(row);
+        row.append(node("strong", matches ? "Target match" : "Other barcode"), node("code", item.data), node("span", `${item.symbologyName}${matches ? productNote(target, item) : ""}`)); rows.push(row);
       }
     }
     $("#image-results").replaceChildren(...rows);

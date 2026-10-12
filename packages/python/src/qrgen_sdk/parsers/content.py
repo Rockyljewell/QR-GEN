@@ -312,7 +312,24 @@ def _vcard(text: str) -> Dict[str, Any]:
 
 
 def _split_semicolons(value: str) -> List[str]:
-    return re.split(r"(?<!\\);", value)
+    """Split on ``;`` unless escaped; escape pairs are kept for ``_vcard_unescape``."""
+    parts: List[str] = []
+    current: List[str] = []
+    index = 0
+    while index < len(value):
+        char = value[index]
+        if char == "\\" and index + 1 < len(value):
+            current.append(value[index : index + 2])
+            index += 2
+            continue
+        if char == ";":
+            parts.append("".join(current))
+            current = []
+        else:
+            current.append(char)
+        index += 1
+    parts.append("".join(current))
+    return parts
 
 
 def _mecard(text: str) -> Dict[str, Any]:

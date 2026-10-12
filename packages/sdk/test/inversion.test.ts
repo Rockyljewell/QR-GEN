@@ -1,11 +1,13 @@
 // Copyright 2026 Rockyljewell
 // SPDX-License-Identifier: Apache-2.0
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { PNG } from "pngjs";
 import jpeg from "jpeg-js";
 import * as bmp from "bmp-ts";
 import { GifWriter } from "omggif";
-import { generatePNG, scan, scanImage } from "../src/node";
+import { generatePNG, scan, scanImage, SYMBOLOGIES } from "../src/node";
+import { registerEncodedRasterDecoder } from "../src/image";
+import { decodeNodeRaster } from "../src/node/raster";
 
 const CASES = [["pdf417", "PDF417 reversed"], ["ean13", "5901234123457"], ["code128", "REVERSED-128"], ["databar", "(01)09521234543213"]] as const;
 function encode(image: PNG, format: string): Buffer {
@@ -55,22 +57,60 @@ describe("reversed reflectance", () => {
     const bytes = await generatePNG("DISABLED-128", { symbology: "code128", foreground: "#ffffff", background: "#000000" });
     expect(await scan(bytes, { symbologies: ["code128"], tryInvert: false })).toEqual([]);
   });
-  it("keeps identical payloads at separate positions in a mixed-polarity image and applies the combined limit", async () => {
+  /** Two copies of SAME-128 side by side on grey; each copy normal or inverted. */
+  async function pair(left: "normal" | "inverted", right: "normal" | "inverted") {
     const normal = PNG.sync.read(await generatePNG("SAME-128", { symbology: "code128", scale: 4 }));
-    const mixed = new PNG({ width: normal.width * 2 + 80, height: normal.height + 40 });
-    mixed.data.fill(128);
-    for (let i = 3; i < mixed.data.length; i += 4) mixed.data[i] = 255;
+    const image = new PNG({ width: normal.width * 2 + 80, height: normal.height + 40 });
+    image.data.fill(128);
+    for (let i = 3; i < image.data.length; i += 4) image.data[i] = 255;
     for (let y = 0; y < normal.height; y++) for (let x = 0; x < normal.width; x++) for (let c = 0; c < 4; c++) {
       const value = normal.data[(y * normal.width + x) * 4 + c]!;
-      mixed.data[((y + 20) * mixed.width + x + 20) * 4 + c] = value;
-      mixed.data[((y + 20) * mixed.width + x + normal.width + 60) * 4 + c] = c === 3 ? value : 255 - value;
+      const paint = (polarity: string) => (c === 3 || polarity === "normal" ? value : 255 - value);
+      image.data[((y + 20) * image.width + x + 20) * 4 + c] = paint(left);
+      image.data[((y + 20) * image.width + x + normal.width + 60) * 4 + c] = paint(right);
     }
-    const bytes = PNG.sync.write(mixed);
+    return { bytes: PNG.sync.write(image), codeWidth: normal.width };
+  }
+  it("returns only the normal code from a mixed-polarity image: the inverted pass is a fallback", async () => {
+    const { bytes, codeWidth } = await pair("normal", "inverted");
     const found = await scan(bytes, { symbologies: ["code128"], maxResults: 2 });
-    expect(found).toHaveLength(2);
+    expect(found.map(x => x.data)).toEqual(["SAME-128"]);
+    expect(found[0]!.location.topLeft.x).toBeLessThan(codeWidth);
+  });
+  it("keeps identical inverted payloads at separate positions and applies the limit", async () => {
+    const { bytes, codeWidth } = await pair("inverted", "inverted");
+    const found = await scan(bytes, { symbologies: ["code128"], maxResults: 2 });
     expect(found.map(x => x.data)).toEqual(["SAME-128", "SAME-128"]);
-    expect(found[0]!.location.topLeft.x).toBeLessThan(normal.width);
-    expect(found[1]!.location.topLeft.x).toBeGreaterThan(normal.width);
+    const xs = found.map(x => x.location.topLeft.x).sort((a, b) => a - b);
+    expect(xs[0]).toBeLessThan(codeWidth);
+    expect(xs[1]).toBeGreaterThan(codeWidth);
     expect(await scan(bytes, { symbologies: ["code128"], maxResults: 1 })).toHaveLength(1);
   });
+  it("decodes encoded pixels in JS only when the normal pass found nothing", async () => {
+    const decoder = vi.fn(decodeNodeRaster);
+    registerEncodedRasterDecoder(decoder);
+    try {
+      const normal = await generatePNG("FAST-128", { symbology: "code128", scale: 4 });
+      expect(await scan(normal)).toMatchObject([{ data: "FAST-128" }]);
+      expect(await scan(normal, { symbologies: ["code128", "ean13"], maxResults: 10 })).toMatchObject([{ data: "FAST-128" }]);
+      expect(decoder).not.toHaveBeenCalled();
+      const inverted = await generatePNG("SLOW-128", { symbology: "code128", scale: 4, foreground: "#ffffff", background: "#000000" });
+      expect(await scan(inverted)).toMatchObject([{ data: "SLOW-128" }]);
+      expect(decoder).toHaveBeenCalledOnce();
+    } finally {
+      registerEncodedRasterDecoder(decodeNodeRaster);
+    }
+  });
+  // Every writable format the explicit pass covers (all but QR, Data Matrix and Aztec,
+  // which the engine inverts itself), from an image holding only the inverted code.
+  const NATIVE = new Set(["qr", "micro-qr", "rmqr", "data-matrix", "aztec"]);
+  for (const s of SYMBOLOGIES.filter(s => !NATIVE.has(s.id))) {
+    it(`decodes an inverted-only ${s.id} image`, async () => {
+      const options = { symbology: s.id, scale: 4, gs1: s.example.startsWith("(") };
+      const [expected] = await scan(await generatePNG(s.example, options), { symbologies: [s.id] });
+      expect(expected).toBeDefined();
+      const found = await scan(await generatePNG(s.example, { ...options, foreground: "#ffffff", background: "#000000" }), { symbologies: [s.id] });
+      expect(found).toMatchObject([{ symbology: s.id, data: expected!.data }]);
+    });
+  }
 });

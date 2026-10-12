@@ -77,6 +77,7 @@ await startServer();
 const qrVideo = join(tmp, "qr.y4m");
 const multiVideo = join(tmp, "multi.y4m");
 const polarityVideo = join(tmp, "mixed-polarity.y4m");
+const invertedPairVideo = join(tmp, "inverted-pair.y4m");
 await writeFakeCamera(qrVideo, [{ data: "https://rockyljewell.github.io/QR-GEN/e2e", symbology: "qr", x: 230, y: 150, module: 6 }]);
 await writeFakeCamera(multiVideo, [
   { data: "https://rockyljewell.github.io/QR-GEN/a", symbology: "qr", x: 60, y: 120, module: 5 },
@@ -86,6 +87,10 @@ await writeFakeCamera(multiVideo, [
 
 await writeFakeCamera(polarityVideo, [
   { data: "DUP-128", symbology: "code128", x: 30, y: 200, module: 2 },
+  { data: "DUP-128", symbology: "code128", x: 370, y: 200, module: 2, inverted: true },
+]);
+await writeFakeCamera(invertedPairVideo, [
+  { data: "DUP-128", symbology: "code128", x: 30, y: 200, module: 2, inverted: true },
   { data: "DUP-128", symbology: "code128", x: 370, y: 200, module: 2, inverted: true },
 ]);
 
@@ -179,10 +184,10 @@ await test("batch results support keyboard selection outside a stable preview", 
     const bounds = await el.evaluate((node) => {
       const preview = node.shadowRoot.querySelector(".preview").getBoundingClientRect();
       const results = node.shadowRoot.querySelector(".results").getBoundingClientRect();
-      return { height: preview.height, bottom: preview.bottom, top: results.top, zoom: !!node.shadowRoot.querySelector('[data-a="zoom"]') };
+      return { height: preview.height, bottom: preview.bottom, top: results.top, zoomHidden: node.shadowRoot.querySelector('[data-a="zoom"]').hidden };
     });
     assert(bounds.height === before && bounds.top >= bounds.bottom, "results overlap or resize preview");
-    assert(!bounds.zoom, "unexpected preset zoom control");
+    assert(bounds.zoomHidden, "zoom control shown without camera zoom support");
     await el.locator("canvas").click({ force: true, position: { x: 160, y: 150 } });
     assert((await el.evaluate((node) => node.selection.length)) === 1, "preview click changed selection");
     await el.evaluate((node) => { node.tracked = []; node.updateCount(); node.updateResults(); });
@@ -235,28 +240,37 @@ await test("paused camera switches clear old overlays and retain chosen results 
   });
 });
 
-await test("worker batch tracks both polarities of the same Code 128 payload", async () => {
-  await withBrowser(polarityVideo, async (page, errors) => {
-    await page.goto(u("demo/"));
-    await page.click('[data-mode="batch"]');
-    await page.evaluate(() => {
-      const el = document.querySelector("#demo-scanner");
-      el.setAttribute("symbologies", "code128");
-      // Exercise decoding of the whole synthetic feed, including codes outside
-      // the demo element's automatically cropped visible preview.
-      el.scanArea = { x: 0, y: 0, width: 1, height: 1 };
-      window.__polarityTracks = [];
-      el.addEventListener("track", (event) => { window.__polarityTracks = event.detail.tracked; });
-    });
-    await page.locator("#demo-scanner").locator('button[data-a="start"]').click();
+/** Start the demo in batch mode on the whole synthetic feed and record Code 128 tracks per frame. */
+async function startPolarityBatch(page) {
+  await page.goto(u("demo/"));
+  await page.click('[data-mode="batch"]');
+  await page.evaluate(() => {
+    const el = document.querySelector("#demo-scanner");
+    el.setAttribute("symbologies", "code128");
+    // Exercise decoding of the whole synthetic feed, including codes outside
+    // the demo element's automatically cropped visible preview.
+    el.scanArea = { x: 0, y: 0, width: 1, height: 1 };
+    window.__polarityTracks = [];
+    window.__polarityFrames = 0;
+    el.addEventListener("track", (event) => { window.__polarityFrames++; window.__polarityTracks = event.detail.tracked; });
+  });
+  await page.locator("#demo-scanner").locator('button[data-a="start"]').click();
+}
+
+async function polarityDiagnostic(page) {
+  return page.evaluate(() => {
+    const el = document.querySelector("#demo-scanner");
+    return { tracks: window.__polarityTracks, frames: window.__polarityFrames, options: el.options, state: el.state, stats: el.scanner?.stats };
+  });
+}
+
+await test("worker batch tracks two inverted copies of the same Code 128 payload", async () => {
+  await withBrowser(invertedPairVideo, async (page, errors) => {
+    await startPolarityBatch(page);
     try {
       await page.waitForFunction(() => window.__polarityTracks.filter((b) => b.data === "DUP-128").length === 2, null, { timeout: 20000 });
     } catch {
-      const diagnostic = await page.evaluate(() => {
-        const el = document.querySelector("#demo-scanner");
-        return { tracks: window.__polarityTracks, options: el.options, state: el.state, stats: el.scanner?.stats };
-      });
-      throw new Error(`Mixed-polarity tracking did not reach two instances: ${JSON.stringify(diagnostic)}; ${errors.join("; ")}`);
+      throw new Error(`Inverted-pair tracking did not reach two instances: ${JSON.stringify(await polarityDiagnostic(page))}; ${errors.join("; ")}`);
     }
     const result = await page.evaluate(() => ({
       tracks: window.__polarityTracks,
@@ -266,6 +280,29 @@ await test("worker batch tracks both polarities of the same Code 128 payload", a
     assert(new Set(result.tracks.map((b) => b.id)).size === 2, "physical instances share an ID");
     const xs = result.tracks.map((b) => b.location.topLeft.x).sort((a, b) => a - b);
     assert(xs[0] < 100 && xs[1] > 300, `locations off: ${xs}`);
+    assert(errors.length === 0, errors.join("; "));
+  });
+});
+
+await test("worker batch reports only the normal code of a mixed-polarity Code 128 pair", async () => {
+  // The inverted pass is a fallback for frames where nothing was found.
+  await withBrowser(polarityVideo, async (page, errors) => {
+    await startPolarityBatch(page);
+    try {
+      await page.waitForFunction(() => window.__polarityTracks.some((b) => b.data === "DUP-128"), null, { timeout: 20000 });
+      // Let more frames through; with "alternate", half of them have tryInvert on.
+      const seen = await page.evaluate(() => window.__polarityFrames);
+      await page.waitForFunction((n) => window.__polarityFrames >= n, seen + 10, { timeout: 20000 });
+    } catch {
+      throw new Error(`Mixed-polarity tracking did not settle: ${JSON.stringify(await polarityDiagnostic(page))}; ${errors.join("; ")}`);
+    }
+    const result = await page.evaluate(() => ({
+      tracks: window.__polarityTracks,
+      engine: document.querySelector("#demo-scanner").scanner.stats.engine,
+    }));
+    assert(result.engine === "worker", `engine was ${result.engine}`);
+    const dup = result.tracks.filter((b) => b.data === "DUP-128");
+    assert(dup.length === 1 && dup[0].location.topLeft.x < 100, `expected the normal copy only: ${JSON.stringify(dup.map((b) => b.location.topLeft))}`);
     assert(errors.length === 0, errors.join("; "));
   });
 });
@@ -284,6 +321,13 @@ await test("encoded browser images decode inverted Code 128 without changing inp
       const transparentBytes = new Uint8Array(await transparent.png.arrayBuffer());
       const transparentBlobFound = await sdk.scanImage(transparent.png, { symbologies: ["qr"] });
       const transparentBytesFound = await sdk.scanImage(transparentBytes, { symbologies: ["qr"] });
+      // Light modules on a transparent background (e.g. for dark pages) must not vanish on white.
+      const light = await sdk.generate("LIGHT-ON-TRANSPARENT-QR", { foreground: "#ffffff", background: "transparent" });
+      const lightImage = new Image();
+      lightImage.src = URL.createObjectURL(light.png);
+      await lightImage.decode();
+      const lightFound = [await sdk.scanImage(light.png, { symbologies: ["qr"] }), await sdk.scanImage(new Uint8Array(await light.png.arrayBuffer()), { symbologies: ["qr"] }), await sdk.scanImage(lightImage, { symbologies: ["qr"] })];
+      URL.revokeObjectURL(lightImage.src);
       const bitmap = await createImageBitmap(generated.png);
       const canvas = document.createElement("canvas");
       canvas.width = bitmap.width;
@@ -306,11 +350,13 @@ await test("encoded browser images decode inverted Code 128 without changing inp
         rotated: b ? { data: b.data, size: b.frameSize, location: b.location } : null,
         expectedRotatedSize: { width: canvas.height, height: canvas.width },
         transparent: [transparentBlobFound.map((b) => b.data), transparentBytesFound.map((b) => b.data)],
+        light: lightFound.map((found) => found.map((b) => b.data)),
       };
     }, u("sdk/qrgen.js"));
     assert(JSON.stringify(result.codes) === JSON.stringify([["code128", "INVERTED-FILE-128"]]), JSON.stringify(result));
     assert(result.disabled === 0 && result.unchanged, JSON.stringify(result));
     assert(JSON.stringify(result.transparent) === JSON.stringify([["TRANSPARENT-FILE-QR"], ["TRANSPARENT-FILE-QR"]]), JSON.stringify(result));
+    assert(JSON.stringify(result.light) === JSON.stringify([["LIGHT-ON-TRANSPARENT-QR"], ["LIGHT-ON-TRANSPARENT-QR"], ["LIGHT-ON-TRANSPARENT-QR"]]), JSON.stringify(result));
     assert(result.rotated?.data === "INVERTED-FILE-128", JSON.stringify(result));
     assert(JSON.stringify(result.rotated.size) === JSON.stringify(result.expectedRotatedSize), JSON.stringify(result));
     assert(Object.values(result.rotated.location).every((p) => p.x >= 0 && p.y >= 0 && p.x <= result.rotated.size.width && p.y <= result.rotated.size.height), JSON.stringify(result));

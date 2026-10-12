@@ -70,11 +70,15 @@ class MainThreadDecoder implements FrameDecoder {
   dispose(): void {}
 }
 
+const MAX_FRAME_ERRORS = 3;
+
 class WorkerDecoder implements FrameDecoder {
   readonly kind = "worker" as const;
   private nextId = 1;
   private pending = new Map<number, { resolve: (r: RawBarcode[]) => void; reject: (e: unknown) => void; timer: ReturnType<typeof setTimeout> }>();
   private failure: QRGenError | null = null;
+  /** Frames rejected in a row by the engine; a few in a row mean it is no longer usable. */
+  private frameErrors = 0;
 
   private constructor(private worker: Worker, private url: string, private onFailure: () => void) {
     worker.onerror = (e) => this.fail(new Error(e.message || "worker failed"));
@@ -84,12 +88,19 @@ class WorkerDecoder implements FrameDecoder {
       if (msg.type === "result" || msg.type === "error") {
         const p = this.pending.get(msg.id);
         if (!p) return;
-        if (msg.type === "error") {
+        if (msg.type === "error" && ++this.frameErrors >= MAX_FRAME_ERRORS) {
+          // The engine keeps failing: settle every pending decode and replace it.
           this.fail(new Error(msg.message));
           return;
         }
         clearTimeout(p.timer);
         this.pending.delete(msg.id);
+        // Drop one unreadable frame without stopping the scanners sharing this worker.
+        if (msg.type === "error") {
+          p.reject(new Error(msg.message));
+          return;
+        }
+        this.frameErrors = 0;
         p.resolve(msg.results);
       }
     };
