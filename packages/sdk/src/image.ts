@@ -37,18 +37,35 @@ function hasDOM(): boolean {
   return typeof document !== "undefined";
 }
 
-function drawToImageData(source: CanvasImageSource, width: number, height: number): ImageData {
+/** Drawn pixels, plus the same pixels composited on black when the source has transparency. */
+interface Drawn { image: ImageData; onBlack?: ImageData }
+
+function drawToImageData(source: CanvasImageSource, width: number, height: number): Drawn {
   if (!width || !height) throw new QRGenError("bad-request", "The image has no size yet (is it loaded?).");
   const canvas: HTMLCanvasElement | OffscreenCanvas =
     typeof OffscreenCanvas !== "undefined" ? new OffscreenCanvas(width, height) : Object.assign(document.createElement("canvas"), { width, height });
   const ctx = canvas.getContext("2d", { willReadFrequently: true }) as CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D | null;
   if (!ctx) throw new QRGenError("unsupported", "Canvas 2D is not available.");
-  // Canvas discards RGB under zero alpha. Composite on white before reading
-  // pixels so transparent quiet zones remain readable, matching Python images.
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(0, 0, width, height);
   ctx.drawImage(source, 0, 0, width, height);
-  return ctx.getImageData(0, 0, width, height);
+  const raw = ctx.getImageData(0, 0, width, height);
+  const d = raw.data;
+  let i = 3;
+  while (i < d.length && d[i] === 255) i += 4;
+  if (i >= d.length) return { image: raw };
+  // Canvas discards RGB under zero alpha. Composite on white so transparent quiet
+  // zones of dark codes remain readable, matching Python images. Light codes on
+  // transparency vanish on white, so also keep a composite on black.
+  const white = new Uint8ClampedArray(d.length);
+  const black = new Uint8ClampedArray(d.length);
+  for (let p = 0; p < d.length; p += 4) {
+    const a = d[p + 3]!;
+    for (let c = p; c < p + 3; c++) {
+      black[c] = (d[c]! * a) / 255;
+      white[c] = black[c]! + 255 - a;
+    }
+    white[p + 3] = black[p + 3] = 255;
+  }
+  return { image: new ImageData(white, width, height), onBlack: new ImageData(black, width, height) };
 }
 
 /** Formats the built-in (stb_image) decoder understands, identified by magic bytes. */
@@ -76,7 +93,7 @@ let encodedRasterDecoder: EncodedRasterDecoder | null = null;
 /** Internal runtime adapter registered only by qrgen-sdk/node. */
 export function registerEncodedRasterDecoder(decoder: EncodedRasterDecoder): void { encodedRasterDecoder = decoder; }
 
-async function browserDecode(blob: Blob): Promise<ImageData | null> {
+async function browserDecode(blob: Blob): Promise<Drawn | null> {
   if (!hasDOM() || typeof createImageBitmap !== "function") return null;
   try {
     const bmp = await createImageBitmap(blob);
@@ -87,7 +104,7 @@ async function browserDecode(blob: Blob): Promise<ImageData | null> {
   }
 }
 
-async function toDecodable(input: ImageInput): Promise<{ data: Uint8Array | ImageData; width: number; height: number }> {
+async function toDecodable(input: ImageInput): Promise<{ data: Uint8Array | ImageData; width: number; height: number; onBlack?: ImageData }> {
   if (typeof input === "string") {
     const isUrl = input.startsWith("data:") || /^(https?:|blob:)/.test(input);
     if (!hasDOM() && !isUrl) {
@@ -119,7 +136,7 @@ async function toDecodable(input: ImageInput): Promise<{ data: Uint8Array | Imag
     // orientation, pixels, and actual frame dimensions.
     const blob = typeof Blob !== "undefined" ? (input instanceof Blob ? input : new Blob([input as BlobPart])) : null;
     const decoded = blob ? await browserDecode(blob) : null;
-    if (decoded) return { data: decoded, width: decoded.width, height: decoded.height };
+    if (decoded) return { data: decoded.image, width: decoded.image.width, height: decoded.image.height, onBlack: decoded.onBlack };
     if (!builtinFormat(bytes)) throw new QRGenError("bad-request", describeUnsupported(bytes));
     // The SOF of a JPEG can follow arbitrarily many metadata segments. Reuse
     // one full Blob read for header inspection, ZXing and any raster fallback.
@@ -129,16 +146,16 @@ async function toDecodable(input: ImageInput): Promise<{ data: Uint8Array | Imag
   if (typeof ImageData !== "undefined" && input instanceof ImageData) return { data: input, width: input.width, height: input.height };
   if (typeof HTMLImageElement !== "undefined" && input instanceof HTMLImageElement) {
     if (!input.complete) await input.decode();
-    const d = drawToImageData(input, input.naturalWidth, input.naturalHeight);
-    return { data: d, width: d.width, height: d.height };
+    const { image: d, onBlack } = drawToImageData(input, input.naturalWidth, input.naturalHeight);
+    return { data: d, width: d.width, height: d.height, onBlack };
   }
   if (typeof HTMLVideoElement !== "undefined" && input instanceof HTMLVideoElement) {
-    const d = drawToImageData(input, input.videoWidth, input.videoHeight);
-    return { data: d, width: d.width, height: d.height };
+    const { image: d, onBlack } = drawToImageData(input, input.videoWidth, input.videoHeight);
+    return { data: d, width: d.width, height: d.height, onBlack };
   }
   const src = input as HTMLCanvasElement | ImageBitmap | OffscreenCanvas;
-  const d = drawToImageData(src, src.width, src.height);
-  return { data: d, width: d.width, height: d.height };
+  const { image: d, onBlack } = drawToImageData(src, src.width, src.height);
+  return { data: d, width: d.width, height: d.height, onBlack };
 }
 
 /** Image size from supported encoded headers, without a second pixel decode. */
@@ -204,7 +221,7 @@ function sniffSize(bytes: Uint8Array): { width: number; height: number } {
  */
 export async function scanImage(input: ImageInput, options: ScanImageOptions = {}): Promise<Barcode[]> {
   const ids = resolveSymbologies(options.symbologies);
-  const { data, width, height } = await toDecodable(input);
+  const { data, width, height, onBlack } = await toDecodable(input);
   let size = { width, height };
   if (!size.width && data instanceof Uint8Array) size = sniffSize(data);
   const params: DecodeParams = {
@@ -215,9 +232,11 @@ export async function scanImage(input: ImageInput, options: ScanImageOptions = {
     tryDownscale: true,
     maxNumberOfSymbols: Math.max(1, Math.min(255, options.maxResults ?? 255)),
   };
-  const raws = await decodeOnMainThread(data, params, async () => {
+  let raws = await decodeOnMainThread(data, params, async () => {
     return encodedRasterDecoder && data instanceof Uint8Array ? encodedRasterDecoder(data) : null;
   });
+  // Only when nothing was found on white: light modules on a transparent background.
+  if (!raws.length && onBlack) raws = await decodeOnMainThread(onBlack, params);
   const requested = ids.length === ALL_SYMBOLOGIES.length ? undefined : new Set(ids);
   return toBarcodes(raws, { frameSize: size, requested });
 }

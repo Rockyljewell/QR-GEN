@@ -284,6 +284,13 @@ await test("encoded browser images decode inverted Code 128 without changing inp
       const transparentBytes = new Uint8Array(await transparent.png.arrayBuffer());
       const transparentBlobFound = await sdk.scanImage(transparent.png, { symbologies: ["qr"] });
       const transparentBytesFound = await sdk.scanImage(transparentBytes, { symbologies: ["qr"] });
+      // Light modules on a transparent background (e.g. for dark pages) must not vanish on white.
+      const light = await sdk.generate("LIGHT-ON-TRANSPARENT-QR", { foreground: "#ffffff", background: "transparent" });
+      const lightImage = new Image();
+      lightImage.src = URL.createObjectURL(light.png);
+      await lightImage.decode();
+      const lightFound = [await sdk.scanImage(light.png, { symbologies: ["qr"] }), await sdk.scanImage(new Uint8Array(await light.png.arrayBuffer()), { symbologies: ["qr"] }), await sdk.scanImage(lightImage, { symbologies: ["qr"] })];
+      URL.revokeObjectURL(lightImage.src);
       const bitmap = await createImageBitmap(generated.png);
       const canvas = document.createElement("canvas");
       canvas.width = bitmap.width;
@@ -306,11 +313,13 @@ await test("encoded browser images decode inverted Code 128 without changing inp
         rotated: b ? { data: b.data, size: b.frameSize, location: b.location } : null,
         expectedRotatedSize: { width: canvas.height, height: canvas.width },
         transparent: [transparentBlobFound.map((b) => b.data), transparentBytesFound.map((b) => b.data)],
+        light: lightFound.map((found) => found.map((b) => b.data)),
       };
     }, u("sdk/qrgen.js"));
     assert(JSON.stringify(result.codes) === JSON.stringify([["code128", "INVERTED-FILE-128"]]), JSON.stringify(result));
     assert(result.disabled === 0 && result.unchanged, JSON.stringify(result));
     assert(JSON.stringify(result.transparent) === JSON.stringify([["TRANSPARENT-FILE-QR"], ["TRANSPARENT-FILE-QR"]]), JSON.stringify(result));
+    assert(JSON.stringify(result.light) === JSON.stringify([["LIGHT-ON-TRANSPARENT-QR"], ["LIGHT-ON-TRANSPARENT-QR"], ["LIGHT-ON-TRANSPARENT-QR"]]), JSON.stringify(result));
     assert(result.rotated?.data === "INVERTED-FILE-128", JSON.stringify(result));
     assert(JSON.stringify(result.rotated.size) === JSON.stringify(result.expectedRotatedSize), JSON.stringify(result));
     assert(Object.values(result.rotated.location).every((p) => p.x >= 0 && p.y >= 0 && p.x <= result.rotated.size.width && p.y <= result.rotated.size.height), JSON.stringify(result));
