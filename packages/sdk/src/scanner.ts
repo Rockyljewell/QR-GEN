@@ -43,7 +43,11 @@ export interface BarcodeScannerOptions extends ScannerOptions {
   maxDecodeSize?: number;
   /** Upper bound for decodes per second. Default 24. */
   maxFps?: number;
-  /** Also look for white-on-black codes (costs time). Default: alternate frames. */
+  /**
+   * Also look for white-on-black codes. Default: alternate frames. On those frames,
+   * inverted linear and PDF417 codes need a second decode, which runs only when the
+   * frame's normal decode found nothing.
+   */
   tryInvert?: boolean | "alternate";
   /** Experimental bounded full-frame capture adaptation. Default false (fixed capture). */
   adaptive?: boolean | AdaptiveCaptureOptions;

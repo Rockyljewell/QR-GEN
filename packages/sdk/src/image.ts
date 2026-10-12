@@ -16,7 +16,11 @@ export interface ScanImageOptions {
   maxResults?: number;
   /** Spend more CPU to find damaged, tiny or rotated codes. Default true. */
   tryHarder?: boolean;
-  /** Search reversed-reflectance barcodes. Default true; may add one decode pass. */
+  /**
+   * Search reversed-reflectance (light-on-dark) barcodes. Default true. QR, Data Matrix
+   * and Aztec are searched in the same pass; other formats get one extra decode of an
+   * inverted copy, only when the normal pass found nothing.
+   */
   tryInvert?: boolean;
 }
 

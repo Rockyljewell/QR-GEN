@@ -77,6 +77,7 @@ await startServer();
 const qrVideo = join(tmp, "qr.y4m");
 const multiVideo = join(tmp, "multi.y4m");
 const polarityVideo = join(tmp, "mixed-polarity.y4m");
+const invertedPairVideo = join(tmp, "inverted-pair.y4m");
 await writeFakeCamera(qrVideo, [{ data: "https://rockyljewell.github.io/QR-GEN/e2e", symbology: "qr", x: 230, y: 150, module: 6 }]);
 await writeFakeCamera(multiVideo, [
   { data: "https://rockyljewell.github.io/QR-GEN/a", symbology: "qr", x: 60, y: 120, module: 5 },
@@ -86,6 +87,10 @@ await writeFakeCamera(multiVideo, [
 
 await writeFakeCamera(polarityVideo, [
   { data: "DUP-128", symbology: "code128", x: 30, y: 200, module: 2 },
+  { data: "DUP-128", symbology: "code128", x: 370, y: 200, module: 2, inverted: true },
+]);
+await writeFakeCamera(invertedPairVideo, [
+  { data: "DUP-128", symbology: "code128", x: 30, y: 200, module: 2, inverted: true },
   { data: "DUP-128", symbology: "code128", x: 370, y: 200, module: 2, inverted: true },
 ]);
 
@@ -235,28 +240,37 @@ await test("paused camera switches clear old overlays and retain chosen results 
   });
 });
 
-await test("worker batch tracks both polarities of the same Code 128 payload", async () => {
-  await withBrowser(polarityVideo, async (page, errors) => {
-    await page.goto(u("demo/"));
-    await page.click('[data-mode="batch"]');
-    await page.evaluate(() => {
-      const el = document.querySelector("#demo-scanner");
-      el.setAttribute("symbologies", "code128");
-      // Exercise decoding of the whole synthetic feed, including codes outside
-      // the demo element's automatically cropped visible preview.
-      el.scanArea = { x: 0, y: 0, width: 1, height: 1 };
-      window.__polarityTracks = [];
-      el.addEventListener("track", (event) => { window.__polarityTracks = event.detail.tracked; });
-    });
-    await page.locator("#demo-scanner").locator('button[data-a="start"]').click();
+/** Start the demo in batch mode on the whole synthetic feed and record Code 128 tracks per frame. */
+async function startPolarityBatch(page) {
+  await page.goto(u("demo/"));
+  await page.click('[data-mode="batch"]');
+  await page.evaluate(() => {
+    const el = document.querySelector("#demo-scanner");
+    el.setAttribute("symbologies", "code128");
+    // Exercise decoding of the whole synthetic feed, including codes outside
+    // the demo element's automatically cropped visible preview.
+    el.scanArea = { x: 0, y: 0, width: 1, height: 1 };
+    window.__polarityTracks = [];
+    window.__polarityFrames = 0;
+    el.addEventListener("track", (event) => { window.__polarityFrames++; window.__polarityTracks = event.detail.tracked; });
+  });
+  await page.locator("#demo-scanner").locator('button[data-a="start"]').click();
+}
+
+async function polarityDiagnostic(page) {
+  return page.evaluate(() => {
+    const el = document.querySelector("#demo-scanner");
+    return { tracks: window.__polarityTracks, frames: window.__polarityFrames, options: el.options, state: el.state, stats: el.scanner?.stats };
+  });
+}
+
+await test("worker batch tracks two inverted copies of the same Code 128 payload", async () => {
+  await withBrowser(invertedPairVideo, async (page, errors) => {
+    await startPolarityBatch(page);
     try {
       await page.waitForFunction(() => window.__polarityTracks.filter((b) => b.data === "DUP-128").length === 2, null, { timeout: 20000 });
     } catch {
-      const diagnostic = await page.evaluate(() => {
-        const el = document.querySelector("#demo-scanner");
-        return { tracks: window.__polarityTracks, options: el.options, state: el.state, stats: el.scanner?.stats };
-      });
-      throw new Error(`Mixed-polarity tracking did not reach two instances: ${JSON.stringify(diagnostic)}; ${errors.join("; ")}`);
+      throw new Error(`Inverted-pair tracking did not reach two instances: ${JSON.stringify(await polarityDiagnostic(page))}; ${errors.join("; ")}`);
     }
     const result = await page.evaluate(() => ({
       tracks: window.__polarityTracks,
@@ -266,6 +280,29 @@ await test("worker batch tracks both polarities of the same Code 128 payload", a
     assert(new Set(result.tracks.map((b) => b.id)).size === 2, "physical instances share an ID");
     const xs = result.tracks.map((b) => b.location.topLeft.x).sort((a, b) => a - b);
     assert(xs[0] < 100 && xs[1] > 300, `locations off: ${xs}`);
+    assert(errors.length === 0, errors.join("; "));
+  });
+});
+
+await test("worker batch reports only the normal code of a mixed-polarity Code 128 pair", async () => {
+  // The inverted pass is a fallback for frames where nothing was found.
+  await withBrowser(polarityVideo, async (page, errors) => {
+    await startPolarityBatch(page);
+    try {
+      await page.waitForFunction(() => window.__polarityTracks.some((b) => b.data === "DUP-128"), null, { timeout: 20000 });
+      // Let more frames through; with "alternate", half of them have tryInvert on.
+      const seen = await page.evaluate(() => window.__polarityFrames);
+      await page.waitForFunction((n) => window.__polarityFrames >= n, seen + 10, { timeout: 20000 });
+    } catch {
+      throw new Error(`Mixed-polarity tracking did not settle: ${JSON.stringify(await polarityDiagnostic(page))}; ${errors.join("; ")}`);
+    }
+    const result = await page.evaluate(() => ({
+      tracks: window.__polarityTracks,
+      engine: document.querySelector("#demo-scanner").scanner.stats.engine,
+    }));
+    assert(result.engine === "worker", `engine was ${result.engine}`);
+    const dup = result.tracks.filter((b) => b.data === "DUP-128");
+    assert(dup.length === 1 && dup[0].location.topLeft.x < 100, `expected the normal copy only: ${JSON.stringify(dup.map((b) => b.location.topLeft))}`);
     assert(errors.length === 0, errors.join("; "));
   });
 });

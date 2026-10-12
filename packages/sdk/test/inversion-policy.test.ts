@@ -14,19 +14,37 @@ describe("inversion policy", () => {
     expect(invertRaster(frame)).toEqual({ width: 1, height: 1, data: new Uint8ClampedArray([255, 223, 0, 73]) });
     expect(frame.data).toEqual(new Uint8ClampedArray([0, 32, 255, 73]));
   });
-  it("merges the same physical result with corner jitter but keeps another copy", async () => {
-    read.mockResolvedValueOnce([detection(0)]).mockResolvedValueOnce([detection(1), detection(100)]);
+  it("runs the inverted pass when the normal pass found nothing and keeps every copy", async () => {
+    read.mockResolvedValueOnce([]).mockResolvedValueOnce([detection(0), detection(100)]);
     const found = await readWithInversion(frame, params);
-    expect(found).toHaveLength(2);
-    expect(found.map(x => x.position.topLeft.x)).toEqual([0, 100]);
-    expect(found[1]!.isInverted).toBe(true);
+    expect(found.map(x => [x.position.topLeft.x, x.isInverted])).toEqual([[0, true], [100, true]]);
+    expect(read).toHaveBeenCalledTimes(2);
     expect(read.mock.calls[1]![1]).toMatchObject({ tryInvert: false, maxNumberOfSymbols: 2 });
   });
-  it.each([false, true])("skips fallback when disabled or full (full=%s)", async full => {
+  it.each([1, 2])("never runs the inverted pass or loads pixels when the normal pass found %i code(s)", async count => {
     const load = vi.fn();
-    read.mockResolvedValue(full ? [detection(0), detection(100)] : []);
-    await readWithInversion(new Uint8Array([1]), { ...params, tryInvert: full }, load);
+    read.mockResolvedValue([detection(0), detection(100)].slice(0, count));
+    // maxNumberOfSymbols 3: capacity remains, so this is the found-something rule, not the limit.
+    const found = await readWithInversion(new Uint8Array([1]), { ...params, maxNumberOfSymbols: 3 }, load);
+    expect(found).toHaveLength(count);
+    expect(found.every(x => !x.isInverted)).toBe(true);
     expect(read).toHaveBeenCalledOnce(); expect(load).not.toHaveBeenCalled();
+  });
+  it("does not invert a raster frame when the normal pass found something", async () => {
+    read.mockResolvedValue([detection(0)]);
+    await readWithInversion(frame, { ...params, maxNumberOfSymbols: 255 });
+    expect(read).toHaveBeenCalledOnce();
+    expect(read.mock.calls[0]![0]).toBe(frame);
+  });
+  it("skips the fallback when disabled", async () => {
+    const load = vi.fn();
+    read.mockResolvedValue([]);
+    await readWithInversion(new Uint8Array([1]), { ...params, tryInvert: false }, load);
+    expect(read).toHaveBeenCalledOnce(); expect(load).not.toHaveBeenCalled();
+  });
+  it("applies the limit to the inverted pass", async () => {
+    read.mockResolvedValueOnce([]).mockResolvedValueOnce([detection(0), detection(100)]);
+    expect(await readWithInversion(frame, { ...params, maxNumberOfSymbols: 1 })).toHaveLength(1);
   });
   it("does not explicitly invert formats already handled by the engine", async () => {
     read.mockResolvedValue([]);
@@ -39,10 +57,11 @@ describe("inversion policy", () => {
     await readWithInversion(frame, { ...params, formats: ["QRCodeModel2", "Code128"] });
     expect(read.mock.calls[1]![1]).toMatchObject({ formats: ["Code128"], tryInvert: false });
   });
-  it("preserves normal results when the optional encoded codec is unavailable", async () => {
-    read.mockResolvedValue([detection(0)]);
-    const result = await readWithInversion(new Uint8Array([1]), params, async () => { throw new Error("unsupported codec"); });
-    expect(result).toHaveLength(1); expect(read).toHaveBeenCalledOnce();
+  it("returns no results instead of failing when the optional encoded codec is unavailable", async () => {
+    read.mockResolvedValue([]);
+    const load = vi.fn(async () => { throw new Error("unsupported codec"); });
+    expect(await readWithInversion(new Uint8Array([1]), params, load)).toEqual([]);
+    expect(load).toHaveBeenCalledOnce(); expect(read).toHaveBeenCalledOnce();
   });
   it("propagates engine failure from either decode pass", async () => {
     read.mockRejectedValueOnce(new Error("wasm first"));

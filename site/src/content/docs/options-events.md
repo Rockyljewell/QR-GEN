@@ -33,7 +33,7 @@ This page collects the scanner options, events and error codes in one place. The
 | `video` | `HTMLVideoElement` | a detached element | Where the preview plays. |
 | `maxDecodeSize` | `number` | `1280` | Longest side, in pixels, of the image handed to the decoder. Lower is faster; higher finds smaller codes. |
 | `maxFps` | `number` | `24` | Upper bound for decodes per second. |
-| `tryInvert` | `boolean \| "alternate"` | `"alternate"` | Look for white-on-black codes on every frame (`true`), never (`false`), or every other frame. |
+| `tryInvert` | `boolean \| "alternate"` | `"alternate"` | Look for white-on-black codes on every frame (`true`), never (`false`), or every other frame. Inverted linear and PDF417 codes cost a second decode, run only when nothing else was found in the frame. |
 
 `<qrgen-scanner>` only:
 

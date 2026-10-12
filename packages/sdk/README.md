@@ -95,16 +95,22 @@ Created by [Rockyljewell](https://github.com/Rockyljewell).
 
 ### Reversed-reflectance image scanning
 
-`scanImage(input, { tryInvert: true })` (the default) searches reversed-reflectance
-codes as well as normal codes, including mixed-polarity images. When capacity
-remains, formats without upstream inversion support use one extra decode pass.
-`tryInvert: false` disables that work. The combined `maxResults` limit applies to
-both passes, and identical payloads in separate positions remain separate results.
+`scanImage(input, { tryInvert: true })` (the default) also finds reversed-reflectance
+(light-on-dark) codes. The engine searches QR, Micro QR, rMQR, Data Matrix and Aztec
+in both polarities within the normal pass. Other formats (linear codes, PDF417,
+MaxiCode) need one extra decode of an inverted copy, and it runs only when the
+normal pass found nothing. An image holding only inverted codes is decoded in full,
+up to `maxResults`, and identical payloads at separate positions remain separate
+results. A mixed-polarity image (a normal code next to an inverted linear code)
+reports the normal code only; crop and scan the inverted region separately if you
+need both. `tryInvert: false` disables the extra pass. The camera scanner applies
+the same rule on the frames where `tryInvert` is on.
 
 Browser image decoding applies EXIF orientation once and composites transparency
-on white. The Node entry lazily loads PNG/JPEG/GIF/BMP decoders for its inversion
-fallback (first frame for GIF); PNM/PSD retain the upstream normal decode but do
-not gain a Node inversion fallback. Convert those formats to PNG when inversion
-is needed. Codec expansion is limited to 64 megapixels; the fallback preserves
-normal-pass results when a raster decoder is unavailable. Codecs are excluded
-from browser and worker bundles and support the package's Node 18.17 minimum.
+on white. The Node entry lazily loads PNG/JPEG/GIF/BMP decoders only for that
+inverted pass (first frame for GIF), so an image whose normal pass finds a code is
+never decoded in JavaScript. PNM/PSD retain the upstream normal decode but do not
+gain a Node inversion fallback. Convert those formats to PNG when inversion is
+needed. Codec expansion is limited to 64 megapixels; an unavailable raster decoder
+skips the inverted pass instead of failing the scan. Codecs are excluded from
+browser and worker bundles and support the package's Node 18.17 minimum.

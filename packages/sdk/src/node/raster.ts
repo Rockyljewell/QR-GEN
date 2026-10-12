@@ -3,7 +3,8 @@
 import type { Raster } from "../engine/inversion.js";
 
 // These codecs are loaded only when the Node entry needs an inverted encoded
-// image. Browser and worker bundles never import this module.
+// image, i.e. after the normal decode found nothing. Browser and worker
+// bundles never import this module.
 export async function decodeNodeRaster(bytes: Uint8Array): Promise<Raster | null> {
   const buffer = Buffer.from(bytes.buffer, bytes.byteOffset, bytes.byteLength);
   // Bound allocation before asking any codec to expand attacker-controlled dimensions.
