@@ -139,6 +139,7 @@ npm test                     # SDK unit tests (vitest)
 npm run build                # SDK + website
 npm run dev                  # website at http://localhost:4321/QR-GEN/
 npm run test:e2e             # Playwright end-to-end tests with fake camera videos
+npm run test:picking -w qrgen-site # target-product finder model and browser tests
 node scripts/validate-skills.mjs
 ```
 
@@ -149,6 +150,11 @@ reproduced bugs, fixes, verification limits, an image benchmark and a retail AR
 roadmap. Run the synthetic benchmark after building the SDK with
 `node scripts/benchmark-scanning.mjs`; physical-device and competitor comparisons
 require a separate matched field trial.
+
+The site includes a [target-product finder](docs/TARGET-PRODUCT-FINDER.md) and a
+[local receiving workflow](docs/RECEIVING-WORKFLOW.md) using the existing scanner
+UI. Scan observations help identify products; quantities require explicit
+confirmation in receiving.
 
 ## Deploying the website
 

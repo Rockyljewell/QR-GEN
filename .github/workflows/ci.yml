@@ -37,8 +37,8 @@ jobs:
         run: |
           node packages/sdk/dist/cli.js generate "ci-check" -o /tmp/ci.png
           node packages/sdk/dist/cli.js scan /tmp/ci.png | grep -q "ci-check"
-      - name: Build website
-        run: npm run build -w qrgen-site
+      - name: Build website using local engine assets
+        run: npm run test:build-offline -w qrgen-site
       - name: Type-check website
         run: npx astro check
         working-directory: site
@@ -65,7 +65,7 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run typecheck -w qrgen-sdk
-      - run: npm run build
+      - run: npm run build:sdk && npm run test:build-offline -w qrgen-site
       - run: node scripts/validate-skills.mjs
       - run: npx playwright install chromium
         working-directory: site
