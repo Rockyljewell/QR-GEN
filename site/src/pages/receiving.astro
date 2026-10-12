@@ -38,7 +38,7 @@ const labels = await Promise.all(samples.map(item => barcodeSvg(item.code, { sym
             <form id="expected-item">
               <fieldset data-editor disabled>
                 <label class="field">Barcode value<input id="item-code" maxlength="4096" required autocomplete="off" spellcheck="false" aria-describedby="item-code-help" /></label>
-                <p id="item-code-help" class="help field-help">Retail barcodes match by product number (GTIN): a scanned UPC-A finds the 13-digit EAN typed here, and UPC-E, ITF-14 and GS1 codes find the same number. Other values must match exactly, including spaces, case and leading zeros.</p>
+                <p id="item-code-help" class="help field-help">Retail barcodes match by product number, so a scanned UPC-A finds the 13-digit EAN typed here. Anything else must match exactly, including spaces, case and leading zeros.</p>
                 <div class="field-row">
                   <label class="field">Product name<input id="item-name" maxlength="120" required /></label>
                   <label class="field">Expected quantity<input id="item-expected" type="number" min="1" max="1000000" step="1" value="1" required /></label>
