@@ -642,6 +642,11 @@ for(const [name,field,value] of invalids) add(`invalid mixed proposal ${name}`, 
     spatialTracking:true,trackMaxJump:3,trackMaxAssociationWork:250000}));
   const recovered=await state(page);assert.notEqual(recovered.camera,before.camera);assert.notEqual(recovered.hook,before.hook);assert.equal(currentCamera(recovered).device,'front');
 });
+add('isActive false stops the camera even when mixed with an invalid prop', 'A rejected proposal must not keep the camera running after the app asks it to stop.', async page => {
+  await mount(page);await frame(page);const before=await state(page);assert.equal(currentCamera(before).isActive,true);
+  await update(page,{isActive:false,trackMaxJump:NaN});await settle(page);const stopped=await state(page);
+  assert.equal(errors(stopped).length,1);assert.equal(currentCamera(stopped).isActive,false);
+});
 add('rejected spatial enable retains legacy instance and payload identity', 'Invalid enable mixed with source/mode does not partially accept.', async page => {
   await mount(page,{spatialTracking:false});await frame(page);const before=await state(page);
   await update(page,{spatialTracking:true,trackMaxAssociationWork:null,camera:'front',mode:'continuous',duplicateFilter:0});

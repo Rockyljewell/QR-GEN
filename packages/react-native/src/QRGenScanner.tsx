@@ -301,7 +301,8 @@ const VisionCameraScanner = forwardRef<QRGenScannerHandle, InnerProps>(function 
   // Physical availability gates the accepted source even when a new prop proposal is rejected.
   const deviceAvailable = device !== undefined && devices.some(current => current.id === device.id);
   const canRun = accepted !== null && hasPermission && permission === 'granted' && deviceAvailable && accepted.codeTypes.length > 0;
-  const cameraActive = canRun && accepted!.isActive && appActive && runState !== 'stopped';
+  // An explicit isActive={false} always stops the camera, even while other props are rejected.
+  const cameraActive = canRun && accepted!.isActive && props.isActive !== false && appActive && runState !== 'stopped';
   const runtime = useRef({ cameraActive, runState });
   useLayoutEffect(() => {
     runtime.current = { cameraActive, runState };
