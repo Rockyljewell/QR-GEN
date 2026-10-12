@@ -439,7 +439,7 @@ def main():
         receipt["packageLinkedObjects"] = [{"path": str(path.relative_to(derived)), "sha256": digest(path), "bytes": path.stat().st_size}
                                            for path in sorted(package_objects)]
         code, test_log = command("test-without-building", ["xcodebuild", "test-without-building", "-xctestrun", str(xctestruns[0]),
-                "-resultBundlePath", str(result), "-test-iterations", "1", "-test-timeouts-enabled", "YES",
+                "-resultBundlePath", str(result), "-test-timeouts-enabled", "YES",
                 "-maximum-test-execution-time-allowance", "120", *common], timeout=600, allow_failure=True)
         receipt["xcodebuildTestExitCode"] = code
         require(code == 0, "Actual test invocation failed")
