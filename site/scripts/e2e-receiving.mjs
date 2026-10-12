@@ -566,6 +566,27 @@ try {
     return { validSessionId: validId, validQuantity: 3, corruptRecordsPreserved: true, currentCorruptionReported: true, corruptOnlyNewSessionId: newId };
   });
 
+  await test("keyboard confirmation and export keep focus on the activated control", async (page) => {
+    await goto(page);
+    await createDelivery(page, "Keyboard delivery");
+    await addExpected(page);
+    await selectProduct(page, COFFEE);
+    await page.locator("#receive-quantity").fill("2");
+    await page.locator("#confirm-quantity button").focus();
+    await page.keyboard.press("Enter");
+    await waitReceived(page, COFFEE, 2);
+    await ready(page);
+    const afterConfirm = await page.evaluate(() => document.activeElement === document.querySelector("#confirm-quantity button"));
+    assert(afterConfirm, "Saving dropped keyboard focus from the confirm button.");
+    await page.locator("#export-delivery").focus();
+    const waiting = page.waitForEvent("download");
+    await page.keyboard.press("Enter");
+    await waiting;
+    await ready(page);
+    assert(await page.evaluate(() => document.activeElement?.id === "export-delivery"), "Export dropped keyboard focus.");
+    return { afterConfirm };
+  });
+
   await test("mobile receiving controls remain usable without horizontal overflow", async (page) => {
     await goto(page);
     await createDelivery(page, "Mobile delivery");

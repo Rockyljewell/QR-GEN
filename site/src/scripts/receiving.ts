@@ -150,8 +150,14 @@ function changedSession(next: ReceivingSession): void {
   session = next; selected = null; correctionDirty = false;
   render();
 }
+/** Disabling controls while saving drops focus to the body; return it for keyboard users. */
+function restoreFocus(element: Element | null): void {
+  if (!(element instanceof HTMLElement) || !element.isConnected || element.matches(":disabled") || element.closest("[hidden]")) return;
+  if (!document.activeElement || document.activeElement === document.body) element.focus();
+}
 async function perform(work: () => Promise<ReceivingSession>, success: string, newSession = false, retainCorrection = false): Promise<void> {
   if (busy) return;
+  const focused = document.activeElement;
   busy = true; controls();
   try {
     const saved = await work();
@@ -172,7 +178,7 @@ async function perform(work: () => Promise<ReceivingSession>, success: string, n
     }
     report(error instanceof Error ? error.message : String(error), true);
   } finally {
-    busy = false; controls();
+    busy = false; controls(); restoreFocus(focused);
     if (refreshPending) requestRefresh();
   }
 }
@@ -243,6 +249,7 @@ $<HTMLInputElement>("#image-file").addEventListener("change", async event => {
 $("#export-delivery").addEventListener("click", async () => {
   if (!session || busy) return;
   const sessionId = session.id;
+  const focused = document.activeElement;
   busy = true; controls();
   try {
     // Export a committed snapshot, including confirmations from other tabs.
@@ -255,7 +262,7 @@ $("#export-delivery").addEventListener("click", async () => {
     setTimeout(() => URL.revokeObjectURL(url), 1000);
     report(`Exported saved revision ${saved.revision}. Repeating this export uses the same record ID.`);
   } catch (error) { report(error instanceof Error ? error.message : String(error), true); }
-  finally { busy = false; controls(); if (refreshPending) requestRefresh(); }
+  finally { busy = false; controls(); restoreFocus(focused); if (refreshPending) requestRefresh(); }
 });
 channel?.addEventListener("message", requestRefresh);
 window.addEventListener("focus", requestRefresh);
