@@ -1,0 +1,31 @@
+name: iOS still-image observations
+
+on:
+  push:
+    branches: [codex/ios-still-image-control]
+
+permissions:
+  contents: read
+
+jobs:
+  observations:
+    name: SDK and direct Vision Simulator observations only
+    runs-on: macos-26
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Compile and run one hosted observation test
+        run: >-
+          python3 tests/ios-still-image-control/run.py
+          --output "${RUNNER_TEMP}/ios-still-image-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+      - name: Retain actual evidence even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-still-image-observations
+          path: ${{ runner.temp }}/ios-still-image-${{ github.run_id }}-${{ github.run_attempt }}/evidence
+          if-no-files-found: warn
+          retention-days: 14

@@ -1,0 +1,42 @@
+// !$*UTF8*$!
+{
+    archiveVersion = 1;
+    classes = {};
+    objectVersion = 56;
+    objects = {
+        A00000000000000000000001 = {isa = PBXBuildFile; fileRef = A00000000000000000000011; };
+        A00000000000000000000002 = {isa = PBXBuildFile; fileRef = A00000000000000000000012; };
+        A00000000000000000000003 = {isa = PBXBuildFile; productRef = A00000000000000000000070; };
+        A00000000000000000000004 = {isa = PBXBuildFile; fileRef = A00000000000000000000015; };
+        A00000000000000000000011 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App/StillImageApp.swift; sourceTree = "<group>"; };
+        A00000000000000000000012 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests/StillImageControlTests.swift; sourceTree = "<group>"; };
+        A00000000000000000000013 = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QRGenStillImageHost.app; sourceTree = BUILT_PRODUCTS_DIR; };
+        A00000000000000000000014 = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QRGenStillImageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+        A00000000000000000000015 = {isa = PBXFileReference; lastKnownFileType = image.png; path = Tests/Resources/simulator-generated-input.png; sourceTree = "<group>"; };
+        A00000000000000000000020 = {isa = PBXGroup; children = (A00000000000000000000011, A00000000000000000000012, A00000000000000000000015, A00000000000000000000021); sourceTree = "<group>"; };
+        A00000000000000000000021 = {isa = PBXGroup; children = (A00000000000000000000013, A00000000000000000000014); name = Products; sourceTree = "<group>"; };
+        A00000000000000000000030 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A00000000000000000000001); runOnlyForDeploymentPostprocessing = 0; };
+        A00000000000000000000031 = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+        A00000000000000000000032 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+        A00000000000000000000033 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A00000000000000000000002); runOnlyForDeploymentPostprocessing = 0; };
+        A00000000000000000000034 = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (A00000000000000000000003); runOnlyForDeploymentPostprocessing = 0; };
+        A00000000000000000000035 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (A00000000000000000000004); runOnlyForDeploymentPostprocessing = 0; };
+        A00000000000000000000040 = {isa = PBXNativeTarget; buildConfigurationList = A00000000000000000000061; buildPhases = (A00000000000000000000030, A00000000000000000000031, A00000000000000000000032); buildRules = (); dependencies = (); name = QRGenStillImageHost; productName = QRGenStillImageHost; productReference = A00000000000000000000013; productType = "com.apple.product-type.application"; };
+        A00000000000000000000041 = {isa = PBXNativeTarget; buildConfigurationList = A00000000000000000000062; buildPhases = (A00000000000000000000033, A00000000000000000000034, A00000000000000000000035); buildRules = (); dependencies = (A00000000000000000000043); name = QRGenStillImageTests; packageProductDependencies = (A00000000000000000000070); productName = QRGenStillImageTests; productReference = A00000000000000000000014; productType = "com.apple.product-type.bundle.unit-test"; };
+        A00000000000000000000042 = {isa = PBXContainerItemProxy; containerPortal = A00000000000000000000050; proxyType = 1; remoteGlobalIDString = A00000000000000000000040; remoteInfo = QRGenStillImageHost; };
+        A00000000000000000000043 = {isa = PBXTargetDependency; target = A00000000000000000000040; targetProxy = A00000000000000000000042; };
+        A00000000000000000000050 = {isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = YES; LastUpgradeCheck = 1500; TargetAttributes = {A00000000000000000000040 = {CreatedOnToolsVersion = 15.0; }; A00000000000000000000041 = {CreatedOnToolsVersion = 15.0; TestTargetID = A00000000000000000000040; }; }; }; buildConfigurationList = A00000000000000000000060; compatibilityVersion = "Xcode 14.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en, Base); mainGroup = A00000000000000000000020; packageReferences = (A00000000000000000000071); productRefGroup = A00000000000000000000021; projectDirPath = ""; projectRoot = ""; targets = (A00000000000000000000040, A00000000000000000000041); };
+        A00000000000000000000060 = {isa = XCConfigurationList; buildConfigurations = (A00000000000000000000063, A00000000000000000000064); defaultConfigurationIsVisible = 0; defaultConfigurationName = Debug; };
+        A00000000000000000000061 = {isa = XCConfigurationList; buildConfigurations = (A00000000000000000000065, A00000000000000000000066); defaultConfigurationIsVisible = 0; defaultConfigurationName = Debug; };
+        A00000000000000000000062 = {isa = XCConfigurationList; buildConfigurations = (A00000000000000000000067, A00000000000000000000068); defaultConfigurationIsVisible = 0; defaultConfigurationName = Debug; };
+        A00000000000000000000063 = {isa = XCBuildConfiguration; buildSettings = {CLANG_ENABLE_MODULES = YES; IPHONEOS_DEPLOYMENT_TARGET = 15.0; SDKROOT = iphoneos; SWIFT_VERSION = 5.0; ONLY_ACTIVE_ARCH = YES; SWIFT_OPTIMIZATION_LEVEL = "-Onone"; DEBUG_INFORMATION_FORMAT = dwarf; ENABLE_TESTABILITY = YES; }; name = Debug; };
+        A00000000000000000000064 = {isa = XCBuildConfiguration; buildSettings = {CLANG_ENABLE_MODULES = YES; IPHONEOS_DEPLOYMENT_TARGET = 15.0; SDKROOT = iphoneos; SWIFT_VERSION = 5.0; ONLY_ACTIVE_ARCH = YES; SWIFT_OPTIMIZATION_LEVEL = "-O"; }; name = Release; };
+        A00000000000000000000065 = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGNING_ALLOWED = NO; GENERATE_INFOPLIST_FILE = NO; INFOPLIST_FILE = App/Info.plist; PRODUCT_BUNDLE_IDENTIFIER = com.qrgen.audit.stillimagehost; PRODUCT_NAME = "$(TARGET_NAME)"; TARGETED_DEVICE_FAMILY = "1,2"; SUPPORTS_MACCATALYST = NO; }; name = Debug; };
+        A00000000000000000000066 = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGNING_ALLOWED = NO; GENERATE_INFOPLIST_FILE = NO; INFOPLIST_FILE = App/Info.plist; PRODUCT_BUNDLE_IDENTIFIER = com.qrgen.audit.stillimagehost; PRODUCT_NAME = "$(TARGET_NAME)"; TARGETED_DEVICE_FAMILY = "1,2"; SUPPORTS_MACCATALYST = NO; }; name = Release; };
+        A00000000000000000000067 = {isa = XCBuildConfiguration; buildSettings = {BUNDLE_LOADER = "$(TEST_HOST)"; CODE_SIGNING_ALLOWED = NO; GENERATE_INFOPLIST_FILE = YES; PRODUCT_BUNDLE_IDENTIFIER = com.qrgen.audit.stillimagetests; PRODUCT_NAME = "$(TARGET_NAME)"; TEST_HOST = "$(BUILT_PRODUCTS_DIR)/QRGenStillImageHost.app/QRGenStillImageHost"; TARGETED_DEVICE_FAMILY = "1,2"; SUPPORTS_MACCATALYST = NO; }; name = Debug; };
+        A00000000000000000000068 = {isa = XCBuildConfiguration; buildSettings = {BUNDLE_LOADER = "$(TEST_HOST)"; CODE_SIGNING_ALLOWED = NO; GENERATE_INFOPLIST_FILE = YES; PRODUCT_BUNDLE_IDENTIFIER = com.qrgen.audit.stillimagetests; PRODUCT_NAME = "$(TARGET_NAME)"; TEST_HOST = "$(BUILT_PRODUCTS_DIR)/QRGenStillImageHost.app/QRGenStillImageHost"; TARGETED_DEVICE_FAMILY = "1,2"; SUPPORTS_MACCATALYST = NO; }; name = Release; };
+        A00000000000000000000070 = {isa = XCSwiftPackageProductDependency; package = A00000000000000000000071; productName = QRGenKit; };
+        A00000000000000000000071 = {isa = XCLocalSwiftPackageReference; relativePath = QRGenSource; };
+    };
+    rootObject = A00000000000000000000050;
+}
