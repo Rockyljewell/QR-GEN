@@ -21,6 +21,11 @@ const mixedVideo = join(fixtureDirectory, "mixed.y4m");
 const expiryVideo = join(fixtureDirectory, "expiry.y4m");
 const targetImage = join(fixtureDirectory, "target.png");
 const otherImage = join(fixtureDirectory, "other.png");
+const gtinVideo = join(fixtureDirectory, "gtin.y4m");
+const gtinImage = join(fixtureDirectory, "gtin.png");
+// An EAN-13 printed with a leading 0 decodes as this UPC-A under symbologies="all".
+const RETAIL_TARGET = "0012345678905";
+const RETAIL_SCAN = "012345678905";
 const TARGET = " 00123a ";
 const OTHER = "00123a";
 const CASE_NEIGHBOR = " 00123A ";
@@ -361,7 +366,13 @@ try {
   writeFileSync(expiryVideo, Buffer.concat([readFileSync(mixedVideo), blankBytes.subarray(blankBytes.indexOf(10) + 1)]));
   writeFileSync(targetImage, await generatePNG(TARGET, { symbology: "qr", scale: 6 }));
   writeFileSync(otherImage, await generatePNG(OTHER, { symbology: "qr", scale: 6 }));
-  fixtures = Object.fromEntries([mixedVideo, expiryVideo, targetImage, otherImage].map((path) => {
+  // The same digits as a non-GS1 Code 128 are not a retail product number.
+  await writeFakeCamera(gtinVideo, [
+    { data: RETAIL_TARGET, symbology: "ean13", x: 220, y: 140, module: 2 },
+    { data: RETAIL_SCAN, symbology: "code128", x: 220, y: 270, module: 2 },
+  ], { frames: 60 });
+  writeFileSync(gtinImage, await generatePNG(RETAIL_TARGET, { symbology: "ean13", scale: 3 }));
+  fixtures = Object.fromEntries([mixedVideo, expiryVideo, targetImage, otherImage, gtinVideo, gtinImage].map((path) => {
     const bytes = readFileSync(path); return [basename(path), { bytes: bytes.length, sha256: hash(bytes) }];
   }));
 
@@ -388,6 +399,22 @@ try {
     await screenshot(page, "picking-desktop.png");
     return { matching, others, audit, storage };
   });
+
+  await test("a decoded UPC-A matches its 13-digit EAN target while the same digits in Code 128 do not", async (page) => {
+    await goto(page); await setTarget(page, RETAIL_TARGET, "Retail target");
+    assert.match(await page.locator("#target-status").textContent(), /product number 00012345678905/);
+    await start(page); await waitMatches(page, 1);
+    await page.waitForFunction((data) => [...document.querySelectorAll("#other-list [data-id]")].some((row) => row.dataset.code === data), RETAIL_SCAN, { timeout: 20_000 });
+    const matching = await rows(page, "#match-list"), others = await rows(page, "#other-list");
+    assert.deepEqual(matching.map((row) => row.data), [RETAIL_SCAN], "The decoded value is shown as decoded.");
+    assert.match(matching[0].text, /UPC-A · observation \d+ · same product number/);
+    assert.deepEqual(others.map((row) => row.data), [RETAIL_SCAN]);
+    assert.match(others[0].text, /Code 128 · observation \d+$/);
+    await chooseSource(page, "image"); await stopped(page);
+    const image = await readImage(page, gtinImage, RETAIL_SCAN, true);
+    assert.match(await page.locator("#image-results li").textContent(), /Target match.*UPC-A · same product number/);
+    return { matching, others, image };
+  }, { video: gtinVideo });
 
   await test("wrong target stays unmatched and exact target replacement retires selection and camera", async (page) => {
     await goto(page); await setTarget(page, "00123A"); await start(page);

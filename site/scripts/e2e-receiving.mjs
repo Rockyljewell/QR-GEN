@@ -16,8 +16,12 @@ const site = fileURLToPath(new URL("../", import.meta.url));
 const fixtureDirectory = mkdtempSync(join(tmpdir(), "qrgen-receiving-"));
 const video = join(fixtureDirectory, "coffee.y4m");
 const teaImage = join(fixtureDirectory, "tea.png");
+const retailImage = join(fixtureDirectory, "retail.png");
 const COFFEE = "QRGEN-COFFEE";
 const TEA = "QRGEN-TEA";
+// An EAN-13 printed with a leading 0 decodes as this UPC-A under symbologies="all".
+const RETAIL_EAN = "0012345678905";
+const RETAIL_UPC = "012345678905";
 const scannerSelector = "qrgen-scanner#scanner, #scanner qrgen-scanner";
 const results = [];
 let BASE = process.env.E2E_BASE_URL;
@@ -275,6 +279,7 @@ try {
   await startServer();
   await writeFakeCamera(video, [{ data: COFFEE, symbology: "qr", x: 230, y: 150, module: 6 }]);
   writeFileSync(teaImage, await generatePNG(TEA, { symbology: "qr", scale: 6 }));
+  writeFileSync(retailImage, await generatePNG(RETAIL_EAN, { symbology: "ean13", scale: 3 }));
   browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || undefined, args: [
     "--use-fake-ui-for-media-stream", "--use-fake-device-for-media-stream", `--use-file-for-fake-video-capture=${video}`,
   ] });
@@ -377,6 +382,30 @@ try {
     assert(await page.locator("#observations button").count() === 0, "Delivery switch retained observations from another delivery.");
     assert((await exportDelivery(page)).text === saved.text, "Switching deliveries changed previous saved state.");
     return { sessionId: id, finalRevision: saved.value.revision, exportSha256: saved.sha256, camera: cameraSummary, receivingDesign, originalDesign, sessionSwitchSelectionCleared: true, sessionSwitchTracksEnded: true };
+  });
+
+  await test("a decoded UPC-A confirms into the expected row typed as its 13-digit EAN", async (page) => {
+    await goto(page);
+    await createDelivery(page, "Retail delivery");
+    await addExpected(page, RETAIL_EAN, "Retail product", 4);
+    await observeImage(page, retailImage, RETAIL_UPC);
+    assert((await page.locator("#observations button[data-code]").textContent()).trim() === `UPC-A · ${RETAIL_UPC}`, "The observation does not show the decoded value and symbology.");
+    assert(await page.locator("#unknown-item").isHidden(), "A GTIN-equivalent scan was offered as an unknown product.");
+    const selection = (await page.locator("#selected-code").textContent()).trim();
+    assert(selection.startsWith(`Retail product · ${RETAIL_EAN}`) && selection.includes("same product number"), `Selection did not name the matched row: ${selection}`);
+    await confirm(page, 2);
+    await waitReceived(page, RETAIL_EAN, 2);
+    // Typing the UPC-A form of the same product is rejected rather than adding a second row.
+    await page.locator("#item-code").fill(RETAIL_UPC);
+    await page.locator("#item-name").fill("Retail product again");
+    await submit(page, "#expected-item");
+    await page.waitForFunction(() => document.querySelector("#receiving-message")?.dataset.error === "true" && document.querySelector("#receiving-message").textContent.includes("same product number"));
+    assert(await page.locator("#product-rows tr[data-code]").count() === 1, "A GTIN-equivalent product was added as a second row.");
+    const exported = await exportDelivery(page);
+    assert(exported.value.items.length === 1 && item(exported, RETAIL_EAN).received === 2, "The confirmation did not reach the typed row.");
+    const receipts = exported.value.history.filter((action) => action.command.kind === "receive");
+    assert(receipts.length === 1 && receipts[0].command.code === RETAIL_EAN, "The receipt was not recorded against the typed row.");
+    return { selection, revision: exported.value.revision, exportSha256: exported.sha256 };
   });
 
   await test("an already open empty tab adopts the first saved delivery through broadcast", async (page, context) => {
