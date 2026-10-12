@@ -134,10 +134,21 @@ jobs:
   swift-macos:
     name: Swift native camera (macOS)
     runs-on: macos-latest
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - run: swift build
       - run: swift test
+      - name: Compile and link the actual iOS UIKit scanner
+        run: python3 tests/ios-uikit-build/run.py --output "$RUNNER_TEMP/qrgen-ios-uikit-build-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+      - name: Preserve iOS compilation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-uikit-build-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/qrgen-ios-uikit-build-${{ github.run_id }}-${{ github.run_attempt }}/evidence/
+          if-no-files-found: warn
+          retention-days: 7
 
   android:
     name: Android
