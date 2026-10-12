@@ -187,7 +187,7 @@ def main():
             "-scheme", "QRGenHighlightProbe", "-destination", "platform=iOS Simulator,id=" + owned,
             "-parallel-testing-enabled", "NO", "-only-testing:QRGenHighlightCapabilityTests/HighlightCapabilityTests/testActualUIKitOutlineCapability",
             "-derivedDataPath", str(output / "DerivedData"), "-resultBundlePath", str(evidence / "Capability.xcresult"),
-            "CODE_SIGNING_ALLOWED=NO"], timeout=1200, allow_failure=True)
+            "CODE_SIGNING_ALLOWED=NO", "ONLY_ACTIVE_ARCH=YES"], timeout=1200, allow_failure=True)
         receipt["xcodebuildExitCode"] = xcode_exit
     except Exception as error:
         receipt["harnessError"] = type(error).__name__ + ": " + str(error)
