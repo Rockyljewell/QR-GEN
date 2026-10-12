@@ -311,10 +311,14 @@ Created by [Rockyljewell](https://github.com/Rockyljewell).
 
 ### Reversed-reflectance decoding
 
-The default `scan(..., try_harder=True)` also searches reversed-reflectance
-PDF417 and linear codes through an explicit inverted-pixel pass. Both polarities
-are searched when normal codes are already present; identical payloads at separate
-positions remain separate detections and `max_results` applies to their union.
-The existing alternate-binarizer retry is available for each polarity. Set
+The default `scan(..., try_harder=True)` also finds reversed-reflectance
+(light-on-dark) codes. zxing-cpp searches QR, Micro QR, rMQR, Data Matrix and Aztec
+in both polarities within the normal pass. PDF417, MaxiCode and linear codes need
+an explicit pass over an inverted copy, and it runs only when the normal pass found
+nothing. An image holding only inverted codes is decoded in full, up to
+`max_results`, and identical payloads at separate positions remain separate
+detections. A mixed-polarity image (a normal code next to an inverted linear code)
+returns the normal code only; crop and scan the inverted region separately if you
+need both. The alternate-binarizer retry also applies to the inverted pass. Set
 `try_harder=False`, or low-level `decode(..., try_invert=False)`, to skip inversion.
 Caller PIL images and NumPy arrays are not modified.

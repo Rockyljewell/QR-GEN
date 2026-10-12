@@ -235,8 +235,11 @@ def decode(
     """Low-level decode of an already prepared image (PIL image or numpy array).
 
     ``requested`` must be resolved ids (see :func:`qrgen_sdk.resolve_symbologies`).
-    Binarizers are tried in order until one of them finds a code. Most callers
-    should use :func:`scan` instead.
+    Binarizers are tried in order until one of them finds a code. With
+    ``try_invert``, zxing-cpp searches light-on-dark QR, Data Matrix and Aztec
+    codes in the same pass; other formats get one more pass over an inverted
+    copy, only when the normal pass found nothing. Most callers should use
+    :func:`scan` instead.
     """
     timestamp = now_ms()
     barcodes: List[Barcode] = []
@@ -247,6 +250,11 @@ def decode(
         passes.append((None, extra_requested, False))
     for pass_image, pass_requested, engine_invert in passes:
         if pass_image is None:
+            # The inverted pass repeats every binarizer on a copy of the image, so
+            # it is only a fallback: an image with a normal code next to an
+            # inverted linear code reports the normal code only.
+            if barcodes:
+                break
             from PIL import Image, ImageOps
 
             if isinstance(img, Image.Image):
