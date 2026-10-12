@@ -87,6 +87,46 @@ def snapshot(root, paths):
     return result
 
 
+def classify_link_objects(tokens, derived, expected_output):
+    # -Xlinker forwards one operand. Classify occurrences, never filename suffixes.
+    logical = []
+    index = 0
+    while index < len(tokens):
+        token = tokens[index]
+        if token == "-Xlinker":
+            index += 1
+            require(index < len(tokens) and tokens[index] != "-Xlinker", "Missing -Xlinker operand")
+            token = tokens[index]
+        logical.append(token)
+        index += 1
+    objects, outputs = set(), []
+    seen = set()
+    index = 0
+    while index < len(logical):
+        token = logical[index]
+        if token in ("-o", "-object_path_lto"):
+            require(token not in seen, "Duplicate link output option: " + token)
+            seen.add(token)
+            index += 1
+            require(index < len(logical), "Missing link output operand: " + token)
+            path = Path(logical[index])
+            require(path.is_absolute() and not path.is_symlink(), "Unbound link output")
+            parent = path.parent.resolve(strict=True)
+            require(parent.is_relative_to(derived) and path.resolve().is_relative_to(derived), "Link output escapes DerivedData")
+            if token == "-o":
+                require(path.resolve(strict=True) == expected_output.resolve(strict=True), "Wrong aggregate link output")
+            outputs.append({"option": token, "path": str(path.resolve().relative_to(derived)),
+                            "existsAfterBuild": path.exists()})
+        elif Path(token).is_absolute() and token.endswith(".o"):
+            path = Path(token)
+            resolved = path.resolve(strict=True)
+            require(path.is_file() and not path.is_symlink() and resolved.is_relative_to(derived), "Unbound actual object input")
+            objects.add(resolved)
+        index += 1
+    require("-o" in seen, "Missing aggregate link output")
+    return objects, outputs
+
+
 def validate(value, architecture, images):
     require(value.get("schemaVersion") == 1 and value.get("status") == "observations_recorded"
             and value.get("protocol") == PROTOCOL, "Wrong observation protocol/status")
@@ -391,7 +431,8 @@ def main():
                 "Missing actual SDK aggregate link invocation")
         linked_tokens.clear()
         expand_link(shlex.split(package_link_commands[0]))
-        package_objects = {Path(token).resolve(strict=True) for token in linked_tokens if token.startswith("/") and token.endswith(".o")}
+        package_objects, package_outputs = classify_link_objects(linked_tokens, derived, product_paths["QRGenKitObject"])
+        receipt["packageLinkOutputOperands"] = package_outputs
         require({Path(name).stem + ".o" for name in swift} <= {path.name for path in package_objects}
                 and all(path.is_relative_to(derived) for path in package_objects), "SDK aggregate omits compiled source objects")
         receipt["packageLinkCommand"] = package_link_commands[0]
