@@ -293,7 +293,7 @@ def main():
         command("boot-owned", ["xcrun", "simctl", "boot", owned])
         command("bootstatus-owned", ["xcrun", "simctl", "bootstatus", owned, "-b"], timeout=240)
         common = ["-destination", "platform=iOS Simulator,id=" + owned, "-parallel-testing-enabled", "NO",
-                  "-only-testing:" + TEST, "ARCHS=" + architecture, "ONLY_ACTIVE_ARCH=YES", "COMPRESS_PNG_FILES=NO", "CODE_SIGNING_ALLOWED=NO"]
+                  "-only-testing:" + TEST, "ARCHS=" + architecture, "ONLY_ACTIVE_ARCH=YES", "COMPRESS_PNG_FILES=NO", "STRIP_PNG_TEXT=NO", "CODE_SIGNING_ALLOWED=NO"]
         _, build_log = command("build-for-testing", ["xcodebuild", "build-for-testing", "-project", str(host / "QRGenStillImageControl.xcodeproj"),
                 "-scheme", "QRGenStillImageControl", "-configuration", "Debug", "-derivedDataPath", str(derived),
                 "-resultBundlePath", str(evidence / "Build.xcresult"), *common], timeout=900)
