@@ -14,6 +14,8 @@
   --teal-400: #6fd2dd;
   --teal-500: #5cc9d6;
   --teal-600: #3db1c0;
+  /* Teal for text on light backgrounds (4.5:1 or better on white and --bg-soft). */
+  --teal-700: #2a7984;
   --teal-ink: #05232b;
   --violet-400: #a597ff;
   --violet-500: #8f7dff;
@@ -35,7 +37,7 @@
   --code-panel: #2c2c2c;
   --code-cmd: #9f93ff;
   --code-text: #c3ddff;
-  --code-comment: #8b9098;
+  --code-comment: #90959d;
 
   --radius-sm: 6px;
   --radius: 10px;
@@ -207,6 +209,9 @@ p {
   gap: 6px;
   font-weight: 600;
   text-decoration: none;
+  color: var(--teal-700);
+}
+.dark .link-arrow {
   color: var(--teal-600);
 }
 .link-arrow:hover {
@@ -259,7 +264,7 @@ p {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--teal-600);
+  color: var(--teal-700);
   margin-bottom: 12px;
 }
 .dark .eyebrow {
@@ -874,6 +879,10 @@ a.card:hover {
 }
 
 /* ---------- Code blocks (docs / markdown) ---------- */
+/* github-dark-dimmed comments are 3.9:1 on its background; lift them to 4.6:1. */
+pre.astro-code span[style*="color:#768390"] {
+  color: #83909d !important;
+}
 pre.astro-code,
 .code-block pre {
   position: relative;
@@ -937,7 +946,7 @@ code {
   grid-template-columns: 1.4fr repeat(6, minmax(0, 1fr));
   gap: 28px;
 }
-.site-footer h4 {
+.site-footer h3 {
   font-family: var(--font-sans);
   color: #fff;
   font-size: 14px;
@@ -1102,7 +1111,7 @@ code {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--teal-600);
+  color: var(--teal-700);
 }
 .search-empty {
   padding: 28px;
@@ -1137,7 +1146,7 @@ code {
   color: var(--ink);
 }
 .prose a {
-  color: #177c8a;
+  color: var(--teal-700);
   text-decoration: underline;
   text-decoration-color: rgba(23, 124, 138, 0.35);
   text-underline-offset: 3px;
@@ -1459,7 +1468,7 @@ code {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: var(--teal-600);
+  color: var(--teal-700);
   font-size: 13.5px;
   font-weight: 600;
   text-decoration: none;

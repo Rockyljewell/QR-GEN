@@ -416,14 +416,14 @@ export class QRGenScannerElement extends Base {
         <button class="again" data-a="again" hidden>Scan again</button>
         <div class="screen" data-s="start" hidden>
           <div class="icon">${ICONS.scan}</div>
-          <h3>Scan barcodes &amp; QR codes</h3>
+          <p class="title">Scan barcodes &amp; QR codes</p>
           <p>Your camera feed is processed on this device and never uploaded.</p>
           <button class="cta" data-a="start">Start scanning</button>
         </div>
         <div class="screen" data-s="loading" hidden><div class="spinner"></div><p>Starting camera…</p></div>
         <div class="screen" data-s="error" hidden>
           <div class="icon">${ICONS.alert}</div>
-          <h3>Camera unavailable</h3>
+          <p class="title">Camera unavailable</p>
           <p class="msg"></p>
           <button class="cta" data-a="retry">Try again</button>
         </div>

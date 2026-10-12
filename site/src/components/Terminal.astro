@@ -54,9 +54,9 @@ function highlight(text: string): string {
           <span>Copy</span>
         </button>
         {t.kind === "prompt" ? (
-          <pre id={`${id}-code-${i}`} class="p">{t.text}</pre>
+          <pre id={`${id}-code-${i}`} class="p" tabindex="0" aria-label={t.label}>{t.text}</pre>
         ) : (
-          <pre id={`${id}-code-${i}`}><code set:html={highlight(t.text)} /></pre>
+          <pre id={`${id}-code-${i}`} tabindex="0" aria-label={t.label}><code set:html={highlight(t.text)} /></pre>
         )}
       </div>
     ))

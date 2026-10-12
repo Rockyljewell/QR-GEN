@@ -120,7 +120,8 @@ button { font: inherit; color: inherit; }
 }
 .screen[hidden] { display: none; }
 .screen .icon { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 20px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); color: var(--qrgen-accent); }
-.screen h3 { margin: 0; font-size: 17px; font-weight: 650; }
+/* Not a heading: the element cannot know its place in the host page outline. */
+.screen .title { margin: 0; max-width: none; font-size: 17px; font-weight: 650; line-height: normal; color: inherit; }
 .screen p { margin: 0; max-width: 34ch; font-size: 14px; line-height: 1.45; color: rgba(255,255,255,.7); }
 .cta {
   margin-top: 4px; height: 44px; padding: 0 22px; border-radius: 10px; border: 0; cursor: pointer;

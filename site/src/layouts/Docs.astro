@@ -133,6 +133,13 @@ const { title, description, badge, status, group } = entry.data;
     setTimeout(() => (span.textContent = "Copy as Markdown"), 1500);
   });
 
+  // Wide tables scroll sideways; make only those reachable by keyboard.
+  const tables = document.querySelectorAll<HTMLTableElement>("[data-doc-content] table");
+  const focusWideTables = () =>
+    tables.forEach((t) => (t.scrollWidth > t.clientWidth ? (t.tabIndex = 0) : t.removeAttribute("tabindex")));
+  focusWideTables();
+  addEventListener("resize", focusWideTables);
+
   // Heading anchors + active TOC item.
   const content = document.querySelector("[data-doc-content]");
   content?.querySelectorAll<HTMLHeadingElement>("h2[id], h3[id]").forEach((h) => {
@@ -241,7 +248,7 @@ const { title, description, badge, status, group } = entry.data;
     margin-bottom: 14px;
   }
   .crumbs a {
-    color: var(--teal-600);
+    color: var(--teal-700);
     text-decoration: none;
   }
   .doc-head {
@@ -348,7 +355,7 @@ const { title, description, badge, status, group } = entry.data;
     align-items: center;
     gap: 6px;
     font-weight: 650;
-    color: var(--teal-600);
+    color: var(--teal-700);
     text-decoration: none;
   }
   @media (max-width: 1200px) {
