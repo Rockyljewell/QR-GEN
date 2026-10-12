@@ -468,13 +468,16 @@ try {
     await other.waitForFunction(() => document.querySelector("#receiving-message")?.textContent.includes("changed in another tab"));
     await waitReceived(other, COFFEE, 6);
     assert((await exportDelivery(other)).text === latest.text, "Stale correction overwrote a newer confirmation.");
-    await other.locator("#correction-quantity").fill("4");
+    // The rejected draft remains; an explicit retry must not record the refreshed total under its reason.
+    assert(await other.locator("#correction-quantity").inputValue() === "1", "Rejected correction discarded the entered total.");
     await other.locator("#correction-reason").fill("Reviewed current quantities");
     await submit(other, "#correct-quantity");
-    await waitReceived(other, COFFEE, 4);
-    await waitReceived(page, COFFEE, 4);
+    await waitReceived(other, COFFEE, 1);
+    await waitReceived(page, COFFEE, 1);
     const corrected = await exportDelivery(other);
-    assert(corrected.value.history.filter((action) => action.command.kind === "correct").length === 1, "Rejected correction entered audit history.");
+    const corrections = corrected.value.history.filter((action) => action.command.kind === "correct");
+    assert(corrections.length === 1, "Rejected correction entered audit history.");
+    assert(corrections[0].command.quantity === 1 && corrections[0].command.expectedRevision === latest.value.revision, "Retried correction did not apply the reviewed draft at the displayed revision.");
     return { concurrentQuantities: quantities, refreshEvidence, revisionBeforeStaleCorrection: latest.value.revision, finalRevision: corrected.value.revision, exportSha256: corrected.sha256 };
   });
 

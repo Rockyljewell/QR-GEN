@@ -150,7 +150,7 @@ function changedSession(next: ReceivingSession): void {
   session = next; selected = null; correctionDirty = false;
   render();
 }
-async function perform(work: () => Promise<ReceivingSession>, success: string, newSession = false): Promise<void> {
+async function perform(work: () => Promise<ReceivingSession>, success: string, newSession = false, retainCorrection = false): Promise<void> {
   if (busy) return;
   busy = true; controls();
   try {
@@ -161,8 +161,15 @@ async function perform(work: () => Promise<ReceivingSession>, success: string, n
     channel?.postMessage({ id: saved.id });
     report(success);
   } catch (error) {
+    // A rejected correction keeps the entered total. Refreshing rebases it on the
+    // revision now displayed, so retrying cannot record the old total under its reason.
+    const draft = retainCorrection ? { code: selected, quantity: value("#correction-quantity") } : null;
     correctionDirty = false;
     try { await refresh(); } catch { /* Keep the last successfully read totals visible. */ }
+    if (draft && draft.code === selected && session?.items.some(item => item.code === draft.code)) {
+      $<HTMLInputElement>("#correction-quantity").value = draft.quantity;
+      correctionDirty = true;
+    }
     report(error instanceof Error ? error.message : String(error), true);
   } finally {
     busy = false; controls();
@@ -179,7 +186,7 @@ function apply(command: ReceivingCommand, success: string): void {
     const saved = await receivingStore.apply(sessionId, command);
     if (command.kind === "correct") correctionDirty = false;
     return saved;
-  }, success);
+  }, success, false, command.kind === "correct");
 }
 submit("#new-delivery", () => {
   void perform(() => receivingStore.create(createReceivingSession(id(), value("#delivery-name"))), "Delivery created and saved.", true);
