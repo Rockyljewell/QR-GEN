@@ -1,9 +1,0 @@
-{
-  "runtime": "v18.17.0",
-  "executable": "<LOCAL_NODE_EXECUTABLE>",
-  "originalCachePackage": "https://registry.npmjs.org/node/-/node-18.17.0.tgz",
-  "officialBinary": "https://nodejs.org/dist/v18.17.0/win-x64/node.exe",
-  "checksums": "https://nodejs.org/dist/v18.17.0/SHASUMS256.txt",
-  "sha256": "da74bcc1606026f05523c33e7882cc0ca4e0786a532bb80f932873eca9bdb431",
-  "officialChecksumVerified": true
-}

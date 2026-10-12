@@ -1,8 +1,0 @@
-{
-  "scope": "Artifact-only diagnostic candidate; not production code and not compiled or validated as actual WASM yet.",
-  "cppCommit": "2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4",
-  "path": "core/src/oned/ODMultiUPCEANReader.cpp",
-  "baseSha256": "84d85014bcef424e6457caeaa81a78498af2838354f50db41664f4ebac0be5e9",
-  "candidateSha256": "b9cd713e52c5579fa9366f6b7c89f5012b10b1510a5c81fb01e2145f57cd46ce",
-  "patchSha256": "f80daf81fe49616e59b250fac96e25a6c5d73ee5e59e6511cec5b98dc2bd7fae"
-}

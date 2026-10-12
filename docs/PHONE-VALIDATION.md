@@ -59,7 +59,7 @@ a local trial. Its version, mode and inversion settings must be recorded; the
 hosted demo and QRGen UI can have different defaults. Use the same phone, labels,
 distances and conditions. Report successes and failures by condition before making
 any relative claim. Do not compare latency from unrelated pages or headless GPU
-fallbacks. The saved [desktop public-demo matrix](public-demo-format-matrix-2026-10-11.json)
+fallbacks. The saved [desktop public-demo matrix](https://github.com/Rockyljewell/QR-GEN/blob/fc54ac2d60f237651985df9a9bef684c02dd1dc2/docs/public-demo-format-matrix-2026-10-11.json)
 is limited to generated inputs; its inconclusive inverted PDF417 observation and
 unpinned public QRGen deployment are not physical-phone failures or parity evidence.
 

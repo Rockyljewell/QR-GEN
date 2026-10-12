@@ -1,3 +1,0 @@
-# Preparation history
-
-The first transport-preparation attempt verified the selected sources/pixels and wrote 49 transport files, then stopped while reading Sharp version metadata: its package exports do not expose sharp/package.json. No SDK import or decode occurred. The attempt's transport directory remains preserved separately in the original artifact workspace. Metadata access was corrected to the public sharp.versions property before the final plan freeze. The successful preparation froze all 551 source/pixel/transport identities before any SDK call. No measured matrix run was repeated or replaced.

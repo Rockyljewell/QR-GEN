@@ -124,7 +124,7 @@ out-of-view selection and a fresh replacement track ID. Python coverage includes
 three malformed-EXIF inputs whose fallback retains usable loaded pixels and closes
 owned resources. The full SDK/website build also passes.
 
-The [portable browser stress run](browser-stress-2026-10-11.json), reproducible with
+The [portable browser stress run](https://github.com/Rockyljewell/QR-GEN/blob/fc54ac2d60f237651985df9a9bef684c02dd1dc2/docs/browser-stress-2026-10-11.json), reproducible with
 `npm run test:stress -w qrgen-site`, passes 50 start/stop cycles, 20 camera switches,
 20 pause/resume cycles and a 180.6-second continuous fake-camera session. Across the
 run it records 2,970 exact scan events, zero wrong payloads, zero scanner errors and
@@ -147,7 +147,7 @@ cross-origin isolation when measuring performance.
 
 Both QRGen 1.0.0 (source snapshot `f698f59`) and the hosted Scandit 8.6.1 demo
 displayed the exact `QRGEN-SCANDIT-SMOKE-20261011` payload from the same generated
-640x480, 30 fps QR feed, with no page errors. The [saved evidence](public-demo-smoke-2026-10-11.json)
+640x480, 30 fps QR feed, with no page errors. The [saved evidence](https://github.com/Rockyljewell/QR-GEN/blob/fc54ac2d60f237651985df9a9bef684c02dd1dc2/docs/public-demo-smoke-2026-10-11.json)
 includes fixture arguments/hash, versions, visible results and settings. Scandit's
 QR preset and QRGen's continuous/all-formats defaults differ; only the hosted
 Scandit page had cross-origin isolation. A repeated Scandit quantity observation
@@ -158,7 +158,7 @@ relative speed or stability. No accessible physical phone was available. The
 [phone run sheet](PHONE-VALIDATION.md) makes the remaining browser/native lifecycle,
 camera-switch and physical-label checks repeatable; none are marked as executed.
 
-The expanded [public format matrix](public-demo-format-matrix-2026-10-11.json)
+The expanded [public format matrix](https://github.com/Rockyljewell/QR-GEN/blob/fc54ac2d60f237651985df9a9bef684c02dd1dc2/docs/public-demo-format-matrix-2026-10-11.json)
 records ten identical-input pairs: normal and inverted QR, Data Matrix, PDF417,
 EAN-13 and Code 128. QRGen displayed all ten exact payloads; the Scandit 8.6.1 demo
 displayed nine. Its inverted PDF417 case showed no exact result within the bounded
@@ -186,8 +186,8 @@ unexecuted phone protocol.
 
 Run `npm run build:sdk`, then
 `node scripts/benchmark-scanning.mjs docs/scanning-benchmark-2026-10-11-after.json`.
-The [baseline](scanning-benchmark-2026-10-11.json) and
-[result after the inversion fix](scanning-benchmark-2026-10-11-after.json) retain
+The [baseline](https://github.com/Rockyljewell/QR-GEN/blob/fc54ac2d60f237651985df9a9bef684c02dd1dc2/docs/scanning-benchmark-2026-10-11.json) and
+[result after the inversion fix](https://github.com/Rockyljewell/QR-GEN/blob/fc54ac2d60f237651985df9a9bef684c02dd1dc2/docs/scanning-benchmark-2026-10-11-after.json) retain
 machine details, engine versions, individual cases and warm decode timings.
 
 The corpus has six formats (QR, Data Matrix, PDF417, EAN-13, Code 128 and DataBar),
@@ -243,7 +243,7 @@ are recorded separately; physical item identity and phone parity remain unverifi
 
 The [decoder patch evaluation](DECODER-PATCH-2026-10-11.md) records the 3.1.5
 dependency hardening and minimum-runtime/build/browser verification. The
-[frozen photographic comparison](photographic-comparison-2026-10-11/README.md)
+[frozen photographic comparison](https://github.com/Rockyljewell/QR-GEN/blob/fc54ac2d60f237651985df9a9bef684c02dd1dc2/docs/photographic-comparison-2026-10-11/README.md)
 observed QR-GEN 13/16 and Scandit 15/16 exact positive payloads, with different
 demo scan regions/options. It pins the earlier QR-GEN application revision and
 keeps its follow-up separate. It does not establish stability or phone parity.
@@ -251,12 +251,12 @@ keeps its follow-up separate. It does not establish stability or phone parity.
 [Issue #32](https://github.com/Rockyljewell/QR-GEN/issues/32) separately reproduces
 a valid but wrong EAN-13 payload on a derived image. The decoder update does not
 fix it; no wrong payload was observed in the public photographic demo run.
-The [portable reproduction](ean13-repro/README.md) retains the image and options.
+The [portable reproduction](https://github.com/Rockyljewell/QR-GEN/blob/fc54ac2d60f237651985df9a9bef684c02dd1dc2/docs/ean13-repro/README.md) retains the image and options.
 
-The [actual browser follow-up](ean-browser-diagnostic-2026-10-11/README.md)
+The [actual browser follow-up](https://github.com/Rockyljewell/QR-GEN/blob/fc54ac2d60f237651985df9a9bef684c02dd1dc2/docs/ean-browser-diagnostic-2026-10-11/README.md)
 subsequently reproduces #32 in full-frame hard search on a captured camera raster;
 its ordinary aiming ROI returns no result. This does not change the historical
-vendor observations. The [broader supporting-line study](ean-linecount-study-2026-10-11/README.md)
+vendor observations. The [broader supporting-line study](https://github.com/Rockyljewell/QR-GEN/blob/fc54ac2d60f237651985df9a9bef684c02dd1dc2/docs/ean-linecount-study-2026-10-11/README.md)
 finds lost correct photographic/thin-code reads at stronger thresholds and another
 wrong-value candidate that survives threshold 4. Decoder defaults remain unchanged.
 
@@ -275,7 +275,7 @@ the built public SDK also passes five dimension probes on Node 18.17.
 that said every camera mode defaults to fast search. Existing batch behavior is
 tryHarder=true; single/continuous default to false and explicit values are retained.
 No scan-policy default was changed. The prior decoder deployment's
-[hosted lifecycle check](public-postdeploy-9f95203-2026-10-11.json) matches loaded
+[hosted lifecycle check](https://github.com/Rockyljewell/QR-GEN/blob/fc54ac2d60f237651985df9a9bef684c02dd1dc2/docs/public-postdeploy-9f95203-2026-10-11.json) matches loaded
 website modules against the successful CI deployment artifact; desktop fake
 cameras still do not establish phone or Scandit parity.
 
@@ -293,15 +293,15 @@ disconnect. Callback ownership guards preserve a listener's replacement session.
 camera-start error after an error-state listener retries or stops; original start
 promise rejections remain while obsolete event delivery is suppressed.
 
-The prior `ded21a8` deployment's [hosted check](public-postdeploy-ded21a8-2026-10-11.json)
+The prior `ded21a8` deployment's [hosted check](https://github.com/Rockyljewell/QR-GEN/blob/fc54ac2d60f237651985df9a9bef684c02dd1dc2/docs/public-postdeploy-ded21a8-2026-10-11.json)
 matches loaded app modules and both WASM assets against its successful Pages
 artifact, including a PNM Blob dimension probe. Its separate
-[ten-minute desktop check](browser-stress-ded21a8-2026-10-11.json) covers 50
+[ten-minute desktop check](https://github.com/Rockyljewell/QR-GEN/blob/fc54ac2d60f237651985df9a9bef684c02dd1dc2/docs/browser-stress-ded21a8-2026-10-11.json) covers 50
 start/stop cycles, 20 requested camera switches, 20 pause/resume cycles and
 continuous worker decoding. The synthetic static camera is not phone, thermal,
 memory-growth or Scandit parity evidence.
 
-The [uniform EAN policy study](ean-uniform-policy-study-2026-10-11/README.md)
+The [uniform EAN policy study](https://github.com/Rockyljewell/QR-GEN/blob/fc54ac2d60f237651985df9a9bef684c02dd1dc2/docs/ean-uniform-policy-study-2026-10-11/README.md)
 made 6,706 frozen-input reads across seven binarizer/global-contrast policies.
 No tested policy recovered the actual Chrome camera target, and several lost
 correct photographic reads or introduced other wrong values. The compact package
@@ -319,7 +319,7 @@ UPC-A-only behavior remain unresolved. Production still uses released 3.1.5.
 These development fixtures do not establish population or phone/vendor parity.
 
 The merged retail release at `6d3728f` passes main CI, Pages and Docker builds.
-Its [three hosted checks](retail-state-postdeploy-2026-10-11/README.md) match all
+Its [three hosted checks](https://github.com/Rockyljewell/QR-GEN/blob/fc54ac2d60f237651985df9a9bef684c02dd1dc2/docs/retail-state-postdeploy-2026-10-11/README.md) match all
 loaded modules and reader WASM to the actual successful Pages artifact, exercise
 paused pruning/reset callbacks, and release every live camera track.
 
@@ -347,7 +347,7 @@ Camera permission is denied in these tests, so they do not establish active
 CameraX/MLKit or phone behavior. All 13 CI jobs and the automatic Pages/Docker
 workflows pass for both merged revisions.
 
-The [actual C++ row-trace report](ean-actual-row-trace-2026-10-11/README.md)
+The [actual C++ row-trace report](https://github.com/Rockyljewell/QR-GEN/blob/fc54ac2d60f237651985df9a9bef684c02dd1dc2/docs/ean-actual-row-trace-2026-10-11/README.md)
 records unchanged released-reader policy on 15 saved rasters with fast/hard
 search and limits 1, 2 and 255. All 90 baseline/instrumented pairs preserve every
 recorded public result field; this is an instrumentation conformance check,

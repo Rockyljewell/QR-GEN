@@ -42,6 +42,5 @@ const report = {
     exactSuitablePngs: cases.filter((item) => item.suitable && item.exactBytes && item.exactText).length },
   cases,
 };
-const output = process.argv[2] ?? new URL("../docs/planning-benchmark-2026-10-11.json", import.meta.url);
-writeFileSync(output, JSON.stringify(report, null, 2) + "\n");
+if (process.argv[2]) writeFileSync(process.argv[2], JSON.stringify(report, null, 2) + "\n");
 console.log(JSON.stringify(report.summary));
