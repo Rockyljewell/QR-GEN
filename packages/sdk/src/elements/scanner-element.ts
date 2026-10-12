@@ -261,8 +261,9 @@ export class QRGenScannerElement extends Base {
   set toast(v: boolean | string) {
     this.setBoolAttr("toast", v);
   }
+  /** Without the attribute the scanner uses its mode default: on in batch mode, off otherwise. */
   get tryHarder(): boolean {
-    return bool(this.getAttribute("try-harder"), false);
+    return bool(this.getAttribute("try-harder"), this.mode === "batch");
   }
   set tryHarder(v: boolean | string) {
     this.setBoolAttr("try-harder", v);
