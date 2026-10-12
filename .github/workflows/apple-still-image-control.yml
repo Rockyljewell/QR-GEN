@@ -1,0 +1,32 @@
+name: Apple still-image decoder observations
+
+on:
+  push:
+    branches: [codex/apple-still-image-control]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: apple-still-image-control-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  observations:
+    name: SDK and direct Vision observations only
+    runs-on: macos-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Build external consumer and record observations
+        run: python3 tests/apple-still-image-control/run.py --work "$RUNNER_TEMP/apple-still-image-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+      - name: Retain actual evidence even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: apple-still-image-observations
+          path: ${{ runner.temp }}/apple-still-image-${{ github.run_id }}-${{ github.run_attempt }}/evidence
+          if-no-files-found: error
+          retention-days: 7
