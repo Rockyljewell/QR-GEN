@@ -240,6 +240,13 @@ const VisionCameraScanner = forwardRef<QRGenScannerHandle, InnerProps>(function 
     };
   }, []);
 
+  useLayoutEffect(() => {
+    if (props.showHighlights !== false) return;
+    if (highlightTimer.current !== null) clearTimeout(highlightTimer.current);
+    highlightTimer.current = null;
+    setHighlights(current => current.length === 0 ? current : []);
+  }, [props.showHighlights]);
+
   const emitError = useCallback((code: QRGenErrorCode | QRGenError, message?: string) => {
     const err = typeof code === 'string' ? createQRGenError(code, message) : code;
     setError(err);
