@@ -123,7 +123,8 @@ const labels = await Promise.all(samples.map(item => barcodeSvg(item.code, { sym
   fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
   .help { font-size: 13px; color: var(--muted); line-height: 1.6; }
   .image-field { margin-top: 20px; }
-  qrgen-scanner { display: block; height: 360px; border-radius: var(--radius); overflow: hidden; }
+  /* Batch mode keeps its results list inside the element, so leave room for a usable camera view. */
+  qrgen-scanner { display: block; height: 520px; height: min(520px, 75svh); border-radius: var(--radius); overflow: hidden; }
   #observations { list-style: none; padding: 0; margin: 12px 0 0; display: grid; gap: 8px; }
   #observations :global(button) { width: 100%; justify-content: start; text-align: left; overflow-wrap: anywhere; white-space: normal; }
   #selected-code { overflow-wrap: anywhere; font-weight: 600; }

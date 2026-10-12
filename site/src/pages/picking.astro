@@ -51,7 +51,7 @@ import Base from "../layouts/Base.astro";
         <p class="help">Barcodes stay listed for half a second after the camera last reads them. This finds products; it does not count stock or record received quantities.</p>
         <div class="picking-grid">
           <div><h3>Target matches</h3><p id="match-status" class="help" role="status">No recent matching observations.</p><ul id="match-list" aria-label="Recent target matches"></ul></div>
-          <div><h3>Other barcodes</h3><p id="other-status" class="help" role="status">No recent other observations.</p><ul id="other-list" aria-label="Recent other barcodes"></ul></div>
+          <div><h3>Other barcodes</h3><p id="other-status" class="help">No recent other observations.</p><ul id="other-list" aria-label="Recent other barcodes"></ul></div>
         </div>
       </section>
     </div>
@@ -72,7 +72,8 @@ import Base from "../layouts/Base.astro";
   .gate { display: grid; place-items: center; min-height: 200px; padding: 24px; margin: 0; border: 1px dashed #c9d2de; border-radius: var(--radius); background: var(--bg-softer); color: var(--muted); text-align: center; font-size: 14px; }
   .help, .optional { font-size: 13px; color: var(--muted); line-height: 1.6; font-weight: 400; }
   .actions { display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0; }
-  qrgen-scanner { display: block; height: 360px; border-radius: var(--radius); overflow: hidden; }
+  /* Batch mode keeps its results list inside the element, so leave room for a usable camera view. */
+  qrgen-scanner { display: block; height: 520px; height: min(520px, 75svh); border-radius: var(--radius); overflow: hidden; }
   .target-summary { border-top: 1px solid var(--line); padding-top: 16px; display: grid; gap: 8px; }
   #target-value { white-space: pre-wrap; overflow-wrap: anywhere; }
   #target-label { overflow-wrap: anywhere; }
