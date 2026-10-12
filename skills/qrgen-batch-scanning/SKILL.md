@@ -1,6 +1,6 @@
 ---
 name: qrgen-batch-scanning
-description: Build multi-barcode scanning with QRGen. Track decoded codes in one camera frame, highlight their locations, display automatic counts, and choose results from an accessible list. Use when the user wants to scan several barcodes at once, count decoded items, or review multiple results.
+description: Build multi-barcode (batch, MatrixScan-style) scanning with QRGen. Track decoded codes in one camera frame with AR highlights, show automatic counts, and choose results from an accessible list, for inventory, delivery receiving, order picking or finding one item among many. Use when the user wants to scan several barcodes at once, count decoded items, find a specific item, or show overlays on every detected code.
 ---
 
 # Batch scanning
