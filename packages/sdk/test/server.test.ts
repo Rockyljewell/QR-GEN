@@ -199,7 +199,7 @@ describe("REST API", () => {
     expect(result.barcodes[0]).not.toHaveProperty("parsed");
   });
 
-  it.each(["query", "json", "multipart"])("honors maxResults from %s on a two-code image", async (source) => {
+  it.each(["query", "json", "json-null", "multipart"])("honors maxResults from %s on a two-code image", async (source) => {
     // Two real generated QR matrices in a portable graymap: no browser or image library.
     const codes = await Promise.all([generate("left"), generate("right")]);
     const side = codes[0]!.matrix.width + 8;
@@ -223,6 +223,12 @@ describe("REST API", () => {
     if (source === "query") query = "?maxResults=1";
     if (source === "json") {
       body = JSON.stringify({ image: image.toString("base64"), maxResults: 1 });
+      headers = { "content-type": "application/json" };
+    }
+    if (source === "json-null") {
+      // null means "not set", as for tryHarder and parse: the query value or the default applies.
+      query = "?maxResults=1";
+      body = JSON.stringify({ image: image.toString("base64"), maxResults: null, tryHarder: null });
       headers = { "content-type": "application/json" };
     }
     if (source === "multipart") {

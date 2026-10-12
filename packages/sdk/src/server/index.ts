@@ -210,7 +210,7 @@ export function createHandler(options: ServerOptions = {}): (req: IncomingMessag
         symbologies = list(json.symbologies) ?? symbologies;
         tryHarder = truthy(json.tryHarder) ?? tryHarder;
         parse = truthy(json.parse) ?? parse;
-        if (json.maxResults !== undefined) maxResults = json.maxResults;
+        if (json.maxResults !== undefined && json.maxResults !== null) maxResults = json.maxResults;
       } else if (mediaType === "multipart/form-data") {
         const mp = multipartImage(body, type);
         image = mp.image;
