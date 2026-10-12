@@ -3,6 +3,8 @@
 /// Batch tracker (SPEC section 4, batch mode). Pure Dart.
 library;
 
+import 'package:meta/meta.dart';
+
 import 'barcode.dart';
 import 'duration_clock.dart';
 import 'spatial_association.dart';
@@ -104,6 +106,7 @@ class QRGenBarcodeTracker {
   }
 
   /// Internal session transaction: prepares complete output without committing.
+  @internal
   QRGenTrackerPlan prepareUpdate(Iterable<QRGenBarcode> barcodes, [DateTime? now, QRGenSize? frameSize]) {
     final revision = _revision;
     if (spatial) return _prepareSpatial(barcodes, now, frameSize, revision);
@@ -161,6 +164,7 @@ class QRGenBarcodeTracker {
   }
 
   /// Internal session transaction: prepares expiry output without committing.
+  @internal
   QRGenTrackerPlan preparePrune([DateTime? now]) {
     final revision = _revision;
     if (spatial) return _prepareSpatial(const [], now, null, revision);

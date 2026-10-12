@@ -3,6 +3,8 @@
 /// Duplicate filter (SPEC section 4, `duplicateFilter`). Pure Dart.
 library;
 
+import 'package:meta/meta.dart';
+
 import 'barcode.dart';
 import 'duplicate_filter_plan.dart';
 import 'duration_clock.dart';
@@ -92,6 +94,7 @@ class QRGenDuplicateFilter {
   /// Prepares filtering without recording reports. Used by spatial sessions
   /// to commit payload history and observation tracking together. A later
   /// filter operation, reset or effective window change invalidates the plan.
+  @internal
   QRGenDuplicateFilterPlan<T> prepareFilter<T extends QRGenBarcode>(Iterable<T> barcodes, [DateTime? now]) {
     final previousRevision = _revision;
     final nextRevision = Object();
