@@ -21,5 +21,10 @@ export default defineConfig({
     server: { fs: { allow: [".."] } },
     // Build-time barcode rendering loads the wasm engine from node_modules.
     ssr: { external: ["qrgen-sdk", "zxing-wasm"] },
+    environments: {
+      // Astro prerenders in its own environment. Preserve the Node entry's
+      // local engine initialization instead of tree-shaking it into the page.
+      prerender: { resolve: { external: ["qrgen-sdk", "qrgen-sdk/node", "zxing-wasm"] } },
+    },
   },
 });

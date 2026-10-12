@@ -7,10 +7,12 @@
     "prepare-assets": "node scripts/copy-sdk.mjs && node scripts/sync-readmes.mjs",
     "dev": "npm run prepare-assets && astro dev",
     "build": "npm run prepare-assets && astro build",
+    "test:build-offline": "npm run prepare-assets && node scripts/build-offline.mjs",
     "preview": "astro preview",
     "typecheck": "astro check",
-    "test:e2e": "node scripts/e2e.mjs && node scripts/e2e-react.mjs && node scripts/e2e-native.mjs && node scripts/e2e-native-highlights.mjs && npm run test:receiving",
+    "test:e2e": "node scripts/e2e.mjs && node scripts/e2e-react.mjs && node scripts/e2e-native.mjs && node scripts/e2e-native-highlights.mjs && npm run test:receiving && npm run test:picking",
     "test:receiving": "node scripts/test-receiving.mjs && node scripts/e2e-receiving.mjs",
+    "test:picking": "node scripts/test-picking.mjs && node scripts/e2e-picking.mjs",
     "test:frontier": "node scripts/e2e-frontier.mjs && node scripts/e2e-offline.mjs",
     "test:stress": "node scripts/stress-browser.mjs"
   },

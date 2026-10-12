@@ -42,6 +42,7 @@ export const NAV: NavItem[] = [
         links: [
           { label: "Live demo", href: "/demo/", desc: "Scan with your camera right now" },
           { label: "Receive a delivery", href: "/receiving/", desc: "Confirm quantities against your delivery list" },
+          { label: "Find a product", href: "/picking/", desc: "Find an exact barcode among recent observations" },
           { label: "Generate a code", href: "/demo/#generate", desc: "QR, Data Matrix, EAN, GS1…" },
           { label: "Pricing", href: "/pricing/", desc: "Free and open source" },
         ],
@@ -71,6 +72,7 @@ export const NAV: NavItem[] = [
         title: "Use cases",
         links: [
           { label: "Delivery receiving", href: "/receiving/", desc: "Expected quantities, confirmations and corrections" },
+          { label: "Product finder", href: "/picking/", desc: "Choose a target and review matching barcodes" },
           { label: "Age verification", href: "/products/id-scanning/", desc: "Read licenses on-device" },
           { label: "Asset tracking", href: "/solutions/#manufacturing", desc: "Label and follow equipment" },
           { label: "Ticket validation", href: "/solutions/#events", desc: "Validate QR and Aztec tickets" },
