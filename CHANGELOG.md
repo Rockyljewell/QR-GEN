@@ -22,8 +22,10 @@ First public version.
 - **Sharing:** share button and share options (native share sheet, copy link, page QR code, social
   networks, messaging and email) on every page.
 - **Retail tools (website):** a delivery receiving page (expected quantities, explicit
-  confirmations, correction history and a local export) and a target product finder (exact
-  barcode matching across live camera observations or a still image). Both run on the device.
+  confirmations, correction history and a local export) and a target product finder (matching
+  across live camera observations or a still image). Both match retail barcodes by product
+  number (GTIN), so a UPC-A finds its 13-digit EAN form, and other values exactly. Both run on
+  the device.
 - **QR print planner and offline tools (website):** plan a QR code for a print width and printer
   DPI with whole-dot modules, then export and check it; a standalone offline page makes QR codes
   and reads images without a network.
