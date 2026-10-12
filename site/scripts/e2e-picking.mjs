@@ -211,7 +211,8 @@ async function waitMatches(page, count) {
 async function rows(page, selector) {
   return page.locator(`${selector} [data-id]`).evaluateAll((nodes) => nodes.map((node) => ({ id: Number(node.dataset.id), data: node.dataset.code, text: node.textContent })));
 }
-async function start(page) { await page.locator("#start-picking").click(); }
+const startButton = (page) => page.locator('#scanner [data-a="start"]');
+async function start(page) { await startButton(page).click(); }
 async function chooseSource(page, source) { await page.locator("#source-mode").selectOption(source); }
 async function stopped(page) {
   await page.waitForFunction(() => ["idle", "stopped"].includes(document.querySelector("#scanner").state) && window.__pickingAudit.pendingCamera === 0 && window.__pickingAudit.streams.every((stream) => stream.getTracks().every((track) => track.readyState === "ended")));
@@ -379,7 +380,7 @@ try {
     assert.deepEqual((await rows(page, "#match-list")).map((row) => row.id).sort(), matching.map((row) => row.id).sort());
     assert.equal(await page.locator("#match-status").textContent(), "2 recent matching observations.");
     assert.doesNotMatch(await page.locator("#match-list").textContent(), /\b(quantity|received|physical items)\b/i);
-    assert.match(await page.locator("#camera-observations").textContent(), /do not establish physical item counts or received quantities/);
+    assert.match(await page.locator("#camera-observations").textContent(), /does not count stock or record received quantities/);
     const audit = await page.evaluate(() => ({ scans: window.__pickingAudit.scans, tracks: window.__pickingAudit.trackEvents.length }));
     assert.ok(audit.scans.includes(TARGET) && audit.scans.includes(OTHER) && audit.scans.includes(CASE_NEIGHBOR));
     const storage = await page.evaluate(async () => ({ databases: (await indexedDB.databases()).map((db) => db.name), localEntries: localStorage.length, sessionEntries: sessionStorage.length }));
@@ -514,7 +515,7 @@ try {
     return { boundary: "Actual getUserMedia resolved stream held before SDK admission; target changed then stream released.", matching: await rows(page, "#match-list") };
   });
 
-  await test("controlled camera denial reports an error and a new public start recovers", async (page) => {
+  await test("controlled camera denial reports an error and the scanner retry recovers", async (page) => {
     await goto(page); await setTarget(page);
     await page.evaluate(() => { window.__pickingAudit.denyNextCamera = true; });
     await start(page);
@@ -522,7 +523,7 @@ try {
     assert.equal(await matchRows(page).count(), 0);
     assert.equal(await page.locator("#picking-status").getAttribute("data-error"), "true");
     assert.ok((await page.locator("#picking-status").textContent()).length > 0);
-    await start(page); await waitMatches(page, 2);
+    await page.locator('#scanner [data-a="retry"]').click(); await waitMatches(page, 2);
     return { boundary: "Controlled getUserMedia NotAllowedError, followed by actual fake-camera success.", error: await page.evaluate(() => window.__pickingAudit.scannerErrors[0]) };
   }, { expectedCameraError: true });
 
@@ -546,7 +547,7 @@ try {
     assert.equal(await page.evaluate(() => document.activeElement === document.querySelector('#target-form button[type="submit"]')), true);
     await page.keyboard.press("Enter");
     assert.equal(await page.locator("#target-value").textContent(), TARGET);
-    await page.locator("#start-picking").focus(); await page.keyboard.press("Enter"); await waitMatches(page, 2);
+    await startButton(page).focus(); await page.keyboard.press("Enter"); await waitMatches(page, 2);
     const button = matchRows(page).first().locator("button");
     await button.focus(); await page.keyboard.press("Space");
     await page.waitForFunction(() => document.querySelector("#scanner").selection.length === 1);

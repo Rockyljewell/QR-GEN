@@ -8,7 +8,6 @@ const scanner = $<QRGenScannerElement>("#scanner");
 const source = $<HTMLSelectElement>("#source-mode");
 const imageFile = $<HTMLInputElement>("#image-file");
 const session = new PickingSession();
-let operation = 0;
 let imageOperation = 0;
 let suspended = false;
 let interval: ReturnType<typeof setInterval> | null = null;
@@ -41,7 +40,6 @@ function clearObservations(): void {
   session.reset();
 }
 function retire(): void {
-  operation++;
   clearImage();
   clearObservations();
   scanner.stop();
@@ -90,9 +88,8 @@ function render(): void {
   $("#camera-source").hidden = !camera;
   $("#image-source").hidden = camera;
   $("#camera-observations").hidden = !camera;
-  const active = scanner.state === "scanning" || scanner.state === "paused";
-  $<HTMLButtonElement>("#start-picking").disabled = suspended || !camera || !current.target || active || scanner.state === "starting";
-  $<HTMLButtonElement>("#switch-picking").disabled = suspended || !camera || !current.target || !active;
+  $("#camera-gate").hidden = Boolean(current.target);
+  $("#camera-stage").hidden = !current.target;
   $<HTMLButtonElement>("#stop-picking").disabled = suspended || !current.target;
   $<HTMLButtonElement>("#reset-picking").disabled = suspended || !current.target;
   $<HTMLButtonElement>("#clear-target").disabled = !current.target;
@@ -133,7 +130,7 @@ $("#target-form").addEventListener("submit", event => {
   try {
     session.setTarget($<HTMLTextAreaElement>("#target-code").value, $<HTMLInputElement>("#target-name").value);
     retire();
-    report("Target saved for this page. Choose a source and start finding it.");
+    report(source.value === "camera" ? "Target set. Press Start scanning and point the camera at the shelf." : "Target set. Choose an image to review.");
   } catch (error) { report(error instanceof Error ? error.message : String(error), true); }
 });
 $("#clear-target").addEventListener("click", () => { session.clearTarget(); retire(); report("Target cleared."); });
@@ -145,32 +142,6 @@ $<HTMLSelectElement>("#camera-facing").addEventListener("change", event => {
   scanner.camera = (event.target as HTMLSelectElement).value;
   report("Camera changed. Start when ready.");
 });
-$("#start-picking").addEventListener("click", () => {
-  if (suspended || !session.target || source.value !== "camera") return;
-  retire();
-  const token = ++operation;
-  report("Starting camera…");
-  const started = scanner.start();
-  refreshSource(); render();
-  void started.then(() => {
-    if (token !== operation || suspended || source.value !== "camera") return;
-    refreshSource(); render();
-    if (scanner.state === "scanning") report("Camera running. Matching observations appear below.");
-  }).catch(error => { if (token === operation && !suspended) report(error instanceof Error ? error.message : String(error), true); });
-});
-$("#switch-picking").addEventListener("click", () => {
-  if (suspended || !session.target || source.value !== "camera") return;
-  const token = ++operation;
-  clearImage(); clearObservations(); scanner.clearSelection();
-  const switched = scanner.switchCamera();
-  refreshSource(); render();
-  report("Switching camera…");
-  void switched.then(() => {
-    if (token !== operation || suspended) return;
-    refreshSource(); render(); report("Camera switched. Waiting for new observations.");
-  }).catch(error => { if (token === operation && !suspended) report(error instanceof Error ? error.message : String(error), true); });
-});
-
 scanner.addEventListener("track", event => {
   refreshSource();
   if (suspended || !session.target || source.value !== "camera" || scanner.scanner !== owner || owner?.state !== "scanning") return;
@@ -187,7 +158,6 @@ scanner.addEventListener("statechange", event => {
     return;
   }
   if (state === "starting" || state === "stopped" || state === "error") clearObservations();
-  if (state === "stopped" || state === "error") operation++;
   if (state === "starting") report("Starting camera…");
   if (state === "scanning") report("Camera running. Matching observations appear below.");
   if (state === "paused") report("Camera paused. Recent observations expire while paused.");
@@ -200,11 +170,11 @@ scanner.addEventListener("error", event => {
 // Use the existing accessible UI name, without altering the scanner's controls.
 scanner.addEventListener("click", event => {
   if (event.composedPath().some(part => part instanceof HTMLElement && part.getAttribute("aria-label") === "Switch camera")) {
-    operation++; clearObservations(); render(); report("Switching camera…");
+    clearObservations(); render(); report("Switching camera…");
   }
   queueMicrotask(() => { if (!suspended && refreshSource()) render(); });
 }, true);
-const attributes = new MutationObserver(() => { operation++; clearObservations(); refreshSource(); render(); });
+const attributes = new MutationObserver(() => { clearObservations(); refreshSource(); render(); });
 function observeAttributes(): void { attributes.observe(scanner, { attributes: true, attributeFilter: ["camera", "resolution", "worker", "mode", "symbologies"] }); }
 
 imageFile.addEventListener("change", () => {

@@ -54,12 +54,12 @@ const labels = await Promise.all(samples.map(item => barcodeSvg(item.code, { sym
             <p id="image-status" class="help" role="status"></p>
             <ul id="observations" aria-label="Observed barcodes"></ul>
             <p id="observation-empty" class="help">Scanned barcode values appear here. You can also choose a product from your delivery list.</p>
+            <details class="sample-labels">
+              <summary>Sample labels</summary>
+              <p class="help">Choose “Try a sample delivery”, then scan these labels with another device or save a label image to try the upload.</p>
+              <div class="label-grid">{samples.map((item, i) => <figure><div set:html={labels[i]} /><figcaption>{item.name}<br /><code>{item.code}</code></figcaption></figure>)}</div>
+            </details>
           </section>
-          <details class="sample-labels">
-            <summary>Sample labels</summary>
-            <p class="help">Choose “Try a sample delivery”, then scan these labels with another device or save a label image to try the upload.</p>
-            <div class="label-grid">{samples.map((item, i) => <figure><div set:html={labels[i]} /><figcaption>{item.name}<br /><code>{item.code}</code></figcaption></figure>)}</div>
-          </details>
         </div>
         <aside class="panel confirmation" aria-label="Confirm received quantities">
           <h2>3. Confirm what arrived</h2>
@@ -86,7 +86,7 @@ const labels = await Promise.all(samples.map(item => barcodeSvg(item.code, { sym
             </fieldset>
             <p class="help">If another tab changes this delivery while you edit, review the latest totals before retrying a correction.</p>
           </form>
-          <p class="help">Quantities are saved only after you confirm. Camera highlights show decoded observations; they cannot establish how many physical products are present.</p>
+          <p class="help">Scanning identifies the product; you enter how many arrived. Nothing is saved until you confirm.</p>
         </aside>
       </div>
       <section class="panel delivery-results" aria-label="Delivery totals">
@@ -112,6 +112,10 @@ const labels = await Promise.all(samples.map(item => barcodeSvg(item.code, { sym
   .receiving-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: start; }
   .panel { border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-soft); min-width: 0; }
   .scan-panel, .delivery-results { margin-top: 24px; }
+  .confirmation { position: sticky; top: calc(var(--header-h) + 24px); }
+  .delivery-bar { padding: 20px 24px; border-radius: var(--radius-lg); background: var(--bg-soft); }
+  .table-scroll:has(tbody:empty) { display: none; }
+  .sample-labels { margin-top: 20px; }
   .field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; font-weight: 600; }
   input, select { width: 100%; border: 1px solid #9ba7b4; border-radius: 8px; padding: 11px 12px; background: var(--white); color: var(--ink); font: inherit; font-weight: 400; min-width: 0; }
   input[type="file"] { font-size: 13px; }
@@ -144,6 +148,6 @@ const labels = await Promise.all(samples.map(item => barcodeSvg(item.code, { sym
   button:disabled { opacity: .45; cursor: default; }
   [hidden] { display: none; }
   @media (max-width: 1000px) { .delivery-bar { grid-template-columns: 1fr 1fr; } .delivery-create { grid-column: 1 / -1; } }
-  @media (max-width: 760px) { .receiving-grid { grid-template-columns: 1fr; gap: 24px; } .panel { padding: 18px; } }
+  @media (max-width: 760px) { .receiving-grid { grid-template-columns: 1fr; gap: 24px; } .panel, .delivery-bar { padding: 18px; } .confirmation { position: static; } }
   @media (max-width: 420px) { .delivery-bar, .field-row { grid-template-columns: 1fr; } .delivery-create { flex-direction: column; align-items: stretch; } }
 </style>
