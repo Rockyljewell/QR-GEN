@@ -106,6 +106,16 @@ namespace QRGen.Tests
         }
 
         [Fact]
+        public void VCardEscapedBackslashBeforeSeparator()
+        {
+            // `\\` is a literal backslash; the following `;` still separates components.
+            Assert.Equal("Jane Doe\\", P("BEGIN:VCARD\r\nN:Doe\\\\;Jane;;;\r\nEND:VCARD").Name);
+            Assert.Equal("Jane Doe\\;Smith", P("BEGIN:VCARD\r\nN:Doe\\\\\\;Smith;Jane;;;\r\nEND:VCARD").Name);
+            Assert.Equal("C:\\ Team", P("BEGIN:VCARD\r\nFN:X\r\nORG:C:\\\\;Team\r\nEND:VCARD").Organization);
+            Assert.Equal("Dir\\, Town", P("BEGIN:VCARD\r\nFN:X\r\nADR:;;Dir\\\\;Town;;;\r\nEND:VCARD").Address);
+        }
+
+        [Fact]
         public void MeCard()
         {
             var r = P("MECARD:N:Doe,Jane;TEL:+15550100;EMAIL:jane@example.com;URL:https\\://example.com;ADR:1 Main St;NOTE:Hi;ORG:ACME;;");
