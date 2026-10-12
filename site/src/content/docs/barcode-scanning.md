@@ -125,7 +125,7 @@ With `BarcodeScanner`, you can tune the built-in tone through `scanner.feedback.
 
 ## Torch and zoom
 
-The element shows torch and camera-switch buttons when the device supports them. Camera controls are also available from code:
+The element shows torch, zoom and camera-switch buttons when the device supports them. Camera controls are also available from code:
 
 ```js
 scanner.addEventListener("ready", async () => {
@@ -137,7 +137,7 @@ scanner.addEventListener("ready", async () => {
 
 `setTorch()` and `setZoom()` resolve to `false` when the camera doesn't support them. Support depends on the browser and device: Chrome on Android exposes both on most phones, while Safari on iOS offers limited or no support. The `torch` attribute turns the torch on as soon as the camera is ready.
 
-For small codes, keep the barcode sharply focused and request `resolution="fhd"`. Move the camera only as close as its lens can focus. The built-in UI keeps a consistent field of view; custom integrations can use the camera zoom API.
+For small codes, request `resolution="fhd"` and keep the barcode sharply focused. 2× zoom lets the user hold the phone further away, where the camera can focus; move only as close as the lens can focus.
 
 ## Difficult codes
 
