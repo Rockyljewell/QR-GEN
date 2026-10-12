@@ -591,7 +591,16 @@ try {
     await goto(page);
     await createDelivery(page, "Mobile delivery");
     await addExpected(page);
-    await selectProduct(page, COFFEE);
+    // Choose without scrolling first, as from the scanner list near the top of the page;
+    // the confirmation form, further down on a phone, must come into view.
+    await page.evaluate(() => scrollTo({ top: 0, behavior: "instant" }));
+    await row(page, COFFEE).locator("button[data-select]").evaluate((button) => button.click());
+    await page.waitForFunction((code) => document.querySelector("#selected-code")?.textContent.includes(code), COFFEE);
+    await page.waitForFunction(() => {
+      const box = document.querySelector('#confirm-quantity button[type="submit"]').getBoundingClientRect();
+      const header = document.querySelector(".site-header").getBoundingClientRect().bottom;
+      return box.top >= header && box.bottom <= innerHeight;
+    }, null, { timeout: 5000 });
     await confirm(page, 1);
     await waitReceived(page, COFFEE, 1);
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), "390px horizontal overflow.");

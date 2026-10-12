@@ -113,6 +113,7 @@ const labels = await Promise.all(samples.map(item => barcodeSvg(item.code, { sym
   .panel { border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-soft); min-width: 0; }
   .scan-panel, .delivery-results { margin-top: 24px; }
   .confirmation { position: sticky; top: calc(var(--header-h) + 24px); }
+  #confirm-quantity, #unknown-item { scroll-margin: calc(var(--header-h) + 16px) 0 16px; }
   .delivery-bar { padding: 20px 24px; border-radius: var(--radius-lg); background: var(--bg-soft); }
   .table-scroll:has(tbody:empty) { display: none; }
   .sample-labels { margin-top: 20px; }

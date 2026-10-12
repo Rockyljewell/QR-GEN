@@ -48,6 +48,9 @@ function choose(code: string): void {
   correctionDirty = false;
   $<HTMLInputElement>("#correction-reason").value = "";
   renderSelection();
+  // On narrow screens, and from the totals table, the confirmation form can be off screen.
+  const form = document.querySelector<HTMLElement>("#confirm-quantity:not([hidden]), #unknown-item:not([hidden])");
+  form?.scrollIntoView({ block: "nearest", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
 }
 function renderSelection(): void {
   const item = session?.items.find(item => item.code === selected);
