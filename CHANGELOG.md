@@ -31,7 +31,10 @@ First public version.
   and Flutter SDKs.
 - **Adaptive capture (experiment):** opt-in, bounded adaptive camera resolution in the web
   scanner (`adaptive`). It can miss small codes beside large ones, so it is off by default.
-- **Image scanning in Node:** PNG, JPEG, GIF and BMP decoding through `pngjs`, `jpeg-js`,
+- **Inverted codes in images:** light-on-dark linear, PDF417 and MaxiCode codes are read by the
+  web, Node and Python image scanners through one extra inverted-pixel pass, which runs only when
+  the normal pass found nothing (a normal code next to an inverted linear code returns the normal
+  code only). In Node, that pass decodes PNG, JPEG, GIF and BMP through `pngjs`, `jpeg-js`,
   `omggif` and `bmp-ts`.
 - **Decoder:** `zxing-wasm` 3.1.5.
 - **Reliability:** scanner lifecycle, re-entrant destroy, camera retry, torch and highlight state
