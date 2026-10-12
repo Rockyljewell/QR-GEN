@@ -146,7 +146,7 @@ The element manages its own screens:
 - **Error**: shows the error message and a **Try again** button.
 - **Scan again**: in single mode, after a successful scan.
 
-While scanning, the top bar has pause, torch and camera-switch buttons. Torch and camera switch appear when supported. Batch mode adds an automatic in-view counter and a scrollable results list below the preview. Choose rows by touch, mouse or keyboard; selected results remain available after leaving view. `controls="none"` hides both bars and the **Scan again** button; the batch results list remains available. In single mode, resume with `resume()` from your own UI. Camera zoom remains available through `setZoom()` for custom integrations.
+While scanning, the top bar has pause, torch and camera-switch buttons, and the bottom bar has a 1×/2× zoom toggle. Torch, camera switch and zoom appear when supported. Batch mode adds an automatic in-view counter and a scrollable results list below the preview. Choose rows by touch, mouse or keyboard; selected results remain available after leaving view. `controls="none"` hides both bars and the **Scan again** button; the batch results list remains available. In single mode, resume with `resume()` from your own UI. Set any other zoom level with `setZoom()`.
 
 ### Styling
 

@@ -179,10 +179,10 @@ await test("batch results support keyboard selection outside a stable preview", 
     const bounds = await el.evaluate((node) => {
       const preview = node.shadowRoot.querySelector(".preview").getBoundingClientRect();
       const results = node.shadowRoot.querySelector(".results").getBoundingClientRect();
-      return { height: preview.height, bottom: preview.bottom, top: results.top, zoom: !!node.shadowRoot.querySelector('[data-a="zoom"]') };
+      return { height: preview.height, bottom: preview.bottom, top: results.top, zoomHidden: node.shadowRoot.querySelector('[data-a="zoom"]').hidden };
     });
     assert(bounds.height === before && bounds.top >= bounds.bottom, "results overlap or resize preview");
-    assert(!bounds.zoom, "unexpected preset zoom control");
+    assert(bounds.zoomHidden, "zoom control shown without camera zoom support");
     await el.locator("canvas").click({ force: true, position: { x: 160, y: 150 } });
     assert((await el.evaluate((node) => node.selection.length)) === 1, "preview click changed selection");
     await el.evaluate((node) => { node.tracked = []; node.updateCount(); node.updateResults(); });

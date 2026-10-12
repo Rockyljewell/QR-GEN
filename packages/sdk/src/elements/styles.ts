@@ -86,6 +86,11 @@ button { font: inherit; color: inherit; }
 .btn:active { transform: scale(.94); }
 .btn.on { background: #fff; color: #0b0f14; }
 .btn[hidden] { display: none; }
+.pill {
+  height: 40px; min-width: 56px; padding: 0 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.14);
+  background: rgba(12, 16, 22, .55); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); font-size: 14px; font-weight: 600; cursor: pointer;
+}
+.pill[hidden] { display: none; }
 .count {
   display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px; border-radius: 999px;
   background: var(--qrgen-accent); color: var(--qrgen-accent-contrast); font-weight: 700; font-size: 14px; box-shadow: 0 8px 24px rgba(0,0,0,.3);
@@ -121,7 +126,7 @@ button { font: inherit; color: inherit; }
   margin-top: 4px; height: 44px; padding: 0 22px; border-radius: 10px; border: 0; cursor: pointer;
   background: var(--qrgen-accent); color: var(--qrgen-accent-contrast); font-weight: 700; font-size: 15px;
 }
-.cta:focus-visible, .btn:focus-visible, .result:focus-visible, .clear-selection:focus-visible { outline: 2px solid var(--qrgen-accent); outline-offset: 2px; }
+.cta:focus-visible, .btn:focus-visible, .pill:focus-visible, .result:focus-visible, .clear-selection:focus-visible { outline: 2px solid var(--qrgen-accent); outline-offset: 2px; }
 .spinner { width: 34px; height: 34px; border-radius: 50%; border: 3px solid rgba(255,255,255,.15); border-top-color: var(--qrgen-accent); animation: spin .8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .again {
