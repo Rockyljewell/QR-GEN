@@ -375,19 +375,27 @@ public object ContentParser {
     // ---- events ---------------------------------------------------------------------------
 
     private fun event(s: String): ParsedContent.Event {
-        var inEvent = !s.contains("BEGIN:VEVENT", ignoreCase = true)
+        // Read only direct properties of the first VEVENT (not VALARM/VTIMEZONE/VTODO).
+        var inEvent = false
+        var nested = 0
         var summary: String? = null
         var start: String? = null
         var end: String? = null
         var location: String? = null
         var description: String? = null
         for (p in contentLines(s)) {
-            if (p.name == "BEGIN" && p.value.equals("VEVENT", true)) {
-                inEvent = true
+            val component = p.value.trim()
+            if (p.name == "BEGIN") {
+                if (!inEvent && component.equals("VEVENT", true)) inEvent = true
+                else if (inEvent) nested++
                 continue
             }
-            if (p.name == "END" && p.value.equals("VEVENT", true)) break
-            if (!inEvent) continue
+            if (p.name == "END") {
+                if (inEvent && nested == 0 && component.equals("VEVENT", true)) break
+                if (inEvent && nested > 0) nested--
+                continue
+            }
+            if (!inEvent || nested > 0) continue
             when (p.name) {
                 "SUMMARY" -> summary = unescapeText(p.value).trim().ifEmpty { null }
                 "DTSTART" -> start = icalDate(p.value.trim())
