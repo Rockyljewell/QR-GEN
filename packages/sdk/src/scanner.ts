@@ -369,8 +369,11 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
     if (!previous || (previous.width === next.width && previous.height === next.height)) return;
     this.frameToken++;
     this.resetCapturePolicy();
+    const dropped = this.tracker.all;
     this.tracker.clear();
     this.pendingBatchScans.clear();
+    // Listeners that keep their own tracks from added/removed must drop these too.
+    if (dropped.length) this.emit("track", { tracked: [], added: [], updated: [], removed: dropped });
     this.emit("spatialreset", { frameSize: next });
   }
 

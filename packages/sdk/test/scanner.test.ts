@@ -124,6 +124,30 @@ describe("Scanner session isolation", () => {
     s.destroy();
   });
 
+  it("reports tracks dropped by an intrinsic resize as removed", async () => {
+    mocks.decode.mockResolvedValue([decodedCode("test")]);
+    const s = scanner();
+    s.setOptions({ mode: "batch" });
+    // An onTrack consumer that keeps its own map from added/removed (React, Vue, DOM event).
+    const live = new Map<number, string>();
+    s.on("track", ({ added, removed }) => {
+      for (const t of removed) live.delete(t.id);
+      for (const t of added) live.set(t.id, t.data);
+    });
+    await s.start();
+    await (s as any).onFrame();
+    const id = s.tracker.all[0]!.id;
+    expect([...live.keys()]).toEqual([id]);
+    Object.assign(s.video, { videoWidth: 480, videoHeight: 640 });
+    s.video.dispatchEvent(new Event("resize"));
+    expect(live.size).toBe(0);
+    vi.mocked(performance.now).mockReturnValue(200);
+    await (s as any).onFrame();
+    expect([...live.keys()]).toEqual(s.tracker.all.map((t) => t.id));
+    expect(live.has(id)).toBe(false);
+    s.destroy();
+  });
+
   it("keeps batch identity through CSS-only preview resize", async () => {
     mocks.decode.mockResolvedValue([decodedCode("test")]);
     const s = scanner();
