@@ -600,24 +600,25 @@
     },
     {
       "path": "Tests/HighlightCapabilityTests.swift",
-      "bytes": 21015,
-      "sha256": "5a4d1481e5dd1fd61ec50a2b59578895b7bc6c6110ad72fb702bd50ef732604a",
+      "bytes": 24509,
+      "sha256": "2de4c22cb8077ab2b53de05173807786eed6c9bf99920176110134a0b9643897",
       "frozenWorkingRepresentation": {
-        "rawBytes": 21015,
-        "rawSha256": "5a4d1481e5dd1fd61ec50a2b59578895b7bc6c6110ad72fb702bd50ef732604a",
+        "rawBytes": 24509,
+        "rawSha256": "2de4c22cb8077ab2b53de05173807786eed6c9bf99920176110134a0b9643897",
         "crlfPairs": 0,
-        "lfCount": 385,
+        "lfCount": 448,
         "loneCRCount": 0,
-        "canonicalBytes": 21015,
-        "canonicalSha256": "5a4d1481e5dd1fd61ec50a2b59578895b7bc6c6110ad72fb702bd50ef732604a",
-        "normalization": "Frozen draft executable bytes already LF; canonical fixture bytes unchanged; branch Git binding verified separately before execution."
-      }
+        "canonicalBytes": 24509,
+        "canonicalSha256": "2de4c22cb8077ab2b53de05173807786eed6c9bf99920176110134a0b9643897",
+        "normalization": "Reviewed observability-v2 executable bytes already LF; no byte normalization. The predecessor executable remains separately frozen."
+      },
+      "previousCanonicalSha256": "5a4d1481e5dd1fd61ec50a2b59578895b7bc6c6110ad72fb702bd50ef732604a"
     }
   ],
   "neutralReadme": {
     "path": "README.md",
-    "bytes": 2474,
-    "sha256": "f275daa896a1c486bf7d9f99969f5ed840dea6ee7a323f54b289794cf6407e30"
+    "bytes": 2954,
+    "sha256": "28f5d43a50cd720dc121f5dccd44e00c4a6629ad6c3872557a3fd503317c8ba4"
   },
   "privateArtifactsExcluded": [
     "Private protocol",
@@ -625,5 +626,6 @@
     "Private feasibility notes"
   ],
   "runtimePerformed": false,
-  "lineEndingPolicy": "Hosted source must match canonical Git blob bytes; frozen Windows representations remain separately pinned and explicitly normalized; no silent byteidentity claim"
+  "lineEndingPolicy": "Hosted source must match canonical Git blob bytes; frozen Windows representations remain separately pinned and explicitly normalized; no silent byteidentity claim",
+  "fixtureVersion": "observability-v2"
 }

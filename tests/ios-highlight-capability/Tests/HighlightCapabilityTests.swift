@@ -5,8 +5,8 @@ import QRGenKit
 import UIKit
 import XCTest
 
-// Uncompiled private draft. Only native app/window, time and decoder delivery
-// boundaries belong to the fixture. All QRGen geometry and drawing stay real.
+// Camera-free UIKit capability probe. Only app/window, time and decoder
+// delivery boundaries belong to the fixture. All QRGen geometry and drawing stay real.
 private enum ProbeFailure: Error {
     case harness(String)
     case capabilityNotEstablished(String)
@@ -37,7 +37,7 @@ final class HighlightCapabilityTests: XCTestCase {
     @MainActor
     func testActualUIKitOutlineCapability() async throws {
         var receipt: [String: Any] = [
-            "schemaVersion": 1,
+            "schemaVersion": 2,
             "probe": "actual-uikit-inputless-preview-outline-capability",
             "runID": UUID().uuidString,
             "baseSha": "978214dcaf20451b72a185e1066cc09eabd0a30f",
@@ -115,16 +115,72 @@ final class HighlightCapabilityTests: XCTestCase {
             let generated = try QRGen.generate(payload, symbology: .qr, scale: 8, ecLevel: "M")
             let image = try Probe.centralImage(generated)
             let inputPNG = try Probe.png(UIImage(cgImage: image))
-            Probe.attach(inputPNG, name: "generated-image-input-not-displayed.png", type: "public.png", to: self)
-            let decoded = try await QRGen.scan(image: image, symbologies: ["qr"])
-            guard let barcode = decoded.first(where: { $0.data == payload && $0.symbology == .qr }),
-                  barcode.frameSize.width > 0, barcode.frameSize.height > 0,
-                  barcode.location.points.allSatisfy({ $0.x.isFinite && $0.y.isFinite }),
-                  Probe.area(barcode.location.points.map { CGPoint(x: $0.x, y: $0.y) }) > 0 else {
-                throw ProbeFailure.capabilityNotEstablished("Actual Vision decode did not yield the expected positive-area barcode")
-            }
-            receipt["decodedBarcode"] = try JSONSerialization.jsonObject(with: JSONEncoder().encode(barcode))
             receipt["inputPNG_SHA256"] = SHA256.hash(data: inputPNG).map { String(format: "%02x", $0) }.joined()
+            receipt["centralImageInput"] = [
+                "width": image.width, "height": image.height,
+                "scanAPI": "QRGen.scan(image: CGImage, symbologies:)",
+                "orientation": "up (default)", "symbologies": ["qr"],
+                "expectedPayload": payload, "expectedSymbology": "qr",
+            ]
+            Probe.attach(inputPNG, name: "generated-image-input-not-displayed.png", type: "public.png", to: self)
+            receipt["centralDecode"] = ["status": "started"]
+            let decoded: [Barcode]
+            do {
+                decoded = try await QRGen.scan(image: image, symbologies: ["qr"])
+            } catch {
+                receipt["centralDecode"] = ["status": "threw", "error": String(describing: error)]
+                throw error
+            }
+            receipt["centralDecode"] = [
+                "status": "returned", "count": decoded.count,
+                "barcodes": try Probe.json(decoded),
+            ]
+
+            // Observation only: this control never supplies the renderer's barcode.
+            if decoded.isEmpty {
+                var control: [String: Any] = [
+                    "trigger": "central_decode_empty", "usedForOutline": false,
+                    "width": generated.width, "height": generated.height,
+                    "scanAPI": "QRGen.scan(image: CGImage, symbologies:)",
+                    "orientation": "up (default)", "symbologies": ["qr"],
+                ]
+                do {
+                    let generatedPNG = try Probe.png(UIImage(cgImage: generated))
+                    control["inputPNG_SHA256"] = SHA256.hash(data: generatedPNG).map { String(format: "%02x", $0) }.joined()
+                    Probe.attach(generatedPNG, name: "original-generated-image-decode-control.png", type: "public.png", to: self)
+                    let controlDecoded = try await QRGen.scan(image: generated, symbologies: ["qr"])
+                    control["status"] = "returned"
+                    control["count"] = controlDecoded.count
+                    control["barcodes"] = try Probe.json(controlDecoded)
+                } catch {
+                    control["status"] = "threw"
+                    control["error"] = String(describing: error)
+                }
+                receipt["originalGeneratedImageDecodeControl"] = control
+            }
+
+            guard let barcode = decoded.first(where: { $0.data == payload && $0.symbology == .qr }) else {
+                receipt["centralRejectionStage"] = "expected_payload_symbology_match"
+                throw ProbeFailure.capabilityNotEstablished("Actual Vision decode did not yield the expected payload and symbology")
+            }
+            receipt["decodedBarcode"] = try Probe.json(barcode)
+            receipt["centralCandidateGeometry"] = [
+                "frameSize": try Probe.json(barcode.frameSize),
+                "corners": try Probe.json(barcode.location.points),
+                "area": Probe.scalar(Probe.area(barcode.location.points.map { CGPoint(x: $0.x, y: $0.y) })),
+            ]
+            guard barcode.frameSize.width > 0, barcode.frameSize.height > 0 else {
+                receipt["centralRejectionStage"] = "positive_frame"
+                throw ProbeFailure.capabilityNotEstablished("Actual Vision expected barcode did not have a positive frame size")
+            }
+            guard barcode.location.points.allSatisfy({ $0.x.isFinite && $0.y.isFinite }) else {
+                receipt["centralRejectionStage"] = "finite_corners"
+                throw ProbeFailure.capabilityNotEstablished("Actual Vision expected barcode did not have finite corners")
+            }
+            guard Probe.area(barcode.location.points.map { CGPoint(x: $0.x, y: $0.y) }) > 0 else {
+                receipt["centralRejectionStage"] = "positive_area"
+                throw ProbeFailure.capabilityNotEstablished("Actual Vision expected barcode did not have positive area")
+            }
             receipt["actualPreviewConvertedCorners"] = preview.layerPoints(for: barcode).map(Probe.point)
             receipt["actualPreviewConvertedArea"] = Probe.scalar(Probe.area(preview.layerPoints(for: barcode)))
             let beforeIDs = Set(Probe.layers(probeWindow.layer).map(ObjectIdentifier.init))
@@ -260,6 +316,13 @@ private enum Probe {
     static func layers(_ layer: CALayer) -> [CALayer] { [layer] + (layer.sublayers ?? []).flatMap(layers) }
     static func scalar(_ value: CGFloat) -> Any { value.isFinite ? Double(value) : String(describing: value) }
     static func point(_ value: CGPoint) -> [String: Any] { ["x": scalar(value.x), "y": scalar(value.y)] }
+    static func json<Value: Encodable>(_ value: Value) throws -> Any {
+        let encoder = JSONEncoder()
+        encoder.nonConformingFloatEncodingStrategy = .convertToString(
+            positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN"
+        )
+        return try JSONSerialization.jsonObject(with: encoder.encode(value))
+    }
     static func rect(_ value: CGRect) -> [String: Any] {
         ["x": scalar(value.minX), "y": scalar(value.minY), "width": scalar(value.width), "height": scalar(value.height)]
     }
