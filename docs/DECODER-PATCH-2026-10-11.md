@@ -1,6 +1,6 @@
 # Decoder hardening and photographic validation
 
-The SDK pins `zxing-wasm` 3.1.5 instead of 3.1.4. The bundled ZXing-C++ revision
+The original October 11 patch pinned `zxing-wasm` 3.1.5 instead of 3.1.4. Its bundled ZXing-C++ revision
 changes from `0b2d9a8fc81f420f369928c24331091ff0525976` to
 `2ecec3f5be0ee803f6e14a5a2c7028c0cfe525b4`. Its
 [MaxiCode bounds fix](https://github.com/zxing-cpp/zxing-cpp/commit/d33daa0fe937fdbd836a7c4ed13289163f214889)
@@ -16,6 +16,10 @@ The type-fest minimum Node metadata already existed before this patch. The SDK
 continues to support Node 18.17; the development website requires the root
 repository's newer runtime. The lockfile moves zxing-wasm under the SDK workspace;
 build, Node and worker/browser resolution use that workspace correctly.
+
+**November 8, 2026:** The SDK now pins [zxing-wasm 3.1.6](https://github.com/Sec-ant/zxing-wasm/releases/tag/v3.1.6) to fix [#93](https://github.com/Rockyljewell/QR-GEN/issues/93): native reader result vectors are deleted after success, empty results and conversion failures.
+JavaScript retains the returned bytes and metadata. The public SDK regression fails on 3.1.5 (0/3 deletions) and passes on 3.1.6 (3/3); all 460 SDK tests, type checking and the SDK build pass.
+This does not fix EAN issue #32 or establish phone performance, a memory-growth rate or Scandit parity.
 
 ## Verification before CI
 

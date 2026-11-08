@@ -38,7 +38,8 @@ First public version.
   the normal pass found nothing (a normal code next to an inverted linear code returns the normal
   code only). In Node, that pass decodes PNG, JPEG, GIF and BMP through `pngjs`, `jpeg-js`,
   `omggif` and `bmp-ts`.
-- **Decoder:** `zxing-wasm` 3.1.5.
+- **Decoder:** `zxing-wasm` 3.1.6; release native reader result vectors after successful,
+  empty and failed conversions.
 - **Reliability:** scanner lifecycle, re-entrant destroy, camera retry, torch and highlight state
   fixes across platforms; monotonic clocks for duplicate filtering and tracking windows; stale
   native results rejected across pause and settings changes; GS1 field validation and separator
