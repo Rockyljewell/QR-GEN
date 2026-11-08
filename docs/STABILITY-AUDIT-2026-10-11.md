@@ -28,11 +28,17 @@ scan-limit, reentrant-event and Windows tooling defects.
 
 Root dependencies were patched for the four reported advisories in esbuild,
 http-cache-semantics, sharp and source-map-js. The separate React Native lock was
-patched for the critical handlebars and shell-quote advisories. Two upstream
-advisories remain in React Native development tooling: braces and sprintf-js.
+patched for the critical handlebars and shell-quote advisories. At the October 11
+audit, two upstream advisories remained in React Native tooling: braces and sprintf-js.
 Their dependency chains produce 29 audit entries (9 high, 20 moderate); they are
 not 29 distinct underlying bugs. No patched versions were offered by the registry
 at audit time. The suggested React Native/Jest downgrades were not applied.
+
+### November 8, 2026 advisory follow-up
+
+The original [braces advisory](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm) was withdrawn on October 23; [sprintf-js](https://github.com/advisories/GHSA-hp3w-g68c-fv3c) on October 22. These were withdrawals, not dependency patches.
+A fresh read-only audit of the existing React Native lock reports 20 propagated entries (16 moderate, 4 low; none high or critical), from three different underlying advisories in deepmerge, glob and minimatch.
+[Issue #90](https://github.com/Rockyljewell/QR-GEN/issues/90) tracks these tooling chains; no safe compatible patch update resolves them within the current parent constraints.
 
 ## Original local verification before PR #4
 
