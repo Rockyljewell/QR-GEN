@@ -353,6 +353,7 @@ class _QRGenScannerState extends State<QRGenScanner> with WidgetsBindingObserver
   /// Starts or stops the camera to match the current state.
   void _sync() {
     if (_disposed) return;
+    if (!_shouldRun) _clearHighlights();
     _enqueue(() async {
       if (_disposed) return;
       final controller = _controller;
