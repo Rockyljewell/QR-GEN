@@ -53,7 +53,7 @@ class _Trace {
       'trackReports': callbacks.tracks.length,
       'lastTrackData': callbacks.tracks.isEmpty
           ? const <Object?>[]
-          : List.unmodifiable(callbacks.tracks.last.map((code) => code['data'])),
+          : List<Object?>.unmodifiable(callbacks.tracks.last.map((code) => code['data'])),
     });
     snapshots.add(snapshot);
     return snapshot;
