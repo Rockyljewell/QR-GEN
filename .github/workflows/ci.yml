@@ -33,10 +33,25 @@ jobs:
         run: npm test -w qrgen-sdk
       - name: Build SDK
         run: npm run build -w qrgen-sdk
-      - name: CLI smoke test
+      - name: Use the SDK minimum Node version
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.17.0
+      - name: Smoke-test built ESM, CommonJS and CLI on Node 18.17
         run: |
-          node packages/sdk/dist/cli.js generate "ci-check" -o /tmp/ci.png
-          node packages/sdk/dist/cli.js scan /tmp/ci.png | grep -q "ci-check"
+          node packages/sdk/scripts/runtime-smoke.cjs
+          node --require ./packages/sdk/scripts/runtime-smoke.cjs packages/sdk/dist/cli.js generate "MINIMUM-NODE-CLI" --symbology qr -o "$RUNNER_TEMP/qrgen-minimum-node.png"
+          node --require ./packages/sdk/scripts/runtime-smoke.cjs packages/sdk/dist/cli.js scan "$RUNNER_TEMP/qrgen-minimum-node.png" --json --no-parse --symbologies qr > "$RUNNER_TEMP/qrgen-minimum-node.json"
+          node -e '
+            const assert = require("node:assert/strict");
+            const data = "MINIMUM-NODE-CLI";
+            const expected = [{ data, symbology: "qr", rawBytes: Buffer.from(data, "utf8").toString("base64") }];
+            assert.deepEqual(require(process.argv[1]).map(({ data, symbology, rawBytes }) => ({ data, symbology, rawBytes })), expected);
+          ' "$RUNNER_TEMP/qrgen-minimum-node.json"
+      - name: Restore the website Node version
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
       - name: Build website using local engine assets
         run: npm run test:build-offline -w qrgen-site
       - name: Type-check website
