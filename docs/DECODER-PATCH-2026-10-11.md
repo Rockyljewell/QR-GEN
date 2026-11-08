@@ -31,7 +31,10 @@ built public Node SDK's minimum-runtime check.
 | Website typecheck | 0 errors, 0 warnings; existing clipboard deprecation hint |
 | Main Chromium browser scenarios | 21 passing |
 | Print/mobile browser and isolated offline scenarios | 5 + 4 passing |
-| Root npm audit | 0 reported advisories; separate React Native tooling advisories remain in issue #5 |
+| Root npm audit (October 11 snapshot) | 0 reported advisories; separate React Native tooling advisories were tracked in issue #5 |
+
+**November 8, 2026:** The original braces/sprintf-js advisories were withdrawn; see the [dated audit follow-up](STABILITY-AUDIT-2026-10-11.md#november-8-2026-advisory-follow-up) for primary sources.
+Different React Native tooling advisories are now tracked in [issue #90](https://github.com/Rockyljewell/QR-GEN/issues/90); this does not establish a clean current audit.
 
 The isolated before/after comparison used nine frozen EAN PNGs, four profiles,
 encoded and RGBA inputs, and three repetitions per version: 72 paired cases and

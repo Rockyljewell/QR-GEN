@@ -209,6 +209,10 @@ In native batch mode, `onScan` precedes `onTrack`. A reset, real widget disposal
 committed mode change or newer tracking update cancels an older pending track result.
 No-op start/resume, cosmetic rebuilds and no-change blank input preserve the current
 notification. Requesting a parent rebuild takes effect when that rebuild is committed.
+An explicit stop or temporary inactivity clears the native scanner's visible outlines.
+This does not reset payload duplicate history; call `reset()` to start a new session.
+Single-scan success feedback still uses its normal short linger.
+
 Errors are `QRGenError` with a `QRGenErrorCode` (`camera-permission-denied`,
 `camera-not-found`, `camera-in-use`, `insecure-context`, `engine-load-failed`, `unsupported`,
 `unknown`).
