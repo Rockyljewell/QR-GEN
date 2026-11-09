@@ -129,6 +129,7 @@ class Build:
             "scope": "Private source build and matching asset closure only; no decoder or corpus execution",
             "decoderExecuted": False, "published": False, "commands": [], "containers": [],
             "wasmSHA256": None, "packageFiles": None,
+            "pnpmCacheDir": "/task/pnpm-cache", "dependencyBootstrapMayExecuteHooks": True,
             "runID": os.environ["GITHUB_RUN_ID"], "runAttempt": os.environ["GITHUB_RUN_ATTEMPT"],
             "pinsSHA256": digest((HERE / "pins.json").read_bytes()),
             "additionalSourceManifestSHA256": digest((HERE / "additional-source-files.json").read_bytes()),
@@ -326,7 +327,8 @@ class Build:
         versions = ('test "$(node --version)" = "v' + self.pins["nodeVersion"] + '"\n'
                     + 'test "$(pnpm --version)" = "' + self.pins["pnpmVersion"] + '"\n')
         prelude = ('export PATH="/task/tools/node/bin:/task/tools/bin:$PATH"\n'
-                   + "export pnpm_config_pm_on_fail=error\nset -x\n" + versions)
+                   + "export pnpm_config_pm_on_fail=error\n"
+                   + "export pnpm_config_cache_dir=/task/pnpm-cache\nset -x\n" + versions)
         self.version_assertions = versions
         self.container("dependency-fetch", "bridge", prelude + "pnpm fetch --store-dir /task/store\n", 600)
         for repository in (self.source, self.source / "zxing-cpp"):
