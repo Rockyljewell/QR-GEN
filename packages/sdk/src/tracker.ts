@@ -111,6 +111,8 @@ function associate(detections: readonly Barcode[], tracks: readonly TrackedBarco
  */
 export class BarcodeTracker {
   private tracks = new Map<number, TrackedBarcode>();
+  private lastSeenElapsed = new Map<number, number>();
+  private elapsedClock = false;
   private nextId = 1;
   private frameSize: Size | null = null;
   readonly timeout: number;
@@ -135,12 +137,22 @@ export class BarcodeTracker {
     for (const [id, track] of this.tracks) {
       if (symbologies.has(track.symbology)) continue;
       this.tracks.delete(id);
+      this.lastSeenElapsed.delete(id);
       removed.push(track);
     }
     return { tracked: this.all, added: [], updated: [], removed };
   }
 
-  update(detections: readonly Barcode[], now = Date.now()): TrackerUpdate {
+  update(detections: readonly Barcode[], now?: number): TrackerUpdate {
+    const timestamp = now === undefined ? Date.now() : now;
+    const elapsedClock = now === undefined && typeof performance !== "undefined" && typeof performance.now === "function";
+    const elapsed = elapsedClock ? performance.now() : timestamp;
+    if (elapsedClock !== this.elapsedClock) {
+      // Keep epoch metadata public while rebasing duration history when callers
+      // switch between the default clock and an explicit injected timestamp.
+      for (const [id, track] of this.tracks) this.lastSeenElapsed.set(id, elapsedClock ? elapsed - (timestamp - track.lastSeen) : track.lastSeen);
+      this.elapsedClock = elapsedClock;
+    }
     const added: TrackedBarcode[] = [];
     const updated: TrackedBarcode[] = [];
     // Expire before matching, otherwise a returning detection revives an old
@@ -151,12 +163,14 @@ export class BarcodeTracker {
       if (this.frameSize && (size.width !== this.frameSize.width || size.height !== this.frameSize.height)) {
         removed.push(...this.tracks.values());
         this.tracks.clear();
+        this.lastSeenElapsed.clear();
       }
       this.frameSize = { ...size };
     }
     for (const [id, t] of this.tracks) {
-      if (now - t.lastSeen > this.timeout) {
+      if (elapsed - this.lastSeenElapsed.get(id)! > this.timeout) {
         this.tracks.delete(id);
+        this.lastSeenElapsed.delete(id);
         removed.push(t);
       }
     }
@@ -165,12 +179,14 @@ export class BarcodeTracker {
     for (const [index, d] of detections.entries()) {
       const best = matched.get(index);
       if (best) {
-        const next: TrackedBarcode = { ...d, id: best.id, firstSeen: best.firstSeen, lastSeen: now, count: best.count + 1 };
+        const next: TrackedBarcode = { ...d, id: best.id, firstSeen: best.firstSeen, lastSeen: timestamp, count: best.count + 1 };
         this.tracks.set(best.id, next);
+        this.lastSeenElapsed.set(best.id, elapsed);
         updated.push(next);
       } else {
-        const t: TrackedBarcode = { ...d, id: this.nextId++, firstSeen: now, lastSeen: now, count: 1 };
+        const t: TrackedBarcode = { ...d, id: this.nextId++, firstSeen: timestamp, lastSeen: timestamp, count: 1 };
         this.tracks.set(t.id, t);
+        this.lastSeenElapsed.set(t.id, elapsed);
         added.push(t);
       }
     }
@@ -180,6 +196,8 @@ export class BarcodeTracker {
 
   clear(): void {
     this.tracks.clear();
+    this.lastSeenElapsed.clear();
+    this.elapsedClock = false;
     this.frameSize = null;
   }
 }

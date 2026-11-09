@@ -122,7 +122,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
   private canvas: HTMLCanvasElement | OffscreenCanvas | null = null;
   private ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D | null = null;
   private ownsVideo: boolean;
-  private lastBatchBeep = 0;
+  private lastBatchBeep = -Infinity;
   private startToken = 0;
   private frameToken = 0;
   private switchToken = 0;
@@ -522,7 +522,7 @@ export class BarcodeScanner extends Emitter<ScannerEvents> {
       const fresh = candidates.filter((b) => this.filter.accept(b));
       for (const b of candidates) this.pendingBatchScans.delete(b.id);
       if (fresh.length) {
-        const t = Date.now();
+        const t = performance.now();
         if (t - this.lastBatchBeep > 250) {
           this.feedback.success();
           this.lastBatchBeep = t;

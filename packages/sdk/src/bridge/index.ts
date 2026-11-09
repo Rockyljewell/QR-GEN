@@ -112,6 +112,7 @@ export function attributesFromQuery(search: string): Record<string, string> {
   };
   const out: Record<string, string> = {};
   params.forEach((value, key) => {
+    if (!Object.prototype.hasOwnProperty.call(map, key)) return;
     const attr = map[key];
     // Numeric options and opaque text may also be exactly "0" or "1".
     if (attr) {

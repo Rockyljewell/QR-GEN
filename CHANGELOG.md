@@ -40,6 +40,10 @@ First public version.
   `omggif` and `bmp-ts`.
 - **Decoder:** `zxing-wasm` 3.1.6; release native reader result vectors after successful,
   empty and failed conversions.
+- **Receiving:** keep committed quantities acknowledged if a later delivery-list read fails;
+  distinguish read failures from rolled-back writes and notify other tabs after the commit.
+- **REST and embed:** reject unknown-only scan formats instead of enabling all formats, and
+  ignore inherited object-property names in embed query parameters.
 - **Reliability:** scanner lifecycle, re-entrant destroy, camera retry, torch and highlight state
   fixes across platforms; monotonic clocks for duplicate filtering and tracking windows; stale
   native results rejected across pause and settings changes; GS1 field validation and separator

@@ -510,6 +510,46 @@ try {
     return { concurrentQuantities: quantities, refreshEvidence, revisionBeforeStaleCorrection: latest.value.revision, finalRevision: corrected.value.revision, exportSha256: corrected.sha256 };
   });
 
+  await test("committed receive remains acknowledged when the follow-up readonly refresh aborts", async (page, context) => {
+    await goto(page);
+    const id = await createDelivery(page, "Post-save read failure");
+    await addExpected(page);
+    await selectProduct(page, COFFEE);
+    const before = await readSaved(page, id);
+    const other = await context.newPage();
+    await goto(other);
+    await waitReceived(other, COFFEE, 0);
+    await page.evaluate(() => {
+      const original = IDBDatabase.prototype.transaction;
+      const probe = window.__receivingReadAbort = { writes: 0, readsAborted: 0 };
+      let committed = false;
+      IDBDatabase.prototype.transaction = function (...args) {
+        const tx = Reflect.apply(original, this, args);
+        if (tx.mode === "readwrite") tx.addEventListener("complete", () => { probe.writes++; committed = true; });
+        if (tx.mode === "readonly" && committed) {
+          committed = false;
+          queueMicrotask(() => { tx.abort(); probe.readsAborted++; IDBDatabase.prototype.transaction = original; });
+        }
+        return tx;
+      };
+    });
+    await confirm(page, 2);
+    await ready(page);
+    const saved = await readSaved(page, id);
+    const probe = await page.evaluate(() => window.__receivingReadAbort);
+    const message = await page.locator("#receiving-message").textContent();
+    assert(probe.writes === 1 && probe.readsAborted === 1, "Fault did not follow exactly one successful write.");
+    assert(saved.revision === before.revision + 1 && saved.items[0].received === 2, "Committed receive was lost or applied more than once.");
+    assert(message.includes("Received quantity confirmed and saved."), `Committed quantity was not acknowledged: ${message}`);
+    assert(!message.includes("previous saved quantities are unchanged"), "A failed read claimed the committed write was rolled back.");
+    await waitReceived(page, COFFEE, 2);
+    await waitReceived(other, COFFEE, 2);
+    await page.reload(); await ready(page); await waitReceived(page, COFFEE, 2);
+    const reloaded = await readSaved(page, id);
+    assert(reloaded.revision === saved.revision, "Reload applied an extra confirmation.");
+    return { probe, message, committedRevision: saved.revision, received: 2, otherTabRefreshed: true, reloadPreservedRevision: true };
+  });
+
   await test("aborted actual IndexedDB write preserves prior visible and persisted state", async (page) => {
     await goto(page);
     await createDelivery(page, "Abort control");

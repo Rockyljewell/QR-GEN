@@ -222,7 +222,9 @@ export function createHandler(options: ServerOptions = {}): (req: IncomingMessag
         image = body;
       }
       if (!image.length) throw new HttpError(400, "bad-request", "Empty image");
-      const barcodes = await scanImage(image, { symbologies: symbologies ? resolveSymbologies(symbologies) : undefined, tryHarder: tryHarder ?? true, maxResults: resultLimit(maxResults) });
+      const ids = symbologies ? resolveSymbologies(symbologies) : undefined;
+      if (ids?.length === 0) throw new HttpError(400, "bad-request", "No supported symbologies were selected");
+      const barcodes = await scanImage(image, { symbologies: ids, tryHarder: tryHarder ?? true, maxResults: resultLimit(maxResults) });
       send(res, 200, { barcodes: parse ? barcodes.map((b) => ({ ...b, parsed: parseContent(b.data, { symbology: b.symbology }) })) : barcodes });
       return;
     }
