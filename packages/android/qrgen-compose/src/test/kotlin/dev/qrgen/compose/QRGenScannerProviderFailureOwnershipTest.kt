@@ -22,6 +22,7 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -29,20 +30,26 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
-import org.robolectric.annotation.Implementation
-import org.robolectric.annotation.Implements
 import org.robolectric.annotation.LooperMode
 
 /** Actual public scanner lifecycle; only the provider future is controlled. No camera/ML Kit. */
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [35], shadows = [FailedCameraProviderShadow::class, FailedCameraProviderCompanionShadow::class])
+@Config(sdk = [35], shadows = [PendingCameraProviderShadow::class, PendingCameraProviderCompanionShadow::class])
 @LooperMode(LooperMode.Mode.PAUSED)
 class QRGenScannerProviderFailureOwnershipTest {
+    private lateinit var providerFuture: ControlledProviderFailureFuture
+
     @Before fun grantPermissionAndResetFuture() {
-        FailedCameraProviderShadow.requests = 0
-        FailedCameraProviderShadow.future = ControlledProviderFailureFuture()
+        PendingCameraProviderShadow.requests = 0
+        PendingCameraProviderShadow.futureOverride = null
+        providerFuture = ControlledProviderFailureFuture()
+        PendingCameraProviderShadow.futureOverride = providerFuture
         Shadows.shadowOf(RuntimeEnvironment.getApplication()).grantPermissions(Manifest.permission.CAMERA)
         assertTrue(QRGen.hasCameraPermission(RuntimeEnvironment.getApplication()))
+    }
+
+    @After fun clearProviderOverride() {
+        PendingCameraProviderShadow.futureOverride = null
     }
 
     @Test fun stoppedStartupDoesNotReportLateProviderFailure() = probe("stop", 0, QRGenScanner.State.STOPPED)
@@ -63,11 +70,11 @@ class QRGenScannerProviderFailureOwnershipTest {
         scanner.onScan { scans++ }
         scanner.onTrack { tracks++ }
         scanner.onReady { ready++ }
-        val future = FailedCameraProviderShadow.future
+        val future = providerFuture
         try {
             scanner.bind(owner)
             assertEquals(QRGenScanner.State.STARTING, scanner.state)
-            assertEquals(1, FailedCameraProviderShadow.requests)
+            assertEquals(1, PendingCameraProviderShadow.requests)
             assertEquals(1, future.pendingListeners)
             assertTrue(errors.isEmpty())
             when (action) {
@@ -77,11 +84,11 @@ class QRGenScannerProviderFailureOwnershipTest {
             }
             val beforeFailure = scanner.state
             assertEquals(if (action == "stop") QRGenScanner.State.STOPPED else if (action == "release") QRGenScanner.State.RELEASED else QRGenScanner.State.STARTING, beforeFailure)
-            assertEquals("Restart must share the still-pending global provider operation", 1, FailedCameraProviderShadow.requests)
+            assertEquals("Restart must share the still-pending global provider operation", 1, PendingCameraProviderShadow.requests)
             future.fail()
             Shadows.shadowOf(Looper.getMainLooper()).idle()
             val observedState = scanner.state
-            println("ANDROID_PROVIDER_FAILURE_RECEIPT {\"action\":\"$action\",\"beforeFailure\":\"$beforeFailure\",\"afterFailure\":\"$observedState\",\"errors\":${errors.size},\"errorCodes\":\"${errors.joinToString()}\",\"expectedErrors\":$expectedErrors,\"providerRequests\":${FailedCameraProviderShadow.requests},\"listenerDeliveries\":${future.listenerDeliveries},\"getCalls\":${future.getCalls}}")
+            println("ANDROID_PROVIDER_FAILURE_RECEIPT {\"action\":\"$action\",\"beforeFailure\":\"$beforeFailure\",\"afterFailure\":\"$observedState\",\"errors\":${errors.size},\"errorCodes\":\"${errors.joinToString()}\",\"expectedErrors\":$expectedErrors,\"providerRequests\":${PendingCameraProviderShadow.requests},\"listenerDeliveries\":${future.listenerDeliveries},\"getCalls\":${future.getCalls}}")
             assertTrue(future.isDone())
             assertEquals(1, future.listenerDeliveries)
             assertEquals(0, future.pendingListeners)
@@ -156,23 +163,4 @@ class ControlledProviderFailureFuture : ListenableFuture<ProcessCameraProvider> 
         if (!failed) throw TimeoutException("Provider is deliberately pending")
         return get()
     }
-}
-
-@Implements(value = ProcessCameraProvider::class, isInAndroidSdk = false)
-class FailedCameraProviderShadow {
-    companion object {
-        @JvmField var requests = 0
-        @JvmField var future = ControlledProviderFailureFuture()
-        @JvmStatic @Implementation
-        @Suppress("UNUSED_PARAMETER")
-        fun getInstance(context: Context): ListenableFuture<ProcessCameraProvider> = request()
-        fun request(): ListenableFuture<ProcessCameraProvider> { requests++; return future }
-    }
-}
-
-@Implements(className = "androidx.camera.lifecycle.ProcessCameraProvider\$Companion", isInAndroidSdk = false)
-class FailedCameraProviderCompanionShadow {
-    @Implementation
-    @Suppress("UNUSED_PARAMETER")
-    fun getInstance(context: Context): ListenableFuture<ProcessCameraProvider> = FailedCameraProviderShadow.request()
 }

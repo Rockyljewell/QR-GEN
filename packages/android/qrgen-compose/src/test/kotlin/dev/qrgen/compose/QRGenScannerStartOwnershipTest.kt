@@ -43,6 +43,7 @@ class QRGenScannerStartOwnershipTest {
     @Before
     fun grantCameraAndResetProviderRequests() {
         PendingCameraProviderShadow.requests = 0
+        PendingCameraProviderShadow.futureOverride = null
         Shadows.shadowOf(RuntimeEnvironment.getApplication()).grantPermissions(Manifest.permission.CAMERA)
         assertTrue(QRGen.hasCameraPermission(RuntimeEnvironment.getApplication()))
         assertFalse(QRGen.supportedSymbologies().contains(Symbology.MICRO_QR))
@@ -230,6 +231,8 @@ class QRGenScannerStartOwnershipTest {
 class PendingCameraProviderShadow {
     companion object {
         @JvmField var requests: Int = 0
+        // One shared shadow identity avoids cached Kotlin Companion cross-type casts.
+        @JvmField var futureOverride: ListenableFuture<ProcessCameraProvider>? = null
 
         @JvmStatic
         @Implementation
@@ -240,6 +243,7 @@ class PendingCameraProviderShadow {
 
         fun request(): ListenableFuture<ProcessCameraProvider> {
             requests++
+            futureOverride?.let { return it }
             return object : ListenableFuture<ProcessCameraProvider> {
                 override fun addListener(listener: Runnable, executor: Executor) = Unit
                 override fun cancel(mayInterruptIfRunning: Boolean): Boolean = false
