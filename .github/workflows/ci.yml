@@ -156,7 +156,9 @@ jobs:
       - run: swift test
       - name: Compile and link the actual iOS UIKit scanner
         run: python3 tests/ios-uikit-build/run.py --output "$RUNNER_TEMP/qrgen-ios-uikit-build-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
-      - name: Preserve iOS compilation evidence
+      - name: Run the actual UIKit toast lifecycle probe
+        run: python3 tests/ios-uikit-build/run-ui-probe.py --build-output "$RUNNER_TEMP/qrgen-ios-uikit-build-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+      - name: Preserve iOS compile and UI probe evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
