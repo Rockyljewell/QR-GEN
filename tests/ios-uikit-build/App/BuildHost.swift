@@ -21,12 +21,20 @@ final class BuildAppDelegate: UIResponder, UIApplicationDelegate {
 final class BuildSceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     private var toastProbe: ToastLifecycleProbe?
+    private var batchProbe: BatchOverlayProbe?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options: UIScene.ConnectionOptions) {
         guard let windowScene = scene as? UIWindowScene else { return }
         let window = UIWindow(windowScene: windowScene)
         let scannerOptions = ScannerOptions(symbologies: ["qr"], beep: false, vibrate: false)
-        if ProcessInfo.processInfo.arguments.contains("--qrgen-toast-lifecycle-probe") {
+        if ProcessInfo.processInfo.arguments.contains("--qrgen-batch-overlay-probe") {
+            window.rootViewController = UIViewController()
+            let probe = BatchOverlayProbe(window: window)
+            batchProbe = probe
+            self.window = window
+            window.makeKeyAndVisible()
+            Task { await probe.run() }
+        } else if ProcessInfo.processInfo.arguments.contains("--qrgen-toast-lifecycle-probe") {
             let scanner = LifecycleScanner(options: scannerOptions)
             scanner.startsAutomatically = false
             scanner.toastDuration = 0.5
