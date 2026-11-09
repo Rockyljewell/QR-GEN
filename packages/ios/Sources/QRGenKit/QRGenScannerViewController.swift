@@ -71,6 +71,7 @@ open class QRGenScannerViewController: UIViewController {
     private let permissionView = CameraPermissionView()
 
     private var highlights: [String: Highlight] = [:]
+    private var observedTrackCounts: [String: Int] = [:]
     private var pruneTask: Task<Void, Never>?
     private var toastTask: Task<Void, Never>?
 
@@ -216,9 +217,14 @@ open class QRGenScannerViewController: UIViewController {
     }
 
     private func handleTracked(_ tracked: [TrackedBarcode]) {
+        // Counts advance only on observations; retained tracks keep their count.
+        let previousCounts = observedTrackCounts
+        var currentCounts: [String: Int] = [:]
+        for item in tracked { currentCounts[item.id] = item.count }
+        observedTrackCounts = currentCounts
         if tracked.isEmpty { clearHighlights() }
-        if showsHighlights, let newest = tracked.map(\.lastSeen).max() {
-            for item in tracked where item.lastSeen == newest {
+        if showsHighlights {
+            for item in tracked where previousCounts[item.id] != item.count {
                 updateHighlight(key: "track-" + item.id, barcode: item.barcode)
             }
         }
@@ -448,6 +454,7 @@ open class QRGenScannerViewController: UIViewController {
 
     private func showHighlights(for barcodes: [Barcode]) {
         if barcodes.isEmpty {
+            observedTrackCounts.removeAll()
             clearHighlights()
             return
         }

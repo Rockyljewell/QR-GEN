@@ -634,6 +634,41 @@ Android tests run the actual public controller, lifecycle and main-executor deli
 only provider acquisition is controlled. These are UI/lifecycle checks, not physical
 camera, decoder-accuracy or Scandit-parity evidence. The original UI design remains.
 
+## November 9, 2026 iOS batch model-path selection
+
+[Issue #111](https://github.com/Rockyljewell/QR-GEN/issues/111) was reported before
+production edits. The [model-path baseline](https://github.com/Rockyljewell/QR-GEN/actions/runs/42555180293)
+used controlled public callbacks on fresh actual UIKit controllers. Its numerical
+capability, ordinary movement and source-clear controls passed. With A observed,
+then A+B, then only moved A after a backward epoch correction, A's captured
+`CAShapeLayer.path` stayed at its old coordinates. All three semantic cases ran,
+with no skips, harness errors or inconclusive results in this model-path probe.
+The source selected records by maximum public epoch timestamp, although retained
+records can have later timestamps than a current observation after a clock change.
+The two native session tests separately validate the callback models using actual
+`CameraFrameSession` processing; the UIKit probe does not execute that session.
+
+The correction selects current observations by each track's advancing observation
+count. Private history retains only the current track IDs, resets on explicit
+source-clear or empty tracks, and is committed before calling the application's
+tracking callback. Public epoch metadata and the original styling, animation,
+projection and visual expiry behavior remain.
+
+The baseline run as a whole was mixed: its earlier, separate toast app launch
+command timed out at 60 seconds and no toast receipt was retained. No toast oracle
+result is inferred from that timeout. The model-path probe then completed through
+an independent launch with matching source/app identity and verified Simulator
+cleanup. The helper now gives launch setup 120 seconds and retains any available
+raw receipt after a launch error while still classifying that error as a harness
+failure. The separate 45-second app-receipt deadline and UI assertions remain.
+
+The [earlier visible-overlay diagnostic](https://github.com/Rockyljewell/QR-GEN/actions/runs/42553846690)
+remains inconclusive: its original projection-size and movement gates failed
+before any semantic case ran. Those gates and that fixture remain unchanged.
+The new regression observes actual layer model paths only; it does not inspect
+presentation paths, establish visible pixels or exercise a physical camera.
+Neither these checks nor green CI establish Scandit parity.
+
 ## Retail AR and adjacent features
 
 The following is an assessment of repository code against the vendors' published
