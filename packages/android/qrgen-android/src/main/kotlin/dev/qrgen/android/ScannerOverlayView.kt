@@ -65,6 +65,14 @@ internal class ScannerOverlayView(context: Context) : View(context) {
     var showHighlights: Boolean = true
     var showToast: Boolean = true
 
+    private data class HighlightGeometry(
+        val quads: List<Quad>,
+        val frame: Size,
+        val mirrored: Boolean,
+        val fill: Boolean,
+    )
+
+    private var highlightGeometry: HighlightGeometry? = null
     private var highlights: List<Quad> = emptyList()
     private var highlightAt = 0L
     private var toastText: String? = null
@@ -131,15 +139,36 @@ internal class ScannerOverlayView(context: Context) : View(context) {
             if (fill) FrameTransform.ScaleType.FILL_CENTER else FrameTransform.ScaleType.FIT_CENTER,
             mirrored,
         )
-        val mapped = if (transform.isValid) quads.filter { !it.isEmpty }.map(transform::frameToView) else emptyList()
+        if (!transform.isValid) return
+        // Quad, Point and Size are immutable; filtering owns the retained list.
+        val accepted = quads.filter { !it.isEmpty }
+        val mapped = accepted.map(transform::frameToView)
         if (mapped.isEmpty()) return
+        highlightGeometry = HighlightGeometry(accepted, frame, mirrored, fill)
         highlights = mapped
         highlightAt = SystemClock.uptimeMillis()
         postInvalidateOnAnimation()
     }
 
     fun clearDetections() {
+        highlightGeometry = null
         highlights = emptyList()
+        invalidate()
+    }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        val geometry = highlightGeometry ?: return
+        if (SystemClock.uptimeMillis() - highlightAt >= HIGHLIGHT_MS) {
+            clearDetections()
+            return
+        }
+        val transform = FrameTransform(
+            geometry.frame.width, geometry.frame.height, w, h,
+            if (geometry.fill) FrameTransform.ScaleType.FILL_CENTER else FrameTransform.ScaleType.FIT_CENTER,
+            geometry.mirrored,
+        )
+        highlights = if (transform.isValid) geometry.quads.map(transform::frameToView) else emptyList()
         invalidate()
     }
 
@@ -198,6 +227,7 @@ internal class ScannerOverlayView(context: Context) : View(context) {
                 }
                 animating = true
             } else {
+                highlightGeometry = null
                 highlights = emptyList()
             }
         }
