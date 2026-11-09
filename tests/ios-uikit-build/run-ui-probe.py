@@ -129,7 +129,7 @@ def main():
         owned = created
         receipt["ownedDevice"] = {"udid": owned, "name": name, "runtime": runtime, "deviceType": kind}
         sim("boot", "boot")
-        sim("boot-ready", "bootstatus", "-b", timeout=180)
+        sim("boot-ready", "bootstatus", "-b", timeout=300)
         sim("install", "install", str(app))
         container = pathlib.Path(sim("container", "get_app_container", BUNDLE_ID, "data"))
         if not container.is_absolute():
