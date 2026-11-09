@@ -21,13 +21,14 @@ public class BarcodeTracker @JvmOverloads constructor(
     public val maxAgeMs: Long = DEFAULT_MAX_AGE_MS,
     public val overlapThreshold: Float = DEFAULT_OVERLAP_THRESHOLD,
 ) {
-    private class Track(val id: Int, var barcode: Barcode, val firstSeen: Long, var lastSeen: Long, var count: Int) {
+    private class Track(val id: Int, var barcode: Barcode, val firstSeen: Long, var lastSeen: Long, var count: Int, var duration: DurationMark) {
         fun snapshot() = TrackedBarcode(id, barcode, firstSeen, lastSeen, count)
     }
 
     private val lock = Any()
     private val tracks = ArrayList<Track>()
     private var nextId = 1
+    private var clockBasis: Any? = null
 
     /** Result of one [update]. */
     public data class Update(
@@ -39,15 +40,26 @@ public class BarcodeTracker @JvmOverloads constructor(
         public val removed: List<TrackedBarcode>,
     )
 
-    /** Feeds one frame's detections and returns the tracking state. */
+    /**
+     * Feeds a frame using automatic elapsed time by default. Explicit [Long.MIN_VALUE]
+     * selects automatic time; use [updateAt] with [ClockSample.manual] for full manual range.
+     */
     @JvmOverloads
-    public fun update(detections: List<Barcode>, now: Long = System.currentTimeMillis()): Update = synchronized(lock) {
+    public fun update(detections: List<Barcode>, now: Long = AUTOMATIC_CLOCK): Update = updateAt(detections, clockSample(now))
+
+    /** Feed an immutable paired sample; public firstSeen/lastSeen use its epoch timestamp. */
+    public fun updateAt(detections: List<Barcode>, clock: ClockSample): Update = synchronized(lock) {
+        if (clockBasis !== clock.basis) {
+            tracks.forEach { it.duration.rebase(clock) }
+            clockBasis = clock.basis
+        }
+        val now = clock.timestamp
         // 1. Expire stale tracks before matching, so a code that re-appears later is a new track.
         val removed = ArrayList<TrackedBarcode>()
         val iterator = tracks.iterator()
         while (iterator.hasNext()) {
             val t = iterator.next()
-            if (now - t.lastSeen > maxAgeMs) {
+            if (t.duration.compareAge(clock.elapsedMillis, maxAgeMs) > 0) {
                 removed += t.snapshot()
                 iterator.remove()
             }
@@ -86,9 +98,10 @@ public class BarcodeTracker @JvmOverloads constructor(
             if (t != null) {
                 t.barcode = d
                 t.lastSeen = now
+                t.duration = DurationMark(clock)
                 t.count++
             } else {
-                val nt = Track(nextId++, d, now, now, 1)
+                val nt = Track(nextId++, d, now, now, 1, DurationMark(clock))
                 tracks += nt
                 added += nt.snapshot()
             }
@@ -103,7 +116,7 @@ public class BarcodeTracker @JvmOverloads constructor(
 
     /** Drops every track. Ids keep increasing so they stay unique within the tracker. */
     public fun reset() {
-        synchronized(lock) { tracks.clear() }
+        synchronized(lock) { tracks.clear(); clockBasis = null }
     }
 
     private class Candidate(val detection: Int, val track: Int, val overlap: Float, val distance: Float)

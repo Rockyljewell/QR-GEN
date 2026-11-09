@@ -400,7 +400,7 @@ public final class BarcodeScanner {
         // committed later, after earlier user callbacks have retained frame ownership.
         guard let output = processor.sourceSession.process(
             packet.detections, source: packet.source, epoch: packet.epoch, now: packet.timestamp,
-            mode: packet.mode, duplicateWindow: packet.duplicateWindow
+            mode: packet.mode, duplicateWindow: packet.duplicateWindow, elapsedTime: packet.elapsedTime
         ) else { return }
         if output.completedSingleScan {
             processor.completeSingleScan(source: output.source, epoch: output.epoch)
@@ -419,7 +419,7 @@ public final class BarcodeScanner {
         guard processor.sourceSession.isCurrent(source: output.source, epoch: output.epoch) else { return }
         if !output.scans.isEmpty {
             guard let scans = processor.sourceSession.commitScans(
-                output, now: packet.timestamp, duplicateWindow: packet.duplicateWindow
+                output, now: packet.timestamp, duplicateWindow: packet.duplicateWindow, elapsedTime: packet.elapsedTime
             ), !scans.isEmpty else { return }
             ScanFeedback.play(beep: options.beep, vibrate: options.vibrate)
             onScan?(scans)
@@ -641,7 +641,8 @@ final class FrameProcessor: NSObject, @unchecked Sendable {
         }
 
         let size = CGSize(width: CVPixelBufferGetWidth(pixelBuffer), height: CVPixelBufferGetHeight(pixelBuffer))
-        let now = Barcode.currentTimestamp()
+        let time = CameraFrameClock.sample()
+        let now = time.timestamp
         var barcodes = VisionBarcodeMapper.barcodes(
             from: request.results ?? [],
             requested: config.symbologies,
@@ -662,7 +663,7 @@ final class FrameProcessor: NSObject, @unchecked Sendable {
         }
 
         emit(DecodedCameraFrame(
-            source: source, epoch: epoch, detections: barcodes, timestamp: now,
+            source: source, epoch: epoch, detections: barcodes, timestamp: now, elapsedTime: time.elapsedTime,
             mode: config.mode, duplicateWindow: config.duplicateFilter
         ))
     }

@@ -9,6 +9,7 @@ struct DecodedCameraFrame: Sendable {
     var epoch: UInt64
     var detections: [Barcode] = []
     var timestamp: Int64 = 0
+    var elapsedTime: Int64? = nil
     var mode: ScannerOptions.Mode = .continuous
     var duplicateWindow: Int = 1000
     var error: QRGenError?
@@ -103,7 +104,7 @@ final class CameraFrameSession: @unchecked Sendable {
     /// detections/track/single-pause callbacks may cancel delivery without consuming reports.
     func process(
         _ barcodes: [Barcode], source: UInt64, epoch: UInt64, now: Int64,
-        mode: ScannerOptions.Mode, duplicateWindow: Int
+        mode: ScannerOptions.Mode, duplicateWindow: Int, elapsedTime: Int64? = nil
     ) -> FrameOutput? {
         lock.lock()
         defer { lock.unlock() }
@@ -111,7 +112,7 @@ final class CameraFrameSession: @unchecked Sendable {
         var output = FrameOutput(source: source, epoch: epoch, detections: barcodes)
         var preview = duplicates
         for barcode in barcodes {
-            if preview.shouldReport(barcode.dedupeKey, now: now, window: duplicateWindow) {
+            if preview.shouldReport(barcode.dedupeKey, now: now, window: duplicateWindow, elapsedTime: elapsedTime) {
                 output.scans.append(barcode)
             }
         }
@@ -121,7 +122,7 @@ final class CameraFrameSession: @unchecked Sendable {
         case .continuous:
             break
         case .batch:
-            let tracked = tracker.update(with: barcodes, now: now)
+            let tracked = tracker.update(with: barcodes, now: now, elapsedTime: elapsedTime)
             if !tracked.isEmpty || hadTracks || pendingClear { output.tracked = tracked }
             hadTracks = !tracked.isEmpty
         }
@@ -131,10 +132,10 @@ final class CameraFrameSession: @unchecked Sendable {
 
     /// Called immediately before scan delivery, after every earlier user callback has retained
     /// ownership. Recompute against current history so an abandoned frame never loses a report.
-    func commitScans(_ output: FrameOutput, now: Int64, duplicateWindow: Int) -> [Barcode]? {
+    func commitScans(_ output: FrameOutput, now: Int64, duplicateWindow: Int, elapsedTime: Int64? = nil) -> [Barcode]? {
         lock.lock()
         defer { lock.unlock() }
         guard output.source == generation, output.epoch == epoch else { return nil }
-        return output.scans.filter { duplicates.shouldReport($0.dedupeKey, now: now, window: duplicateWindow) }
+        return output.scans.filter { duplicates.shouldReport($0.dedupeKey, now: now, window: duplicateWindow, elapsedTime: elapsedTime) }
     }
 }

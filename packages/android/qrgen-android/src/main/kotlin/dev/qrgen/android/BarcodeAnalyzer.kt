@@ -3,6 +3,7 @@
 
 package dev.qrgen.android
 
+import android.os.SystemClock
 import androidx.annotation.OptIn
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
@@ -10,6 +11,8 @@ import androidx.camera.core.ImageProxy
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
+import dev.qrgen.ClockSample
+import dev.qrgen.ClockSource
 import dev.qrgen.FrameTransform
 import dev.qrgen.Size
 import dev.qrgen.Symbology
@@ -31,7 +34,7 @@ import com.google.mlkit.vision.barcode.common.Barcode as MlKitBarcode
 internal class BarcodeAnalyzer(
     private val executor: Executor,
     private val captureProcessing: () -> ProcessingSession.Frame?,
-    private val onFrame: (processing: ProcessingSession.Frame, barcodes: List<MlKitBarcode>, frame: Size, timestamp: Long) -> Unit,
+    private val onFrame: (processing: ProcessingSession.Frame, barcodes: List<MlKitBarcode>, frame: Size, clock: ClockSample) -> Unit,
     private val onFailure: (ProcessingSession.Frame, Exception) -> Unit,
 ) : ImageAnalysis.Analyzer {
 
@@ -65,10 +68,10 @@ internal class BarcodeAnalyzer(
             if (scanner == null) return
             val rotation = image.imageInfo.rotationDegrees
             val frame = FrameTransform.uprightSize(image.width, image.height, rotation)
-            val timestamp = System.currentTimeMillis()
+            val clock = cameraClock.sample()
             val input = InputImage.fromMediaImage(media, rotation)
             scanner.process(input)
-                .addOnSuccessListener(executor) { list -> if (!closed.get() && !paused) onFrame(processing, list, frame, timestamp) }
+                .addOnSuccessListener(executor) { list -> if (!closed.get() && !paused) onFrame(processing, list, frame, clock) }
                 .addOnFailureListener(executor) { e -> if (!closed.get() && !paused) onFailure(processing, e) }
                 .addOnCompleteListener(executor) { image.close() }
             handedOff = true
@@ -77,6 +80,11 @@ internal class BarcodeAnalyzer(
         } finally {
             if (!handedOff) image.close()
         }
+    }
+
+    private companion object {
+        // Stable across analyzer/source replacements; includes device sleep.
+        val cameraClock = ClockSource { SystemClock.elapsedRealtime() }
     }
 
     private fun clientFor(requested: Set<Symbology>): BarcodeScanner? {
