@@ -1,12 +1,14 @@
 # EAN ambiguity candidate: public SDK integration study
 
-The isolated candidate also suppresses the identified wrong-value mechanism through QR-GEN's public SDK. **It is not installed in the released SDK or live scanner.** Main continues using released zxing-wasm 3.1.5. [Issue #32](https://github.com/Rockyljewell/QR-GEN/issues/32) remains open: the separate `/1/35` wrong value and explicit UPC-A-only behavior remain unresolved. No physical-phone, held-out accuracy or Scandit parity claim follows from this study.
+The isolated candidate also suppresses the identified wrong-value mechanism through QR-GEN's public SDK. **It is not installed in the released SDK or live scanner.** The packages, wrappers and recorded results below belong to the historical 3.1.5 study.
+
+On November 8, 2026, [PR #94](https://github.com/Rockyljewell/QR-GEN/pull/94) updated main to released zxing-wasm 3.1.6; see the [current decoder status](STABILITY-AUDIT-2026-10-11.md#november-8-2026-decoder-and-ean-status). [Issue #32](https://github.com/Rockyljewell/QR-GEN/issues/32) remains open: the separate `/1/35` wrong value and explicit UPC-A-only behavior remain unresolved. This study does not establish current 3.1.6 candidate integration, physical-phone reliability, held-out accuracy or Scandit parity.
 
 ## Build and public package boundary
 
 The [build/package report](https://github.com/Rockyljewell/QR-GEN/blob/fc54ac2d60f237651985df9a9bef684c02dd1dc2/docs/ean-sdk-builds-2026-10-11/README.md) stages the exact SDK source from `6d3728f569f1cd5031fa8ca40ec090c8ff6bdf5b` into separate external baseline/candidate packages. Only the candidate's reader imports, version-only reader import, Node asset bootstrap, reader postbuild copy and matching test mock boundary change. Scanner, tracking, image conversion and inversion policy remain unchanged. Both diagnostic packages build, typecheck and pass all 358 SDK tests.
 
-The candidate uses the matching compiled reader graph/WASM from [the previous compiled study](EAN-CANDIDATE-VALIDATION-2026-10-11.md). Its reader SHA256 is `f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6`. Both writers remain released 3.1.5, SHA256 `af26f895fe471d23cb2d742bc3eca0695dbecb4ea6bad9b92eba3763ec505941`. Each packed archive has 95 files and 28 public export leaf targets; file existence does not establish runtime coverage of every optional framework/export.
+The candidate uses the matching compiled reader graph/WASM from [the previous compiled study](EAN-CANDIDATE-VALIDATION-2026-10-11.md). Its reader SHA256 is `f9d636340ef9b9b3e433e9c81a1cff228c80c4d9f45b748b6fe116308821ddc6`. Both diagnostic writers used released 3.1.5, SHA256 `af26f895fe471d23cb2d742bc3eca0695dbecb4ea6bad9b92eba3763ec505941`. Each packed archive has 95 files and 28 public export leaf targets; file existence does not establish runtime coverage of every optional framework/export.
 
 Eight extracted-package smoke scenarios cover Node 18.17.0/24.19.0, ESM/CommonJS and both variants. Each generates/scans the same three clean QR/EAN/UPC identities and observes the exact expected reader/writer bytes at WebAssembly instantiation. The original Node18 Windows-path harness failure and corrected runner remain separately identified. These repeated clean executions are not independent accuracy samples.
 
