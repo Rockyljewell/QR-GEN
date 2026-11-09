@@ -707,6 +707,37 @@ through ReactDOM, with native views and the VisionCamera 4.7.3 stable-ref hook m
 They establish component/style/DOM behavior, not installed-hook execution, phone
 preview pixels, camera-driver provenance, decoder accuracy or Scandit parity.
 
+## November 9, 2026 Android retained-layout projection
+
+[Issue #116](https://github.com/Rockyljewell/QR-GEN/issues/116) was reported before
+production edits. The [test-only baseline](https://github.com/Rockyljewell/QR-GEN/actions/runs/42561861085)
+ran the actual bound scanner view, internal overlay callback and native-graphics
+software Bitmap drawing through Robolectric 4.16.1 / Android API 35. After a
+390×844 to 400×860 layout change without another event, retained outline pixels
+stayed at the old coordinates. A fresh identical event recovered the independently
+calculated centered-cover projection.
+
+Bitmap capability and all five controls passed: initial geometry, the original
+399 ms presence / 400 ms expiry boundary, fresh-event recovery, public restart
+source-clear and public stop. All nine saved PNG hashes, accent-pixel counts and
+bounds were independently recomputed; view/controller cleanup and 9/9 bitmap
+recycling passed. The Android module actually ran 31 tests: 30 previous tests
+passed and the new test failed only at its final resize assertion. Core/Compose
+reports were cached and the ABI step was skipped after that expected Gradle
+failure. The other 12 workflow jobs passed. These distinctions remain in the
+retained baseline evidence.
+
+The correction retains owned immutable frame geometry and remaps on size changes,
+preserving the original deadline. Clear and expiry discard both source and mapped
+geometry. Paints, styling, public APIs, frame delivery and initial admission remain.
+CI runs the unchanged bitmap regression alongside existing Android/core/Compose,
+library/sample builds and legacy ABI checks.
+
+The test controls an internal overlay event and uptime with camera permission
+denied. It verifies detached View measure/layout/draw and software bitmap pixels;
+it does not execute CameraX/MLKit admission, a camera provider/driver, native camera
+preview, physical-phone behavior or a Scandit comparison.
+
 ## Retail AR and adjacent features
 
 The following is an assessment of repository code against the vendors' published
