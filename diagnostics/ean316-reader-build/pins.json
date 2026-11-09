@@ -190,5 +190,8 @@
     "Licensed independentheldout correctness/recall and residual35/UPC-only gates remain open."
   ],
   "nodeVersion": "22.14.0",
-  "pnpmVersion": "12.14.0"
+  "pnpmVersion": "12.14.0",
+  "pnpmNativeURL": "https://registry.npmjs.org/@pnpm/exe.linux-x64/-/exe.linux-x64-12.14.0.tgz",
+  "pnpmNativeIntegrity": "sha512-F6K8e/jWxiuEYJaQtRRUG9ynBSTEHa+t7Lf86MKuOO5UA7WVVMbi+oB8nY6iKW++ncWS2yG6T9faXZGxqNsfoQ==",
+  "pnpmNativeBinarySHA256": "5e9119e6f4f18dace3795169e9b3672231ab3662505862dc3026571303a8ef32"
 }

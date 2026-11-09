@@ -20,6 +20,38 @@ class RunnerBoundaries(unittest.TestCase):
     def test_pinned_configuration(self):
         self.assertEqual(len(runner.load_inputs()["sourceFiles"]), 23)
 
+    def test_native_pnpm_layout_rejects_wrong_architecture_or_missing_payload(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            wrapper, native = root / "wrapper", root / "native"
+            wrapper.mkdir()
+            native.mkdir()
+            name, version = "@pnpm/exe.linux-x64", "12.14.0"
+            (native / "package.json").write_text(json.dumps({
+                "name": name, "version": version, "os": ["linux"],
+                "cpu": ["x64"], "libc": ["glibc"]}))
+            (wrapper / "package.json").write_text(json.dumps({
+                "name": "pnpm", "version": version, "optionalDependencies": {name: version}}))
+            payload = wrapper / "dist/node_modules/node-gyp/bin/node-gyp.js"
+            payload.parent.mkdir(parents=True)
+            payload.write_text("Controlled non-executed payload")
+            # Deliberately inert header fixture: never invoked as a program.
+            binary = bytearray(64)
+            binary[:6] = b"\x7fELF\x02\x01"
+            binary[18:20] = (62).to_bytes(2, "little")
+            (native / "pnpm").write_bytes(binary)
+            runner.materialize_pnpm(wrapper, native, version, runner.digest(binary))
+            self.assertEqual((wrapper / "pnpm").read_bytes(), binary)
+            binary[18:20] = (183).to_bytes(2, "little")
+            (native / "pnpm").write_bytes(binary)
+            with self.assertRaisesRegex(ValueError, "ELF identity"):
+                runner.materialize_pnpm(wrapper, native, version, runner.digest(binary))
+            binary[18:20] = (62).to_bytes(2, "little")
+            (native / "pnpm").write_bytes(binary)
+            payload.unlink()
+            with self.assertRaisesRegex(ValueError, "payload is missing"):
+                runner.materialize_pnpm(wrapper, native, version, runner.digest(binary))
+
     def test_source_note_copy_requires_matching_hash(self):
         with tempfile.TemporaryDirectory() as temporary:
             parent = pathlib.Path(temporary)

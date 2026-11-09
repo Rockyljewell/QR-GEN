@@ -86,6 +86,31 @@ def unpack(archive, destination, top):
     return destination / top
 
 
+def materialize_pnpm(wrapper, native, version, expected_hash):
+    package = json.loads((native / "package.json").read_bytes())
+    parent = json.loads((wrapper / "package.json").read_bytes())
+    if (package["name"] != "@pnpm/exe.linux-x64" or package["version"] != version
+            or package["os"] != ["linux"] or package["cpu"] != ["x64"]
+            or package["libc"] != ["glibc"]
+            or parent["name"] != "pnpm" or parent["version"] != version
+            or parent["optionalDependencies"].get(package["name"]) != version):
+        raise ValueError("Native pnpm package identity differs")
+    binary = (native / "pnpm").read_bytes()
+    if (len(binary) < 64 or binary[:6] != b"\x7fELF\x02\x01"
+            or int.from_bytes(binary[18:20], "little") != 62
+            or digest(binary) != expected_hash):
+        raise ValueError("Native pnpm ELF identity or hash differs")
+    if not (wrapper / "dist/node_modules/node-gyp/bin/node-gyp.js").is_file():
+        raise ValueError("Native pnpm wrapper payload is missing")
+    # Match the pinned official install.js Unix layout without running its hooks.
+    destination = wrapper / "pnpm"
+    shutil.copy2(native / "pnpm", destination)
+    destination.chmod(0o755)
+    return {"package": package, "binarySHA256": digest(binary), "binaryBytes": len(binary),
+            "elf": "ELF64 little-endian x86-64", "entry": "/task/tools/pnpm/pnpm",
+            "automaticDownloaderUsed": False}
+
+
 class Build:
     def __init__(self, pins, variant, output, checkout):
         self.pins, self.variant = pins, variant
@@ -284,9 +309,19 @@ class Build:
             raise ValueError("Expected a SHA512 pnpm integrity pin")
         pnpm = self.download("pnpm.tgz", self.pins["pnpmURL"], "sha512", base64.b64decode(integrity[7:], validate=True))
         unpack(pnpm, tools / "pnpm-extract", "package").rename(tools / "pnpm")
+        native_integrity = self.pins["pnpmNativeIntegrity"]
+        if not native_integrity.startswith("sha512-"):
+            raise ValueError("Expected a SHA512 native pnpm integrity pin")
+        native = self.download("pnpm-native.tgz", self.pins["pnpmNativeURL"], "sha512",
+                               base64.b64decode(native_integrity[7:], validate=True))
+        native_root = unpack(native, tools / "pnpm-native-extract", "package")
+        native_root.rename(tools / "pnpm-native")
+        self.receipt["pnpmNativeBootstrap"] = materialize_pnpm(
+            tools / "pnpm", tools / "pnpm-native", self.pins["pnpmVersion"],
+            self.pins["pnpmNativeBinarySHA256"])
         (tools / "bin").mkdir()
         launcher = tools / "bin/pnpm"
-        launcher.write_text('#!/bin/sh\nexec /task/tools/node/bin/node /task/tools/pnpm/bin/pnpm.cjs "$@"\n')
+        launcher.write_text('#!/bin/sh\nexec /task/tools/pnpm/pnpm "$@"\n')
         launcher.chmod(0o755)
         versions = ('test "$(node --version)" = "v' + self.pins["nodeVersion"] + '"\n'
                     + 'test "$(pnpm --version)" = "' + self.pins["pnpmVersion"] + '"\n')
