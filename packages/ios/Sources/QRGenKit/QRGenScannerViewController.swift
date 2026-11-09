@@ -178,6 +178,8 @@ open class QRGenScannerViewController: UIViewController {
         pruneTask = nil
         toastTask?.cancel()
         toastTask = nil
+        toastView.layer.removeAllAnimations()
+        toastView.isHidden = true
         clearHighlights()
         updateTorchButton(isOn: false)
     }
