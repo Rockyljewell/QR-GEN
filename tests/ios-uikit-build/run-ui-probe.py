@@ -36,6 +36,16 @@ PROBES = {
             "source_clear_removes_overlays": "control",
         },
     },
+    "batch-model-path": {
+        "flag": "--qrgen-batch-model-path-probe",
+        "file": "qrgen-batch-model-path.json",
+        "checks": {
+            "model_path_capability": "capability",
+            "ordinary_batch_model_path": "control",
+            "backward_epoch_batch_model_path": "target",
+            "source_clear_detaches_model_paths": "control",
+        },
+    },
 }
 UUID = re.compile(r"[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}")
 
@@ -78,12 +88,16 @@ def classify_probe(record):
         states = payload.get("scannerStates", [])
         if not states or any(state not in ("idle", "stopped") for state in states):
             raise RuntimeError("Probe observed an unexpected scanner state")
-        if name == "batch-overlay" and payload.get("phase") == "harness-inconclusive":
+        if name == "batch-model-path":
+            if (payload.get("visibleOverlayClaim") is not False or payload.get("presentationInspected") is not False
+                    or payload.get("nativeSessionExecuted") is not False or payload.get("modelTimesControlled") is not True):
+                raise RuntimeError("Model-path receipt must retain its controlled-model-only evidence scope")
+        if name in ("batch-overlay", "batch-model-path") and payload.get("phase") == "harness-inconclusive":
             reasons = payload.get("inconclusiveReasons")
             if (payload.get("pass") is not False or type(payload.get("capabilityPassed")) is not bool
                     or not isinstance(reasons, list) or not reasons
                     or any(not isinstance(reason, str) or not reason for reason in reasons)):
-                raise RuntimeError("Inconclusive projection needs capability, reasons and a non-pass result")
+                raise RuntimeError("Inconclusive spatial probe needs capability, reasons and a non-pass result")
             if type(payload.get("semanticCasesRun")) is not int or not 0 <= payload["semanticCasesRun"] <= 3:
                 raise RuntimeError("Inconclusive receipt needs its actual semantic case count")
             if not isinstance(payload.get("semanticCasesNotRun"), list):
@@ -91,9 +105,9 @@ def classify_probe(record):
             return {"status": "harness_inconclusive", "validSemanticEvidence": False}
         if payload.get("phase") != "complete":
             raise RuntimeError("App did not finish a valid probe")
-        if name == "batch-overlay":
+        if name in ("batch-overlay", "batch-model-path"):
             if payload.get("capabilityPassed") is not True:
-                raise RuntimeError("Batch semantics require the native projection capability")
+                raise RuntimeError("Batch semantics require the declared capability")
             if type(payload.get("semanticCasesRun")) is not int or payload["semanticCasesRun"] != 3 or payload.get("semanticCasesNotRun") != [] or payload.get("inconclusiveReasons") != []:
                 raise RuntimeError("Complete batch receipt must run all three semantic cases")
         checks = payload.get("checks", [])
