@@ -314,6 +314,21 @@ correct photographic reads or introduced other wrong values. The compact package
 preserves full raw outputs and exact portable replay; no decoder default changed.
 [Issue #32](https://github.com/Rockyljewell/QR-GEN/issues/32) remains open.
 
+## November 8, 2026 decoder and EAN status
+
+The SDK pins released zxing-wasm 3.1.6 after [PR #94](https://github.com/Rockyljewell/QR-GEN/pull/94).
+It fixes native reader result-vector cleanup on success, empty results and conversion
+failures; it does not fix EAN accuracy. The dated public-SDK recheck in
+[issue #32](https://github.com/Rockyljewell/QR-GEN/issues/32) still returned both known
+checksum-valid wrong EAN values on the frozen historical inputs, with the original
+positive control passing. These repeated source labels are not independent accuracy
+samples or phone evidence. The issue remains open.
+
+The candidate, SDK-integration and row-trace studies below retain their original
+3.1.5 baseline, assets, hashes and results. The custom ambiguity candidate remains
+uninstalled; those studies do not validate a 3.1.6 candidate or replace the remaining
+independent held-out, distribution, physical-phone and matched Scandit gates.
+
 ## Compiled EAN candidate and deployed retail follow-up
 
 The [compiled ambiguity candidate report](EAN-CANDIDATE-VALIDATION-2026-10-11.md)
@@ -321,7 +336,7 @@ preserves a reproducible baseline, actual rebuilt-WASM comparison, native unit
 suite and real Chromium worker checks. Its 3,988 profiles / 12,108 reader calls
 retain every expected text/family/bytes found by the baseline and introduce no new text/format
 pairs. The candidate suppresses the known /2/07 ambiguity; /1/35 and explicit
-UPC-A-only behavior remain unresolved. Production still uses released 3.1.5.
+UPC-A-only behavior remain unresolved. Production used released 3.1.5 during this historical study.
 These development fixtures do not establish population or phone/vendor parity.
 
 The merged retail release at `6d3728f` passes main CI, Pages and Docker builds.
@@ -366,9 +381,9 @@ They also show one decoder group collecting support from both placements of a
 two-identical-label control. Returned positions are representative scanline-based
 quadrilaterals and need not enclose every historical contributing row. They do
 not establish physical symbol boundaries or item counts. No new decoder filter
-or default is justified by this diagnostic study; production remains released
-zxing-wasm 3.1.5 and [issue #32](https://github.com/Rockyljewell/QR-GEN/issues/32)
-remains open.
+or default is justified by this diagnostic study. Released zxing-wasm 3.1.5 was
+its production baseline; [issue #32](https://github.com/Rockyljewell/QR-GEN/issues/32)
+remains open. The dated decoder status above records the later 3.1.6 upgrade.
 
 ## Adapter, HTTP and GS1 reliability follow-up
 

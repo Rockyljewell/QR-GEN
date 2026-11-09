@@ -1,6 +1,8 @@
 # EAN-13 ambiguity candidate: compiled validation
 
-The isolated candidate suppresses one confirmed wrong-value mechanism without losing a target read in the recorded development corpus. It is **not installed in QR-GEN**: production continues to use released zxing-wasm 3.1.5. [Issue #32](https://github.com/Rockyljewell/QR-GEN/issues/32) remains open because the separate `/1/35` wrong value and explicit UPC-A-only behavior remain unresolved. This is not physical-phone, population-accuracy or Scandit parity evidence.
+The isolated candidate suppresses one confirmed wrong-value mechanism without losing a target read in the recorded development corpus. It is **not installed in QR-GEN**. The candidate and baseline results below use 3.1.5; their recorded assets and hashes remain historical evidence.
+
+On November 8, 2026, [PR #94](https://github.com/Rockyljewell/QR-GEN/pull/94) updated main to released zxing-wasm 3.1.6. The [current decoder status](STABILITY-AUDIT-2026-10-11.md#november-8-2026-decoder-and-ean-status) distinguishes its result-vector cleanup fix from the unresolved EAN defects. [Issue #32](https://github.com/Rockyljewell/QR-GEN/issues/32) remains open, including the separate `/1/35` wrong value and explicit UPC-A-only behavior. This report does not validate a candidate rebased onto 3.1.6 or establish physical-phone, population-accuracy or Scandit parity.
 
 ## Mechanism and source review
 
