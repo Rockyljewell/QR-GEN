@@ -411,6 +411,7 @@ public class QRGenScanner @JvmOverloads constructor(
             val provider = try {
                 future.get()
             } catch (e: Exception) {
+                if (!started) return@addListener
                 state = State.STOPPED
                 emitError(ErrorCode.CAMERA_NOT_FOUND, "Could not initialise the camera: ${e.cause?.message ?: e.message}", e)
                 return@addListener

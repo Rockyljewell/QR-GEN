@@ -610,6 +610,30 @@ physical-phone validation or the matched Scandit comparison. Flutter's optional 
 helpers still need a camera integration that carries native source and coordinate
 provenance; their existence alone does not complete that feature.
 
+## November 9, 2026 native UI lifetime follow-up
+
+Two further defects were reported before their production edits:
+
+- [#108](https://github.com/Rockyljewell/QR-GEN/issues/108): leaving and returning to the same iOS scanner cancelled the toast timer but left the old success visible. The actual UIKit Simulator baseline had one intended failure and two passing ordinary/fresh-toast controls, with valid timing, no skips and verified Simulator cleanup. Disappearance now stops the obsolete toast animation and hides its view; normal styling and toast animations remain.
+- [#109](https://github.com/Rockyljewell/QR-GEN/issues/109): a pending Android camera-provider failure still called the application's error listener after stop. The corrected compiled baseline had one intended failure and 17 passing Compose tests, including the current, released and coalesced-restart controls. Publication now requires scanning still to be requested; late-success caching and active restart failures retain their existing behavior.
+
+The [initial baseline](https://github.com/Rockyljewell/QR-GEN/actions/runs/42548161246)
+provides the clean three-case UIKit reproduction. Its Android run was confounded
+by five test-shadow ClassCastExceptions. Sharing the existing provider/companion
+shadow identity and resetting its test-only future override removed that interference;
+the [corrected Android baseline](https://github.com/Rockyljewell/QR-GEN/actions/runs/42549017600)
+retains all four new and 14 existing semantic oracles. The original failures remain
+recorded separately.
+
+The existing iOS compile/link check remains. A separate runtime step reuses its
+exact compiled app, navigates the actual controller through a real UIKit stack,
+and observes the captured toast view after the deadline. Automatic camera startup
+is disabled and scan callbacks are controlled. Source, fixture and executable hashes,
+launch tokens, timing calibration and exact owned-Simulator cleanup are checked.
+Android tests run the actual public controller, lifecycle and main-executor delivery;
+only provider acquisition is controlled. These are UI/lifecycle checks, not physical
+camera, decoder-accuracy or Scandit-parity evidence. The original UI design remains.
+
 ## Retail AR and adjacent features
 
 The following is an assessment of repository code against the vendors' published
