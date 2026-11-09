@@ -193,6 +193,7 @@ def main():
         spec = PROBES[name]
         token = receipt["probeToken"] if index == 0 else str(uuid.uuid4())
         record = {"name": name, "probeToken": token, "receiptFilename": spec["file"]}
+        path = container / "Documents" / spec["file"]
         last_bytes = None
         payload = None
         try:
@@ -200,9 +201,8 @@ def main():
                 # Terminate only this app on the owned device, never another Simulator.
                 sim("terminate-before-" + name, "terminate", BUNDLE_ID, check=False)
             sim("launch" if index == 0 else "launch-" + name, "launch", BUNDLE_ID,
-                spec["flag"], "--qrgen-probe-token", token,
+                spec["flag"], "--qrgen-probe-token", token, timeout=120,
                 before_device=("--terminate-running-process",) if index else ())
-            path = container / "Documents" / spec["file"]
             deadline = time.monotonic() + 45
             while time.monotonic() < deadline:
                 if path.is_file():
@@ -220,6 +220,19 @@ def main():
                 record["collectionError"] = "No terminal app receipt within 45s; UI oracle is inconclusive"
         except Exception as error:
             record["collectionError"] = type(error).__name__ + ": " + str(error)
+            # A launch CLI error does not prove the app never wrote a receipt.
+            # Salvage existing bytes without retrying or clearing the setup failure.
+            try:
+                if path.is_file():
+                    last_bytes = path.read_bytes()
+                    try:
+                        candidate = json.loads(last_bytes)
+                        if isinstance(candidate, dict):
+                            payload = candidate
+                    except (json.JSONDecodeError, UnicodeDecodeError):
+                        pass
+            except Exception as receipt_error:
+                record["receiptReadError"] = type(receipt_error).__name__ + ": " + str(receipt_error)
         # Preserve terminal or partial bytes before any schema or semantic classification.
         if last_bytes is not None:
             name_on_disk = name + "-app-receipt.json"
