@@ -4,6 +4,7 @@
 package dev.qrgen.android
 
 import dev.qrgen.Barcode
+import dev.qrgen.ClockSample
 import dev.qrgen.ScanArea
 import dev.qrgen.ScannerOptions
 import dev.qrgen.Symbology
@@ -28,7 +29,7 @@ class ProcessingSessionTest {
         onTrack: (List<TrackedBarcode>) -> Unit = {},
         onSingleScan: () -> Unit = {},
         onScan: (List<Barcode>) -> Unit = {},
-    ) = session.deliver(frame, listOf(code), now, sourceIsCurrent, onFrame, onTrack, onSingleScan, onScan)
+    ) = session.deliver(frame, listOf(code), ClockSample.manual(now), sourceIsCurrent, onFrame, onTrack, onSingleScan, onScan)
 
     @Test
     fun aQueuedResultIsRejectedWhilePausedAndAfterResumeWithoutConsumingOnceOnlyHistory() {

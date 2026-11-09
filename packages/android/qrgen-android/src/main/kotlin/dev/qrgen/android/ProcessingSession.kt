@@ -5,6 +5,7 @@ package dev.qrgen.android
 
 import dev.qrgen.Barcode
 import dev.qrgen.BarcodeTracker
+import dev.qrgen.ClockSample
 import dev.qrgen.DuplicateFilter
 import dev.qrgen.ScannerOptions
 import dev.qrgen.TrackedBarcode
@@ -86,7 +87,7 @@ internal class ProcessingSession(initialOptions: ScannerOptions) {
     fun deliver(
         frame: Frame,
         barcodes: List<Barcode>,
-        timestamp: Long,
+        clock: ClockSample,
         sourceIsCurrent: () -> Boolean,
         onFrame: (List<TrackedBarcode>?) -> Unit,
         onTrack: (List<TrackedBarcode>) -> Unit,
@@ -97,7 +98,7 @@ internal class ProcessingSession(initialOptions: ScannerOptions) {
         if (!current()) return
         when (frame.options.mode) {
             ScannerOptions.Mode.BATCH -> {
-                val update = tracker.update(barcodes, timestamp)
+                val update = tracker.updateAt(barcodes, clock)
                 pendingBatchScans.addAll(update.added.map { it.id })
                 pendingBatchScans.retainAll(update.tracked.map { it.id }.toSet())
                 onFrame(update.tracked)
@@ -106,14 +107,14 @@ internal class ProcessingSession(initialOptions: ScannerOptions) {
                 if (!current()) return
                 val observed = barcodes.map { it.key }.toSet()
                 val candidates = update.tracked.filter { it.id in pendingBatchScans && it.barcode.key in observed }
-                val fresh = duplicateFilter.filter(candidates.map { it.barcode }, timestamp)
+                val fresh = duplicateFilter.filterAt(candidates.map { it.barcode }, clock)
                 pendingBatchScans.removeAll(candidates.map { it.id }.toSet())
                 if (fresh.isNotEmpty()) onScan(fresh)
             }
             ScannerOptions.Mode.SINGLE -> {
                 onFrame(null)
                 if (!current() || singleShotDone) return
-                val fresh = duplicateFilter.filter(barcodes, timestamp)
+                val fresh = duplicateFilter.filterAt(barcodes, clock)
                 if (fresh.isEmpty()) return
                 singleShotDone = true
                 // Auto-pause is part of accepting this scan. It cancels every other queued frame.
@@ -124,7 +125,7 @@ internal class ProcessingSession(initialOptions: ScannerOptions) {
             ScannerOptions.Mode.CONTINUOUS -> {
                 onFrame(null)
                 if (!current()) return
-                val fresh = duplicateFilter.filter(barcodes, timestamp)
+                val fresh = duplicateFilter.filterAt(barcodes, clock)
                 if (fresh.isNotEmpty()) onScan(fresh)
             }
         }

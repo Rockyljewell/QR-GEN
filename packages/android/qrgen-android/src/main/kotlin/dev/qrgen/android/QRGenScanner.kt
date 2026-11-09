@@ -33,6 +33,7 @@ import androidx.lifecycle.Observer
 import com.google.mlkit.common.MlKitException
 import dev.qrgen.Barcode
 import dev.qrgen.BoundingBox
+import dev.qrgen.ClockSample
 import dev.qrgen.ErrorCode
 import dev.qrgen.FrameTransform
 import dev.qrgen.QRGenException
@@ -95,6 +96,7 @@ public class QRGenScanner @JvmOverloads constructor(
         val frameSize: Size,
         val mirrored: Boolean,
         val fill: Boolean,
+        val clock: ClockSample,
     )
 
     private val appContext: Context = context.applicationContext
@@ -523,7 +525,7 @@ public class QRGenScanner @JvmOverloads constructor(
         return BarcodeAnalyzer(
             NeverRejectExecutor(executor),
             { processingSession.capture() },
-            { processing, results, frame, timestamp -> onFrame(source, processing, results, frame, timestamp) },
+            { processing, results, frame, clock -> onFrame(source, processing, results, frame, clock) },
             { processing, error -> onAnalysisFailure(source, processing, error) },
         ).also {
             it.paused = analysisPaused
@@ -622,10 +624,10 @@ public class QRGenScanner @JvmOverloads constructor(
     }
 
     /** ML Kit results for one frame. Runs on the analysis thread. */
-    private fun onFrame(source: Long, processing: ProcessingSession.Frame, results: List<MlKitBarcode>, frame: Size, timestamp: Long) {
+    private fun onFrame(source: Long, processing: ProcessingSession.Frame, results: List<MlKitBarcode>, frame: Size, clock: ClockSample) {
         if (!isCurrentFrame(source, processing)) return
         val opts = processing.options
-        var barcodes = results.mapNotNull { BarcodeMapper.map(it, frame, opts.symbologies, timestamp) }
+        var barcodes = results.mapNotNull { BarcodeMapper.map(it, frame, opts.symbologies, clock.timestamp) }
         val roi = regionOfInterest(opts.scanArea, frame)
         if (roi != null) {
             barcodes = barcodes.filter { b -> b.location.isEmpty || b.location.center.let { roi.contains(it.x, it.y) } }
@@ -644,9 +646,9 @@ public class QRGenScanner @JvmOverloads constructor(
         postToMain(source, processing) {
             analysisErrorReported = false
             processingSession.deliver(
-                processing, barcodes, timestamp,
+                processing, barcodes, clock,
                 sourceIsCurrent = { !released && sourceSession.isCurrent(source) },
-                onFrame = { tracked -> frameListener?.invoke(FrameEvent(barcodes, tracked, frame, mirror, fill)) },
+                onFrame = { tracked -> frameListener?.invoke(FrameEvent(barcodes, tracked, frame, mirror, fill, clock)) },
                 onTrack = { tracked ->
                     val listener = trackListener
                     if (sourceSession.recordTrackDelivery(source, listener != null && tracked.isNotEmpty())) {

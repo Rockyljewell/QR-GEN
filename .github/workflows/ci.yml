@@ -180,6 +180,19 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
       - name: Core, Android and Compose tests, library and sample builds
         run: ./gradlew :qrgen-core:test :qrgen-android:testDebugUnitTest :qrgen-compose:testDebugUnitTest :qrgen-android:assembleRelease :qrgen-compose:assembleRelease :sample:assembleDebug :qrgen-compose:generatePomFileForReleasePublication -Pqrgen.android=true --no-daemon
+      - name: Verify legacy clock helper binary compatibility
+        run: python3 scripts/verify-clock-abi.py --output "$RUNNER_TEMP/qrgen-clock-abi-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+      - name: Legacy clock ABI evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-clock-abi
+          path: |
+            ${{ runner.temp }}/qrgen-clock-abi-${{ github.run_id }}-${{ github.run_attempt }}/receipt.json
+            ${{ runner.temp }}/qrgen-clock-abi-${{ github.run_id }}-${{ github.run_attempt }}/*.log
+            ${{ runner.temp }}/qrgen-clock-abi-${{ github.run_id }}-${{ github.run_attempt }}/consumer/build/classes/
+          if-no-files-found: warn
+          retention-days: 7
       - name: Android and Compose test reports
         if: always()
         uses: actions/upload-artifact@v4

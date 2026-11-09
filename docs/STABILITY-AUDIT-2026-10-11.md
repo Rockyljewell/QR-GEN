@@ -582,6 +582,34 @@ start/stop after transport capability, preserves camera-dependent command
 queueing and original styling, and keeps readiness callbacks tied to real ready.
 Physical phones and a matched Scandit comparison remain outstanding.
 
+## November 9, 2026 native duration clocks
+
+[Issue #106](https://github.com/Rockyljewell/QR-GEN/issues/106) was reported before
+production edits. The [test-only baseline](https://github.com/Rockyljewell/QR-GEN/actions/runs/42543817966)
+compiled the actual Swift and Android session implementations: each language had
+four intended clock-correction failures and four passing controls, with no skips.
+Swift ran the same cases on Linux and macOS; these overlap and are not independent
+camera samples. Tests controlled frame epoch metadata and measured real elapsed
+waits; they did not change the OS clock or use a physical camera.
+
+The fix carries a separate duration sample from the existing native capture/processing
+phase through queued delivery and duplicate commit. Epoch result metadata, source and
+processing admission, provisional report history, timeout boundaries and the original
+UI remain. Android retains primitive method and constructor signatures and generated
+Kotlin defaults; explicit `Long.MIN_VALUE` now selects automatic time, with a full-range
+manual escape through `ClockSample.manual` and the named paired-clock methods.
+The camera regression inputs now supply the new elapsed pair; their duration assertions
+and explicit-time controls remain. This is an intentional fixture adaptation, not a
+claim that baseline and fixed test files are byte-identical. The native CI jobs cover
+compiled regressions, actual Apple Vision packet production, the iOS UIKit build,
+Android library/sample builds and legacy Java/Kotlin caller compatibility.
+
+This correction does not resolve [EAN accuracy #32](https://github.com/Rockyljewell/QR-GEN/issues/32),
+[React Native tooling advisories #90](https://github.com/Rockyljewell/QR-GEN/issues/90),
+physical-phone validation or the matched Scandit comparison. Flutter's optional spatial
+helpers still need a camera integration that carries native source and coordinate
+provenance; their existence alone does not complete that feature.
+
 ## Retail AR and adjacent features
 
 The following is an assessment of repository code against the vendors' published

@@ -72,6 +72,24 @@ Alternatively publish to `~/.m2` and use `mavenLocal()`:
 cd packages/android && ./gradlew publishToMavenLocal
 ```
 
+## Duration clocks
+
+Public `Barcode.timestamp` and track `firstSeen`/`lastSeen` remain epoch milliseconds.
+Camera frames capture that timestamp together with Android's sleep-inclusive
+`SystemClock.elapsedRealtime()` before ML Kit processing; queued delivery keeps the same pair.
+Pure JVM helpers use `System.nanoTime()` for automatic elapsed durations.
+
+The existing primitive-`Long` methods and generated default bridges are retained. Omitted
+`now` selects automatic time; **explicit `now = Long.MIN_VALUE` now also selects automatic
+time**. Other explicit `now` values keep their numeric-clock meaning. For the full manual
+range, including `Long.MIN_VALUE`, use `ClockSample.manual(value)` with the distinct
+`acceptAt`, `filterAt` and `updateAt` methods.
+
+Integrations can retain one `ClockSource { elapsedMilliseconds }` and pass its immutable
+`sample(epochTimestamp)` to those paired APIs. Keep the source while retaining history:
+a change of clock source rebases retained timestamp ages once, then durations follow the
+new elapsed clock. Resets clear duration history; rebasing never rewrites public metadata.
+
 ## Camera permission
 
 `qrgen-android` merges `CAMERA` and `VIBRATE` into your manifest (with

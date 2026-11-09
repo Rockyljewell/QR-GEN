@@ -5,6 +5,7 @@ package dev.qrgen.android
 
 import dev.qrgen.Barcode
 import dev.qrgen.BarcodeTracker
+import dev.qrgen.ClockSource
 import dev.qrgen.DuplicateFilter
 import dev.qrgen.ScannerOptions
 import dev.qrgen.Symbology
@@ -26,9 +27,13 @@ class CameraDurationClockAuditTest {
     private class Events {
         val scans = mutableListOf<List<Barcode>>()
         val tracks = mutableListOf<List<TrackedBarcode>>()
+        private val clock = ClockSource { System.nanoTime() / 1_000_000 }
         fun feed(session: ProcessingSession, barcodes: List<Barcode>, timestamp: Long) {
+            val frame = session.capture()!!
+            // The native callback now requires the acquisition pair, not an epoch-only argument.
+            val capturedClock = clock.sample(timestamp)
             session.deliver(
-                frame = session.capture()!!, barcodes = barcodes, timestamp = timestamp,
+                frame = frame, barcodes = barcodes, clock = capturedClock,
                 sourceIsCurrent = { true }, onFrame = {}, onTrack = { tracks.add(it.toList()) },
                 onSingleScan = {}, onScan = { scans.add(it.toList()) },
             )

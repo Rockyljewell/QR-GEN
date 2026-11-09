@@ -206,6 +206,18 @@ tracking time still applies. A cancelled scan must not consume its first-report 
 Batch scanners retain an unreported initial scan separately from a live spatial track and
 deliver it only when that code is observed again and callback/session ownership remains valid.
 
+Native Swift and Android camera pipelines carry one paired epoch/elapsed sample with
+each decoded frame through queued delivery. Duplicate windows and track expiry use the elapsed
+sample; public `timestamp`, `firstSeen` and `lastSeen` remain epoch milliseconds.
+Apple camera duration time uses continuous time, and Android uses `elapsedRealtime`,
+so these native duration clocks include device sleep. Pure JVM helpers use `nanoTime`
+for automatic calls; that portable path makes no suspend-time guarantee. Kotlin's
+primitive `now: Long` entry points remain available. `Long.MIN_VALUE` is reserved for
+automatic time there; use `ClockSample.manual(value)` with `acceptAt`, `filterAt` or
+`updateAt` for the full explicit range. See the [Android clock contract](../packages/android/README.md#duration-clocks).
+Mixing manual and elapsed clock bases rebases retained ages from epoch metadata;
+use a consistent basis while retaining history.
+
 React Native's and Flutter's native scanners use monotonic elapsed time for duplicate
 windows and track expiry. Public timestamps remain epoch-valued: milliseconds in
 React Native and `DateTime` in Flutter. Their pure helpers retain optional injected time
