@@ -250,6 +250,69 @@ describe("REST API", () => {
     expect((await response.json()).error.code).toBe("bad-request");
   });
 
+  describe("scan symbology selection", () => {
+    const data = "REST-SYMBOLOGY-SELECTION";
+    let png: Uint8Array<ArrayBuffer>;
+    beforeAll(async () => { png = new Uint8Array(await generatePNG(data, { symbology: "qr" })); });
+
+    async function scanSelection(source: "query" | "json" | "multipart", selection: string | string[] | null | undefined, query = "") {
+      const params = new URLSearchParams(query);
+      let body: BodyInit = png;
+      let headers: Record<string, string> = {};
+      if (source === "query" && selection != null) params.set("symbologies", String(selection));
+      if (source === "json") {
+        headers = { "content-type": "application/json" };
+        body = JSON.stringify({ image: toBase64(png), symbologies: selection, parse: false });
+      }
+      if (source === "multipart") {
+        const form = new FormData();
+        form.append("image", new Blob([png]), "code.png");
+        if (selection != null) form.append("symbologies", String(selection));
+        form.append("parse", "false");
+        body = form;
+      }
+      return fetch(`${base}/v1/scan?${params}`, { method: "POST", headers, body });
+    }
+
+    for (const source of ["query", "json", "multipart"] as const) {
+      it.each([
+        ["unknown-only", "bogus", 400],
+        ["alias", "QR-Code", 200],
+        ["group", "matrix", 200],
+        ["mixed known and unknown", "qr,bogus", 200],
+        ["excluded format", "ean13", 200],
+        ["omitted", undefined, 200],
+        ["empty", "", 200],
+      ] as const)(`handles %s symbologies from ${source}`, async (_, selection, status) => {
+        const response = await scanSelection(source, selection);
+        expect(response.status).toBe(status);
+        const result = await response.json();
+        if (status === 400) {
+          expect(result).toMatchObject({ error: { code: "bad-request" } });
+          expect(result).not.toHaveProperty("barcodes");
+        } else expect(result.barcodes).toEqual(selection === "ean13" ? [] : [expect.objectContaining({ data, symbology: "qr" })]);
+      });
+    }
+
+    it.each([{ selection: [] }, { selection: [""] }, { selection: ["QR-Code", "bogus"] }])("preserves JSON array selection %j", async ({ selection }) => {
+      const response = await scanSelection("json", selection);
+      expect(response.status).toBe(200);
+      expect((await response.json()).barcodes).toEqual([expect.objectContaining({ data, symbology: "qr" })]);
+    });
+
+    it.each([null, "", undefined])("preserves the query filter when JSON symbologies are %j", async (selection) => {
+      const response = await scanSelection("json", selection, "symbologies=ean13");
+      expect(response.status).toBe(200);
+      expect((await response.json()).barcodes).toEqual([]);
+    });
+
+    it("preserves the query filter when multipart symbologies are empty", async () => {
+      const response = await scanSelection("multipart", "", "symbologies=ean13");
+      expect(response.status).toBe(200);
+      expect((await response.json()).barcodes).toEqual([]);
+    });
+  });
+
   it("POST /v1/parse and errors", async () => {
     const parsed = await (await fetch(`${base}/v1/parse`, { method: "POST", body: JSON.stringify({ data: "WIFI:S:Home;T:WPA;P:secret;;" }) })).json();
     expect(parsed).toMatchObject({ type: "wifi", ssid: "Home" });

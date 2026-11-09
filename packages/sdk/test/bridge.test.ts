@@ -15,6 +15,11 @@ describe("bridge", () => {
       "scan-area": "0,0,1,1",
     });
   });
+  it.each(Object.getOwnPropertyNames(Object.prototype))("ignores inherited unknown query parameter %s", (key) => {
+    const query = new URLSearchParams({ [key]: "value", autostart: "0", maxResults: "1", hint: "1" });
+    expect(attributesFromQuery(`?${query}`)).toEqual({ autostart: "false", "max-results": "1", hint: "1" });
+  });
+
   it("parses messages from strings and objects", () => {
     const m = { source: "qrgen", version: 1, type: "ready" };
     expect(parseBridgeMessage(JSON.stringify(m))).toEqual(m);

@@ -33,7 +33,7 @@ async function transact<T>(mode: IDBTransactionMode, work: (tx: IDBTransaction, 
     let result: T;
     let failure: Error | undefined;
     tx.oncomplete = () => resolve(result);
-    tx.onabort = () => reject(failure ?? new Error("The delivery could not be saved. Your previous saved quantities are unchanged."));
+    tx.onabort = () => reject(failure ?? new Error(mode === "readonly" ? "Saved deliveries could not be read. Try refreshing the page." : "The delivery could not be saved. Your previous saved quantities are unchanged."));
     tx.onerror = () => { /* onabort reports transaction failure */ };
     const fail = (error: Error) => { failure = error; tx.abort(); };
     try { work(tx, value => { result = value; }, fail); } catch (error) { fail(error instanceof Error ? error : new Error(String(error))); }

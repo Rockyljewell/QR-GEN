@@ -173,14 +173,21 @@ async function perform(work: () => Promise<ReceivingSession>, success: string, n
   if (busy) return;
   const focused = document.activeElement;
   busy = true; controls();
+  let committed = false;
   try {
     const saved = await work();
+    committed = true;
     if (newSession) changedSession(saved);
     else { session = saved; render(); }
-    await refreshList();
+    // Notify other tabs once the write commits, even if our list refresh fails.
     channel?.postMessage({ id: saved.id });
+    await refreshList();
     report(success);
   } catch (error) {
+    if (committed) {
+      report(`${success} ${error instanceof Error ? error.message : String(error)}`, true);
+      return;
+    }
     // A rejected correction keeps the entered total. Refreshing rebases it on the
     // revision now displayed, so retrying cannot record the old total under its reason.
     const draft = retainCorrection ? { code: selectedItem()?.code, quantity: value("#correction-quantity") } : null;

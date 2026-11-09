@@ -389,7 +389,7 @@ describe("Scanner session isolation", () => {
       s.resume();
 
       mocks.decode.mockResolvedValue([]);
-      vi.mocked(performance.now).mockReturnValue(200);
+      vi.mocked(performance.now).mockReturnValue(700);
       clock.mockReturnValue(1600);
       await frame();
       expect(s.tracker.all).toEqual([]);
@@ -397,8 +397,8 @@ describe("Scanner session isolation", () => {
       expect(scan).not.toHaveBeenCalled();
 
       mocks.decode.mockResolvedValue([raw]);
-      vi.mocked(performance.now).mockReturnValue(300);
-      clock.mockReturnValue(1620);
+      vi.mocked(performance.now).mockReturnValue(750);
+      clock.mockReturnValue(1650);
       await frame();
       expect(s.tracker.all[0]!.id).not.toBe(id);
       expect(scan).toHaveBeenCalledOnce();

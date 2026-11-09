@@ -463,6 +463,35 @@ await test("demo generator renders every writable symbology and scans back", asy
   });
 });
 
+await test("embed ignores unknown query names without starting the camera", async () => {
+  await withBrowser(null, async (page, errors) => {
+    await page.addInitScript(() => {
+      window.__embedStartup = { mediaAttempts: 0, messages: [] };
+      window.ReactNativeWebView = { postMessage: (message) => window.__embedStartup.messages.push(JSON.parse(message)) };
+      navigator.mediaDevices.getUserMedia = async () => {
+        window.__embedStartup.mediaAttempts++;
+        throw new Error("Embed startup must not request the camera");
+      };
+    });
+    for (const key of ["unknown", "toString", "constructor"]) {
+      const query = new URLSearchParams({ [key]: "value", autostart: "0" });
+      await page.goto(u(`embed/?${query}`), { waitUntil: "load" });
+      const startup = await page.evaluate(() => {
+        const el = document.querySelector("qrgen-scanner");
+        return {
+          connected: el?.isConnected, shadow: !!el?.shadowRoot, state: el?.state, autostart: el?.autostart,
+          bridge: typeof window.qrgen?.command, channels: window.qrgen?.channels,
+          mediaAttempts: window.__embedStartup.mediaAttempts,
+        };
+      });
+      assert(startup.connected && startup.shadow && startup.bridge === "function", `${key}: ${JSON.stringify(startup)}`);
+      assert(startup.channels.includes("react-native"), `${key}: host transport was not detected`);
+      assert(startup.state === "idle" && startup.autostart === false && startup.mediaAttempts === 0, `${key}: ${JSON.stringify(startup)}`);
+      assert(errors.length === 0, errors.join("; "));
+    }
+  });
+});
+
 await test("embed page talks to its host through postMessage", async () => {
   await withBrowser(qrVideo, async (page) => {
     await page.goto(u(""), { waitUntil: "domcontentloaded" });
