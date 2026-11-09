@@ -8,6 +8,7 @@ import { createRequire } from "node:module";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { chromium } from "playwright";
+import { generatePNG } from "qrgen-sdk/node";
 import { writeFakeCamera } from "./fake-camera.mjs";
 
 const BASE = process.env.E2E_BASE_URL ?? "http://127.0.0.1:4329/QR-GEN/";
@@ -444,6 +445,69 @@ await test("demo image samples decode", async () => {
     }
   });
 });
+
+const olderDemoImage = await generatePNG("DEMO-IMAGE-OLDER", { symbology: "qr", scale: 4 });
+const latestDemoImage = await generatePNG("DEMO-IMAGE-LATEST", { symbology: "qr", scale: 7 });
+for (const kind of ["file completion", "sample production"]) {
+  await test(`demo image ${kind} cannot overwrite a later upload`, async () => {
+    await withBrowser(null, async (page, errors) => {
+      await page.addInitScript(() => {
+        const audit = window.__imageOwnership = { hold: null, held: false, pending: new Set(), calls: 0, mediaAttempts: 0 };
+        navigator.mediaDevices.getUserMedia = async () => { audit.mediaAttempts++; throw new Error("Image tests must not request the camera"); };
+        const actual = window.createImageBitmap.bind(window);
+        window.createImageBitmap = async (...args) => {
+          const pending = actual(...args);
+          audit.pending.add(pending); audit.calls++;
+          try {
+            const bitmap = await pending;
+            const source = args[0];
+            if ((audit.hold === "file completion" && source instanceof File && source.name === "older.png") ||
+                (audit.hold === "sample production" && source instanceof Blob && !(source instanceof File))) {
+              audit.hold = null; audit.held = true;
+              await new Promise((done) => { audit.release = done; });
+            }
+            return bitmap;
+          } finally { audit.pending.delete(pending); }
+        };
+      });
+      await page.goto(u("demo/#image"));
+      await page.evaluate((kind) => { window.__imageOwnership.hold = kind; }, kind);
+      if (kind === "file completion") await page.locator("[data-file]").setInputFiles({ name: "older.png", mimeType: "image/png", buffer: olderDemoImage });
+      else await page.locator('[data-sample="label"]').click();
+      await page.waitForFunction(() => window.__imageOwnership.held);
+      await page.locator("[data-file]").setInputFiles({ name: "latest.png", mimeType: "image/png", buffer: latestDemoImage });
+      await page.waitForFunction(() => document.querySelector("[data-img-count]").textContent === "1" &&
+        document.querySelectorAll("[data-img-results] button[data-copy]").length === 1 &&
+        document.querySelector("[data-img-results] button[data-copy]")?.dataset.copy === "DEMO-IMAGE-LATEST");
+      const latestPreview = await page.locator("[data-stage-canvas]").evaluate((canvas) => canvas.toDataURL());
+      await page.evaluate(async () => {
+        const audit = window.__imageOwnership;
+        audit.release();
+        // B warmed the reader; the held sample also warmed the writer. Drain
+        // real bitmap work and cross tasks so cached SDK/preview continuations
+        // settle, including the sample's second bitmap, before checking output.
+        for (let turn = 0; turn < 10; turn++) {
+          const calls = audit.calls;
+          await new Promise((done) => setTimeout(done, 0));
+          await Promise.all([...audit.pending]);
+          await new Promise((done) => setTimeout(done, 0));
+          if (calls === audit.calls && audit.pending.size === 0) return;
+        }
+        throw new Error("Image work did not settle");
+      });
+      const output = await page.evaluate(() => ({
+        payloads: [...document.querySelectorAll("[data-img-results] button[data-copy]")].map((button) => button.dataset.copy),
+        count: document.querySelector("[data-img-count]").textContent,
+        preview: document.querySelector("[data-stage-canvas]").toDataURL(),
+        mediaAttempts: window.__imageOwnership.mediaAttempts,
+      }));
+      assert(JSON.stringify(output.payloads) === JSON.stringify(["DEMO-IMAGE-LATEST"]) && output.count === "1", `stale image results: ${JSON.stringify(output.payloads)}, count ${output.count}`);
+      assert(output.preview === latestPreview, "an older image replaced the latest preview");
+      assert(output.mediaAttempts === 0, "image operation requested the camera");
+      assert(errors.length === 0, errors.join("; "));
+    });
+  });
+}
 
 await test("demo generator renders every writable symbology and scans back", async () => {
   await withBrowser(null, async (page) => {

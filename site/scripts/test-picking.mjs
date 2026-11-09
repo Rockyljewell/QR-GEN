@@ -273,6 +273,15 @@ test("UPC-E, ITF-14, GS1 element strings and Digital Links match the target's GT
   assert.equal(gtin14.snapshot(10).matches.length, 1);
 });
 
+test("semicolon and mixed Digital Link attributes match the target GTIN", () => {
+  const session = active(EAN13);
+  const inputs = ["17=261231;3922=0299", "17=261231;3922=0299&3103=000195"].map((query, i) => scanned(i + 1, `https://id.gs1.org/01/00012345678905?${query}`, "qr"));
+  session.update(inputs, 10);
+  assert.deepEqual(ids(session.snapshot(10).matches), [1, 2]);
+  assert.deepEqual(session.snapshot(10).others, []);
+  assert.deepEqual(values(classifyPickingBarcodes(session.target, inputs).matches), values(inputs));
+});
+
 test("invalid check digits, other symbologies and non-GTIN targets stay exact-only", () => {
   const session = active(EAN13);
   const unmatched = [

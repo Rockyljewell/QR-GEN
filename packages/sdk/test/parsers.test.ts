@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { describe, expect, it } from "vitest";
-import { computeCheckDigit, formatGS1, gs1Date, isValidCheckDigit, parseAAMVA, parseContent, parseGS1 } from "../src/parsers";
+import { computeCheckDigit, formatGS1, gs1Date, isValidCheckDigit, parseAAMVA, parseContent, parseDigitalLink, parseGS1 } from "../src/parsers";
 
 const GS = "\u001d";
 const AAMVA =
@@ -39,6 +39,39 @@ describe("parseGS1", () => {
     expect(r.values).toEqual({ "01": "09501101530003", "10": "ABC 123", "21": "7", "17": "250101" });
     expect(r.digitalLink).toContain("id.gs1.org");
     expect(parseGS1("https://example.com/products/42")).toBeNull();
+  });
+
+  it.each([
+    "17=261231&3922=0299",
+    "17=261231;3922=0299",
+    "17=261231;3922=0299&3103=000195",
+  ])("parses Digital Link attributes separated by either delimiter: %s", (query) => {
+    const input = `https://id.gs1.org/01/09520123456788?${query}`;
+    const result = parseDigitalLink(input);
+    const values = { "01": "09520123456788", "17": "261231", "3922": "0299" };
+    expect(result?.values).toMatchObject(values);
+    expect(result?.elements.find(e => e.ai === "17")?.date).toBe("2026-12-31");
+    expect(result?.elements.find(e => e.ai === "3922")?.number).toBe(2.99);
+    if (query.includes("3103")) expect(result?.elements.find(e => e.ai === "3103")?.number).toBe(0.195);
+    expect(parseGS1(input)).toEqual(result);
+    expect(parseContent(input)).toMatchObject({ type: "gs1-digital-link", url: input, gs1: { values } });
+  });
+
+  it.each(["&", ";"])("keeps an encoded semicolon inside a lot with %s query delimiters", (delimiter) => {
+    const result = parseGS1(`https://id.gs1.org/00/195201234567891232?02=09520123456788${delimiter}37=25${delimiter}10=LOT%3B42`);
+    expect(result?.values).toEqual({ "00": "195201234567891232", "02": "09520123456788", "37": "25", "10": "LOT;42" });
+  });
+
+  it("ignores Digital Link extensions and keeps the first repeated attribute across delimiters", () => {
+    const result = parseGS1("https://id.gs1.org/01/09520123456788?utm_source=shelf;17=261231&3922=0299;17=270101");
+    expect(result?.values).toEqual({ "01": "09520123456788", "17": "261231", "3922": "0299" });
+    expect(result?.elements.filter(e => e.ai === "17").map(e => e.value)).toEqual(["261231", "270101"]);
+  });
+
+  it.each(["17=26123;3922=0299", "17=261231;3932=978"])("keeps known AI validation with semicolon delimiters: %s", (query) => {
+    const input = `https://id.gs1.org/01/09520123456788?${query}`;
+    expect(parseDigitalLink(input)).toBeNull();
+    expect(parseContent(input).type).toBe("url");
   });
 
   it("treats unknown AIs in HRI input as element boundaries", () => {
