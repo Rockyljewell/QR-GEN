@@ -188,7 +188,10 @@ const expectedCaseIds = [
   "batch-public-reset-clears-real-renderer",
   "continuous-public-reset-clears-real-renderer",
   "batch-public-stop-clears-real-renderer",
-  "continuous-public-stop-clears-real-renderer"
+  "continuous-public-stop-clears-real-renderer",
+  "batch-retained-highlight-reprojects-on-same-axis-layout",
+  "continuous-retained-layout-keeps-original-linger-deadline",
+  "continuous-callback-mutation-cannot-alias-retained-highlight-geometry"
 ];
 const boundaries = createBoundaries({ reactPath: dependency.resolve('react') });
   const app = `
@@ -199,7 +202,18 @@ const boundaries = createBoundaries({ reactPath: dependency.resolve('react') });
     const root=createRoot(document.getElementById('app')),ref=createRef();
     const clone=value=>JSON.parse(JSON.stringify(value));
     let props={},events=[],unmounted=false;
-    const scan=codes=>events.push({type:'scan',at:performance.now(),codes:clone(codes)});
+    let mutateScanGeometry=false;const callbackMutations=[];
+    const scan=codes=>{
+      events.push({type:'scan',at:performance.now(),codes:clone(codes)});
+      if(mutateScanGeometry){
+        mutateScanGeometry=false;const before=clone(codes);
+        for(const code of codes){
+          for(const point of Object.values(code.location)){point.x+=1000;point.y+=2000}
+          code.frameSize.width=17;code.frameSize.height=19;
+        }
+        callbackMutations.push({before,after:clone(codes)});
+      }
+    };
     const track=tracks=>events.push({type:'track',at:performance.now(),tracks:clone(tracks)});
     const error=error=>events.push({type:'error',error:clone(error)});
     const ready=()=>events.push({type:'ready',at:performance.now()});
@@ -228,9 +242,11 @@ const boundaries = createBoundaries({ reactPath: dependency.resolve('react') });
       mount(next={}){props={mode:'batch',symbologies:['qr'],duplicateFilter:0,showToast:false,viewfinder:'none',
         beep:false,vibrate:false,style:{width:390,height:844},...next};commit(render)},
       update(next){props={...props,...next};commit(render)},
-      layout(){commit(()=>{if(!window.__nativeProbe.layout)throw new Error('No actual onLayout');window.__nativeProbe.layout({nativeEvent:{layout:{width:390,height:844}}})})},
+      layout(width=390,height=844){commit(()=>{if(!window.__nativeProbe.layout)throw new Error('No actual onLayout');window.__nativeProbe.layout({nativeEvent:{layout:{width,height}}})})},
       frame(codes,frame={width:390,height:844},id){commit(()=>{const camera=id===undefined?current():window.__nativeProbe.instances.get(id);if(!camera)throw new Error('No native Camera boundary');camera.frame(codes,frame)})},
       ready(){commit(()=>current().ready())},
+      mutateNextScanGeometry(){mutateScanGeometry=true},
+      callbackMutations(){return clone(callbackMutations)},
       advanceTo(value){window.clock.advanceTo(value)},
       tick(){commit(()=>{const timers=window.clock.state().timers.filter(t=>t.type==='interval');if(timers.length!==1)throw new Error('Expected one actual interval');window.clock.fireInterval(timers[0].id)})},
       fireDueTimeouts(){commit(()=>window.clock.fireDueTimeouts())},
@@ -473,7 +489,118 @@ const boundaries = createBoundaries({ reactPath: dependency.resolve('react') });
     await frame(page, [B]);const ignored = await observe(page, evidence, 'saved-native-delivery-while-stopped');
     assert.deepEqual(ignored.events, stopped.events);assert.equal(count(ignored), 0);
   });
-  assert.deepEqual(cases.map(item => item.id), expectedCaseIds, 'Executed matrix must preserve the ordered14 regression/control cases');
+  add('batch-retained-highlight-reprojects-on-same-axis-layout', async (page, evidence) => {
+    await mount(page, 'batch', { spatialTracking: true });await frame(page);
+    const before = await observe(page, evidence, 'retained-layout-positive-seed');positive(before);functional(before, 'batch');
+    const observed = tracks(before).at(-1).tracks[0], nextView = { width: 400, height: 860 };
+    // Independent cover arithmetic from the actual public track, not a production projection helper.
+    const expectedRect = view => {
+      const points = Object.values(observed.location), xs = points.map(point => point.x), ys = points.map(point => point.y);
+      const scale = Math.max(view.width / observed.frameSize.width, view.height / observed.frameSize.height);
+      return { x: Math.min(...xs) * scale + (view.width - observed.frameSize.width * scale) / 2 - 4,
+        y: Math.min(...ys) * scale + (view.height - observed.frameSize.height * scale) / 2 - 4,
+        width: (Math.max(...xs) - Math.min(...xs)) * scale + 8, height: (Math.max(...ys) - Math.min(...ys)) * scale + 8 };
+    };
+    const keys = ['x', 'y', 'width', 'height'];
+    const near = (actual, expected, tolerance) => actual && keys.every(key =>
+      Number.isFinite(actual[key]) && Math.abs(actual[key] - expected[key]) <= tolerance);
+    const matches = (value, expected) => {
+      if (count(value) !== 1) return false;
+      const entry = outlines(value)[0];
+      return near(entry.relativeRect, expected, 0.02) && near({
+        x: entry.style.left, y: entry.style.top, width: entry.style.width, height: entry.style.height,
+      }, expected, 1e-7);
+    };
+    const expectedInitial = expectedRect({ width: 390, height: 844 }), expectedResized = expectedRect(nextView);
+    await update(page, { style: nextView });
+    await page.evaluate(() => window.fixture.layout(400, 860));
+    const resized = await observe(page, evidence, 'same-axis-layout-without-next-frame');
+    const reprojected = matches(resized, expectedResized);
+    await frame(page);
+    const recovery = await observe(page, evidence, 'fresh-identical-A-frame-reprojects-at-new-layout');
+    evidence.push({ stage: 'independent-cover-oracle', value: { expectedInitial, expectedResized,
+      styleTolerance: 1e-7, domTolerance: 0.02, reprojected, recoveryMatches: matches(recovery, expectedResized) } });
+
+    // Collect the target and recovery before asserting: a stale target must not skip its positive control.
+    owner(before, resized);owner(before, recovery);functional(recovery, 'batch');
+    assert.equal(matches(before, expectedInitial), true, 'Independent initial cover geometry control');
+    assert(Math.max(...keys.map(key => Math.abs(expectedInitial[key] - expectedResized[key]))) > 1);
+    assert.equal(near(outlines(before)[0].relativeRect, expectedResized, 0.02), false, 'Old rect cannot satisfy the resized oracle');
+    assert.deepEqual(resized.views.viewport && { width: resized.views.viewport.width, height: resized.views.viewport.height }, nextView);
+    assert.deepEqual(resized.events, before.events, 'Layout must not invent another scan or track event');
+    assert.equal(resized.boundary.logs.filter(item => item.kind === 'frame-delivery').length, 1);
+    assert.equal(resized.clock.elapsed, 0);assert.equal(resized.clock.log.filter(item => item.action === 'fire').length, 0);
+    assert.equal(matches(recovery, expectedResized), true, 'Fresh actual frame must positively recover the new cover geometry');
+    const returned = tracks(recovery).at(-1).tracks[0];
+    assert.equal(observed.count, 1);assert.equal(returned.id, observed.id);assert.equal(returned.count, 2);
+    assert.deepEqual(returned.location, observed.location);assert.deepEqual(returned.frameSize, observed.frameSize);
+    assert.equal(scans(recovery).length, scans(before).length + 1);assert.equal(tracks(recovery).length, tracks(before).length + 1);
+    assert.equal(recovery.boundary.logs.filter(item => item.kind === 'frame-delivery').length, 2);
+    assert.equal(reprojected, true, 'HIGHLIGHT_RETAINED_LAYOUT_REPROJECTED');
+  }, { marker: 'HIGHLIGHT_RETAINED_LAYOUT_REPROJECTED', actual: false, expected: true, operator: 'strictEqual' });
+  const retainedCoverRect = (barcode, view) => {
+    const points = Object.values(barcode.location), xs = points.map(point => point.x), ys = points.map(point => point.y);
+    const scale = Math.max(view.width / barcode.frameSize.width, view.height / barcode.frameSize.height);
+    return { x: Math.min(...xs) * scale + (view.width - barcode.frameSize.width * scale) / 2 - 4,
+      y: Math.min(...ys) * scale + (view.height - barcode.frameSize.height * scale) / 2 - 4,
+      width: (Math.max(...xs) - Math.min(...xs)) * scale + 8, height: (Math.max(...ys) - Math.min(...ys)) * scale + 8 };
+  };
+  const nearRetainedRect = (actual, expected, tolerance) => actual && ['x', 'y', 'width', 'height'].every(key =>
+    Number.isFinite(actual[key]) && Math.abs(actual[key] - expected[key]) <= tolerance);
+  const matchesRetainedRect = (value, expected) => {
+    if (count(value) !== 1) return false;
+    const entry = outlines(value)[0];
+    return nearRetainedRect(entry.relativeRect, expected, 0.02) && nearRetainedRect({
+      x: entry.style.left, y: entry.style.top, width: entry.style.width, height: entry.style.height,
+    }, expected, 1e-7);
+  };
+  add('continuous-retained-layout-keeps-original-linger-deadline', async (page, evidence) => {
+    await mount(page, 'continuous');await frame(page);
+    const before = await observe(page, evidence, 'continuous-layout-positive-seed');positive(before);functional(before, 'continuous');
+    const barcode = scans(before).at(-1).codes[0], timer = before.clock.timers.find(item => item.type === 'timeout');
+    await page.evaluate(() => window.fixture.advanceTo(100));await update(page, { style: { width: 400, height: 860 } });
+    await page.evaluate(() => window.fixture.layout(400, 860));
+    const resized = await observe(page, evidence, 'continuous-layout-at100-without-frame');
+    await page.evaluate(() => { window.fixture.advanceTo(279);window.fixture.fireDueTimeouts() });
+    const beforeDeadline = await observe(page, evidence, 'original-linger-still-present-at279');
+    await page.evaluate(() => { window.fixture.advanceTo(280);window.fixture.fireDueTimeouts() });
+    const expired = await observe(page, evidence, 'original-linger-absent-exactly280');
+    const expected = retainedCoverRect(barcode, { width: 400, height: 860 });
+    const reprojected = matchesRetainedRect(resized, expected) && matchesRetainedRect(beforeDeadline, expected);
+    evidence.push({ stage: 'continuous-independent-cover-and-deadline', value: { expected, originalTimer: timer, reprojected } });
+    owner(before, resized);owner(before, beforeDeadline);owner(before, expired);functional(expired, 'continuous');
+    assert(timer);assert.equal(timer.due, 280);assert.equal(timer.delay, 280);
+    for (const value of [resized, beforeDeadline]) {
+      assert.deepEqual(value.clock.timers.filter(item => item.type === 'timeout'), [timer]);
+      assert.equal(value.clock.log.filter(item => item.type === 'timeout' && item.action === 'register').length, 1);
+      assert.equal(value.clock.log.filter(item => item.action === 'fire').length, 0);assert.equal(count(value), 1);
+      assert.deepEqual(value.events, before.events);assert.equal(value.boundary.logs.filter(item => item.kind === 'frame-delivery').length, 1);
+    }
+    assert.equal(count(expired), 0);assert.deepEqual(expired.events, before.events);
+    assert.deepEqual(expired.clock.timers, []);assert.equal(expired.clock.log.filter(item => item.action === 'fire').length, 1);
+    assert.equal(expired.clock.log.find(item => item.action === 'fire').id, timer.id);
+    assert.equal(expired.clock.log.find(item => item.action === 'fire').at, 280);
+    assert.equal(reprojected, true, 'HIGHLIGHT_CONTINUOUS_LAYOUT_REPROJECTED');
+  }, { marker: 'HIGHLIGHT_CONTINUOUS_LAYOUT_REPROJECTED', actual: false, expected: true, operator: 'strictEqual' });
+  add('continuous-callback-mutation-cannot-alias-retained-highlight-geometry', async (page, evidence) => {
+    await mount(page, 'continuous');await page.evaluate(() => window.fixture.mutateNextScanGeometry());await frame(page);
+    const before = await observe(page, evidence, 'callback-mutated-public-model-positive-owned-seed');positive(before);functional(before, 'continuous');
+    const mutations = await page.evaluate(() => window.fixture.callbackMutations()), barcode = scans(before).at(-1).codes[0];
+    await page.evaluate(() => window.fixture.advanceTo(100));await update(page, { style: { width: 400, height: 860 } });
+    await page.evaluate(() => window.fixture.layout(400, 860));
+    const resized = await observe(page, evidence, 'callback-mutated-public-model-later-layout');
+    const expectedInitial = retainedCoverRect(barcode, { width: 390, height: 844 });
+    const expected = retainedCoverRect(barcode, { width: 400, height: 860 }), reprojected = matchesRetainedRect(resized, expected);
+    evidence.push({ stage: 'mutation-and-independent-cover-oracle', value: { mutations, expectedInitial, expected, reprojected } });
+    owner(before, resized);assert.equal(mutations.length, 1);assert.deepEqual(mutations[0].before[0], barcode);
+    assert.deepEqual(mutations[0].after[0].frameSize, { width: 17, height: 19 });
+    for (const [corner, point] of Object.entries(barcode.location)) assert.deepEqual(mutations[0].after[0].location[corner], { x: point.x + 1000, y: point.y + 2000 });
+    assert.equal(matchesRetainedRect(before, expectedInitial), true, 'Pre-callback geometry ownership positive control');
+    assert.deepEqual(resized.events, before.events);assert.equal(resized.boundary.logs.filter(item => item.kind === 'frame-delivery').length, 1);
+    assert.deepEqual(resized.clock.timers, before.clock.timers);assert.equal(resized.clock.log.filter(item => item.action === 'fire').length, 0);
+    assert.equal(reprojected, true, 'HIGHLIGHT_MUTATED_CALLBACK_LAYOUT_REPROJECTED');
+  }, { marker: 'HIGHLIGHT_MUTATED_CALLBACK_LAYOUT_REPROJECTED', actual: false, expected: true, operator: 'strictEqual' });
+  assert.deepEqual(cases.map(item => item.id), expectedCaseIds, 'Executed matrix must preserve original15 cases plus two ownership/lifetime controls');
   const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || undefined });
   const results = [];
   let browserVersion, browserClosed = false;
@@ -554,5 +681,5 @@ const boundaries = createBoundaries({ reactPath: dependency.resolve('react') });
     allContextsClosed:results.every(result=>result.contextClosed), browserClosed,
     environment:{node:process.version,browserVersion,...versions},
     scope:'ReactDOM+native boundaries, no phone/native-driver/native-pixel/decoder claim'}));
-  assert.equal(results.length, 14);
+  assert.equal(results.length, 17);
   assert.equal(failed.length, 0, 'Every native highlight regression and preservation control must pass');

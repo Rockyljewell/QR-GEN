@@ -684,6 +684,29 @@ The new regression observes actual layer model paths only; it does not inspect
 presentation paths, establish visible pixels or exercise a physical camera.
 Neither these checks nor green CI establish Scandit parity.
 
+## November 9, 2026 React Native retained-layout projection
+
+[Issue #113](https://github.com/Rockyljewell/QR-GEN/issues/113) was reported before
+production edits. A same-axis layout change accepted a new preview size while
+retaining previously projected highlight rectangles. The original 15-case baseline
+had one intended resize failure and 14 passing cases, including an initial geometry
+control and fresh-frame recovery with the same source and track ID. The expanded
+17-case baseline preserved those cases and added continuous-mode deadline and
+callback-mutation checks: all three resize assertions failed after their independent
+preservation controls ran. These two baselines remain separate evidence.
+
+The correction retains owned copies of frame geometry and projects them from the
+current accepted layout. It preserves keys, styling, callbacks, tracking and the
+original expiry deadline. The unchanged expanded fixture passes all 17 cases;
+React Native type checking and all 309 unit tests pass. Source and consumed bundle
+inputs remain stable during each run, and all contexts, modeled camera/hook owners,
+timers and listeners are released.
+
+These checks execute the actual React scanner, session, tracker and ScannerOverlay
+through ReactDOM, with native views and the VisionCamera 4.7.3 stable-ref hook modeled.
+They establish component/style/DOM behavior, not installed-hook execution, phone
+preview pixels, camera-driver provenance, decoder accuracy or Scandit parity.
+
 ## Retail AR and adjacent features
 
 The following is an assessment of repository code against the vendors' published

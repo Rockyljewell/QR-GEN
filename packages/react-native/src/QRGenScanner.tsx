@@ -195,6 +195,12 @@ const VisionCameraUnavailable = forwardRef<QRGenScannerHandle, QRGenScannerProps
   return <View style={[styles.container, props.style]}>{props.fallback ?? <DefaultFallback error={error} />}</View>;
 });
 
+interface HighlightGeometry {
+  key: string;
+  frameSize: Size;
+  location: Barcode['location'];
+}
+
 interface InnerProps extends QRGenScannerProps {
   vc: VisionCameraModule;
 }
@@ -208,7 +214,7 @@ const VisionCameraScanner = forwardRef<QRGenScannerHandle, InnerProps>(function 
   const [torchOn, setTorchOn] = useState<boolean>(props.torch ?? false);
   const [measuredView, setMeasuredView] = useState<Size | null>(null);
   const [frameSize, setFrameSize] = useState<Size | null>(null);
-  const [highlights, setHighlights] = useState<OverlayHighlight[]>([]);
+  const [highlightGeometry, setHighlightGeometry] = useState<HighlightGeometry[]>([]);
   const [toast, setToast] = useState<OverlayToast | null>(null);
   const [appActive, setAppActive] = useState<boolean>(AppState.currentState !== 'background' && AppState.currentState !== 'inactive');
   const [error, setError] = useState<QRGenError | null>(null);
@@ -244,7 +250,7 @@ const VisionCameraScanner = forwardRef<QRGenScannerHandle, InnerProps>(function 
     if (props.showHighlights !== false) return;
     if (highlightTimer.current !== null) clearTimeout(highlightTimer.current);
     highlightTimer.current = null;
-    setHighlights(current => current.length === 0 ? current : []);
+    setHighlightGeometry(current => current.length === 0 ? current : []);
   }, [props.showHighlights]);
 
   const emitError = useCallback((code: QRGenErrorCode | QRGenError, message?: string) => {
@@ -298,6 +304,13 @@ const VisionCameraScanner = forwardRef<QRGenScannerHandle, InnerProps>(function 
   const mode = accepted?.mode ?? DEFAULT_SCANNER_OPTIONS.mode;
   const viewfinder = props.viewfinder ?? (accepted && isLinearOnly(accepted.requested) ? 'line' : 'frame');
   const accentColor = props.accentColor ?? QRGEN_ACCENT_COLOR;
+  const highlights = useMemo<OverlayHighlight[]>(() => {
+    if (!viewSize) return [];
+    return highlightGeometry.map(({ key, frameSize, location }) => {
+      const transform = frameToViewTransform(frameSize, viewSize, { resizeMode: 'cover', mirrored });
+      return { key, rect: quadrilateralBounds(quadrilateralToView(location, transform)) };
+    });
+  }, [highlightGeometry, viewSize, mirrored]);
   // Physical availability gates the accepted source even when a new prop proposal is rejected.
   const deviceAvailable = device !== undefined && devices.some(current => current.id === device.id);
   const canRun = accepted !== null && hasPermission && permission === 'granted' && deviceAvailable && accepted.codeTypes.length > 0;
@@ -334,7 +347,7 @@ const VisionCameraScanner = forwardRef<QRGenScannerHandle, InnerProps>(function 
       revision: (previous?.revision ?? 0) + 1,
       coordinateEpoch: (previous?.coordinateEpoch ?? 0) + (coordinateChanged ? 1 : 0) };
     if (policyChanged || spatialSourceChanged || coordinateChanged) {
-      setHighlights([]);
+      setHighlightGeometry([]);
       if (spatialSourceChanged || coordinateChanged) setFrameSize(null);
       if ((oldCount > 0 || owedClear) && previous?.mode === 'batch' && candidate.mode === 'batch') {
         pendingClear.current = { generation: deliveryGeneration.current, key: nativeSourceKey(next) };
@@ -405,7 +418,7 @@ const VisionCameraScanner = forwardRef<QRGenScannerHandle, InnerProps>(function 
       if (session.resetSpatial() && config.mode === 'batch') pendingClear.current = {
         generation: deliveryGeneration.current, key: nativeSourceKey(config),
       };
-      setHighlights([]);
+      setHighlightGeometry([]);
       setFrameSize(null);
     }
   }, [session]);
@@ -453,16 +466,21 @@ const VisionCameraScanner = forwardRef<QRGenScannerHandle, InnerProps>(function 
     if (latest.current.showHighlights === false) return;
     const view = viewSizeRef.current;
     if (!view) return;
-    const next = list.map((b, i) => {
-      const t = frameToViewTransform(b.frameSize, view, { resizeMode: 'cover', mirrored: acceptedRef.current?.mirrored ?? false });
-      const rect = quadrilateralBounds(quadrilateralToView(b.location, t));
-      const key = 'id' in b ? String((b as TrackedBarcode).id) : `${barcodeKey(b)}#${i}`;
-      return { key, rect };
-    });
-    setHighlights(next);
+    // Own geometry before public scan/track callbacks can mutate their models.
+    const next = list.map((b, i) => ({
+      key: 'id' in b ? String((b as TrackedBarcode).id) : `${barcodeKey(b)}#${i}`,
+      frameSize: { width: b.frameSize.width, height: b.frameSize.height },
+      location: {
+        topLeft: { x: b.location.topLeft.x, y: b.location.topLeft.y },
+        topRight: { x: b.location.topRight.x, y: b.location.topRight.y },
+        bottomRight: { x: b.location.bottomRight.x, y: b.location.bottomRight.y },
+        bottomLeft: { x: b.location.bottomLeft.x, y: b.location.bottomLeft.y },
+      },
+    }));
+    setHighlightGeometry(next);
     if (highlightTimer.current) clearTimeout(highlightTimer.current);
     highlightTimer.current = null;
-    if (linger && next.length > 0) highlightTimer.current = setTimeout(() => setHighlights([]), HIGHLIGHT_LINGER_MS);
+    if (linger && next.length > 0) highlightTimer.current = setTimeout(() => setHighlightGeometry([]), HIGHLIGHT_LINGER_MS);
   }, []);
   useEffect(() => () => { if (highlightTimer.current) clearTimeout(highlightTimer.current); }, []);
 
@@ -542,7 +560,7 @@ const VisionCameraScanner = forwardRef<QRGenScannerHandle, InnerProps>(function 
     }, BATCH_TICK_MS);
     return () => clearInterval(id);
   }, [mode, cameraActive, session, showHighlightsFor, emitError]);
-  useEffect(() => { if (!cameraActive) setHighlights([]); }, [cameraActive]);
+  useEffect(() => { if (!cameraActive) setHighlightGeometry([]); }, [cameraActive]);
 
   useImperativeHandle(ref, () => ({
     start() { session.resume(); setRunState('running'); },
@@ -553,7 +571,7 @@ const VisionCameraScanner = forwardRef<QRGenScannerHandle, InnerProps>(function 
       deliveryGeneration.current += 1;
       pendingClear.current = null;
       session.reset();
-      setHighlights([]);
+      setHighlightGeometry([]);
       setRunState('running');
     },
     setTorch(on: boolean) { setTorchOn(on); },
