@@ -1,0 +1,43 @@
+name: EAN 3.1.6 isolated reader build
+
+on:
+  push:
+    branches: [codex/ean316-reader-rebuild]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ean316-reader-build-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: EAN reader (${{ matrix.variant }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [baseline, candidate]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Check pinned diagnostic inputs
+        run: python3 diagnostics/ean316-reader-build/run.py --check-config
+      - name: Check local harness boundaries without external commands
+        run: python3 diagnostics/ean316-reader-build/test_runner.py
+      - name: Build isolated matching assets without decoder execution
+        run: >-
+          python3 diagnostics/ean316-reader-build/run.py
+          --variant "${{ matrix.variant }}"
+          --output "$RUNNER_TEMP/qrgen-ean316-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT-${{ matrix.variant }}"
+      - name: Retain diagnostic build evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: ean316-reader-${{ matrix.variant }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/qrgen-ean316-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.variant }}/evidence/
+          if-no-files-found: error
+          retention-days: 7

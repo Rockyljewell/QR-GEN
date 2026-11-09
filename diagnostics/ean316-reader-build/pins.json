@@ -1,0 +1,194 @@
+{
+  "schemaVersion": 1,
+  "branch": "refs/heads/codex/ean316-reader-rebuild",
+  "wasmCommit": "354547ec9c1c1816d666fe0a6e2695f75a4cdc89",
+  "cppCommit": "2c3dcfeffa7878950a58c1703c86774a428b0c91",
+  "zintCommit": "55541e139e62b9209b71cd9b0ba9010cec28b1d9",
+  "stbCommit": "4e9b368bfc071e97206ea5c6adba68dd0cbf8897",
+  "container": "emscripten/emsdk@sha256:52549e68ad6dd0f3509ff378bc1a5d317d40030c8991919cada0dad95d85e00c",
+  "nodeURL": "https://nodejs.org/dist/v22.14.0/node-v22.14.0-linux-x64.tar.xz",
+  "nodeSHA256": "69b09dba5c8dcb05c4e4273a4340db1005abeafe3927efda2bc5b249e80437ec",
+  "pnpmURL": "https://registry.npmjs.org/pnpm/-/pnpm-12.14.0.tgz",
+  "pnpmIntegrity": "sha512-wYum2HmT09Fky16JSPMrLAbuhUSH4GzY2GeBNC+z5btGNDZwNHEehoArqpw3vqkGzhkprQjXCITJfYAd8TOJpg==",
+  "patches": {
+    "ean13-whole-word-ambiguity.patch": "f80daf81fe49616e59b250fac96e25a6c5d73ee5e59e6511cec5b98dc2bd7fae",
+    "private-package-identity.patch": "a58d145731194f54a5d4a101c7d996ed3c76fc9586368336653c7b4bc67f21b1"
+  },
+  "candidateSourceSHA256": "b9cd713e52c5579fa9366f6b7c89f5012b10b1510a5c81fb01e2145f57cd46ce",
+  "candidatePackageSHA256": "193a8b4e2a569ed06cd8c6e7885d9bdc7618ee13074b8f73153cd27e8f87d4d6",
+  "sourceFiles": [
+    {
+      "family": "wasm",
+      "path": "package.json",
+      "sha256": "6856582b55fab88572ba2fe77bb2d9a6d4e84262b66a5f9937c9141d2b20d661",
+      "gitBlob": "eec62b9ebe4ae9788f5b64004cc307e359324a62"
+    },
+    {
+      "family": "wasm",
+      "path": ".github/actions/setup/action.yml",
+      "sha256": "bf35f5573c155c507b883ba4f1971e02d1e2851089fcc3a8b23221c7b12cdbf2",
+      "gitBlob": "6a6e0148dcbca5d1cf985927cb7f4d78ecbee54d"
+    },
+    {
+      "family": "wasm",
+      "path": ".github/actions/setup-node/action.yml",
+      "sha256": "f67c60ff39320c111a562d9efb86d6e4d0dce16b5a68d3b4d3a6e72502a265da",
+      "gitBlob": "612b3c53a5bce67930bee4c2a2bc02ffb65fc869"
+    },
+    {
+      "family": "wasm",
+      "path": ".github/actions/setup-emsdk/action.yml",
+      "sha256": "23478e598deb3263ec037899480ab2de36908034d336e0ae9973da930668365d",
+      "gitBlob": "f51751df5346bad7a27f9e2e0f9234614377be77"
+    },
+    {
+      "family": "wasm",
+      "path": "src/share.ts",
+      "sha256": "61f10c2daada0a955080495ae09ceaa00dea125145b85dfc1e5197e23d64af86",
+      "gitBlob": "1d27224906d349bfc3fb96d1924f3b8b6d94add9"
+    },
+    {
+      "family": "wasm",
+      "path": "src/cpp/ZXingWasm.cpp",
+      "sha256": "d2b25fd72debcb84fcd50be7deae985bf264e9b70b9e340aacfc9b130dcf84ed",
+      "gitBlob": "e231e83943930a260351229b153a021e0ebcedc9"
+    },
+    {
+      "family": "wasm",
+      "path": "src/cpp/CMakeLists.txt",
+      "sha256": "9d22d8f8dec82b8c9e32c6796cc26f04493711e82633801573f6ac6e9eeccfa7",
+      "gitBlob": "2fd153ef8fc27889e581ac46fb07573f2f8f1c4c"
+    },
+    {
+      "family": "wasm",
+      "path": "vite.config.ts",
+      "sha256": "a8b12ba0d69fb13b084a294bd62773e80e8ed70d8a1cdfe6f643f9783abe4086",
+      "gitBlob": "9dbc3587b1156939140bab2421da93b8cf6e2514"
+    },
+    {
+      "family": "cpp",
+      "path": "core/src/oned/ODMultiUPCEANReader.cpp",
+      "sha256": "84d85014bcef424e6457caeaa81a78498af2838354f50db41664f4ebac0be5e9",
+      "gitBlob": "f02749207adbb08a6d905b17cdd0de16844334f7"
+    },
+    {
+      "family": "cpp",
+      "path": "zxing.cmake",
+      "sha256": "f24300dde89ac3c0c2fe5ea27d3fce644c6e189fd06b958a2efe3ea3f699bc9d",
+      "gitBlob": "2dea5b2290654f8e2722a316156842ed03f8e11c"
+    },
+    {
+      "family": "cpp",
+      "path": ".gitmodules",
+      "sha256": "c7bc53bc86655b6e8ea8cb300a7ce22ee5b76ad24ec925c40f1b69ba1c6e4e05",
+      "gitBlob": "23eb39460369ab9927bcd8ed8f92d29be751f4eb"
+    },
+    {
+      "family": "wasm",
+      "path": "pnpm-lock.yaml",
+      "sha256": "4a20c646eb6b77b60e6c384c456980a0b3c7d4ca242ac2388b008be990b06734",
+      "gitBlob": "5a96d5404526cb8509c82daa8c5b946c263d8422"
+    },
+    {
+      "family": "wasm",
+      "path": "pnpm-workspace.yaml",
+      "sha256": "be4ab11e1a71b604a1e6405f9aa59b9b547e5d773edad58391bce20d12613228",
+      "gitBlob": "1662060be2f41c38a860135821b6ccb9a2dc845b"
+    },
+    {
+      "family": "wasm",
+      "path": "scripts/swc-emscripten.ts",
+      "sha256": "eb79a23455635055058059bb5827ef27a5dfa2e337602812302bf0e25d8ac07f",
+      "gitBlob": "345b09df0ba7b03e4cf9ea0026bfb4360d100e7c"
+    },
+    {
+      "family": "wasm",
+      "path": "scripts/build-cjs.ts",
+      "sha256": "6c1e6be2a6bd1a0e60e6e7aff216f8d09c105b9a008de221dea8b1c5b30ae70f",
+      "gitBlob": "c85c8be0e5fc56ebec52a094ca5ebb413a4efcfc"
+    },
+    {
+      "family": "wasm",
+      "path": "scripts/build-iife.ts",
+      "sha256": "8fc197b06b0298dd86ca460429bcbdb9474f6ae9854967ad6588a455ff2d2534",
+      "gitBlob": "d5974f174109a9276b0b7829c936df3486ac5295"
+    },
+    {
+      "family": "wasm",
+      "path": "copy-files-from-to.json",
+      "sha256": "45d14d259c131cc3f5d891bc37db62bb78e7bfd53d5a9cd0eeb87f572cb0fcb0",
+      "gitBlob": "2fe85ef5f7ddd559c32f0f6b0cfa4797055f4bea"
+    },
+    {
+      "family": "wasm",
+      "path": "tsconfig.pkg.json",
+      "sha256": "a6d9091d8ddcc837be70fe06ba3ed85df8029cae6efd852c287655a330d4a5f6",
+      "gitBlob": "cd69b9022e9a85f03988dd3ed58c400a21537e8a"
+    },
+    {
+      "family": "wasm",
+      "path": ".browserslistrc",
+      "sha256": "9fef13ab1030ba91cbbddbd83fd28a8b653e7334c99e5ecfc9f81e84f1c922f2",
+      "gitBlob": "d7d3280faedbec3c9c2ecd691d5214615677a48f"
+    },
+    {
+      "family": "wasm",
+      "path": "src/reader/index.ts",
+      "sha256": "86facb80a9b2374273c9c70474e9e5c97669c8c09af05077bdd63572caefce63",
+      "gitBlob": "81c6301bd5189fd412dc96115765bf7a539e6ba6"
+    },
+    {
+      "family": "wasm",
+      "path": "src/bindings/readResult.ts",
+      "sha256": "df6a37fa780583481d5af53bfe57d026f891e5753ef9e5f6651f544b2b4cb1b9",
+      "gitBlob": "c75356bbcffbdfb2324fcf60b5d495b60c3f91d8"
+    },
+    {
+      "family": "wasm",
+      "path": "src/bindings/vector.ts",
+      "sha256": "3408dcf02aab221c8f431610322a153b1656cfd75f2da0030b7252d4d40b2e70",
+      "gitBlob": "4bd0e60031f98278bb8f1815e61c44e883c938fe"
+    },
+    {
+      "family": "wasm",
+      "path": "src/grayscale.ts",
+      "sha256": "4b5c97c622a7e4d57af1fc8285d6bab36483356f0ef1825770b9f3cb6b172ba9",
+      "gitBlob": "e6ed19ffed946bfd0280aafe8d849d5b2bd8b614"
+    }
+  ],
+  "candidateIdentity": {
+    "name": "qrgen-private-ean13-ambiguity-reader",
+    "version": "3.1.6-qrgen.ean13ambiguity.1",
+    "private": true,
+    "published": false,
+    "upstreamBase": "3.1.6",
+    "patchSHA256": "f80daf81fe49616e59b250fac96e25a6c5d73ee5e59e6511cec5b98dc2bd7fae",
+    "identityPatchSHA256": "a58d145731194f54a5d4a101c7d996ed3c76fc9586368336653c7b4bc67f21b1"
+  },
+  "expectedActualOutputs": null,
+  "scope": "Private source build only.23selectedsourcepins plus completeimmutableGitlinks/frozenpnpm lock. No decoder or corpus execution, SDK install, publication, released316byteidentity, heldout or phone/Scandit claim.",
+  "published316Reference": {
+    "readerWasmSHA256": "5003fb4b88c4fbd1fd518a2fd8c8ad365c519e183a08c03a322dddfea3cea84e",
+    "byteIdentityRequiredByThisBuild": false
+  },
+  "oldSuccessfulBuild": {
+    "run": 38152527079,
+    "head": "3cfe7298c1d92eb2d4ac56158a1bfcd51275f070",
+    "workflowPath": ".github/workflows/ean-word-diagnostic.yml",
+    "node": "22.14.0",
+    "pnpm": "12.8.2",
+    "emsdk": "5.0.4"
+  },
+  "recipeChanges": {
+    "emsdk": "6.0.12matchescurrent316sourceconfiguration",
+    "STB": "Explicitcommit freezes upstreamuntaggedFetchContent; no claimthis was used forpublished316binary",
+    "dependencyPhase": "Networkedpnpmfetch only; offlineinstall+allcompilation in kernel-network-nonecontainer"
+  },
+  "futureRuntimeRequirements": [
+    "Explicit matching local WASM configuration; upstreamhardcodedCDNself-name not approved for privateversion.",
+    "Fresh316baseline/candidatepublicSDK ownership and minimumruntime/worker/assetclosure validation.",
+    "Licensed independentheldout correctness/recall and residual35/UPC-only gates remain open."
+  ],
+  "nodeVersion": "22.14.0",
+  "pnpmVersion": "12.14.0"
+}

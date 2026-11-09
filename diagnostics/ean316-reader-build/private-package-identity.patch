@@ -1,0 +1,14 @@
+--- a/package.json
++++ b/package.json
+@@ -1,8 +1,8 @@
+ {
+-  "name": "zxing-wasm",
++  "name": "qrgen-private-ean13-ambiguity-reader",
+   "description": "ZXing-C++ WebAssembly as an ES/CJS module with types",
+-  "private": false,
+-  "version": "3.1.6",
++  "private": true,
++  "version": "3.1.6-qrgen.ean13ambiguity.1",
+   "type": "module",
+   "files": [
+     "./dist"

@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "scope": "Additional observed build input and retained upstream attribution text; separate from the 23 protected source inputs",
+  "files": [
+    {
+      "family": "wasm",
+      "path": "README.md",
+      "role": "attribution",
+      "repository": "Sec-ant/zxing-wasm",
+      "commit": "354547ec9c1c1816d666fe0a6e2695f75a4cdc89",
+      "sha256": "0bdfcb27893fe79e383ff299658b943d72b66a42da9860e20932d03fd82e4fa0",
+      "gitBlob": "4f8f8a42381fb8958d404d096d6565606b0dc14b",
+      "bytes": 26167,
+      "sourceURL": "https://github.com/Sec-ant/zxing-wasm/blob/354547ec9c1c1816d666fe0a6e2695f75a4cdc89/README.md"
+    },
+    {
+      "family": "wasm",
+      "path": "LICENSE",
+      "role": "attribution",
+      "repository": "Sec-ant/zxing-wasm",
+      "commit": "354547ec9c1c1816d666fe0a6e2695f75a4cdc89",
+      "sha256": "fb506e4ade12d7a9efa67c9d76a9a28c8e15d347ca49a69e48e29b40b34ad2ab",
+      "gitBlob": "5dd3d5ba9139a6f408d5b32b16675800e8a8b4ce",
+      "bytes": 1068,
+      "sourceURL": "https://github.com/Sec-ant/zxing-wasm/blob/354547ec9c1c1816d666fe0a6e2695f75a4cdc89/LICENSE"
+    },
+    {
+      "family": "cpp",
+      "path": "LICENSE",
+      "role": "attribution",
+      "repository": "zxing-cpp/zxing-cpp",
+      "commit": "2c3dcfeffa7878950a58c1703c86774a428b0c91",
+      "sha256": "c6596eb7be8581c18be736c846fb9173b69eccf6ef94c5135893ec56bd92ba08",
+      "gitBlob": "8f71f43fee3f78649d238238cbde51e6d7055c82",
+      "bytes": 11358,
+      "sourceURL": "https://github.com/zxing-cpp/zxing-cpp/blob/2c3dcfeffa7878950a58c1703c86774a428b0c91/LICENSE"
+    },
+    {
+      "family": "zint",
+      "path": "LICENSE",
+      "role": "attribution",
+      "repository": "zint/zint",
+      "commit": "55541e139e62b9209b71cd9b0ba9010cec28b1d9",
+      "sha256": "d69af7f2442fcde1c3372cbbb43907fa1f4b3a91ef3899be69dd3a726dc255a4",
+      "gitBlob": "723ef635efd1c83c829936d5c2d4344434e312f3",
+      "bytes": 909,
+      "sourceURL": "https://github.com/zint/zint/blob/55541e139e62b9209b71cd9b0ba9010cec28b1d9/LICENSE"
+    },
+    {
+      "family": "stb",
+      "path": "LICENSE",
+      "role": "attribution",
+      "repository": "nothings/stb",
+      "commit": "4e9b368bfc071e97206ea5c6adba68dd0cbf8897",
+      "sha256": "bebfe904b14301657e4e5d655c811d51fd31b97c455b9cc2d8600d6bac6cff63",
+      "gitBlob": "a77ae91f3ec0abb0028c9d9bd8d34d880b454d38",
+      "bytes": 2510,
+      "sourceURL": "https://github.com/nothings/stb/blob/4e9b368bfc071e97206ea5c6adba68dd0cbf8897/LICENSE"
+    },
+    {
+      "family": "wasm",
+      "path": "scripts/build-miniprogram.ts",
+      "role": "build-script",
+      "repository": "Sec-ant/zxing-wasm",
+      "commit": "354547ec9c1c1816d666fe0a6e2695f75a4cdc89",
+      "sha256": "6faf0bfd5756833cb0a87e909df17dc996ba747a9bd80ed6e8e77203a21e25d1",
+      "gitBlob": "81674c685e03aa38d05d3c5a7179d6986fb5e6db",
+      "bytes": 1045,
+      "sourceURL": "https://github.com/Sec-ant/zxing-wasm/blob/354547ec9c1c1816d666fe0a6e2695f75a4cdc89/scripts/build-miniprogram.ts"
+    }
+  ]
+}
