@@ -36,6 +36,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+    }
+
     lint {
         abortOnError = true
         warningsAsErrors = false
@@ -69,6 +73,7 @@ dependencies {
 
     testImplementation(libs.junit4)
     testImplementation(kotlin("test-junit"))
+    testImplementation("org.robolectric:robolectric:4.16.1")
 }
 
 afterEvaluate {
