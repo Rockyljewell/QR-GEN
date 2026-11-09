@@ -40,6 +40,12 @@ First public version.
   `omggif` and `bmp-ts`.
 - **Decoder:** `zxing-wasm` 3.1.6; release native reader result vectors after successful,
   empty and failed conversions.
+- **Image demo:** keep the latest file or sample choice when asynchronous work finishes out
+  of order, and release preview bitmaps after drawing.
+- **GS1 Digital Links:** parse semicolon-separated query attributes while preserving encoded
+  semicolons inside values.
+- **Scanner controls:** ignore obsolete camera-enumeration results after replacement,
+  reconnect or restart.
 - **Receiving:** keep committed quantities acknowledged if a later delivery-list read fails;
   distinguish read failures from rolled-back writes and notify other tabs after the commit.
 - **REST and embed:** reject unknown-only scan formats instead of enabling all formats, and

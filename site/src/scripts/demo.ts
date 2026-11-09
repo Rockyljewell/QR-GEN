@@ -426,34 +426,45 @@ function drawStage(source: CanvasImageSource, w: number, h: number, barcodes: Ba
   }
 }
 
-async function scanAndShow(source: HTMLCanvasElement | File | Blob): Promise<void> {
+type ImageSource = HTMLCanvasElement | File | Blob;
+let imageSeq = 0;
+async function scanAndShow(produce: () => ImageSource | Promise<ImageSource>): Promise<void> {
+  const seq = ++imageSeq;
   imgResults.replaceChildren();
+  imgCount.textContent = "0";
+  imgEmpty.hidden = true;
+  stage.hidden = true;
   imgTime.textContent = "Scanning…";
-  const t0 = performance.now();
-  let barcodes: Barcode[] = [];
   try {
-    barcodes = await scanImage(source, { symbologies: "all" });
+    const source = await produce();
+    if (seq !== imageSeq) return;
+    const t0 = performance.now();
+    const barcodes = await scanImage(source, { symbologies: "all" });
+    if (seq !== imageSeq) return;
+    const ms = performance.now() - t0;
+    if (source instanceof HTMLCanvasElement) drawStage(source, source.width, source.height, barcodes);
+    else {
+      const bmp = await createImageBitmap(source);
+      try {
+        if (seq !== imageSeq) return;
+        drawStage(bmp, bmp.width, bmp.height, barcodes);
+      } finally { bmp.close(); }
+    }
+    imgCount.textContent = String(barcodes.length);
+    imgTime.textContent = `${ms.toFixed(0)} ms`;
+    imgEmpty.hidden = barcodes.length > 0;
+    if (!barcodes.length) imgEmpty.innerHTML = "<p>No barcode found. Try a sharper or larger image.</p>";
+    const at = new Date();
+    for (const b of barcodes) imgResults.append(resultItem(b, at));
   } catch (err) {
+    if (seq !== imageSeq) return;
     imgTime.textContent = err instanceof Error ? err.message : String(err);
-    return;
   }
-  const ms = performance.now() - t0;
-  if (source instanceof HTMLCanvasElement) drawStage(source, source.width, source.height, barcodes);
-  else {
-    const bmp = await createImageBitmap(source);
-    drawStage(bmp, bmp.width, bmp.height, barcodes);
-  }
-  imgCount.textContent = String(barcodes.length);
-  imgTime.textContent = `${ms.toFixed(0)} ms`;
-  imgEmpty.hidden = barcodes.length > 0;
-  if (!barcodes.length) imgEmpty.innerHTML = "<p>No barcode found. Try a sharper or larger image.</p>";
-  const at = new Date();
-  for (const b of barcodes) imgResults.append(resultItem(b, at));
 }
 
 fileInput.addEventListener("change", () => {
   const f = fileInput.files?.[0];
-  if (f) void scanAndShow(f);
+  if (f) void scanAndShow(() => f);
   fileInput.value = "";
 });
 dropzone.addEventListener("dragover", (e) => {
@@ -465,15 +476,15 @@ dropzone.addEventListener("drop", (e) => {
   e.preventDefault();
   dropzone.classList.remove("over");
   const f = e.dataTransfer?.files?.[0];
-  if (f) void scanAndShow(f);
+  if (f) void scanAndShow(() => f);
 });
 document.addEventListener("paste", (e) => {
   if ($<HTMLElement>('[data-panel-id="image"]').hidden) return;
   const item = [...(e.clipboardData?.items ?? [])].find((i) => i.type.startsWith("image/"));
   const f = item?.getAsFile();
-  if (f) void scanAndShow(f);
+  if (f) void scanAndShow(() => f);
 });
-$$<HTMLButtonElement>("[data-sample]").forEach((b) => b.addEventListener("click", async () => void scanAndShow(await sampleCanvas(b.dataset.sample!))));
+$$<HTMLButtonElement>("[data-sample]").forEach((b) => b.addEventListener("click", () => void scanAndShow(() => sampleCanvas(b.dataset.sample!))));
 
 // ---------------------------------------------------------------------------
 // Generator

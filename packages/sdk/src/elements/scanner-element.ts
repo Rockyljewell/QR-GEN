@@ -138,6 +138,7 @@ export class QRGenScannerElement extends Base {
   private toastTimer: ReturnType<typeof setTimeout> | undefined;
   private rendered = false;
   private autostartToken = 0;
+  private cameraControlsRevision = 0;
   private readonly handleClick = (event: Event) => this.onClick(event as MouseEvent);
   private pausedBySingle = false;
   private zoomLevel = 1;
@@ -641,17 +642,22 @@ export class QRGenScannerElement extends Base {
   private async refreshCameraControls(): Promise<void> {
     const s = this._scanner;
     if (!s) return;
+    const els = this.els;
+    const track = s.camera.track;
+    const revision = ++this.cameraControlsRevision;
     const caps = s.camera.capabilities;
-    this.els.torch.hidden = !caps.torch;
+    els.torch.hidden = !caps.torch;
     // A new camera track starts unzoomed.
     this.zoomLevel = 1;
-    this.els.zoom.hidden = !caps.zoom || caps.zoom.max < 2;
+    els.zoom.hidden = !caps.zoom || caps.zoom.max < 2;
+    let cameraCount = 0;
     try {
-      const cams = await Camera.list();
-      this.els.switch.hidden = cams.length < 2;
+      cameraCount = (await Camera.list()).length;
     } catch {
-      this.els.switch.hidden = true;
+      // A current enumeration failure hides the unavailable switch control.
     }
+    if (!this.rendered || this._scanner !== s || this.els !== els || s.camera.track !== track || revision !== this.cameraControlsRevision) return;
+    els.switch.hidden = cameraCount < 2;
     this.updateControls();
   }
 

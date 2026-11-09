@@ -312,6 +312,17 @@ test("UPC-E, ITF-14, GS1 element strings and Digital Links find the row with the
   assert.equal(find(session, scan(NEIGHBOR, "upca")), NEIGHBOR);
 });
 
+test("semicolon and mixed Digital Link attributes identify the receiving row by GTIN", () => {
+  const session = rows(EAN13);
+  for (const query of ["17=261231;3922=0299", "17=261231;3922=0299&3103=000195"]) {
+    const observed = scan(`https://id.gs1.org/01/${GTIN}?${query}`, "qr");
+    assert.equal(observed.gtin, GTIN);
+    assert.equal(find(session, observed), EAN13);
+    const counted = applyReceivingCommand(session, receive("semicolon-count", 2, find(session, observed)), 10);
+    assert.deepEqual(counted.items.map(({ code, received }) => ({ code, received })), [{ code: EAN13, received: 2 }]);
+  }
+});
+
 test("values without a GTIN stay exact and neighbouring values never find a row", () => {
   const session = rows(EAN13, " 00123 ", "SKU-a", "0012345678906");
   for (const observed of [scan(UPCA, "code128"), scan(UPCA, "qr"), scan("(01)00012345678905", "data-matrix"), scan("012345678906", "upca"), scan(NEIGHBOR, "upca"), { data: UPCA, gtin: null }]) {

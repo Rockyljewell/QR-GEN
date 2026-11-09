@@ -217,7 +217,8 @@ export function parseDigitalLink(input: string): GS1Result | null {
     if (!element) return null;
     elements.push(element);
   }
-  for (const [key, value] of url.searchParams) {
+  // Normalize raw GS1 query delimiters before decoding; "%3B" stays inside its value.
+  for (const [key, value] of new URLSearchParams(url.search.replace(/;/g, "&"))) {
     const ai = toAI(key);
     if (!ai) continue;
     const element = buildElement(ai, value);
