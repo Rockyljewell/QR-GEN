@@ -5,9 +5,9 @@ import Foundation
 import XCTest
 @testable import QRGenKit
 
-/// Real elapsed waits plus controlled camera-epoch inputs exercise the session
-/// called by BarcodeScanner. These do not change the OS clock or run a camera;
-/// the unchanged native caller supplies Date epoch milliseconds to this path.
+/// Real elapsed waits pair controlled camera-epoch metadata with duration inputs
+/// carried by the native packet contract. These do not change the OS clock or
+/// run a camera. Manual helper controls deliberately omit the elapsed argument.
 final class CameraDurationClockTests: XCTestCase {
     private let wallStart: Int64 = 1_800_000_000_000
 
@@ -41,9 +41,9 @@ final class CameraDurationClockTests: XCTestCase {
         let start = ProcessInfo.processInfo.systemUptime
         let initial = barcode(timestamp: wallStart)
         let first = try XCTUnwrap(session.process(
-            [initial], source: source, epoch: epoch, now: wallStart, mode: .continuous, duplicateWindow: 1000
+            [initial], source: source, epoch: epoch, now: wallStart, mode: .continuous, duplicateWindow: 1000, elapsedTime: 0
         ))
-        let committedFirst = try XCTUnwrap(session.commitScans(first, now: wallStart, duplicateWindow: 1000))
+        let committedFirst = try XCTUnwrap(session.commitScans(first, now: wallStart, duplicateWindow: 1000, elapsedTime: 0))
         XCTAssertEqual(committedFirst.map(\.data), [initial.data])
         let firstCommittedAt = ProcessInfo.processInfo.systemUptime
         waitUntilElapsed(wait, since: firstCommittedAt)
@@ -52,9 +52,9 @@ final class CameraDurationClockTests: XCTestCase {
         let secondWall = wallStart + elapsed + correction
         let second = try XCTUnwrap(session.process(
             [barcode(timestamp: secondWall)], source: source, epoch: epoch, now: secondWall,
-            mode: .continuous, duplicateWindow: 1000
+            mode: .continuous, duplicateWindow: 1000, elapsedTime: elapsed
         ))
-        let committed = try XCTUnwrap(session.commitScans(second, now: secondWall, duplicateWindow: 1000))
+        let committed = try XCTUnwrap(session.commitScans(second, now: secondWall, duplicateWindow: 1000, elapsedTime: elapsed))
         let postElapsed = Int64(((ProcessInfo.processInfo.systemUptime - start) * 1000).rounded(.down))
         XCTAssertTrue(session.isCurrent(source: source, epoch: epoch))
         XCTAssertEqual(first.detections.first?.timestamp, wallStart)
@@ -64,6 +64,7 @@ final class CameraDurationClockTests: XCTestCase {
         try record([
             "case": name, "source": source, "epoch": epoch, "realElapsedMs": elapsed, "postOperationElapsedMs": postElapsed, "ageSinceFirstCommitMs": ageSinceCommit,
             "modeledWallFirst": wallStart, "modeledWallSecond": secondWall, "wallCorrectionMs": correction,
+            "privateElapsedFirst": 0, "privateElapsedSecond": elapsed,
             "calibrated": calibrated, "eligibleScans": second.scans.count,
             "committedScans": committed.count, "expectedScansByElapsed": expectedScans,
         ])
@@ -78,21 +79,21 @@ final class CameraDurationClockTests: XCTestCase {
         let start = ProcessInfo.processInfo.systemUptime
         let initial = barcode(timestamp: wallStart)
         let first = try XCTUnwrap(session.process(
-            [initial], source: source, epoch: epoch, now: wallStart, mode: .batch, duplicateWindow: -1
+            [initial], source: source, epoch: epoch, now: wallStart, mode: .batch, duplicateWindow: -1, elapsedTime: 0
         ))
         let firstTrack = try XCTUnwrap(first.tracked?.first)
-        XCTAssertEqual(session.commitScans(first, now: wallStart, duplicateWindow: -1)?.count, 1)
+        XCTAssertEqual(session.commitScans(first, now: wallStart, duplicateWindow: -1, elapsedTime: 0)?.count, 1)
         let firstCommittedAt = ProcessInfo.processInfo.systemUptime
         waitUntilElapsed(wait, since: firstCommittedAt)
         let elapsed = Int64(((ProcessInfo.processInfo.systemUptime - start) * 1000).rounded(.down))
         let ageSinceCommit = Int64(((ProcessInfo.processInfo.systemUptime - firstCommittedAt) * 1000).rounded(.down))
         let secondWall = wallStart + elapsed + correction
         let second = try XCTUnwrap(session.process(
-            [], source: source, epoch: epoch, now: secondWall, mode: .batch, duplicateWindow: -1
+            [], source: source, epoch: epoch, now: secondWall, mode: .batch, duplicateWindow: -1, elapsedTime: elapsed
         ))
         let tracks = try XCTUnwrap(second.tracked)
         XCTAssertTrue(second.scans.isEmpty)
-        XCTAssertTrue(session.commitScans(second, now: secondWall, duplicateWindow: -1)?.isEmpty == true)
+        XCTAssertTrue(session.commitScans(second, now: secondWall, duplicateWindow: -1, elapsedTime: elapsed)?.isEmpty == true)
         let postElapsed = Int64(((ProcessInfo.processInfo.systemUptime - start) * 1000).rounded(.down))
         XCTAssertTrue(session.isCurrent(source: source, epoch: epoch))
         XCTAssertEqual(firstTrack.timestamp, wallStart)
@@ -103,6 +104,7 @@ final class CameraDurationClockTests: XCTestCase {
         try record([
             "case": name, "source": source, "epoch": epoch, "realElapsedMs": elapsed, "postOperationElapsedMs": postElapsed, "ageSinceFirstCommitMs": ageSinceCommit,
             "modeledWallFirst": wallStart, "modeledWallSecond": secondWall, "wallCorrectionMs": correction,
+            "privateElapsedFirst": 0, "privateElapsedSecond": elapsed,
             "calibrated": calibrated, "tracks": tracks.count, "expectedTracksByElapsed": expectedTracks,
             "firstTimestamp": firstTrack.timestamp, "firstSeen": firstTrack.firstSeen, "lastSeen": firstTrack.lastSeen,
         ])
@@ -164,5 +166,66 @@ final class CameraDurationClockTests: XCTestCase {
         XCTAssertEqual(returning.firstSeen, wallStart + 600)
         XCTAssertEqual(returning.lastSeen, wallStart + 600)
         try record(["case": "explicit-tracker-control", "retainedBoundaryMs": 500, "expiredBoundaryMs": 501, "epochTimestamp": first.timestamp])
+    }
+
+    func testManualAndElapsedClockTransitionsPreserveNumericAgesAndReset() throws {
+        var filter = DuplicateFilter()
+        XCTAssertTrue(filter.shouldReport("qr|A", now: wallStart, window: 1000))
+        XCTAssertFalse(filter.shouldReport("qr|A", now: wallStart + 500, window: 1000, elapsedTime: 500))
+        XCTAssertTrue(filter.shouldReport("qr|A", now: wallStart + 1000, window: 1000, elapsedTime: 1000))
+        XCTAssertFalse(filter.shouldReport("qr|A", now: wallStart + 1999, window: 1000))
+        XCTAssertTrue(filter.shouldReport("qr|A", now: wallStart + 2000, window: 1000))
+        filter.reset()
+        XCTAssertTrue(filter.shouldReport("qr|A", now: wallStart, window: -1, elapsedTime: 0))
+
+        var tracker = BarcodeTracker()
+        let initial = barcode(timestamp: wallStart)
+        let first = try XCTUnwrap(tracker.update(with: [initial], now: wallStart).first)
+        XCTAssertEqual(tracker.update(with: [], now: wallStart + 500, elapsedTime: 500), [first])
+        XCTAssertTrue(tracker.update(with: [], now: wallStart + 501, elapsedTime: 501).isEmpty)
+        tracker.reset()
+        let next = try XCTUnwrap(tracker.update(with: [initial], now: wallStart, elapsedTime: 0).first)
+        XCTAssertNotEqual(next.id, first.id)
+        XCTAssertEqual(tracker.update(with: [], now: wallStart + 500), [next])
+        XCTAssertTrue(tracker.update(with: [], now: wallStart + 501).isEmpty)
+        XCTAssertEqual(next.firstSeen, wallStart)
+        XCTAssertEqual(next.lastSeen, wallStart)
+    }
+
+    func testElapsedPreviewAndRejectedOwnersDoNotConsumeReports() throws {
+        let session = CameraFrameSession()
+        let firstSource = session.beginSource(resetDuplicateHistory: true)
+        let firstEpoch = session.processingEpoch
+        let a = barcode(timestamp: wallStart)
+        var b = a
+        b.data = "UNCOMMITTED-B"
+        let first = try XCTUnwrap(session.process([a], source: firstSource, epoch: firstEpoch, now: wallStart, mode: .continuous, duplicateWindow: -1, elapsedTime: 0))
+        XCTAssertEqual(session.commitScans(first, now: wallStart, duplicateWindow: -1, elapsedTime: 0)?.count, 1)
+        let pending = try XCTUnwrap(session.process([b], source: firstSource, epoch: firstEpoch, now: wallStart + 10, mode: .continuous, duplicateWindow: -1, elapsedTime: 10))
+        let nextSource = session.beginSource()
+        let nextEpoch = session.processingEpoch
+        XCTAssertNil(session.commitScans(pending, now: wallStart + 10, duplicateWindow: -1, elapsedTime: 10))
+        let fresh = try XCTUnwrap(session.process([b], source: nextSource, epoch: nextEpoch, now: wallStart + 20, mode: .continuous, duplicateWindow: -1, elapsedTime: 20))
+        XCTAssertEqual(session.commitScans(fresh, now: wallStart + 20, duplicateWindow: -1, elapsedTime: 20)?.count, 1)
+        let remembered = try XCTUnwrap(session.process([a], source: nextSource, epoch: nextEpoch, now: wallStart + 30, mode: .continuous, duplicateWindow: -1, elapsedTime: 30))
+        XCTAssertTrue(remembered.scans.isEmpty)
+        var c = a
+        c.data = "UNCOMMITTED-C"
+        let oldEpoch = try XCTUnwrap(session.process([c], source: nextSource, epoch: nextEpoch, now: wallStart + 40, mode: .continuous, duplicateWindow: -1, elapsedTime: 40))
+        let currentEpoch = session.invalidateProcessing()
+        XCTAssertNil(session.commitScans(oldEpoch, now: wallStart + 40, duplicateWindow: -1, elapsedTime: 40))
+        let current = try XCTUnwrap(session.process([c], source: nextSource, epoch: currentEpoch, now: wallStart + 50, mode: .continuous, duplicateWindow: -1, elapsedTime: 50))
+        XCTAssertEqual(session.commitScans(current, now: wallStart + 50, duplicateWindow: -1, elapsedTime: 50)?.count, 1)
+    }
+
+    func testDefaultClockSampleKeepsEpochAndMonotonicFieldsSeparate() {
+        let before = Barcode.currentTimestamp()
+        let first = CameraFrameClock.sample()
+        Thread.sleep(forTimeInterval: 0.01)
+        let second = CameraFrameClock.sample()
+        let after = Barcode.currentTimestamp()
+        XCTAssertGreaterThanOrEqual(first.timestamp, min(before, after))
+        XCTAssertLessThanOrEqual(second.timestamp, max(before, after))
+        XCTAssertGreaterThanOrEqual(second.elapsedTime - first.elapsedTime, 1)
     }
 }

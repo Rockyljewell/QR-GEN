@@ -17,10 +17,27 @@ struct BarcodeTracker: Sendable {
 
     private(set) var tracks: [TrackedBarcode] = []
     private var nextID = 1
+    private var lastSeenElapsed: [String: Int64] = [:]
+    private var elapsedClock = false
 
     /// Updates the tracks with this frame's detections and returns every live track (oldest first).
-    mutating func update(with detections: [Barcode], now: Int64) -> [TrackedBarcode] {
-        tracks.removeAll { now - $0.lastSeen > maxAge }
+    /// `now` remains metadata; optional `elapsedTime` supplies a separate duration clock.
+    mutating func update(with detections: [Barcode], now: Int64, elapsedTime: Int64? = nil) -> [TrackedBarcode] {
+        let duration = elapsedTime ?? now
+        let usesElapsedClock = elapsedTime != nil
+        if usesElapsedClock != elapsedClock {
+            for track in tracks {
+                lastSeenElapsed[track.id] = usesElapsedClock ? duration - (now - track.lastSeen) : track.lastSeen
+            }
+            elapsedClock = usesElapsedClock
+        }
+        let expired = Set(tracks.compactMap { track -> String? in
+            duration - (lastSeenElapsed[track.id] ?? track.lastSeen) > maxAge ? track.id : nil
+        })
+        if !expired.isEmpty {
+            tracks.removeAll { expired.contains($0.id) }
+            for id in expired { lastSeenElapsed.removeValue(forKey: id) }
+        }
 
         // Preserve the existing score preference, including exact-payload priority.
         var candidates: [(score: Double, detection: Int, track: Int)] = []
@@ -38,7 +55,9 @@ struct BarcodeTracker: Sendable {
         candidates.sort { $0.score > $1.score }
         if candidates.isEmpty {
             for detection in detections {
-                tracks.append(TrackedBarcode(id: String(nextID), barcode: detection, firstSeen: now, lastSeen: now, count: 1))
+                let id = String(nextID)
+                tracks.append(TrackedBarcode(id: id, barcode: detection, firstSeen: now, lastSeen: now, count: 1))
+                lastSeenElapsed[id] = duration
                 nextID += 1
             }
             return tracks
@@ -116,10 +135,13 @@ struct BarcodeTracker: Sendable {
             let track = detectionTrack[d]
             tracks[track].barcode = detection
             tracks[track].lastSeen = now
+            lastSeenElapsed[tracks[track].id] = duration
             tracks[track].count += 1
         }
         for (d, detection) in detections.enumerated() where detectionTrack[d] < 0 {
-            tracks.append(TrackedBarcode(id: String(nextID), barcode: detection, firstSeen: now, lastSeen: now, count: 1))
+            let id = String(nextID)
+            tracks.append(TrackedBarcode(id: id, barcode: detection, firstSeen: now, lastSeen: now, count: 1))
+            lastSeenElapsed[id] = duration
             nextID += 1
         }
         return tracks
@@ -128,6 +150,8 @@ struct BarcodeTracker: Sendable {
     /// Drops every track (new session). Ids keep increasing so they are never reused.
     mutating func reset() {
         tracks.removeAll()
+        lastSeenElapsed.removeAll()
+        elapsedClock = false
     }
 
     static func intersectionOverUnion(_ a: Barcode.Quadrilateral, _ b: Barcode.Quadrilateral) -> Double {
