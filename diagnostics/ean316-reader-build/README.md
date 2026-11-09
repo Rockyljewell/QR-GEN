@@ -17,3 +17,5 @@ python3 diagnostics/ean316-reader-build/run.py --check-config
 Both successful and failed build evidence is uploaded for seven days. A successful build establishes compilation and packaging only. Published 3.1.6 byte identity, the partial /07 correctness change, remaining /35 and UPC-only errors, held-out recall, physical-phone behavior and Scandit comparison require separate validation.
 
 The initial run stopped at an obsolete JavaScript pnpm entry path before dependency fetch, candidate patch application or compilation. Both failed artifacts are retained. The native bootstrap correction changes no source patch, build command, offline network boundary or validation claim.
+
+The second run verified the native bootstrap and exact tool versions, then rejected a legacy fetch flag before package fetching. Pinned pnpm 12.14 implements fetch with a frozen lockfile already; only that unsupported flag is removed. Offline installation still requires `--frozen-lockfile`, and a full tracked-source check now precedes candidate patching.

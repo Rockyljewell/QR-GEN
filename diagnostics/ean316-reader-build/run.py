@@ -328,7 +328,10 @@ class Build:
         prelude = ('export PATH="/task/tools/node/bin:/task/tools/bin:$PATH"\n'
                    + "export pnpm_config_pm_on_fail=error\nset -x\n" + versions)
         self.version_assertions = versions
-        self.container("dependency-fetch", "bridge", prelude + "pnpm fetch --frozen-lockfile --store-dir /task/store\n", 600)
+        self.container("dependency-fetch", "bridge", prelude + "pnpm fetch --store-dir /task/store\n", 600)
+        for repository in (self.source, self.source / "zxing-cpp"):
+            if self.git(repository, "diff", "--binary", "HEAD"):
+                raise ValueError("Dependency fetch changed tracked upstream source")
         if self.variant == "candidate":
             self.git(self.source / "zxing-cpp", "apply", "--check", str(HERE / "ean13-whole-word-ambiguity.patch"))
             self.git(self.source / "zxing-cpp", "apply", str(HERE / "ean13-whole-word-ambiguity.patch"))
